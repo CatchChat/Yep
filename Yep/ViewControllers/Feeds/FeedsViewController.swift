@@ -76,6 +76,7 @@ class FeedsViewController: BaseViewController {
 
     let feedSkillUsersCellID = "FeedSkillUsersCell"
     let feedCellID = "FeedCell"
+    let feedSocialWorkCellID = "FeedSocialWorkCell"
     let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -111,6 +112,7 @@ class FeedsViewController: BaseViewController {
 
         if let height = feedHeightHash[key] {
             return height
+
         } else {
             let height = FeedCell.heightOfFeed(feed)
 
@@ -200,6 +202,7 @@ class FeedsViewController: BaseViewController {
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
         feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
+        feedsTableView.registerNib(UINib(nibName: feedSocialWorkCellID, bundle: nil), forCellReuseIdentifier: feedSocialWorkCellID)
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
 
@@ -576,8 +579,21 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
 
         case Section.Feed.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
-            return cell
+            let feed = feeds[indexPath.row]
+
+            switch feed.kind {
+            case .Normal:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+                return cell
+
+            case .GithubRepo, .DribbbleShot:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
+                return cell
+
+            default:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+                return cell
+            }
 
         case Section.LoadMore.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
@@ -602,87 +618,102 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.Feed.rawValue:
 
-            guard let cell = cell as? FeedCell else {
+            let feed = feeds[indexPath.row]
+
+            switch feed.kind {
+
+            case .Normal:
+
+                guard let cell = cell as? FeedCell else {
+                    break
+                }
+
+                let feed = feeds[indexPath.item]
+
+                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                cell.tapAvatarAction = { [weak self] cell in
+                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                        self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                    }
+                }
+
+                cell.tapSkillAction = { [weak self] cell in
+                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                        self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+                    }
+                }
+
+                cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+
+                    guard image != nil else {
+                        return
+                    }
+
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
+                    vc.startIndex = index
+
+                    let transitionView = transitionView
+                    let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+                    vc.previewImageViewInitalFrame = frame
+                    vc.bottomPreviewImage = image
+
+
+                    delay(0, work: { () -> Void in
+                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    })
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
+
+                    /*
+                    let info: [String: AnyObject] = [
+                        "transitionView": transitionView,
+                        "attachments": Box(value: attachments),
+                        "index": index,
+                    ]
+                    self?.performSegueWithIdentifier("showFeedMedia", sender: info)
+                    */
+                }
+
+                // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+                // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+                cell.touchesBeganAction = { [weak self] cell in
+                    guard let indexPath = tableView.indexPathForCell(cell) else {
+                        return
+                    }
+                    self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+                    tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                }
+                cell.touchesEndedAction = { [weak self] cell in
+                    guard let indexPath = tableView.indexPathForCell(cell) else {
+                        return
+                    }
+                    delay(0.03) { [weak self] in
+                        self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                    }
+                }
+                cell.touchesCancelledAction = { cell in
+                    guard let indexPath = tableView.indexPathForCell(cell) else {
+                        return
+                    }
+                    tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                }
+
+            case .GithubRepo, .DribbbleShot:
+                guard let cell = cell as? FeedSocialWorkCell else {
+                    break
+                }
+
+            default:
                 break
-            }
-
-            let feed = feeds[indexPath.item]
-
-            cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
-
-            cell.tapAvatarAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
-                }
-            }
-
-            cell.tapSkillAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
-                }
-            }
-
-            cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-                guard image != nil else {
-                    return
-                }
-
-                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                vc.startIndex = index
-
-                let transitionView = transitionView
-                let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
-                vc.previewImageViewInitalFrame = frame
-                vc.bottomPreviewImage = image
-
-
-                delay(0, work: { () -> Void in
-                    transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                })
-                vc.afterDismissAction = { [weak self] in
-                    transitionView.alpha = 1
-                    self?.view.window?.makeKeyAndVisible()
-                }
-
-                mediaPreviewWindow.rootViewController = vc
-                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                mediaPreviewWindow.makeKeyAndVisible()
-
-                /*
-                let info: [String: AnyObject] = [
-                    "transitionView": transitionView,
-                    "attachments": Box(value: attachments),
-                    "index": index,
-                ]
-                self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-                */
-            }
-
-            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-            cell.touchesBeganAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
-                    return
-                }
-                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-            }
-            cell.touchesEndedAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
-                    return
-                }
-                delay(0.03) { [weak self] in
-                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-                }
-            }
-            cell.touchesCancelledAction = { cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
-                    return
-                }
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
         case Section.LoadMore.rawValue:
