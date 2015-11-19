@@ -140,7 +140,7 @@ class ConversationsViewController: UIViewController {
         }
 
         tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
-            println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
+            //println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
 
             func syncSocialWorkPiece(socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) {
 
@@ -268,26 +268,28 @@ class ConversationsViewController: UIViewController {
                 githubReposWithToken(githubToken, failureHandler: nil, completion: { githubRepos in
                     println("githubRepos count: \(githubRepos.count)")
 
-                    guard let latestRepo = githubRepos.first, realm = try? Realm() else {
-                        return
-                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        guard let latestRepo = githubRepos.first, realm = try? Realm() else {
+                            return
+                        }
 
-                    if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                        syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                            syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
 
-                    } else {
-                        discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                            dispatch_async(dispatch_get_main_queue()) {
+                        } else {
+                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                dispatch_async(dispatch_get_main_queue()) {
 
-                                guard let realm = try? Realm() else {
-                                    return
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+
+                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                        syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+                                    }
                                 }
-
-                                if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                    syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
-                                }
-                            }
-                        })
+                            })
+                        }
                     }
                 })
             }
@@ -297,26 +299,28 @@ class ConversationsViewController: UIViewController {
                 dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
                     println("dribbbleShots count: \(dribbbleShots.count)")
 
-                    guard let latestShot = dribbbleShots.first, realm = try? Realm() else {
-                        return
-                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        guard let latestShot = dribbbleShots.first, realm = try? Realm() else {
+                            return
+                        }
 
-                    if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                        syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                            syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
 
-                    } else {
-                        discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                            dispatch_async(dispatch_get_main_queue()) {
+                        } else {
+                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                dispatch_async(dispatch_get_main_queue()) {
 
-                                guard let realm = try? Realm() else {
-                                    return
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+
+                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                        syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+                                    }
                                 }
-
-                                if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                    syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
-                                }
-                            }
-                        })
+                            })
+                        }
                     }
                })
             }

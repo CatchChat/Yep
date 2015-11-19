@@ -2788,7 +2788,7 @@ func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, String?) ->
 
     let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
 
-        println("tokensOfSocialAccounts data: \(data)")
+        //println("tokensOfSocialAccounts data: \(data)")
 
         let githubToken = data["github"] as? String
         let dribbbleToken = data["dribbble"] as? String
