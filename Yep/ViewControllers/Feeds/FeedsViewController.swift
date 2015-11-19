@@ -114,7 +114,16 @@ class FeedsViewController: BaseViewController {
             return height
 
         } else {
-            let height = FeedCell.heightOfFeed(feed)
+
+            let height: CGFloat
+            switch feed.kind {
+            case .Normal:
+                height = FeedCell.heightOfFeed(feed)
+            case .GithubRepo, .DribbbleShot:
+                height = FeedSocialWorkCell.heightOfFeed(feed)
+            default:
+                height = FeedCell.heightOfFeed(feed)
+            }
 
             if !key.isEmpty {
                 feedHeightHash[key] = height

@@ -58,7 +58,7 @@ class FeedCell: UITableViewCell {
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
-        }()
+    }()
 
     let feedMediaCellID = "FeedMediaCell"
 
