@@ -2560,6 +2560,7 @@ struct DiscoveredFeed: Hashable {
 
     let id: String
     let allowComment: Bool
+    let kind: FeedKind
 
     let createdUnixTime: NSTimeInterval
     let updatedUnixTime: NSTimeInterval
@@ -2580,6 +2581,8 @@ struct DiscoveredFeed: Hashable {
         guard let
             id = feedInfo["id"] as? String,
             allowComment = feedInfo["allow_comment"] as? Bool,
+            kindString = feedInfo["kind"] as? String,
+            kind = FeedKind(rawValue: kindString),
             createdUnixTime = feedInfo["created_at"] as? NSTimeInterval,
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
@@ -2608,7 +2611,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 
