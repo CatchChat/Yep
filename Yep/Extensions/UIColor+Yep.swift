@@ -101,13 +101,21 @@ extension UIColor {
     class func yepCellAccessoryImageViewTintColor() -> UIColor {
         return UIColor.lightGrayColor()
     }
+    
+    
+    class func isLightColor(color: UIColor) -> Bool{
+        
+        var white: CGFloat = 0.0
+        color.getWhite(&white, alpha: nil)
+        if white >= 0.9 { return true }
+        else { return false }
+    }
 
     var yep_inverseColor: UIColor {
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        return UIColor(red: 1 - red, green: 1 - green, blue: 1 - blue, alpha: alpha)
+        if UIColor.isLightColor(self) {
+            return UIColor.blackColor()
+        } else {
+            return UIColor.whiteColor()
+        }
     }
 }
