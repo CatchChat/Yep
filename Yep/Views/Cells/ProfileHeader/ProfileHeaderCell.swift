@@ -137,6 +137,9 @@ class ProfileHeaderCell: UICollectionViewCell {
             dispatch_async(dispatch_get_main_queue()) {
                 self?.avatarImageView.image = image
 
+                let avatarAvarageColor = image.yep_avarageColor
+                self?.locationLabel.textColor = avatarAvarageColor.yep_inverseColor
+
                 UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                     self?.avatarImageView.alpha = 1
                 }, completion: { (finished) -> Void in
