@@ -13,13 +13,7 @@ class FeedCell: FeedBasicCell {
     @IBOutlet weak var mediaCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
-    var tapAvatarAction: (UITableViewCell -> Void)?
-    var tapSkillAction: (UITableViewCell -> Void)?
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
-
-    var touchesBeganAction: (UITableViewCell -> Void)?
-    var touchesEndedAction: (UITableViewCell -> Void)?
-    var touchesCancelledAction: (UITableViewCell -> Void)?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -67,19 +61,6 @@ class FeedCell: FeedBasicCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
-
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
-
         mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         mediaCollectionView.showsHorizontalScrollIndicator = false
@@ -88,40 +69,12 @@ class FeedCell: FeedBasicCell {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
-        avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tapAvatar)
-
-        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
-        skillBubbleImageView.userInteractionEnabled = true
-        skillBubbleImageView.addGestureRecognizer(tapSkill)
-
-        messageTextView.touchesBeganAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesBeganAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesEndedAction = { [weak self] in
-            if let strongSelf = self {
-                if strongSelf.editing {
-                    return
-                }
-                strongSelf.touchesEndedAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesCancelledAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesCancelledAction?(strongSelf)
-            }
-        }
-
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
             }
         }
-        
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
                 if strongSelf.editing {
@@ -147,15 +100,6 @@ class FeedCell: FeedBasicCell {
         messageTextView.attributedText = nil
     }
 
-    func tapAvatar(sender: UITapGestureRecognizer) {
-
-        tapAvatarAction?(self)
-    }
-
-    func tapSkill(sender: UITapGestureRecognizer) {
-
-        tapSkillAction?(self)
-    }
 
     private func calHeightOfMessageTextView() {
 
