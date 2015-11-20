@@ -8,34 +8,12 @@
 
 import UIKit
 
-class FeedCell: UITableViewCell {
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var skillBubbleImageView: UIImageView!
-    @IBOutlet weak var skillLabel: UILabel!
-
-    @IBOutlet weak var messageTextView: FeedTextView!
-    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+class FeedCell: FeedBasicCell {
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dotLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
-
-    @IBOutlet weak var messageCountLabel: UILabel!
-
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
-    var tapAvatarAction: (UITableViewCell -> Void)?
-    var tapSkillAction: (UITableViewCell -> Void)?
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
-
-    var touchesBeganAction: (UITableViewCell -> Void)?
-    var touchesEndedAction: (UITableViewCell -> Void)?
-    var touchesCancelledAction: (UITableViewCell -> Void)?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -83,19 +61,6 @@ class FeedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
-
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
-
         mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         mediaCollectionView.showsHorizontalScrollIndicator = false
@@ -104,40 +69,12 @@ class FeedCell: UITableViewCell {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
-        avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tapAvatar)
-
-        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
-        skillBubbleImageView.userInteractionEnabled = true
-        skillBubbleImageView.addGestureRecognizer(tapSkill)
-
-        messageTextView.touchesBeganAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesBeganAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesEndedAction = { [weak self] in
-            if let strongSelf = self {
-                if strongSelf.editing {
-                    return
-                }
-                strongSelf.touchesEndedAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesCancelledAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesCancelledAction?(strongSelf)
-            }
-        }
-
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
             }
         }
-        
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
                 if strongSelf.editing {
@@ -163,38 +100,8 @@ class FeedCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    func tapAvatar(sender: UITapGestureRecognizer) {
-
-        tapAvatarAction?(self)
-    }
-
-    func tapSkill(sender: UITapGestureRecognizer) {
-
-        tapSkillAction?(self)
-    }
-
-    private func calHeightOfMessageTextView() {
-
-        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = ceil(rect.height)
-    }
-
-    func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
-
-        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
-
-        calHeightOfMessageTextView()
-
-        if needShowSkill, let skill = feed.skill {
-            skillLabel.text = skill.localName
-
-            skillBubbleImageView.hidden = false
-            skillLabel.hidden = false
-
-        } else {
-            skillBubbleImageView.hidden = true
-            skillLabel.hidden = true
-        }
+    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
+        super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
         let hasMedia = !feed.attachments.isEmpty
         
@@ -207,24 +114,6 @@ class FeedCell: UITableViewCell {
         mediaCollectionView.hidden = hasMedia ? false : true
 
         attachments = feed.attachments
-
-        let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-        avatarImageView.navi_setAvatar(plainAvatar)
-
-        nicknameLabel.text = feed.creator.nickname
-
-        if let distance = feed.distance {
-            
-            if distance < 1 {
-                distanceLabel.text = NSLocalizedString("Nearby", comment: "")
-            } else {
-                distanceLabel.text = "\(distance.format(".1")) km"
-            }
-
-        }
-
-        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-        messageCountLabel.text = "\(feed.messagesCount)"
     }
 }
 

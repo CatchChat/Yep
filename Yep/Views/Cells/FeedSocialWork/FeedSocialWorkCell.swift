@@ -8,15 +8,7 @@
 
 import UIKit
 
-class FeedSocialWorkCell: UITableViewCell {
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var skillBubbleImageView: UIImageView!
-    @IBOutlet weak var skillLabel: UILabel!
-
-    @IBOutlet weak var messageTextView: FeedTextView!
-    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
@@ -25,12 +17,6 @@ class FeedSocialWorkCell: UITableViewCell {
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var dotLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
-
-    @IBOutlet weak var messageCountLabel: UILabel!
-
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 60)
         return maxWidth
@@ -38,19 +24,6 @@ class FeedSocialWorkCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
-
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

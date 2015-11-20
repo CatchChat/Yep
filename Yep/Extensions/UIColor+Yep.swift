@@ -102,4 +102,12 @@ extension UIColor {
         return UIColor.lightGrayColor()
     }
 
+    var yep_inverseColor: UIColor {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return UIColor(red: 1 - red, green: 1 - green, blue: 1 - blue, alpha: alpha)
+    }
 }
