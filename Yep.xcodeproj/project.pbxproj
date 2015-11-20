@@ -62,6 +62,7 @@
 		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
 		5016901F1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901D1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift */; };
 		501690201BFDCECB0096C4F9 /* FeedSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5016901E1BFDCECB0096C4F9 /* FeedSocialWorkCell.xib */; };
+		501690231BFEA6C30096C4F9 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
@@ -408,6 +409,7 @@
 		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
 		5016901D1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSocialWorkCell.swift; path = Views/Cells/FeedSocialWork/FeedSocialWorkCell.swift; sourceTree = "<group>"; };
 		5016901E1BFDCECB0096C4F9 /* FeedSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedSocialWorkCell.xib; path = Views/Cells/FeedSocialWork/FeedSocialWorkCell.xib; sourceTree = "<group>"; };
+		501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/FeedBasic/FeedBasicCell.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
@@ -966,6 +968,14 @@
 			name = FeedSocialWork;
 			sourceTree = "<group>";
 		};
+		501690241BFEA6CA0096C4F9 /* FeedBasic */ = {
+			isa = PBXGroup;
+			children = (
+				501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */,
+			);
+			name = FeedBasic;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1177,6 +1187,7 @@
 				5064F65B1B0B14470089FAD4 /* AddFriendMore */,
 				50E348941B9063AD00A8E699 /* About */,
 				503807251BDA180A0068345E /* FeedSkillUsers */,
+				501690241BFEA6CA0096C4F9 /* FeedBasic */,
 				50AFBF651BB4FC37007D19DA /* Feed */,
 				501690211BFDCED10096C4F9 /* FeedSocialWork */,
 				50F5AF921BBBCC960033C9BC /* FeedMediaAdd */,
@@ -2722,6 +2733,7 @@
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
+				501690231BFEA6C30096C4F9 /* FeedBasicCell.swift in Sources */,
 				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,

@@ -8,15 +8,7 @@
 
 import UIKit
 
-class FeedSocialWorkCell: UITableViewCell {
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var skillBubbleImageView: UIImageView!
-    @IBOutlet weak var skillLabel: UILabel!
-
-    @IBOutlet weak var messageTextView: FeedTextView!
-    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
@@ -24,12 +16,6 @@ class FeedSocialWorkCell: UITableViewCell {
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
-
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var dotLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
-
-    @IBOutlet weak var messageCountLabel: UILabel!
 
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 60)
