@@ -983,10 +983,6 @@ class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
-        let _ = try? realm.write { [weak self] in
-            self?.conversation.unreadMessagesCount = 0
-        }
-
         if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
@@ -1002,8 +998,9 @@ class ConversationViewController: BaseViewController {
                 let filteredMessages = messages.filter(predicate)
 
                 println("filteredMessages.count: \(filteredMessages.count)")
+                println("conversation.unreadMessagesCount: \(conversation.unreadMessagesCount)")
 
-                needMarkInServer = !filteredMessages.isEmpty
+                needMarkInServer = (!filteredMessages.isEmpty || (conversation.unreadMessagesCount > 0))
 
                 filteredMessages.forEach { message in
                     let _ = try? realm.write {
@@ -1034,6 +1031,10 @@ class ConversationViewController: BaseViewController {
             } else {
                 println("don't needMarkInServer")
             }
+        }
+
+        let _ = try? realm.write { [weak self] in
+            self?.conversation.unreadMessagesCount = 0
         }
     }
 

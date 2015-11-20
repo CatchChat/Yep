@@ -763,6 +763,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             
             //println("\n allUnreadMessages: \(allUnreadMessages)")
             println("Got unread message: \(allUnreadMessages.count)")
+
+            /*
+            for message in allUnreadMessages {
+                println("message.text: \(message["text_content"])")
+            }
+            */
             
             dispatch_async(realmQueue) {
                 
