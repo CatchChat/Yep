@@ -82,6 +82,48 @@ class FeedBasicCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    private func calHeightOfMessageTextView() {
+
+        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+        messageTextViewHeightConstraint.constant = ceil(rect.height)
+    }
+
+    func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
+
+        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+
+        calHeightOfMessageTextView()
+
+        if needShowSkill, let skill = feed.skill {
+            skillLabel.text = skill.localName
+
+            skillBubbleImageView.hidden = false
+            skillLabel.hidden = false
+
+        } else {
+            skillBubbleImageView.hidden = true
+            skillLabel.hidden = true
+        }
+
+        let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar)
+
+        nicknameLabel.text = feed.creator.nickname
+
+        if let distance = feed.distance {
+
+            if distance < 1 {
+                distanceLabel.text = NSLocalizedString("Nearby", comment: "")
+            } else {
+                distanceLabel.text = "\(distance.format(".1")) km"
+            }
+
+        }
+
+        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+        messageCountLabel.text = "\(feed.messagesCount)"
+    }
+
     // MARK: Actions
 
     func tapAvatar(sender: UITapGestureRecognizer) {

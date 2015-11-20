@@ -24,19 +24,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
-
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
