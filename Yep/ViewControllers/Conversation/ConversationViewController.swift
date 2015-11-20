@@ -445,6 +445,10 @@ class ConversationViewController: BaseViewController {
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
+            guard self?.navigationController?.topViewController == self else {
+                return
+            }
+
             if let giveUp = self?.giveUpKeyboardHideAnimationWhenViewControllerDisapeear {
 
                 if giveUp {
@@ -482,6 +486,10 @@ class ConversationViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            guard self?.navigationController?.topViewController == self else {
+                return
+            }
 
             if let nvc = self?.navigationController {
                 if nvc.topViewController != self {
