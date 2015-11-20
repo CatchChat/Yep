@@ -140,7 +140,7 @@ class ProfileHeaderCell: UICollectionViewCell {
                 self?.avatarImageView.image = image
 
                 let avatarAvarageColor = image.yep_avarageColor
-                let prettyColor = avatarAvarageColor.yep_binaryColor
+                let prettyColor = avatarAvarageColor.yep_profilePrettyColor
                 self?.locationLabel.textColor = prettyColor
 
                 self?.updatePrettyColorAction?(prettyColor)

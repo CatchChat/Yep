@@ -120,6 +120,11 @@ extension UIColor {
         var white: CGFloat = 0
         getWhite(&white, alpha: nil)
 
-        return white > 0.9 ? UIColor.blackColor() : UIColor.whiteColor()
+        return white > 0.92 ? UIColor.blackColor() : UIColor.whiteColor()
+    }
+
+    var yep_profilePrettyColor: UIColor {
+        //return yep_inverseColor
+        return yep_binaryColor
     }
 }
