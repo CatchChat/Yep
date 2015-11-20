@@ -1364,6 +1364,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 }
             }
 
+            cell.updatePrettyColorAction = { [weak self] prettyColor in
+                self?.customNavigationBar.tintColor = prettyColor
+
+                let textAttributes = [
+                    NSForegroundColorAttributeName: prettyColor,
+                    NSFontAttributeName: UIFont.navigationBarTitleFont()
+                ]
+                self?.customNavigationBar.titleTextAttributes = textAttributes
+            }
+
             return cell
 
         case ProfileSection.Master.rawValue:

@@ -17,6 +17,8 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
+
+    var updatePrettyColorAction: (UIColor -> Void)?
     
     var askedForPermission = false
 
@@ -138,7 +140,10 @@ class ProfileHeaderCell: UICollectionViewCell {
                 self?.avatarImageView.image = image
 
                 let avatarAvarageColor = image.yep_avarageColor
-                self?.locationLabel.textColor = avatarAvarageColor.yep_inverseColor
+                let prettyColor = avatarAvarageColor.yep_inverseColor
+                self?.locationLabel.textColor = prettyColor
+
+                self?.updatePrettyColorAction?(prettyColor)
 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                     self?.avatarImageView.alpha = 1
