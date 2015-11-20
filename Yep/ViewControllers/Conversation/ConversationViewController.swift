@@ -1069,6 +1069,8 @@ class ConversationViewController: BaseViewController {
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
             if audioPlayer.playing {
                 audioPlayer.stop()
+
+                UIDevice.currentDevice().proximityMonitoringEnabled = false
             }
         }
     }
