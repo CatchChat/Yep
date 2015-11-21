@@ -2548,6 +2548,8 @@ struct DiscoveredAttachment {
     }
 }
 
+
+
 func ==(lhs: DiscoveredFeed, rhs: DiscoveredFeed) -> Bool {
     return lhs.id == rhs.id
 }
@@ -2567,7 +2569,29 @@ struct DiscoveredFeed: Hashable {
 
     let creator: DiscoveredUser
     let body: String
+
     let attachments: [DiscoveredAttachment]
+
+    struct GithubRepo {
+        let name: String
+        let fullName: String
+        let description: String
+        let URLString: String
+
+        static func fromJSONDictionary(json: JSONDictionary) -> GithubRepo? {
+            guard let
+                name = json["name"] as? String,
+                fullName = json["full_name"] as? String,
+                description = json["description"] as? String,
+                URLString = json["url"] as? String else {
+                    return nil
+            }
+
+            return GithubRepo(name: name, fullName: fullName, description: description, URLString: URLString)
+        }
+    }
+    let githubRepo: GithubRepo?
+
     let distance: Double?
 
     let skill: Skill?
@@ -2606,12 +2630,17 @@ struct DiscoveredFeed: Hashable {
         let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
         let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
 
+        var githubRepo: DiscoveredFeed.GithubRepo?
+        if let githubReposData = feedInfo["attachments"] as? [JSONDictionary], githubRepoInfo = githubReposData.first {
+            githubRepo = DiscoveredFeed.GithubRepo.fromJSONDictionary(githubRepoInfo)
+        }
+
         var skill: Skill?
         if let skillInfo = feedInfo["skill"] as? JSONDictionary {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, githubRepo: githubRepo, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 

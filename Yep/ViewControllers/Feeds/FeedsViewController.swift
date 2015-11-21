@@ -627,9 +627,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             switch feed.kind {
 
             case .GithubRepo, .DribbbleShot:
+
                 guard let cell = cell as? FeedSocialWorkCell else {
                     break
                 }
+
+                let feed = feeds[indexPath.item]
+
+                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
             default:
 

@@ -48,5 +48,88 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         return ceil(height)
     }
+
+    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
+        super.configureWithFeed(feed, needShowSkill: needShowSkill)
+
+        var socialWorkImageURL: NSURL?
+
+        switch feed.kind {
+
+        case .GithubRepo:
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
+
+            if let githubRepo = feed.githubRepo {
+                githubRepoNameLabel.text = githubRepo.name
+                githubRepoDescriptionLabel.text = githubRepo.description
+            }
+
+        case .DribbbleShot:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+//            if let string = socialWork.dribbbleShot?.imageURLString {
+//                socialWorkImageURL = NSURL(string: string)
+//            }
+
+        default:
+            break
+        }
+
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        }
+    }
+
+    private func updateUIForSocialWork(socialWork: MessageSocialWork) {
+
+        var socialWorkImageURL: NSURL?
+
+        guard let socialWorkType = MessageSocialWorkType(rawValue: socialWork.type) else {
+            return
+        }
+
+        switch socialWorkType {
+
+        case .GithubRepo:
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
+
+            if let githubRepo = socialWork.githubRepo {
+                githubRepoNameLabel.text = githubRepo.name
+                githubRepoDescriptionLabel.text = githubRepo.repoDescription
+            }
+
+        case .DribbbleShot:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.dribbbleShot?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+
+        case .InstagramMedia:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.instagramMedia?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+        }
+        
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        }
+    }
 }
 
