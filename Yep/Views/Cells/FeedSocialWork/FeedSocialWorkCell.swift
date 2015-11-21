@@ -10,6 +10,8 @@ import UIKit
 
 class FeedSocialWorkCell: FeedBasicCell {
 
+    @IBOutlet weak var logoImageView: UIImageView!
+
     @IBOutlet weak var socialWorkContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
     @IBOutlet weak var githubRepoContainerView: UIView!
@@ -51,6 +53,17 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
+
+        if let
+            accountName = feed.kind.accountName,
+            socialAccount = SocialAccount(rawValue: accountName) {
+                logoImageView.image = UIImage(named: socialAccount.iconName)
+                logoImageView.tintColor = socialAccount.tintColor
+                logoImageView.hidden = false
+
+        } else {
+            logoImageView.hidden = true
+        }
 
         var socialWorkImageURL: NSURL?
 

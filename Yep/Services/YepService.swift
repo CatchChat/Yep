@@ -2809,6 +2809,15 @@ enum FeedKind: String {
     case GithubRepo = "github"
     case DribbbleShot = "dribbble"
     //case InstagramMedia = "instagram"
+
+    var accountName: String? {
+        switch self {
+        case .GithubRepo: return "github"
+        case .DribbbleShot: return "dribbble"
+        //case .InstagramMedia: return "instagram"
+        default: return nil
+        }
+    }
 }
 
 func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {

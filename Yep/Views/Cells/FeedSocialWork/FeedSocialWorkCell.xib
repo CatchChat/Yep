@@ -22,7 +22,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="viF-na-QGX" userLabel="Nickname Label">
-                        <rect key="frame" x="65" y="21" width="265" height="18"/>
+                        <rect key="frame" x="65" y="21" width="235" height="18"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -134,17 +134,26 @@
                             <constraint firstItem="ZHv-eL-Vww" firstAttribute="trailing" secondItem="sme-NU-I1C" secondAttribute="trailing" constant="15" id="z8R-Mb-8jR"/>
                         </constraints>
                     </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_github" translatesAutoresizingMaskIntoConstraints="NO" id="Tlc-MI-H1b">
+                        <rect key="frame" x="310" y="21" width="18" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="18" id="UaS-K6-jBs"/>
+                            <constraint firstAttribute="height" constant="18" id="Y99-oD-aJp"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="lSm-jk-upN" secondAttribute="trailing" constant="25" id="0OJ-Pu-y1p"/>
                     <constraint firstItem="jBw-TP-dTO" firstAttribute="centerY" secondItem="9CZ-zE-b9N" secondAttribute="centerY" id="1BS-zl-8vD"/>
                     <constraint firstItem="mEi-Ot-P04" firstAttribute="trailing" secondItem="lSm-jk-upN" secondAttribute="trailing" constant="10" id="1af-de-b3E"/>
+                    <constraint firstItem="mEi-Ot-P04" firstAttribute="leading" secondItem="Tlc-MI-H1b" secondAttribute="trailing" constant="10" id="25M-uW-sum"/>
                     <constraint firstItem="viF-na-QGX" firstAttribute="centerY" secondItem="lyg-eU-J2p" secondAttribute="centerY" id="5So-sI-oYv"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6cS-RN-NhO"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="width" secondItem="lyg-eU-J2p" secondAttribute="height" multiplier="1:1" id="Cil-Iy-8VS"/>
                     <constraint firstItem="lSm-jk-upN" firstAttribute="centerY" secondItem="viF-na-QGX" secondAttribute="centerY" id="D2J-gt-ILI"/>
                     <constraint firstItem="fqI-ij-1Pj" firstAttribute="leading" secondItem="dhp-xa-CcY" secondAttribute="trailing" constant="10" id="Kot-8P-yc1"/>
                     <constraint firstItem="Xeg-hl-49c" firstAttribute="top" secondItem="lyg-eU-J2p" secondAttribute="bottom" constant="4" id="KvD-q8-C6x"/>
+                    <constraint firstItem="Tlc-MI-H1b" firstAttribute="centerY" secondItem="viF-na-QGX" secondAttribute="centerY" id="M6V-9K-GkW"/>
                     <constraint firstItem="9CZ-zE-b9N" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="leading" id="QwI-Mp-xqY"/>
                     <constraint firstItem="v8d-Cd-K5Y" firstAttribute="leading" secondItem="jBw-TP-dTO" secondAttribute="trailing" constant="5" id="SPp-6H-CIm"/>
                     <constraint firstItem="lSm-jk-upN" firstAttribute="leading" secondItem="mEi-Ot-P04" secondAttribute="leading" constant="10" id="X8j-2W-9Us"/>
@@ -154,12 +163,12 @@
                     <constraint firstItem="eHY-0K-bDQ" firstAttribute="top" secondItem="Xeg-hl-49c" secondAttribute="bottom" constant="15" id="eze-0p-5Oc"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="f4R-YP-lhh"/>
                     <constraint firstItem="jBw-TP-dTO" firstAttribute="leading" secondItem="9CZ-zE-b9N" secondAttribute="trailing" constant="5" id="h0i-Yv-0ia"/>
-                    <constraint firstItem="mEi-Ot-P04" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="trailing" constant="8" id="hWc-S3-adR"/>
                     <constraint firstItem="eHY-0K-bDQ" firstAttribute="leading" secondItem="Xeg-hl-49c" secondAttribute="leading" id="i5x-ip-Wth"/>
                     <constraint firstAttribute="trailing" secondItem="fqI-ij-1Pj" secondAttribute="trailing" constant="15" id="lcj-5f-hIP"/>
                     <constraint firstItem="9CZ-zE-b9N" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="bottom" constant="15" id="mAw-uy-sHw"/>
                     <constraint firstItem="mEi-Ot-P04" firstAttribute="centerY" secondItem="lSm-jk-upN" secondAttribute="centerY" id="pWG-4p-W23"/>
                     <constraint firstAttribute="trailing" secondItem="Xeg-hl-49c" secondAttribute="trailing" constant="60" id="pcn-VC-2BM"/>
+                    <constraint firstItem="Tlc-MI-H1b" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="trailing" constant="10" id="rvc-zs-SGL"/>
                     <constraint firstItem="v8d-Cd-K5Y" firstAttribute="centerY" secondItem="jBw-TP-dTO" secondAttribute="centerY" id="sux-qA-Sqc"/>
                     <constraint firstItem="fqI-ij-1Pj" firstAttribute="centerY" secondItem="9CZ-zE-b9N" secondAttribute="centerY" id="tnO-T5-MBo"/>
                     <constraint firstItem="Xeg-hl-49c" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="leading" id="ygU-tt-O9Y"/>
@@ -173,6 +182,7 @@
                 <outlet property="githubRepoDescriptionLabel" destination="5x4-6E-BzO" id="9ZV-oi-ou0"/>
                 <outlet property="githubRepoImageView" destination="nUx-HZ-47V" id="Q1O-IT-bIW"/>
                 <outlet property="githubRepoNameLabel" destination="Xws-vr-3yM" id="3Xb-wb-WEE"/>
+                <outlet property="logoImageView" destination="Tlc-MI-H1b" id="awx-yd-g5F"/>
                 <outlet property="messageCountLabel" destination="dhp-xa-CcY" id="GAv-oY-UAJ"/>
                 <outlet property="messageTextView" destination="Xeg-hl-49c" id="qAM-BL-3xN"/>
                 <outlet property="messageTextViewHeightConstraint" destination="NbJ-It-NNH" id="1h3-eZ-hg4"/>
@@ -188,6 +198,7 @@
     </objects>
     <resources>
         <image name="icon_discussion" width="30" height="19"/>
+        <image name="icon_github" width="24" height="23"/>
         <image name="icon_repo" width="16" height="21"/>
         <image name="skill_bubble_empty" width="23" height="22"/>
         <image name="social_work_border" width="11" height="11"/>
