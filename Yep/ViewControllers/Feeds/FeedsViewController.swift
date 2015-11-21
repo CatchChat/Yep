@@ -117,8 +117,6 @@ class FeedsViewController: BaseViewController {
 
             let height: CGFloat
             switch feed.kind {
-            case .Normal:
-                height = FeedCell.heightOfFeed(feed)
             case .GithubRepo, .DribbbleShot:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
             default:
@@ -591,9 +589,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             let feed = feeds[indexPath.row]
 
             switch feed.kind {
-            case .Normal:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
-                return cell
 
             case .GithubRepo, .DribbbleShot:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
@@ -631,7 +626,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .Normal:
+            case .GithubRepo, .DribbbleShot:
+                guard let cell = cell as? FeedSocialWorkCell else {
+                    break
+                }
+
+            default:
 
                 guard let cell = cell as? FeedCell else {
                     break
@@ -715,14 +715,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     }
                     tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 }
-
-            case .GithubRepo, .DribbbleShot:
-                guard let cell = cell as? FeedSocialWorkCell else {
-                    break
-                }
-
-            default:
-                break
             }
 
         case Section.LoadMore.rawValue:

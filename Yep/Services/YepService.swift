@@ -2587,7 +2587,6 @@ struct DiscoveredFeed: Hashable {
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
             body = feedInfo["body"] as? String,
-            attachmentsData = feedInfo["attachments"] as? [JSONDictionary],
             messagesCount = feedInfo["message_count"] as? Int else {
                 return nil
         }
@@ -2604,7 +2603,8 @@ struct DiscoveredFeed: Hashable {
 
         let distance = feedInfo["distance"] as? Double
 
-        let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
+        let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
+        let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
 
         var skill: Skill?
         if let skillInfo = feedInfo["skill"] as? JSONDictionary {
@@ -2718,7 +2718,11 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 }
 
 enum FeedKind: String {
-    case Normal = "normal"
+    case Text = "text"
+    case Image = "image"
+    case Video = "video"
+    case Audio = "audio"
+    case Location = "location"
 
     case AppleMusic = "apple_music"
     case AppleMovie = "apple_movie"
