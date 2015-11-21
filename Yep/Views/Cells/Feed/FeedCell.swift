@@ -44,16 +44,23 @@ class FeedCell: FeedBasicCell {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
 
-        let height: CGFloat
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
-        } else {
-            var imageHeight: CGFloat = 80
-            if feed.attachments.count == 1 {
-                imageHeight = 160
+        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+
+        if let attachment = feed.attachment {
+            if case let .Images(attachments) = attachment {
+                let imageHeight: CGFloat = attachments.count == 1 ? 160 : 80
+                height += (imageHeight + 15)
             }
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + imageHeight + 15 + 17 + 15
         }
+
+//        if feed.attachment == nil {
+//        } else {
+//            var imageHeight: CGFloat = 80
+//            if feed.attachments.count == 1 {
+//                imageHeight = 160
+//            }
+//            height = ceil(rect.height) + 10 + 40 + 4 + 15 + imageHeight + 15 + 17 + 15
+//        }
 
         return ceil(height)
     }
@@ -103,17 +110,23 @@ class FeedCell: FeedBasicCell {
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
-        let hasMedia = !feed.attachments.isEmpty
-        
-        if feed.attachments.count > 1 {
+        var hasMedia = false
+
+        if let attachment = feed.attachment {
+            if case let .Images(attachments) = attachment {
+                hasMedia = !attachments.isEmpty
+
+                self.attachments = attachments
+            }
+        }
+
+        if attachments.count > 1 {
             timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
         } else {
             timeLabelTopConstraint.constant = hasMedia ? (15 + 160 + 15) : 15
         }
 
         mediaCollectionView.hidden = hasMedia ? false : true
-
-        attachments = feed.attachments
     }
 }
 

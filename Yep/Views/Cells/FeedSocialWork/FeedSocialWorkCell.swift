@@ -63,9 +63,11 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             githubRepoImageView.tintColor = UIColor.grayColor()
 
-            if let githubRepo = feed.githubRepo {
-                githubRepoNameLabel.text = githubRepo.name
-                githubRepoDescriptionLabel.text = githubRepo.description
+            if let attachment = feed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    githubRepoNameLabel.text = githubRepo.name
+                    githubRepoDescriptionLabel.text = githubRepo.description
+                }
             }
 
         case .DribbbleShot:
@@ -73,8 +75,10 @@ class FeedSocialWorkCell: FeedBasicCell {
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
 
-            if let string = feed.dribbbleShot?.imageURLString {
-                socialWorkImageURL = NSURL(string: string)
+            if let attachment = feed.attachment {
+                if case let .Dribbble(dribbbleShot) = attachment {
+                    socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
+                }
             }
 
         default:

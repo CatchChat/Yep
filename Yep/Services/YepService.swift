@@ -2570,8 +2570,6 @@ struct DiscoveredFeed: Hashable {
     let creator: DiscoveredUser
     let body: String
 
-    let attachments: [DiscoveredAttachment]
-
     struct GithubRepo {
         let name: String
         let fullName: String
@@ -2590,7 +2588,6 @@ struct DiscoveredFeed: Hashable {
             return GithubRepo(name: name, fullName: fullName, description: description, URLString: URLString)
         }
     }
-    let githubRepo: GithubRepo?
 
     struct DribbbleShot {
         let title: String
@@ -2610,7 +2607,14 @@ struct DiscoveredFeed: Hashable {
             return DribbbleShot(title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString)
         }
     }
-    let dribbbleShot: DribbbleShot?
+
+    enum Attachment {
+        case Images([DiscoveredAttachment])
+        case Github(GithubRepo)
+        case Dribbble(DribbbleShot)
+    }
+
+    let attachment: Attachment?
 
     let distance: Double?
 
@@ -2647,17 +2651,37 @@ struct DiscoveredFeed: Hashable {
 
         let distance = feedInfo["distance"] as? Double
 
-        let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
-        let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
+        var attachment: DiscoveredFeed.Attachment?
 
-        var githubRepo: DiscoveredFeed.GithubRepo?
-        if let githubReposData = feedInfo["attachments"] as? [JSONDictionary], githubRepoInfo = githubReposData.first {
-            githubRepo = DiscoveredFeed.GithubRepo.fromJSONDictionary(githubRepoInfo)
-        }
+        switch kind {
 
-        var dribbbleShot: DiscoveredFeed.DribbbleShot?
-        if let dribbbleShotsData = feedInfo["attachments"] as? [JSONDictionary], dribbbleShotInfo = dribbbleShotsData.first {
-            dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo)
+        case .Image:
+
+            let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
+            let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
+
+            attachment = .Images(attachments)
+
+        case .GithubRepo:
+
+            if let
+                githubReposData = feedInfo["attachments"] as? [JSONDictionary],
+                githubRepoInfo = githubReposData.first,
+                githubRepo = DiscoveredFeed.GithubRepo.fromJSONDictionary(githubRepoInfo) {
+                    attachment = .Github(githubRepo)
+            }
+
+        case .DribbbleShot:
+
+            if let
+                dribbbleShotsData = feedInfo["attachments"] as? [JSONDictionary],
+                dribbbleShotInfo = dribbbleShotsData.first,
+                dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo) {
+                    attachment = .Dribbble(dribbbleShot)
+            }
+
+        default:
+            break
         }
 
         var skill: Skill?
@@ -2665,7 +2689,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, githubRepo: githubRepo, dribbbleShot: dribbbleShot, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 

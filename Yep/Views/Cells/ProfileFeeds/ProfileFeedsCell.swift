@@ -95,7 +95,16 @@ class ProfileFeedsCell: UICollectionViewCell {
             feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
                 println("user's feeds: \(feeds.count)")
 
-                let feedAttachments = feeds.map({ $0.attachments.first }).flatMap({ $0 })
+                let feedAttachments = feeds.map({ feed -> DiscoveredAttachment? in
+                    if let attachment = feed.attachment {
+                        if case let .Images(attachments) = attachment {
+                            return attachments.first
+                        }
+                    }
+
+                    return nil
+
+                }).flatMap({ $0 })
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.feedAttachments = feedAttachments

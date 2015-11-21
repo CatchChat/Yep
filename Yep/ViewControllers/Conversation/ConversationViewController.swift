@@ -71,7 +71,14 @@ enum ConversationFeed {
     var attachments: [Attachment] {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
-            return attachmentFromDiscoveredAttachment(discoveredFeed.attachments, inRealm: nil)
+
+            if let attachment = discoveredFeed.attachment {
+                if case let .Images(attachments) = attachment {
+                    return attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                }
+            }
+
+            return []
             
         case .FeedType(let feed):
             return Array(feed.attachments)

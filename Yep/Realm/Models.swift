@@ -792,12 +792,17 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
             }
         }
-        
-        newFeed.attachments.removeAll()
-        
-        let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
-        newFeed.attachments.appendContentsOf(attachments)
-        
+
+        if let attachment = feedData.attachment {
+            if case let .Images(attachments) = attachment {
+                newFeed.attachments.removeAll()
+                let attachments = attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                newFeed.attachments.appendContentsOf(attachments)
+            }
+
+            // TODO: saveFeedWithFeedDataWithFullGroup
+        }
+
         newFeed.group = group
         
         let _ = try? realm.write {
