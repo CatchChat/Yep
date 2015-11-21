@@ -596,10 +596,12 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
 
         if let group = group {
 
-            // 有 topic 标记 groupType 为 Public
-            if let _ = groupInfo["topic"] {
-                let _ = try? realm.write {
+            // 有 topic 标记 groupType 为 Public，否则 Private
+            let _ = try? realm.write {
+                if let _ = groupInfo["topic"] {
                     group.groupType = GroupType.Public.rawValue
+                } else {
+                    group.groupType = GroupType.Private.rawValue
                 }
             }
 
