@@ -2733,7 +2733,7 @@ enum FeedKind: String {
     //case InstagramMedia = "instagram"
 }
 
-func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, sharedStuff: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
         "kind": kind.rawValue,
@@ -2754,10 +2754,6 @@ func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictio
 
     if let attachments = attachments {
         requestParameters["attachments"] = attachments
-    }
-
-    if let sharedStuff = sharedStuff {
-        requestParameters["shared_stuff"] = sharedStuff
     }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in

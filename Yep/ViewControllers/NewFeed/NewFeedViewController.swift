@@ -380,13 +380,6 @@ class NewFeedViewController: UIViewController {
     
     func post(sender: UIBarButtonItem) {
 
-        guard socialWork == nil else {
-
-            YepAlert.alertSorry(message: "Can NOT post Feed with Social Work yet.", inViewController: self)
-
-            return
-        }
-        
         messageTextView.resignFirstResponder()
         
         let messageLength = (messageTextView.text as NSString).length
@@ -486,9 +479,38 @@ class NewFeedViewController: UIViewController {
                     
             }
 
-            let kind: FeedKind = uploadImageInfos.isEmpty ? . Text : .Image
+            var kind: FeedKind = uploadImageInfos.isEmpty ? .Text : .Image
 
-            createFeedWithKind(kind, message: message, attachments: mediaInfo, sharedStuff: nil, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            if let socialWork = self?.socialWork {
+
+                guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
+                    return
+                }
+
+                switch type {
+
+                case .GithubRepo:
+                    guard let githubRepo = socialWork.githubRepo else {
+                        break
+                    }
+
+                    mediaInfo = [
+                        "github": [[
+                            "name": githubRepo.name,
+                            "full_name": githubRepo.fullName,
+                            "description": githubRepo.repoDescription,
+                            "url": githubRepo.URLString,
+                        ]]
+                    ]
+
+                    kind = .GithubRepo
+
+                default:
+                    break
+                }
+            }
+
+            createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
