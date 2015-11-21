@@ -486,7 +486,9 @@ class NewFeedViewController: UIViewController {
                     
             }
 
-            createFeedWithKind(.Image, message: message, attachments: mediaInfo, sharedStuff: nil, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            let kind: FeedKind = uploadImageInfos.isEmpty ? . Text : .Image
+
+            createFeedWithKind(kind, message: message, attachments: mediaInfo, sharedStuff: nil, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
