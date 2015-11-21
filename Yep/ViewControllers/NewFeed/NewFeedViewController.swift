@@ -490,6 +490,7 @@ class NewFeedViewController: UIViewController {
                 switch type {
 
                 case .GithubRepo:
+
                     guard let githubRepo = socialWork.githubRepo else {
                         break
                     }
@@ -504,6 +505,23 @@ class NewFeedViewController: UIViewController {
                     ]
 
                     kind = .GithubRepo
+
+                case .DribbbleShot:
+
+                    guard let dribbbleShot = socialWork.dribbbleShot else {
+                        break
+                    }
+
+                    mediaInfo = [
+                        "dribbble": [[
+                            "title": dribbbleShot.title,
+                            "description": dribbbleShot.shotDescription,
+                            "media_url": dribbbleShot.imageURLString,
+                            "url": dribbbleShot.htmlURLString,
+                            ]]
+                    ]
+
+                    kind = .DribbbleShot
 
                 default:
                     break
