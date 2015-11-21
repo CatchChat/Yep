@@ -2592,6 +2592,26 @@ struct DiscoveredFeed: Hashable {
     }
     let githubRepo: GithubRepo?
 
+    struct DribbbleShot {
+        let title: String
+        let description: String
+        let imageURLString: String
+        let htmlURLString: String
+
+        static func fromJSONDictionary(json: JSONDictionary) -> DribbbleShot? {
+            guard let
+                title = json["title"] as? String,
+                description = json["description"] as? String,
+                imageURLString = json["media_url"] as? String,
+                htmlURLString = json["url"] as? String else {
+                    return nil
+            }
+
+            return DribbbleShot(title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString)
+        }
+    }
+    let dribbbleShot: DribbbleShot?
+
     let distance: Double?
 
     let skill: Skill?
@@ -2635,12 +2655,17 @@ struct DiscoveredFeed: Hashable {
             githubRepo = DiscoveredFeed.GithubRepo.fromJSONDictionary(githubRepoInfo)
         }
 
+        var dribbbleShot: DiscoveredFeed.DribbbleShot?
+        if let dribbbleShotsData = feedInfo["attachments"] as? [JSONDictionary], dribbbleShotInfo = dribbbleShotsData.first {
+            dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo)
+        }
+
         var skill: Skill?
         if let skillInfo = feedInfo["skill"] as? JSONDictionary {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, githubRepo: githubRepo, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, githubRepo: githubRepo, dribbbleShot: dribbbleShot, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 

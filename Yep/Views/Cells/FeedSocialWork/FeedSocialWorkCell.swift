@@ -73,9 +73,9 @@ class FeedSocialWorkCell: FeedBasicCell {
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
 
-//            if let string = socialWork.dribbbleShot?.imageURLString {
-//                socialWorkImageURL = NSURL(string: string)
-//            }
+            if let string = feed.dribbbleShot?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
 
         default:
             break
