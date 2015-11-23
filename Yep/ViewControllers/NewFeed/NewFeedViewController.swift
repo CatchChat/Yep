@@ -495,13 +495,17 @@ class NewFeedViewController: UIViewController {
                         break
                     }
 
+                    let repoInfo = [
+                        "repo_id": githubRepo.repoID,
+                        "name": githubRepo.name,
+                        "full_name": githubRepo.fullName,
+                        "description": githubRepo.repoDescription,
+                        "url": githubRepo.URLString,
+                        "created_at": githubRepo.createdUnixTime,
+                    ]
+
                     mediaInfo = [
-                        "github": [[
-                            "name": githubRepo.name,
-                            "full_name": githubRepo.fullName,
-                            "description": githubRepo.repoDescription,
-                            "url": githubRepo.URLString,
-                        ]]
+                        "github": [repoInfo]
                     ]
 
                     kind = .GithubRepo
@@ -512,13 +516,17 @@ class NewFeedViewController: UIViewController {
                         break
                     }
 
+                    let shotInfo = [
+                        "shot_id": dribbbleShot.shotID,
+                        "title": dribbbleShot.title,
+                        "description": dribbbleShot.shotDescription,
+                        "media_url": dribbbleShot.imageURLString,
+                        "url": dribbbleShot.htmlURLString,
+                        "created_at": dribbbleShot.createdUnixTime,
+                    ]
+
                     mediaInfo = [
-                        "dribbble": [[
-                            "title": dribbbleShot.title,
-                            "description": dribbbleShot.shotDescription,
-                            "media_url": dribbbleShot.imageURLString,
-                            "url": dribbbleShot.htmlURLString,
-                            ]]
+                        "dribbble": [shotInfo]
                     ]
 
                     kind = .DribbbleShot
@@ -767,5 +775,5 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         
         dismissViewControllerAnimated(true, completion: nil)
-}
+    }
 }
