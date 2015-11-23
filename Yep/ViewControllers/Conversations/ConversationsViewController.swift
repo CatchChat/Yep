@@ -162,14 +162,38 @@ class ConversationsViewController: UIViewController {
 
                     switch socialWorkPiece {
                     case .Github(let repo):
-                        let socialWorkGithubRepo = SocialWorkGithubRepo()
-                        socialWorkGithubRepo.fillWithGithubRepo(repo)
+
+                        let repoID = repo.ID
+                        var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+                        if socialWorkGithubRepo == nil {
+                            let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                            newSocialWorkGithubRepo.fillWithGithubRepo(repo)
+
+                            let _ = try? realm.write {
+                                realm.add(newSocialWorkGithubRepo)
+                            }
+
+                            socialWorkGithubRepo = newSocialWorkGithubRepo
+                        }
 
                         socialWork.githubRepo = socialWorkGithubRepo
 
                     case .Dribbble(let shot):
-                        let socialWorkDribbbleShot = SocialWorkDribbbleShot()
-                        socialWorkDribbbleShot.fillWithDribbbleShot(shot)
+
+                        let shotID = shot.ID
+                        var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+                        if socialWorkDribbbleShot == nil {
+                            let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                            newSocialWorkDribbbleShot.fillWithDribbbleShot(shot)
+
+                            let _ = try? realm.write {
+                                realm.add(newSocialWorkDribbbleShot)
+                            }
+
+                            socialWorkDribbbleShot = newSocialWorkDribbbleShot
+                        }
 
                         socialWork.dribbbleShot = socialWorkDribbbleShot
 

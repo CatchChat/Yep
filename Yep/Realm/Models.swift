@@ -368,6 +368,11 @@ class SocialWorkGithubRepo: Object {
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var synced: Bool = false
 
+    class func getWithRepoID(repoID: Int, inRealm realm: Realm) -> SocialWorkGithubRepo? {
+        let predicate = NSPredicate(format: "repoID = %d", repoID)
+        return realm.objects(SocialWorkGithubRepo).filter(predicate).first
+    }
+
     func fillWithGithubRepo(githubRepo: GithubRepo) {
         self.repoID = githubRepo.ID
         self.name = githubRepo.name
@@ -376,6 +381,16 @@ class SocialWorkGithubRepo: Object {
         self.repoDescription = githubRepo.description
 
         self.createdUnixTime = githubRepo.createdAt.timeIntervalSince1970
+    }
+
+    func fillWithFeedGithubRepo(githubRepo: DiscoveredFeed.GithubRepo) {
+        self.repoID = githubRepo.ID//(githubRepo.ID as NSString).integerValue
+        self.name = githubRepo.name
+        self.fullName = githubRepo.fullName
+        self.URLString = githubRepo.URLString
+        self.repoDescription = githubRepo.description
+
+        self.createdUnixTime = githubRepo.createdUnixTime
     }
 }
 
@@ -389,6 +404,11 @@ class SocialWorkDribbbleShot: Object {
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var synced: Bool = false
 
+    class func getWithShotID(shotID: Int, inRealm realm: Realm) -> SocialWorkDribbbleShot? {
+        let predicate = NSPredicate(format: "shotID = %d", shotID)
+        return realm.objects(SocialWorkDribbbleShot).filter(predicate).first
+    }
+
     func fillWithDribbbleShot(dribbbleShot: DribbbleShot) {
         self.shotID = dribbbleShot.ID
         self.title = dribbbleShot.title
@@ -397,6 +417,16 @@ class SocialWorkDribbbleShot: Object {
         self.shotDescription = dribbbleShot.description
 
         self.createdUnixTime = dribbbleShot.createdAt.timeIntervalSince1970
+    }
+
+    func fillWithFeedDribbbleShot(dribbbleShot: DiscoveredFeed.DribbbleShot) {
+        self.shotID = dribbbleShot.ID//(dribbbleShot.ID as NSString).integerValue
+        self.title = dribbbleShot.title
+        self.htmlURLString = dribbbleShot.htmlURLString
+        self.imageURLString = dribbbleShot.imageURLString
+        self.shotDescription = dribbbleShot.description
+
+        self.createdUnixTime = dribbbleShot.createdUnixTime
     }
 }
 
@@ -604,7 +634,10 @@ class Feed: Object {
     dynamic var distance: Double = 0
     dynamic var messagesCount: Int = 0
     dynamic var body: String = ""
+
+    dynamic var kind: String = FeedKind.Text.rawValue
     var attachments = List<Attachment>()
+    dynamic var socialWork: MessageSocialWork?
 
     dynamic var skill: UserSkill?
 
@@ -760,11 +793,13 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        println("saveFeed: \(feed.feedID), do nothing.")
+        println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
 
         let _ = try? realm.write {
+            feed.kind = feedData.kind.rawValue
             feed.deleted = false
         }
+
         #if DEBUG
         if feed.group == nil {
             println("feed have not with group, it may old (not deleted with conversation before)")
@@ -779,6 +814,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         newFeed.updatedUnixTime = feedData.updatedUnixTime
         newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
+        newFeed.kind = feedData.kind.rawValue
         newFeed.deleted = false
         
         if let distance = feedData.distance {
@@ -794,13 +830,61 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         }
 
         if let attachment = feedData.attachment {
-            if case let .Images(attachments) = attachment {
+
+            switch attachment {
+
+            case .Images(let attachments):
+
                 newFeed.attachments.removeAll()
                 let attachments = attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
                 newFeed.attachments.appendContentsOf(attachments)
-            }
 
-            // TODO: saveFeedWithFeedDataWithFullGroup
+            case .Github(let repo):
+
+                let socialWork = MessageSocialWork()
+                socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
+
+                let repoID = repo.ID//(repo.ID as NSString).integerValue
+                var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+                if socialWorkGithubRepo == nil {
+                    let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                    newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
+
+                    let _ = try? realm.write {
+                        realm.add(newSocialWorkGithubRepo)
+                    }
+
+                    socialWorkGithubRepo = newSocialWorkGithubRepo
+                }
+
+                socialWork.githubRepo = socialWorkGithubRepo
+                
+                newFeed.socialWork = socialWork
+
+            case .Dribbble(let shot):
+
+                let socialWork = MessageSocialWork()
+                socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+
+                let shotID = shot.ID//(shot.ID as NSString).integerValue
+                var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+                if socialWorkDribbbleShot == nil {
+                    let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                    newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
+
+                    let _ = try? realm.write {
+                        realm.add(newSocialWorkDribbbleShot)
+                    }
+
+                    socialWorkDribbbleShot = newSocialWorkDribbbleShot
+                }
+
+                socialWork.dribbbleShot = socialWorkDribbbleShot
+
+                newFeed.socialWork = socialWork
+            }
         }
 
         newFeed.group = group

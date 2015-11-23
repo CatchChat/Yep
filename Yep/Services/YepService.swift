@@ -2571,40 +2571,48 @@ struct DiscoveredFeed: Hashable {
     let body: String
 
     struct GithubRepo {
+        let ID: Int
         let name: String
         let fullName: String
         let description: String
         let URLString: String
+        let createdUnixTime: NSTimeInterval
 
         static func fromJSONDictionary(json: JSONDictionary) -> GithubRepo? {
             guard let
+                ID = json["repo_id"] as? Int,
                 name = json["name"] as? String,
                 fullName = json["full_name"] as? String,
                 description = json["description"] as? String,
-                URLString = json["url"] as? String else {
+                URLString = json["url"] as? String,
+                createdUnixTime = json["created_at"] as? NSTimeInterval else {
                     return nil
             }
 
-            return GithubRepo(name: name, fullName: fullName, description: description, URLString: URLString)
+            return GithubRepo(ID: ID, name: name, fullName: fullName, description: description, URLString: URLString, createdUnixTime: createdUnixTime)
         }
     }
 
     struct DribbbleShot {
+        let ID: Int
         let title: String
         let description: String
         let imageURLString: String
         let htmlURLString: String
+        let createdUnixTime: NSTimeInterval
 
         static func fromJSONDictionary(json: JSONDictionary) -> DribbbleShot? {
             guard let
+                ID = json["shot_id"] as? Int,
                 title = json["title"] as? String,
                 description = json["description"] as? String,
                 imageURLString = json["media_url"] as? String,
-                htmlURLString = json["url"] as? String else {
+                htmlURLString = json["url"] as? String,
+                createdUnixTime = json["created_at"] as? NSTimeInterval else {
                     return nil
             }
 
-            return DribbbleShot(title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString)
+            return DribbbleShot(ID: ID, title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString, createdUnixTime: createdUnixTime)
         }
     }
 
