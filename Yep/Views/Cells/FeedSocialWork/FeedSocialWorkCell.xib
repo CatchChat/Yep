@@ -190,7 +190,9 @@
                 <outlet property="nicknameLabel" destination="viF-na-QGX" id="xWf-rc-8Ij"/>
                 <outlet property="skillBubbleImageView" destination="mEi-Ot-P04" id="fh7-wi-DvL"/>
                 <outlet property="skillLabel" destination="lSm-jk-upN" id="RR9-St-O0y"/>
+                <outlet property="socialWorkBorderImageView" destination="Iob-TA-bgf" id="iSW-Sk-rMC"/>
                 <outlet property="socialWorkContainerView" destination="eHY-0K-bDQ" id="XmX-Qj-xlW"/>
+                <outlet property="socialWorkContainerViewHeightConstraint" destination="Ogh-S5-nei" id="56b-gu-LFP"/>
                 <outlet property="socialWorkImageView" destination="ZHv-eL-Vww" id="NqZ-4L-5j1"/>
                 <outlet property="timeLabel" destination="9CZ-zE-b9N" id="oRx-eX-zoP"/>
             </connections>

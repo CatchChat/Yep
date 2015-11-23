@@ -19,7 +19,8 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
-    //@IBOutlet weak var gapConstraintBetweenGithubRepoImageViewAndBubbleImageView: NSLayoutConstraint!
+    @IBOutlet weak var socialWorkBorderImageView: UIImageView!
+    @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
     
     static let messageTextViewMaxWidth: CGFloat = {
@@ -46,7 +47,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         case .GithubRepo:
             height += (80 + 15)
         case .DribbbleShot:
-            height += (80 + 15)
+            height += (160 + 15)
         default:
             break
         }
@@ -74,6 +75,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
         }
+
 
         if let
             accountName = feed.kind.accountName,
@@ -104,6 +106,9 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
+            socialWorkContainerViewHeightConstraint.constant = 80
+            socialWorkBorderImageView.hidden = false
+
         case .DribbbleShot:
 
             socialWorkImageView.hidden = false
@@ -114,6 +119,9 @@ class FeedSocialWorkCell: FeedBasicCell {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
                 }
             }
+
+            socialWorkContainerViewHeightConstraint.constant = 160
+            socialWorkBorderImageView.hidden = true
 
         default:
             break
