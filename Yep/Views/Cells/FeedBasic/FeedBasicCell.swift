@@ -32,6 +32,13 @@ class FeedBasicCell: UITableViewCell {
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageTextView.text = nil
+        messageTextView.attributedText = nil
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
