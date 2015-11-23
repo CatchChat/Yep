@@ -39,7 +39,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_github" translatesAutoresizingMaskIntoConstraints="NO" id="HCa-0p-kmd">
-                        <rect key="frame" x="75" y="107" width="18" height="18"/>
+                        <rect key="frame" x="75" y="98.5" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="O6B-qu-yLg"/>
                             <constraint firstAttribute="height" constant="18" id="POn-2A-jSL"/>
@@ -103,12 +103,12 @@
                 <constraint firstItem="TDP-qa-v6j" firstAttribute="centerY" secondItem="qfD-Je-uVh" secondAttribute="centerY" id="UY7-Dn-wSQ"/>
                 <constraint firstItem="1FT-5t-tco" firstAttribute="leading" secondItem="6W2-p5-PRu" secondAttribute="leading" id="UnF-m1-T0s"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="trailing" secondItem="TDP-qa-v6j" secondAttribute="trailing" constant="10" id="VmT-Be-prf"/>
+                <constraint firstItem="HCa-0p-kmd" firstAttribute="centerY" secondItem="Xbm-3u-eVS" secondAttribute="centerY" id="XIT-jc-sra"/>
                 <constraint firstItem="qfD-Je-uVh" firstAttribute="leading" secondItem="6W2-p5-PRu" secondAttribute="leading" constant="1" id="g0j-Jk-Ou0"/>
                 <constraint firstItem="Xbm-3u-eVS" firstAttribute="top" secondItem="qfD-Je-uVh" secondAttribute="bottom" constant="10" id="ibK-EL-o4b"/>
                 <constraint firstItem="6W2-p5-PRu" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="lRI-5P-s8P"/>
                 <constraint firstItem="6W2-p5-PRu" firstAttribute="leading" secondItem="NYD-7E-1JU" secondAttribute="trailing" constant="10" id="lgA-53-ciq"/>
                 <constraint firstItem="NYD-7E-1JU" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nBC-oK-OGi"/>
-                <constraint firstItem="Xbm-3u-eVS" firstAttribute="bottom" secondItem="HCa-0p-kmd" secondAttribute="bottom" id="nJu-QD-Tw0"/>
                 <constraint firstAttribute="bottom" secondItem="6W2-p5-PRu" secondAttribute="bottom" id="nMH-Fr-4Eq"/>
                 <constraint firstItem="1FT-5t-tco" firstAttribute="bottom" secondItem="qfD-Je-uVh" secondAttribute="bottom" id="nOf-gC-CYN"/>
                 <constraint firstAttribute="trailing" secondItem="6W2-p5-PRu" secondAttribute="trailing" constant="60" id="nwk-Z4-BQl"/>

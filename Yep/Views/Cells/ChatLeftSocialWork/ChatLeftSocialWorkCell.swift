@@ -41,6 +41,10 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
         githubRepoImageView.tintColor = UIColor.grayColor()
 
         syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), forState: .Normal)
+        syncButton.setTitle(NSLocalizedString("Synced to Feeds", comment: ""), forState: .Disabled)
+
+        syncButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        syncButton.setTitleColor(UIColor.lightGrayColor(), forState: .Disabled)
     }
 
     override func layoutSubviews() {
@@ -90,6 +94,8 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
                 if let githubRepo = socialWork.githubRepo {
                     githubRepoNameLabel.text = githubRepo.name
                     githubRepoDescriptionLabel.text = githubRepo.repoDescription
+
+                    syncButton.enabled = !githubRepo.synced
                 }
 
             case .DribbbleShot:
@@ -98,8 +104,10 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
                 githubRepoContainerView.hidden = true
                 centerLineImageView.hidden = true
 
-                if let string = socialWork.dribbbleShot?.imageURLString {
-                    socialWorkImageURL = NSURL(string: string)
+                if let dribbbleShot = socialWork.dribbbleShot {
+                    socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
+
+                    syncButton.enabled = !dribbbleShot.synced
                 }
 
             case .InstagramMedia:

@@ -2482,7 +2482,33 @@ class ConversationViewController: BaseViewController {
                     return
             }
 
-            vc.socialWork = sender as? MessageSocialWork
+            if let socialWork = sender as? MessageSocialWork {
+                vc.socialWork = socialWork
+
+                vc.afterCreatedFeedAction = { [weak self] feed in
+
+                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
+                        return
+                    }
+
+                    let _ = try? realm.write {
+
+                        switch type {
+
+                        case .GithubRepo:
+                            socialWork.githubRepo?.synced = true
+
+                        case .DribbbleShot:
+                            socialWork.dribbbleShot?.synced = true
+
+                        case .InstagramMedia:
+                            break
+                        }
+                    }
+
+                    self?.reloadConversationCollectionView()
+                }
+            }
 
         /*
         case "showFeedMedia":
