@@ -15,6 +15,13 @@ class BorderButton: UIButton {
     @IBInspectable var borderColor: UIColor = UIColor.yepTintColor()
     @IBInspectable var borderWidth: CGFloat = 1
 
+    override var enabled: Bool {
+        willSet {
+            let newBorderColor = newValue ? borderColor : UIColor(white: 0.8, alpha: 1.0)
+            layer.borderColor = newBorderColor.CGColor
+        }
+    }
+
     var needShowAccessory: Bool = false {
         willSet {
             if newValue != needShowAccessory {
@@ -40,6 +47,10 @@ class BorderButton: UIButton {
         layer.borderWidth = borderWidth
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+
     func showAccessory() {
 
         accessoryImageView.tintColor = borderColor
@@ -52,5 +63,5 @@ class BorderButton: UIButton {
 
         NSLayoutConstraint.activateConstraints([accessoryImageViewTrailing, accessoryImageViewCenterY])
     }
-
 }
+

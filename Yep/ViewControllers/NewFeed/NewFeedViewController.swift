@@ -13,16 +13,28 @@ import Photos
 import Proposer
 import RealmSwift
 import Crashlytics
+import Kingfisher
+
 let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
 class NewFeedViewController: UIViewController {
-    
+
+    var socialWork: MessageSocialWork?
+
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
     
     @IBOutlet weak var feedWhiteBGView: UIView!
     
     @IBOutlet weak var messageTextView: UITextView!
+
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+
+    @IBOutlet weak var socialWorkContainerView: UIView!
+    @IBOutlet weak var socialWorkImageView: UIImageView!
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
     
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
@@ -37,6 +49,11 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var pickedSkillLabel: UILabel!
     
     @IBOutlet weak var skillPickerView: UIPickerView!
+
+    lazy var socialWorkMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        return imageView
+    }()
 
     var isDirty = false {
         willSet {
@@ -171,6 +188,14 @@ class NewFeedViewController: UIViewController {
             }, rejected: {
             })
         }
+
+        let hasSocialWork = (socialWork != nil)
+        mediaCollectionView.hidden = hasSocialWork
+        socialWorkContainerView.hidden = !hasSocialWork
+
+        if let socialWork = socialWork {
+            updateUIForSocialWork(socialWork)
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -182,6 +207,62 @@ class NewFeedViewController: UIViewController {
             }
 
             self?.messageTextView.becomeFirstResponder()
+        }
+    }
+
+    // MARK: UI
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+    }
+
+    func updateUIForSocialWork(socialWork: MessageSocialWork) {
+
+        socialWorkImageView.maskView = socialWorkMaskImageView
+
+        var socialWorkImageURL: NSURL?
+
+        guard let socialWorkType = MessageSocialWorkType(rawValue: socialWork.type) else {
+            return
+        }
+
+        switch socialWorkType {
+
+        case .GithubRepo:
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
+
+            if let githubRepo = socialWork.githubRepo {
+                githubRepoNameLabel.text = githubRepo.name
+                githubRepoDescriptionLabel.text = githubRepo.repoDescription
+            }
+
+        case .DribbbleShot:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.dribbbleShot?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+
+        case .InstagramMedia:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            if let string = socialWork.instagramMedia?.imageURLString {
+                socialWorkImageURL = NSURL(string: string)
+            }
+        }
+        
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
         }
     }
     
@@ -298,7 +379,7 @@ class NewFeedViewController: UIViewController {
     }
     
     func post(sender: UIBarButtonItem) {
-        
+
         messageTextView.resignFirstResponder()
         
         let messageLength = (messageTextView.text as NSString).length
@@ -398,7 +479,64 @@ class NewFeedViewController: UIViewController {
                     
             }
 
-            createFeedWithKind(.Normal, message: message, attachments: mediaInfo, sharedStuff: nil, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            var kind: FeedKind = uploadImageInfos.isEmpty ? .Text : .Image
+
+            if let socialWork = self?.socialWork {
+
+                guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
+                    return
+                }
+
+                switch type {
+
+                case .GithubRepo:
+
+                    guard let githubRepo = socialWork.githubRepo else {
+                        break
+                    }
+
+                    let repoInfo = [
+                        "repo_id": githubRepo.repoID,
+                        "name": githubRepo.name,
+                        "full_name": githubRepo.fullName,
+                        "description": githubRepo.repoDescription,
+                        "url": githubRepo.URLString,
+                        "created_at": githubRepo.createdUnixTime,
+                    ]
+
+                    mediaInfo = [
+                        "github": [repoInfo]
+                    ]
+
+                    kind = .GithubRepo
+
+                case .DribbbleShot:
+
+                    guard let dribbbleShot = socialWork.dribbbleShot else {
+                        break
+                    }
+
+                    let shotInfo = [
+                        "shot_id": dribbbleShot.shotID,
+                        "title": dribbbleShot.title,
+                        "description": dribbbleShot.shotDescription,
+                        "media_url": dribbbleShot.imageURLString,
+                        "url": dribbbleShot.htmlURLString,
+                        "created_at": dribbbleShot.createdUnixTime,
+                    ]
+
+                    mediaInfo = [
+                        "dribbble": [shotInfo]
+                    ]
+
+                    kind = .DribbbleShot
+
+                default:
+                    break
+                }
+            }
+
+            createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
@@ -637,5 +775,5 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
         }
         
         dismissViewControllerAnimated(true, completion: nil)
-}
+    }
 }

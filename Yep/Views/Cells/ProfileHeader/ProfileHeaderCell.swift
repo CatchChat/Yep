@@ -17,17 +17,13 @@ class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
+
+    var updatePrettyColorAction: (UIColor -> Void)?
     
     var askedForPermission = false
 
-    struct Listener {
-        static let Avatar = "ProfileHeaderCell.Avatar"
-    }
-
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
-        YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
     }
 
     override func awakeFromNib() {
@@ -84,15 +80,6 @@ class ProfileHeaderCell: UICollectionViewCell {
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
         if user.friendState == UserFriendState.Me.rawValue {
-            
-            YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] avatarURLString in
-                dispatch_async(dispatch_get_main_queue()) {
-                    if let avatarURLString = avatarURLString {
-                        self?.blurredAvatarImage = nil // need reblur
-                        self?.updateAvatarWithAvatarURLString(avatarURLString)
-                    }
-                }
-            }
 
             if !askedForPermission {
                 askedForPermission = true
@@ -151,6 +138,12 @@ class ProfileHeaderCell: UICollectionViewCell {
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.avatarImageView.image = image
+
+                let avatarAvarageColor = image.yep_avarageColor
+                let prettyColor = avatarAvarageColor.yep_profilePrettyColor
+                self?.locationLabel.textColor = prettyColor
+
+                self?.updatePrettyColorAction?(prettyColor)
 
                 UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
                     self?.avatarImageView.alpha = 1

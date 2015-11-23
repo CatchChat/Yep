@@ -71,7 +71,14 @@ enum ConversationFeed {
     var attachments: [Attachment] {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
-            return attachmentFromDiscoveredAttachment(discoveredFeed.attachments, inRealm: nil)
+
+            if let attachment = discoveredFeed.attachment {
+                if case let .Images(attachments) = attachment {
+                    return attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                }
+            }
+
+            return []
             
         case .FeedType(let feed):
             return Array(feed.attachments)
@@ -335,6 +342,7 @@ class ConversationViewController: BaseViewController {
     let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
+    let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
     
     struct Listener {
         static let Avatar = "ConversationViewController"
@@ -345,7 +353,7 @@ class ConversationViewController: BaseViewController {
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
 
-        conversationCollectionView.delegate = nil
+        conversationCollectionView?.delegate = nil
 
         println("deinit ConversationViewController")
     }
@@ -431,6 +439,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
         
         conversationCollectionView.bounces = true
 
@@ -442,6 +451,10 @@ class ConversationViewController: BaseViewController {
         //moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
+
+            guard self?.navigationController?.topViewController == self else {
+                return
+            }
 
             if let giveUp = self?.giveUpKeyboardHideAnimationWhenViewControllerDisapeear {
 
@@ -480,6 +493,10 @@ class ConversationViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            guard self?.navigationController?.topViewController == self else {
+                return
+            }
 
             if let nvc = self?.navigationController {
                 if nvc.topViewController != self {
@@ -981,10 +998,6 @@ class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
-        let _ = try? realm.write { [weak self] in
-            self?.conversation.unreadMessagesCount = 0
-        }
-
         if let recipient = conversation.recipient, latestMessage = messages.last {
 
             var needMarkInServer = false
@@ -1000,8 +1013,9 @@ class ConversationViewController: BaseViewController {
                 let filteredMessages = messages.filter(predicate)
 
                 println("filteredMessages.count: \(filteredMessages.count)")
+                println("conversation.unreadMessagesCount: \(conversation.unreadMessagesCount)")
 
-                needMarkInServer = !filteredMessages.isEmpty
+                needMarkInServer = (!filteredMessages.isEmpty || (conversation.unreadMessagesCount > 0))
 
                 filteredMessages.forEach { message in
                     let _ = try? realm.write {
@@ -1033,6 +1047,10 @@ class ConversationViewController: BaseViewController {
                 println("don't needMarkInServer")
             }
         }
+
+        let _ = try? realm.write { [weak self] in
+            self?.conversation.unreadMessagesCount = 0
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -1058,6 +1076,8 @@ class ConversationViewController: BaseViewController {
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
             if audioPlayer.playing {
                 audioPlayer.stop()
+
+                UIDevice.currentDevice().proximityMonitoringEnabled = false
             }
         }
     }
@@ -1314,7 +1334,10 @@ class ConversationViewController: BaseViewController {
             
             self?.view.endEditing(true)
 
-            transitionView.alpha = 0
+            delay(0.3, work: { () -> Void in
+                transitionView.alpha = 0 // 加 Delay 避免图片闪烁
+            })
+            
             vc.afterDismissAction = { [weak self] in
                 transitionView.alpha = 1
                 self?.view.window?.makeKeyAndVisible()
@@ -1490,6 +1513,9 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.SectionDate.rawValue:
             height = 20
+
+        case MessageMediaType.SocialWork.rawValue:
+            height = 135
 
         default:
             height = 20
@@ -2447,6 +2473,43 @@ class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
+        case "presentNewFeed":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedViewController
+                else {
+                    return
+            }
+
+            if let socialWork = sender as? MessageSocialWork {
+                vc.socialWork = socialWork
+
+                vc.afterCreatedFeedAction = { [weak self] feed in
+
+                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
+                        return
+                    }
+
+                    let _ = try? realm.write {
+
+                        switch type {
+
+                        case .GithubRepo:
+                            socialWork.githubRepo?.synced = true
+
+                        case .DribbbleShot:
+                            socialWork.dribbbleShot?.synced = true
+
+                        case .InstagramMedia:
+                            break
+                        }
+                    }
+
+                    self?.reloadConversationCollectionView()
+                }
+            }
+
         /*
         case "showFeedMedia":
 
@@ -2990,7 +3053,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 vc.topPreviewImage = message.thumbnailImage
                 vc.bottomPreviewImage = image
 
-                transitionView?.alpha = 0
+                delay(0.0, work: { () -> Void in
+                    transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                })
+                
                 vc.afterDismissAction = { [weak self] in
                     transitionView?.alpha = 1
                     self?.view.window?.makeKeyAndVisible()
@@ -3055,6 +3121,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     case MessageMediaType.Location.rawValue:
 
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
+                        return cell
+
+                    case MessageMediaType.SocialWork.rawValue:
+
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftSocialWorkCellIdentifier, forIndexPath: indexPath) as! ChatLeftSocialWorkCell
                         return cell
 
                     default:
@@ -3229,7 +3300,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 
                             }, collectionView: collectionView, indexPath: indexPath)
                         }
-                        
+
+                    case MessageMediaType.SocialWork.rawValue:
+
+                        if let cell = cell as? ChatLeftSocialWorkCell {
+                            cell.configureWithMessage(message)
+
+                            cell.createFeedAction = { [weak self] socialWork in
+
+                                self?.performSegueWithIdentifier("presentNewFeed", sender: socialWork)
+                            }
+                        }
+
                     default:
                         
                         if let cell = cell as? ChatLeftTextCell {

@@ -270,25 +270,26 @@ enum MessageMediaType: Int, CustomStringConvertible {
     case Sticker        = 4
     case Location       = 5
     case SectionDate    = 6
+    case SocialWork     = 7
 
     var description: String {
-        get {
-            switch self {
-            case Text:
-                return "text"
-            case Image:
-                return "image"
-            case Video:
-                return "video"
-            case Audio:
-                return "audio"
-            case Sticker:
-                return "sticker"
-            case Location:
-                return "location"
-            case SectionDate:
-                return "sectionDate"
-            }
+        switch self {
+        case .Text:
+            return "text"
+        case .Image:
+            return "image"
+        case .Video:
+            return "video"
+        case .Audio:
+            return "audio"
+        case .Sticker:
+            return "sticker"
+        case .Location:
+            return "location"
+        case .SectionDate:
+            return "sectionDate"
+        case .SocialWork:
+            return "socialWork"
         }
     }
 
@@ -307,16 +308,20 @@ enum MessageMediaType: Int, CustomStringConvertible {
 
     var placeholder: String? {
         switch self {
-        case .Audio:
-            return NSLocalizedString("[Audio]", comment: "")
-        case .Video:
-            return NSLocalizedString("[Video]", comment: "")
-        case .Image:
-            return NSLocalizedString("[Image]", comment: "")
-        case .Location:
-            return NSLocalizedString("[Location]", comment: "")
         case .Text:
             return nil
+        case .Image:
+            return NSLocalizedString("[Image]", comment: "")
+        case .Video:
+            return NSLocalizedString("[Video]", comment: "")
+        case .Audio:
+            return NSLocalizedString("[Audio]", comment: "")
+        case .Sticker:
+            return NSLocalizedString("[Sticker]", comment: "")
+        case .Location:
+            return NSLocalizedString("[Location]", comment: "")
+        case .SocialWork:
+            return NSLocalizedString("[Social Work]", comment: "")
         default:
             return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
         }
@@ -353,6 +358,109 @@ class MediaMetaData: Object {
     }
 }
 
+class SocialWorkGithubRepo: Object {
+    dynamic var repoID: Int = 0
+    dynamic var name: String = ""
+    dynamic var fullName: String = ""
+    dynamic var URLString: String = ""
+    dynamic var repoDescription: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+
+    class func getWithRepoID(repoID: Int, inRealm realm: Realm) -> SocialWorkGithubRepo? {
+        let predicate = NSPredicate(format: "repoID = %d", repoID)
+        return realm.objects(SocialWorkGithubRepo).filter(predicate).first
+    }
+
+    func fillWithGithubRepo(githubRepo: GithubRepo) {
+        self.repoID = githubRepo.ID
+        self.name = githubRepo.name
+        self.fullName = githubRepo.fullName
+        self.URLString = githubRepo.URLString
+        self.repoDescription = githubRepo.description
+
+        self.createdUnixTime = githubRepo.createdAt.timeIntervalSince1970
+    }
+
+    func fillWithFeedGithubRepo(githubRepo: DiscoveredFeed.GithubRepo) {
+        self.repoID = githubRepo.ID//(githubRepo.ID as NSString).integerValue
+        self.name = githubRepo.name
+        self.fullName = githubRepo.fullName
+        self.URLString = githubRepo.URLString
+        self.repoDescription = githubRepo.description
+
+        self.createdUnixTime = githubRepo.createdUnixTime
+    }
+}
+
+class SocialWorkDribbbleShot: Object {
+    dynamic var shotID: Int = 0
+    dynamic var title: String = ""
+    dynamic var htmlURLString: String = ""
+    dynamic var imageURLString: String = ""
+    dynamic var shotDescription: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+
+    class func getWithShotID(shotID: Int, inRealm realm: Realm) -> SocialWorkDribbbleShot? {
+        let predicate = NSPredicate(format: "shotID = %d", shotID)
+        return realm.objects(SocialWorkDribbbleShot).filter(predicate).first
+    }
+
+    func fillWithDribbbleShot(dribbbleShot: DribbbleShot) {
+        self.shotID = dribbbleShot.ID
+        self.title = dribbbleShot.title
+        self.htmlURLString = dribbbleShot.htmlURLString
+        self.imageURLString = dribbbleShot.images.normal
+        self.shotDescription = dribbbleShot.description
+
+        self.createdUnixTime = dribbbleShot.createdAt.timeIntervalSince1970
+    }
+
+    func fillWithFeedDribbbleShot(dribbbleShot: DiscoveredFeed.DribbbleShot) {
+        self.shotID = dribbbleShot.ID//(dribbbleShot.ID as NSString).integerValue
+        self.title = dribbbleShot.title
+        self.htmlURLString = dribbbleShot.htmlURLString
+        self.imageURLString = dribbbleShot.imageURLString
+        self.shotDescription = dribbbleShot.description
+
+        self.createdUnixTime = dribbbleShot.createdUnixTime
+    }
+}
+
+class SocialWorkInstagramMedia: Object {
+    dynamic var repoID: String = ""
+    dynamic var linkURLString: String = ""
+    dynamic var imageURLString: String = ""
+
+    dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    dynamic var synced: Bool = false
+}
+
+enum MessageSocialWorkType: Int {
+    case GithubRepo     = 0
+    case DribbbleShot   = 1
+    case InstagramMedia = 2
+
+    var accountName: String {
+        switch self {
+        case .GithubRepo: return "github"
+        case .DribbbleShot: return "dribbble"
+        case .InstagramMedia: return "instagram"
+        }
+    }
+}
+
+class MessageSocialWork: Object {
+    dynamic var type: Int = MessageSocialWorkType.GithubRepo.rawValue
+
+    dynamic var githubRepo: SocialWorkGithubRepo?
+    dynamic var dribbbleShot: SocialWorkDribbbleShot?
+    dynamic var instagramMedia: SocialWorkInstagramMedia?
+}
+
 class Message: Object {
     dynamic var messageID: String = ""
 
@@ -361,6 +469,7 @@ class Message: Object {
     dynamic var arrivalUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
+
     dynamic var textContent: String = ""
     dynamic var coordinate: Coordinate?
 
@@ -385,10 +494,11 @@ class Message: Object {
         return nil
     }
 
-    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
-
     dynamic var mediaMetaData: MediaMetaData?
 
+    dynamic var socialWork: MessageSocialWork?
+
+    dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
@@ -524,7 +634,10 @@ class Feed: Object {
     dynamic var distance: Double = 0
     dynamic var messagesCount: Int = 0
     dynamic var body: String = ""
+
+    dynamic var kind: String = FeedKind.Text.rawValue
     var attachments = List<Attachment>()
+    dynamic var socialWork: MessageSocialWork?
 
     dynamic var skill: UserSkill?
 
@@ -547,7 +660,6 @@ class Feed: Object {
         realm.delete(self)
     }
 }
-
 
 // MARK: Helpers
 
@@ -583,6 +695,11 @@ func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     }
     #endif
 
+    return realm.objects(User).filter(predicate).first
+}
+
+func userWithUsername(username: String, inRealm realm: Realm) -> User? {
+    let predicate = NSPredicate(format: "username = %@", username)
     return realm.objects(User).filter(predicate).first
 }
 
@@ -676,11 +793,13 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        println("saveFeed: \(feed.feedID), do nothing.")
+        println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
 
         let _ = try? realm.write {
+            feed.kind = feedData.kind.rawValue
             feed.deleted = false
         }
+
         #if DEBUG
         if feed.group == nil {
             println("feed have not with group, it may old (not deleted with conversation before)")
@@ -695,6 +814,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
         newFeed.updatedUnixTime = feedData.updatedUnixTime
         newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
+        newFeed.kind = feedData.kind.rawValue
         newFeed.deleted = false
         
         if let distance = feedData.distance {
@@ -708,12 +828,77 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
             }
         }
-        
-        newFeed.attachments.removeAll()
-        
-        let attachments = attachmentFromDiscoveredAttachment(feedData.attachments, inRealm: realm)
-        newFeed.attachments.appendContentsOf(attachments)
-        
+
+        if let attachment = feedData.attachment {
+
+            switch attachment {
+
+            case .Images(let attachments):
+
+                newFeed.attachments.removeAll()
+                let attachments = attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                newFeed.attachments.appendContentsOf(attachments)
+
+            case .Github(let repo):
+
+                let socialWork = MessageSocialWork()
+                socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
+
+                let repoID = repo.ID//(repo.ID as NSString).integerValue
+                var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+                if socialWorkGithubRepo == nil {
+                    let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                    newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
+
+                    let _ = try? realm.write {
+                        realm.add(newSocialWorkGithubRepo)
+                    }
+
+                    socialWorkGithubRepo = newSocialWorkGithubRepo
+                }
+
+                if let socialWorkGithubRepo = socialWorkGithubRepo {
+                    let _ = try? realm.write {
+                        socialWorkGithubRepo.synced = true
+                    }
+                }
+
+                socialWork.githubRepo = socialWorkGithubRepo
+                
+                newFeed.socialWork = socialWork
+
+            case .Dribbble(let shot):
+
+                let socialWork = MessageSocialWork()
+                socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+
+                let shotID = shot.ID//(shot.ID as NSString).integerValue
+                var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+                if socialWorkDribbbleShot == nil {
+                    let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                    newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
+
+                    let _ = try? realm.write {
+                        realm.add(newSocialWorkDribbbleShot)
+                    }
+
+                    socialWorkDribbbleShot = newSocialWorkDribbbleShot
+                }
+
+                if let socialWorkDribbbleShot = socialWorkDribbbleShot {
+                    let _ = try? realm.write {
+                        socialWorkDribbbleShot.synced = true
+                    }
+                }
+
+                socialWork.dribbbleShot = socialWorkDribbbleShot
+
+                newFeed.socialWork = socialWork
+            }
+        }
+
         newFeed.group = group
         
         let _ = try? realm.write {
@@ -896,6 +1081,12 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
+}
+
+func deleteMessage(message: Message, inRealm realm: Realm) {
+    let _ = try? realm.write {
+        realm.delete(message)
+    }
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {

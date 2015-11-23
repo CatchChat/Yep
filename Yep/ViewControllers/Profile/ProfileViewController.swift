@@ -294,7 +294,7 @@ class ProfileViewController: UIViewController {
     
     var socialAccount: SocialAccount?
     
-    var oauthComplete: (() -> Void)?
+    var oAuthCompleteAction: (() -> Void)?
     
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
     
@@ -396,7 +396,7 @@ class ProfileViewController: UIViewController {
                 }
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener(Listener.Introduction) { [weak self] introduction in
+                    YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
                         dispatch_async(dispatch_get_main_queue()) {
                             if let introduction = introduction {
                                 self?.introductionText = introduction
@@ -409,7 +409,7 @@ class ProfileViewController: UIViewController {
         }
 
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
-        }()
+    }()
 
     var masterSkills = [Skill]()
 
@@ -479,19 +479,31 @@ class ProfileViewController: UIViewController {
 
 
     struct Listener {
-        static let Nickname = "ProfileViewController.Title"
-        static let Introduction = "Profile.introductionText"
+        let nickname: String
+        let introduction: String
+        let avatar: String
     }
+
+    lazy var listener: Listener = {
+
+        var myUserID = ""
+        if let profileUser = self.profileUser where profileUser.isMe {
+            myUserID = profileUser.userID
+        }
+
+        return Listener(nickname: "Profile.Title" + myUserID, introduction: "Profile.introductionText" + myUserID, avatar: "Profile.Avatar" + myUserID)
+    }()
 
     // MARK: Life cycle
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
-        YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
-        YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+        YepUserDefaults.nickname.removeListenerWithName(listener.nickname)
+        YepUserDefaults.introduction.removeListenerWithName(listener.introduction)
+        YepUserDefaults.avatarURLString.removeListenerWithName(listener.avatar)
 
-        profileCollectionView.delegate = nil
+        profileCollectionView?.delegate = nil
 
         println("deinit ProfileViewController")
     }
@@ -683,9 +695,21 @@ class ProfileViewController: UIViewController {
                 customNavigationItem.title = user.nickname
 
                 if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] nickname in
+                    YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.customNavigationItem.title = nickname
+                        }
+                    }
+
+                    YepUserDefaults.avatarURLString.bindListener(listener.avatar) { [weak self] avatarURLString in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                            if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                                if let avatarURLString = avatarURLString {
+                                    cell.blurredAvatarImage = nil // need reblur
+                                    cell.updateAvatarWithAvatarURLString(avatarURLString)
+                                }
+                            }
                         }
                     }
                 }
@@ -1193,6 +1217,8 @@ class ProfileViewController: UIViewController {
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count
             }
+            
+            vc.hideRightBarItem = true
 
             vc.hidesBottomBarWhenPushed = true
 
@@ -1336,6 +1362,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 case .UserType(let user):
                     cell.configureWithUser(user)
                 }
+            }
+
+            cell.updatePrettyColorAction = { [weak self] prettyColor in
+                self?.customNavigationBar.tintColor = prettyColor
+
+                let textAttributes = [
+                    NSForegroundColorAttributeName: prettyColor,
+                    NSFontAttributeName: UIFont.navigationBarTitleFont()
+                ]
+                self?.customNavigationBar.titleTextAttributes = textAttributes
             }
 
             return cell
@@ -1707,20 +1743,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             if isOperatingSystemAtLeastMajorVersion(9) {
                             
                                 self.socialAccount = SocialAccount(rawValue: providerName)
-                                
-                                var accessToken = ""
-                                
-                                if let token = YepUserDefaults.v1AccessToken.value {
-                                    accessToken = token
-                                }
-                                
+
                                 if #available(iOS 9.0, *) {
+
+                                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
+                                        performSegueWithIdentifier("presentOAuth", sender: providerName)
+                                        return
+                                    }
+
                                     let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
                                     presentViewController(safariViewController, animated: true, completion: nil)
                                     
-                                    oauthComplete = {
+                                    oAuthCompleteAction = {
                                         safariViewController.dismissViewControllerAnimated(true, completion: nil)
                                     }
+
                                 } else {
                                     performSegueWithIdentifier("presentOAuth", sender: providerName)
                                 }
@@ -1728,7 +1765,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             } else {
                                 performSegueWithIdentifier("presentOAuth", sender: providerName)
                             }
-                            
                         }
                     }
                 }
@@ -1790,15 +1826,14 @@ extension ProfileViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - NSURLConnectionDataDelegate
 
 extension ProfileViewController: NSURLConnectionDataDelegate {
     
     func prepareForOAuthResult(notification: NSNotification) {
         
-        if let oauthComplete = oauthComplete {
-            oauthComplete()
-        }
-        
+        oAuthCompleteAction?()
+
         if let result = notification.object as? NSNumber, socialAccount = self.socialAccount {
             if result == 1 {
                 
@@ -1806,15 +1841,13 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
 
                     defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                    }, completion: { provider in
+                }, completion: { provider in
 
-                        println(provider)
+                    println("provider: \(provider)")
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            if let strongSelf = self , afterOAuthAction = strongSelf.afterOAuthAction{
-                                afterOAuthAction(socialAccount: socialAccount)
-                            }
-                        }
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.afterOAuthAction?(socialAccount: socialAccount)
+                    }
                 })
                 
             } else {
@@ -1823,5 +1856,5 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
             }
         }
     }
-    
 }
+

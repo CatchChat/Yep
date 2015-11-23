@@ -27,7 +27,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pcI-5K-PCi" userLabel="Image View 4">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pcI-5K-PCi" userLabel="Image View 3">
                         <rect key="frame" x="218" y="29" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="7kb-yM-tkv"/>
@@ -51,7 +51,7 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="9SN-sG-aEI">
                         <rect key="frame" x="317" y="34" width="8" height="13"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T0c-no-7jm" userLabel="Image View 3">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="T0c-no-7jm" userLabel="Image View 4">
                         <rect key="frame" x="188" y="29" width="24" height="24"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="24" id="R83-Aa-xzr"/>
@@ -85,8 +85,8 @@
                 <outlet property="iconImageViewLeadingConstraint" destination="a7D-BA-UpZ" id="wbg-jt-rmR"/>
                 <outlet property="imageView1" destination="AGV-mW-8pu" id="4DQ-vO-tJa"/>
                 <outlet property="imageView2" destination="5Zk-4p-fWB" id="gtv-Xy-KVq"/>
-                <outlet property="imageView3" destination="T0c-no-7jm" id="C9K-yD-cz1"/>
-                <outlet property="imageView4" destination="pcI-5K-PCi" id="aPF-ZI-MdD"/>
+                <outlet property="imageView3" destination="pcI-5K-PCi" id="8fe-Rb-g3A"/>
+                <outlet property="imageView4" destination="T0c-no-7jm" id="Jp9-dt-Cwq"/>
                 <outlet property="nameLabel" destination="GyE-Jf-xCQ" id="465-NM-VkA"/>
             </connections>
             <point key="canvasLocation" x="271.5" y="320.5"/>

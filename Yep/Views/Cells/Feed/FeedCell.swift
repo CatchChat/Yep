@@ -8,34 +8,12 @@
 
 import UIKit
 
-class FeedCell: UITableViewCell {
-
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var skillBubbleImageView: UIImageView!
-    @IBOutlet weak var skillLabel: UILabel!
-
-    @IBOutlet weak var messageTextView: FeedTextView!
-    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+class FeedCell: FeedBasicCell {
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
-
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dotLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
-
-    @IBOutlet weak var messageCountLabel: UILabel!
-
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
-    var tapAvatarAction: (UITableViewCell -> Void)?
-    var tapSkillAction: (UITableViewCell -> Void)?
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
-
-    var touchesBeganAction: (UITableViewCell -> Void)?
-    var touchesEndedAction: (UITableViewCell -> Void)?
-    var touchesCancelledAction: (UITableViewCell -> Void)?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -58,23 +36,21 @@ class FeedCell: UITableViewCell {
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
-        }()
+    }()
 
     let feedMediaCellID = "FeedMediaCell"
 
     class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
-        let height: CGFloat
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
-        } else {
-            var imageHeight: CGFloat = 80
-            if feed.attachments.count == 1 {
-                imageHeight = 160
+        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+
+        if let attachment = feed.attachment {
+            if case let .Images(attachments) = attachment {
+                let imageHeight: CGFloat = attachments.count == 1 ? 160 : 80
+                height += (imageHeight + 15)
             }
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + imageHeight + 15 + 17 + 15
         }
 
         return ceil(height)
@@ -82,19 +58,6 @@ class FeedCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
-
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
 
         mediaCollectionView.scrollsToTop = false
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
@@ -104,40 +67,12 @@ class FeedCell: UITableViewCell {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
-        avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tapAvatar)
-
-        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
-        skillBubbleImageView.userInteractionEnabled = true
-        skillBubbleImageView.addGestureRecognizer(tapSkill)
-
-        messageTextView.touchesBeganAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesBeganAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesEndedAction = { [weak self] in
-            if let strongSelf = self {
-                if strongSelf.editing {
-                    return
-                }
-                strongSelf.touchesEndedAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesCancelledAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesCancelledAction?(strongSelf)
-            }
-        }
-
         let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
             }
         }
-        
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
                 if strongSelf.editing {
@@ -163,62 +98,26 @@ class FeedCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    func tapAvatar(sender: UITapGestureRecognizer) {
+    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
+        super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
-        tapAvatarAction?(self)
-    }
+        var hasMedia = false
 
-    func tapSkill(sender: UITapGestureRecognizer) {
+        if let attachment = feed.attachment {
+            if case let .Images(attachments) = attachment {
+                hasMedia = !attachments.isEmpty
 
-        tapSkillAction?(self)
-    }
-
-    private func calHeightOfMessageTextView() {
-
-        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = ceil(rect.height)
-    }
-
-    func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
-
-        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
-
-        calHeightOfMessageTextView()
-
-        if needShowSkill, let skill = feed.skill {
-            skillLabel.text = skill.localName
-
-            skillBubbleImageView.hidden = false
-            skillLabel.hidden = false
-
-        } else {
-            skillBubbleImageView.hidden = true
-            skillLabel.hidden = true
+                self.attachments = attachments
+            }
         }
 
-        let hasMedia = !feed.attachments.isEmpty
-        
-        if feed.attachments.count > 1 {
+        if attachments.count > 1 {
             timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
         } else {
             timeLabelTopConstraint.constant = hasMedia ? (15 + 160 + 15) : 15
         }
 
         mediaCollectionView.hidden = hasMedia ? false : true
-
-        attachments = feed.attachments
-
-        let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-        avatarImageView.navi_setAvatar(plainAvatar)
-
-        nicknameLabel.text = feed.creator.nickname
-
-        if let distance = feed.distance?.format(".1") {
-            distanceLabel.text = "\(distance) km"
-        }
-
-        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-        messageCountLabel.text = "\(feed.messagesCount)"
     }
 }
 

@@ -57,6 +57,12 @@
 		5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */; };
 		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
+		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
+		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
+		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
+		5016901F1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901D1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift */; };
+		501690201BFDCECB0096C4F9 /* FeedSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5016901E1BFDCECB0096C4F9 /* FeedSocialWorkCell.xib */; };
+		501690231BFEA6C30096C4F9 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
@@ -398,6 +404,12 @@
 		5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFeedsCell.xib; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.xib; sourceTree = "<group>"; };
 		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
+		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
+		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
+		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
+		5016901D1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSocialWorkCell.swift; path = Views/Cells/FeedSocialWork/FeedSocialWorkCell.swift; sourceTree = "<group>"; };
+		5016901E1BFDCECB0096C4F9 /* FeedSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedSocialWorkCell.xib; path = Views/Cells/FeedSocialWork/FeedSocialWorkCell.xib; sourceTree = "<group>"; };
+		501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/FeedBasic/FeedBasicCell.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
@@ -938,6 +950,32 @@
 			name = ProfileFeeds;
 			sourceTree = "<group>";
 		};
+		5016901A1BFB18D70096C4F9 /* ChatLeftSocialWork */ = {
+			isa = PBXGroup;
+			children = (
+				501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */,
+				501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */,
+			);
+			name = ChatLeftSocialWork;
+			sourceTree = "<group>";
+		};
+		501690211BFDCED10096C4F9 /* FeedSocialWork */ = {
+			isa = PBXGroup;
+			children = (
+				5016901D1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift */,
+				5016901E1BFDCECB0096C4F9 /* FeedSocialWorkCell.xib */,
+			);
+			name = FeedSocialWork;
+			sourceTree = "<group>";
+		};
+		501690241BFEA6CA0096C4F9 /* FeedBasic */ = {
+			isa = PBXGroup;
+			children = (
+				501690221BFEA6C30096C4F9 /* FeedBasicCell.swift */,
+			);
+			name = FeedBasic;
+			sourceTree = "<group>";
+		};
 		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
 			isa = PBXGroup;
 			children = (
@@ -1130,6 +1168,7 @@
 				508D174E1ACCF49F0092D666 /* ChatRightAudio */,
 				5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */,
 				5053AD571AF83B1600B3CBFA /* ChatRightLocation */,
+				5016901A1BFB18D70096C4F9 /* ChatLeftSocialWork */,
 				508C2AA61AD661B8002B8097 /* UserState */,
 				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
 				505EC8191ADF8155001D27E0 /* SkillCategory */,
@@ -1147,8 +1186,10 @@
 				5064F6561B0B0E1B0089FAD4 /* AddFriendSearch */,
 				5064F65B1B0B14470089FAD4 /* AddFriendMore */,
 				50E348941B9063AD00A8E699 /* About */,
-				50AFBF651BB4FC37007D19DA /* Feed */,
 				503807251BDA180A0068345E /* FeedSkillUsers */,
+				501690241BFEA6CA0096C4F9 /* FeedBasic */,
+				50AFBF651BB4FC37007D19DA /* Feed */,
+				501690211BFDCED10096C4F9 /* FeedSocialWork */,
 				50F5AF921BBBCC960033C9BC /* FeedMediaAdd */,
 				50F5AF9B1BBBD0310033C9BC /* FeedMedia */,
 				6A5632901BC90A4900397B53 /* DiscoverCardUser */,
@@ -1236,6 +1277,7 @@
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
 				0A3E60661ACCAECE003DC853 /* YepLocationService.swift */,
+				5016901B1BFB22180096C4F9 /* SocialWorkService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2315,6 +2357,7 @@
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
+				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
 				50E348931B9063A700A8E699 /* AboutCell.xib in Resources */,
@@ -2369,6 +2412,7 @@
 				50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */,
 				50E1CE8B1BE0BC940025B933 /* MessageMedia.storyboard in Resources */,
 				50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */,
+				501690201BFDCECB0096C4F9 /* FeedSocialWorkCell.xib in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
 				508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */,
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
@@ -2544,6 +2588,7 @@
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
+				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
@@ -2609,6 +2654,7 @@
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */,
 				6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */,
+				5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */,
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
 				5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */,
@@ -2627,6 +2673,7 @@
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
+				5016901F1BFDCECB0096C4F9 /* FeedSocialWorkCell.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
@@ -2686,6 +2733,7 @@
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
+				501690231BFEA6C30096C4F9 /* FeedBasicCell.swift in Sources */,
 				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
@@ -2803,7 +2851,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

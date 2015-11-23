@@ -361,7 +361,7 @@
                     <navigationItem key="navigationItem" id="LaU-sr-um0">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
                             <connections>
-                                <action selector="showNewFeed:" destination="W3w-jm-aNI" id="qno-ej-hqc"/>
+                                <action selector="createNewFeed:" destination="W3w-jm-aNI" id="Rjf-ee-gbd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -373,19 +373,20 @@
                         <segue destination="IEG-17-cLh" kind="show" identifier="showFeedMedia" id="DsA-Jb-0sJ"/>
                         <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
                         <segue destination="oUx-zd-faH" kind="show" identifier="showProfile" id="Gdt-20-g91"/>
+                        <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559" y="205"/>
         </scene>
-        <!--NewFeedViewController-->
+        <!--NewFeed-->
         <scene sceneID="LDV-cy-JhT">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="NewFeedViewController" storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="NewFeed" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="69.5" y="205"/>
+            <point key="canvasLocation" x="-558.5" y="604"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="DvE-gL-l6T">

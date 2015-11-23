@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 9, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 11, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -393,6 +393,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncFriendshipsAndDoFurtherAction {
             syncGroupsAndDoFurtherAction { [weak self] in
                 self?.syncUnreadMessages() {}
+
+                syncSocialWorksToMessagesForYepTeam()
             }
         }
 

@@ -51,6 +51,10 @@ class ChatRightTextCell: ChatRightBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
+        textContainerView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        textContainerView.addGestureRecognizer(tap)
+        
         textContainerView.copyTextAction = { [weak self] in
             UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
         }
@@ -106,11 +110,10 @@ class ChatRightTextCell: ChatRightBaseCell {
                 let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
                 
                 strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
-//                strongSelf.bubbleBodyImageView.frame =
 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
                 
-                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.textContainerView.frame))
             }
         }
 

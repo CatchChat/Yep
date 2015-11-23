@@ -2516,6 +2516,10 @@ struct DiscoveredAttachment {
 
     var thumbnailImage: UIImage? {
 
+        guard (metadata as NSString).length > 0 else {
+            return nil
+        }
+
         if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
                 if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {
@@ -2544,6 +2548,8 @@ struct DiscoveredAttachment {
     }
 }
 
+
+
 func ==(lhs: DiscoveredFeed, rhs: DiscoveredFeed) -> Bool {
     return lhs.id == rhs.id
 }
@@ -2556,13 +2562,68 @@ struct DiscoveredFeed: Hashable {
 
     let id: String
     let allowComment: Bool
+    let kind: FeedKind
 
     let createdUnixTime: NSTimeInterval
     let updatedUnixTime: NSTimeInterval
 
     let creator: DiscoveredUser
     let body: String
-    let attachments: [DiscoveredAttachment]
+
+    struct GithubRepo {
+        let ID: Int
+        let name: String
+        let fullName: String
+        let description: String
+        let URLString: String
+        let createdUnixTime: NSTimeInterval
+
+        static func fromJSONDictionary(json: JSONDictionary) -> GithubRepo? {
+            guard let
+                ID = json["repo_id"] as? Int,
+                name = json["name"] as? String,
+                fullName = json["full_name"] as? String,
+                description = json["description"] as? String,
+                URLString = json["url"] as? String,
+                createdUnixTime = json["created_at"] as? NSTimeInterval else {
+                    return nil
+            }
+
+            return GithubRepo(ID: ID, name: name, fullName: fullName, description: description, URLString: URLString, createdUnixTime: createdUnixTime)
+        }
+    }
+
+    struct DribbbleShot {
+        let ID: Int
+        let title: String
+        let description: String
+        let imageURLString: String
+        let htmlURLString: String
+        let createdUnixTime: NSTimeInterval
+
+        static func fromJSONDictionary(json: JSONDictionary) -> DribbbleShot? {
+            guard let
+                ID = json["shot_id"] as? Int,
+                title = json["title"] as? String,
+                description = json["description"] as? String,
+                imageURLString = json["media_url"] as? String,
+                htmlURLString = json["url"] as? String,
+                createdUnixTime = json["created_at"] as? NSTimeInterval else {
+                    return nil
+            }
+
+            return DribbbleShot(ID: ID, title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString, createdUnixTime: createdUnixTime)
+        }
+    }
+
+    enum Attachment {
+        case Images([DiscoveredAttachment])
+        case Github(GithubRepo)
+        case Dribbble(DribbbleShot)
+    }
+
+    let attachment: Attachment?
+
     let distance: Double?
 
     let skill: Skill?
@@ -2576,11 +2637,12 @@ struct DiscoveredFeed: Hashable {
         guard let
             id = feedInfo["id"] as? String,
             allowComment = feedInfo["allow_comment"] as? Bool,
+            kindString = feedInfo["kind"] as? String,
+            kind = FeedKind(rawValue: kindString),
             createdUnixTime = feedInfo["created_at"] as? NSTimeInterval,
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
             body = feedInfo["body"] as? String,
-            attachmentsData = feedInfo["attachments"] as? [JSONDictionary],
             messagesCount = feedInfo["message_count"] as? Int else {
                 return nil
         }
@@ -2597,14 +2659,45 @@ struct DiscoveredFeed: Hashable {
 
         let distance = feedInfo["distance"] as? Double
 
-        let attachments = attachmentsData.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 })
+        var attachment: DiscoveredFeed.Attachment?
+
+        switch kind {
+
+        case .Image:
+
+            let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
+            let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
+
+            attachment = .Images(attachments)
+
+        case .GithubRepo:
+
+            if let
+                githubReposData = feedInfo["attachments"] as? [JSONDictionary],
+                githubRepoInfo = githubReposData.first,
+                githubRepo = DiscoveredFeed.GithubRepo.fromJSONDictionary(githubRepoInfo) {
+                    attachment = .Github(githubRepo)
+            }
+
+        case .DribbbleShot:
+
+            if let
+                dribbbleShotsData = feedInfo["attachments"] as? [JSONDictionary],
+                dribbbleShotInfo = dribbbleShotsData.first,
+                dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo) {
+                    attachment = .Dribbble(dribbbleShot)
+            }
+
+        default:
+            break
+        }
 
         var skill: Skill?
         if let skillInfo = feedInfo["skill"] as? JSONDictionary {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachments: attachments, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
     }
 }
 
@@ -2711,13 +2804,31 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 }
 
 enum FeedKind: String {
-    case Normal = "normal"
+    case Text = "text"
+    case Image = "image"
+    case Video = "video"
+    case Audio = "audio"
+    case Location = "location"
+
     case AppleMusic = "apple_music"
     case AppleMovie = "apple_movie"
     case AppleEBook = "apple_ebook"
+
+    case GithubRepo = "github"
+    case DribbbleShot = "dribbble"
+    //case InstagramMedia = "instagram"
+
+    var accountName: String? {
+        switch self {
+        case .GithubRepo: return "github"
+        case .DribbbleShot: return "dribbble"
+        //case .InstagramMedia: return "instagram"
+        default: return nil
+        }
+    }
 }
 
-func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, sharedStuff: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictionary?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
         "kind": kind.rawValue,
@@ -2738,10 +2849,6 @@ func createFeedWithKind(kind: FeedKind, message: String, attachments: JSONDictio
 
     if let attachments = attachments {
         requestParameters["attachments"] = attachments
-    }
-
-    if let sharedStuff = sharedStuff {
-        requestParameters["shared_stuff"] = sharedStuff
     }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -2773,6 +2880,34 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> 
 }
 
 // MARK: - Social Work
+
+struct TokensOfSocialAccounts {
+    let githubToken: String?
+    let dribbbleToken: String?
+    let instagramToken: String?
+}
+
+func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: TokensOfSocialAccounts -> Void) {
+
+    let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
+
+        //println("tokensOfSocialAccounts data: \(data)")
+
+        let githubToken = data["github"] as? String
+        let dribbbleToken = data["dribbble"] as? String
+        let instagramToken = data["instagram"] as? String
+
+        return TokensOfSocialAccounts(githubToken: githubToken, dribbbleToken: dribbbleToken, instagramToken: instagramToken)
+    }
+
+    let resource = authJsonResource(path: "/api/v2/user/provider_tokens", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     

@@ -198,8 +198,11 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 // 用户需要重新登录，所以
 
                 if httpResponse.statusCode == 401 {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.userNeedRelogin()
+                    // 确保是自家服务
+                    if let requestHost = request.URL?.host where requestHost == baseURL.host {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.userNeedRelogin()
+                        }
                     }
                 }
             }
@@ -241,7 +244,17 @@ public typealias JSONDictionary = [String: AnyObject]
 func decodeJSON(data: NSData) -> JSONDictionary? {
 
     if data.length > 0 {
-        return (try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())) as? JSONDictionary
+        guard let result = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
+            return JSONDictionary()
+        }
+        
+        if let dictionary = result as? JSONDictionary {
+            return dictionary
+        } else if let array = result as? [JSONDictionary] {
+            return ["data": array]
+        } else {
+            return JSONDictionary()
+        }
 
     } else {
         return JSONDictionary()

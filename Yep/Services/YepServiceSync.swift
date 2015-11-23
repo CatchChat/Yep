@@ -596,10 +596,12 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
 
         if let group = group {
 
-            // 有 topic 标记 groupType 为 Public
-            if let _ = groupInfo["topic"] {
-                let _ = try? realm.write {
+            // 有 topic 标记 groupType 为 Public，否则 Private
+            let _ = try? realm.write {
+                if let _ = groupInfo["topic"] {
                     group.groupType = GroupType.Public.rawValue
+                } else {
+                    group.groupType = GroupType.Private.rawValue
                 }
             }
 
@@ -763,6 +765,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
             
             //println("\n allUnreadMessages: \(allUnreadMessages)")
             println("Got unread message: \(allUnreadMessages.count)")
+
+            /*
+            for message in allUnreadMessages {
+                println("message.text: \(message["text_content"])")
+            }
+            */
             
             dispatch_async(realmQueue) {
                 
@@ -907,12 +915,6 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
     
-    func deleteMessage(message: Message, inRealm realm: Realm) {
-        let _ = try? realm.write {
-            realm.delete(message)
-        }
-    }
-
     if let messageID = messageInfo["id"] as? String {
 
         realm.refresh()
