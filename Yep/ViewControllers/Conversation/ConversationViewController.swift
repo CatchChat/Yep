@@ -1783,7 +1783,7 @@ class ConversationViewController: BaseViewController {
         
         moreView.unsubscribeAction = { [weak self] in
             
-            let doDeleteConversation: () -> Void = {
+            func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
@@ -1794,11 +1794,12 @@ class ConversationViewController: BaseViewController {
                         return
                     }
 
-                    deleteConversation(conversation, inRealm: realm)
+                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: { [weak self] in
+                        afterLeaveGroup?()
+                        self?.afterDeletedConversationAction?()
+                    })
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-                    self?.afterDeletedConversationAction?()
 
                     self?.navigationController?.popViewControllerAnimated(true)
                 }
@@ -1817,10 +1818,10 @@ class ConversationViewController: BaseViewController {
 
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
-                    doDeleteConversation()
-
-                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
-                        println("deleted feed: \(feedID)")
+                    doDeleteConversation(afterLeaveGroup: {
+                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                            println("deleted feed: \(feedID)")
+                        })
                     })
 
                 }, cancelAction: {
