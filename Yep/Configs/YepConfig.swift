@@ -193,6 +193,10 @@ class YepConfig {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]
+
+        static let skillTextAttributes:[String: NSObject] = [
+            NSFontAttributeName: UIFont.feedSkillFont(),
+        ]
     }
 
     struct FeedView {

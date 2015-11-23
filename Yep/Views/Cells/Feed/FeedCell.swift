@@ -93,9 +93,6 @@ class FeedCell: FeedBasicCell {
         super.prepareForReuse()
 
         attachments = []
-
-        messageTextView.text = nil
-        messageTextView.attributedText = nil
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {

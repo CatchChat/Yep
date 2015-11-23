@@ -44,4 +44,8 @@ extension UIFont {
     class func feedMessageFont() -> UIFont {
         return UIFont.systemFontOfSize(17)
     }
+
+    class func feedSkillFont() -> UIFont {
+        return UIFont.systemFontOfSize(12)
+    }
 }
