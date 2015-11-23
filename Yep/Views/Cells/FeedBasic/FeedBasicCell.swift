@@ -55,6 +55,8 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         messageTextView.dataDetectorTypes = .Link
 
+        skillLabel.font = UIFont.feedSkillFont()
+
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)

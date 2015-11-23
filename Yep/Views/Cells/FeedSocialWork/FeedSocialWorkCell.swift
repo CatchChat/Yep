@@ -63,29 +63,16 @@ class FeedSocialWorkCell: FeedBasicCell {
         return ceil(height)
     }
 
-    private var updateConstraintsForSkill: (() -> Void)?
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        updateConstraintsForSkill?()
-    }
-
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
         self.feed = feed
 
-        updateConstraintsForSkill = { [weak self] in
-            if let strongSelf = self {
-                if needShowSkill, let _ = feed.skill {
-                    strongSelf.githubRepoImageViewTrailingConstraint.constant = 10 + strongSelf.skillBubbleImageView.bounds.width + 15
-                } else {
-                    strongSelf.githubRepoImageViewTrailingConstraint.constant = 15
-                }
-
-                strongSelf.contentView.layoutIfNeeded()
-            }
+        if needShowSkill, let skill = feed.skill {
+            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
+            githubRepoImageViewTrailingConstraint.constant = 10 + (10 + rect.width + 10) + 15
+        } else {
+            githubRepoImageViewTrailingConstraint.constant = 15
         }
 
         if let
