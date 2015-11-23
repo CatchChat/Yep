@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 private let githubBaseURL = NSURL(string: "https://api.github.com")!
 private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
@@ -321,5 +322,235 @@ func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) 
     } else {
         apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
+}
+
+// MARK: Sync
+
+func syncSocialWorksToMessagesForYepTeam() {
+
+    tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
+        //println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
+
+        dispatch_async(dispatch_get_main_queue()) {
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            func syncSocialWorkPiece(socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) {
+
+                let messageID = socialWorkPiece.messageID
+
+                var message = messageWithMessageID(messageID, inRealm: realm)
+
+                guard message == nil else {
+                    return
+                }
+
+                if message == nil {
+                    let newMessage = Message()
+                    newMessage.messageID = messageID
+                    newMessage.mediaType = MessageMediaType.SocialWork.rawValue
+
+                    let socialWork = MessageSocialWork()
+                    socialWork.type = socialWorkPiece.messageSocialWorkType.rawValue
+
+                    switch socialWorkPiece {
+                    case .Github(let repo):
+
+                        let repoID = repo.ID
+                        var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+                        if socialWorkGithubRepo == nil {
+                            let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                            newSocialWorkGithubRepo.fillWithGithubRepo(repo)
+
+                            let _ = try? realm.write {
+                                realm.add(newSocialWorkGithubRepo)
+                            }
+
+                            socialWorkGithubRepo = newSocialWorkGithubRepo
+                        }
+
+                        socialWork.githubRepo = socialWorkGithubRepo
+
+                    case .Dribbble(let shot):
+
+                        let shotID = shot.ID
+                        var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+                        if socialWorkDribbbleShot == nil {
+                            let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                            newSocialWorkDribbbleShot.fillWithDribbbleShot(shot)
+
+                            let _ = try? realm.write {
+                                realm.add(newSocialWorkDribbbleShot)
+                            }
+
+                            socialWorkDribbbleShot = newSocialWorkDribbbleShot
+                        }
+
+                        socialWork.dribbbleShot = socialWorkDribbbleShot
+
+                    case .Instagram(let media):
+                        break
+                    }
+
+                    newMessage.socialWork = socialWork
+
+                    let _ = try? realm.write {
+                        realm.add(newMessage)
+                    }
+
+                    message = newMessage
+                }
+
+                if let message = message {
+                    let _ = try? realm.write {
+                        message.fromFriend = yepTeam
+                    }
+
+                    var conversation = yepTeam.conversation
+
+                    if conversation == nil {
+                        let newConversation = Conversation()
+
+                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.withFriend = yepTeam
+
+                        let _ = try? realm.write {
+                            realm.add(newConversation)
+                        }
+
+                        conversation = newConversation
+                    }
+
+                    if let conversation = conversation {
+                        let _ = try? realm.write {
+
+                            conversation.updatedUnixTime = message.createdUnixTime
+
+                            message.conversation = conversation
+
+                            var sectionDateMessageID: String?
+                            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
+                                realm.add(sectionDateMessage)
+                                sectionDateMessageID = sectionDateMessage.messageID
+                            }
+
+                            // 通知更新 UI
+
+                            var messageIDs = [String]()
+                            if let sectionDateMessageID = sectionDateMessageID {
+                                messageIDs.append(sectionDateMessageID)
+                            }
+                            messageIDs.append(message.messageID)
+
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        }
+
+                    } else {
+                        deleteMessage(message, inRealm: realm)
+                    }
+                }
+            }
+
+            let yepTeamUsername = "yep_team"
+
+            func yepTeamFromDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
+
+                var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
+
+                if yepTeam == nil {
+                    let newYepTeam = User()
+                    newYepTeam.userID = discoveredUser.id
+                    newYepTeam.username = discoveredUser.username ?? ""
+                    newYepTeam.nickname = discoveredUser.nickname
+                    newYepTeam.introduction = discoveredUser.introduction ?? ""
+                    newYepTeam.avatarURLString = discoveredUser.avatarURLString
+                    newYepTeam.badge = discoveredUser.badge ?? ""
+
+                    newYepTeam.friendState = UserFriendState.Yep.rawValue
+
+                    let _ = try? realm.write {
+                        realm.add(newYepTeam)
+                    }
+
+                    yepTeam = newYepTeam
+                }
+
+                return yepTeam
+            }
+
+            if let githubToken = tokensOfSocialAccounts.githubToken {
+
+                githubReposWithToken(githubToken, failureHandler: nil, completion: { githubRepos in
+                    println("githubRepos count: \(githubRepos.count)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        guard let latestRepo = githubRepos.first, realm = try? Realm() else {
+                            return
+                        }
+
+                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                            syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+
+                        } else {
+                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                dispatch_async(dispatch_get_main_queue()) {
+
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+
+                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                        syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                })
+            }
+
+            if let dribbbleToken = tokensOfSocialAccounts.dribbbleToken {
+
+                dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
+                    println("dribbbleShots count: \(dribbbleShots.count)")
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        guard let latestShot = dribbbleShots.first, realm = try? Realm() else {
+                            return
+                        }
+
+                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                            syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+
+                        } else {
+                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                dispatch_async(dispatch_get_main_queue()) {
+
+                                    guard let realm = try? Realm() else {
+                                        return
+                                    }
+
+                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                        syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+                                    }
+                                }
+                            })
+                        }
+                    }
+               })
+            }
+
+            if let instagramToken = tokensOfSocialAccounts.instagramToken {
+
+                instagramMediasWithToken(instagramToken, failureHandler: nil, completion: { instagramMedias in
+                    println("instagramMedias count: \(instagramMedias.count)")
+                })
+            }
+        }
+    })
 }
 

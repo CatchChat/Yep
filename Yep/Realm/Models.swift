@@ -858,6 +858,12 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                     socialWorkGithubRepo = newSocialWorkGithubRepo
                 }
 
+                if let socialWorkGithubRepo = socialWorkGithubRepo {
+                    let _ = try? realm.write {
+                        socialWorkGithubRepo.synced = true
+                    }
+                }
+
                 socialWork.githubRepo = socialWorkGithubRepo
                 
                 newFeed.socialWork = socialWork
@@ -879,6 +885,12 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                     }
 
                     socialWorkDribbbleShot = newSocialWorkDribbbleShot
+                }
+
+                if let socialWorkDribbbleShot = socialWorkDribbbleShot {
+                    let _ = try? realm.write {
+                        socialWorkDribbbleShot.synced = true
+                    }
                 }
 
                 socialWork.dribbbleShot = socialWorkDribbbleShot

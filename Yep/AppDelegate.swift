@@ -393,6 +393,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         syncFriendshipsAndDoFurtherAction {
             syncGroupsAndDoFurtherAction { [weak self] in
                 self?.syncUnreadMessages() {}
+
+                syncSocialWorksToMessagesForYepTeam()
             }
         }
 
