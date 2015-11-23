@@ -294,7 +294,7 @@ class ProfileViewController: UIViewController {
     
     var socialAccount: SocialAccount?
     
-    var oauthComplete: (() -> Void)?
+    var oAuthCompleteAction: (() -> Void)?
     
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
     
@@ -1743,20 +1743,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             if isOperatingSystemAtLeastMajorVersion(9) {
                             
                                 self.socialAccount = SocialAccount(rawValue: providerName)
-                                
-                                var accessToken = ""
-                                
-                                if let token = YepUserDefaults.v1AccessToken.value {
-                                    accessToken = token
-                                }
-                                
+
                                 if #available(iOS 9.0, *) {
+
+                                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
+                                        performSegueWithIdentifier("presentOAuth", sender: providerName)
+                                        return
+                                    }
+
                                     let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
                                     presentViewController(safariViewController, animated: true, completion: nil)
                                     
-                                    oauthComplete = {
+                                    oAuthCompleteAction = {
                                         safariViewController.dismissViewControllerAnimated(true, completion: nil)
                                     }
+
                                 } else {
                                     performSegueWithIdentifier("presentOAuth", sender: providerName)
                                 }
@@ -1764,7 +1765,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             } else {
                                 performSegueWithIdentifier("presentOAuth", sender: providerName)
                             }
-                            
                         }
                     }
                 }
@@ -1826,15 +1826,14 @@ extension ProfileViewController: UIScrollViewDelegate {
     }
 }
 
+// MARK: - NSURLConnectionDataDelegate
 
 extension ProfileViewController: NSURLConnectionDataDelegate {
     
     func prepareForOAuthResult(notification: NSNotification) {
         
-        if let oauthComplete = oauthComplete {
-            oauthComplete()
-        }
-        
+        oAuthCompleteAction?()
+
         if let result = notification.object as? NSNumber, socialAccount = self.socialAccount {
             if result == 1 {
                 
@@ -1842,15 +1841,13 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
 
                     defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                    }, completion: { provider in
+                }, completion: { provider in
 
-                        println(provider)
+                    println("provider: \(provider)")
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            if let strongSelf = self , afterOAuthAction = strongSelf.afterOAuthAction{
-                                afterOAuthAction(socialAccount: socialAccount)
-                            }
-                        }
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.afterOAuthAction?(socialAccount: socialAccount)
+                    }
                 })
                 
             } else {
@@ -1859,5 +1856,5 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
             }
         }
     }
-    
 }
+
