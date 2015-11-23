@@ -83,6 +83,8 @@ class FeedSocialWorkCell: FeedBasicCell {
                 } else {
                     strongSelf.githubRepoImageViewTrailingConstraint.constant = 15
                 }
+
+                strongSelf.contentView.layoutIfNeeded()
             }
         }
 
