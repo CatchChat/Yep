@@ -636,6 +636,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
+                cell.tapGithubRepoAction = { URL in
+                    UIApplication.sharedApplication().openURL(URL)
+                }
+
+                cell.tapDribbbleShotAction = { URL in
+                    UIApplication.sharedApplication().openURL(URL)
+                }
+
             default:
 
                 guard let cell = cell as? FeedCell else {

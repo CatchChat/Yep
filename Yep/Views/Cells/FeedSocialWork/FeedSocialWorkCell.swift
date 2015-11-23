@@ -22,7 +22,12 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
-    
+
+    var feed: DiscoveredFeed?
+
+    var tapGithubRepoAction: (NSURL -> Void)?
+    var tapDribbbleShotAction: (NSURL -> Void)?
+
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
@@ -30,6 +35,9 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        let tap = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
+        socialWorkContainerView.addGestureRecognizer(tap)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -66,6 +74,8 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
+        self.feed = feed
+
         updateConstraintsForSkill = { [weak self] in
             if let strongSelf = self {
                 if needShowSkill, let _ = feed.skill {
@@ -75,7 +85,6 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
         }
-
 
         if let
             accountName = feed.kind.accountName,
@@ -132,50 +141,30 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
 
-    private func updateUIForSocialWork(socialWork: MessageSocialWork) {
+    func tapSocialWork(sender: UITapGestureRecognizer) {
 
-        var socialWorkImageURL: NSURL?
-
-        guard let socialWorkType = MessageSocialWorkType(rawValue: socialWork.type) else {
+        guard let feed = feed, attachment = feed.attachment else {
             return
         }
 
-        switch socialWorkType {
+        switch feed.kind {
 
         case .GithubRepo:
 
-            socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = false
-
-            githubRepoImageView.tintColor = UIColor.grayColor()
-
-            if let githubRepo = socialWork.githubRepo {
-                githubRepoNameLabel.text = githubRepo.name
-                githubRepoDescriptionLabel.text = githubRepo.repoDescription
+            if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
+                tapGithubRepoAction?(URL)
             }
 
         case .DribbbleShot:
 
-            socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
-
-            if let string = socialWork.dribbbleShot?.imageURLString {
-                socialWorkImageURL = NSURL(string: string)
+            if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
+                tapDribbbleShotAction?(URL)
             }
 
-        case .InstagramMedia:
-
-            socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
-
-            if let string = socialWork.instagramMedia?.imageURLString {
-                socialWorkImageURL = NSURL(string: string)
-            }
+        default:
+            break
         }
-        
-        if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
-        }
+
     }
 }
 
