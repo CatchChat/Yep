@@ -488,26 +488,35 @@ func syncSocialWorksToMessagesForYepTeam() {
                     println("githubRepos count: \(githubRepos.count)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        guard let latestRepo = githubRepos.first, realm = try? Realm() else {
+
+                        guard let realm = try? Realm() else {
                             return
                         }
 
-                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                            syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
+                        // 同步最新的几个
+                        var i = 0
+                        for repo in githubRepos {
+                            if i++ >= 3 {
+                                break
+                            }
 
-                        } else {
-                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                                dispatch_async(dispatch_get_main_queue()) {
+                            if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                                syncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
 
-                                    guard let realm = try? Realm() else {
-                                        return
+                            } else {
+                                discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                    dispatch_async(dispatch_get_main_queue()) {
+
+                                        guard let realm = try? Realm() else {
+                                            return
+                                        }
+
+                                        if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                            syncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                        }
                                     }
-
-                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                        syncSocialWorkPiece(SocialWorkPiece.Github(latestRepo), yepTeam: yepTeam, inRealm: realm)
-                                    }
-                                }
-                            })
+                                })
+                            }
                         }
                     }
                 })
@@ -519,26 +528,35 @@ func syncSocialWorksToMessagesForYepTeam() {
                     println("dribbbleShots count: \(dribbbleShots.count)")
 
                     dispatch_async(dispatch_get_main_queue()) {
-                        guard let latestShot = dribbbleShots.first, realm = try? Realm() else {
+
+                        guard let realm = try? Realm() else {
                             return
                         }
 
-                        if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                            syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
+                        // 同步最新的几个
+                        var i = 0
+                        for shot in dribbbleShots {
+                            if i++ >= 3 {
+                                break
+                            }
 
-                        } else {
-                            discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                                dispatch_async(dispatch_get_main_queue()) {
+                            if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
+                                syncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
 
-                                    guard let realm = try? Realm() else {
-                                        return
+                            } else {
+                                discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
+                                    dispatch_async(dispatch_get_main_queue()) {
+
+                                        guard let realm = try? Realm() else {
+                                            return
+                                        }
+
+                                        if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
+                                            syncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                        }
                                     }
-
-                                    if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                        syncSocialWorkPiece(SocialWorkPiece.Dribbble(latestShot), yepTeam: yepTeam, inRealm: realm)
-                                    }
-                                }
-                            })
+                                })
+                            }
                         }
                     }
                })
