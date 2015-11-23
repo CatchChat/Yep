@@ -322,6 +322,7 @@ class FeedsViewController: BaseViewController {
     func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
         if isFetchingFeeds {
+            finish?()
             return
         }
 
