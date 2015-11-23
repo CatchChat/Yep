@@ -19,8 +19,11 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
+    //@IBOutlet weak var gapConstraintBetweenGithubRepoImageViewAndBubbleImageView: NSLayoutConstraint!
+    @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
+    
     static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 60)
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
     }()
 
@@ -36,7 +39,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedSocialWorkCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedSocialWorkCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         switch feed.kind {
@@ -51,8 +54,26 @@ class FeedSocialWorkCell: FeedBasicCell {
         return ceil(height)
     }
 
+    private var updateConstraintsForSkill: (() -> Void)?
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        updateConstraintsForSkill?()
+    }
+
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
+
+        updateConstraintsForSkill = { [weak self] in
+            if let strongSelf = self {
+                if needShowSkill, let _ = feed.skill {
+                    strongSelf.githubRepoImageViewTrailingConstraint.constant = 10 + strongSelf.skillBubbleImageView.bounds.width + 15
+                } else {
+                    strongSelf.githubRepoImageViewTrailingConstraint.constant = 15
+                }
+            }
+        }
 
         if let
             accountName = feed.kind.accountName,

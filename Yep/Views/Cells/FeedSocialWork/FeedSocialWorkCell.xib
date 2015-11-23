@@ -143,10 +143,10 @@
                     </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="Tlc-MI-H1b" secondAttribute="trailing" constant="74" id="0Ef-zJ-e9x"/>
                     <constraint firstAttribute="trailing" secondItem="lSm-jk-upN" secondAttribute="trailing" constant="25" id="0OJ-Pu-y1p"/>
                     <constraint firstItem="jBw-TP-dTO" firstAttribute="centerY" secondItem="9CZ-zE-b9N" secondAttribute="centerY" id="1BS-zl-8vD"/>
                     <constraint firstItem="mEi-Ot-P04" firstAttribute="trailing" secondItem="lSm-jk-upN" secondAttribute="trailing" constant="10" id="1af-de-b3E"/>
-                    <constraint firstItem="mEi-Ot-P04" firstAttribute="leading" secondItem="Tlc-MI-H1b" secondAttribute="trailing" constant="10" id="25M-uW-sum"/>
                     <constraint firstItem="viF-na-QGX" firstAttribute="centerY" secondItem="lyg-eU-J2p" secondAttribute="centerY" id="5So-sI-oYv"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6cS-RN-NhO"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="width" secondItem="lyg-eU-J2p" secondAttribute="height" multiplier="1:1" id="Cil-Iy-8VS"/>
@@ -181,6 +181,7 @@
                 <outlet property="githubRepoContainerView" destination="sme-NU-I1C" id="M38-rG-s2e"/>
                 <outlet property="githubRepoDescriptionLabel" destination="5x4-6E-BzO" id="9ZV-oi-ou0"/>
                 <outlet property="githubRepoImageView" destination="nUx-HZ-47V" id="Q1O-IT-bIW"/>
+                <outlet property="githubRepoImageViewTrailingConstraint" destination="0Ef-zJ-e9x" id="l0Y-6K-DvF"/>
                 <outlet property="githubRepoNameLabel" destination="Xws-vr-3yM" id="3Xb-wb-WEE"/>
                 <outlet property="logoImageView" destination="Tlc-MI-H1b" id="awx-yd-g5F"/>
                 <outlet property="messageCountLabel" destination="dhp-xa-CcY" id="GAv-oY-UAJ"/>

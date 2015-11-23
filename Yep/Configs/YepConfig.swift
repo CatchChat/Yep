@@ -189,7 +189,7 @@ class YepConfig {
         static let backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
     }
 
-    struct FeedCell {
+    struct FeedBasicCell {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]

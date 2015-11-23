@@ -42,7 +42,7 @@ class FeedCell: FeedBasicCell {
 
     class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
 
@@ -52,15 +52,6 @@ class FeedCell: FeedBasicCell {
                 height += (imageHeight + 15)
             }
         }
-
-//        if feed.attachment == nil {
-//        } else {
-//            var imageHeight: CGFloat = 80
-//            if feed.attachments.count == 1 {
-//                imageHeight = 160
-//            }
-//            height = ceil(rect.height) + 10 + 40 + 4 + 15 + imageHeight + 15 + 17 + 15
-//        }
 
         return ceil(height)
     }
