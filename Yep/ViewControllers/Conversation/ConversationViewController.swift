@@ -119,6 +119,24 @@ enum ConversationFeed {
         return nil
     }
 
+    var githubRepoURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return NSURL(string: githubRepo.URLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let URLString = feed.socialWork?.githubRepo?.URLString {
+                return NSURL(string: URLString)
+            }
+        }
+
+        return nil
+    }
+
     var dribbbleShotImageURL: NSURL? {
 
         switch self {
@@ -131,6 +149,24 @@ enum ConversationFeed {
         case .FeedType(let feed):
             if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
                 return NSURL(string: imageURLString)
+            }
+        }
+
+        return nil
+    }
+
+    var dribbbleShotURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Dribbble(dribbbleShot) = attachment {
+                    return NSURL(string: dribbbleShot.htmlURLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let htmlURLString = feed.socialWork?.dribbbleShot?.htmlURLString {
+                return NSURL(string: htmlURLString)
             }
         }
 
@@ -1424,6 +1460,14 @@ class ConversationViewController: BaseViewController {
             ]
             self?.performSegueWithIdentifier("showFeedMedia", sender: info)
             */
+        }
+
+        feedView.tapGithubRepoAction = { URL in
+            UIApplication.sharedApplication().openURL(URL)
+        }
+
+        feedView.tapDribbbleShotAction = { URL in
+            UIApplication.sharedApplication().openURL(URL)
         }
 
         //feedView.backgroundColor = UIColor.orangeColor()
