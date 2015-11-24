@@ -625,6 +625,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let feed = feeds[indexPath.row]
 
+            guard let cell = cell as? FeedBasicCell else {
+                break
+            }
+
+            cell.tapAvatarAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                }
+            }
+
+            cell.tapSkillAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+                }
+            }
+
             switch feed.kind {
 
             case .GithubRepo, .DribbbleShot:
@@ -655,18 +671,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-                cell.tapAvatarAction = { [weak self] cell in
-                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                        self?.performSegueWithIdentifier("showProfile", sender: indexPath)
-                    }
-                }
-
-                cell.tapSkillAction = { [weak self] cell in
-                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                        self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
-                    }
-                }
-
                 cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
@@ -683,10 +687,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     vc.previewImageViewInitalFrame = frame
                     vc.bottomPreviewImage = image
 
-
-                    delay(0, work: { () -> Void in
+                    delay(0) {
                         transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    })
+                    }
                     vc.afterDismissAction = { [weak self] in
                         transitionView.alpha = 1
                         self?.view.window?.makeKeyAndVisible()
