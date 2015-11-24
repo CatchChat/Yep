@@ -78,6 +78,15 @@ enum ConversationFeed {
         }
     }
 
+    var hasAttachment: Bool {
+
+        guard let kind = kind else {
+            return false
+        }
+
+        return kind != .Text
+    }
+
     var githubRepoName: String? {
 
         switch self {

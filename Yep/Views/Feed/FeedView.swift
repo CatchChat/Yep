@@ -190,12 +190,10 @@ class FeedView: UIView {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
 
-        let height: CGFloat
+        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
-        } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
+        if feed.hasAttachment {
+            height += 80 + 15
         }
 
         return ceil(height)
