@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -153,7 +154,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         default:
             break
         }
-
     }
 }
 

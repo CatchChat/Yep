@@ -67,6 +67,66 @@ enum ConversationFeed {
             return feed.distance
         }
     }
+
+    var kind: FeedKind? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.kind
+        case .FeedType(let feed):
+            return FeedKind(rawValue: feed.kind)
+        }
+    }
+
+    var githubRepoName: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return githubRepo.name
+                }
+            }
+        case .FeedType(let feed):
+            return feed.socialWork?.githubRepo?.name
+        }
+
+        return nil
+    }
+
+    var githubRepoDescription: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return githubRepo.description
+                }
+            }
+        case .FeedType(let feed):
+            return feed.socialWork?.githubRepo?.repoDescription
+        }
+
+        return nil
+    }
+
+    var dribbbleShotImageURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Dribbble(dribbbleShot) = attachment {
+                    return NSURL(string: dribbbleShot.imageURLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
+                return NSURL(string: imageURLString)
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {

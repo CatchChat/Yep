@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FeedView: UIView {
 
@@ -102,6 +103,15 @@ class FeedView: UIView {
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+
+    @IBOutlet weak var socialWorkContainerView: UIView!
+    @IBOutlet weak var socialWorkImageView: UIImageView!
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+
+    @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
@@ -231,6 +241,46 @@ class FeedView: UIView {
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+
+
+        // social works
+
+        guard let kind = feed.kind else {
+            return
+        }
+
+        var socialWorkImageURL: NSURL?
+
+        switch kind {
+
+        case .GithubRepo:
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
+
+            githubRepoNameLabel.text = feed.githubRepoName
+            githubRepoDescriptionLabel.text = feed.githubRepoDescription
+
+            socialWorkBorderImageView.hidden = false
+
+        case .DribbbleShot:
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            socialWorkImageURL = feed.dribbbleShotImageURL
+
+            socialWorkBorderImageView.hidden = true
+
+        default:
+            break
+        }
+        
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        }
     }
 }
 
