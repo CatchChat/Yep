@@ -28,7 +28,7 @@ enum SocialAccount: String, CustomStringConvertible {
         case .Dribbble:
             return "Dribbble"
         case .Github:
-            return "Github"
+            return "GitHub"
         case .Behance:
             return "Behance"
         case .Instagram:
