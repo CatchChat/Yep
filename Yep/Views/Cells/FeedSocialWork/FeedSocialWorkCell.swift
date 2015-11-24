@@ -14,13 +14,20 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var logoImageView: UIImageView!
 
     @IBOutlet weak var socialWorkContainerView: UIView!
+
+    @IBOutlet weak var mediaContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
+
+    @IBOutlet weak var linkContainerView: UIView!
+    @IBOutlet weak var linkImageView: UIImageView!
+    @IBOutlet weak var linkLabel: UILabel!
+    @IBOutlet weak var linkAccessoryImageView: UIImageView!
+
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
-
-    @IBOutlet weak var innerAccessoryImageView: UIImageView!
+    @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
@@ -52,7 +59,8 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        innerAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
 
         let tap = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tap)
@@ -110,7 +118,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         case .GithubRepo:
 
-            socialWorkImageView.hidden = true
+            mediaContainerView.hidden = true
             githubRepoContainerView.hidden = false
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
@@ -128,12 +136,15 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         case .DribbbleShot:
 
-            socialWorkImageView.hidden = false
+            mediaContainerView.hidden = false
             githubRepoContainerView.hidden = true
+
+            linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let attachment = feed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
+                    linkLabel.text = dribbbleShot.title
                 }
             }
 
