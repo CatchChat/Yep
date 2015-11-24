@@ -685,7 +685,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     self?.yep_openURL(URL)
                 }
 
-                cell.tapDribbbleShotMediaAction = { [weak self] transitionView, image, imageURL in
+                cell.tapDribbbleShotMediaAction = { [weak self] transitionView, image, imageURL, linkURL in
 
                     guard image != nil else {
                         return
@@ -693,7 +693,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
-                    vc.previewMedias = [PreviewMedia.WebImage(URL: imageURL)]
+                    vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
                     vc.startIndex = 0
 
                     let transitionView = transitionView
