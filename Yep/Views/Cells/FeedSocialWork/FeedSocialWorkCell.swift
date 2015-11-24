@@ -42,7 +42,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     var tapGithubRepoLinkAction: (NSURL -> Void)?
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
-    var tapDribbbleShotMediaAction: (NSURL -> Void)?
+    var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL) -> Void)?
 
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
@@ -203,7 +203,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if case .DribbbleShot = feed.kind {
             if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.imageURLString) {
-                tapDribbbleShotMediaAction?(URL)
+                tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: URL)
             }
         }
     }

@@ -9,8 +9,16 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
+import Kingfisher
 
 let mediaPreviewWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+
+enum PreviewMedia {
+
+    case MessageType(message: Message)
+    case AttachmentType(attachment: DiscoveredAttachment)
+    case WebImage(URL: NSURL)
+}
 
 class MediaPreviewViewController: UIViewController {
 
@@ -31,6 +39,8 @@ class MediaPreviewViewController: UIViewController {
                         message.mediaPlayed = true
                     }
                 case .AttachmentType:
+                    break
+                case .WebImage:
                     break
                 }
             }
@@ -356,6 +366,17 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 }
                 cell.mediaView.image = image
             })
+
+        case .WebImage(let URL):
+
+            let imageView = UIImageView()
+
+            imageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    cell.mediaView.image = image
+                }
+            })
         }
     }
 
@@ -567,6 +588,9 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
+
+        case .WebImage(let URL):
+            break
         }
     }
 }
