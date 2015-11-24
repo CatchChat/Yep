@@ -34,7 +34,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
     lazy var socialWorkMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
 

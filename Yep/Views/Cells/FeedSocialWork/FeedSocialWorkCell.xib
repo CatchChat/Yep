@@ -81,6 +81,12 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZHv-eL-Vww">
                                         <rect key="frame" x="0.0" y="0.0" width="277" height="160"/>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="4n8-2p-wF0">
+                                        <rect key="frame" x="0.0" y="159" width="277" height="1"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="pja-uk-7eK"/>
+                                        </constraints>
+                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qce-m8-cg3">
                                         <rect key="frame" x="0.0" y="160" width="277" height="40"/>
                                         <subviews>
@@ -115,6 +121,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="4n8-2p-wF0" firstAttribute="bottom" secondItem="ZHv-eL-Vww" secondAttribute="bottom" id="1ZC-bZ-2So"/>
                                     <constraint firstItem="ZHv-eL-Vww" firstAttribute="top" secondItem="POu-Vn-keU" secondAttribute="top" id="4d9-Ro-cw7"/>
                                     <constraint firstAttribute="bottom" secondItem="Qce-m8-cg3" secondAttribute="bottom" id="6Ln-7w-zO7"/>
                                     <constraint firstItem="ZHv-eL-Vww" firstAttribute="leading" secondItem="POu-Vn-keU" secondAttribute="leading" id="Co8-HP-BQw"/>
@@ -122,7 +129,9 @@
                                     <constraint firstItem="Qce-m8-cg3" firstAttribute="top" secondItem="ZHv-eL-Vww" secondAttribute="bottom" id="I5H-tA-fUg"/>
                                     <constraint firstAttribute="bottom" secondItem="ZHv-eL-Vww" secondAttribute="bottom" constant="40" id="gSk-Af-oLo"/>
                                     <constraint firstAttribute="trailing" secondItem="Qce-m8-cg3" secondAttribute="trailing" id="i4X-UP-HN3"/>
+                                    <constraint firstItem="4n8-2p-wF0" firstAttribute="trailing" secondItem="ZHv-eL-Vww" secondAttribute="trailing" id="mjE-yG-4Mr"/>
                                     <constraint firstItem="Qce-m8-cg3" firstAttribute="leading" secondItem="POu-Vn-keU" secondAttribute="leading" id="nL8-zr-FIl"/>
+                                    <constraint firstItem="4n8-2p-wF0" firstAttribute="leading" secondItem="ZHv-eL-Vww" secondAttribute="leading" id="nfs-Xq-DOB"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sme-NU-I1C">
@@ -269,5 +278,6 @@
         <image name="icon_repo" width="16" height="21"/>
         <image name="skill_bubble_empty" width="23" height="22"/>
         <image name="social_work_border" width="11" height="11"/>
+        <image name="social_work_border_line" width="22" height="2"/>
     </resources>
 </document>
