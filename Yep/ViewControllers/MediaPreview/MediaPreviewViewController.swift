@@ -369,6 +369,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         case .WebImage(let URL):
 
+            mediaControlView.type = .Image
+
             let imageView = UIImageView()
 
             imageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
