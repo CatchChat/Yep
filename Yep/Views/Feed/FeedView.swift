@@ -118,6 +118,11 @@ class FeedView: UIView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
+    lazy var socialWorkMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        return imageView
+    }()
+    
     var attachments = [DiscoveredAttachment]() {
         didSet {
             mediaCollectionView.reloadData()
@@ -131,6 +136,12 @@ class FeedView: UIView {
         }()
 
     let feedMediaCellID = "FeedMediaCell"
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -288,9 +299,10 @@ class FeedView: UIView {
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
 
-            socialWorkImageURL = feed.dribbbleShotImageURL
+            socialWorkImageView.maskView = socialWorkMaskImageView
+            socialWorkBorderImageView.hidden = false
 
-            socialWorkBorderImageView.hidden = true
+            socialWorkImageURL = feed.dribbbleShotImageURL
 
         default:
             break
