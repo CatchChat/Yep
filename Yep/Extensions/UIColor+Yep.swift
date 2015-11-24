@@ -103,7 +103,7 @@ extension UIColor {
     }
 
     class func yepIconImageViewTintColor() -> UIColor {
-        return UIColor.darkGrayColor()
+        return yepCellAccessoryImageViewTintColor()
     }
 
     // 反色
