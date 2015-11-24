@@ -20,6 +20,8 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
+    @IBOutlet weak var innerAccessoryImageView: UIImageView!
+
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
@@ -49,6 +51,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        innerAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
 
         let tap = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tap)
