@@ -505,6 +505,51 @@ class Message: Object {
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
+
+
+    func deleteAttachmentInRealm(realm: Realm) {
+
+        if let mediaMetaData = mediaMetaData {
+            realm.delete(mediaMetaData)
+        }
+
+        switch mediaType {
+
+        case MessageMediaType.Image.rawValue:
+            NSFileManager.removeMessageImageFileWithName(localAttachmentName)
+
+        case MessageMediaType.Video.rawValue:
+            NSFileManager.removeMessageVideoFilesWithName(localAttachmentName, thumbnailName: localThumbnailName)
+
+        case MessageMediaType.Audio.rawValue:
+            NSFileManager.removeMessageAudioFileWithName(localAttachmentName)
+
+        case MessageMediaType.Location.rawValue:
+            NSFileManager.removeMessageImageFileWithName(localAttachmentName)
+
+        case MessageMediaType.SocialWork.rawValue:
+
+            if let socialWork = socialWork {
+
+                if let githubRepo = socialWork.githubRepo {
+                    realm.delete(githubRepo)
+                }
+
+                if let dribbbleShot = socialWork.dribbbleShot {
+                    realm.delete(dribbbleShot)
+                }
+
+                if let instagramMedia = socialWork.instagramMedia {
+                    realm.delete(instagramMedia)
+                }
+                
+                realm.delete(socialWork)
+            }
+            
+        default:
+            break // TODO: if have other message media need to delete
+        }
+    }
 }
 
 class Draft: Object {
@@ -972,27 +1017,6 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     return messages.first
 }
 
-func deleteMediaFilesOfMessage(message: Message) {
-
-    switch message.mediaType {
-
-    case MessageMediaType.Image.rawValue:
-        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
-
-    case MessageMediaType.Video.rawValue:
-        NSFileManager.removeMessageVideoFilesWithName(message.localAttachmentName, thumbnailName: message.localThumbnailName)
-
-    case MessageMediaType.Audio.rawValue:
-        NSFileManager.removeMessageAudioFileWithName(message.localAttachmentName)
-
-    case MessageMediaType.Location.rawValue:
-        NSFileManager.removeMessageImageFileWithName(message.localAttachmentName)
-
-    default:
-        break // TODO: if have other message media need to delete
-    }
-}
-
 func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
     return realm.objects(Avatar).filter(predicate).first
@@ -1326,9 +1350,11 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
     let messages = conversation.messages
 
-    // delete all media files of messages
+    // delete attachments of messages
 
-    messages.forEach { deleteMediaFilesOfMessage($0) }
+    let _ = try? realm.write {
+        messages.forEach { $0.deleteAttachmentInRealm(realm) }
+    }
 
     // delete all mediaMetaDatas
 
