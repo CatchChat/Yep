@@ -55,9 +55,18 @@ class NewFeedViewController: UIViewController {
         return imageView
     }()
 
+    let infoAboutThisFeed = NSLocalizedString("Info about this Feed...", comment: "")
+
+    var isNeverInputMessage = true
     var isDirty = false {
         willSet {
             postButton.enabled = newValue
+
+            if !newValue && isNeverInputMessage {
+                messageTextView.text = infoAboutThisFeed
+            }
+
+            messageTextView.textColor = newValue ? UIColor.blackColor() : UIColor.lightGrayColor()
         }
     }
 
@@ -128,7 +137,8 @@ class NewFeedViewController: UIViewController {
         
         view.sendSubviewToBack(feedWhiteBGView)
         
-        messageTextView.text = ""
+        isDirty = false
+
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         messageTextView.delegate = self
@@ -201,13 +211,13 @@ class NewFeedViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        delay(1) { [weak self] in
-            guard self?.presentedViewController == nil else {
-                return
-            }
-
-            self?.messageTextView.becomeFirstResponder()
-        }
+//        delay(1) { [weak self] in
+//            guard self?.presentedViewController == nil else {
+//                return
+//            }
+//
+//            self?.messageTextView.becomeFirstResponder()
+//        }
     }
 
     // MARK: UI
@@ -679,11 +689,21 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 // MARK: - UIScrollViewDelegate
 
 extension NewFeedViewController: UITextViewDelegate {
-    
+
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+
+        if !isDirty {
+            textView.text = ""
+        }
+
+        isNeverInputMessage = false
+
+        return true
+    }
+
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
         let newString = textView.text! + text
-        
         
         if NSString(string: newString).length > YepConfig.maxFeedTextLength {
             return false
