@@ -42,7 +42,9 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+        if feed?.hasSocialImage ?? false {
+            socialWorkMaskImageView.frame = socialWorkImageView.bounds
+        }
     }
 
     override func awakeFromNib() {

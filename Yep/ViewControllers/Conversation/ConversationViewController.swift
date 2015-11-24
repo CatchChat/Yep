@@ -78,6 +78,21 @@ enum ConversationFeed {
         }
     }
 
+    var hasSocialImage: Bool {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.hasSocialImage
+        case .FeedType(let feed):
+            if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
+                return true
+            }
+            // TODO: more type check in future
+        }
+
+        return false
+    }
+
     var hasAttachment: Bool {
 
         guard let kind = kind else {
