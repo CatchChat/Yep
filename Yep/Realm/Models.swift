@@ -657,6 +657,23 @@ class Feed: Object {
             realm.delete($0)
         }
 
+        if let socialWork = socialWork {
+
+            if let githubRepo = socialWork.githubRepo {
+                realm.delete(githubRepo)
+            }
+
+            if let dribbbleShot = socialWork.dribbbleShot {
+                realm.delete(dribbbleShot)
+            }
+
+            if let instagramMedia = socialWork.instagramMedia {
+                realm.delete(instagramMedia)
+            }
+
+            realm.delete(socialWork)
+        }
+
         realm.delete(self)
     }
 }
