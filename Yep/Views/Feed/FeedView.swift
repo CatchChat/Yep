@@ -224,7 +224,6 @@ class FeedView: UIView {
 
         let hasAttachment = feed.hasAttachment
         timeLabelTopConstraint.constant = hasAttachment ? (15 + 80 + 15) : 15
-        mediaCollectionView.hidden = hasAttachment ? false : true
 
         attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
@@ -256,7 +255,20 @@ class FeedView: UIView {
 
         switch kind {
 
+        case .Text:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = true
+
+        case .Image:
+
+            mediaCollectionView.hidden = false
+            socialWorkContainerView.hidden = true
+
         case .GithubRepo:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
@@ -269,6 +281,9 @@ class FeedView: UIView {
             socialWorkBorderImageView.hidden = false
 
         case .DribbbleShot:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
