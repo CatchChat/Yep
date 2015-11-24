@@ -286,7 +286,7 @@ class FeedView: UIView {
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.grayColor()
+            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             githubRepoNameLabel.text = feed.githubRepoName
             githubRepoDescriptionLabel.text = feed.githubRepoDescription

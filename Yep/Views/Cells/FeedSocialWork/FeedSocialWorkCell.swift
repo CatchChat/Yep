@@ -14,25 +14,35 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var logoImageView: UIImageView!
 
     @IBOutlet weak var socialWorkContainerView: UIView!
+
+    @IBOutlet weak var mediaContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
+
+    @IBOutlet weak var linkContainerView: UIView!
+    @IBOutlet weak var linkImageView: UIImageView!
+    @IBOutlet weak var linkLabel: UILabel!
+    @IBOutlet weak var linkAccessoryImageView: UIImageView!
+
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+    @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
     lazy var socialWorkMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
 
     var feed: DiscoveredFeed?
 
-    var tapGithubRepoAction: (NSURL -> Void)?
-    var tapDribbbleShotAction: (NSURL -> Void)?
+    var tapGithubRepoLinkAction: (NSURL -> Void)?
+    var tapDribbbleShotLinkAction: (NSURL -> Void)?
+    var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
 
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
@@ -50,8 +60,17 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let tap = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
-        socialWorkContainerView.addGestureRecognizer(tap)
+        githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+
+        let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
+        mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
+
+        let tapDribbbleLink = UITapGestureRecognizer(target: self, action: "tapDribbbleLink:")
+        linkContainerView.addGestureRecognizer(tapDribbbleLink)
+
+        let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
+        githubRepoContainerView.addGestureRecognizer(tapGithubLink)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -106,10 +125,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         case .GithubRepo:
 
-            socialWorkImageView.hidden = true
+            mediaContainerView.hidden = true
             githubRepoContainerView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.grayColor()
+            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let attachment = feed.attachment {
                 if case let .Github(githubRepo) = attachment {
@@ -118,23 +137,23 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkBorderImageView.hidden = false
-
             socialWorkContainerViewHeightConstraint.constant = 80
 
         case .DribbbleShot:
 
-            socialWorkImageView.hidden = false
+            mediaContainerView.hidden = false
             githubRepoContainerView.hidden = true
+
+            linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let attachment = feed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
+                    linkLabel.text = dribbbleShot.title
                 }
             }
 
             socialWorkImageView.maskView = socialWorkMaskImageView
-            socialWorkBorderImageView.hidden = false
 
             socialWorkContainerViewHeightConstraint.constant = 160
             contentView.layoutIfNeeded()
@@ -148,28 +167,44 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
 
-    func tapSocialWork(sender: UITapGestureRecognizer) {
+    // MARK: Actions
+
+    func tapGithubLink(sender: UITapGestureRecognizer) {
 
         guard let feed = feed, attachment = feed.attachment else {
             return
         }
 
-        switch feed.kind {
-
-        case .GithubRepo:
-
+        if case .GithubRepo = feed.kind {
             if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
-                tapGithubRepoAction?(URL)
+                tapGithubRepoLinkAction?(URL)
             }
+        }
+    }
 
-        case .DribbbleShot:
+    func tapDribbbleLink(sender: UITapGestureRecognizer) {
 
+        guard let feed = feed, attachment = feed.attachment else {
+            return
+        }
+
+        if case .DribbbleShot = feed.kind {
             if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
-                tapDribbbleShotAction?(URL)
+                tapDribbbleShotLinkAction?(URL)
             }
+        }
+    }
 
-        default:
-            break
+    func tapDribbbleMedia(sender: UITapGestureRecognizer) {
+
+        guard let feed = feed, attachment = feed.attachment else {
+            return
+        }
+
+        if case .DribbbleShot = feed.kind {
+            if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
+            }
         }
     }
 }

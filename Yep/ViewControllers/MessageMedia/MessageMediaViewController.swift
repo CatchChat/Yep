@@ -10,12 +10,6 @@ import UIKit
 import AVFoundation
 import MonkeyKing
 
-enum PreviewMedia {
-
-    case MessageType(message: Message)
-    case AttachmentType(attachment: DiscoveredAttachment)
-}
-
 class MessageMediaViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
@@ -253,6 +247,8 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                 cell.mediaView.image = image
             })
 
+        default:
+            break
         }
     }
 
@@ -487,6 +483,9 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
                 
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
+
+        default:
+            break
         }
     }
 }

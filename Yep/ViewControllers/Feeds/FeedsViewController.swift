@@ -677,12 +677,41 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-                cell.tapGithubRepoAction = { [weak self] URL in
+                cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
                 }
 
-                cell.tapDribbbleShotAction = { [weak self] URL in
+                cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
+                }
+
+                cell.tapDribbbleShotMediaAction = { [weak self] transitionView, image, imageURL, linkURL in
+
+                    guard image != nil else {
+                        return
+                    }
+
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
+                    vc.startIndex = 0
+
+                    let transitionView = transitionView
+                    let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+                    vc.previewImageViewInitalFrame = frame
+                    vc.bottomPreviewImage = image
+
+                    delay(0) {
+                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    }
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
                 }
 
             default:

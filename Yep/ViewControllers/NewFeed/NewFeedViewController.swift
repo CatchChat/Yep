@@ -245,7 +245,7 @@ class NewFeedViewController: UIViewController {
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.grayColor()
+            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let githubRepo = socialWork.githubRepo {
                 githubRepoNameLabel.text = githubRepo.name
