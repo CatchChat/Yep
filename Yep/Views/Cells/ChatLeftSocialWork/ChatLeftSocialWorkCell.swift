@@ -38,7 +38,7 @@ class ChatLeftSocialWorkCell: UICollectionViewCell {
 
         socialWorkImageView.maskView = maskImageView
 
-        githubRepoImageView.tintColor = UIColor.grayColor()
+        githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
         syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), forState: .Normal)
         syncButton.setTitle(NSLocalizedString("Synced to Feeds", comment: ""), forState: .Disabled)

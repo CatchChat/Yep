@@ -113,7 +113,7 @@ class FeedSocialWorkCell: FeedBasicCell {
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.grayColor()
+            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let attachment = feed.attachment {
                 if case let .Github(githubRepo) = attachment {

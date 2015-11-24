@@ -102,6 +102,10 @@ extension UIColor {
         return UIColor.lightGrayColor()
     }
 
+    class func yepIconImageViewTintColor() -> UIColor {
+        return UIColor.darkGrayColor()
+    }
+
     // 反色
     var yep_inverseColor: UIColor {
 
