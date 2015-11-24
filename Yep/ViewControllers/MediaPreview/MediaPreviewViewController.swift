@@ -9,8 +9,16 @@
 import UIKit
 import AVFoundation
 import MonkeyKing
+import Kingfisher
 
 let mediaPreviewWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+
+enum PreviewMedia {
+
+    case MessageType(message: Message)
+    case AttachmentType(attachment: DiscoveredAttachment)
+    case WebImage(imageURL: NSURL, linkURL: NSURL)
+}
 
 class MediaPreviewViewController: UIViewController {
 
@@ -31,6 +39,8 @@ class MediaPreviewViewController: UIViewController {
                         message.mediaPlayed = true
                     }
                 case .AttachmentType:
+                    break
+                case .WebImage:
                     break
                 }
             }
@@ -356,6 +366,19 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 }
                 cell.mediaView.image = image
             })
+
+        case .WebImage(let imageURL, _):
+
+            mediaControlView.type = .Image
+
+            let imageView = UIImageView()
+
+            imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    cell.mediaView.image = image
+                }
+            })
         }
     }
 
@@ -565,6 +588,42 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 
                 let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
                 
+                self?.presentViewController(activityViewController, animated: true, completion: nil)
+            }
+
+        case .WebImage(_, let linkURL):
+
+            mediaControlView.shareAction = { [weak self] in
+
+                let info = MonkeyKing.Info(
+                    title: nil,
+                    description: nil,
+                    thumbnail: nil,
+                    media: .URL(linkURL)
+                )
+
+                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
+
+                let weChatSessionActivity = WeChatActivity(
+                    type: .Session,
+                    message: sessionMessage,
+                    finish: { success in
+                        println("share WebImage URL to WeChat Session success: \(success)")
+                    }
+                )
+
+                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+
+                let weChatTimelineActivity = WeChatActivity(
+                    type: .Timeline,
+                    message: timelineMessage,
+                    finish: { success in
+                        println("share WebImage URL to WeChat Timeline success: \(success)")
+                    }
+                )
+
+                let activityViewController = UIActivityViewController(activityItems: [linkURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
         }

@@ -44,9 +44,8 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-
-        reposImageView.tintColor = UIColor.darkGrayColor()
-        starsImageView.tintColor = UIColor.darkGrayColor()
+        reposImageView.tintColor = UIColor.yepIconImageViewTintColor()
+        starsImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
         reposCountLabel.textColor = UIColor.grayColor()
         starsCountLabel.textColor = UIColor.grayColor()
