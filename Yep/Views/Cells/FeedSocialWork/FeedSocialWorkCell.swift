@@ -24,6 +24,11 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
+    lazy var socialWorkMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        return imageView
+    }()
+
     var feed: DiscoveredFeed?
 
     var tapGithubRepoAction: (NSURL -> Void)?
@@ -33,6 +38,12 @@ class FeedSocialWorkCell: FeedBasicCell {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
     }()
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -105,8 +116,9 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 80
             socialWorkBorderImageView.hidden = false
+
+            socialWorkContainerViewHeightConstraint.constant = 80
 
         case .DribbbleShot:
 
@@ -119,8 +131,11 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
+            socialWorkImageView.maskView = socialWorkMaskImageView
+            socialWorkBorderImageView.hidden = false
+
             socialWorkContainerViewHeightConstraint.constant = 160
-            socialWorkBorderImageView.hidden = true
+            contentView.layoutIfNeeded()
 
         default:
             break
