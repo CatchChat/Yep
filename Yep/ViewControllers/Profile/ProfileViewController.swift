@@ -486,12 +486,9 @@ class ProfileViewController: UIViewController {
 
     lazy var listener: Listener = {
 
-        var myUserID = ""
-        if let profileUser = self.profileUser where profileUser.isMe {
-            myUserID = profileUser.userID
-        }
+        let suffix = NSUUID().UUIDString
 
-        return Listener(nickname: "Profile.Title" + myUserID, introduction: "Profile.introductionText" + myUserID, avatar: "Profile.Avatar" + myUserID)
+        return Listener(nickname: "Profile.Title" + suffix, introduction: "Profile.introductionText" + suffix, avatar: "Profile.Avatar" + suffix)
     }()
 
     // MARK: Life cycle
