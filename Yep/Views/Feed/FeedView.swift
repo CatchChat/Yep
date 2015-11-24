@@ -217,9 +217,9 @@ class FeedView: UIView {
 
         calHeightOfMessageTextView()
 
-        let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
-        mediaCollectionView.hidden = hasMedia ? false : true
+        let hasAttachment = feed.hasAttachment
+        timeLabelTopConstraint.constant = hasAttachment ? (15 + 80 + 15) : 15
+        mediaCollectionView.hidden = hasAttachment ? false : true
 
         attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
