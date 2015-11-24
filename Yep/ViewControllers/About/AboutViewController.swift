@@ -100,7 +100,9 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         case Row.Rate.rawValue:
             UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.appURLString)!)
         case Row.Terms.rawValue:
-            UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
+            if let URL = NSURL(string: YepConfig.termsURLString) {
+                yep_openURL(URL)
+            }
         default:
             break
         }

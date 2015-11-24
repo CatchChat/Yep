@@ -2564,6 +2564,15 @@ struct DiscoveredFeed: Hashable {
     let allowComment: Bool
     let kind: FeedKind
 
+    var hasSocialImage: Bool {
+        switch kind {
+        case .DribbbleShot:
+            return true
+        default:
+            return false // TODO: more type check in future
+        }
+    }
+
     let createdUnixTime: NSTimeInterval
     let updatedUnixTime: NSTimeInterval
 

@@ -200,8 +200,8 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
             application.openURL(instagramMediaURL)
 
         } else {
-            if let mediaURL = NSURL(string: media.linkURLString) {
-                application.openURL(mediaURL)
+            if let URL = NSURL(string: media.linkURLString) {
+                yep_openURL(URL)
             }
         }
     }

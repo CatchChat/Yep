@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FeedView: UIView {
 
@@ -19,6 +20,8 @@ class FeedView: UIView {
     }
 
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapGithubRepoAction: (NSURL -> Void)?
+    var tapDribbbleShotAction: (NSURL -> Void)?
 
     static let foldHeight: CGFloat = 60
 
@@ -103,9 +106,23 @@ class FeedView: UIView {
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
+    @IBOutlet weak var socialWorkContainerView: UIView!
+    @IBOutlet weak var socialWorkImageView: UIImageView!
+    @IBOutlet weak var githubRepoContainerView: UIView!
+    @IBOutlet weak var githubRepoImageView: UIImageView!
+    @IBOutlet weak var githubRepoNameLabel: UILabel!
+    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+
+    @IBOutlet weak var socialWorkBorderImageView: UIImageView!
+
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
+    lazy var socialWorkMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        return imageView
+    }()
+    
     var attachments = [DiscoveredAttachment]() {
         didSet {
             mediaCollectionView.reloadData()
@@ -119,6 +136,14 @@ class FeedView: UIView {
         }()
 
     let feedMediaCellID = "FeedMediaCell"
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if feed?.hasSocialImage ?? false {
+            socialWorkMaskImageView.frame = socialWorkImageView.bounds
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -149,13 +174,16 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tap = UITapGestureRecognizer(target: self, action: "switchFold:")
-        addGestureRecognizer(tap)
-        tap.delegate = self
+        let tapSwitchFold = UITapGestureRecognizer(target: self, action: "switchFold:")
+        addGestureRecognizer(tapSwitchFold)
+        tapSwitchFold.delegate = self
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
+
+        let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
+        socialWorkContainerView.addGestureRecognizer(tapSocialWork)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -180,12 +208,10 @@ class FeedView: UIView {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedView.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedView.textAttributes, context: nil)
 
-        let height: CGFloat
+        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         
-        if feed.attachments.isEmpty {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
-        } else {
-            height = ceil(rect.height) + 10 + 40 + 4 + 15 + 80 + 15 + 17 + 15
+        if feed.hasAttachment {
+            height += 80 + 15
         }
 
         return ceil(height)
@@ -209,9 +235,8 @@ class FeedView: UIView {
 
         calHeightOfMessageTextView()
 
-        let hasMedia = !feed.attachments.isEmpty
-        timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
-        mediaCollectionView.hidden = hasMedia ? false : true
+        let hasAttachment = feed.hasAttachment
+        timeLabelTopConstraint.constant = hasAttachment ? (15 + 80 + 15) : 15
 
         attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
@@ -231,6 +256,89 @@ class FeedView: UIView {
         }
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+
+
+        // social works
+
+        guard let kind = feed.kind else {
+            return
+        }
+
+        var socialWorkImageURL: NSURL?
+
+        switch kind {
+
+        case .Text:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = true
+
+        case .Image:
+
+            mediaCollectionView.hidden = false
+            socialWorkContainerView.hidden = true
+
+        case .GithubRepo:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = false
+
+            githubRepoImageView.tintColor = UIColor.grayColor()
+
+            githubRepoNameLabel.text = feed.githubRepoName
+            githubRepoDescriptionLabel.text = feed.githubRepoDescription
+
+            socialWorkBorderImageView.hidden = false
+
+        case .DribbbleShot:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+
+            socialWorkImageView.hidden = false
+            githubRepoContainerView.hidden = true
+
+            socialWorkImageView.maskView = socialWorkMaskImageView
+            socialWorkBorderImageView.hidden = false
+
+            socialWorkImageURL = feed.dribbbleShotImageURL
+
+        default:
+            break
+        }
+        
+        if let URL = socialWorkImageURL {
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        }
+    }
+
+    func tapSocialWork(sender: UITapGestureRecognizer) {
+
+        guard let kind = feed?.kind else {
+            return
+        }
+
+        switch kind {
+
+        case .GithubRepo:
+
+            if let URL = feed?.githubRepoURL {
+                tapGithubRepoAction?(URL)
+            }
+
+        case .DribbbleShot:
+
+            if let URL = feed?.dribbbleShotURL {
+                tapDribbbleShotAction?(URL)
+
+            }
+            
+        default:
+            break
+        }
     }
 }
 

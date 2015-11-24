@@ -625,6 +625,46 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let feed = feeds[indexPath.row]
 
+            guard let cell = cell as? FeedBasicCell else {
+                break
+            }
+
+            cell.tapAvatarAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                }
+            }
+
+            cell.tapSkillAction = { [weak self] cell in
+                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+                }
+            }
+
+            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+            cell.touchesBeganAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            }
+            cell.touchesEndedAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                delay(0.03) { [weak self] in
+                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                }
+            }
+            cell.touchesCancelledAction = { cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            }
+
             switch feed.kind {
 
             case .GithubRepo, .DribbbleShot:
@@ -637,12 +677,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-                cell.tapGithubRepoAction = { URL in
-                    UIApplication.sharedApplication().openURL(URL)
+                cell.tapGithubRepoAction = { [weak self] URL in
+                    self?.yep_openURL(URL)
                 }
 
-                cell.tapDribbbleShotAction = { URL in
-                    UIApplication.sharedApplication().openURL(URL)
+                cell.tapDribbbleShotAction = { [weak self] URL in
+                    self?.yep_openURL(URL)
                 }
 
             default:
@@ -654,18 +694,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 let feed = feeds[indexPath.item]
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
-
-                cell.tapAvatarAction = { [weak self] cell in
-                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                        self?.performSegueWithIdentifier("showProfile", sender: indexPath)
-                    }
-                }
-
-                cell.tapSkillAction = { [weak self] cell in
-                    if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                        self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
-                    }
-                }
 
                 cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
@@ -683,10 +711,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     vc.previewImageViewInitalFrame = frame
                     vc.bottomPreviewImage = image
 
-
-                    delay(0, work: { () -> Void in
+                    delay(0) {
                         transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    })
+                    }
                     vc.afterDismissAction = { [weak self] in
                         transitionView.alpha = 1
                         self?.view.window?.makeKeyAndVisible()
@@ -704,30 +731,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     ]
                     self?.performSegueWithIdentifier("showFeedMedia", sender: info)
                     */
-                }
-
-                // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-                // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-                cell.touchesBeganAction = { [weak self] cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-                    tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                }
-                cell.touchesEndedAction = { [weak self] cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    delay(0.03) { [weak self] in
-                        self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-                    }
-                }
-                cell.touchesCancelledAction = { cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 }
             }
 

@@ -118,7 +118,7 @@ class PodsHelpYepViewController: UITableViewController {
         if let
             URLString = pod["URLString"],
             URL = NSURL(string: URLString) {
-                UIApplication.sharedApplication().openURL(URL)
+                yep_openURL(URL)
         }
     }
 }

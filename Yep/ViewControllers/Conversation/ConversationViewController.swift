@@ -67,6 +67,126 @@ enum ConversationFeed {
             return feed.distance
         }
     }
+
+    var kind: FeedKind? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.kind
+        case .FeedType(let feed):
+            return FeedKind(rawValue: feed.kind)
+        }
+    }
+
+    var hasSocialImage: Bool {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.hasSocialImage
+        case .FeedType(let feed):
+            if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
+                return true
+            }
+            // TODO: more type check in future
+        }
+
+        return false
+    }
+
+    var hasAttachment: Bool {
+
+        guard let kind = kind else {
+            return false
+        }
+
+        return kind != .Text
+    }
+
+    var githubRepoName: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return githubRepo.name
+                }
+            }
+        case .FeedType(let feed):
+            return feed.socialWork?.githubRepo?.name
+        }
+
+        return nil
+    }
+
+    var githubRepoDescription: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return githubRepo.description
+                }
+            }
+        case .FeedType(let feed):
+            return feed.socialWork?.githubRepo?.repoDescription
+        }
+
+        return nil
+    }
+
+    var githubRepoURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Github(githubRepo) = attachment {
+                    return NSURL(string: githubRepo.URLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let URLString = feed.socialWork?.githubRepo?.URLString {
+                return NSURL(string: URLString)
+            }
+        }
+
+        return nil
+    }
+
+    var dribbbleShotImageURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Dribbble(dribbbleShot) = attachment {
+                    return NSURL(string: dribbbleShot.imageURLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
+                return NSURL(string: imageURLString)
+            }
+        }
+
+        return nil
+    }
+
+    var dribbbleShotURL: NSURL? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Dribbble(dribbbleShot) = attachment {
+                    return NSURL(string: dribbbleShot.htmlURLString)
+                }
+            }
+        case .FeedType(let feed):
+            if let htmlURLString = feed.socialWork?.dribbbleShot?.htmlURLString {
+                return NSURL(string: htmlURLString)
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {
@@ -1357,6 +1477,14 @@ class ConversationViewController: BaseViewController {
             */
         }
 
+        feedView.tapGithubRepoAction = { [weak self] URL in
+            self?.yep_openURL(URL)
+        }
+
+        feedView.tapDribbbleShotAction = { [weak self] URL in
+            self?.yep_openURL(URL)
+        }
+
         //feedView.backgroundColor = UIColor.orangeColor()
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -1783,7 +1911,7 @@ class ConversationViewController: BaseViewController {
         
         moreView.unsubscribeAction = { [weak self] in
             
-            let doDeleteConversation: () -> Void = {
+            func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
@@ -1794,11 +1922,12 @@ class ConversationViewController: BaseViewController {
                         return
                     }
 
-                    deleteConversation(conversation, inRealm: realm)
+                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: { [weak self] in
+                        afterLeaveGroup?()
+                        self?.afterDeletedConversationAction?()
+                    })
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-                    self?.afterDeletedConversationAction?()
 
                     self?.navigationController?.popViewControllerAnimated(true)
                 }
@@ -1817,10 +1946,10 @@ class ConversationViewController: BaseViewController {
 
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
-                    doDeleteConversation()
-
-                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
-                        println("deleted feed: \(feedID)")
+                    doDeleteConversation(afterLeaveGroup: {
+                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                            println("deleted feed: \(feedID)")
+                        })
                     })
 
                 }, cancelAction: {

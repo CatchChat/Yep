@@ -228,7 +228,9 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
 
         let repo = githubRepos[indexPath.row]
 
-        UIApplication.sharedApplication().openURL(NSURL(string: repo.htmlURLString)!)
+        if let URL = NSURL(string: repo.htmlURLString) {
+            yep_openURL(URL)
+        }
     }
 }
 
