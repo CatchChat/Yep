@@ -641,6 +641,30 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
 
+            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+            cell.touchesBeganAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
+                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+            }
+            cell.touchesEndedAction = { [weak self] cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                delay(0.03) { [weak self] in
+                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                }
+            }
+            cell.touchesCancelledAction = { cell in
+                guard let indexPath = tableView.indexPathForCell(cell) else {
+                    return
+                }
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            }
+
             switch feed.kind {
 
             case .GithubRepo, .DribbbleShot:
@@ -707,30 +731,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     ]
                     self?.performSegueWithIdentifier("showFeedMedia", sender: info)
                     */
-                }
-
-                // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-                // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-                cell.touchesBeganAction = { [weak self] cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-                    tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
-                }
-                cell.touchesEndedAction = { [weak self] cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    delay(0.03) { [weak self] in
-                        self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
-                    }
-                }
-                cell.touchesCancelledAction = { cell in
-                    guard let indexPath = tableView.indexPathForCell(cell) else {
-                        return
-                    }
-                    tableView.deselectRowAtIndexPath(indexPath, animated: true)
                 }
             }
 
