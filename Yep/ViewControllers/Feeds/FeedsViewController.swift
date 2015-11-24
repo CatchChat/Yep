@@ -677,12 +677,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-                cell.tapGithubRepoAction = { URL in
-                    UIApplication.sharedApplication().openURL(URL)
+                cell.tapGithubRepoAction = { [weak self] URL in
+                    self?.yep_openURL(URL)
                 }
 
-                cell.tapDribbbleShotAction = { URL in
-                    UIApplication.sharedApplication().openURL(URL)
+                cell.tapDribbbleShotAction = { [weak self] URL in
+                    self?.yep_openURL(URL)
                 }
 
             default:

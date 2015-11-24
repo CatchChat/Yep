@@ -192,7 +192,9 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
         let shot = dribbbleShots[indexPath.item]
-        
-        UIApplication.sharedApplication().openURL(NSURL(string: shot.htmlURLString)!)
+
+        if let URL = NSURL(string: shot.htmlURLString) {
+            yep_openURL(URL)
+        }
     }
 }

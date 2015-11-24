@@ -90,7 +90,9 @@ class RegisterPickNameViewController: BaseViewController {
     // MARK: Actions
 
     func tapTerms() {
-        UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.termsURLString)!)
+        if let URL = NSURL(string: YepConfig.termsURLString) {
+            yep_openURL(URL)
+        }
     }
 
     func textFieldDidChange(textField: UITextField) {

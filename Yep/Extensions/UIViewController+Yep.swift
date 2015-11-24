@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import SafariServices
+
+// MAKR: - Heights
 
 extension UIViewController {
 
@@ -35,6 +38,8 @@ extension UIViewController {
         return statusBarHeight + navigationBarHeight
     }
 }
+
+// MAKR: - Report
 
 extension UIViewController {
 
@@ -106,6 +111,23 @@ extension UIViewController {
         reportAlertController.addAction(cancelAction)
         
         self.presentViewController(reportAlertController, animated: true, completion: nil)
+    }
+}
+
+// MAKR: - openURL
+
+extension UIViewController {
+
+    func yep_openURL(URL: NSURL) {
+
+        if #available(iOS 9.0, *) {
+
+            let safariViewController = SFSafariViewController(URL: URL)
+            presentViewController(safariViewController, animated: true, completion: nil)
+
+        } else {
+            UIApplication.sharedApplication().openURL(URL)
+        }
     }
 }
 

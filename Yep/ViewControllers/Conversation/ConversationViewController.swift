@@ -1462,12 +1462,12 @@ class ConversationViewController: BaseViewController {
             */
         }
 
-        feedView.tapGithubRepoAction = { URL in
-            UIApplication.sharedApplication().openURL(URL)
+        feedView.tapGithubRepoAction = { [weak self] URL in
+            self?.yep_openURL(URL)
         }
 
-        feedView.tapDribbbleShotAction = { URL in
-            UIApplication.sharedApplication().openURL(URL)
+        feedView.tapDribbbleShotAction = { [weak self] URL in
+            self?.yep_openURL(URL)
         }
 
         //feedView.backgroundColor = UIColor.orangeColor()
