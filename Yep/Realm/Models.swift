@@ -506,6 +506,18 @@ class Message: Object {
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
 
+    var isReal: Bool {
+
+        if socialWork != nil {
+            return false
+        }
+
+        if mediaType == MessageMediaType.SectionDate.rawValue {
+            return false
+        }
+
+        return true
+    }
 
     func deleteAttachmentInRealm(realm: Realm) {
 

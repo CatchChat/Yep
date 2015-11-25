@@ -1159,9 +1159,14 @@ class ConversationViewController: BaseViewController {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.markAsReaded, object: nil)
                 }
 
-                batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
-                    println("batchMarkAsReadOfMessagesToRecipient OK")
-                })
+                if latestMessage.isReal {
+                    batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
+                        println("batchMarkAsReadOfMessagesToRecipient OK")
+                    })
+
+                } else {
+                    println("not need batchMarkAsRead fake message")
+                }
                 
             } else {
                 println("don't needMarkInServer")
