@@ -64,6 +64,7 @@ class VoiceRecordSampleView: UIView {
 
     lazy var sampleCollectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRectZero, collectionViewLayout: self.sampleCollectionViewLayout)
+        view.userInteractionEnabled = false
         view.backgroundColor = UIColor.clearColor()
         view.dataSource = self
         view.registerClass(VoiceRecordSampleCell.self, forCellWithReuseIdentifier: "cell")
@@ -109,6 +110,7 @@ class VoiceRecordSampleView: UIView {
 
         let indexPath = NSIndexPath(forItem: sampleValues.count - 1, inSection: 0)
         sampleCollectionView.insertItemsAtIndexPaths([indexPath])
+        sampleCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Right, animated: false)
     }
 }
 
