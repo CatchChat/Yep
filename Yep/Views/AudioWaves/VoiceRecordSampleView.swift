@@ -10,6 +10,8 @@ import UIKit
 
 class VoiceRecordSampleView: UIView {
 
+    var sampleValues: [CGFloat] = []
+
     lazy var sampleCollectionViewLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
@@ -60,6 +62,13 @@ class VoiceRecordSampleView: UIView {
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintH)
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintV)
     }
+
+    func appendSampleValue(value: CGFloat) {
+        sampleValues.append(value)
+
+        let indexPath = NSIndexPath(forItem: sampleValues.count - 1, inSection: 0)
+        sampleCollectionView.insertItemsAtIndexPaths([indexPath])
+    }
 }
 
 extension VoiceRecordSampleView: UICollectionViewDataSource {
@@ -69,7 +78,7 @@ extension VoiceRecordSampleView: UICollectionViewDataSource {
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 300
+        return sampleValues.count
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

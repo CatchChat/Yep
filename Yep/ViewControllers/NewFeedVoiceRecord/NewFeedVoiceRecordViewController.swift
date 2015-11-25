@@ -11,6 +11,8 @@ import AVFoundation
 
 class NewFeedVoiceRecordViewController: UIViewController {
 
+    @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
+
     @IBOutlet weak var voiceRecordButton: UIButton!
 
     var isVoiceRecording = false {
@@ -22,16 +24,35 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     var voiceFileURL: NSURL?
 
+    var displayLink: CADisplayLink!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("New Voice", comment: "")
+
+        displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue")
+        displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
 
     // MARK: - Actions
 
     @IBAction func cancel(sender: UIBarButtonItem) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func checkVoiceRecordValue() {
+
+        if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
+
+            if (audioRecorder.recording) {
+                audioRecorder.updateMeters()
+                let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
+                let value = CGFloat(normalizedValue)
+
+                voiceRecordSampleView.appendSampleValue(value)
+            }
+        }
     }
 
     @IBAction func voiceRecord(sender: UIButton) {
