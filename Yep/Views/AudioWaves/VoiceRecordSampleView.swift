@@ -8,6 +8,30 @@
 
 import UIKit
 
+class VoiceRecordSampleCell: UICollectionViewCell {
+
+    var value: CGFloat = 0
+
+    override func drawRect(rect: CGRect) {
+
+        let context = UIGraphicsGetCurrentContext()
+
+        CGContextSetStrokeColorWithColor(context, UIColor.grayColor().CGColor)
+        CGContextSetLineWidth(context, bounds.width)
+        CGContextSetLineCap(context, .Round)
+
+        let x = bounds.width / 2
+        let height = bounds.height
+        let valueHeight = height * value
+        let offset = (height - valueHeight) / 2
+
+        CGContextMoveToPoint(context, x, height - offset)
+        CGContextAddLineToPoint(context, x, height - valueHeight - offset)
+
+        CGContextStrokePath(context)
+    }
+}
+
 class VoiceRecordSampleView: UIView {
 
     var sampleValues: [CGFloat] = []
@@ -17,7 +41,7 @@ class VoiceRecordSampleView: UIView {
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 2
         layout.sectionInset = UIEdgeInsetsZero
-        layout.itemSize = CGSize(width: 2, height: 60)
+        layout.itemSize = CGSize(width: 4, height: 60)
         layout.scrollDirection = .Horizontal
         return layout
     }()
@@ -25,7 +49,7 @@ class VoiceRecordSampleView: UIView {
     lazy var sampleCollectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRectZero, collectionViewLayout: self.sampleCollectionViewLayout)
         view.dataSource = self
-        view.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.registerClass(VoiceRecordSampleCell.self, forCellWithReuseIdentifier: "cell")
         return view
     }()
 
@@ -44,7 +68,7 @@ class VoiceRecordSampleView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        sampleCollectionViewLayout.itemSize = CGSize(width: 2, height: sampleCollectionView.bounds.height)
+        sampleCollectionViewLayout.itemSize = CGSize(width: 4, height: sampleCollectionView.bounds.height)
     }
 
     func makeUI() {
@@ -83,8 +107,11 @@ extension VoiceRecordSampleView: UICollectionViewDataSource {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
-        cell.backgroundColor = UIColor.lightGrayColor()
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! VoiceRecordSampleCell
+
+        let value = sampleValues[indexPath.item]
+        cell.value = value
+
         return cell
     }
 }
