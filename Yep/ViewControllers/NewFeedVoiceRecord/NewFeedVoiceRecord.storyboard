@@ -8,7 +8,7 @@
         <!--New Feed Voice Record View Controller-->
         <scene sceneID="bIB-Jh-CTD">
             <objects>
-                <viewController storyboardIdentifier="NewFeedVoiceRecordViewController" id="5Wk-eV-m8J" customClass="NewFeedVoiceRecordViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewFeedVoiceRecordViewController" automaticallyAdjustsScrollViewInsets="NO" id="5Wk-eV-m8J" customClass="NewFeedVoiceRecordViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Oqj-fK-Bx5"/>
                         <viewControllerLayoutGuide type="bottom" id="DCq-8o-f8Y"/>
@@ -19,9 +19,19 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Yn-zR-qow">
                                 <rect key="frame" x="0.0" y="64" width="375" height="200"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RCG-r4-rAb" customClass="VoiceRecordSampleView" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="20" width="375" height="160"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" red="0.9622001262626263" green="0.9622001262626263" blue="0.9622001262626263" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="RCG-r4-rAb" firstAttribute="top" secondItem="5Yn-zR-qow" secondAttribute="top" constant="20" id="IS7-qa-E2e"/>
                                     <constraint firstAttribute="height" constant="200" id="LTk-rL-GQc"/>
+                                    <constraint firstItem="RCG-r4-rAb" firstAttribute="leading" secondItem="5Yn-zR-qow" secondAttribute="leading" id="k6n-el-1cZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="RCG-r4-rAb" secondAttribute="trailing" id="oth-VD-d1H"/>
+                                    <constraint firstAttribute="bottom" secondItem="RCG-r4-rAb" secondAttribute="bottom" constant="20" id="rXe-Yb-UoY"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbC-MF-rRS">
@@ -40,12 +50,12 @@
                                             <action selector="voiceRecord:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="pgS-LC-VHU"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-tP-LrO">
-                                        <rect key="frame" x="63" y="242.5" width="100" height="100"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-tP-LrO">
+                                        <rect key="frame" x="63" y="242" width="100" height="100"/>
                                         <state key="normal" image="button_voice_play"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
-                                        <rect key="frame" x="213" y="242.5" width="100" height="100"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
+                                        <rect key="frame" x="213" y="242" width="100" height="100"/>
                                         <state key="normal" image="button_voice_reset"/>
                                     </button>
                                 </subviews>
