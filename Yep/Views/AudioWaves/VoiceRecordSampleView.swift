@@ -10,13 +10,29 @@ import UIKit
 
 class VoiceRecordSampleCell: UICollectionViewCell {
 
-    var value: CGFloat = 0
+    var value: CGFloat = 0 {
+        didSet {
+            if value != oldValue {
+                setNeedsDisplay()
+            }
+        }
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        backgroundColor = UIColor.clearColor()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func drawRect(rect: CGRect) {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetStrokeColorWithColor(context, UIColor.grayColor().CGColor)
+        CGContextSetStrokeColorWithColor(context, UIColor(red: 171/255.0, green: 181/255.0, blue: 190/255.0, alpha: 1).CGColor)
         CGContextSetLineWidth(context, bounds.width)
         CGContextSetLineCap(context, .Round)
 
@@ -48,6 +64,7 @@ class VoiceRecordSampleView: UIView {
 
     lazy var sampleCollectionView: UICollectionView = {
         let view = UICollectionView(frame: CGRectZero, collectionViewLayout: self.sampleCollectionViewLayout)
+        view.backgroundColor = UIColor.clearColor()
         view.dataSource = self
         view.registerClass(VoiceRecordSampleCell.self, forCellWithReuseIdentifier: "cell")
         return view
