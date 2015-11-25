@@ -13,6 +13,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
 
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var voiceRecordButton: UIButton!
 
     var isVoiceRecording = false {
@@ -26,12 +27,25 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     var displayLink: CADisplayLink!
 
+    var sampleValues: [CGFloat] = [] {
+        didSet {
+            let count = sampleValues.count
+            let frequency = 10
+            let minutes = count / frequency / 60
+            let seconds = count / frequency - minutes * 60
+            let subSeconds = count - seconds * frequency - minutes * 60 * frequency
+
+            timeLabel.text = String(format: "%02d:%02d.%d", minutes, seconds, subSeconds)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("New Voice", comment: "")
 
         displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue")
+        displayLink.frameInterval = 6 // 频率为每秒 10 次
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
 
@@ -45,11 +59,12 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
         if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
 
-            if (audioRecorder.recording) {
+            if audioRecorder.recording {
                 audioRecorder.updateMeters()
                 let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
                 let value = CGFloat(normalizedValue)
 
+                sampleValues.append(value)
                 voiceRecordSampleView.appendSampleValue(value)
             }
         }

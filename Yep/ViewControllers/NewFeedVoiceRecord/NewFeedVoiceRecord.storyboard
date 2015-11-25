@@ -91,6 +91,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="timeLabel" destination="K9f-ND-YpE" id="weJ-Gj-PWG"/>
                         <outlet property="voiceRecordButton" destination="RHU-Kc-Wb9" id="sNA-HQ-sU2"/>
                         <outlet property="voiceRecordSampleView" destination="RCG-r4-rAb" id="08Y-Px-kgb"/>
                     </connections>
