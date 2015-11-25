@@ -127,7 +127,7 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
-        nameLabel.text = socialAccount.description
+        nameLabel.text = socialAccount.name
 
         iconImageView.tintColor = SocialAccount.disabledColor
         nameLabel.textColor = SocialAccount.disabledColor

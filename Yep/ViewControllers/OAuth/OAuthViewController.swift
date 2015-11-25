@@ -26,7 +26,7 @@ class OAuthViewController: BaseViewController {
         
         animatedOnNavigationBar = false
 
-        title = socialAccount.description
+        title = socialAccount.name
         
         var accessToken = ""
         
@@ -79,7 +79,7 @@ extension OAuthViewController: UIWebViewDelegate {
 
       if url.contains("/auth/success") {
         
-            socialAccountWithProvider(self.socialAccount.description.lowercaseString, failureHandler: { reason, errorMessage in
+            socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
                 
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 

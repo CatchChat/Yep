@@ -79,7 +79,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
     func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
-        nameLabel.text = socialAccount.description
+        nameLabel.text = socialAccount.name
 
         iconImageView.tintColor = SocialAccount.disabledColor
         nameLabel.textColor = SocialAccount.disabledColor

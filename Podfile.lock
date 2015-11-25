@@ -27,7 +27,7 @@ PODS:
     - Realm (= 0.96.2)
   - Ruler (0.6)
   - SocketRocket (0.4.2)
-  - TPKeyboardAvoiding (1.2.10)
+  - TPKeyboardAvoiding (1.2.11)
 
 DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
@@ -51,7 +51,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: 9f471645d378283cb88c6d4bf502e4381a42c0ad
@@ -74,6 +74,6 @@ SPEC CHECKSUMS:
   RealmSwift: 485599fe54e35461c4a0daa7d01d8fbf11424873
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: ffe08119b00ef982f6c37052a4705a057c8494ad
-  TPKeyboardAvoiding: 614ebec846ec28b83d548769297fa5fb56468904
+  TPKeyboardAvoiding: e5ce146b313de063957bfa75a13f1e9b0ff18ab7
 
 COCOAPODS: 0.39.0

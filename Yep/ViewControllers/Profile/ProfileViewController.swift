@@ -16,19 +16,34 @@ import Kingfisher
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
-enum SocialAccount: String, CustomStringConvertible {
+enum SocialAccount: String {
+
     case Dribbble = "dribbble"
     case Github = "github"
     case Instagram = "instagram"
     case Behance = "behance"
     
-    var description: String {
+    var name: String {
         
         switch self {
         case .Dribbble:
             return "Dribbble"
         case .Github:
             return "GitHub"
+        case .Behance:
+            return "Behance"
+        case .Instagram:
+            return "Instagram"
+        }
+    }
+
+    var segue: String {
+
+        switch self {
+        case .Dribbble:
+            return "Dribbble"
+        case .Github:
+            return "Github"
         case .Behance:
             return "Behance"
         case .Instagram:
@@ -1244,7 +1259,7 @@ class ProfileViewController: UIViewController {
                 vc.afterOAuthAction = afterOAuthAction
             }
 
-        case "showSocialWorkGitHub":
+        case "showSocialWorkGithub":
 
             if let providerName = sender as? String {
 
@@ -1686,7 +1701,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 if let providerName = profileUser.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
 
                     if profileUser.enabledSocialAccount(socialAccount) {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
+                        performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
 
                     } else {
                         if profileUserIsMe {
@@ -1731,7 +1746,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                                             
                                             // OAuth 成功后，自动跳转去显示对应的 social work
                                             delay(1) {
-                                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount)", sender: providerName)
+                                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
                                             }
                                     }
                                 }
@@ -1834,7 +1849,7 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
         if let result = notification.object as? NSNumber, socialAccount = self.socialAccount {
             if result == 1 {
                 
-                socialAccountWithProvider(socialAccount.description.lowercaseString, failureHandler: { reason, errorMessage in
+                socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 
                     defaultFailureHandler(reason, errorMessage: errorMessage)
 
