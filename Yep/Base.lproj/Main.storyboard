@@ -269,7 +269,7 @@
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
                         <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
-                        <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
+                        <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGitHub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
                         <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
