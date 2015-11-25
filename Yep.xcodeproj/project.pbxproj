@@ -68,6 +68,8 @@
 		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		5020B89D1C0576A0006CE8EA /* NewFeedTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89C1C0576A0006CE8EA /* NewFeedTypesView.swift */; };
+		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
+		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
 		502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */; };
 		5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */; };
 		5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */; };
@@ -416,6 +418,8 @@
 		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		5020B89C1C0576A0006CE8EA /* NewFeedTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedTypesView.swift; path = Views/NewFeedTypes/NewFeedTypesView.swift; sourceTree = "<group>"; };
+		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
+		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
 		502280F71B1C3F2800E984EE /* FriendsInContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsInContactsViewController.swift; path = ViewControllers/FriendsInContacts/FriendsInContactsViewController.swift; sourceTree = "<group>"; };
 		5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationsViewController.swift; path = ViewControllers/Conversations/ConversationsViewController.swift; sourceTree = "<group>"; };
 		5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsViewController.swift; path = ViewControllers/Contacts/ContactsViewController.swift; sourceTree = "<group>"; };
@@ -1003,6 +1007,15 @@
 			name = NewFeedTypes;
 			sourceTree = "<group>";
 		};
+		5020B8A11C05811B006CE8EA /* NewFeedVoiceRecord */ = {
+			isa = PBXGroup;
+			children = (
+				5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */,
+				5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */,
+			);
+			name = NewFeedVoiceRecord;
+			sourceTree = "<group>";
+		};
 		502280F91B1C3F2F00E984EE /* FriendsInContacts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1051,6 +1064,7 @@
 				50F5AF841BBA67140033C9BC /* NewFeed */,
 				501138271BCB591E0055A014 /* FeedConversations */,
 				50535D1E1BCE42C4002FE1A4 /* PickPhotos */,
+				5020B8A11C05811B006CE8EA /* NewFeedVoiceRecord */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -2391,6 +2405,7 @@
 				50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */,
 				50DEE0551BEA0BB200015741 /* Notifications.storyboard in Resources */,
 				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
+				5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				50CDBE4A1ACBAD3200459CE0 /* ChatLeftImageCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
@@ -2755,6 +2770,7 @@
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,
+				5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

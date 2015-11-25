@@ -374,6 +374,7 @@
                         <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
                         <segue destination="oUx-zd-faH" kind="show" identifier="showProfile" id="Gdt-20-g91"/>
                         <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
+                        <segue destination="9n0-n0-AJg" kind="presentation" identifier="presentNewFeedVoiceRecord" id="xzo-eI-lqm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -386,7 +387,15 @@
                 <viewControllerPlaceholder storyboardName="NewFeed" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-558.5" y="604"/>
+            <point key="canvasLocation" x="-619.5" y="638"/>
+        </scene>
+        <!--NewFeedVoiceRecord-->
+        <scene sceneID="yGi-8X-wqb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeedVoiceRecord" id="9n0-n0-AJg" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ej-Ff-SV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-450" y="638"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="DvE-gL-l6T">

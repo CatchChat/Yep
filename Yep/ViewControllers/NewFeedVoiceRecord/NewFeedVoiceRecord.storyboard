@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="S5D-s6-yD5">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+    </dependencies>
+    <scenes>
+        <!--New Feed Voice Record View Controller-->
+        <scene sceneID="bIB-Jh-CTD">
+            <objects>
+                <viewController storyboardIdentifier="NewFeedVoiceRecordViewController" id="5Wk-eV-m8J" customClass="NewFeedVoiceRecordViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Oqj-fK-Bx5"/>
+                        <viewControllerLayoutGuide type="bottom" id="DCq-8o-f8Y"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wmt-td-jaE">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="J8m-KV-bP0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3Fv-Fg-vWI">
+                            <connections>
+                                <action selector="cancel:" destination="5Wk-eV-m8J" id="yq1-XJ-ZPD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GYe-Vs-C7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="937.5" y="385.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bOk-Cc-xUi">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S5D-s6-yD5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jUa-tx-rx0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5Wk-eV-m8J" kind="relationship" relationship="rootViewController" id="Bd5-v2-lPb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eL6-ai-Z6i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="466" y="386"/>
+        </scene>
+    </scenes>
+</document>

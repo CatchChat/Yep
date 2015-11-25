@@ -32,6 +32,7 @@ class FeedsViewController: BaseViewController {
         }
 
         view.createVoiceFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
         }
 
         view.createShortMovieFeedAction = { [weak self] in
@@ -179,7 +180,6 @@ class FeedsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
