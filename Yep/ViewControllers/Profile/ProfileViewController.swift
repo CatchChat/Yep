@@ -1244,7 +1244,7 @@ class ProfileViewController: UIViewController {
                 vc.afterOAuthAction = afterOAuthAction
             }
 
-        case "showSocialWorkGithub":
+        case "showSocialWorkGitHub":
 
             if let providerName = sender as? String {
 
