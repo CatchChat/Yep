@@ -8,6 +8,9 @@
 
 import UIKit
 import Kingfisher
+import Ruler
+
+private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -88,7 +91,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         case .GithubRepo:
             height += (80 + 15)
         case .DribbbleShot:
-            height += (160 + 15)
+            height += (dribbbleShotHeight + 15)
         default:
             break
         }
@@ -155,7 +158,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             socialWorkImageView.maskView = socialWorkMaskImageView
 
-            socialWorkContainerViewHeightConstraint.constant = 160
+            socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
 
         default:
