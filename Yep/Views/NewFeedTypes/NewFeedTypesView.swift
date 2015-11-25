@@ -86,6 +86,11 @@ class NewFeedTypesView: UIView {
         return view
     }()
 
+    var createTextAndPhotosFeedAction: (() -> Void)?
+    var createVoiceFeedAction: (() -> Void)?
+    var createShortMovieFeedAction: (() -> Void)?
+    var createLocationFeedAction: (() -> Void)?
+
     var tableViewBottomConstraint: NSLayoutConstraint?
 
     func showInView(view: UIView) {
@@ -101,7 +106,7 @@ class NewFeedTypesView: UIView {
         UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: {[weak self]  _ in
             self?.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
 
-            }, completion: { _ in
+        }, completion: { _ in
         })
 
         UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: {[weak self]  _ in
@@ -293,19 +298,23 @@ extension NewFeedTypesView: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         if let row = Row(rawValue: indexPath.row) {
-            
+
             switch row {
                 
             case .TextPhotos:
+                createTextAndPhotosFeedAction?()
                 hide()
                 
             case .Voice:
+                createVoiceFeedAction?()
                 hide()
                 
             case .ShortMovie:
+                createShortMovieFeedAction?()
                 hide()
 
             case .Location:
+                createLocationFeedAction?()
                 hide()
 
             case .Cancel:

@@ -24,7 +24,24 @@ class FeedsViewController: BaseViewController {
     var filterBarItem: UIBarButtonItem?
     
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
-    lazy var newFeedTypesView: NewFeedTypesView = NewFeedTypesView()
+    lazy var newFeedTypesView: NewFeedTypesView = {
+        let view = NewFeedTypesView()
+
+        view.createTextAndPhotosFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+        }
+
+        view.createVoiceFeedAction = { [weak self] in
+        }
+
+        view.createShortMovieFeedAction = { [weak self] in
+        }
+
+        view.createLocationFeedAction = { [weak self] in
+        }
+
+        return view
+    }()
     
     lazy var skillTitleView: UIView = {
 
@@ -407,7 +424,6 @@ class FeedsViewController: BaseViewController {
         if let window = view.window {
             newFeedTypesView.showInView(window)
         }
-        //self.performSegueWithIdentifier("presentNewFeed", sender: nil)
     }
 
     // MARK: - Navigation
