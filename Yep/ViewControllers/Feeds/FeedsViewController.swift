@@ -24,6 +24,7 @@ class FeedsViewController: BaseViewController {
     var filterBarItem: UIBarButtonItem?
     
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    lazy var newFeedTypesView: NewFeedTypesView = NewFeedTypesView()
     
     lazy var skillTitleView: UIView = {
 
@@ -402,7 +403,11 @@ class FeedsViewController: BaseViewController {
     }
 
     @IBAction func createNewFeed(sender: AnyObject) {
-        self.performSegueWithIdentifier("presentNewFeed", sender: nil)
+
+        if let window = view.window {
+            newFeedTypesView.showInView(window)
+        }
+        //self.performSegueWithIdentifier("presentNewFeed", sender: nil)
     }
 
     // MARK: - Navigation
