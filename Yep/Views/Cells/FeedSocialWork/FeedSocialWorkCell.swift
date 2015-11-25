@@ -11,6 +11,7 @@ import Kingfisher
 import Ruler
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
+private let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -25,6 +26,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var linkImageView: UIImageView!
     @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var linkAccessoryImageView: UIImageView!
+    @IBOutlet weak var linkContainerViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
@@ -158,6 +160,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             socialWorkImageView.maskView = socialWorkMaskImageView
 
+            linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
 

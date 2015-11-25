@@ -79,28 +79,28 @@
                                 <rect key="frame" x="0.0" y="0.0" width="277" height="200"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZHv-eL-Vww">
-                                        <rect key="frame" x="0.0" y="0.0" width="277" height="160"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="277" height="156"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="4n8-2p-wF0">
-                                        <rect key="frame" x="0.0" y="159" width="277" height="1"/>
+                                        <rect key="frame" x="0.0" y="155" width="277" height="1"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="pja-uk-7eK"/>
                                         </constraints>
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qce-m8-cg3">
-                                        <rect key="frame" x="0.0" y="160" width="277" height="40"/>
+                                        <rect key="frame" x="0.0" y="156" width="277" height="44"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="icon_link" translatesAutoresizingMaskIntoConstraints="NO" id="DpA-hr-Pvh">
-                                                <rect key="frame" x="15" y="10" width="20" height="20"/>
+                                                <rect key="frame" x="15" y="12" width="20" height="20"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yep Logo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pnz-a7-XkG">
-                                                <rect key="frame" x="45" y="13" width="206" height="14.5"/>
+                                                <rect key="frame" x="45" y="15" width="206" height="14.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="scn-AJ-OnL" userLabel="Accessory Image View">
-                                                <rect key="frame" x="256" y="10" width="11" height="20"/>
+                                                <rect key="frame" x="256" y="12" width="11" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="11" id="aAC-nE-sSG"/>
                                                     <constraint firstAttribute="height" constant="20" id="ow2-hD-Ivv"/>
@@ -113,6 +113,7 @@
                                             <constraint firstAttribute="trailing" secondItem="scn-AJ-OnL" secondAttribute="trailing" constant="10" id="N0Q-ha-9Wm"/>
                                             <constraint firstItem="scn-AJ-OnL" firstAttribute="leading" secondItem="Pnz-a7-XkG" secondAttribute="trailing" constant="5" id="dgQ-hU-bc7"/>
                                             <constraint firstItem="Pnz-a7-XkG" firstAttribute="centerY" secondItem="DpA-hr-Pvh" secondAttribute="centerY" id="iYa-QQ-eZi"/>
+                                            <constraint firstAttribute="height" constant="44" id="nur-mt-vtR"/>
                                             <constraint firstItem="scn-AJ-OnL" firstAttribute="centerY" secondItem="Qce-m8-cg3" secondAttribute="centerY" id="o9A-6y-jC1"/>
                                             <constraint firstItem="DpA-hr-Pvh" firstAttribute="leading" secondItem="Qce-m8-cg3" secondAttribute="leading" constant="15" id="sP1-Og-4c6"/>
                                             <constraint firstItem="DpA-hr-Pvh" firstAttribute="centerY" secondItem="Qce-m8-cg3" secondAttribute="centerY" id="vCd-mG-xHK"/>
@@ -127,7 +128,6 @@
                                     <constraint firstItem="ZHv-eL-Vww" firstAttribute="leading" secondItem="POu-Vn-keU" secondAttribute="leading" id="Co8-HP-BQw"/>
                                     <constraint firstAttribute="trailing" secondItem="ZHv-eL-Vww" secondAttribute="trailing" id="FGx-GP-fwi"/>
                                     <constraint firstItem="Qce-m8-cg3" firstAttribute="top" secondItem="ZHv-eL-Vww" secondAttribute="bottom" id="I5H-tA-fUg"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZHv-eL-Vww" secondAttribute="bottom" constant="40" id="gSk-Af-oLo"/>
                                     <constraint firstAttribute="trailing" secondItem="Qce-m8-cg3" secondAttribute="trailing" id="i4X-UP-HN3"/>
                                     <constraint firstItem="4n8-2p-wF0" firstAttribute="trailing" secondItem="ZHv-eL-Vww" secondAttribute="trailing" id="mjE-yG-4Mr"/>
                                     <constraint firstItem="Qce-m8-cg3" firstAttribute="leading" secondItem="POu-Vn-keU" secondAttribute="leading" id="nL8-zr-FIl"/>
@@ -251,6 +251,7 @@
                 <outlet property="githubRepoNameLabel" destination="Xws-vr-3yM" id="3Xb-wb-WEE"/>
                 <outlet property="linkAccessoryImageView" destination="scn-AJ-OnL" id="Zvi-vz-aTk"/>
                 <outlet property="linkContainerView" destination="Qce-m8-cg3" id="6iX-vN-ZGl"/>
+                <outlet property="linkContainerViewHeightConstraint" destination="nur-mt-vtR" id="dRC-Pi-Qun"/>
                 <outlet property="linkImageView" destination="DpA-hr-Pvh" id="vXE-IK-yeo"/>
                 <outlet property="linkLabel" destination="Pnz-a7-XkG" id="3ai-cW-DcW"/>
                 <outlet property="logoImageView" destination="Tlc-MI-H1b" id="awx-yd-g5F"/>
