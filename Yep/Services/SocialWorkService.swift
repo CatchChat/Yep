@@ -113,7 +113,7 @@ struct GithubRepo {
 func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [GithubRepo] -> Void) {
 
     let requestParameters = [
-        "type": "public",
+        "type": "owner",
         "sort": "created",
     ]
 
@@ -135,8 +135,13 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
                 fullName = repoInfo["full_name"] as? String,
                 URLString = repoInfo["html_url"] as? String,
                 description = repoInfo["description"] as? String,
-                createdAtString = repoInfo["created_at"] as? String
+                createdAtString = repoInfo["created_at"] as? String,
+                isPrivate = repoInfo["private"] as? Bool
             else {
+                continue
+            }
+
+            guard !isPrivate else {
                 continue
             }
 
