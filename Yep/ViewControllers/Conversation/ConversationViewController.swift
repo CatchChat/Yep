@@ -3834,7 +3834,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
 // MARK: AVAudioRecorderDelegate
 
-extension ConversationViewController : AVAudioRecorderDelegate {
+extension ConversationViewController: AVAudioRecorderDelegate {
 
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         println("finished recording \(flag)")

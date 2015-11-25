@@ -33,16 +33,19 @@
                                         <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHU-Kc-Wb9">
-                                        <rect key="frame" x="142" y="253" width="90" height="90"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RHU-Kc-Wb9">
+                                        <rect key="frame" x="143" y="253" width="90" height="90"/>
                                         <state key="normal" image="button_voice_record"/>
+                                        <connections>
+                                            <action selector="voiceRecord:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="pgS-LC-VHU"/>
+                                        </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-tP-LrO">
-                                        <rect key="frame" x="104" y="282" width="28" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-tP-LrO">
+                                        <rect key="frame" x="105" y="282" width="28" height="31"/>
                                         <state key="normal" image="button_voice_play"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
-                                        <rect key="frame" x="242" y="282" width="29" height="31"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
+                                        <rect key="frame" x="243" y="282" width="29" height="31"/>
                                         <state key="normal" image="button_voice_reset"/>
                                     </button>
                                 </subviews>
@@ -77,6 +80,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="voiceRecordButton" destination="RHU-Kc-Wb9" id="sNA-HQ-sU2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GYe-Vs-C7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
