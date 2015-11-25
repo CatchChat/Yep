@@ -175,8 +175,6 @@ class ChatLeftAudioCell: ChatBaseCell {
                 audioDurationLabel.text = ""
             }
             
-
-
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
                 if audioPlayer.playing {
                     if let playingMessage = YepAudioService.sharedManager.playingMessage {
