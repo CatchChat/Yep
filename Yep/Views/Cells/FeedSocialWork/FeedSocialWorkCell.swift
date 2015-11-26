@@ -102,7 +102,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         case .DribbbleShot:
             height += (dribbbleShotHeight + 15)
         case .Audio:
-            height += (40 + 15)
+            height += (44 + 15)
         default:
             break
         }
@@ -175,7 +175,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
-            mediaContainerView.layoutIfNeeded()
+            contentView.layoutIfNeeded()
 
         case .Audio:
 
@@ -196,7 +196,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 40
+            socialWorkContainerViewHeightConstraint.constant = 44
 
         default:
             break
