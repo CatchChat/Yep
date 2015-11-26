@@ -14,12 +14,44 @@ class NewFeedVoiceRecordViewController: UIViewController {
     @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
 
     @IBOutlet weak var timeLabel: UILabel!
+    
     @IBOutlet weak var voiceRecordButton: UIButton!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
 
-    var isVoiceRecording = false {
+    enum State {
+        case Default
+        case Recording
+        case FinishRecord
+    }
+    var state: State = .Default {
         willSet {
-            let image = newValue ? UIImage(named: "button_voice_record_stop") : UIImage(named: "button_voice_record")
-            voiceRecordButton.setImage(image, forState: .Normal)
+            switch newValue {
+
+            case .Default:
+
+                voiceRecordButton.hidden = false
+                let image =  UIImage(named: "button_voice_record")
+                voiceRecordButton.setImage(image, forState: .Normal)
+
+                playButton.hidden = true
+                resetButton.hidden = true
+
+            case .Recording:
+
+                voiceRecordButton.hidden = false
+                let image =  UIImage(named: "button_voice_record_stop")
+                voiceRecordButton.setImage(image, forState: .Normal)
+
+                playButton.hidden = true
+                resetButton.hidden = true
+
+            case .FinishRecord:
+
+                voiceRecordButton.hidden = true
+                playButton.hidden = false
+                resetButton.hidden = false
+            }
         }
     }
 
@@ -47,6 +79,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
         displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue")
         displayLink.frameInterval = 6 // 频率为每秒 10 次
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+
+        state = .Default
     }
 
     // MARK: - Actions
@@ -84,7 +118,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     @IBAction func voiceRecord(sender: UIButton) {
 
-        if isVoiceRecording {
+        if state == .Recording {
             YepAudioService.sharedManager.endRecord()
 
         } else {
@@ -95,7 +129,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
                 
-                isVoiceRecording = true
+                state = .Recording
             }
         }
     }
@@ -117,14 +151,14 @@ extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
 
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
 
-        isVoiceRecording = false
+        state = .FinishRecord
 
         println("finished recording \(flag)")
     }
 
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
 
-        isVoiceRecording = false
+        state = .Default
 
         println("\(error?.localizedDescription)")
     }

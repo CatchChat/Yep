@@ -91,6 +91,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="playButton" destination="fWg-tP-LrO" id="Ptn-34-nxF"/>
+                        <outlet property="resetButton" destination="Uxk-hh-sig" id="yJW-yq-0be"/>
                         <outlet property="timeLabel" destination="K9f-ND-YpE" id="weJ-Gj-PWG"/>
                         <outlet property="voiceRecordButton" destination="RHU-Kc-Wb9" id="sNA-HQ-sU2"/>
                         <outlet property="voiceRecordSampleView" destination="RCG-r4-rAb" id="08Y-Px-kgb"/>
