@@ -37,6 +37,10 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 playButton.hidden = true
                 resetButton.hidden = true
 
+                voiceRecordSampleView.reset()
+                sampleValues = []
+                audioPlayer?.stop()
+
             case .Recording:
 
                 voiceRecordButton.hidden = false

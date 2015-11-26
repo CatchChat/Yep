@@ -112,6 +112,11 @@ class VoiceRecordSampleView: UIView {
         sampleCollectionView.insertItemsAtIndexPaths([indexPath])
         sampleCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Right, animated: false)
     }
+
+    func reset() {
+        sampleValues = []
+        sampleCollectionView.reloadData()
+    }
 }
 
 extension VoiceRecordSampleView: UICollectionViewDataSource {
