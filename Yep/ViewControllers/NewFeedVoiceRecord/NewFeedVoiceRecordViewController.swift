@@ -121,12 +121,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
             return
         }
 
-        let voiceInfo: [String: AnyObject] = [
-            "fileURL": fileURL,
-            "sampleValues": sampleValues,
-        ]
+        let feedVoice = FeedVoice(fileURL: fileURL, sampleValues: sampleValues)
 
-        performSegueWithIdentifier("showNewFeed", sender: Box(voiceInfo))
+        performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
     }
 
     func checkVoiceRecordValue() {
@@ -213,11 +210,11 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
         case "showNewFeed":
 
-            if let voiceInfo = (sender as? Box<[String: AnyObject]>)?.value {
+            if let feedVoice = (sender as? Box<FeedVoice>)?.value {
 
                 let vc = segue.destinationViewController as! NewFeedViewController
 
-                vc.attachment = .Voice(voiceInfo)
+                vc.attachment = .Voice(feedVoice)
             }
 
         default:

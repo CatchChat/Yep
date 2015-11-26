@@ -17,12 +17,18 @@ import Kingfisher
 
 let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
+struct FeedVoice {
+
+    let fileURL: NSURL
+    let sampleValues: [CGFloat]
+}
+
 class NewFeedViewController: UIViewController {
 
     enum Attachment {
         case Default
         case SocialWork(MessageSocialWork)
-        case Voice([String: AnyObject])
+        case Voice(FeedVoice)
     }
 
     var attachment: Attachment = .Default
@@ -48,6 +54,8 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var voicePlayButton: UIButton!
     @IBOutlet weak var voiceSampleView: SampleView!
     @IBOutlet weak var voiceTimeLabel: UILabel!
+    
+    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
@@ -226,10 +234,72 @@ class NewFeedViewController: UIViewController {
 
             updateUIForSocialWork(socialWork)
 
-        case .Voice:
+        case .Voice(let feedVoice):
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = false
+
+            voiceSampleView.sampleColor = UIColor.leftWaveColor()
+
+            let voiceSampleValues = feedVoice.sampleValues
+
+            let seconds = voiceSampleValues.count / 10
+            let subSeconds = voiceSampleValues.count - seconds * 10
+            voiceTimeLabel.text = String(format: "%d.%d\"", seconds, subSeconds)
+
+            // 我们来一个 [0, 无穷] 到 [0, 1] 的映射
+
+            // 函数 y = 1 - 1 / e^(x/100) 挺合适
+            func f(x: Int, max: Int) -> Int {
+                let n = 1 - 1 / exp(Double(x) / 100)
+                return Int(Double(max) * n)
+            }
+            /*
+            // mini test
+            for var i = 0; i < 1000; i+=10 {
+                let finalNumber = f(i, max:  maxNumber)
+                println("i: \(i), finalNumber: \(finalNumber)")
+            }
+            */
+
+            let maxNumber = 60
+            let finalNumber = f(voiceSampleValues.count, max: maxNumber)
+
+            println("maxNumber: \(maxNumber)")
+            println("voiceSampleValues.count: \(voiceSampleValues.count)")
+            println("finalNumber: \(finalNumber)")
+
+            // 再做一个抽样
+
+            func averageSamplingFrom(values:[CGFloat], withCount count: Int) -> [CGFloat] {
+
+                let step = Double(values.count) / Double(count)
+
+                var outoutValues = [CGFloat]()
+
+                var x: Double = 0
+
+                for _ in 0..<count {
+
+                    let index = Int(x)
+
+                    if let value = values[safe: index] {
+                        outoutValues.append(value)
+                    } else {
+                        break
+                    }
+
+                    x += step
+                }
+
+                return outoutValues
+            }
+
+            let finalVoiceSampleValues = averageSamplingFrom(voiceSampleValues, withCount: finalNumber)
+            println("finalVoiceSampleValues.count: \(finalVoiceSampleValues.count)")
+            voiceSampleView.samples = finalVoiceSampleValues
+
+            voiceSampleViewWidthConstraint.constant = CGFloat(finalNumber) * 3
         }
     }
 

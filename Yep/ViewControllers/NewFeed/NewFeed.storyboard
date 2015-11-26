@@ -132,6 +132,7 @@
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="TGS-Bo-jUz"/>
+                                                    <constraint firstAttribute="width" constant="154.5" id="qaT-T2-Gze"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQk-kn-FNT" userLabel="Time Length Label">
@@ -240,7 +241,6 @@
                                 </subviews>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstItem="PYL-JY-jga" firstAttribute="trailing" secondItem="AzV-Be-YFx" secondAttribute="trailing" id="1Ug-vk-rdJ"/>
                                     <constraint firstItem="AzV-Be-YFx" firstAttribute="leading" secondItem="nqc-gK-NZL" secondAttribute="leading" constant="15" id="BYU-Nm-HVf"/>
                                     <constraint firstAttribute="bottom" secondItem="VPy-FV-QI7" secondAttribute="bottom" constant="171" id="HIf-SY-8BI"/>
                                     <constraint firstItem="PYL-JY-jga" firstAttribute="bottom" secondItem="AzV-Be-YFx" secondAttribute="bottom" id="J6o-lN-itr"/>
@@ -304,6 +304,7 @@
                         <outlet property="voiceContainerView" destination="PYL-JY-jga" id="F0e-rw-eny"/>
                         <outlet property="voicePlayButton" destination="XEZ-qJ-BN0" id="paW-5G-GLh"/>
                         <outlet property="voiceSampleView" destination="rTm-vU-VMb" id="Rsl-5c-8m9"/>
+                        <outlet property="voiceSampleViewWidthConstraint" destination="qaT-T2-Gze" id="KqH-z4-MZV"/>
                         <outlet property="voiceTimeLabel" destination="eQk-kn-FNT" id="wCE-gg-s7v"/>
                         <segue destination="frk-9a-m7E" kind="show" identifier="showPickPhotos" id="Bg2-Jr-e9C"/>
                     </connections>
