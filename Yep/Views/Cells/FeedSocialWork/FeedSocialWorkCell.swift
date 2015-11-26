@@ -175,7 +175,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
-            contentView.layoutIfNeeded()
+            mediaContainerView.layoutIfNeeded()
 
         case .Audio:
 
@@ -183,6 +183,18 @@ class FeedSocialWorkCell: FeedBasicCell {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
             socialWorkBorderImageView.hidden = true
+
+            if let attachment = feed.attachment {
+                if case let .Audio(audioInfo) = attachment {
+
+                    voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                    voiceSampleView.samples = audioInfo.sampleValues
+
+                    voiceTimeLabel.text = String(format: "%.1f\"", audioInfo.duration)
+
+                    voiceSampleViewWidthConstraint.constant = CGFloat(audioInfo.sampleValues.count) * 3
+                }
+            }
 
             socialWorkContainerViewHeightConstraint.constant = 40
 

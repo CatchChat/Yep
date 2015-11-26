@@ -2625,11 +2625,41 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct AudioInfo {
+        let URLString: String
+        let duration: NSTimeInterval
+        let sampleValues: [CGFloat]
+
+        static func fromJSONDictionary(json: JSONDictionary) -> AudioInfo? {
+            guard let
+                fileInfo = json["file"] as? JSONDictionary,
+                URLString = fileInfo["url"] as? String,
+                metaDataString = json["metadata"] else {
+                    return nil
+            }
+
+            if let data = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                if let metaDataInfo = decodeJSON(data) {
+
+                    guard let
+                        duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
+                        sampleValues = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] else {
+                            return nil
+                    }
+
+                    return AudioInfo(URLString: URLString, duration: duration, sampleValues: sampleValues)
+                }
+            }
+
+            return nil
+        }
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
-        case Audio
+        case Audio(AudioInfo)
     }
 
     let attachment: Attachment?
@@ -2699,7 +2729,13 @@ struct DiscoveredFeed: Hashable {
             }
 
         case .Audio:
-            attachment = .Audio
+
+            if let
+                audioInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                _audioInfo = audioInfosData.first,
+                audioInfo = DiscoveredFeed.AudioInfo.fromJSONDictionary(_audioInfo) {
+                    attachment = .Audio(audioInfo)
+            }
 
         default:
             break
