@@ -433,181 +433,33 @@ class NewFeedViewController: UIViewController {
         YepHUD.showActivityIndicator()
         
         let message = messageTextView.text
-        
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
-        
-        let uploadMediaImagesGroup = dispatch_group_create()
-        
-        var uploadImageInfos = [UploadImageInfo]()
-        
-        mediaImages.forEach({ image in
-            
-            let imageWidth = image.size.width
-            let imageHeight = image.size.height
-            
-            let fixedImageWidth: CGFloat
-            let fixedImageHeight: CGFloat
-            
-            if imageWidth > imageHeight {
-                fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
-                fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-            } else {
-                fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
-                fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-            }
-            
-            let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
-            
-            // resize to smaller, not need fixRotation
-            
-            
-            if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High),
-                imageData = UIImageJPEGRepresentation(image, 0.95) {
-                
-                dispatch_group_enter(uploadMediaImagesGroup)
-                
-                s3UploadFileOfKind(.Feed, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
-                    
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        dispatch_group_leave(uploadMediaImagesGroup)
-                    }
-                    
-                }, completion: { s3UploadParams in
-                    
-                    // Prepare meta data
-                    
-                    let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                    
-                    let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
-                        uploadImageInfos.append(uploadImageInfo)
-                        
-                        dispatch_group_leave(uploadMediaImagesGroup)
-                    }
-                })
-            }
-        })
-        
-        dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) { [weak self] in
-            
-            var mediaInfo: JSONDictionary?
-            
-            if !uploadImageInfos.isEmpty {
-                
-                let imageInfosData = uploadImageInfos.map({
-                    [
-                        "file": $0.s3UploadParams.key,
-                        "metadata": $0.metaDataString ?? "",
-                    ]
-                })
-                
-                mediaInfo = [
-                    "image": imageInfosData,
-                ]
-            }
-            
-            if let userID = YepUserDefaults.userID.value,
-                nickname = YepUserDefaults.nickname.value{
-                    Answers.logCustomEventWithName("New Feed",
-                        customAttributes: [
-                            "userID": userID,
-                            "nickname": nickname,
-                            "time": NSDate().description
-                        ])
-                    
-            }
+        var kind: FeedKind = .Text
+        var mediaInfo: JSONDictionary?
 
-            var kind: FeedKind = uploadImageInfos.isEmpty ? .Text : .Image
+        let doCreateFeed: () -> Void = { [weak self] in
 
-
-            switch self!.attachment {
-
-            case .Default:
-                break
-
-            case .SocialWork(let socialWork):
-
-                guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
-                    return
-                }
-
-                switch type {
-
-                case .GithubRepo:
-
-                    guard let githubRepo = socialWork.githubRepo else {
-                        break
-                    }
-
-                    let repoInfo = [
-                        "repo_id": githubRepo.repoID,
-                        "name": githubRepo.name,
-                        "full_name": githubRepo.fullName,
-                        "description": githubRepo.repoDescription,
-                        "url": githubRepo.URLString,
-                        "created_at": githubRepo.createdUnixTime,
-                    ]
-
-                    mediaInfo = [
-                        "github": [repoInfo]
-                    ]
-
-                    kind = .GithubRepo
-
-                case .DribbbleShot:
-
-                    guard let dribbbleShot = socialWork.dribbbleShot else {
-                        break
-                    }
-
-                    let shotInfo = [
-                        "shot_id": dribbbleShot.shotID,
-                        "title": dribbbleShot.title,
-                        "description": dribbbleShot.shotDescription,
-                        "media_url": dribbbleShot.imageURLString,
-                        "url": dribbbleShot.htmlURLString,
-                        "created_at": dribbbleShot.createdUnixTime,
-                    ]
-
-                    mediaInfo = [
-                        "dribbble": [shotInfo]
-                    ]
-
-                    kind = .DribbbleShot
-
-                default:
-                    break
-                }
-
-            case .Voice(let feedVoice):
-
-                let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
-                let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
-
-                let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
-
-                var metaData: String?
-                if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                    let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-                    metaData = audioMetaDataString
-                }
+            if let userID = YepUserDefaults.userID.value, nickname = YepUserDefaults.nickname.value {
+                Answers.logCustomEventWithName("New Feed",
+                    customAttributes: [
+                        "userID": userID,
+                        "nickname": nickname,
+                        "time": NSDate().description
+                    ])
             }
 
             createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
-                
+
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
-                
+
                 YepHUD.hideActivityIndicator()
-                
+
             }, completion: { data in
                 println(data)
-                
+
                 YepHUD.hideActivityIndicator()
-                
+
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                     if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
@@ -616,12 +468,194 @@ class NewFeedViewController: UIViewController {
 
                     self?.dismissViewControllerAnimated(true, completion: nil)
                 }
-
+                
                 syncGroupsAndDoFurtherAction {}
             })
         }
+
+        let uploadMediaImagesGroup = dispatch_group_create()
+
+        switch attachment {
+
+        case .Default:
+
+            var uploadImageInfos = [UploadImageInfo]()
+
+            mediaImages.forEach({ image in
+
+                let imageWidth = image.size.width
+                let imageHeight = image.size.height
+
+                let fixedImageWidth: CGFloat
+                let fixedImageHeight: CGFloat
+
+                if imageWidth > imageHeight {
+                    fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                    fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                } else {
+                    fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                    fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                }
+
+                let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                // resize to smaller, not need fixRotation
+
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
+
+                    dispatch_group_enter(uploadMediaImagesGroup)
+
+                    s3UploadFileOfKind(.Feed, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            dispatch_group_leave(uploadMediaImagesGroup)
+                        }
+
+                    }, completion: { s3UploadParams in
+
+                        // Prepare meta data
+
+                        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
+
+                        let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            uploadImageInfos.append(uploadImageInfo)
+
+                            dispatch_group_leave(uploadMediaImagesGroup)
+                        }
+                    })
+                }
+            })
+
+            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+
+                if !uploadImageInfos.isEmpty {
+
+                    let imageInfosData = uploadImageInfos.map({
+                        [
+                            "file": $0.s3UploadParams.key,
+                            "metadata": $0.metaDataString ?? "",
+                        ]
+                    })
+
+                    mediaInfo = [
+                        "image": imageInfosData,
+                    ]
+
+                    kind = .Image
+                }
+
+                doCreateFeed()
+            }
+
+        case .SocialWork(let socialWork):
+
+            guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
+                return
+            }
+
+            switch type {
+
+            case .GithubRepo:
+
+                guard let githubRepo = socialWork.githubRepo else {
+                    break
+                }
+
+                let repoInfo = [
+                    "repo_id": githubRepo.repoID,
+                    "name": githubRepo.name,
+                    "full_name": githubRepo.fullName,
+                    "description": githubRepo.repoDescription,
+                    "url": githubRepo.URLString,
+                    "created_at": githubRepo.createdUnixTime,
+                ]
+
+                mediaInfo = [
+                    "github": [repoInfo]
+                ]
+
+                kind = .GithubRepo
+
+            case .DribbbleShot:
+
+                guard let dribbbleShot = socialWork.dribbbleShot else {
+                    break
+                }
+
+                let shotInfo = [
+                    "shot_id": dribbbleShot.shotID,
+                    "title": dribbbleShot.title,
+                    "description": dribbbleShot.shotDescription,
+                    "media_url": dribbbleShot.imageURLString,
+                    "url": dribbbleShot.htmlURLString,
+                    "created_at": dribbbleShot.createdUnixTime,
+                ]
+
+                mediaInfo = [
+                    "dribbble": [shotInfo]
+                ]
+
+                kind = .DribbbleShot
+
+            default:
+                break
+            }
+
+            doCreateFeed()
+
+        case .Voice(let feedVoice):
+
+            let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+            let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+            let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+
+            var metaDataString = ""
+            if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String {
+                    metaDataString = audioMetaDataString
+                }
+            }
+
+            dispatch_group_enter(uploadMediaImagesGroup)
+
+            s3UploadFileOfKind(.Feed, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: MessageMediaType.Audio.mineType, failureHandler: { (reason, errorMessage) in
+
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(uploadMediaImagesGroup)
+                }
+
+            }, completion: { s3UploadParams in
+
+                let audioInfo = [
+                    "file": s3UploadParams.key,
+                    "metadata": metaDataString,
+                ]
+
+                mediaInfo = [
+                    "audio": [audioInfo]
+                ]
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(uploadMediaImagesGroup)
+                }
+            })
+
+            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+                kind = .Audio
+                doCreateFeed()
+            }
+        }
     }
 }
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
