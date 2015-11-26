@@ -243,7 +243,7 @@ class ConversationViewController: BaseViewController {
 
     var afterSentMessageAction: (() -> Void)?
 
-    var afterDeletedConversationAction: (() -> Void)?
+    var afterDeletedFeedAction: (() -> Void)?
 
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
@@ -1927,9 +1927,8 @@ class ConversationViewController: BaseViewController {
                         return
                     }
 
-                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: { [weak self] in
+                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
                         afterLeaveGroup?()
-                        self?.afterDeletedConversationAction?()
                     })
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
@@ -1954,6 +1953,7 @@ class ConversationViewController: BaseViewController {
                     doDeleteConversation(afterLeaveGroup: {
                         deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                             println("deleted feed: \(feedID)")
+                            self?.afterDeletedFeedAction?()
                         })
                     })
 

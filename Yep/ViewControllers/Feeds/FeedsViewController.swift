@@ -484,7 +484,7 @@ class FeedsViewController: BaseViewController {
 
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-            vc.afterDeletedConversationAction = { [weak self] in
+            vc.afterDeletedFeedAction = { [weak self] in
                 self?.updateFeeds()
             }
 
