@@ -55,7 +55,7 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var voicePlayButton: UIButton!
     @IBOutlet weak var voiceSampleView: SampleView!
     @IBOutlet weak var voiceTimeLabel: UILabel!
-    
+
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var channelView: UIView!

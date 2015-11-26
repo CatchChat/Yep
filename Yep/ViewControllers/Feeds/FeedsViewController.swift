@@ -136,7 +136,7 @@ class FeedsViewController: BaseViewController {
 
             let height: CGFloat
             switch feed.kind {
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
             default:
                 height = FeedCell.heightOfFeed(feed)
@@ -264,17 +264,17 @@ class FeedsViewController: BaseViewController {
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason, errorMessage: errorMessage)
                     
-                    }, completion: { [weak self] _ in
-                        
-                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.navigationItem.rightBarButtonItem = nil
-                        }
-                        
-                        syncMyInfoAndDoFurtherAction {
-                        }
-                    })
+                }, completion: { [weak self] _ in
+                    
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.navigationItem.rightBarButtonItem = nil
+                    }
+                    
+                    syncMyInfoAndDoFurtherAction {
+                    }
+                })
             }
             
             let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
@@ -612,7 +612,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
 
@@ -688,7 +688,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio:
 
                 guard let cell = cell as? FeedSocialWorkCell else {
                     break

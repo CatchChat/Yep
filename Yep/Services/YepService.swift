@@ -2629,6 +2629,7 @@ struct DiscoveredFeed: Hashable {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
+        case Audio
     }
 
     let attachment: Attachment?
@@ -2696,6 +2697,9 @@ struct DiscoveredFeed: Hashable {
                 dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo) {
                     attachment = .Dribbble(dribbbleShot)
             }
+
+        case .Audio:
+            attachment = .Audio
 
         default:
             break

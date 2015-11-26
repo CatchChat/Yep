@@ -34,6 +34,13 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
     @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
 
+    @IBOutlet weak var voiceContainerView: UIView!
+    @IBOutlet weak var voicePlayButton: UIButton!
+    @IBOutlet weak var voiceSampleView: SampleView!
+    @IBOutlet weak var voiceTimeLabel: UILabel!
+
+    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
@@ -94,6 +101,8 @@ class FeedSocialWorkCell: FeedBasicCell {
             height += (80 + 15)
         case .DribbbleShot:
             height += (dribbbleShotHeight + 15)
+        case .Audio:
+            height += (40 + 15)
         default:
             break
         }
@@ -132,6 +141,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             mediaContainerView.hidden = true
             githubRepoContainerView.hidden = false
+            voiceContainerView.hidden = true
+            socialWorkBorderImageView.hidden = false
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
@@ -148,6 +159,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             mediaContainerView.hidden = false
             githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = true
+            socialWorkBorderImageView.hidden = false
 
             linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
@@ -163,6 +176,15 @@ class FeedSocialWorkCell: FeedBasicCell {
             linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
+
+        case .Audio:
+
+            mediaContainerView.hidden = true
+            githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = false
+            socialWorkBorderImageView.hidden = true
+
+            socialWorkContainerViewHeightConstraint.constant = 40
 
         default:
             break

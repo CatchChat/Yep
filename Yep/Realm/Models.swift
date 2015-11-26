@@ -970,6 +970,9 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 socialWork.dribbbleShot = socialWorkDribbbleShot
 
                 newFeed.socialWork = socialWork
+
+            case .Audio:
+                break
             }
         }
 

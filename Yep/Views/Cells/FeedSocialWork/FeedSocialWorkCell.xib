@@ -179,6 +179,50 @@
                                     <constraint firstAttribute="trailing" secondItem="dxa-Hj-jcb" secondAttribute="trailing" id="st0-2W-97w"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Wk-SP-ftQ">
+                                <rect key="frame" x="0.0" y="80" width="238" height="40"/>
+                                <subviews>
+                                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="vI1-cB-kyM" userLabel="Bubble Image View">
+                                        <rect key="frame" x="0.0" y="0.0" width="238" height="40"/>
+                                        <color key="tintColor" red="0.84590041039999997" green="0.84590041039999997" blue="0.84590041039999997" alpha="1" colorSpace="calibratedRGB"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cly-Qr-vsm" userLabel="Play Button">
+                                        <rect key="frame" x="8" y="5" width="30" height="30"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" image="icon_play">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36H-D3-r3h" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="48" y="0.0" width="154.5" height="40"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="EwA-fT-kcu"/>
+                                            <constraint firstAttribute="width" constant="154.5" id="POH-BW-HNK"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="944-sv-1et" userLabel="Time Length Label">
+                                        <rect key="frame" x="212" y="11" width="15.5" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="cly-Qr-vsm" firstAttribute="centerY" secondItem="2Wk-SP-ftQ" secondAttribute="centerY" id="Arq-Xe-GG9"/>
+                                    <constraint firstItem="vI1-cB-kyM" firstAttribute="top" secondItem="2Wk-SP-ftQ" secondAttribute="top" id="BLD-uB-sO7"/>
+                                    <constraint firstItem="944-sv-1et" firstAttribute="leading" secondItem="36H-D3-r3h" secondAttribute="trailing" constant="10" id="D9x-JJ-6WX"/>
+                                    <constraint firstAttribute="trailing" secondItem="944-sv-1et" secondAttribute="trailing" constant="10" id="JSS-7M-IGl"/>
+                                    <constraint firstItem="cly-Qr-vsm" firstAttribute="leading" secondItem="2Wk-SP-ftQ" secondAttribute="leading" constant="8" id="NAZ-83-YMN"/>
+                                    <constraint firstItem="vI1-cB-kyM" firstAttribute="leading" secondItem="2Wk-SP-ftQ" secondAttribute="leading" id="Xq6-yw-XBt"/>
+                                    <constraint firstItem="36H-D3-r3h" firstAttribute="centerY" secondItem="cly-Qr-vsm" secondAttribute="centerY" id="fjo-3c-ZC4"/>
+                                    <constraint firstAttribute="bottom" secondItem="vI1-cB-kyM" secondAttribute="bottom" id="jxK-t0-fy5"/>
+                                    <constraint firstAttribute="trailing" secondItem="vI1-cB-kyM" secondAttribute="trailing" id="mp8-Tt-lba"/>
+                                    <constraint firstItem="36H-D3-r3h" firstAttribute="leading" secondItem="cly-Qr-vsm" secondAttribute="trailing" constant="10" id="pFn-Iy-zlQ"/>
+                                    <constraint firstItem="944-sv-1et" firstAttribute="centerY" secondItem="36H-D3-r3h" secondAttribute="centerY" id="rym-qV-0YI"/>
+                                </constraints>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="Iob-TA-bgf">
                                 <rect key="frame" x="0.0" y="0.0" width="277" height="200"/>
                             </imageView>
@@ -187,12 +231,14 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="sme-NU-I1C" secondAttribute="trailing" constant="11" id="2EX-w5-477"/>
                             <constraint firstItem="POu-Vn-keU" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="BMT-bP-L9e"/>
+                            <constraint firstItem="2Wk-SP-ftQ" firstAttribute="centerY" secondItem="eHY-0K-bDQ" secondAttribute="centerY" id="DD7-mI-QIF"/>
                             <constraint firstItem="sme-NU-I1C" firstAttribute="centerY" secondItem="eHY-0K-bDQ" secondAttribute="centerY" id="FuS-Xb-yVM"/>
                             <constraint firstItem="Iob-TA-bgf" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="MvN-Gi-duP"/>
                             <constraint firstAttribute="bottom" secondItem="POu-Vn-keU" secondAttribute="bottom" id="O57-kv-oIe"/>
                             <constraint firstAttribute="height" constant="200" id="Ogh-S5-nei"/>
                             <constraint firstItem="Iob-TA-bgf" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="P4P-tA-MrO"/>
                             <constraint firstAttribute="trailing" secondItem="Iob-TA-bgf" secondAttribute="trailing" id="Rgw-iN-KuX"/>
+                            <constraint firstItem="2Wk-SP-ftQ" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="aFR-W5-2Fg"/>
                             <constraint firstAttribute="bottom" secondItem="Iob-TA-bgf" secondAttribute="bottom" id="bDt-as-dcI"/>
                             <constraint firstItem="sme-NU-I1C" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" constant="16" id="dAi-xr-FQZ"/>
                             <constraint firstItem="POu-Vn-keU" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="mbZ-na-7o7"/>
@@ -267,15 +313,22 @@
                 <outlet property="socialWorkContainerViewHeightConstraint" destination="Ogh-S5-nei" id="56b-gu-LFP"/>
                 <outlet property="socialWorkImageView" destination="ZHv-eL-Vww" id="NqZ-4L-5j1"/>
                 <outlet property="timeLabel" destination="9CZ-zE-b9N" id="oRx-eX-zoP"/>
+                <outlet property="voiceContainerView" destination="2Wk-SP-ftQ" id="H7z-75-uJQ"/>
+                <outlet property="voicePlayButton" destination="cly-Qr-vsm" id="taF-yZ-67V"/>
+                <outlet property="voiceSampleView" destination="36H-D3-r3h" id="edy-EX-mvD"/>
+                <outlet property="voiceSampleViewWidthConstraint" destination="POH-BW-HNK" id="Jan-fH-ogI"/>
+                <outlet property="voiceTimeLabel" destination="944-sv-1et" id="Bso-vt-B6A"/>
             </connections>
             <point key="canvasLocation" x="260" y="304"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="bubble_body" width="42" height="40"/>
         <image name="icon_accessory_mini" width="8" height="13"/>
         <image name="icon_discussion" width="30" height="19"/>
         <image name="icon_github" width="24" height="23"/>
         <image name="icon_link" width="20" height="20"/>
+        <image name="icon_play" width="30" height="30"/>
         <image name="icon_repo" width="16" height="21"/>
         <image name="skill_bubble_empty" width="23" height="22"/>
         <image name="social_work_border" width="11" height="11"/>
