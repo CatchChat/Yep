@@ -117,6 +117,16 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     @IBAction func next(sender: UIBarButtonItem) {
 
+        guard let fileURL = voiceFileURL where !sampleValues.isEmpty else {
+            return
+        }
+
+        let voiceInfo: [String: AnyObject] = [
+            "fileURL": fileURL,
+            "sampleValues": sampleValues,
+        ]
+
+        performSegueWithIdentifier("showNewFeed", sender: Box(voiceInfo))
     }
 
     func checkVoiceRecordValue() {
@@ -191,16 +201,26 @@ class NewFeedVoiceRecordViewController: UIViewController {
         state = .Default
     }
 
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showNewFeed":
+
+            if let voiceInfo = (sender as? Box<[String: AnyObject]>)?.value {
+
+            }
+
+        default:
+            break
+        }
     }
-    */
 }
 
 // MARK: - AVAudioRecorderDelegate

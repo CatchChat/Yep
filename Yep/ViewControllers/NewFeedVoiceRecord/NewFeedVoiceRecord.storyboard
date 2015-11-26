@@ -108,11 +108,20 @@
                         <outlet property="timeLabel" destination="K9f-ND-YpE" id="weJ-Gj-PWG"/>
                         <outlet property="voiceRecordButton" destination="RHU-Kc-Wb9" id="sNA-HQ-sU2"/>
                         <outlet property="voiceRecordSampleView" destination="RCG-r4-rAb" id="08Y-Px-kgb"/>
+                        <segue destination="S0t-ms-vnX" kind="show" identifier="showNewFeed" id="KIM-KU-4K3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GYe-Vs-C7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="937.5" y="385.5"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="fP0-zD-Xpf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="S0t-ms-vnX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KDE-PM-x19" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1333.5" y="386"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bOk-Cc-xUi">
