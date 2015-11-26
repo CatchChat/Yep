@@ -9,6 +9,7 @@
 import UIKit
 import Kingfisher
 import Ruler
+import RealmSwift
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 private let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
@@ -193,6 +194,52 @@ class FeedSocialWorkCell: FeedBasicCell {
                     voiceTimeLabel.text = String(format: "%.1f\"", audioInfo.duration)
 
                     voiceSampleViewWidthConstraint.constant = CGFloat(audioInfo.sampleValues.count) * 3
+
+                    if let realm = try? Realm() {
+
+                        let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
+
+                        if feedAudio == nil {
+                            if let URL = NSURL(string: audioInfo.URLString) {
+                                YepDownloader.downloadDataFromURL(URL, reportProgress: { progress in
+                                    println("audio progress: \(progress)")
+
+                                }, finishedAction: { data in
+                                    println("audio finish: \(data.length)")
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        if let realm = try? Realm() {
+
+                                            var feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
+
+                                            if feedAudio == nil {
+                                                let newFeedAudio = FeedAudio()
+                                                newFeedAudio.feedID = audioInfo.feedID
+                                                newFeedAudio.URLString = audioInfo.URLString
+                                                newFeedAudio.metadata = audioInfo.metaData
+
+                                                let _ = try? realm.write {
+                                                    realm.add(newFeedAudio)
+                                                }
+
+                                                feedAudio = newFeedAudio
+                                            }
+
+                                            if let feedAudio = feedAudio where feedAudio.fileName.isEmpty {
+
+                                                let fileName = NSUUID().UUIDString
+                                                if let _ = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                                    let _ = try? realm.write {
+                                                        feedAudio.fileName = fileName
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    }
                 }
             }
 

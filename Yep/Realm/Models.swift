@@ -681,9 +681,20 @@ class Attachment: Object {
 
 class FeedAudio: Object {
 
+    dynamic var feedID: String = ""
     dynamic var URLString: String = ""
     dynamic var metadata: NSData = NSData()
     dynamic var fileName: String = ""
+
+    var belongToFeed: Feed? {
+        return linkingObjects(Feed.self, forProperty: "audio").first
+    }
+
+    class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
+        let predicate = NSPredicate(format: "feedID = %@", feedID)
+        return realm.objects(FeedAudio).filter(predicate).first
+    }
+
 }
 
 class Feed: Object {
@@ -982,6 +993,7 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
             case .Audio(let audioInfo):
 
                 let feedAudio = FeedAudio()
+                feedAudio.feedID = audioInfo.feedID
                 feedAudio.URLString = audioInfo.URLString
                 feedAudio.metadata = audioInfo.metaData
 

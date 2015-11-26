@@ -2626,12 +2626,13 @@ struct DiscoveredFeed: Hashable {
     }
 
     struct AudioInfo {
+        let feedID: String
         let URLString: String
         let metaData: NSData
         let duration: NSTimeInterval
         let sampleValues: [CGFloat]
 
-        static func fromJSONDictionary(json: JSONDictionary) -> AudioInfo? {
+        static func fromJSONDictionary(json: JSONDictionary, feedID: String) -> AudioInfo? {
             guard let
                 fileInfo = json["file"] as? JSONDictionary,
                 URLString = fileInfo["url"] as? String,
@@ -2648,7 +2649,7 @@ struct DiscoveredFeed: Hashable {
                             return nil
                     }
 
-                    return AudioInfo(URLString: URLString, metaData: metaData, duration: duration, sampleValues: sampleValues)
+                    return AudioInfo(feedID: feedID, URLString: URLString, metaData: metaData, duration: duration, sampleValues: sampleValues)
                 }
             }
 
@@ -2734,7 +2735,7 @@ struct DiscoveredFeed: Hashable {
             if let
                 audioInfosData = feedInfo["attachments"] as? [JSONDictionary],
                 _audioInfo = audioInfosData.first,
-                audioInfo = DiscoveredFeed.AudioInfo.fromJSONDictionary(_audioInfo) {
+                audioInfo = DiscoveredFeed.AudioInfo.fromJSONDictionary(_audioInfo, feedID: id) {
                     attachment = .Audio(audioInfo)
             }
 
