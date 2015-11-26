@@ -19,7 +19,15 @@ let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLo
 
 class NewFeedViewController: UIViewController {
 
-    var socialWork: MessageSocialWork?
+    enum Attachment {
+        case Default
+        case SocialWork(MessageSocialWork)
+        case Voice([String: AnyObject])
+    }
+
+    var attachment: Attachment = .Default
+
+    //var socialWork: MessageSocialWork?
 
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
     
@@ -35,7 +43,12 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
-    
+
+    @IBOutlet weak var voiceContainerView: UIView!
+    @IBOutlet weak var voicePlayButton: UIButton!
+    @IBOutlet weak var voiceSampleView: SampleView!
+    @IBOutlet weak var voiceTimeLabel: UILabel!
+
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
     
@@ -199,25 +212,25 @@ class NewFeedViewController: UIViewController {
             })
         }
 
-        let hasSocialWork = (socialWork != nil)
-        mediaCollectionView.hidden = hasSocialWork
-        socialWorkContainerView.hidden = !hasSocialWork
+        switch attachment {
 
-        if let socialWork = socialWork {
+        case .Default:
+            mediaCollectionView.hidden = false
+            socialWorkContainerView.hidden = true
+            voiceContainerView.hidden = true
+
+        case .SocialWork(let socialWork):
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+            voiceContainerView.hidden = true
+
             updateUIForSocialWork(socialWork)
+
+        case .Voice:
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = true
+            voiceContainerView.hidden = false
         }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-//        delay(1) { [weak self] in
-//            guard self?.presentedViewController == nil else {
-//                return
-//            }
-//
-//            self?.messageTextView.becomeFirstResponder()
-//        }
     }
 
     // MARK: UI
@@ -491,7 +504,13 @@ class NewFeedViewController: UIViewController {
 
             var kind: FeedKind = uploadImageInfos.isEmpty ? .Text : .Image
 
-            if let socialWork = self?.socialWork {
+
+            switch self!.attachment {
+
+            case .Default:
+                break
+
+            case .SocialWork(let socialWork):
 
                 guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
                     return
@@ -544,6 +563,9 @@ class NewFeedViewController: UIViewController {
                 default:
                     break
                 }
+
+            case .Voice:
+                break
             }
 
             createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in

@@ -2617,7 +2617,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if let socialWork = sender as? MessageSocialWork {
-                vc.socialWork = socialWork
+                vc.attachment = .SocialWork(socialWork)
 
                 vc.afterCreatedFeedAction = { [weak self] feed in
 

@@ -215,6 +215,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
             if let voiceInfo = (sender as? Box<[String: AnyObject]>)?.value {
 
+                let vc = segue.destinationViewController as! NewFeedViewController
+
+                vc.attachment = .Voice(voiceInfo)
             }
 
         default:
