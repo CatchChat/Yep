@@ -56,7 +56,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
     }
 
     var voiceFileURL: NSURL?
-
+    var audioPlayer: AVAudioPlayer?
     var displayLink: CADisplayLink!
 
     var sampleValues: [CGFloat] = [] {
@@ -127,12 +127,52 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 voiceFileURL = fileURL
 
+                YepAudioService.sharedManager.shouldIgnoreStart = false
+
                 YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
                 
                 state = .Recording
             }
         }
     }
+
+    @IBAction func play(sender: UIButton) {
+
+        guard let voiceFileURL = voiceFileURL else {
+            return
+        }
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playVoice setCategory failed: \(error)")
+                return
+            }
+        }
+
+        do {
+            let audioPlayer = try AVAudioPlayer(contentsOfURL: voiceFileURL)
+
+            self.audioPlayer = audioPlayer // hold it
+
+            audioPlayer.delegate = self
+            audioPlayer.prepareToPlay()
+
+            if audioPlayer.play() {
+                println("do play voice")
+            }
+
+        } catch let error {
+            println("play voice error: \(error)")
+        }
+    }
+
+    @IBAction func reset(sender: UIButton) {
+
+        state = .Default
+    }
+
 
     /*
     // MARK: - Navigation
@@ -145,7 +185,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
     */
 }
 
-// MARK: AVAudioRecorderDelegate
+// MARK: - AVAudioRecorderDelegate
 
 extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
 
@@ -153,14 +193,30 @@ extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
 
         state = .FinishRecord
 
-        println("finished recording \(flag)")
+        println("audioRecorderDidFinishRecording: \(flag)")
     }
 
     func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
 
         state = .Default
 
-        println("\(error?.localizedDescription)")
+        println("audioRecorderEncodeErrorDidOccur: \(error)")
     }
 }
+
+// MARK: - AVAudioPlayerDelegate
+
+extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying: \(flag)")
+    }
+
+    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+
+        println("audioPlayerDecodeErrorDidOccur: \(error)")
+    }
+}
+
 
