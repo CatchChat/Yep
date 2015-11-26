@@ -11,6 +11,8 @@ import AVFoundation
 
 class NewFeedVoiceRecordViewController: UIViewController {
 
+    @IBOutlet weak var nextButton: UIBarButtonItem!
+
     @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
 
     @IBOutlet weak var timeLabel: UILabel!
@@ -30,6 +32,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
             case .Default:
 
+                nextButton.enabled = false
+
                 voiceRecordButton.hidden = false
                 let image =  UIImage(named: "button_voice_record")
                 voiceRecordButton.setImage(image, forState: .Normal)
@@ -43,6 +47,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
             case .Recording:
 
+                nextButton.enabled = false
+
                 voiceRecordButton.hidden = false
                 let image =  UIImage(named: "button_voice_record_stop")
                 voiceRecordButton.setImage(image, forState: .Normal)
@@ -51,6 +57,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 resetButton.hidden = true
 
             case .FinishRecord:
+
+                nextButton.enabled = true
 
                 voiceRecordButton.hidden = true
                 playButton.hidden = false
@@ -80,6 +88,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
         title = NSLocalizedString("New Voice", comment: "")
 
+        nextButton.title = NSLocalizedString("Next", comment: "")
+
         displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue")
         displayLink.frameInterval = 6 // 频率为每秒 10 次
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
@@ -103,6 +113,10 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 }
             }
         })
+    }
+
+    @IBAction func next(sender: UIBarButtonItem) {
+
     }
 
     func checkVoiceRecordValue() {

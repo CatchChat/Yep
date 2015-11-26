@@ -95,8 +95,14 @@
                                 <action selector="cancel:" destination="5Wk-eV-m8J" id="yq1-XJ-ZPD"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="ONp-Ca-VMP">
+                            <connections>
+                                <action selector="next:" destination="5Wk-eV-m8J" id="Y0J-NL-dRh"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="nextButton" destination="ONp-Ca-VMP" id="Qz3-2B-zpW"/>
                         <outlet property="playButton" destination="fWg-tP-LrO" id="Ptn-34-nxF"/>
                         <outlet property="resetButton" destination="Uxk-hh-sig" id="yJW-yq-0be"/>
                         <outlet property="timeLabel" destination="K9f-ND-YpE" id="weJ-Gj-PWG"/>
