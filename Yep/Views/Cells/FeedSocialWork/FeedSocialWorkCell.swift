@@ -201,7 +201,9 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                         let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
-                        if feedAudio == nil {
+                        let needDownload = (feedAudio == nil) || (feedAudio?.fileName ?? "").isEmpty
+
+                        if needDownload {
                             if let URL = NSURL(string: audioInfo.URLString) {
                                 YepDownloader.downloadDataFromURL(URL, reportProgress: { progress in
                                     println("audio progress: \(progress)")
