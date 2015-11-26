@@ -567,12 +567,14 @@ func syncSocialWorksToMessagesForYepTeam() {
                })
             }
 
+            /*
             if let instagramToken = tokensOfSocialAccounts.instagramToken {
 
                 instagramMediasWithToken(instagramToken, failureHandler: nil, completion: { instagramMedias in
                     println("instagramMedias count: \(instagramMedias.count)")
                 })
             }
+            */
         }
     })
 }
