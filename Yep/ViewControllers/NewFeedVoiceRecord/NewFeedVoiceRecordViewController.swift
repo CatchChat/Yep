@@ -52,7 +52,19 @@ class NewFeedVoiceRecordViewController: UIViewController {
     // MARK: - Actions
 
     @IBAction func cancel(sender: UIBarButtonItem) {
-        dismissViewControllerAnimated(true, completion: nil)
+
+        dismissViewControllerAnimated(true, completion: { [weak self] in
+
+            YepAudioService.sharedManager.endRecord()
+
+            if let voiceFileURL = self?.voiceFileURL {
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(voiceFileURL)
+                } catch let error {
+                    println("delete voiceFileURL error: \(error)")
+                }
+            }
+        })
     }
 
     func checkVoiceRecordValue() {
