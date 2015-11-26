@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import AVFoundation
 
 class FeedsViewController: BaseViewController {
 
@@ -735,6 +736,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
 
+                cell.playOrPauseAudioAction = { [weak self] in
+
+                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                        return
+                    }
+
+                    if let strongSelf = self {
+
+                        YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: 0, delegate: strongSelf, success: {
+                            println("playAudioWithFeedAudio success!")
+                        })
+                    }
+                }
+
             default:
 
                 guard let cell = cell as? FeedCell else {
@@ -900,4 +915,10 @@ extension FeedsViewController: PullToRefreshViewDelegate {
         return feedsTableView
     }
 }
+
+// MARK: AVAudioPlayerDelegate
+
+extension FeedsViewController: AVAudioPlayerDelegate {
+}
+
 

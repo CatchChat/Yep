@@ -192,6 +192,9 @@
                                         <state key="normal" image="icon_play">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="playOrPauseAudio:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rzh-Wp-ZmU"/>
+                                        </connections>
                                     </button>
                                     <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="36H-D3-r3h" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="48" y="0.0" width="154.5" height="40"/>
