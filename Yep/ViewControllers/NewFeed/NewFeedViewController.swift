@@ -20,7 +20,8 @@ let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLo
 struct FeedVoice {
 
     let fileURL: NSURL
-    let sampleValues: [CGFloat]
+    let sampleValuesCount: Int
+    let limitedSampleValues: [CGFloat]
 }
 
 class NewFeedViewController: UIViewController {
@@ -240,66 +241,13 @@ class NewFeedViewController: UIViewController {
             voiceContainerView.hidden = false
 
             voiceSampleView.sampleColor = UIColor.leftWaveColor()
+            voiceSampleView.samples = feedVoice.limitedSampleValues
 
-            let voiceSampleValues = feedVoice.sampleValues
-
-            let seconds = voiceSampleValues.count / 10
-            let subSeconds = voiceSampleValues.count - seconds * 10
+            let seconds = feedVoice.sampleValuesCount / 10
+            let subSeconds = feedVoice.sampleValuesCount - seconds * 10
             voiceTimeLabel.text = String(format: "%d.%d\"", seconds, subSeconds)
 
-            // 我们来一个 [0, 无穷] 到 [0, 1] 的映射
-
-            // 函数 y = 1 - 1 / e^(x/100) 挺合适
-            func f(x: Int, max: Int) -> Int {
-                let n = 1 - 1 / exp(Double(x) / 100)
-                return Int(Double(max) * n)
-            }
-            /*
-            // mini test
-            for var i = 0; i < 1000; i+=10 {
-                let finalNumber = f(i, max:  maxNumber)
-                println("i: \(i), finalNumber: \(finalNumber)")
-            }
-            */
-
-            let maxNumber = 60
-            let finalNumber = f(voiceSampleValues.count, max: maxNumber)
-
-            println("maxNumber: \(maxNumber)")
-            println("voiceSampleValues.count: \(voiceSampleValues.count)")
-            println("finalNumber: \(finalNumber)")
-
-            // 再做一个抽样
-
-            func averageSamplingFrom(values:[CGFloat], withCount count: Int) -> [CGFloat] {
-
-                let step = Double(values.count) / Double(count)
-
-                var outoutValues = [CGFloat]()
-
-                var x: Double = 0
-
-                for _ in 0..<count {
-
-                    let index = Int(x)
-
-                    if let value = values[safe: index] {
-                        outoutValues.append(value)
-                    } else {
-                        break
-                    }
-
-                    x += step
-                }
-
-                return outoutValues
-            }
-
-            let finalVoiceSampleValues = averageSamplingFrom(voiceSampleValues, withCount: finalNumber)
-            println("finalVoiceSampleValues.count: \(finalVoiceSampleValues.count)")
-            voiceSampleView.samples = finalVoiceSampleValues
-
-            voiceSampleViewWidthConstraint.constant = CGFloat(finalNumber) * 3
+            voiceSampleViewWidthConstraint.constant = CGFloat(feedVoice.limitedSampleValues.count) * 3
         }
     }
 
@@ -634,8 +582,18 @@ class NewFeedViewController: UIViewController {
                     break
                 }
 
-            case .Voice:
-                break
+            case .Voice(let feedVoice):
+
+                let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+                let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+                let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+
+                var metaData: String?
+                if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                    let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+                    metaData = audioMetaDataString
+                }
             }
 
             createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
