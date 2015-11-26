@@ -679,6 +679,13 @@ class Attachment: Object {
     dynamic var URLString: String = ""
 }
 
+class FeedAudio: Object {
+
+    dynamic var URLString: String = ""
+    dynamic var metadata: NSData = NSData()
+    dynamic var fileName: String = ""
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -695,6 +702,7 @@ class Feed: Object {
     dynamic var kind: String = FeedKind.Text.rawValue
     var attachments = List<Attachment>()
     dynamic var socialWork: MessageSocialWork?
+    dynamic var audio: FeedAudio?
 
     dynamic var skill: UserSkill?
 
@@ -971,8 +979,13 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
 
                 newFeed.socialWork = socialWork
 
-            case .Audio:
-                break
+            case .Audio(let audioInfo):
+
+                let feedAudio = FeedAudio()
+                feedAudio.URLString = audioInfo.URLString
+                feedAudio.metadata = audioInfo.metaData
+
+                newFeed.audio = feedAudio
             }
         }
 

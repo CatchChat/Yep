@@ -2627,6 +2627,7 @@ struct DiscoveredFeed: Hashable {
 
     struct AudioInfo {
         let URLString: String
+        let metaData: NSData
         let duration: NSTimeInterval
         let sampleValues: [CGFloat]
 
@@ -2638,8 +2639,8 @@ struct DiscoveredFeed: Hashable {
                     return nil
             }
 
-            if let data = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                if let metaDataInfo = decodeJSON(data) {
+            if let metaData = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                if let metaDataInfo = decodeJSON(metaData) {
 
                     guard let
                         duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
@@ -2647,7 +2648,7 @@ struct DiscoveredFeed: Hashable {
                             return nil
                     }
 
-                    return AudioInfo(URLString: URLString, duration: duration, sampleValues: sampleValues)
+                    return AudioInfo(URLString: URLString, metaData: metaData, duration: duration, sampleValues: sampleValues)
                 }
             }
 
