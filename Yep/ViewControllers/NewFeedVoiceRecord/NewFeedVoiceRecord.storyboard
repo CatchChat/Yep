@@ -24,11 +24,29 @@
                                         <rect key="frame" x="0.0" y="20" width="375" height="160"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bt7-zT-NeY" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="199" width="375" height="1"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="WAg-8w-LE3"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9622001262626263" green="0.9622001262626263" blue="0.9622001262626263" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="Bt7-zT-NeY" firstAttribute="leading" secondItem="5Yn-zR-qow" secondAttribute="leading" id="1jV-PS-9F9"/>
+                                    <constraint firstAttribute="bottom" secondItem="Bt7-zT-NeY" secondAttribute="bottom" id="Hhs-Mj-zd0"/>
                                     <constraint firstItem="RCG-r4-rAb" firstAttribute="top" secondItem="5Yn-zR-qow" secondAttribute="top" constant="20" id="IS7-qa-E2e"/>
                                     <constraint firstAttribute="height" constant="200" id="LTk-rL-GQc"/>
+                                    <constraint firstAttribute="trailing" secondItem="Bt7-zT-NeY" secondAttribute="trailing" id="XeA-id-RWJ"/>
                                     <constraint firstItem="RCG-r4-rAb" firstAttribute="leading" secondItem="5Yn-zR-qow" secondAttribute="leading" id="k6n-el-1cZ"/>
                                     <constraint firstAttribute="trailing" secondItem="RCG-r4-rAb" secondAttribute="trailing" id="oth-VD-d1H"/>
                                     <constraint firstAttribute="bottom" secondItem="RCG-r4-rAb" secondAttribute="bottom" constant="20" id="rXe-Yb-UoY"/>
@@ -51,14 +69,14 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fWg-tP-LrO">
-                                        <rect key="frame" x="63" y="243" width="100" height="100"/>
+                                        <rect key="frame" x="73" y="243" width="100" height="100"/>
                                         <state key="normal" image="button_voice_play"/>
                                         <connections>
                                             <action selector="playOrPauseAudio:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="5Gd-1M-NhC"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
-                                        <rect key="frame" x="213" y="243" width="100" height="100"/>
+                                        <rect key="frame" x="203" y="243" width="100" height="100"/>
                                         <state key="normal" image="button_voice_reset"/>
                                         <connections>
                                             <action selector="reset:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="uSc-xD-zBM"/>
@@ -67,10 +85,10 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="Uxk-hh-sig" firstAttribute="leading" secondItem="RHU-Kc-Wb9" secondAttribute="trailing" constant="-25" id="4PL-7W-ANA"/>
+                                    <constraint firstItem="Uxk-hh-sig" firstAttribute="leading" secondItem="RHU-Kc-Wb9" secondAttribute="trailing" constant="-35" id="4PL-7W-ANA"/>
                                     <constraint firstItem="Uxk-hh-sig" firstAttribute="centerY" secondItem="RHU-Kc-Wb9" secondAttribute="centerY" id="5vP-JQ-qmH"/>
                                     <constraint firstItem="RHU-Kc-Wb9" firstAttribute="centerX" secondItem="wbC-MF-rRS" secondAttribute="centerX" id="Di0-Zq-AxN"/>
-                                    <constraint firstItem="RHU-Kc-Wb9" firstAttribute="leading" secondItem="fWg-tP-LrO" secondAttribute="trailing" constant="-25" id="Xf9-d1-z0r"/>
+                                    <constraint firstItem="RHU-Kc-Wb9" firstAttribute="leading" secondItem="fWg-tP-LrO" secondAttribute="trailing" constant="-35" id="Xf9-d1-z0r"/>
                                     <constraint firstItem="K9f-ND-YpE" firstAttribute="top" secondItem="wbC-MF-rRS" secondAttribute="top" constant="50" id="ZVd-4G-bCk"/>
                                     <constraint firstItem="K9f-ND-YpE" firstAttribute="centerX" secondItem="wbC-MF-rRS" secondAttribute="centerX" id="iMD-mP-1fR"/>
                                     <constraint firstItem="fWg-tP-LrO" firstAttribute="centerY" secondItem="RHU-Kc-Wb9" secondAttribute="centerY" id="koZ-tq-DZq"/>
