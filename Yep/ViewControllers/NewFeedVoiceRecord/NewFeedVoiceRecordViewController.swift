@@ -46,6 +46,11 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 voiceRecordSampleView.reset()
                 sampleValues = []
                 audioPlayer?.stop()
+                audioPlayer = nil
+                audioPlaying = false
+
+                playbackTimer?.invalidate()
+                audioPlayedDuration = 0
 
             case .Recording:
 
@@ -270,9 +275,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 audioPlayer.pause()
                 audioPlaying = false
 
-                if let playbackTimer = playbackTimer {
-                    playbackTimer.invalidate()
-                }
+                playbackTimer?.invalidate()
 
             } else {
                 audioPlayer.currentTime = audioPlayedDuration
