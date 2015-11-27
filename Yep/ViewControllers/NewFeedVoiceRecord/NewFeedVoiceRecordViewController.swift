@@ -135,12 +135,12 @@ class NewFeedVoiceRecordViewController: UIViewController {
         /*
         // mini test
         for var i = 0; i < 1000; i+=10 {
-        let finalNumber = f(i, max:  maxNumber)
-        println("i: \(i), finalNumber: \(finalNumber)")
+            let finalNumber = f(i, max:  maxNumber)
+            println("i: \(i), finalNumber: \(finalNumber)")
         }
         */
 
-        let maxNumber = 60
+        let maxNumber = 50
         let finalNumber = f(voiceSampleValues.count, max: maxNumber)
 
         println("maxNumber: \(maxNumber)")
