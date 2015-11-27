@@ -147,8 +147,6 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="bottom" secondItem="7Cm-D9-Zum" secondAttribute="bottom" constant="20" id="0gM-fo-se6"/>
-                                            <constraint firstItem="7Cm-D9-Zum" firstAttribute="top" secondItem="PYL-JY-jga" secondAttribute="top" constant="20" id="3Yf-rj-r85"/>
                                             <constraint firstAttribute="trailing" secondItem="eQk-kn-FNT" secondAttribute="trailing" constant="5" id="8mn-ir-CZU"/>
                                             <constraint firstAttribute="trailing" secondItem="7Cm-D9-Zum" secondAttribute="trailing" id="AMn-NU-Bnb"/>
                                             <constraint firstItem="rTm-vU-VMb" firstAttribute="centerY" secondItem="XEZ-qJ-BN0" secondAttribute="centerY" id="Jk5-rb-0NQ"/>
@@ -158,6 +156,7 @@
                                             <constraint firstItem="XEZ-qJ-BN0" firstAttribute="centerY" secondItem="PYL-JY-jga" secondAttribute="centerY" id="f83-Vi-4IS"/>
                                             <constraint firstItem="7Cm-D9-Zum" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" id="i85-cC-cZQ"/>
                                             <constraint firstItem="rTm-vU-VMb" firstAttribute="leading" secondItem="XEZ-qJ-BN0" secondAttribute="trailing" constant="5" id="lZy-DI-gQR"/>
+                                            <constraint firstItem="7Cm-D9-Zum" firstAttribute="centerY" secondItem="PYL-JY-jga" secondAttribute="centerY" id="ob1-7G-XDa"/>
                                         </constraints>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VPy-FV-QI7">
@@ -298,6 +297,7 @@
                         <outlet property="githubRepoImageView" destination="ATK-Qt-e4W" id="8zA-yn-aaS"/>
                         <outlet property="githubRepoNameLabel" destination="Lb2-ey-xmY" id="8MQ-U3-agA"/>
                         <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
+                        <outlet property="mediaCollectionViewHeightConstraint" destination="rBg-4C-s5H" id="i7Y-hg-iHX"/>
                         <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
                         <outlet property="pickedSkillBubbleImageView" destination="L4w-fH-Iq6" id="Qgg-ch-Bcl"/>
                         <outlet property="pickedSkillLabel" destination="J1K-rH-Dph" id="9JL-5f-f4O"/>

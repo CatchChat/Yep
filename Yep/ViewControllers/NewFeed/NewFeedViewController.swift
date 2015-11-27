@@ -52,6 +52,7 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var messageTextView: UITextView!
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
+    @IBOutlet weak var mediaCollectionViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var socialWorkContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
@@ -240,10 +241,14 @@ class NewFeedViewController: UIViewController {
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
 
+            mediaCollectionViewHeightConstraint.constant = 80
+
         case .SocialWork(let socialWork):
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
             voiceContainerView.hidden = true
+
+            mediaCollectionViewHeightConstraint.constant = 80
 
             updateUIForSocialWork(socialWork)
 
@@ -251,6 +256,8 @@ class NewFeedViewController: UIViewController {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = false
+
+            mediaCollectionViewHeightConstraint.constant = 40
 
             voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
             voicePlayButton.tintColor = UIColor.lightGrayColor()
