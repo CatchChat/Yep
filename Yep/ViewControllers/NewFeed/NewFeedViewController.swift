@@ -672,6 +672,10 @@ class NewFeedViewController: UIViewController {
             }
         }
     }
+
+    @IBAction func playOrPauseAudio(sender: UIButton) {
+        YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
+    }
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
