@@ -113,6 +113,14 @@ class FeedView: UIView {
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
+    @IBOutlet weak var voiceContainerView: UIView!
+    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
+    @IBOutlet weak var voicePlayButton: UIButton!
+    @IBOutlet weak var voiceSampleView: SampleView!
+    @IBOutlet weak var voiceTimeLabel: UILabel!
+
+    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
     @IBOutlet weak var timeLabel: UILabel!
@@ -272,11 +280,14 @@ class FeedView: UIView {
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
+            voiceContainerView.hidden = true
 
         case .Image:
 
             mediaCollectionView.hidden = false
             socialWorkContainerView.hidden = true
+
+            socialWorkBorderImageView.hidden = false
 
         case .GithubRepo:
 
@@ -285,6 +296,9 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
+            voiceContainerView.hidden = true
+
+            socialWorkBorderImageView.hidden = false
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
@@ -300,11 +314,30 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = true
+
+            socialWorkBorderImageView.hidden = false
 
             socialWorkImageView.maskView = socialWorkMaskImageView
             socialWorkBorderImageView.hidden = false
 
             socialWorkImageURL = feed.dribbbleShotImageURL
+
+        case .Audio:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = false
+
+            socialWorkBorderImageView.hidden = true
+
+            voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
+            voicePlayButton.tintColor = UIColor.lightGrayColor()
+            voicePlayButton.tintAdjustmentMode = .Normal
+            voiceTimeLabel.textColor = UIColor.lightGrayColor()
 
         default:
             break
