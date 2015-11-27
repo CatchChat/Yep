@@ -70,6 +70,23 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
     var playOrPauseAudioAction: (FeedSocialWorkCell -> Void)?
+    var audioPlayedDuration: NSTimeInterval = 0 {
+        willSet {
+            updateVoiceContainerView()
+        }
+    }
+    private func updateVoiceContainerView() {
+
+        guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+            return
+        }
+
+        if let (audioDuration, audioSamples) = feedAudio.audioMetaInfo {
+
+            voiceSampleView.samples = audioSamples
+            voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
+        }
+    }
 
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)

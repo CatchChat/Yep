@@ -103,6 +103,48 @@ class FeedsViewController: BaseViewController {
 
     var feeds = [DiscoveredFeed]()
 
+    private var audioPlayedDurations = [String: NSTimeInterval]()
+
+    private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
+        let key = feedAudio.feedID
+
+        if !key.isEmpty {
+            if let playedDuration = audioPlayedDurations[key] {
+                return playedDuration
+            }
+        }
+
+        return 0
+    }
+
+    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofFeedAudio feedAudio: FeedAudio) {
+        let key = feedAudio.feedID
+        if !key.isEmpty {
+            audioPlayedDurations[key] = audioPlayedDuration
+        }
+
+//        // recover audio cells' UI
+//
+//        if audioPlayedDuration == 0 {
+//
+//            if let sender = message.fromFriend, index = messages.indexOf(message) {
+//
+//                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
+//
+//                if sender.friendState != UserFriendState.Me.rawValue { // from Friend
+//                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+//                        cell.audioPlayedDuration = 0
+//                    }
+//
+//                } else {
+//                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+//                        cell.audioPlayedDuration = 0
+//                    }
+//                }
+//            }
+//        }
+    }
+
     private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
 
         // refresh skillUsers
@@ -424,6 +466,58 @@ class FeedsViewController: BaseViewController {
 
         if let window = view.window {
             newFeedTypesView.showInView(window)
+        }
+    }
+
+    func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+
+            let feedID = feedAudio.feedID
+
+            for index in 0..<feeds.count {
+                let feed = feeds[index]
+                if feed.id == feedID {
+
+                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                        cell.audioPlayedDuration = currentTime
+                    }
+
+                    break
+                }
+            }
+
+//            if let messageIndex = messages.indexOf(message) {
+//
+//                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: 0)
+//
+//                if let sender = message.fromFriend {
+//                    if sender.friendState != UserFriendState.Me.rawValue {
+//                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+//                            cell.audioPlayedDuration = currentTime
+//                        }
+//
+//                    } else {
+//                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+//                            cell.audioPlayedDuration = currentTime
+//                        }
+//                    }
+//                }
+//            }
+        }
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+
+            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+
+                let currentTime = audioPlayer.currentTime
+
+                setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+                
+                updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+            }
         }
     }
 
@@ -764,8 +858,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                             cell.audioPlaying = false
 
                         } else {
-                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: 0, delegate: strongSelf, success: {
+                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playAudioWithFeedAudio success!")
+
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                YepAudioService.sharedManager.playbackTimer = playbackTimer
 
                                 cell.audioPlaying = true
                             })

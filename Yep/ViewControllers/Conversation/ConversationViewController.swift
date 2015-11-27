@@ -1691,9 +1691,9 @@ class ConversationViewController: BaseViewController {
         return width
     }
 
-    private var audioPlayedDurations = [String: Double]()
+    private var audioPlayedDurations = [String: NSTimeInterval]()
 
-    private func audioPlayedDurationOfMessage(message: Message) -> Double {
+    private func audioPlayedDurationOfMessage(message: Message) -> NSTimeInterval {
         let key = message.messageID
 
         if !key.isEmpty {
@@ -1705,7 +1705,7 @@ class ConversationViewController: BaseViewController {
         return 0
     }
 
-    private func setAudioPlayedDuration(audioPlayedDuration: Double, ofMessage message: Message) {
+    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -2544,7 +2544,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let message = message {
-            let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+            let audioPlayedDuration = audioPlayedDurationOfMessage(message)
             YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
                 let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer

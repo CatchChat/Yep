@@ -12,7 +12,7 @@ class ChatLeftAudioCell: ChatBaseCell {
 
     var message: Message?
 
-    var audioPlayedDuration: Double = 0 {
+    var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
             updateAudioInfoViews()
         }
