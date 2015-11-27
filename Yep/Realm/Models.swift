@@ -695,11 +695,11 @@ class FeedAudio: Object {
         return realm.objects(FeedAudio).filter(predicate).first
     }
 
-    var audioMetaInfo: (duration: Double, samples: [CGFloat])? {
+    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
 
         if let metaDataInfo = decodeJSON(metadata) {
             if let
-                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? Double,
+                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
                 samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }

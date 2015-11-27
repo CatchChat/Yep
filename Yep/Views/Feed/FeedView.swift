@@ -354,6 +354,13 @@ class FeedView: UIView {
             voicePlayButton.tintAdjustmentMode = .Normal
             voiceTimeLabel.textColor = UIColor.lightGrayColor()
 
+            if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
+                voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                voiceTimeLabel.text = String(format: "%.1f\"", audioDuration)
+                voiceSampleView.samples = audioSampleValues
+                voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
+            }
+
         default:
             break
         }

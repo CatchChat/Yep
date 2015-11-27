@@ -187,6 +187,24 @@ enum ConversationFeed {
 
         return nil
     }
+
+    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Audio(audioInfo) = attachment {
+                    return (audioInfo.duration, audioInfo.sampleValues)
+                }
+            }
+        case .FeedType(let feed):
+            if let audioMetaInfo = feed.audio?.audioMetaInfo {
+                return audioMetaInfo
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {
