@@ -217,6 +217,12 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                         let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
+                        if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+                            audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID)
+                        } else {
+                            audioPlaying = false
+                        }
+
                         let needDownload = (feedAudio == nil) || (feedAudio?.fileName ?? "").isEmpty
 
                         if needDownload {
