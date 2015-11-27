@@ -834,12 +834,36 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     if let strongSelf = self {
 
-                        if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+                        // 如果在播放，就暂停
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+
                             audioPlayer.pause()
 
-                            cell.audioPlaying = false
+                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                                playbackTimer.invalidate()
+                            }
 
+                            let feedID = playingFeedAudio.feedID
+                            for index in 0..<strongSelf.feeds.count {
+                                let feed = strongSelf.feeds[index]
+                                if feed.id == feedID {
+
+                                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                                        cell.audioPlaying = false
+                                    }
+                                    
+                                    break
+                                }
+                            }
+                        }
+
+                        // 然后考虑是否播放新音频
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            // 是自己，不管
                         } else {
+                            // 暂停的是别人，咱开始播放
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playAudioWithFeedAudio success!")
