@@ -8,6 +8,8 @@
 
 import UIKit
 import Kingfisher
+import AVFoundation
+import RealmSwift
 
 class FeedView: UIView {
 
@@ -15,6 +17,29 @@ class FeedView: UIView {
         willSet {
             if let feed = newValue {
                 configureWithFeed(feed)
+            }
+        }
+    }
+
+    var audioPlaying: Bool = false {
+        willSet {
+            if newValue != audioPlaying {
+                if newValue {
+                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+                } else {
+                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                }
+            }
+        }
+    }
+    var audioPlayedDuration: NSTimeInterval = 0 {
+        willSet {
+            guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+                return
+            }
+
+            if let (audioDuration, _) = feedAudio.audioMetaInfo {
+                voiceSampleView.progress = CGFloat(newValue / audioDuration)
             }
         }
     }
@@ -395,6 +420,67 @@ class FeedView: UIView {
             break
         }
     }
+
+    @IBAction func playOrPauseAudio(sender: UIButton) {
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playVoice setCategory failed: \(error)")
+                return
+            }
+        }
+
+        guard let realm = try? Realm(), feed = feed, feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+            return
+        }
+
+        func play() {
+
+            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
+                println("playAudioWithFeedAudio success!")
+
+                if let strongSelf = self {
+
+                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                    strongSelf.audioPlaying = true
+                }
+            })
+        }
+
+        // 如果在播放，就暂停
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+
+            audioPlayer.pause()
+
+            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                playbackTimer.invalidate()
+            }
+
+            audioPlaying = false
+
+            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.feedID {
+            } else {
+                // 暂停的是别人，咱开始播放
+                play()
+            }
+
+        } else {
+            // 直接播放
+            play()
+        }
+    }
+
+    func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            let currentTime = audioPlayer.currentTime
+            audioPlayedDuration = currentTime
+        }
+    }
 }
 
 // MARK: - UIGestureRecognizerDelegate
@@ -456,3 +542,20 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
+// MARK: AVAudioPlayerDelegate
+
+extension FeedView: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        audioPlayedDuration = 0
+        audioPlaying = false
+        YepAudioService.sharedManager.playingFeedAudio = nil
+    }
+}
