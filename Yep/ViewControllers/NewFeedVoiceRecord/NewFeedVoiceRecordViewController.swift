@@ -16,7 +16,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
     @IBOutlet weak var nextButton: UIBarButtonItem!
 
     @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
-
+    @IBOutlet weak var voiceIndicatorImageView: UIImageView!
+    @IBOutlet weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var timeLabel: UILabel!
     
     @IBOutlet weak var voiceRecordButton: UIButton!
@@ -35,6 +37,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
             case .Default:
 
                 nextButton.enabled = false
+
+                voiceIndicatorImageView.hidden = true
 
                 voiceRecordButton.hidden = false
                 let image =  UIImage(named: "button_voice_record")
@@ -56,6 +60,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = false
 
+                voiceIndicatorImageView.hidden = true
+
                 voiceRecordButton.hidden = false
                 let image =  UIImage(named: "button_voice_record_stop")
                 voiceRecordButton.setImage(image, forState: .Normal)
@@ -67,9 +73,23 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = true
 
+                voiceIndicatorImageView.alpha = 0
+                voiceIndicatorImageView.hidden = false
+
                 voiceRecordButton.hidden = true
                 playButton.hidden = false
                 resetButton.hidden = false
+
+                let fullWidth = voiceRecordSampleView.bounds.width
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.voiceIndicatorImageView.alpha = 1
+                }, completion: { _ in
+
+                    UIView.animateWithDuration(0.75, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                        self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2
+                        self?.view.layoutIfNeeded()
+                    }, completion: { _ in })
+                })
             }
         }
     }

@@ -26,7 +26,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bt7-zT-NeY" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="199" width="375" height="1"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="WAg-8w-LE3"/>
                                         </constraints>
@@ -34,19 +34,22 @@
                                             <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
                                                 <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="lineWidth">
-                                                <real key="value" value="1"/>
-                                            </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="voice_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="rlT-sQ-JkA">
+                                        <rect key="frame" x="184" y="0.0" width="7" height="200"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9622001262626263" green="0.9622001262626263" blue="0.9622001262626263" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="Bt7-zT-NeY" firstAttribute="leading" secondItem="5Yn-zR-qow" secondAttribute="leading" id="1jV-PS-9F9"/>
                                     <constraint firstAttribute="bottom" secondItem="Bt7-zT-NeY" secondAttribute="bottom" id="Hhs-Mj-zd0"/>
                                     <constraint firstItem="RCG-r4-rAb" firstAttribute="top" secondItem="5Yn-zR-qow" secondAttribute="top" constant="20" id="IS7-qa-E2e"/>
+                                    <constraint firstItem="rlT-sQ-JkA" firstAttribute="centerX" secondItem="5Yn-zR-qow" secondAttribute="centerX" id="Ksn-I8-Hfp"/>
                                     <constraint firstAttribute="height" constant="200" id="LTk-rL-GQc"/>
                                     <constraint firstAttribute="trailing" secondItem="Bt7-zT-NeY" secondAttribute="trailing" id="XeA-id-RWJ"/>
+                                    <constraint firstItem="rlT-sQ-JkA" firstAttribute="centerY" secondItem="5Yn-zR-qow" secondAttribute="centerY" id="f1T-l4-EYT"/>
                                     <constraint firstItem="RCG-r4-rAb" firstAttribute="leading" secondItem="5Yn-zR-qow" secondAttribute="leading" id="k6n-el-1cZ"/>
                                     <constraint firstAttribute="trailing" secondItem="RCG-r4-rAb" secondAttribute="trailing" id="oth-VD-d1H"/>
                                     <constraint firstAttribute="bottom" secondItem="RCG-r4-rAb" secondAttribute="bottom" constant="20" id="rXe-Yb-UoY"/>
@@ -124,6 +127,8 @@
                         <outlet property="playButton" destination="fWg-tP-LrO" id="Ptn-34-nxF"/>
                         <outlet property="resetButton" destination="Uxk-hh-sig" id="yJW-yq-0be"/>
                         <outlet property="timeLabel" destination="K9f-ND-YpE" id="weJ-Gj-PWG"/>
+                        <outlet property="voiceIndicatorImageView" destination="rlT-sQ-JkA" id="ehF-ty-gkr"/>
+                        <outlet property="voiceIndicatorImageViewCenterXConstraint" destination="Ksn-I8-Hfp" id="Tg2-O4-ZE1"/>
                         <outlet property="voiceRecordButton" destination="RHU-Kc-Wb9" id="sNA-HQ-sU2"/>
                         <outlet property="voiceRecordSampleView" destination="RCG-r4-rAb" id="08Y-Px-kgb"/>
                         <segue destination="S0t-ms-vnX" kind="show" identifier="showNewFeed" id="KIM-KU-4K3"/>
@@ -165,5 +170,6 @@
         <image name="button_voice_play" width="100" height="100"/>
         <image name="button_voice_record" width="100" height="100"/>
         <image name="button_voice_reset" width="100" height="100"/>
+        <image name="voice_indicator" width="7" height="200"/>
     </resources>
 </document>
