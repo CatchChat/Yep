@@ -123,26 +123,26 @@ class FeedsViewController: BaseViewController {
             audioPlayedDurations[key] = audioPlayedDuration
         }
 
-//        // recover audio cells' UI
-//
-//        if audioPlayedDuration == 0 {
-//
-//            if let sender = message.fromFriend, index = messages.indexOf(message) {
-//
-//                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
-//
-//                if sender.friendState != UserFriendState.Me.rawValue { // from Friend
-//                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
-//                        cell.audioPlayedDuration = 0
-//                    }
-//
-//                } else {
-//                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
-//                        cell.audioPlayedDuration = 0
-//                    }
-//                }
-//            }
-//        }
+        // recover audio cells' UI
+
+        if audioPlayedDuration == 0 {
+
+            let feedID = feedAudio.feedID
+
+            for index in 0..<feeds.count {
+                let feed = feeds[index]
+                if feed.id == feedID {
+
+                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                        cell.audioPlayedDuration = 0
+                    }
+
+                    break
+                }
+            }
+        }
     }
 
     private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
@@ -1046,6 +1046,20 @@ extension FeedsViewController: PullToRefreshViewDelegate {
 // MARK: AVAudioPlayerDelegate
 
 extension FeedsViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+            setAudioPlayedDuration(0, ofFeedAudio: playingFeedAudio)
+            println("setAudioPlayedDuration to 0")
+        }
+    }
 }
 
 

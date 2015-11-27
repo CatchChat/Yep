@@ -86,6 +86,12 @@ class FeedSocialWorkCell: FeedBasicCell {
             voiceSampleView.samples = audioSamples
             voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
         }
+
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+            audioPlaying = true
+        } else {
+            audioPlaying = false
+        }
     }
 
     static let messageTextViewMaxWidth: CGFloat = {
