@@ -160,7 +160,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 let index = Int(x)
 
                 if let value = values[safe: index] {
-                    outoutValues.append(value)
+                    let fixedValue = CGFloat(Int(value * 100)) / 100 // 最多两位小数
+                    outoutValues.append(fixedValue)
+
                 } else {
                     break
                 }
