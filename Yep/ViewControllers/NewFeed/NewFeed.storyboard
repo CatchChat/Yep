@@ -114,21 +114,21 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PYL-JY-jga">
-                                        <rect key="frame" x="15" y="120" width="240" height="80"/>
+                                        <rect key="frame" x="15" y="120" width="222" height="80"/>
                                         <subviews>
                                             <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubble_body" translatesAutoresizingMaskIntoConstraints="NO" id="7Cm-D9-Zum" userLabel="Bubble Image View">
-                                                <rect key="frame" x="0.0" y="20" width="240" height="40"/>
+                                                <rect key="frame" x="0.0" y="20" width="222" height="40"/>
                                                 <color key="tintColor" red="0.84590041035353536" green="0.84590041035353536" blue="0.84590041035353536" alpha="1" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XEZ-qJ-BN0" userLabel="Play Button">
-                                                <rect key="frame" x="10" y="25" width="30" height="30"/>
+                                                <rect key="frame" x="7" y="25" width="30" height="30"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <state key="normal" image="icon_play">
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTm-vU-VMb" userLabel="Wave View" customClass="SampleView" customModule="Yep" customModuleProvider="target">
-                                                <rect key="frame" x="50" y="20" width="154.5" height="40"/>
+                                                <rect key="frame" x="42" y="20" width="154.5" height="40"/>
                                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="TGS-Bo-jUz"/>
@@ -136,25 +136,25 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQk-kn-FNT" userLabel="Time Length Label">
-                                                <rect key="frame" x="214.5" y="31" width="15.5" height="18"/>
+                                                <rect key="frame" x="201.5" y="31" width="15.5" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="7Cm-D9-Zum" secondAttribute="bottom" constant="20" id="0gM-fo-se6"/>
                                             <constraint firstItem="7Cm-D9-Zum" firstAttribute="top" secondItem="PYL-JY-jga" secondAttribute="top" constant="20" id="3Yf-rj-r85"/>
-                                            <constraint firstAttribute="trailing" secondItem="eQk-kn-FNT" secondAttribute="trailing" constant="10" id="8mn-ir-CZU"/>
+                                            <constraint firstAttribute="trailing" secondItem="eQk-kn-FNT" secondAttribute="trailing" constant="5" id="8mn-ir-CZU"/>
                                             <constraint firstAttribute="trailing" secondItem="7Cm-D9-Zum" secondAttribute="trailing" id="AMn-NU-Bnb"/>
                                             <constraint firstItem="rTm-vU-VMb" firstAttribute="centerY" secondItem="XEZ-qJ-BN0" secondAttribute="centerY" id="Jk5-rb-0NQ"/>
-                                            <constraint firstItem="eQk-kn-FNT" firstAttribute="leading" secondItem="rTm-vU-VMb" secondAttribute="trailing" constant="10" id="OSQ-dH-JkW"/>
-                                            <constraint firstItem="XEZ-qJ-BN0" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" constant="10" id="Qrb-Pl-KHZ"/>
+                                            <constraint firstItem="eQk-kn-FNT" firstAttribute="leading" secondItem="rTm-vU-VMb" secondAttribute="trailing" constant="5" id="OSQ-dH-JkW"/>
+                                            <constraint firstItem="XEZ-qJ-BN0" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" constant="7" id="Qrb-Pl-KHZ"/>
                                             <constraint firstItem="eQk-kn-FNT" firstAttribute="centerY" secondItem="rTm-vU-VMb" secondAttribute="centerY" id="amn-d3-bq0"/>
                                             <constraint firstItem="XEZ-qJ-BN0" firstAttribute="centerY" secondItem="PYL-JY-jga" secondAttribute="centerY" id="f83-Vi-4IS"/>
                                             <constraint firstItem="7Cm-D9-Zum" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" id="i85-cC-cZQ"/>
-                                            <constraint firstItem="rTm-vU-VMb" firstAttribute="leading" secondItem="XEZ-qJ-BN0" secondAttribute="trailing" constant="10" id="lZy-DI-gQR"/>
+                                            <constraint firstItem="rTm-vU-VMb" firstAttribute="leading" secondItem="XEZ-qJ-BN0" secondAttribute="trailing" constant="5" id="lZy-DI-gQR"/>
                                         </constraints>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VPy-FV-QI7">
@@ -301,6 +301,7 @@
                         <outlet property="skillPickerView" destination="VPy-FV-QI7" id="Q9U-n1-OyP"/>
                         <outlet property="socialWorkContainerView" destination="AzV-Be-YFx" id="FIM-1Q-EAa"/>
                         <outlet property="socialWorkImageView" destination="1p6-Sj-yz2" id="oIM-3F-MTO"/>
+                        <outlet property="voiceBubbleImageVIew" destination="7Cm-D9-Zum" id="IMu-0M-bVI"/>
                         <outlet property="voiceContainerView" destination="PYL-JY-jga" id="F0e-rw-eny"/>
                         <outlet property="voicePlayButton" destination="XEZ-qJ-BN0" id="paW-5G-GLh"/>
                         <outlet property="voiceSampleView" destination="rTm-vU-VMb" id="Rsl-5c-8m9"/>

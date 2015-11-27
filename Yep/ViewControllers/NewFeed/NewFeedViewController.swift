@@ -52,6 +52,7 @@ class NewFeedViewController: UIViewController {
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
 
     @IBOutlet weak var voiceContainerView: UIView!
+    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
     @IBOutlet weak var voicePlayButton: UIButton!
     @IBOutlet weak var voiceSampleView: SampleView!
     @IBOutlet weak var voiceTimeLabel: UILabel!
@@ -240,6 +241,10 @@ class NewFeedViewController: UIViewController {
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = false
 
+            voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
+            voicePlayButton.tintColor = UIColor.lightGrayColor()
+            voicePlayButton.tintAdjustmentMode = .Normal
+            voiceTimeLabel.textColor = UIColor.lightGrayColor()
             voiceSampleView.sampleColor = UIColor.leftWaveColor()
             voiceSampleView.samples = feedVoice.limitedSampleValues
 

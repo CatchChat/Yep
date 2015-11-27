@@ -36,6 +36,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
 
     @IBOutlet weak var voiceContainerView: UIView!
+    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
     @IBOutlet weak var voicePlayButton: UIButton!
     @IBOutlet weak var voiceSampleView: SampleView!
     @IBOutlet weak var voiceTimeLabel: UILabel!
@@ -77,6 +78,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
+        voicePlayButton.tintColor = UIColor.lightGrayColor()
+        voicePlayButton.tintAdjustmentMode = .Normal
+        voiceTimeLabel.textColor = UIColor.lightGrayColor()
 
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
