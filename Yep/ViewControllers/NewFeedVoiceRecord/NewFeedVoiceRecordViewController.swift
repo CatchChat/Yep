@@ -142,6 +142,10 @@ class NewFeedVoiceRecordViewController: UIViewController {
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
 
+            guard newValue != audioPlayedDuration else {
+                return
+            }
+
             let sampleStep: CGFloat = (4 + 2)
             let fullWidth = voiceRecordSampleView.bounds.width
 
@@ -149,10 +153,13 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
             let currentOffsetX = CGFloat(newValue) * (10 * sampleStep)
 
+            // 0.5 用于回去
+            let duration: NSTimeInterval = newValue > audioPlayedDuration ? 0.02 : 0.5
+
             if fullOffsetX > fullWidth {
 
                 if currentOffsetX <= fullWidth * 0.5 {
-                    UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                         self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
@@ -162,8 +169,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 }
 
             } else {
-
-                UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                     self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                     self?.view.layoutIfNeeded()
                 }, completion: { _ in })
@@ -431,8 +437,9 @@ extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
 
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
 
-        state = .FinishRecord
         audioPlaying = false
+        audioPlayedDuration = 0
+        state = .FinishRecord
 
         println("audioPlayerDidFinishPlaying: \(flag)")
     }
