@@ -832,6 +832,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
 
+                    let play: () -> Void = { [weak self] in
+
+                        if let strongSelf = self {
+
+                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
+                                println("playAudioWithFeedAudio success!")
+
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                                cell.audioPlaying = true
+                            })
+                        }
+                    }
+
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
@@ -853,26 +869,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                                     if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
                                         cell.audioPlaying = false
                                     }
-                                    
+
                                     break
                                 }
                             }
-                        }
 
-                        // 然后考虑是否播放新音频
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
-                            // 是自己，不管
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            } else {
+                                // 暂停的是别人，咱开始播放
+                                play()
+                            }
+                            
                         } else {
-                            // 暂停的是别人，咱开始播放
-                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
-                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
-                                println("playAudioWithFeedAudio success!")
-
-                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-                                YepAudioService.sharedManager.playbackTimer = playbackTimer
-
-                                cell.audioPlaying = true
-                            })
+                            // 直接播放
+                            play()
                         }
                     }
                 }
