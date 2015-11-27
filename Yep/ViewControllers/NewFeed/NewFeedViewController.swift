@@ -30,6 +30,15 @@ class NewFeedViewController: UIViewController {
         case Default
         case SocialWork(MessageSocialWork)
         case Voice(FeedVoice)
+
+        var needPrepare: Bool {
+            switch self {
+            case .Voice:
+                return true
+            default:
+                return false
+            }
+        }
     }
 
     var attachment: Attachment = .Default
@@ -153,10 +162,12 @@ class NewFeedViewController: UIViewController {
         view.backgroundColor = UIColor.yepBackgroundColor()
         
         navigationItem.rightBarButtonItem = postButton
-        
-        let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: "cancel:")
-        
-        navigationItem.leftBarButtonItem = cancleButton
+
+        if !attachment.needPrepare {
+            let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: "cancel:")
+
+            navigationItem.leftBarButtonItem = cancleButton
+        }
         
         view.sendSubviewToBack(feedWhiteBGView)
         
