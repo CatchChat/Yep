@@ -107,7 +107,10 @@ class FeedView: UIView {
     @IBOutlet weak var mediaCollectionView: UICollectionView!
 
     @IBOutlet weak var socialWorkContainerView: UIView!
+    @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var socialWorkImageView: UIImageView!
+
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
@@ -219,7 +222,11 @@ class FeedView: UIView {
         var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         
         if feed.hasAttachment {
-            height += 80 + 15
+            if feed.kind == .Audio {
+                height += 44 + 15
+            } else {
+                height += 80 + 15
+            }
         }
 
         return ceil(height)
@@ -244,7 +251,7 @@ class FeedView: UIView {
         calHeightOfMessageTextView()
 
         let hasAttachment = feed.hasAttachment
-        timeLabelTopConstraint.constant = hasAttachment ? (15 + 80 + 15) : 15
+        timeLabelTopConstraint.constant = hasAttachment ? (15 + (feed.kind == .Audio ? 44 : 80) + 15) : 15
 
         attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
@@ -289,6 +296,8 @@ class FeedView: UIView {
 
             socialWorkBorderImageView.hidden = false
 
+            socialWorkContainerViewHeightConstraint.constant = 80
+
         case .GithubRepo:
 
             mediaCollectionView.hidden = true
@@ -299,6 +308,8 @@ class FeedView: UIView {
             voiceContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
+
+            socialWorkContainerViewHeightConstraint.constant = 80
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
@@ -318,6 +329,8 @@ class FeedView: UIView {
 
             socialWorkBorderImageView.hidden = false
 
+            socialWorkContainerViewHeightConstraint.constant = 80
+
             socialWorkImageView.maskView = socialWorkMaskImageView
             socialWorkBorderImageView.hidden = false
 
@@ -333,6 +346,8 @@ class FeedView: UIView {
             voiceContainerView.hidden = false
 
             socialWorkBorderImageView.hidden = true
+
+            socialWorkContainerViewHeightConstraint.constant = 44
 
             voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
             voicePlayButton.tintColor = UIColor.lightGrayColor()

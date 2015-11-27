@@ -255,6 +255,7 @@
                 <outlet property="nicknameLabelTrailingConstraint" destination="NZM-pG-uou" id="1YN-Da-SWy"/>
                 <outlet property="socialWorkBorderImageView" destination="4I1-rL-pwe" id="30H-fy-LvG"/>
                 <outlet property="socialWorkContainerView" destination="PFV-2X-1gy" id="7qZ-BY-U8d"/>
+                <outlet property="socialWorkContainerViewHeightConstraint" destination="utb-hg-0Rs" id="pVL-2A-XDM"/>
                 <outlet property="socialWorkImageView" destination="5Md-c8-aoz" id="feO-Z9-PBf"/>
                 <outlet property="timeLabel" destination="Ix5-dG-THW" id="sGx-zI-RsF"/>
                 <outlet property="timeLabelTopConstraint" destination="cOy-Y1-cGU" id="F5F-Qd-zep"/>
