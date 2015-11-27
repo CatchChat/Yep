@@ -234,8 +234,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                         let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
-                        if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
-                            audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID)
+                        if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer {
+                            audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
                         } else {
                             audioPlaying = false
                         }

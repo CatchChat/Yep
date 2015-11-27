@@ -488,24 +488,6 @@ class FeedsViewController: BaseViewController {
                     break
                 }
             }
-
-//            if let messageIndex = messages.indexOf(message) {
-//
-//                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: 0)
-//
-//                if let sender = message.fromFriend {
-//                    if sender.friendState != UserFriendState.Me.rawValue {
-//                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
-//                            cell.audioPlayedDuration = currentTime
-//                        }
-//
-//                    } else {
-//                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
-//                            cell.audioPlayedDuration = currentTime
-//                        }
-//                    }
-//                }
-//            }
         }
 
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
