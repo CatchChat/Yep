@@ -56,6 +56,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 playbackTimer?.invalidate()
                 audioPlayedDuration = 0
 
+                voiceIndicatorImageViewCenterXConstraint.constant = 0
+                view.layoutIfNeeded()
+
             case .Recording:
 
                 nextButton.enabled = false
@@ -81,6 +84,12 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 resetButton.hidden = false
 
                 let fullWidth = voiceRecordSampleView.bounds.width
+
+                if !voiceRecordSampleView.sampleValues.isEmpty {
+                    let firstIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+                    voiceRecordSampleView.sampleCollectionView.scrollToItemAtIndexPath(firstIndexPath, atScrollPosition: .Left, animated: true)
+                }
+
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                     self?.voiceIndicatorImageView.alpha = 1
                 }, completion: { _ in
@@ -132,6 +141,53 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
+
+            let sampleStep: CGFloat = (4 + 2)
+            let fullWidth = voiceRecordSampleView.bounds.width
+
+            let fullOffsetX = CGFloat(sampleValues.count) * sampleStep
+
+            let currentOffsetX = CGFloat(newValue) * (10 * sampleStep)
+
+            if fullOffsetX > fullWidth {
+
+                if currentOffsetX <= fullWidth * 0.5 {
+                    UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                        self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + CGFloat(newValue) * (10 * sampleStep)
+                        self?.view.layoutIfNeeded()
+                    }, completion: { _ in })
+
+                    println("A ")
+
+//                } else if (fullOffsetX - currentOffsetX) < fullWidth {
+//
+//                    UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+//                        self?.voiceIndicatorImageViewCenterXConstraint.constant = fullWidth * 0.5 - (fullOffsetX - currentOffsetX)
+//                        self?.view.layoutIfNeeded()
+//                    }, completion: { _ in })
+//
+//                    println("B ")
+
+                } else {
+                    voiceRecordSampleView.sampleCollectionView.setContentOffset(CGPoint(x: currentOffsetX - fullWidth * 0.5 , y: 0), animated: false)
+
+                    println("C ")
+
+//                    let currentItem = Int(CGFloat(newValue) * (10 * sampleStep) / sampleStep)
+//                    let indexPath = NSIndexPath(forItem: currentItem, inSection: 0)
+//
+//                    if !voiceRecordSampleView.sampleValues.isEmpty {
+//                        voiceRecordSampleView.sampleCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
+//                    }
+                }
+
+            } else {
+
+                UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + CGFloat(newValue) * (10 * sampleStep)
+                    self?.view.layoutIfNeeded()
+                }, completion: { _ in })
+            }
         }
     }
 
@@ -394,6 +450,9 @@ extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
 extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
 
     func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        state = .FinishRecord
+        audioPlaying = false
 
         println("audioPlayerDidFinishPlaying: \(flag)")
     }
