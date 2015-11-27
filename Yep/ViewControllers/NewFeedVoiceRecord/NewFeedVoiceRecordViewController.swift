@@ -153,38 +153,18 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 if currentOffsetX <= fullWidth * 0.5 {
                     UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
-                        self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + CGFloat(newValue) * (10 * sampleStep)
+                        self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
 
-                    println("A ")
-
-//                } else if (fullOffsetX - currentOffsetX) < fullWidth {
-//
-//                    UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
-//                        self?.voiceIndicatorImageViewCenterXConstraint.constant = fullWidth * 0.5 - (fullOffsetX - currentOffsetX)
-//                        self?.view.layoutIfNeeded()
-//                    }, completion: { _ in })
-//
-//                    println("B ")
-
                 } else {
                     voiceRecordSampleView.sampleCollectionView.setContentOffset(CGPoint(x: currentOffsetX - fullWidth * 0.5 , y: 0), animated: false)
-
-                    println("C ")
-
-//                    let currentItem = Int(CGFloat(newValue) * (10 * sampleStep) / sampleStep)
-//                    let indexPath = NSIndexPath(forItem: currentItem, inSection: 0)
-//
-//                    if !voiceRecordSampleView.sampleValues.isEmpty {
-//                        voiceRecordSampleView.sampleCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredHorizontally, animated: true)
-//                    }
                 }
 
             } else {
 
                 UIView.animateWithDuration(0.02, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
-                    self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + CGFloat(newValue) * (10 * sampleStep)
+                    self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                     self?.view.layoutIfNeeded()
                 }, completion: { _ in })
             }
