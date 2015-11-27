@@ -85,6 +85,31 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
+    var audioPlaying: Bool = false {
+        willSet {
+            if newValue != audioPlaying {
+                if newValue {
+                    playButton.setImage(UIImage(named: "button_voice_pause"), forState: .Normal)
+                } else {
+                    playButton.setImage(UIImage(named: "button_voice_play"), forState: .Normal)
+                }
+            }
+        }
+    }
+
+    var playbackTimer: NSTimer? {
+        didSet {
+            if let oldPlaybackTimer = oldValue {
+                oldPlaybackTimer.invalidate()
+            }
+        }
+    }
+
+    var audioPlayedDuration: NSTimeInterval = 0 {
+        willSet {
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -223,35 +248,70 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    @IBAction func play(sender: UIButton) {
+    func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        if let audioPlayer = audioPlayer {
+            let currentTime = audioPlayer.currentTime
+            audioPlayedDuration = currentTime
+        }
+    }
+
+    @IBAction func playOrPauseAudio(sender: UIButton) {
 
         guard let voiceFileURL = voiceFileURL else {
             return
         }
 
-        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+        // 如果在播放，就暂停
+        if let audioPlayer = audioPlayer {
+
+            if audioPlayer.playing {
+
+                audioPlayer.pause()
+                audioPlaying = false
+
+                if let playbackTimer = playbackTimer {
+                    playbackTimer.invalidate()
+                }
+
+            } else {
+                audioPlayer.currentTime = audioPlayedDuration
+                audioPlayer.play()
+                audioPlaying = true
+
+                playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+            }
+
+        } else {
+
+            if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                } catch let error {
+                    println("playVoice setCategory failed: \(error)")
+                    return
+                }
+            }
+
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                let audioPlayer = try AVAudioPlayer(contentsOfURL: voiceFileURL)
+
+                self.audioPlayer = audioPlayer // hold it
+
+                audioPlayer.delegate = self
+                audioPlayer.prepareToPlay()
+
+                if audioPlayer.play() {
+                    println("do play voice")
+
+                    audioPlaying = true
+
+                    playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                }
+
             } catch let error {
-                println("playVoice setCategory failed: \(error)")
-                return
+                println("play voice error: \(error)")
             }
-        }
-
-        do {
-            let audioPlayer = try AVAudioPlayer(contentsOfURL: voiceFileURL)
-
-            self.audioPlayer = audioPlayer // hold it
-
-            audioPlayer.delegate = self
-            audioPlayer.prepareToPlay()
-
-            if audioPlayer.play() {
-                println("do play voice")
-            }
-
-        } catch let error {
-            println("play voice error: \(error)")
         }
     }
 

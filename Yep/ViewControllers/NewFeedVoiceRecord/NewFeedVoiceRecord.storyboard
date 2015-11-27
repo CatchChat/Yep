@@ -54,7 +54,7 @@
                                         <rect key="frame" x="63" y="243" width="100" height="100"/>
                                         <state key="normal" image="button_voice_play"/>
                                         <connections>
-                                            <action selector="play:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="mSN-S8-aRd"/>
+                                            <action selector="playOrPauseAudio:" destination="5Wk-eV-m8J" eventType="touchUpInside" id="5Gd-1M-NhC"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxk-hh-sig">
