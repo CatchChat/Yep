@@ -435,6 +435,23 @@ class FeedsViewController: BaseViewController {
             return
         }
 
+        let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let strongSelf = self {
+
+                    strongSelf.feeds.insert(feed, atIndex: 0)
+
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
+                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                }
+            }
+
+            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
+            })
+        }
+
         switch identifier {
 
         case "showProfile":
@@ -500,22 +517,19 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
-            vc.afterCreatedFeedAction = { [weak self] feed in
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
 
-                dispatch_async(dispatch_get_main_queue()) {
+        case "presentNewFeedVoiceRecord":
 
-                    if let strongSelf = self {
-
-                        strongSelf.feeds.insert(feed, atIndex: 0)
-
-                        let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
-                    }
-                }
-                
-                joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
-                })
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedVoiceRecordViewController
+            else {
+                return
             }
+
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
+
         /*
         case "showFeedMedia":
 

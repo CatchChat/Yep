@@ -11,6 +11,8 @@ import AVFoundation
 
 class NewFeedVoiceRecordViewController: UIViewController {
 
+    var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+
     @IBOutlet weak var nextButton: UIBarButtonItem!
 
     @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
@@ -270,6 +272,8 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 let vc = segue.destinationViewController as! NewFeedViewController
 
                 vc.attachment = .Voice(feedVoice)
+
+                vc.afterCreatedFeedAction = afterCreatedFeedAction
             }
 
         default:
