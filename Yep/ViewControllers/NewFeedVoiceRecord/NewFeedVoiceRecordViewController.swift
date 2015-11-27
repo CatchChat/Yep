@@ -97,6 +97,11 @@ class NewFeedVoiceRecordViewController: UIViewController {
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
 
         state = .Default
+
+        // 如果进来前有声音在播放，令其停止
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+            audioPlayer.pause()
+        }
     }
 
     // MARK: - Actions
