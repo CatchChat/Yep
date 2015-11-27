@@ -58,7 +58,18 @@ class FeedSocialWorkCell: FeedBasicCell {
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
     var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
 
-    var playOrPauseAudioAction: (() -> Void)?
+    var audioPlaying: Bool = false {
+        willSet {
+            if newValue != audioPlaying {
+                if newValue {
+                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+                } else {
+                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                }
+            }
+        }
+    }
+    var playOrPauseAudioAction: (FeedSocialWorkCell -> Void)?
 
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
@@ -267,7 +278,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
-        playOrPauseAudioAction?()
+        playOrPauseAudioAction?(self)
     }
 
     func tapGithubLink(sender: UITapGestureRecognizer) {

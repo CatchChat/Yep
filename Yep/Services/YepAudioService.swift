@@ -135,6 +135,7 @@ class YepAudioService: NSObject {
     // MARK: Audio Player
 
     var playingMessage: Message?
+    var playingFeedAudio: FeedAudio?
 
     var playbackTimer: NSTimer? {
         didSet {
@@ -166,12 +167,12 @@ class YepAudioService: NSObject {
                     audioPlayer.delegate = delegate
                     audioPlayer.prepareToPlay()
 
-                    playingMessage = message
-
                     audioPlayer.currentTime = time
 
                     if audioPlayer.play() {
                         println("do play audio")
+
+                        playingMessage = message
 
                         UIDevice.currentDevice().proximityMonitoringEnabled = true
 
@@ -218,12 +219,12 @@ class YepAudioService: NSObject {
                     audioPlayer.delegate = delegate
                     audioPlayer.prepareToPlay()
 
-                    //playingFeedAudio = feedAudio
-
                     audioPlayer.currentTime = time
 
                     if audioPlayer.play() {
                         println("do play audio")
+
+                        playingFeedAudio = feedAudio
 
                         success()
                     }

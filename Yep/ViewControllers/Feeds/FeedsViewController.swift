@@ -750,7 +750,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
 
-                cell.playOrPauseAudioAction = { [weak self] in
+                cell.playOrPauseAudioAction = { [weak self] cell in
 
                     guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
                         return
@@ -758,9 +758,18 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     if let strongSelf = self {
 
-                        YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: 0, delegate: strongSelf, success: {
-                            println("playAudioWithFeedAudio success!")
-                        })
+                        if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+                            audioPlayer.pause()
+
+                            cell.audioPlaying = false
+
+                        } else {
+                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: 0, delegate: strongSelf, success: {
+                                println("playAudioWithFeedAudio success!")
+
+                                cell.audioPlaying = true
+                            })
+                        }
                     }
                 }
 
