@@ -410,11 +410,23 @@ class NewFeedViewController: UIViewController {
             self?.channelView.userInteractionEnabled = true
         })
     }
-    
+
+    private func tryDeleteFeedVoice() {
+        if case let .Voice(feedVoice) = attachment {
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(feedVoice.fileURL)
+            } catch let error {
+                println("delete voiceFileURL error: \(error)")
+            }
+        }
+    }
+
     func cancel(sender: UIBarButtonItem) {
         
         messageTextView.resignFirstResponder()
-        
+
+        tryDeleteFeedVoice()
+
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -652,9 +664,11 @@ class NewFeedViewController: UIViewController {
                 }
             })
 
-            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) { [weak self] in
                 kind = .Audio
                 doCreateFeed()
+
+                self?.tryDeleteFeedVoice()
             }
         }
     }
