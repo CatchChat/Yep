@@ -148,6 +148,10 @@ class FeedView: UIView {
     @IBOutlet weak var voiceTimeLabel: UILabel!
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var locationContainerView: UIView!
+    @IBOutlet weak var locationMapImageView: UIImageView!
+    @IBOutlet weak var locationNameLabel: UILabel!
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
