@@ -117,6 +117,12 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        locationMapImageView.image = nil
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
