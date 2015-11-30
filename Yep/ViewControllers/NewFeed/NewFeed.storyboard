@@ -139,7 +139,7 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQk-kn-FNT" userLabel="Time Length Label">
-                                                <rect key="frame" x="201.5" y="31" width="15.5" height="18"/>
+                                                <rect key="frame" x="201" y="31" width="15.5" height="18"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
@@ -157,6 +157,48 @@
                                             <constraint firstItem="7Cm-D9-Zum" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" id="i85-cC-cZQ"/>
                                             <constraint firstItem="rTm-vU-VMb" firstAttribute="leading" secondItem="XEZ-qJ-BN0" secondAttribute="trailing" constant="5" id="lZy-DI-gQR"/>
                                             <constraint firstItem="7Cm-D9-Zum" firstAttribute="centerY" secondItem="PYL-JY-jga" secondAttribute="centerY" id="ob1-7G-XDa"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nbc-VR-Teh">
+                                        <rect key="frame" x="15" y="120" width="200" height="80"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCz-b6-C8z" userLabel="Map Image View">
+                                                <rect key="frame" x="1" y="1" width="198" height="64.5"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="yOj-VR-zhE">
+                                                <rect key="frame" x="1" y="64.5" width="198" height="1"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="vx2-vT-5wO"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4r-rG-141" userLabel="Location Name Label">
+                                                <rect key="frame" x="10" y="65" width="180" height="14.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="ZTp-Xc-V1N">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="80"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="yOj-VR-zhE" firstAttribute="leading" secondItem="bCz-b6-C8z" secondAttribute="leading" id="67B-4B-dJz"/>
+                                            <constraint firstItem="p4r-rG-141" firstAttribute="top" secondItem="bCz-b6-C8z" secondAttribute="bottom" id="By5-l2-hxc"/>
+                                            <constraint firstItem="bCz-b6-C8z" firstAttribute="leading" secondItem="nbc-VR-Teh" secondAttribute="leading" constant="1" id="EmJ-QN-eRS"/>
+                                            <constraint firstAttribute="width" constant="200" id="Mny-m9-1Zq"/>
+                                            <constraint firstItem="p4r-rG-141" firstAttribute="leading" secondItem="nbc-VR-Teh" secondAttribute="leading" constant="10" id="MwR-JM-Ubj"/>
+                                            <constraint firstItem="yOj-VR-zhE" firstAttribute="trailing" secondItem="bCz-b6-C8z" secondAttribute="trailing" id="PyM-Ho-0kf"/>
+                                            <constraint firstItem="ZTp-Xc-V1N" firstAttribute="top" secondItem="nbc-VR-Teh" secondAttribute="top" id="XUa-i2-Sr4"/>
+                                            <constraint firstItem="bCz-b6-C8z" firstAttribute="top" secondItem="nbc-VR-Teh" secondAttribute="top" constant="1" id="YQ4-aj-0UN"/>
+                                            <constraint firstAttribute="bottom" secondItem="ZTp-Xc-V1N" secondAttribute="bottom" id="Yhg-iF-fOB"/>
+                                            <constraint firstItem="ZTp-Xc-V1N" firstAttribute="leading" secondItem="nbc-VR-Teh" secondAttribute="leading" id="dJw-ic-5M9"/>
+                                            <constraint firstAttribute="trailing" secondItem="bCz-b6-C8z" secondAttribute="trailing" constant="1" id="k0t-Y5-xdl"/>
+                                            <constraint firstAttribute="bottom" secondItem="p4r-rG-141" secondAttribute="bottom" id="pQW-5w-921"/>
+                                            <constraint firstAttribute="trailing" secondItem="p4r-rG-141" secondAttribute="trailing" constant="10" id="szo-w9-86A"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZTp-Xc-V1N" secondAttribute="trailing" id="vJR-6r-Fqw"/>
+                                            <constraint firstItem="yOj-VR-zhE" firstAttribute="bottom" secondItem="bCz-b6-C8z" secondAttribute="bottom" id="wid-4v-XRN"/>
                                         </constraints>
                                     </view>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VPy-FV-QI7">
@@ -243,6 +285,7 @@
                                 </subviews>
                                 <animations/>
                                 <constraints>
+                                    <constraint firstItem="nbc-VR-Teh" firstAttribute="bottom" secondItem="PYL-JY-jga" secondAttribute="bottom" id="9cv-HT-xyM"/>
                                     <constraint firstItem="AzV-Be-YFx" firstAttribute="leading" secondItem="nqc-gK-NZL" secondAttribute="leading" constant="15" id="BYU-Nm-HVf"/>
                                     <constraint firstAttribute="bottom" secondItem="VPy-FV-QI7" secondAttribute="bottom" constant="171" id="HIf-SY-8BI"/>
                                     <constraint firstItem="PYL-JY-jga" firstAttribute="bottom" secondItem="AzV-Be-YFx" secondAttribute="bottom" id="J6o-lN-itr"/>
@@ -251,8 +294,10 @@
                                     <constraint firstAttribute="trailing" secondItem="VPy-FV-QI7" secondAttribute="trailing" id="Nvv-Mo-16T"/>
                                     <constraint firstItem="PYL-JY-jga" firstAttribute="top" secondItem="AzV-Be-YFx" secondAttribute="top" id="RIU-sX-WGv"/>
                                     <constraint firstItem="VPy-FV-QI7" firstAttribute="top" secondItem="tdd-kc-O7L" secondAttribute="bottom" constant="30" id="StV-TW-ieH"/>
+                                    <constraint firstItem="nbc-VR-Teh" firstAttribute="leading" secondItem="PYL-JY-jga" secondAttribute="leading" id="ZOG-ce-r50"/>
                                     <constraint firstItem="nqc-gK-NZL" firstAttribute="top" secondItem="kWS-hy-hsK" secondAttribute="bottom" constant="20" id="ZYr-tC-BWT"/>
                                     <constraint firstItem="PYL-JY-jga" firstAttribute="leading" secondItem="AzV-Be-YFx" secondAttribute="leading" id="a0p-71-wQW"/>
+                                    <constraint firstItem="nbc-VR-Teh" firstAttribute="top" secondItem="PYL-JY-jga" secondAttribute="top" id="be2-pa-wIg"/>
                                     <constraint firstItem="kWS-hy-hsK" firstAttribute="top" secondItem="tdd-kc-O7L" secondAttribute="top" constant="20" id="giF-kr-tIA"/>
                                     <constraint firstItem="AzV-Be-YFx" firstAttribute="bottom" secondItem="nqc-gK-NZL" secondAttribute="bottom" id="lOb-p4-OAR"/>
                                     <constraint firstItem="tdd-kc-O7L" firstAttribute="top" secondItem="3C2-gM-yy4" secondAttribute="top" constant="20" id="uAi-0N-VVf"/>
@@ -296,6 +341,9 @@
                         <outlet property="githubRepoDescriptionLabel" destination="zPm-EJ-jnI" id="OZ9-Oy-7AQ"/>
                         <outlet property="githubRepoImageView" destination="ATK-Qt-e4W" id="8zA-yn-aaS"/>
                         <outlet property="githubRepoNameLabel" destination="Lb2-ey-xmY" id="8MQ-U3-agA"/>
+                        <outlet property="locationContainerView" destination="nbc-VR-Teh" id="LQN-fZ-B2l"/>
+                        <outlet property="locationMapImageView" destination="bCz-b6-C8z" id="bjS-8E-m6Q"/>
+                        <outlet property="locationNameLabel" destination="p4r-rG-141" id="Ci0-OY-8uV"/>
                         <outlet property="mediaCollectionView" destination="nqc-gK-NZL" id="vUb-KN-uL1"/>
                         <outlet property="mediaCollectionViewHeightConstraint" destination="rBg-4C-s5H" id="i7Y-hg-iHX"/>
                         <outlet property="messageTextView" destination="kWS-hy-hsK" id="r5G-r3-3P5"/>
@@ -352,5 +400,6 @@
         <image name="icon_repo" width="16" height="21"/>
         <image name="skill_bubble" width="26" height="24"/>
         <image name="social_work_border" width="11" height="11"/>
+        <image name="social_work_border_line" width="22" height="2"/>
     </resources>
 </document>

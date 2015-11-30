@@ -14,6 +14,7 @@ import Proposer
 import RealmSwift
 import Crashlytics
 import Kingfisher
+import MapKit
 
 let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
@@ -74,6 +75,10 @@ class NewFeedViewController: UIViewController {
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var locationContainerView: UIView!
+    @IBOutlet weak var locationMapImageView: UIImageView!
+    @IBOutlet weak var locationNameLabel: UILabel!
+
     @IBOutlet weak var channelView: UIView!
     @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
     
@@ -88,7 +93,12 @@ class NewFeedViewController: UIViewController {
     
     @IBOutlet weak var skillPickerView: UIPickerView!
 
-    lazy var socialWorkMaskImageView: UIImageView = {
+    lazy var socialWorkHalfMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        return imageView
+    }()
+
+    lazy var socialWorkFullMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
         return imageView
     }()
@@ -245,6 +255,7 @@ class NewFeedViewController: UIViewController {
             mediaCollectionView.hidden = false
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
 
             mediaCollectionViewHeightConstraint.constant = 80
 
@@ -252,6 +263,7 @@ class NewFeedViewController: UIViewController {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
 
             mediaCollectionViewHeightConstraint.constant = 80
 
@@ -261,6 +273,7 @@ class NewFeedViewController: UIViewController {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = false
+            locationContainerView.hidden = true
 
             mediaCollectionViewHeightConstraint.constant = 40
 
@@ -281,6 +294,48 @@ class NewFeedViewController: UIViewController {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
+            locationContainerView.hidden = false
+
+            let locationCoordinate = location.info.coordinate
+
+            let options = MKMapSnapshotOptions()
+            options.scale = UIScreen.mainScreen().scale
+            options.size = locationMapImageView.bounds.size
+            options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+            let mapSnapshotter = MKMapSnapshotter(options: options)
+
+            mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                if error == nil {
+
+                    guard let snapshot = snapshot else {
+                        return
+                    }
+
+                    let image = snapshot.image
+
+                    UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
+
+                    let pinImage = UIImage(named: "icon_current_location")!
+
+                    image.drawAtPoint(CGPointZero)
+
+                    let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
+
+                    let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5, y: pinCenter.y - pinImage.size.height * 0.5)
+                    pinImage.drawAtPoint(pinOrigin)
+
+                    let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+
+                    UIGraphicsEndImageContext()
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.locationMapImageView.image = finalImage
+                    }
+                }
+            }
+
+            locationNameLabel.text = location.info.name
         }
     }
 
@@ -289,12 +344,14 @@ class NewFeedViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        socialWorkMaskImageView.frame = socialWorkImageView.bounds
+        socialWorkFullMaskImageView.frame = socialWorkImageView.bounds
+        socialWorkHalfMaskImageView.frame = locationMapImageView.bounds
     }
 
     func updateUIForSocialWork(socialWork: MessageSocialWork) {
 
-        socialWorkImageView.maskView = socialWorkMaskImageView
+        socialWorkImageView.maskView = socialWorkFullMaskImageView
+        locationMapImageView.maskView = socialWorkHalfMaskImageView
 
         var socialWorkImageURL: NSURL?
 

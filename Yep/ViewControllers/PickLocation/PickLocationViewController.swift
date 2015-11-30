@@ -92,6 +92,8 @@ class PickLocationViewController: UIViewController {
         willSet {
             if let coordinate = newValue?.info.coordinate {
                 updateLocationPinWithCoordinate(coordinate)
+
+                doneButton.enabled = true
             }
         }
     }
