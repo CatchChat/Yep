@@ -40,6 +40,7 @@ class FeedsViewController: BaseViewController {
         }
 
         view.createLocationFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
         }
 
         return view

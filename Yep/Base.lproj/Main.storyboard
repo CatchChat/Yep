@@ -375,6 +375,7 @@
                         <segue destination="oUx-zd-faH" kind="show" identifier="showProfile" id="Gdt-20-g91"/>
                         <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
                         <segue destination="9n0-n0-AJg" kind="presentation" identifier="presentNewFeedVoiceRecord" id="xzo-eI-lqm"/>
+                        <segue destination="eU6-TF-LII" kind="presentation" identifier="presentPickLocation" id="bvu-Rs-ARw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -396,6 +397,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ej-Ff-SV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-450" y="638"/>
+        </scene>
+        <!--PickLocation-->
+        <scene sceneID="o9m-jD-mYR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PickLocation" id="eU6-TF-LII" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mm0-ll-U9z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-296" y="638"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="DvE-gL-l6T">
