@@ -180,7 +180,7 @@ class FeedsViewController: BaseViewController {
 
             let height: CGFloat
             switch feed.kind {
-            case .GithubRepo, .DribbbleShot, .Audio:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
             default:
                 height = FeedCell.heightOfFeed(feed)
@@ -715,7 +715,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot, .Audio:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
 
@@ -791,7 +791,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot, .Audio:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
 
                 guard let cell = cell as? FeedSocialWorkCell else {
                     break

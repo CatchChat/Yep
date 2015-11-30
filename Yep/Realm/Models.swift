@@ -1010,6 +1010,9 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 feedAudio.metadata = audioInfo.metaData
 
                 newFeed.audio = feedAudio
+
+            case .Location(let locationInfo):
+                break
             }
         }
 

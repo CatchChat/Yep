@@ -2657,11 +2657,30 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct LocationInfo {
+
+        let name: String
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+
+        static func fromJSONDictionary(json: JSONDictionary) -> LocationInfo? {
+            guard let
+                name = json["place"] as? String,
+                latitude = json["latitude"] as? CLLocationDegrees,
+                longitude = json["longitude"] as? CLLocationDegrees else {
+                    return nil
+            }
+
+            return LocationInfo(name: name, latitude: latitude, longitude: longitude)
+        }
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
         case Audio(AudioInfo)
+        case Location(LocationInfo)
     }
 
     let attachment: Attachment?
@@ -2737,6 +2756,15 @@ struct DiscoveredFeed: Hashable {
                 _audioInfo = audioInfosData.first,
                 audioInfo = DiscoveredFeed.AudioInfo.fromJSONDictionary(_audioInfo, feedID: id) {
                     attachment = .Audio(audioInfo)
+            }
+
+        case .Location:
+
+            if let
+                locationInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                _locationInfo = locationInfosData.first,
+                locationInfo = DiscoveredFeed.LocationInfo.fromJSONDictionary(_locationInfo) {
+                    attachment = .Location(locationInfo)
             }
 
         default:
