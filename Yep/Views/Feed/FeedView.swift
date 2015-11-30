@@ -48,6 +48,7 @@ class FeedView: UIView {
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
     var tapGithubRepoAction: (NSURL -> Void)?
     var tapDribbbleShotAction: (NSURL -> Void)?
+    var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
 
     static let foldHeight: CGFloat = 60
 
@@ -234,6 +235,9 @@ class FeedView: UIView {
 
         let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
+
+        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
+        locationContainerView.addGestureRecognizer(tapLocation)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -478,6 +482,15 @@ class FeedView: UIView {
         default:
             break
         }
+    }
+
+    func tapLocation(sender: UITapGestureRecognizer) {
+
+        guard let locationName = feed?.locationName, locationCoordinate = feed?.locationCoordinate else {
+            return
+        }
+
+        tapLocationAction?(locationName: locationName, locationCoordinate: locationCoordinate)
     }
 
     @IBAction func playOrPauseAudio(sender: UIButton) {

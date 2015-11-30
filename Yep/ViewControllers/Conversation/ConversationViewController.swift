@@ -1557,7 +1557,14 @@ class ConversationViewController: BaseViewController {
             self?.yep_openURL(URL)
         }
 
-        //feedView.backgroundColor = UIColor.orangeColor()
+        feedView.tapLocationAction = { locationName, locationCoordinate in
+
+            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+            mapItem.name = locationName
+
+            mapItem.openInMapsWithLaunchOptions(nil)
+        }
+
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(feedView)
