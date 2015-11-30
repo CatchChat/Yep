@@ -8,6 +8,8 @@
 
 import UIKit
 import RealmSwift
+import AVFoundation
+import MapKit
 
 class FeedsViewController: BaseViewController {
 
@@ -24,6 +26,27 @@ class FeedsViewController: BaseViewController {
     var filterBarItem: UIBarButtonItem?
     
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    
+    lazy var newFeedTypesView: NewFeedTypesView = {
+        let view = NewFeedTypesView()
+
+        view.createTextAndPhotosFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+        }
+
+        view.createVoiceFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+        }
+
+        view.createShortMovieFeedAction = { [weak self] in
+        }
+
+        view.createLocationFeedAction = { [weak self] in
+            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+        }
+
+        return view
+    }()
     
     lazy var skillTitleView: UIView = {
 
@@ -83,6 +106,48 @@ class FeedsViewController: BaseViewController {
 
     var feeds = [DiscoveredFeed]()
 
+    private var audioPlayedDurations = [String: NSTimeInterval]()
+
+    private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
+        let key = feedAudio.feedID
+
+        if !key.isEmpty {
+            if let playedDuration = audioPlayedDurations[key] {
+                return playedDuration
+            }
+        }
+
+        return 0
+    }
+
+    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofFeedAudio feedAudio: FeedAudio) {
+        let key = feedAudio.feedID
+        if !key.isEmpty {
+            audioPlayedDurations[key] = audioPlayedDuration
+        }
+
+        // recover audio cells' UI
+
+        if audioPlayedDuration == 0 {
+
+            let feedID = feedAudio.feedID
+
+            for index in 0..<feeds.count {
+                let feed = feeds[index]
+                if feed.id == feedID {
+
+                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                        cell.audioPlayedDuration = 0
+                    }
+
+                    break
+                }
+            }
+        }
+    }
+
     private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
 
         // refresh skillUsers
@@ -117,7 +182,7 @@ class FeedsViewController: BaseViewController {
 
             let height: CGFloat
             switch feed.kind {
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
             default:
                 height = FeedCell.heightOfFeed(feed)
@@ -161,7 +226,6 @@ class FeedsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -246,17 +310,17 @@ class FeedsViewController: BaseViewController {
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason, errorMessage: errorMessage)
                     
-                    }, completion: { [weak self] _ in
-                        
-                        YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
-                        
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.navigationItem.rightBarButtonItem = nil
-                        }
-                        
-                        syncMyInfoAndDoFurtherAction {
-                        }
-                    })
+                }, completion: { [weak self] _ in
+                    
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.navigationItem.rightBarButtonItem = nil
+                    }
+                    
+                    syncMyInfoAndDoFurtherAction {
+                    }
+                })
             }
             
             let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
@@ -402,7 +466,44 @@ class FeedsViewController: BaseViewController {
     }
 
     @IBAction func createNewFeed(sender: AnyObject) {
-        self.performSegueWithIdentifier("presentNewFeed", sender: nil)
+
+        if let window = view.window {
+            newFeedTypesView.showInView(window)
+        }
+    }
+
+    func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+
+            let feedID = feedAudio.feedID
+
+            for index in 0..<feeds.count {
+                let feed = feeds[index]
+                if feed.id == feedID {
+
+                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                        cell.audioPlayedDuration = currentTime
+                    }
+
+                    break
+                }
+            }
+        }
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+
+            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+
+                let currentTime = audioPlayer.currentTime
+
+                setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+                
+                updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+            }
+        }
     }
 
     // MARK: - Navigation
@@ -411,6 +512,23 @@ class FeedsViewController: BaseViewController {
 
         guard let identifier = segue.identifier else {
             return
+        }
+
+        let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let strongSelf = self {
+
+                    strongSelf.feeds.insert(feed, atIndex: 0)
+
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
+                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                }
+            }
+
+            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
+            })
         }
 
         switch identifier {
@@ -463,7 +581,7 @@ class FeedsViewController: BaseViewController {
 
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-            vc.afterDeletedConversationAction = { [weak self] in
+            vc.afterDeletedFeedAction = { [weak self] in
                 self?.updateFeeds()
             }
 
@@ -478,22 +596,32 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
-            vc.afterCreatedFeedAction = { [weak self] feed in
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
 
-                dispatch_async(dispatch_get_main_queue()) {
+        case "presentNewFeedVoiceRecord":
 
-                    if let strongSelf = self {
-
-                        strongSelf.feeds.insert(feed, atIndex: 0)
-
-                        let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                        strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
-                    }
-                }
-                
-                joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
-                })
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedVoiceRecordViewController
+            else {
+                return
             }
+
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
+
+        case "presentPickLocation":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? PickLocationViewController
+            else {
+                return
+            }
+
+            vc.purpose = .Feed
+
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
+
         /*
         case "showFeedMedia":
 
@@ -591,7 +719,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
 
@@ -667,7 +795,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .GithubRepo, .DribbbleShot:
+            case .GithubRepo, .DribbbleShot, .Audio, .Location:
 
                 guard let cell = cell as? FeedSocialWorkCell else {
                     break
@@ -712,6 +840,75 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.rootViewController = vc
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
+                }
+
+                cell.playOrPauseAudioAction = { [weak self] cell in
+
+                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                        return
+                    }
+
+                    let play: () -> Void = { [weak self] in
+
+                        if let strongSelf = self {
+
+                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                            YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
+                                println("playAudioWithFeedAudio success!")
+
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                                cell.audioPlaying = true
+                            })
+                        }
+                    }
+
+                    if let strongSelf = self {
+
+                        // 如果在播放，就暂停
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+
+                            audioPlayer.pause()
+
+                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                                playbackTimer.invalidate()
+                            }
+
+                            let feedID = playingFeedAudio.feedID
+                            for index in 0..<strongSelf.feeds.count {
+                                let feed = strongSelf.feeds[index]
+                                if feed.id == feedID {
+
+                                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                                        cell.audioPlaying = false
+                                    }
+
+                                    break
+                                }
+                            }
+
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            } else {
+                                // 暂停的是别人，咱开始播放
+                                play()
+                            }
+                            
+                        } else {
+                            // 直接播放
+                            play()
+                        }
+                    }
+                }
+
+                cell.tapLocationAction = { locationName, locationCoordinate in
+
+                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                    mapItem.name = locationName
+
+                    mapItem.openInMapsWithLaunchOptions(nil)
                 }
 
             default:
@@ -879,4 +1076,24 @@ extension FeedsViewController: PullToRefreshViewDelegate {
         return feedsTableView
     }
 }
+
+// MARK: AVAudioPlayerDelegate
+
+extension FeedsViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+            setAudioPlayedDuration(0, ofFeedAudio: playingFeedAudio)
+            println("setAudioPlayedDuration to 0")
+        }
+    }
+}
+
 

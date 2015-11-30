@@ -87,7 +87,20 @@ enum ConversationFeed {
             if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
                 return true
             }
-            // TODO: more type check in future
+        }
+
+        return false
+    }
+
+    var hasMapImage: Bool {
+
+        if let kind = kind {
+            switch kind {
+            case .Location:
+                return true
+            default:
+                return false
+            }
         }
 
         return false
@@ -187,6 +200,60 @@ enum ConversationFeed {
 
         return nil
     }
+
+    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Audio(audioInfo) = attachment {
+                    return (audioInfo.duration, audioInfo.sampleValues)
+                }
+            }
+        case .FeedType(let feed):
+            if let audioMetaInfo = feed.audio?.audioMetaInfo {
+                return audioMetaInfo
+            }
+        }
+
+        return nil
+    }
+
+    var locationName: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Location(locationInfo) = attachment {
+                    return locationInfo.name
+                }
+            }
+        case .FeedType(let feed):
+            if let location = feed.location {
+                return location.name
+            }
+        }
+
+        return nil
+    }
+
+    var locationCoordinate: CLLocationCoordinate2D? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Location(locationInfo) = attachment {
+                    return locationInfo.coordinate
+                }
+            }
+        case .FeedType(let feed):
+            if let location = feed.location {
+                return location.coordinate?.locationCoordinate
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {
@@ -243,7 +310,7 @@ class ConversationViewController: BaseViewController {
 
     var afterSentMessageAction: (() -> Void)?
 
-    var afterDeletedConversationAction: (() -> Void)?
+    var afterDeletedFeedAction: (() -> Void)?
 
     lazy var sectionDateFormatter: NSDateFormatter =  {
         let dateFormatter = NSDateFormatter()
@@ -1490,7 +1557,14 @@ class ConversationViewController: BaseViewController {
             self?.yep_openURL(URL)
         }
 
-        //feedView.backgroundColor = UIColor.orangeColor()
+        feedView.tapLocationAction = { locationName, locationCoordinate in
+
+            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+            mapItem.name = locationName
+
+            mapItem.openInMapsWithLaunchOptions(nil)
+        }
+
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(feedView)
@@ -1691,9 +1765,9 @@ class ConversationViewController: BaseViewController {
         return width
     }
 
-    private var audioPlayedDurations = [String: Double]()
+    private var audioPlayedDurations = [String: NSTimeInterval]()
 
-    private func audioPlayedDurationOfMessage(message: Message) -> Double {
+    private func audioPlayedDurationOfMessage(message: Message) -> NSTimeInterval {
         let key = message.messageID
 
         if !key.isEmpty {
@@ -1705,7 +1779,7 @@ class ConversationViewController: BaseViewController {
         return 0
     }
 
-    private func setAudioPlayedDuration(audioPlayedDuration: Double, ofMessage message: Message) {
+    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -1927,9 +2001,8 @@ class ConversationViewController: BaseViewController {
                         return
                     }
 
-                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: { [weak self] in
+                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
                         afterLeaveGroup?()
-                        self?.afterDeletedConversationAction?()
                     })
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
@@ -1954,6 +2027,7 @@ class ConversationViewController: BaseViewController {
                     doDeleteConversation(afterLeaveGroup: {
                         deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                             println("deleted feed: \(feedID)")
+                            self?.afterDeletedFeedAction?()
                         })
                     })
 
@@ -2544,7 +2618,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if let message = message {
-            let audioPlayedDuration = audioPlayedDurationOfMessage(message) as NSTimeInterval
+            let audioPlayedDuration = audioPlayedDurationOfMessage(message)
             YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
                 let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer
@@ -2617,7 +2691,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if let socialWork = sender as? MessageSocialWork {
-                vc.socialWork = socialWork
+                vc.attachment = .SocialWork(socialWork)
 
                 vc.afterCreatedFeedAction = { [weak self] feed in
 
@@ -3834,7 +3908,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
 // MARK: AVAudioRecorderDelegate
 
-extension ConversationViewController : AVAudioRecorderDelegate {
+extension ConversationViewController: AVAudioRecorderDelegate {
 
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         println("finished recording \(flag)")

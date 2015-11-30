@@ -2569,7 +2569,17 @@ struct DiscoveredFeed: Hashable {
         case .DribbbleShot:
             return true
         default:
-            return false // TODO: more type check in future
+            return false
+        }
+    }
+
+    var hasMapImage: Bool {
+
+        switch kind {
+        case .Location:
+            return true
+        default:
+            return false
         }
     }
 
@@ -2625,10 +2635,66 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct AudioInfo {
+        let feedID: String
+        let URLString: String
+        let metaData: NSData
+        let duration: NSTimeInterval
+        let sampleValues: [CGFloat]
+
+        static func fromJSONDictionary(json: JSONDictionary, feedID: String) -> AudioInfo? {
+            guard let
+                fileInfo = json["file"] as? JSONDictionary,
+                URLString = fileInfo["url"] as? String,
+                metaDataString = json["metadata"] else {
+                    return nil
+            }
+
+            if let metaData = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+                if let metaDataInfo = decodeJSON(metaData) {
+
+                    guard let
+                        duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
+                        sampleValues = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] else {
+                            return nil
+                    }
+
+                    return AudioInfo(feedID: feedID, URLString: URLString, metaData: metaData, duration: duration, sampleValues: sampleValues)
+                }
+            }
+
+            return nil
+        }
+    }
+
+    struct LocationInfo {
+
+        let name: String
+        let latitude: CLLocationDegrees
+        let longitude: CLLocationDegrees
+
+        var coordinate: CLLocationCoordinate2D {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+
+        static func fromJSONDictionary(json: JSONDictionary) -> LocationInfo? {
+            guard let
+                name = json["place"] as? String,
+                latitude = json["latitude"] as? CLLocationDegrees,
+                longitude = json["longitude"] as? CLLocationDegrees else {
+                    return nil
+            }
+
+            return LocationInfo(name: name, latitude: latitude, longitude: longitude)
+        }
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
+        case Audio(AudioInfo)
+        case Location(LocationInfo)
     }
 
     let attachment: Attachment?
@@ -2695,6 +2761,24 @@ struct DiscoveredFeed: Hashable {
                 dribbbleShotInfo = dribbbleShotsData.first,
                 dribbbleShot = DiscoveredFeed.DribbbleShot.fromJSONDictionary(dribbbleShotInfo) {
                     attachment = .Dribbble(dribbbleShot)
+            }
+
+        case .Audio:
+
+            if let
+                audioInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                _audioInfo = audioInfosData.first,
+                audioInfo = DiscoveredFeed.AudioInfo.fromJSONDictionary(_audioInfo, feedID: id) {
+                    attachment = .Audio(audioInfo)
+            }
+
+        case .Location:
+
+            if let
+                locationInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                _locationInfo = locationInfosData.first,
+                locationInfo = DiscoveredFeed.LocationInfo.fromJSONDictionary(_locationInfo) {
+                    attachment = .Location(locationInfo)
             }
 
         default:

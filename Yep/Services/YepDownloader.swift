@@ -211,6 +211,17 @@ class YepDownloader: NSObject {
             println("Can NOT download attachments of message: \(mediaType), \(messageID)")
         }
     }
+
+    class func downloadDataFromURL(URL: NSURL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
+
+        let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction)
+
+        let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
+        sharedDownloader.progressReporters.append(progressReporter)
+
+        downloadTask.resume()
+    }
 }
 
 extension YepDownloader: NSURLSessionDelegate {

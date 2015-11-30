@@ -135,6 +135,7 @@ class YepAudioService: NSObject {
     // MARK: Audio Player
 
     var playingMessage: Message?
+    var playingFeedAudio: FeedAudio?
 
     var playbackTimer: NSTimer? {
         didSet {
@@ -154,8 +155,6 @@ class YepAudioService: NSObject {
             }
         }
 
-        UIDevice.currentDevice().proximityMonitoringEnabled = true
-
         let fileName = message.localAttachmentName
 
         if !fileName.isEmpty {
@@ -168,12 +167,14 @@ class YepAudioService: NSObject {
                     audioPlayer.delegate = delegate
                     audioPlayer.prepareToPlay()
 
-                    playingMessage = message
-
                     audioPlayer.currentTime = time
 
                     if audioPlayer.play() {
                         println("do play audio")
+
+                        playingMessage = message
+
+                        UIDevice.currentDevice().proximityMonitoringEnabled = true
 
                         if !message.mediaPlayed {
                             if let realm = message.realm {
@@ -195,7 +196,49 @@ class YepAudioService: NSObject {
             println("please wait for download") // TODO: Download audio message, check first
         }
     }
-    
+
+    func playAudioWithFeedAudio(feedAudio: FeedAudio, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playAudioWithMessage setCategory failed: \(error)")
+            }
+        }
+
+        let fileName = feedAudio.fileName
+
+        if !fileName.isEmpty {
+
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+
+                do {
+                    let audioPlayer = try AVAudioPlayer(contentsOfURL: fileURL)
+                    self.audioPlayer = audioPlayer
+                    audioPlayer.delegate = delegate
+                    audioPlayer.prepareToPlay()
+
+                    audioPlayer.currentTime = time
+
+                    if audioPlayer.play() {
+                        println("do play audio")
+
+                        playingFeedAudio = feedAudio
+
+                        success()
+                    }
+
+                } catch let error {
+                    println("play audio error: \(error)")
+                }
+            }
+            
+        } else {
+            println("please wait for download") // TODO: Download feed audio, check first
+        }
+    }
+
     func resetToDefault() {
         // playback 会导致从音乐 App 进来的时候停止音乐，所以需要重置回去
         

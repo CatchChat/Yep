@@ -369,4 +369,41 @@ class ImageCache {
             }
         }
     }
+
+    func mapImageOfLocationCoordinate(locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: (UIImage) -> ()) {
+
+        let imageKey = "feedMapImage-\(size)-\(locationCoordinate)"
+
+        // 先看看缓存
+        if let image = cache.objectForKey(imageKey) as? UIImage {
+            completion(image)
+
+        } else {
+            let options = MKMapSnapshotOptions()
+            options.scale = UIScreen.mainScreen().scale
+            let size = size
+            options.size = size
+            options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+            let mapSnapshotter = MKMapSnapshotter(options: options)
+
+            mapSnapshotter.startWithQueue(cacheQueue, completionHandler: { snapshot, error in
+                if error == nil {
+
+                    guard let snapshot = snapshot else {
+                        return
+                    }
+
+                    let image = snapshot.image
+
+                    self.cache.setObject(image, forKey: imageKey)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(image)
+                    }
+                }
+            })
+        }
+    }
 }
+

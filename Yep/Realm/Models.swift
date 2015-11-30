@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Crashlytics
+import MapKit
 
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -248,6 +249,9 @@ class Coordinate: Object {
     }
     var safeLongitude: Double {
         return abs(longitude) > 180 ? 0 : longitude
+    }
+    var locationCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: safeLatitude, longitude: safeLongitude)
     }
 
     func safeConfigureWithLatitude(latitude: Double, longitude: Double) {
@@ -679,6 +683,42 @@ class Attachment: Object {
     dynamic var URLString: String = ""
 }
 
+class FeedAudio: Object {
+
+    dynamic var feedID: String = ""
+    dynamic var URLString: String = ""
+    dynamic var metadata: NSData = NSData()
+    dynamic var fileName: String = ""
+
+    var belongToFeed: Feed? {
+        return linkingObjects(Feed.self, forProperty: "audio").first
+    }
+
+    class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
+        let predicate = NSPredicate(format: "feedID = %@", feedID)
+        return realm.objects(FeedAudio).filter(predicate).first
+    }
+
+    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+
+        if let metaDataInfo = decodeJSON(metadata) {
+            if let
+                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
+                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                    return (duration, samples)
+            }
+        }
+
+        return nil
+    }
+}
+
+class FeedLocation: Object {
+
+    dynamic var name: String = ""
+    dynamic var coordinate: Coordinate?
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -695,6 +735,8 @@ class Feed: Object {
     dynamic var kind: String = FeedKind.Text.rawValue
     var attachments = List<Attachment>()
     dynamic var socialWork: MessageSocialWork?
+    dynamic var audio: FeedAudio?
+    dynamic var location: FeedLocation?
 
     dynamic var skill: UserSkill?
 
@@ -970,6 +1012,26 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 socialWork.dribbbleShot = socialWorkDribbbleShot
 
                 newFeed.socialWork = socialWork
+
+            case .Audio(let audioInfo):
+
+                let feedAudio = FeedAudio()
+                feedAudio.feedID = audioInfo.feedID
+                feedAudio.URLString = audioInfo.URLString
+                feedAudio.metadata = audioInfo.metaData
+
+                newFeed.audio = feedAudio
+
+            case .Location(let locationInfo):
+
+                let feedLocation = FeedLocation()
+                feedLocation.name = locationInfo.name
+
+                let coordinate = Coordinate()
+                coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
+                feedLocation.coordinate = coordinate
+
+                newFeed.location = feedLocation
             }
         }
 

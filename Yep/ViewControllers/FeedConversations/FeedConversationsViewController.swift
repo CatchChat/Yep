@@ -197,8 +197,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     }
                     
                     deleteConversation(conversation, inRealm: realm)
-                    
-                    
+
                     realm.refresh()
                     
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
@@ -207,9 +206,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                         tableView.setEditing(false, animated: true)
                         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     })
-                    
                 }
-                
             }
             
             guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
@@ -231,8 +228,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                         println("deleted feed: \(feedID)")
                     })
                     
-                    }, cancelAction: {
-                        doDeleteConversation()
+                }, cancelAction: {
+                    doDeleteConversation()
                 })
                 
             } else {
