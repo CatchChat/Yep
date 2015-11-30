@@ -62,6 +62,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     var tapGithubRepoLinkAction: (NSURL -> Void)?
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
     var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
+    var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
 
     var audioPlaying: Bool = false {
         willSet {
@@ -134,6 +135,9 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
         githubRepoContainerView.addGestureRecognizer(tapGithubLink)
+
+        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
+        locationContainerView.addGestureRecognizer(tapLocation)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -403,6 +407,19 @@ class FeedSocialWorkCell: FeedBasicCell {
         if case .DribbbleShot = feed.kind {
             if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
                 tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
+            }
+        }
+    }
+
+    func tapLocation(sender: UITapGestureRecognizer) {
+
+        guard let feed = feed, attachment = feed.attachment else {
+            return
+        }
+
+        if case .Location = feed.kind {
+            if case let .Location(locationInfo) = attachment {
+                tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
             }
         }
     }

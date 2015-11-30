@@ -2673,6 +2673,10 @@ struct DiscoveredFeed: Hashable {
         let latitude: CLLocationDegrees
         let longitude: CLLocationDegrees
 
+        var coordinate: CLLocationCoordinate2D {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+
         static func fromJSONDictionary(json: JSONDictionary) -> LocationInfo? {
             guard let
                 name = json["place"] as? String,

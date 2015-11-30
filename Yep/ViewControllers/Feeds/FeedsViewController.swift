@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import AVFoundation
+import MapKit
 
 class FeedsViewController: BaseViewController {
 
@@ -897,6 +898,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                             play()
                         }
                     }
+                }
+
+                cell.tapLocationAction = { locationName, locationCoordinate in
+
+                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                    mapItem.name = locationName
+
+                    mapItem.openInMapsWithLaunchOptions(nil)
                 }
 
             default:
