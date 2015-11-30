@@ -87,7 +87,20 @@ enum ConversationFeed {
             if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
                 return true
             }
-            // TODO: more type check in future
+        }
+
+        return false
+    }
+
+    var hasMapImage: Bool {
+
+        if let kind = kind {
+            switch kind {
+            case .Location:
+                return true
+            default:
+                return false
+            }
         }
 
         return false
@@ -200,6 +213,42 @@ enum ConversationFeed {
         case .FeedType(let feed):
             if let audioMetaInfo = feed.audio?.audioMetaInfo {
                 return audioMetaInfo
+            }
+        }
+
+        return nil
+    }
+
+    var locationName: String? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Location(locationInfo) = attachment {
+                    return locationInfo.name
+                }
+            }
+        case .FeedType(let feed):
+            if let location = feed.location {
+                return location.name
+            }
+        }
+
+        return nil
+    }
+
+    var locationCoordinate: CLLocationCoordinate2D? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .Location(locationInfo) = attachment {
+                    return locationInfo.coordinate
+                }
+            }
+        case .FeedType(let feed):
+            if let location = feed.location {
+                return location.coordinate?.locationCoordinate
             }
         }
 

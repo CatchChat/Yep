@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import AVFoundation
 import RealmSwift
+import MapKit
 
 class FeedView: UIView {
 
@@ -158,7 +159,12 @@ class FeedView: UIView {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
-    lazy var socialWorkMaskImageView: UIImageView = {
+    lazy var socialWorkHalfMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        return imageView
+    }()
+
+    lazy var socialWorkFullMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
         return imageView
     }()
@@ -181,7 +187,11 @@ class FeedView: UIView {
         super.layoutSubviews()
 
         if feed?.hasSocialImage ?? false {
-            socialWorkMaskImageView.frame = socialWorkImageView.bounds
+            socialWorkFullMaskImageView.frame = socialWorkImageView.bounds
+        }
+
+        if feed?.hasMapImage ?? false {
+            socialWorkHalfMaskImageView.frame = locationContainerView.bounds
         }
     }
 
@@ -335,6 +345,7 @@ class FeedView: UIView {
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -355,12 +366,13 @@ class FeedView: UIView {
             socialWorkImageView.hidden = false
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-            socialWorkImageView.maskView = socialWorkMaskImageView
+            socialWorkImageView.maskView = socialWorkFullMaskImageView
             socialWorkBorderImageView.hidden = false
 
             socialWorkImageURL = feed.dribbbleShotImageURL
@@ -373,6 +385,7 @@ class FeedView: UIView {
             socialWorkImageView.hidden = true
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
+            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -389,6 +402,48 @@ class FeedView: UIView {
                 voiceSampleView.samples = audioSampleValues
                 voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
             }
+
+        case .Location:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+
+            socialWorkImageView.hidden = true
+            githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = true
+            locationContainerView.hidden = false
+
+            socialWorkBorderImageView.hidden = false
+
+            if let locationCoordinate = feed.locationCoordinate {
+
+                let options = MKMapSnapshotOptions()
+                options.scale = UIScreen.mainScreen().scale
+                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationNameLabel.bounds.height)
+                options.size = size
+                options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+                let mapSnapshotter = MKMapSnapshotter(options: options)
+
+                mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                    if error == nil {
+
+                        guard let snapshot = snapshot else {
+                            return
+                        }
+
+                        let image = snapshot.image
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            self?.locationMapImageView.image = image
+                        }
+                    }
+                }
+            }
+
+            locationNameLabel.text = feed.locationName
+
+            locationMapImageView.maskView = socialWorkHalfMaskImageView
 
         default:
             break

@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Crashlytics
+import MapKit
 
 // 总是在这个队列里使用 Realm
 let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -248,6 +249,9 @@ class Coordinate: Object {
     }
     var safeLongitude: Double {
         return abs(longitude) > 180 ? 0 : longitude
+    }
+    var locationCoordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: safeLatitude, longitude: safeLongitude)
     }
 
     func safeConfigureWithLatitude(latitude: Double, longitude: Double) {
