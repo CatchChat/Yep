@@ -620,6 +620,8 @@ class FeedsViewController: BaseViewController {
 
             vc.purpose = .Feed
 
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
+
         /*
         case "showFeedMedia":
 
