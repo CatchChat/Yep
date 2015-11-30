@@ -65,7 +65,7 @@ class NewFeedTypeCell: UITableViewCell {
 
 class NewFeedTypesView: UIView {
 
-    let totalHeight: CGFloat = 60 * 5
+    let totalHeight: CGFloat = 60 * 4//5
 
     lazy var containerView: UIView = {
         let view = UIView()
@@ -235,7 +235,7 @@ extension NewFeedTypesView: UITableViewDataSource, UITableViewDelegate {
     enum Row: Int {
         case TextPhotos = 0
         case Voice
-        case ShortMovie
+        //case ShortMovie
         case Location
         case Cancel
 
@@ -245,8 +245,8 @@ extension NewFeedTypesView: UITableViewDataSource, UITableViewDelegate {
                 return NSLocalizedString("Text & Photos", comment: "")
             case .Voice:
                 return NSLocalizedString("Voice", comment: "")
-            case .ShortMovie:
-                return NSLocalizedString("Short Movie", comment: "")
+            //case .ShortMovie:
+            //    return NSLocalizedString("Short Movie", comment: "")
             case .Location:
                 return NSLocalizedString("Location", comment: "")
             case .Cancel:
@@ -260,7 +260,7 @@ extension NewFeedTypesView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 4//5
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -309,9 +309,9 @@ extension NewFeedTypesView: UITableViewDataSource, UITableViewDelegate {
                 createVoiceFeedAction?()
                 hide()
                 
-            case .ShortMovie:
-                createShortMovieFeedAction?()
-                hide()
+            //case .ShortMovie:
+            //    createShortMovieFeedAction?()
+            //    hide()
 
             case .Location:
                 createLocationFeedAction?()

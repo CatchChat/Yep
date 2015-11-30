@@ -26,6 +26,7 @@ class FeedsViewController: BaseViewController {
     var filterBarItem: UIBarButtonItem?
     
     lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    
     lazy var newFeedTypesView: NewFeedTypesView = {
         let view = NewFeedTypesView()
 
