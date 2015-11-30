@@ -607,6 +607,17 @@ class FeedsViewController: BaseViewController {
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
+        case "presentPickLocation":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? PickLocationViewController
+            else {
+                return
+            }
+
+            vc.purpose = .Feed
+
         /*
         case "showFeedMedia":
 

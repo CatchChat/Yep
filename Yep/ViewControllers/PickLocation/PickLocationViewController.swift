@@ -12,11 +12,17 @@ import Proposer
 
 class PickLocationViewController: UIViewController {
 
+    enum Purpose {
+        case Message
+        case Feed
+    }
+    var purpose: Purpose = .Message
+
     typealias SendLocationAction = (locationInfo: Location.Info) -> Void
     var sendLocationAction: SendLocationAction?
 
     @IBOutlet weak var cancelButton: UIBarButtonItem!
-    @IBOutlet weak var sendButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
@@ -98,14 +104,20 @@ class PickLocationViewController: UIViewController {
         title = NSLocalizedString("Pick Location", comment: "")
 
         cancelButton.title = NSLocalizedString("Cancel", comment: "")
-        sendButton.title = NSLocalizedString("Send", comment: "")
+
+        switch purpose {
+        case .Message:
+            doneButton.title = NSLocalizedString("Send", comment: "")
+        case .Feed:
+            doneButton.title = NSLocalizedString("Next", comment: "")
+        }
 
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
 
         tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
         tableView.rowHeight = 50
 
-        sendButton.enabled = false
+        doneButton.enabled = false
         
         mapView.showsUserLocation = true
         mapView.delegate = self
@@ -141,24 +153,32 @@ class PickLocationViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    @IBAction func send(sender: UIBarButtonItem) {
+    @IBAction func done(sender: UIBarButtonItem) {
 
-        dismissViewControllerAnimated(true, completion: {
+        switch purpose {
 
-            if let sendLocationAction = self.sendLocationAction {
+        case .Message:
 
-                if let location = self.location {
-                    sendLocationAction(locationInfo: location.info)
+            dismissViewControllerAnimated(true, completion: {
 
-                } else {
-                    guard let location = self.mapView.userLocation.location else {
-                        return
+                if let sendLocationAction = self.sendLocationAction {
+
+                    if let location = self.location {
+                        sendLocationAction(locationInfo: location.info)
+
+                    } else {
+                        guard let location = self.mapView.userLocation.location else {
+                            return
+                        }
+
+                        sendLocationAction(locationInfo: Location.Info(coordinate: location.coordinate, name: nil))
                     }
-
-                    sendLocationAction(locationInfo: Location.Info(coordinate: location.coordinate, name: nil))
                 }
-            }
-        })
+            })
+
+        case .Feed:
+            break
+        }
     }
 
     private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
@@ -229,7 +249,7 @@ extension PickLocationViewController: MKMapViewDelegate {
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
 
-            sendButton.enabled = true
+            doneButton.enabled = true
 
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
             mapView.setRegion(region, animated: true)

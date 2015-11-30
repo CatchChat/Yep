@@ -65,17 +65,17 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Send" id="Zhh-T7-hFq">
                             <connections>
-                                <action selector="send:" destination="07Q-L4-6oe" id="HML-yg-xhJ"/>
+                                <action selector="done:" destination="07Q-L4-6oe" id="dSf-Ij-hGh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="pIo-vY-4QU" id="67O-ln-tqD"/>
                         <outlet property="cancelButton" destination="jua-ht-Ed3" id="o3J-Vi-dpY"/>
+                        <outlet property="doneButton" destination="Zhh-T7-hFq" id="Ka3-x7-rku"/>
                         <outlet property="mapView" destination="tMv-sj-Ihx" id="qie-Ac-q6z"/>
                         <outlet property="searchBar" destination="V0o-OK-Glb" id="61A-IA-sDt"/>
                         <outlet property="searchBarTopToSuperBottomConstraint" destination="rC2-xh-8I5" id="qxu-Ju-D7R"/>
-                        <outlet property="sendButton" destination="Zhh-T7-hFq" id="LnK-uu-Sqg"/>
                         <outlet property="tableView" destination="Vvv-Sf-xsu" id="95A-ub-muG"/>
                     </connections>
                 </viewController>
