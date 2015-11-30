@@ -245,24 +245,17 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="jzq-SP-Yu4">
-                                        <rect key="frame" x="0.0" y="0.0" width="277" height="200"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="GN4-MT-5YH" firstAttribute="leading" secondItem="C2i-3A-dt0" secondAttribute="leading" constant="10" id="2PP-n1-69q"/>
                                     <constraint firstItem="TIo-OM-kyU" firstAttribute="top" secondItem="C2i-3A-dt0" secondAttribute="top" constant="1" id="39h-Yf-gjS"/>
                                     <constraint firstAttribute="trailing" secondItem="TIo-OM-kyU" secondAttribute="trailing" constant="1" id="7wK-2q-FuJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="jzq-SP-Yu4" secondAttribute="trailing" id="ABc-DG-6bQ"/>
-                                    <constraint firstItem="jzq-SP-Yu4" firstAttribute="leading" secondItem="C2i-3A-dt0" secondAttribute="leading" id="Dah-24-asp"/>
                                     <constraint firstItem="TIo-OM-kyU" firstAttribute="leading" secondItem="C2i-3A-dt0" secondAttribute="leading" constant="1" id="F7y-Uy-2yK"/>
                                     <constraint firstItem="3Re-c6-tcE" firstAttribute="leading" secondItem="TIo-OM-kyU" secondAttribute="leading" id="Oxv-yx-wUm"/>
                                     <constraint firstItem="GN4-MT-5YH" firstAttribute="top" secondItem="TIo-OM-kyU" secondAttribute="bottom" id="SsJ-SG-kR7"/>
                                     <constraint firstItem="3Re-c6-tcE" firstAttribute="bottom" secondItem="TIo-OM-kyU" secondAttribute="bottom" id="T7a-f2-9Fa"/>
                                     <constraint firstAttribute="trailing" secondItem="GN4-MT-5YH" secondAttribute="trailing" constant="10" id="eIC-Ed-E0D"/>
-                                    <constraint firstAttribute="bottom" secondItem="jzq-SP-Yu4" secondAttribute="bottom" id="kB2-Zb-eNS"/>
-                                    <constraint firstItem="jzq-SP-Yu4" firstAttribute="top" secondItem="C2i-3A-dt0" secondAttribute="top" id="nvA-0v-CVi"/>
                                     <constraint firstItem="3Re-c6-tcE" firstAttribute="trailing" secondItem="TIo-OM-kyU" secondAttribute="trailing" id="tRJ-G6-vyC"/>
                                     <constraint firstAttribute="bottom" secondItem="GN4-MT-5YH" secondAttribute="bottom" id="z7Y-nA-RLS"/>
                                 </constraints>

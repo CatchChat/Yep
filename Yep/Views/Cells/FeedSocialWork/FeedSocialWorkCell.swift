@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import Ruler
 import RealmSwift
+import MapKit
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 private let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
@@ -108,6 +109,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if feed?.hasSocialImage ?? false {
             socialWorkMaskImageView.frame = socialWorkImageView.bounds
+        }
+
+        if feed?.hasMapImage ?? false {
+            socialWorkMaskImageView.frame = locationMapImageView.bounds
         }
     }
 
@@ -310,6 +315,38 @@ class FeedSocialWorkCell: FeedBasicCell {
             voiceContainerView.hidden = true
             locationContainerView.hidden = false
             socialWorkBorderImageView.hidden = false
+
+            if let attachment = feed.attachment {
+                if case let .Location(locationInfo) = attachment {
+
+                    let locationCoordinate = CLLocationCoordinate2D(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
+
+                    let options = MKMapSnapshotOptions()
+                    options.scale = UIScreen.mainScreen().scale
+                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 120 - locationNameLabel.bounds.height)
+                    options.size = size
+                    options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+
+                    let mapSnapshotter = MKMapSnapshotter(options: options)
+
+                    mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                        if error == nil {
+
+                            guard let snapshot = snapshot else {
+                                return
+                            }
+
+                            let image = snapshot.image
+
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                self?.locationMapImageView.image = image
+                            }
+                        }
+                    }
+                    
+                    locationNameLabel.text = locationInfo.name
+                }
+            }
 
             locationMapImageView.maskView = socialWorkMaskImageView
 

@@ -2569,7 +2569,17 @@ struct DiscoveredFeed: Hashable {
         case .DribbbleShot:
             return true
         default:
-            return false // TODO: more type check in future
+            return false
+        }
+    }
+
+    var hasMapImage: Bool {
+
+        switch kind {
+        case .Location:
+            return true
+        default:
+            return false
         }
     }
 
