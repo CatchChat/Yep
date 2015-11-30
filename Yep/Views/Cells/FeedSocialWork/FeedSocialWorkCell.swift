@@ -159,7 +159,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         case .Audio:
             height += (44 + 15)
         case .Location:
-            height += (120 + 15)
+            height += (110 + 15)
         default:
             break
         }
@@ -327,7 +327,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                     let options = MKMapSnapshotOptions()
                     options.scale = UIScreen.mainScreen().scale
-                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 120 - locationNameLabel.bounds.height)
+                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
                     options.size = size
                     options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
@@ -354,7 +354,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             locationMapImageView.maskView = socialWorkMaskImageView
 
-            socialWorkContainerViewHeightConstraint.constant = 120
+            socialWorkContainerViewHeightConstraint.constant = 110
 
         default:
             break

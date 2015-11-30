@@ -314,23 +314,8 @@ class NewFeedViewController: UIViewController {
 
                     let image = snapshot.image
 
-                    UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale)
-
-                    let pinImage = UIImage(named: "icon_current_location")!
-
-                    image.drawAtPoint(CGPointZero)
-
-                    let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
-
-                    let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5, y: pinCenter.y - pinImage.size.height * 0.5)
-                    pinImage.drawAtPoint(pinOrigin)
-
-                    let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-
-                    UIGraphicsEndImageContext()
-
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.locationMapImageView.image = finalImage
+                        self?.locationMapImageView.image = image
                     }
                 }
             }

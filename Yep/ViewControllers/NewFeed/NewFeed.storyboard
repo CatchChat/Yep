@@ -163,19 +163,25 @@
                                         <rect key="frame" x="15" y="120" width="200" height="80"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bCz-b6-C8z" userLabel="Map Image View">
-                                                <rect key="frame" x="1" y="1" width="198" height="64.5"/>
+                                                <rect key="frame" x="1" y="1" width="198" height="59"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="L03-rD-Ezz">
+                                                <rect key="frame" x="91" y="18" width="18" height="24"/>
+                                            </imageView>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="yOj-VR-zhE">
-                                                <rect key="frame" x="1" y="64.5" width="198" height="1"/>
+                                                <rect key="frame" x="1" y="59" width="198" height="1"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="vx2-vT-5wO"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4r-rG-141" userLabel="Location Name Label">
-                                                <rect key="frame" x="10" y="65" width="180" height="14.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4r-rG-141" userLabel="Location Name Label">
+                                                <rect key="frame" x="10" y="60" width="180" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="20" id="9DZ-O7-66K"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="ZTp-Xc-V1N">
@@ -194,9 +200,11 @@
                                             <constraint firstItem="bCz-b6-C8z" firstAttribute="top" secondItem="nbc-VR-Teh" secondAttribute="top" constant="1" id="YQ4-aj-0UN"/>
                                             <constraint firstAttribute="bottom" secondItem="ZTp-Xc-V1N" secondAttribute="bottom" id="Yhg-iF-fOB"/>
                                             <constraint firstItem="ZTp-Xc-V1N" firstAttribute="leading" secondItem="nbc-VR-Teh" secondAttribute="leading" id="dJw-ic-5M9"/>
+                                            <constraint firstItem="L03-rD-Ezz" firstAttribute="centerY" secondItem="bCz-b6-C8z" secondAttribute="centerY" id="jjY-gJ-84H"/>
                                             <constraint firstAttribute="trailing" secondItem="bCz-b6-C8z" secondAttribute="trailing" constant="1" id="k0t-Y5-xdl"/>
                                             <constraint firstAttribute="bottom" secondItem="p4r-rG-141" secondAttribute="bottom" id="pQW-5w-921"/>
                                             <constraint firstAttribute="trailing" secondItem="p4r-rG-141" secondAttribute="trailing" constant="10" id="szo-w9-86A"/>
+                                            <constraint firstItem="L03-rD-Ezz" firstAttribute="centerX" secondItem="bCz-b6-C8z" secondAttribute="centerX" id="v4b-1C-nIt"/>
                                             <constraint firstAttribute="trailing" secondItem="ZTp-Xc-V1N" secondAttribute="trailing" id="vJR-6r-Fqw"/>
                                             <constraint firstItem="yOj-VR-zhE" firstAttribute="bottom" secondItem="bCz-b6-C8z" secondAttribute="bottom" id="wid-4v-XRN"/>
                                         </constraints>
@@ -396,6 +404,7 @@
     <resources>
         <image name="bubble_body" width="42" height="40"/>
         <image name="feed_skill_channel_arrow" width="10" height="18"/>
+        <image name="icon_pin_shadow" width="18" height="24"/>
         <image name="icon_play" width="30" height="30"/>
         <image name="icon_repo" width="16" height="21"/>
         <image name="skill_bubble" width="26" height="24"/>
