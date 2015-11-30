@@ -331,6 +331,12 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                     let locationCoordinate = CLLocationCoordinate2D(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
 
+                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
+                    ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
+                        self?.locationMapImageView.image = image
+                    })
+
+                    /*
                     let options = MKMapSnapshotOptions()
                     options.scale = UIScreen.mainScreen().scale
                     let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
@@ -352,7 +358,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                                 self?.locationMapImageView.image = image
                             }
                         }
-                    }
+                    }*/
                     
                     locationNameLabel.text = locationInfo.name
                 }
