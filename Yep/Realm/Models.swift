@@ -709,6 +709,12 @@ class FeedAudio: Object {
     }
 }
 
+class FeedLocation: Object {
+
+    dynamic var name: String = ""
+    dynamic var coordinate: Coordinate?
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -726,6 +732,7 @@ class Feed: Object {
     var attachments = List<Attachment>()
     dynamic var socialWork: MessageSocialWork?
     dynamic var audio: FeedAudio?
+    dynamic var location: FeedLocation?
 
     dynamic var skill: UserSkill?
 
@@ -1012,7 +1019,15 @@ func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, i
                 newFeed.audio = feedAudio
 
             case .Location(let locationInfo):
-                break
+
+                let feedLocation = FeedLocation()
+                feedLocation.name = locationInfo.name
+
+                let coordinate = Coordinate()
+                coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
+                feedLocation.coordinate = coordinate
+
+                newFeed.location = feedLocation
             }
         }
 
