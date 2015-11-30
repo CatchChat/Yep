@@ -173,12 +173,12 @@ class PickLocationViewController: UIViewController {
             }, rejected: {
                 self.alertCanNotAccessLocation()
             })
+
+            activityIndicator.startAnimating()
         }
 
         let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")
         mapView.addGestureRecognizer(tap)
-
-        activityIndicator.startAnimating()
 
         view.bringSubviewToFront(tableView)
         view.bringSubviewToFront(searchBar)
