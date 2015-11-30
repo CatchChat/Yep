@@ -43,6 +43,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var locationContainerView: UIView!
+    @IBOutlet weak var locationMapImageView: UIImageView!
+    @IBOutlet weak var locationNameLabel: UILabel!
+
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
@@ -145,6 +149,8 @@ class FeedSocialWorkCell: FeedBasicCell {
             height += (dribbbleShotHeight + 15)
         case .Audio:
             height += (44 + 15)
+        case .Location:
+            height += (120 + 15)
         default:
             break
         }
@@ -184,6 +190,7 @@ class FeedSocialWorkCell: FeedBasicCell {
             mediaContainerView.hidden = true
             githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
@@ -202,6 +209,7 @@ class FeedSocialWorkCell: FeedBasicCell {
             mediaContainerView.hidden = false
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
+            locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
             linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
@@ -224,6 +232,7 @@ class FeedSocialWorkCell: FeedBasicCell {
             mediaContainerView.hidden = true
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
+            locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = true
 
             if let attachment = feed.attachment {
@@ -293,6 +302,18 @@ class FeedSocialWorkCell: FeedBasicCell {
             }
 
             socialWorkContainerViewHeightConstraint.constant = 44
+
+        case .Location:
+
+            mediaContainerView.hidden = true
+            githubRepoContainerView.hidden = true
+            voiceContainerView.hidden = true
+            locationContainerView.hidden = false
+            socialWorkBorderImageView.hidden = false
+
+            locationMapImageView.maskView = socialWorkMaskImageView
+
+            socialWorkContainerViewHeightConstraint.constant = 120
 
         default:
             break
