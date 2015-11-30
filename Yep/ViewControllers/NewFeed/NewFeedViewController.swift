@@ -757,7 +757,20 @@ class NewFeedViewController: UIViewController {
             }
 
         case .Location(let location):
-            break
+
+            let locationInfo = [
+                "place": location.info.name ?? "",
+                "latitude": location.info.coordinate.latitude,
+                "longitude": location.info.coordinate.longitude,
+            ]
+
+            mediaInfo = [
+                "location": [locationInfo]
+            ]
+
+            kind = .Location
+
+            doCreateFeed()
         }
     }
 
