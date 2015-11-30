@@ -49,6 +49,16 @@ class PickLocationViewController: UIViewController {
 
     var userLocationPlacemarks = [CLPlacemark]() {
         didSet {
+            if let placemark = userLocationPlacemarks.first {
+                if let location = self.location {
+                    if case .Default = location {
+                        var info = location.info
+                        info.name = placemark.name
+                        self.location = .Default(info: info)
+                    }
+                }
+            }
+
             reloadTableView()
         }
     }
@@ -148,6 +158,12 @@ class PickLocationViewController: UIViewController {
         if let location = YepLocationService.sharedManager.locationManager.location {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
             mapView.setRegion(region, animated: false)
+
+            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+
+            placemarksAroundLocation(location) { [weak self] placemarks in
+                self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
+            }
 
         } else {
             proposeToAccess(.Location(.WhenInUse), agreed: {
@@ -270,9 +286,9 @@ class PickLocationViewController: UIViewController {
 
     func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+        geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
 
-            if (error != nil) {
+            if error != nil {
                 println("reverse geodcode fail: \(error?.localizedDescription)")
 
                 completion([])
