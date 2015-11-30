@@ -66,11 +66,14 @@ class PickLocationViewController: UIViewController {
             let name: String?
         }
 
+        case Default(info: Info)
         case Picked(info: Info)
         case Selected(info: Info)
 
         var info: Info {
             switch self {
+            case .Default(let locationInfo):
+                return locationInfo
             case .Picked(let locationInfo):
                 return locationInfo
             case .Selected(let locationInfo):
@@ -205,6 +208,15 @@ class PickLocationViewController: UIViewController {
 
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
+
+            } else {
+                guard let location = self.mapView.userLocation.location else {
+                    return
+                }
+
+                let _location = Location.Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+
+                performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }
         }
     }
@@ -305,7 +317,7 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             } else {
                 let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView.image = UIImage(named: "icon_pin")
+                annotationView.image = UIImage(named: "icon_pin_shadow")
                 annotationView.enabled = false
                 annotationView.canShowCallout = false
 
