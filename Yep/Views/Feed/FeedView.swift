@@ -421,28 +421,10 @@ class FeedView: UIView {
 
             if let locationCoordinate = feed.locationCoordinate {
 
-                let options = MKMapSnapshotOptions()
-                options.scale = UIScreen.mainScreen().scale
                 let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationNameLabel.bounds.height)
-                options.size = size
-                options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
-
-                let mapSnapshotter = MKMapSnapshotter(options: options)
-
-                mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
-                    if error == nil {
-
-                        guard let snapshot = snapshot else {
-                            return
-                        }
-
-                        let image = snapshot.image
-
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            self?.locationMapImageView.image = image
-                        }
-                    }
-                }
+                ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
+                    self?.locationMapImageView.image = image
+                })
             }
 
             locationNameLabel.text = feed.locationName
