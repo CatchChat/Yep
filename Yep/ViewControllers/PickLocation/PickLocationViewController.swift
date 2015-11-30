@@ -146,6 +146,29 @@ class PickLocationViewController: UIViewController {
         view.bringSubviewToFront(activityIndicator)
     }
 
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showNewFeed":
+
+            let vc = segue.destinationViewController as! NewFeedViewController
+
+            let location = (sender as! Box<Location>).value
+
+            vc.attachment = .Location(location)
+
+        default:
+            break
+        }
+    }
+
     // MARK: Actions
     
     @IBAction func cancel(sender: UIBarButtonItem) {
@@ -177,7 +200,10 @@ class PickLocationViewController: UIViewController {
             })
 
         case .Feed:
-            break
+
+            if let location = location {
+                performSegueWithIdentifier("showNewFeed", sender: Box(location))
+            }
         }
     }
 

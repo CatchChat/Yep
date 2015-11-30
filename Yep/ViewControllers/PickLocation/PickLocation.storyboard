@@ -77,6 +77,7 @@
                         <outlet property="searchBar" destination="V0o-OK-Glb" id="61A-IA-sDt"/>
                         <outlet property="searchBarTopToSuperBottomConstraint" destination="rC2-xh-8I5" id="qxu-Ju-D7R"/>
                         <outlet property="tableView" destination="Vvv-Sf-xsu" id="95A-ub-muG"/>
+                        <segue destination="IJv-e8-3ik" kind="show" identifier="showNewFeed" id="rPD-BL-kgM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XeB-4Y-rU0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -101,6 +102,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U6G-7H-Fcy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1527" y="3483"/>
+        </scene>
+        <!--NewFeedViewController-->
+        <scene sceneID="3Mo-ol-ekM">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" referencedIdentifier="NewFeedViewController" id="IJv-e8-3ik" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sBC-Gz-mR7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-651.5" y="3483"/>
         </scene>
     </scenes>
 </document>

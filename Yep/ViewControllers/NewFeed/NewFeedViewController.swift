@@ -30,13 +30,18 @@ class NewFeedViewController: UIViewController {
         case Default
         case SocialWork(MessageSocialWork)
         case Voice(FeedVoice)
+        case Location(PickLocationViewController.Location)
 
         var needPrepare: Bool {
             switch self {
+            case .Default:
+                return false
+            case .SocialWork:
+                return false
             case .Voice:
                 return true
-            default:
-                return false
+            case .Location:
+                return true
             }
         }
     }
@@ -271,6 +276,11 @@ class NewFeedViewController: UIViewController {
             voiceTimeLabel.text = String(format: "%d.%d\"", seconds, subSeconds)
 
             voiceSampleViewWidthConstraint.constant = CGFloat(feedVoice.limitedSampleValues.count) * 3
+
+        case .Location(let location):
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = true
+            voiceContainerView.hidden = true
         }
     }
 
@@ -688,6 +698,9 @@ class NewFeedViewController: UIViewController {
 
                 self?.tryDeleteFeedVoice()
             }
+
+        case .Location(let location):
+            break
         }
     }
 
