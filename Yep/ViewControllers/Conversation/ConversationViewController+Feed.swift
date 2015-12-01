@@ -20,6 +20,7 @@ extension ConversationViewController {
 
             let newGroup = Group()
             newGroup.groupID = groupID
+            newGroup.includeMe = false
 
             let _ = try? realm.write {
                 realm.add(newGroup)
@@ -52,8 +53,14 @@ extension ConversationViewController {
             return nil
         }
 
+        /*
         if let group = group {
             saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
+        }
+        */
+
+        if let group = group {
+            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
         }
 
         return feedConversation

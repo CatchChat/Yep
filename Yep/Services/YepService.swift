@@ -1456,7 +1456,6 @@ func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Vo
     }
 }
 
-
 func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
     
     let parse: JSONDictionary -> Void? = { data in
@@ -1472,6 +1471,25 @@ func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> V
     }
 }
 
+func meIsMemberOfGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (Bool) -> Void) {
+
+    let parse: JSONDictionary -> Bool? = { data in
+
+        guard let isMember = data["exist"] as? Bool else {
+            return nil
+        }
+
+        return isMember
+    }
+
+    let resource = authJsonResource(path: "/api/v2/circles/\(groupID)/check_me_exist", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
 
 func headGroups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
     let requestParameters = [
