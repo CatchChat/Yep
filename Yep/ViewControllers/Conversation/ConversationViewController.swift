@@ -720,12 +720,13 @@ class ConversationViewController: BaseViewController {
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
                     
                     strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                    let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + subscribeViewHeight
                     
                     strongSelf.messageToolbarBottomConstraint.constant = 0
                     strongSelf.view.layoutIfNeeded()
                 }
-
             }
         }
 
@@ -827,6 +828,8 @@ class ConversationViewController: BaseViewController {
                     let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
                     self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                    self?.isSubscribeViewShowing = true
                 }
             }
 
@@ -838,12 +841,12 @@ class ConversationViewController: BaseViewController {
                     let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
 
                     self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                    self?.isSubscribeViewShowing = false
                 }
             }
 
             self?.subscribeView.show()
-
-            self?.isSubscribeViewShowing = true
         }
     }
     
@@ -1641,8 +1644,7 @@ class ConversationViewController: BaseViewController {
         self.feedView = feedView
     }
 
-
-    func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
+    private func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
             conversationCollectionView.contentInset.bottom = bottom
@@ -1683,10 +1685,13 @@ class ConversationViewController: BaseViewController {
             messageToolbar.lastToolbarFrame = messageToolbar.frame
         }
         /////
-        
-        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
 
-        let bottom = view.bounds.height - messageToolbar.frame.origin.y
+
+        let subscribeViewHeight = isSubscribeViewShowing ? SubscribeView.height : 0
+
+        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y + subscribeViewHeight
+
+        let bottom = view.bounds.height - messageToolbar.frame.origin.y + subscribeViewHeight
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
 
