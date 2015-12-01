@@ -20,6 +20,7 @@ extension ConversationViewController {
 
             let newGroup = Group()
             newGroup.groupID = groupID
+            newGroup.includeMe = false
 
             let _ = try? realm.write {
                 realm.add(newGroup)

@@ -538,10 +538,14 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     // 有关联的 Feed 时就标记，不然删除
 
                     if let feed = group.withFeed {
-                        feed.deleted = true
 
-                        // 确保被删除的 Feed 的所有消息都被标记已读
-                        group.conversation?.messages.forEach { $0.readed = true }
+                        if group.includeMe {
+
+                            feed.deleted = true
+
+                            // 确保被删除的 Feed 的所有消息都被标记已读
+                            group.conversation?.messages.forEach { $0.readed = true }
+                        }
 
                     } else {
                         group.cascadeDelete()
@@ -554,6 +558,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             for groupInfo in allGroups {
 
                 let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                let _ = try? realm.write {
+                    group?.includeMe = true
+                }
 
                 //Sync Feed
 

@@ -802,6 +802,14 @@ class ConversationViewController: BaseViewController {
                 if let groupID = self?.conversation.withGroup?.groupID {
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
                         println("subscribe OK")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                let _ = try? strongSelf.realm.write {
+                                    strongSelf.conversation.withGroup?.includeMe = true
+                                }
+                            }
+                        }
                     })
                 }
             }
