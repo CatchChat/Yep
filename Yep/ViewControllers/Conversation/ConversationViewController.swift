@@ -464,6 +464,27 @@ class ConversationViewController: BaseViewController {
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
 
+    var isSubscribeViewShowing = false
+    lazy var subscribeView: SubscribeView = {
+        let view = SubscribeView()
+
+        self.view.insertSubview(view, belowSubview: self.messageToolbar)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
+        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
+
+        view.bottomConstraint = bottom
+
+        NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+        self.view.layoutIfNeeded()
+
+        return view
+    }()
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
     let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
@@ -699,12 +720,13 @@ class ConversationViewController: BaseViewController {
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
                     
                     strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height
+
+                    let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
+                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + subscribeViewHeight
                     
                     strongSelf.messageToolbarBottomConstraint.constant = 0
                     strongSelf.view.layoutIfNeeded()
                 }
-
             }
         }
 
@@ -758,38 +780,81 @@ class ConversationViewController: BaseViewController {
 
             if let groupID = conversation.withGroup?.groupID {
 
-                // 新策略：先同步消息，若失败就再次加入，再获取一次
+                // 直接同步消息
                 syncMessages(failedAction: {
+                    /*
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
                         syncMessages(failedAction: nil, successAction: nil)
                         FayeService.sharedManager.subscribeGroup(groupID: groupID)
                     })
+                    */
 
                 }, successAction: {
                     FayeService.sharedManager.subscribeGroup(groupID: groupID)
                 })
-
-                //joinGroup(groupID: groupID, failureHandler: nil, completion: {
-
-                    //println("joined group: \(groupID)")
-                    
-//                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
-//                        
-//                        if let url = link["url"] as? String {
-//                            self?.groupURL = url
-//                        }
-//                        
-//                    })
-
-                    //syncMessages()
-
-                    //FayeService.sharedManager.subscribeGroup(groupID: groupID)
-
-                //})
             }
 
         default:
             break
+        }
+
+        if let group = conversation.withGroup where !group.includeMe {
+
+            let groupID = group.groupID
+
+            meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
+
+                println("meIsMember: \(meIsMember)")
+
+                guard !meIsMember else {
+                    return
+                }
+
+                delay(1) { [weak self] in
+
+                    self?.subscribeView.subscribeAction = { [weak self] in
+                        joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                            println("subscribe OK")
+
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                if let strongSelf = self {
+                                    let _ = try? strongSelf.realm.write {
+                                        strongSelf.conversation.withGroup?.includeMe = true
+                                    }
+                                }
+                            }
+                        })
+                    }
+
+                    self?.subscribeView.showWithChangeAction = { [weak self] in
+                        if let strongSelf = self {
+
+                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                            self?.isSubscribeViewShowing = true
+                        }
+                    }
+
+                    self?.subscribeView.hideWithChangeAction = { [weak self] in
+                        if let strongSelf = self {
+
+                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+
+                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+                            
+                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+                            
+                            self?.isSubscribeViewShowing = false
+                        }
+                    }
+                    
+                    self?.subscribeView.show()
+                }
+            })
         }
     }
     
@@ -1219,7 +1284,14 @@ class ConversationViewController: BaseViewController {
 
                 println("mark latestMessage readed")
             }
-            
+
+            // 群组里没有我，不需要标记
+            if recipient.type == .Group {
+                if let group = conversation.withGroup where !group.includeMe {
+                    needMarkInServer = false
+                }
+            }
+
             if needMarkInServer {
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -1587,6 +1659,34 @@ class ConversationViewController: BaseViewController {
         self.feedView = feedView
     }
 
+    private func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
+
+        guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
+            conversationCollectionView.contentInset.bottom = bottom
+
+            return
+        }
+
+        var needUpdate = false
+
+        let bottomInsetOffset = bottom - conversationCollectionView.contentInset.bottom
+
+        if bottomInsetOffset != 0 {
+            needUpdate = true
+        }
+
+        if conversationCollectionView.contentOffset.y != newContentOffsetY {
+            needUpdate = true
+        }
+
+        guard needUpdate else {
+            return
+        }
+
+        conversationCollectionView.contentInset.bottom = bottom
+        conversationCollectionView.contentOffset.y = newContentOffsetY
+    }
+
     private func trySnapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
 
         ///// Provent form unwanted scrolling
@@ -1600,10 +1700,13 @@ class ConversationViewController: BaseViewController {
             messageToolbar.lastToolbarFrame = messageToolbar.frame
         }
         /////
-        
-        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y
 
-        let bottom = view.bounds.height - messageToolbar.frame.origin.y
+
+        let subscribeViewHeight = isSubscribeViewShowing ? SubscribeView.height : 0
+
+        let newContentOffsetY = conversationCollectionView.contentSize.height - messageToolbar.frame.origin.y + subscribeViewHeight
+
+        let bottom = view.bounds.height - messageToolbar.frame.origin.y + subscribeViewHeight
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
 
@@ -2011,7 +2114,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            guard let feed = self?.conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+            guard let group = self?.conversation.withGroup where group.includeMe, let feed = group.withFeed, feedCreator = feed.creator else {
                 return
             }
 

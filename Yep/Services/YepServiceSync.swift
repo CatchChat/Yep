@@ -538,10 +538,14 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     // 有关联的 Feed 时就标记，不然删除
 
                     if let feed = group.withFeed {
-                        feed.deleted = true
 
-                        // 确保被删除的 Feed 的所有消息都被标记已读
-                        group.conversation?.messages.forEach { $0.readed = true }
+                        if group.includeMe {
+
+                            feed.deleted = true
+
+                            // 确保被删除的 Feed 的所有消息都被标记已读
+                            group.conversation?.messages.forEach { $0.readed = true }
+                        }
 
                     } else {
                         group.cascadeDelete()
@@ -555,13 +559,18 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
+                let _ = try? realm.write {
+                    group?.includeMe = true
+                }
+
                 //Sync Feed
 
                 if let
                     feedInfo = groupInfo["topic"] as? JSONDictionary,
-                    feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
+                    feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
                     group = group {
-                        saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+                        //saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+                        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
                 } else {
                     println("no sync feed from groupInfo: \(groupInfo)")
                 }
@@ -1028,11 +1037,12 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                                     return
                                                 }
                                                 
-                                                if let savedGroup = groupWithGroupID(groupID, inRealm: realmForGroup) {
+                                                if let group = groupWithGroupID(groupID, inRealm: realmForGroup) {
                                                     if let
                                                         feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                        feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                            saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
+                                                        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
+                                                            //saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
+                                                            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
                                                     }
                                                 }
                                             }

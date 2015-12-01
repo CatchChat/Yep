@@ -209,6 +209,8 @@ class Group: Object {
         return linkingObjects(Feed.self, forProperty: "group").first
     }
 
+    dynamic var includeMe: Bool = false
+
     var conversation: Conversation? {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
         return conversations.first
@@ -876,6 +878,7 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 }
 
+/*
 func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     println("saveFeedWithFeedDataWithoutFullGroup joinGroup")
@@ -904,8 +907,10 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
         })
     })
 }
+*/
 
-func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+//func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
