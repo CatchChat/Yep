@@ -34,14 +34,22 @@ class SubscribeView: UIView {
         button.setTitle(NSLocalizedString("Subscribe", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
+
+        button.addTarget(self, action: "subscribe:", forControlEvents: .TouchUpInside)
+
         return button
     }()
 
     lazy var dismissButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
+
+        button.addTarget(self, action: "dismiss:", forControlEvents: .TouchUpInside)
+
         return button
     }()
+
+    var subscribeAction: (() -> Void)?
 
     override func didMoveToSuperview() {
 
@@ -110,9 +118,21 @@ class SubscribeView: UIView {
     func hide() {
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.bottomConstraint?.constant = -SubscribeView.height
+            self?.bottomConstraint?.constant = SubscribeView.height
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
+    }
+
+    func subscribe(sender: BorderButton) {
+
+        subscribeAction?()
+
+        hide()
+    }
+
+    func dismiss(sender: UIButton) {
+
+        hide()
     }
 }
 

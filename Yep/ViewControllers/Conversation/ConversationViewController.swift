@@ -813,6 +813,15 @@ class ConversationViewController: BaseViewController {
         }
 
         delay(1) { [weak self] in
+
+            self?.subscribeView.subscribeAction = { [weak self] in
+                if let groupID = self?.conversation.withGroup?.groupID {
+                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                        println("subscribe OK")
+                    })
+                }
+            }
+
             self?.subscribeView.show()
         }
     }
