@@ -10,6 +10,10 @@ import UIKit
 
 class SubscribeView: UIView {
 
+    static let height: CGFloat = 44
+
+    var bottomConstraint: NSLayoutConstraint?
+
     lazy var subscribeButton: BorderButton = {
         let button = BorderButton()
         return button
@@ -27,6 +31,8 @@ class SubscribeView: UIView {
     }
 
     func makeUI() {
+
+        backgroundColor = UIColor.blueColor().colorWithAlphaComponent(0.3)
 
         addSubview(subscribeButton)
         addSubview(dismissButton)
@@ -49,6 +55,18 @@ class SubscribeView: UIView {
 
     func show() {
 
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = 0
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
+    }
+
+    func hide() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = -SubscribeView.height
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
     }
 }
 

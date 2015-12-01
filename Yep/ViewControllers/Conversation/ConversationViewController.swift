@@ -464,7 +464,6 @@ class ConversationViewController: BaseViewController {
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
 
-    var subscribeViewBottomConstraint: NSLayoutConstraint?
     lazy var subscribeView: SubscribeView = {
         let view = SubscribeView()
 
@@ -474,12 +473,13 @@ class ConversationViewController: BaseViewController {
 
         let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
         let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: 0)
-        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Height, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
+        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
 
-        self.subscribeViewBottomConstraint = bottom
+        view.bottomConstraint = bottom
 
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+        self.view.layoutIfNeeded()
 
         return view
     }()
@@ -812,7 +812,9 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        subscribeView.show()
+        delay(1) { [weak self] in
+            self?.subscribeView.show()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
