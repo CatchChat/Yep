@@ -209,7 +209,7 @@ class Group: Object {
         return linkingObjects(Feed.self, forProperty: "group").first
     }
 
-    var includeMe: Bool = false
+    dynamic var includeMe: Bool = false
 
     var conversation: Conversation? {
         let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
