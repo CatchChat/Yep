@@ -464,6 +464,7 @@ class ConversationViewController: BaseViewController {
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
 
+    var isSubscribeViewShowing = false
     lazy var subscribeView: SubscribeView = {
         let view = SubscribeView()
 
@@ -798,6 +799,10 @@ class ConversationViewController: BaseViewController {
 
         delay(1) { [weak self] in
 
+            guard self?.conversation.withGroup != nil else {
+                return
+            }
+
             self?.subscribeView.subscribeAction = { [weak self] in
                 if let groupID = self?.conversation.withGroup?.groupID {
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
@@ -814,7 +819,76 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
+            self?.subscribeView.showWithChangeAction = { [weak self] in
+                if let strongSelf = self {
+
+                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                    let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                    guard newContentOffsetY + strongSelf.conversationCollectionView.contentInset.top > 0 else {
+                        strongSelf.conversationCollectionView.contentInset.bottom = bottom
+
+                        return
+                    }
+
+                    var needDoAnimation = false
+
+                    let bottomInsetOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
+
+                    if bottomInsetOffset != 0 {
+                        needDoAnimation = true
+                    }
+
+                    if strongSelf.conversationCollectionView.contentOffset.y != newContentOffsetY {
+                        needDoAnimation = true
+                    }
+                    
+                    guard needDoAnimation else {
+                        return
+                    }
+
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                }
+            }
+
+            self?.subscribeView.hideWithChangeAction = { [weak self] in
+                if let strongSelf = self {
+                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+
+                    let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+
+                    guard newContentOffsetY + strongSelf.conversationCollectionView.contentInset.top > 0 else {
+                        strongSelf.conversationCollectionView.contentInset.bottom = bottom
+
+                        return
+                    }
+
+                    var needDoAnimation = false
+
+                    let bottomInsetOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
+
+                    if bottomInsetOffset != 0 {
+                        needDoAnimation = true
+                    }
+
+                    if strongSelf.conversationCollectionView.contentOffset.y != newContentOffsetY {
+                        needDoAnimation = true
+                    }
+
+                    guard needDoAnimation else {
+                        return
+                    }
+
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                }
+            }
+
             self?.subscribeView.show()
+
+            self?.isSubscribeViewShowing = true
         }
     }
     

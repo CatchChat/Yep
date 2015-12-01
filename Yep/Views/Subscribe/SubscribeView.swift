@@ -50,6 +50,8 @@ class SubscribeView: UIView {
     }()
 
     var subscribeAction: (() -> Void)?
+    var showWithChangeAction: (() -> Void)?
+    var hideWithChangeAction: (() -> Void)?
 
     override func didMoveToSuperview() {
 
@@ -111,6 +113,7 @@ class SubscribeView: UIView {
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
+            self?.showWithChangeAction?()
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
     }
@@ -119,6 +122,7 @@ class SubscribeView: UIView {
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = SubscribeView.height
+            self?.hideWithChangeAction?()
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
     }
