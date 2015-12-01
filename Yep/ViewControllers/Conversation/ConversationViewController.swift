@@ -826,63 +826,18 @@ class ConversationViewController: BaseViewController {
 
                     let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
-                    guard newContentOffsetY + strongSelf.conversationCollectionView.contentInset.top > 0 else {
-                        strongSelf.conversationCollectionView.contentInset.bottom = bottom
-
-                        return
-                    }
-
-                    var needDoAnimation = false
-
-                    let bottomInsetOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
-
-                    if bottomInsetOffset != 0 {
-                        needDoAnimation = true
-                    }
-
-                    if strongSelf.conversationCollectionView.contentOffset.y != newContentOffsetY {
-                        needDoAnimation = true
-                    }
-                    
-                    guard needDoAnimation else {
-                        return
-                    }
-
-                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
-                    strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                    self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
                 }
             }
 
             self?.subscribeView.hideWithChangeAction = { [weak self] in
                 if let strongSelf = self {
+
                     let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
 
                     let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
 
-                    guard newContentOffsetY + strongSelf.conversationCollectionView.contentInset.top > 0 else {
-                        strongSelf.conversationCollectionView.contentInset.bottom = bottom
-
-                        return
-                    }
-
-                    var needDoAnimation = false
-
-                    let bottomInsetOffset = bottom - strongSelf.conversationCollectionView.contentInset.bottom
-
-                    if bottomInsetOffset != 0 {
-                        needDoAnimation = true
-                    }
-
-                    if strongSelf.conversationCollectionView.contentOffset.y != newContentOffsetY {
-                        needDoAnimation = true
-                    }
-
-                    guard needDoAnimation else {
-                        return
-                    }
-
-                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
-                    strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
+                    self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
                 }
             }
 
@@ -1684,6 +1639,35 @@ class ConversationViewController: BaseViewController {
         feedView.heightConstraint = height
 
         self.feedView = feedView
+    }
+
+
+    func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
+
+        guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
+            conversationCollectionView.contentInset.bottom = bottom
+
+            return
+        }
+
+        var needUpdate = false
+
+        let bottomInsetOffset = bottom - conversationCollectionView.contentInset.bottom
+
+        if bottomInsetOffset != 0 {
+            needUpdate = true
+        }
+
+        if conversationCollectionView.contentOffset.y != newContentOffsetY {
+            needUpdate = true
+        }
+
+        guard needUpdate else {
+            return
+        }
+
+        conversationCollectionView.contentInset.bottom = bottom
+        conversationCollectionView.contentOffset.y = newContentOffsetY
     }
 
     private func trySnapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
