@@ -2114,7 +2114,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            guard let feed = self?.conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+            guard let group = self?.conversation.withGroup where group.includeMe, let feed = group.withFeed, feedCreator = feed.creator else {
                 return
             }
 
