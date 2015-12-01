@@ -447,7 +447,7 @@ class FeedsViewController: BaseViewController {
             }
         }
 
-        let perPage = 25
+        let perPage = 20
 
         if let profileUser = profileUser {
             feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)

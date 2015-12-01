@@ -148,7 +148,7 @@ class DiscoverViewController: BaseViewController {
             currentPageIndex = 1
         }
 
-        discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 31, failureHandler: { (reason, errorMessage) in
+        discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 32, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
