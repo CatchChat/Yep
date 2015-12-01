@@ -464,6 +464,26 @@ class ConversationViewController: BaseViewController {
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
 
+    var subscribeViewBottomConstraint: NSLayoutConstraint?
+    lazy var subscribeView: SubscribeView = {
+        let view = SubscribeView()
+
+        self.view.insertSubview(view, belowSubview: self.messageToolbar)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: 0)
+        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Height, multiplier: 1.0, constant: 0)
+
+        self.subscribeViewBottomConstraint = bottom
+
+        NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+
+        return view
+    }()
+
     @IBOutlet weak var conversationCollectionView: UICollectionView!
     let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
@@ -791,6 +811,8 @@ class ConversationViewController: BaseViewController {
         default:
             break
         }
+
+        subscribeView.show()
     }
     
     override func viewWillAppear(animated: Bool) {

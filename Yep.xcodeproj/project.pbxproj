@@ -219,6 +219,7 @@
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
+		50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */; };
 		50A640E01B6F38CF0050E4A3 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */; };
 		50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640E31B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift */; };
 		50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E41B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib */; };
@@ -571,6 +572,7 @@
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
+		50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscribeView.swift; path = Views/Subscribe/SubscribeView.swift; sourceTree = "<group>"; };
 		50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationsViewController.swift; path = ViewControllers/Notifications/NotificationsViewController.swift; sourceTree = "<group>"; };
 		50A640E31B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbSwitchCell.swift; path = Views/Cells/DoNotDisturb/DoNotDisturbSwitchCell.swift; sourceTree = "<group>"; };
 		50A640E41B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbSwitchCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbSwitchCell.xib; sourceTree = "<group>"; };
@@ -1144,6 +1146,7 @@
 				502AE5471AB89A73005BD199 /* ReusableViews */,
 				5099B9C51AB95111002F940B /* Rank */,
 				5099B9CA1AB9A7CF002F940B /* CameraPreview */,
+				50A1FA771C0D47D900EEDA74 /* Subscribe */,
 				503315A11AC126140008A209 /* MessageToolbar */,
 				508D16BE1ADCAF0900270E3F /* PullToRefresh */,
 				50EB8CCC1AEA1AC5001AC1EE /* Media */,
@@ -1846,6 +1849,14 @@
 				5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */,
 			);
 			name = CameraPreview;
+			sourceTree = "<group>";
+		};
+		50A1FA771C0D47D900EEDA74 /* Subscribe */ = {
+			isa = PBXGroup;
+			children = (
+				50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */,
+			);
+			name = Subscribe;
 			sourceTree = "<group>";
 		};
 		50A640E11B6F38D60050E4A3 /* Notifications */ = {
@@ -2643,6 +2654,7 @@
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
+				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
 				503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */,
 				502B605F1BD112E500D9C17E /* QuickPickPhotosCell.swift in Sources */,
