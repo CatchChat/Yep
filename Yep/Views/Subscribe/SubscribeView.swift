@@ -10,13 +10,13 @@ import UIKit
 
 class SubscribeView: UIView {
 
-    static let height: CGFloat = 44
+    static let height: CGFloat = 50
 
     var bottomConstraint: NSLayoutConstraint?
 
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_chat_active_unread")
+        imageView.image = UIImage(named: "icon_subscribe_notify")
         return imageView
     }()
 
@@ -33,13 +33,13 @@ class SubscribeView: UIView {
         button.titleLabel?.font = UIFont.systemFontOfSize(14)
         button.setTitle(NSLocalizedString("Subscribe", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
-        button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
         return button
     }()
 
     lazy var dismissButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_current_location"), forState: .Normal)
+        button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
         return button
     }()
 
@@ -52,29 +52,51 @@ class SubscribeView: UIView {
 
         backgroundColor = UIColor.whiteColor()
 
-        addSubview(iconImageView)
-        addSubview(promptLabel)
-        addSubview(subscribeButton)
-        addSubview(dismissButton)
+        do {
+            let horizontalLineView = HorizontalLineView()
+            addSubview(horizontalLineView)
+            horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
 
-        iconImageView.translatesAutoresizingMaskIntoConstraints = false
-        promptLabel.translatesAutoresizingMaskIntoConstraints = false
-        subscribeButton.translatesAutoresizingMaskIntoConstraints = false
-        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+            horizontalLineView.backgroundColor = UIColor.clearColor()
+            horizontalLineView.lineColor = UIColor.grayColor()
 
-        let views = [
-            "iconImageView": iconImageView,
-            "promptLabel": promptLabel,
-            "subscribeButton": subscribeButton,
-            "dismissButton": dismissButton,
-        ]
+            let views = [
+                "horizontalLineView": horizontalLineView,
+            ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[iconImageView]-[promptLabel]-(>=10)-[subscribeButton]-[dismissButton]-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[dismissButton]|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
+
+        do {
+            addSubview(iconImageView)
+            addSubview(promptLabel)
+            addSubview(subscribeButton)
+            addSubview(dismissButton)
+
+            iconImageView.translatesAutoresizingMaskIntoConstraints = false
+            promptLabel.translatesAutoresizingMaskIntoConstraints = false
+            subscribeButton.translatesAutoresizingMaskIntoConstraints = false
+            dismissButton.translatesAutoresizingMaskIntoConstraints = false
+
+            let views = [
+                "iconImageView": iconImageView,
+                "promptLabel": promptLabel,
+                "subscribeButton": subscribeButton,
+                "dismissButton": dismissButton,
+            ]
+
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[iconImageView]-[promptLabel]-(>=10)-[subscribeButton]-[dismissButton]-(9)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views)
+
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[dismissButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
     }
 
     func show() {
