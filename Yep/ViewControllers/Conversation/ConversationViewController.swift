@@ -798,7 +798,7 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        if let group = conversation.withGroup {
+        if let group = conversation.withGroup where !group.includeMe {
 
             let groupID = group.groupID
 
