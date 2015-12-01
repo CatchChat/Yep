@@ -1284,7 +1284,14 @@ class ConversationViewController: BaseViewController {
 
                 println("mark latestMessage readed")
             }
-            
+
+            // 群组里没有我，不需要标记
+            if recipient.type == .Group {
+                if let group = conversation.withGroup where !group.includeMe {
+                    needMarkInServer = false
+                }
+            }
+
             if needMarkInServer {
 
                 dispatch_async(dispatch_get_main_queue()) {
