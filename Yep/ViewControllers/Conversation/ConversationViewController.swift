@@ -798,55 +798,63 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        delay(1) { [weak self] in
+        if let group = conversation.withGroup {
 
-            guard self?.conversation.withGroup != nil else {
-                return
-            }
+            let groupID = group.groupID
 
-            self?.subscribeView.subscribeAction = { [weak self] in
-                if let groupID = self?.conversation.withGroup?.groupID {
-                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
-                        println("subscribe OK")
+            meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            if let strongSelf = self {
-                                let _ = try? strongSelf.realm.write {
-                                    strongSelf.conversation.withGroup?.includeMe = true
+                println("meIsMember: \(meIsMember)")
+
+                guard !meIsMember else {
+                    return
+                }
+
+                delay(1) { [weak self] in
+
+                    self?.subscribeView.subscribeAction = { [weak self] in
+                        joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                            println("subscribe OK")
+
+                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                if let strongSelf = self {
+                                    let _ = try? strongSelf.realm.write {
+                                        strongSelf.conversation.withGroup?.includeMe = true
+                                    }
                                 }
                             }
+                        })
+                    }
+
+                    self?.subscribeView.showWithChangeAction = { [weak self] in
+                        if let strongSelf = self {
+
+                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                            self?.isSubscribeViewShowing = true
                         }
-                    })
+                    }
+
+                    self?.subscribeView.hideWithChangeAction = { [weak self] in
+                        if let strongSelf = self {
+
+                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+
+                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+                            
+                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+                            
+                            self?.isSubscribeViewShowing = false
+                        }
+                    }
+                    
+                    self?.subscribeView.show()
                 }
-            }
-
-            self?.subscribeView.showWithChangeAction = { [weak self] in
-                if let strongSelf = self {
-
-                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                    let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                    self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                    self?.isSubscribeViewShowing = true
-                }
-            }
-
-            self?.subscribeView.hideWithChangeAction = { [weak self] in
-                if let strongSelf = self {
-
-                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
-
-                    let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
-
-                    self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                    self?.isSubscribeViewShowing = false
-                }
-            }
-
-            self?.subscribeView.show()
+            })
         }
     }
     
