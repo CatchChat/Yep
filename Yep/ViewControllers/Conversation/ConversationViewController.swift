@@ -2491,7 +2491,8 @@ class ConversationViewController: BaseViewController {
             batchMarkMessagesAsReaded()
         }
 
-        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+        let subscribeViewHeight = isSubscribeViewShowing ? SubscribeView.height : 0
+        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds) + subscribeViewHeight
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
             success(finished)
@@ -2499,6 +2500,12 @@ class ConversationViewController: BaseViewController {
 
         if messageIDs == nil {
             afterSentMessageAction?()
+
+            if isSubscribeViewShowing {
+                delay(0.5) { [weak self] in
+                    self?.subscribeView.hide()
+                }
+            }
         }
     }
 
