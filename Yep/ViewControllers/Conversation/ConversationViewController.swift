@@ -778,34 +778,18 @@ class ConversationViewController: BaseViewController {
 
             if let groupID = conversation.withGroup?.groupID {
 
-                // 新策略：先同步消息，若失败就再次加入，再获取一次
+                // 直接同步消息
                 syncMessages(failedAction: {
+                    /*
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
                         syncMessages(failedAction: nil, successAction: nil)
                         FayeService.sharedManager.subscribeGroup(groupID: groupID)
                     })
+                    */
 
                 }, successAction: {
                     FayeService.sharedManager.subscribeGroup(groupID: groupID)
                 })
-
-                //joinGroup(groupID: groupID, failureHandler: nil, completion: {
-
-                    //println("joined group: \(groupID)")
-                    
-//                    groupShareLinkWithGroupID(groupID, failureHandler: nil, completion: { [weak self] link in
-//                        
-//                        if let url = link["url"] as? String {
-//                            self?.groupURL = url
-//                        }
-//                        
-//                    })
-
-                    //syncMessages()
-
-                    //FayeService.sharedManager.subscribeGroup(groupID: groupID)
-
-                //})
             }
 
         default:

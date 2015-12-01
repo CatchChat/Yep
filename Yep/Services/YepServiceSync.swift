@@ -559,9 +559,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 if let
                     feedInfo = groupInfo["topic"] as? JSONDictionary,
-                    feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
+                    feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
                     group = group {
-                        saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+                        //saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
+                        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
                 } else {
                     println("no sync feed from groupInfo: \(groupInfo)")
                 }
@@ -1028,11 +1029,12 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                                     return
                                                 }
                                                 
-                                                if let savedGroup = groupWithGroupID(groupID, inRealm: realmForGroup) {
+                                                if let group = groupWithGroupID(groupID, inRealm: realmForGroup) {
                                                     if let
                                                         feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                        feedData = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                            saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
+                                                        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
+                                                            //saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
+                                                            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
                                                     }
                                                 }
                                             }

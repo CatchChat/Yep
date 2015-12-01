@@ -52,8 +52,14 @@ extension ConversationViewController {
             return nil
         }
 
+        /*
         if let group = group {
             saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
+        }
+        */
+
+        if let group = group {
+            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
         }
 
         return feedConversation
