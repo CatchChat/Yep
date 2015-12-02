@@ -127,9 +127,9 @@ class ConversationsViewController: UIViewController {
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
 
-                let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.OneToOne) > 0
+                let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: .OneToOne) > 0
 
-                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm) > 0)
+                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm, withConversationType: .Group) > 0)
 
                 strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
             }
