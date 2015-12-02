@@ -11,6 +11,8 @@ import Navi
 
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
 
+var skillCardCache = [String: UIImage?]()
+
 class DiscoverCardUserCell: UICollectionViewCell {
     
     @IBOutlet weak var serviceImageView: UIImageView!
@@ -74,7 +76,10 @@ class DiscoverCardUserCell: UICollectionViewCell {
 
         usernameLabel.text = discoveredUser.nickname
         
-        prepareSkillImage()
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { [weak self] in
+            self?.prepareSkillImage()
+        }
+
     }
     
     func prepareSkillImage() {
@@ -82,12 +87,18 @@ class DiscoverCardUserCell: UICollectionViewCell {
 
             let skills = discoveredUser.masterSkills.count > 0 ? discoveredUser.masterSkills : discoveredUser.learningSkills
             
-            let image = genSkillImageWithSkills(skills)
-            
-            image.CIImage
+            var skillImage: UIImage?
+        
+            if let image = skillCardCache[discoveredUser.id]{
+                skillImage = image
+            } else {
+                let processedImage = genSkillImageWithSkills(skills)
+                skillImage = processedImage
+                skillCardCache[discoveredUser.id] = processedImage
+            }
             
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.skillImageView.image = image
+                self?.skillImageView.image = skillImage
             }
         }
     }
