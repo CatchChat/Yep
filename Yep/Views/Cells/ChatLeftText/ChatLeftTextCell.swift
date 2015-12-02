@@ -89,8 +89,16 @@ class ChatLeftTextCell: ChatBaseCell {
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
+        //println("ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
         if ceil(size.width) != textContentLabelWidth {
-            textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            println("ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            println(">>>\(message.textContent)<<<")
+
+            //textContentLabelWidth += YepConfig.ChatCell.magicWidth
+
+            if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
+                textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            }
         }
         
         textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
@@ -101,8 +109,7 @@ class ChatLeftTextCell: ChatBaseCell {
                 
                 strongSelf.makeUI()
                 
-                var topOffset: CGFloat = 0
-                
+                let topOffset: CGFloat
                 if strongSelf.inGroup {
                     topOffset = YepConfig.ChatCell.marginTopForGroup
                 } else {
