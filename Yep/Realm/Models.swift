@@ -805,6 +805,10 @@ class OfflineJSON: Object {
     var JSON: JSONDictionary? {
         return decodeJSON(data)
     }
+
+    class func withName(name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
+        return realm.objects(OfflineJSON).filter("name = %@", name.rawValue).first
+    }
 }
 
 // MARK: Helpers

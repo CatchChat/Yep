@@ -295,10 +295,8 @@ class FeedsViewController: BaseViewController {
             } else {
                 feedSortStyle = .Match
             }
-        }
 
-        if let realm = try? Realm() {
-            if let offlineJSON = realm.objects(OfflineJSON).filter("name = %@", OfflineJSONName.Feeds.rawValue).first {
+            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
                 if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
                     self.feeds = feeds
                 }
