@@ -19,29 +19,27 @@ class YepDownloader: NSObject {
         return session
         }()
 
-    class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
-        let _ = try? realm.write {
-            message.localAttachmentName = attachmentFileName
+    private class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
 
-            if message.mediaType == MessageMediaType.Video.rawValue {
-                if !message.localThumbnailName.isEmpty {
-                    message.downloadState = MessageDownloadState.Downloaded.rawValue
-                }
+        message.localAttachmentName = attachmentFileName
 
-            } else {
+        if message.mediaType == MessageMediaType.Video.rawValue {
+            if !message.localThumbnailName.isEmpty {
                 message.downloadState = MessageDownloadState.Downloaded.rawValue
             }
+
+        } else {
+            message.downloadState = MessageDownloadState.Downloaded.rawValue
         }
     }
 
-    class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
-        let _ = try? realm.write {
-            message.localThumbnailName = thumbnailFileName
+    private class func updateThumbnailOfMessage(message: Message, withThumbnailFileName thumbnailFileName: String, inRealm realm: Realm) {
 
-            if message.mediaType == MessageMediaType.Video.rawValue {
-                if !message.localAttachmentName.isEmpty {
-                    message.downloadState = MessageDownloadState.Downloaded.rawValue
-                }
+        message.localThumbnailName = thumbnailFileName
+
+        if message.mediaType == MessageMediaType.Video.rawValue {
+            if !message.localAttachmentName.isEmpty {
+                message.downloadState = MessageDownloadState.Downloaded.rawValue
             }
         }
     }
@@ -116,6 +114,8 @@ class YepDownloader: NSObject {
 
                             let fileName = NSUUID().UUIDString
 
+                            realm.beginWrite()
+
                             switch mediaType {
 
                             case MessageMediaType.Image.rawValue:
@@ -144,6 +144,8 @@ class YepDownloader: NSObject {
                             default:
                                 break
                             }
+
+                            let _ = try? realm.commitWrite()
                         }
                     }
                 }
@@ -176,7 +178,9 @@ class YepDownloader: NSObject {
 
                                 if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
+                                    realm.beginWrite()
                                     self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
+                                    let _ = try? realm.commitWrite()
 
                                     if let image = UIImage(data: data) {
                                         imageFinished?(image)
