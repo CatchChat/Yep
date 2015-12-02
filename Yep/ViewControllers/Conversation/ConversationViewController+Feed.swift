@@ -60,7 +60,9 @@ extension ConversationViewController {
         */
 
         if let group = group {
-            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+            let _ = try? realm.write {
+                saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+            }
         }
 
         return feedConversation

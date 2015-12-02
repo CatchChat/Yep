@@ -12,8 +12,8 @@ import Crashlytics
 import MapKit
 
 // 总是在这个队列里使用 Realm
-let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-
+//let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
+let realmQueue = dispatch_queue_create("com.YourApp.YourQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
 
 // MARK: User
 
@@ -971,10 +971,10 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
 
-        let _ = try? realm.write {
+        //let _ = try? realm.write {
             feed.kind = feedData.kind.rawValue
             feed.deleted = false
-        }
+        //}
 
         #if DEBUG
         if feed.group == nil {
@@ -1097,10 +1097,10 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
         newFeed.group = group
         
-        let _ = try? realm.write {
+        //let _ = try? realm.write {
             group.groupType = GroupType.Public.rawValue
             realm.add(newFeed)
-        }
+        //}
     }
 }
 
@@ -1402,15 +1402,11 @@ func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 
 // MARK: Update with info
 
-func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) {
-
-    guard let realm = try? Realm() else {
-        return
-    }
+func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, inRealm realm: Realm) {
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
-        let _ = try? realm.write {
+        //let _ = try? realm.write {
 
             // 更新用户信息
 
@@ -1474,7 +1470,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) 
                     user.socialAccountProviders.append(provider)
                 }
             }
-        }
+        //}
     }
 }
 

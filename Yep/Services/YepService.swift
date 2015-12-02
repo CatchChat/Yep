@@ -1651,7 +1651,9 @@ func officialMessages(completion completion: Int -> Void) {
                 }
             }
 
-            updateUserWithUserID(senderID, useUserInfo: senderInfo)
+            let _ = try? realm.write {
+                updateUserWithUserID(senderID, useUserInfo: senderInfo, inRealm: realm)
+            }
 
             // 存储消息列表
 

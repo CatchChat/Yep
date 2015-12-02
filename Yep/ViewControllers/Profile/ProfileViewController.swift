@@ -738,7 +738,11 @@ class ProfileViewController: UIViewController {
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                        updateUserWithUserID(userID, useUserInfo: userInfo)
+                        if let realm = try? Realm() {
+                            let _ = try? realm.write {
+                                updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
+                            }
+                        }
 
                         if let discoveredUser = parseDiscoveredUser(userInfo) {
                             switch profileUser {

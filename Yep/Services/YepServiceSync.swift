@@ -286,7 +286,9 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                     // 更新用户信息
 
-                    updateUserWithUserID(user.userID, useUserInfo: friendInfo)
+                    let _ = try? realm.write {
+                        updateUserWithUserID(user.userID, useUserInfo: friendInfo, inRealm: realm)
+                    }
 
                     // 更新 DoNotDisturb
 
@@ -465,11 +467,9 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         if let user = user {
 
-                            // 更新用户信息
-
-                            updateUserWithUserID(user.userID, useUserInfo: friendInfo)
-
                             let _ = try? realm.write {
+                                // 更新用户信息
+                                updateUserWithUserID(user.userID, useUserInfo: friendInfo, inRealm: realm)
 
                                 if let friendshipID = friendshipInfo["id"] as? String {
                                     user.friendshipID = friendshipID
@@ -522,7 +522,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let localGroups = realm.objects(Group)
 
-            let _ = try? realm.write {
+            realm.beginWrite()
+
+            //let _ = try? realm.write {
 
                 var groupsToDelete = [Group]()
                 for i in 0..<localGroups.count {
@@ -551,7 +553,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         group.cascadeDelete()
                     }
                 }
-            }
+            //}
 
             // 增加本地没有的 Group
 
@@ -559,9 +561,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
-                let _ = try? realm.write {
+                //let _ = try? realm.write {
                     group?.includeMe = true
-                }
+                //}
 
                 //Sync Feed
 
@@ -575,6 +577,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     println("no sync feed from groupInfo: \(groupInfo)")
                 }
             }
+
+            let _ = try? realm.commitWrite()
             
             // do further action
             
@@ -596,9 +600,9 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                 newGroup.groupName = groupName
             }
 
-            let _ = try? realm.write {
+            //let _ = try? realm.write {
                 realm.add(newGroup)
-            }
+            //}
 
             group = newGroup
         }
@@ -606,13 +610,13 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
         if let group = group {
 
             // 有 topic 标记 groupType 为 Public，否则 Private
-            let _ = try? realm.write {
+            //let _ = try? realm.write {
                 if let _ = groupInfo["topic"] {
                     group.groupType = GroupType.Public.rawValue
                 } else {
                     group.groupType = GroupType.Private.rawValue
                 }
-            }
+            //}
 
             if group.conversation == nil {
                 let conversation = Conversation()
@@ -623,9 +627,9 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                     conversation.updatedUnixTime = updatedUnixTime
                 }
 
-                let _ = try? realm.write {
+                //let _ = try? realm.write {
                     realm.add(conversation)
-                }
+                //}
             }
 
             // Group Owner
@@ -653,20 +657,19 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                             newUser.friendState = UserFriendState.Stranger.rawValue
                         }
 
-                        let _ = try? realm.write {
+                        //let _ = try? realm.write {
                             realm.add(newUser)
-                        }
+                        //}
 
                         owner = newUser
                     }
                     
                     if let owner = owner {
 
-                        // 更新个人信息
-
-                        updateUserWithUserID(owner.userID, useUserInfo: ownerInfo)
-
                         let _ = try? realm.write {
+                            // 更新个人信息
+                            updateUserWithUserID(owner.userID, useUserInfo: ownerInfo, inRealm: realm)
+
                             group.owner = owner
                         }
                     }
@@ -721,11 +724,11 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                                 newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            let _ = try? realm.write {
+                            //let _ = try? realm.write {
                                 realm.add(newMember)
 
                                 localMembers.append(newMember)
-                            }
+                            //}
 
                             member = newMember
                         }
@@ -734,15 +737,15 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
 
                             // 更新个人信息
 
-                            updateUserWithUserID(member.userID, useUserInfo: memberInfo)
+                            updateUserWithUserID(member.userID, useUserInfo: memberInfo, inRealm: realm)
                         }
                     }
                 }
 
-                let _ = try? realm.write {
+                //let _ = try? realm.write {
                     group.members.removeAll()
                     group.members.appendContentsOf(localMembers)
-                }
+                //}
             }
         }
 
@@ -995,9 +998,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                     if let sender = sender {
 
-                        updateUserWithUserID(sender.userID, useUserInfo: senderInfo)
-
                         let _ = try? realm.write {
+                            updateUserWithUserID(sender.userID, useUserInfo: senderInfo, inRealm: realm)
+
                             message.fromFriend = sender
                         }
 
@@ -1042,7 +1045,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                                         feedInfo = groupInfo["topic"] as? JSONDictionary,
                                                         feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
                                                             //saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
-                                                            saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+                                                            let _ = try? realm.write {
+                                                                saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+                                                            }
                                                     }
                                                 }
                                             }
