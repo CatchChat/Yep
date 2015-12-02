@@ -89,9 +89,8 @@ class ChatLeftTextCell: ChatBaseCell {
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
-        //println("ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
         if ceil(size.width) != textContentLabelWidth {
-            println("ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            println("left ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
             println(">>>\(message.textContent)<<<")
 
             //textContentLabelWidth += YepConfig.ChatCell.magicWidth

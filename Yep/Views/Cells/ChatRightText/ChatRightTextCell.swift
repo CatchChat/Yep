@@ -125,8 +125,6 @@ class ChatRightTextCell: ChatRightBaseCell {
             }
         }
 
-        println("textContentTextView.bounds: \(textContentTextView.frame), \(textContentTextView.text)")
-
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar)

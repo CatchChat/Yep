@@ -22,9 +22,7 @@ extension ConversationViewController {
             newGroup.groupID = groupID
             newGroup.includeMe = false
 
-            let _ = try? realm.write {
-                realm.add(newGroup)
-            }
+            realm.add(newGroup)
 
             group = newGroup
         }
@@ -33,9 +31,7 @@ extension ConversationViewController {
             return nil
         }
 
-        let _ = try? realm.write {
-            feedGroup.groupType = GroupType.Public.rawValue
-        }
+        feedGroup.groupType = GroupType.Public.rawValue
 
         if feedGroup.conversation == nil {
 
@@ -44,9 +40,7 @@ extension ConversationViewController {
             newConversation.type = ConversationType.Group.rawValue
             newConversation.withGroup = feedGroup
 
-            let _ = try? realm.write {
-                realm.add(newConversation)
-            }
+            realm.add(newConversation)
         }
 
         guard let feedConversation = feedGroup.conversation else {

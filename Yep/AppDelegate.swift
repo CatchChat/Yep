@@ -326,10 +326,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             guard let
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
-                realm = try? Realm(),
-                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
+                realm = try? Realm() else {
                     return
             }
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
 
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
