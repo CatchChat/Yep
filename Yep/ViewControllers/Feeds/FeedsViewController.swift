@@ -295,9 +295,15 @@ class FeedsViewController: BaseViewController {
             } else {
                 feedSortStyle = .Match
             }
+
+            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                    self.feeds = feeds
+                }
+            }
         }
     }
-    
+
     // MARK: Actions
     
     func addSkillToMe() {
