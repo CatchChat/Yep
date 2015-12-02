@@ -342,14 +342,14 @@ func syncSocialWorksToMessagesForYepTeam() {
                 return
             }
 
-            func syncSocialWorkPiece(socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) {
+            func messageIDsFromSyncSocialWorkPiece(socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) -> [String] {
 
                 let messageID = socialWorkPiece.messageID
 
                 var message = messageWithMessageID(messageID, inRealm: realm)
 
                 guard message == nil else {
-                    return
+                    return []
                 }
 
                 if message == nil {
@@ -370,9 +370,7 @@ func syncSocialWorksToMessagesForYepTeam() {
                             let newSocialWorkGithubRepo = SocialWorkGithubRepo()
                             newSocialWorkGithubRepo.fillWithGithubRepo(repo)
 
-                            let _ = try? realm.write {
-                                realm.add(newSocialWorkGithubRepo)
-                            }
+                            realm.add(newSocialWorkGithubRepo)
 
                             socialWorkGithubRepo = newSocialWorkGithubRepo
                         }
@@ -388,9 +386,7 @@ func syncSocialWorksToMessagesForYepTeam() {
                             let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
                             newSocialWorkDribbbleShot.fillWithDribbbleShot(shot)
 
-                            let _ = try? realm.write {
-                                realm.add(newSocialWorkDribbbleShot)
-                            }
+                            realm.add(newSocialWorkDribbbleShot)
 
                             socialWorkDribbbleShot = newSocialWorkDribbbleShot
                         }
@@ -403,17 +399,14 @@ func syncSocialWorksToMessagesForYepTeam() {
 
                     newMessage.socialWork = socialWork
 
-                    let _ = try? realm.write {
-                        realm.add(newMessage)
-                    }
+                    realm.add(newMessage)
 
                     message = newMessage
                 }
 
                 if let message = message {
-                    let _ = try? realm.write {
-                        message.fromFriend = yepTeam
-                    }
+
+                    message.fromFriend = yepTeam
 
                     var conversation = yepTeam.conversation
 
@@ -423,41 +416,37 @@ func syncSocialWorksToMessagesForYepTeam() {
                         newConversation.type = ConversationType.OneToOne.rawValue
                         newConversation.withFriend = yepTeam
 
-                        let _ = try? realm.write {
-                            realm.add(newConversation)
-                        }
+                        realm.add(newConversation)
 
                         conversation = newConversation
                     }
 
                     if let conversation = conversation {
-                        let _ = try? realm.write {
 
-                            conversation.updatedUnixTime = message.createdUnixTime
+                        conversation.updatedUnixTime = message.createdUnixTime
 
-                            message.conversation = conversation
+                        message.conversation = conversation
 
-                            var sectionDateMessageID: String?
-                            tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
-                                realm.add(sectionDateMessage)
-                                sectionDateMessageID = sectionDateMessage.messageID
-                            }
-
-                            // 通知更新 UI
-
-                            var messageIDs = [String]()
-                            if let sectionDateMessageID = sectionDateMessageID {
-                                messageIDs.append(sectionDateMessageID)
-                            }
-                            messageIDs.append(message.messageID)
-
-                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        var sectionDateMessageID: String?
+                        tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
+                            realm.add(sectionDateMessage)
+                            sectionDateMessageID = sectionDateMessage.messageID
                         }
+
+                        var messageIDs = [String]()
+                        if let sectionDateMessageID = sectionDateMessageID {
+                            messageIDs.append(sectionDateMessageID)
+                        }
+                        messageIDs.append(message.messageID)
+
+                        return messageIDs
 
                     } else {
                         deleteMessage(message, inRealm: realm)
                     }
                 }
+
+                return []
             }
 
             let yepTeamUsername = "yep_team"
@@ -477,9 +466,7 @@ func syncSocialWorksToMessagesForYepTeam() {
 
                     newYepTeam.friendState = UserFriendState.Yep.rawValue
 
-                    let _ = try? realm.write {
-                        realm.add(newYepTeam)
-                    }
+                    realm.add(newYepTeam)
 
                     yepTeam = newYepTeam
                 }
@@ -498,6 +485,10 @@ func syncSocialWorksToMessagesForYepTeam() {
                             return
                         }
 
+                        var messageIDs = [String]()
+
+                        realm.beginWrite()
+
                         // 同步最新的几个
                         var i = 0
                         for repo in githubRepos {
@@ -506,7 +497,7 @@ func syncSocialWorksToMessagesForYepTeam() {
                             }
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                syncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -516,13 +507,27 @@ func syncSocialWorksToMessagesForYepTeam() {
                                             return
                                         }
 
+                                        var messageIDs = [String]()
+
+                                        realm.beginWrite()
+
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            syncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
                                         }
+
+                                        let _ = try? realm.commitWrite()
+
+                                        // 通知更新 UI
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                                     }
                                 })
                             }
                         }
+
+                        let _ = try? realm.commitWrite()
+
+                        // 通知更新 UI
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                     }
                 })
             }
@@ -538,6 +543,10 @@ func syncSocialWorksToMessagesForYepTeam() {
                             return
                         }
 
+                        var messageIDs = [String]()
+
+                        realm.beginWrite()
+
                         // 同步最新的几个
                         var i = 0
                         for shot in dribbbleShots {
@@ -546,7 +555,7 @@ func syncSocialWorksToMessagesForYepTeam() {
                             }
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                syncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -556,13 +565,27 @@ func syncSocialWorksToMessagesForYepTeam() {
                                             return
                                         }
 
+                                        var messageIDs = [String]()
+
+                                        realm.beginWrite()
+
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            syncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
                                         }
+
+                                        let _ = try? realm.commitWrite()
+
+                                        // 通知更新 UI
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                                     }
                                 })
                             }
                         }
+
+                        let _ = try? realm.commitWrite()
+
+                        // 通知更新 UI
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
                     }
                })
             }
