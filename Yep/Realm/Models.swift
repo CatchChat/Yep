@@ -779,6 +779,38 @@ class Feed: Object {
     }
 }
 
+// MARK: Offline JSON
+
+enum OfflineJSONName: String {
+
+    case Feeds
+}
+
+class OfflineJSON: Object {
+
+    dynamic var name: String!
+    dynamic var data: NSData!
+
+    override class func primaryKey() -> String? {
+        return "name"
+    }
+
+    convenience init(name: String, data: NSData) {
+        self.init()
+
+        self.name = name
+        self.data = data
+    }
+
+    var JSON: JSONDictionary? {
+        return decodeJSON(data)
+    }
+
+    class func withName(name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
+        return realm.objects(OfflineJSON).filter("name = %@", name.rawValue).first
+    }
+}
+
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
