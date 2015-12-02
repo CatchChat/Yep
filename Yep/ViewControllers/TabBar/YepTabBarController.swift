@@ -128,7 +128,9 @@ extension YepTabBarController: UITabBarControllerDelegate {
                     vc.feedsTableView.yep_scrollsToTop()
 
                 } else {
-                    vc.feedsTableView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                    if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                        vc.feedsTableView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                    }
                 }
             }
 
