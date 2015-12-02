@@ -971,10 +971,8 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
 
-        //let _ = try? realm.write {
-            feed.kind = feedData.kind.rawValue
-            feed.deleted = false
-        //}
+        feed.kind = feedData.kind.rawValue
+        feed.deleted = false
 
         #if DEBUG
         if feed.group == nil {
@@ -1000,9 +998,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
         newFeed.messagesCount = feedData.messagesCount
         
         if let feedSkill = feedData.skill {
-            let _ = try? realm.write {
-                newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
-            }
+            newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
         }
 
         if let attachment = feedData.attachment {
@@ -1027,17 +1023,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                     let newSocialWorkGithubRepo = SocialWorkGithubRepo()
                     newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
 
-                    let _ = try? realm.write {
-                        realm.add(newSocialWorkGithubRepo)
-                    }
+                    realm.add(newSocialWorkGithubRepo)
 
                     socialWorkGithubRepo = newSocialWorkGithubRepo
                 }
 
                 if let socialWorkGithubRepo = socialWorkGithubRepo {
-                    let _ = try? realm.write {
-                        socialWorkGithubRepo.synced = true
-                    }
+                    socialWorkGithubRepo.synced = true
                 }
 
                 socialWork.githubRepo = socialWorkGithubRepo
@@ -1056,17 +1048,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                     let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
                     newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
 
-                    let _ = try? realm.write {
-                        realm.add(newSocialWorkDribbbleShot)
-                    }
+                    realm.add(newSocialWorkDribbbleShot)
 
                     socialWorkDribbbleShot = newSocialWorkDribbbleShot
                 }
 
                 if let socialWorkDribbbleShot = socialWorkDribbbleShot {
-                    let _ = try? realm.write {
-                        socialWorkDribbbleShot.synced = true
-                    }
+                    socialWorkDribbbleShot.synced = true
                 }
 
                 socialWork.dribbbleShot = socialWorkDribbbleShot
@@ -1097,10 +1085,8 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
         newFeed.group = group
         
-        //let _ = try? realm.write {
-            group.groupType = GroupType.Public.rawValue
-            realm.add(newFeed)
-        //}
+        group.groupType = GroupType.Public.rawValue
+        realm.add(newFeed)
     }
 }
 

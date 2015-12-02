@@ -38,38 +38,33 @@ func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm rea
         
         newUser.friendState = UserFriendState.Stranger.rawValue
 
-        let _ = try? realm.write {
-            realm.add(newUser)
-        }
+        realm.add(newUser)
 
         user = newUser
     }
     
     if let user = user {
         
-        let _ = try? realm.write {
+        // 只更新用户信息即可
 
-            // 只更新用户信息即可
+        user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
 
-            user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+        user.username = discoveredUser.username ?? ""
 
-            user.username = discoveredUser.username ?? ""
+        user.nickname = discoveredUser.nickname
 
-            user.nickname = discoveredUser.nickname
+        if let introduction = discoveredUser.introduction {
+            user.introduction = introduction
+        }
 
-            if let introduction = discoveredUser.introduction {
-                user.introduction = introduction
-            }
+        user.avatarURLString = discoveredUser.avatarURLString
 
-            user.avatarURLString = discoveredUser.avatarURLString
+        user.longitude = discoveredUser.longitude
 
-            user.longitude = discoveredUser.longitude
-
-            user.latitude = discoveredUser.latitude
-            
-            if let badge = discoveredUser.badge {
-                user.badge = badge
-            }
+        user.latitude = discoveredUser.latitude
+        
+        if let badge = discoveredUser.badge {
+            user.badge = badge
         }
     }
 
