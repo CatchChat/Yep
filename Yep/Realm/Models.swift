@@ -779,6 +779,25 @@ class Feed: Object {
     }
 }
 
+// MARK: Offline JSON
+
+class OfflineJSON: Object {
+
+    dynamic var name: String!
+    dynamic var data: NSData!
+
+    override class func primaryKey() -> String? {
+        return "name"
+    }
+
+    convenience init(name: String, data: NSData) {
+        self.init()
+
+        self.name = name
+        self.data = data
+    }
+}
+
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
