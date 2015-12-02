@@ -885,14 +885,37 @@ func countOfConversationsInRealm(realm: Realm, withConversationType conversation
     return realm.objects(Conversation).filter(predicate).count
 }
 
-func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
-    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
-    return realm.objects(Message).filter(predicate).count
-}
+//func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
+//    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+//    return realm.objects(Message).filter(predicate).count
+//
+//    //return realm.objects(Conversation).map({ $0.unreadMessagesCount }).reduce(0, combine: +)
+//}
 
 func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+
+    switch conversationType {
+
+    case .OneToOne:
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).count
+
+    case .Group:
+        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ countOfUnreadMessagesInConversation($0) }).reduce(0, combine: +)
+
+        return count
+    }
+
+    /*
     let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+//    let messages = realm.objects(Message).filter(predicate)
+//    messages.forEach {
+//        println("X unread message.textContent: \($0.textContent), \($0.fromFriend?.nickname), \($0.conversation?.withGroup?.withFeed?.body)")
+//    }
     return realm.objects(Message).filter(predicate).count
+
+    //return realm.objects(Conversation).filter("type = %d", conversationType.rawValue).map({ $0.unreadMessagesCount }).reduce(0, combine: +)
+    */
 }
 
 func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
