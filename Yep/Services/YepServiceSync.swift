@@ -93,7 +93,7 @@ func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
     })
 }
 
-func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment], inRealm realm: Realm?) -> [Attachment]{
+func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment]) -> [Attachment]{
 
     return discoverAttachments.map({ discoverAttachment -> Attachment? in
         
@@ -101,13 +101,7 @@ func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachme
         newAttachment.kind = discoverAttachment.kind.rawValue
         newAttachment.metadata = discoverAttachment.metadata
         newAttachment.URLString = discoverAttachment.URLString
-        
-        if let realm = realm {
-            let _ = try? realm.write {
-                realm.add(newAttachment)
-            }
-        }
-        
+
         return newAttachment
         
     }).filter({ $0 != nil }).map({ discoverAttachment in discoverAttachment! })

@@ -1009,7 +1009,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             case .Images(let attachments):
 
                 newFeed.attachments.removeAll()
-                let attachments = attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                let attachments = attachmentFromDiscoveredAttachment(attachments)
                 newFeed.attachments.appendContentsOf(attachments)
 
             case .Github(let repo):

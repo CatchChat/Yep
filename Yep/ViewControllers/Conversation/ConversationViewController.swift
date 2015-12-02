@@ -265,7 +265,7 @@ enum ConversationFeed {
 
             if let attachment = discoveredFeed.attachment {
                 if case let .Images(attachments) = attachment {
-                    return attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                    return attachmentFromDiscoveredAttachment(attachments)
                 }
             }
 
