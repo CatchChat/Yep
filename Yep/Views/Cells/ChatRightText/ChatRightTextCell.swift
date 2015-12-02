@@ -94,7 +94,15 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
         if ceil(size.width) != textContentLabelWidth {
-            textContentLabelWidth += YepConfig.ChatCell.magicWidth
+
+            println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            println(">>>\(message.textContent)<<<")
+
+            //textContentLabelWidth += YepConfig.ChatCell.magicWidth
+
+            if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
+                textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            }
         }
 
         textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
@@ -116,6 +124,8 @@ class ChatRightTextCell: ChatRightBaseCell {
                 strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.textContainerView.frame))
             }
         }
+
+        println("textContentTextView.bounds: \(textContentTextView.frame), \(textContentTextView.text)")
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)

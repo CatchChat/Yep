@@ -93,11 +93,12 @@ class ChatLeftTextCell: ChatBaseCell {
         if ceil(size.width) != textContentLabelWidth {
             println("ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
             println(">>>\(message.textContent)<<<")
-            textContentLabelWidth += YepConfig.ChatCell.magicWidth
 
-//            if ceil(size.width) < textContentLabelWidth && abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
-//                textContentLabelWidth += YepConfig.ChatCell.magicWidth
-//            }
+            //textContentLabelWidth += YepConfig.ChatCell.magicWidth
+
+            if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
+                textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            }
         }
         
         textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
