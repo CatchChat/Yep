@@ -522,38 +522,37 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let localGroups = realm.objects(Group)
 
+            // 一个大的写入，尽量减少 realm 发通知
+
             realm.beginWrite()
 
-            //let _ = try? realm.write {
+            var groupsToDelete = [Group]()
+            for i in 0..<localGroups.count {
+                let localGroup = localGroups[i]
 
-                var groupsToDelete = [Group]()
-                for i in 0..<localGroups.count {
-                    let localGroup = localGroups[i]
-
-                    if !remoteGroupIDSet.contains(localGroup.groupID) {
-                        groupsToDelete.append(localGroup)
-                    }
+                if !remoteGroupIDSet.contains(localGroup.groupID) {
+                    groupsToDelete.append(localGroup)
                 }
+            }
 
-                for group in groupsToDelete {
+            for group in groupsToDelete {
 
-                    // 有关联的 Feed 时就标记，不然删除
+                // 有关联的 Feed 时就标记，不然删除
 
-                    if let feed = group.withFeed {
+                if let feed = group.withFeed {
 
-                        if group.includeMe {
+                    if group.includeMe {
 
-                            feed.deleted = true
+                        feed.deleted = true
 
-                            // 确保被删除的 Feed 的所有消息都被标记已读
-                            group.conversation?.messages.forEach { $0.readed = true }
-                        }
-
-                    } else {
-                        group.cascadeDelete()
+                        // 确保被删除的 Feed 的所有消息都被标记已读
+                        group.conversation?.messages.forEach { $0.readed = true }
                     }
+
+                } else {
+                    group.cascadeDelete()
                 }
-            //}
+            }
 
             // 增加本地没有的 Group
 
@@ -561,9 +560,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                 let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
-                //let _ = try? realm.write {
-                    group?.includeMe = true
-                //}
+                group?.includeMe = true
 
                 //Sync Feed
 
@@ -600,9 +597,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                 newGroup.groupName = groupName
             }
 
-            //let _ = try? realm.write {
-                realm.add(newGroup)
-            //}
+            realm.add(newGroup)
 
             group = newGroup
         }
@@ -610,13 +605,11 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
         if let group = group {
 
             // 有 topic 标记 groupType 为 Public，否则 Private
-            //let _ = try? realm.write {
-                if let _ = groupInfo["topic"] {
-                    group.groupType = GroupType.Public.rawValue
-                } else {
-                    group.groupType = GroupType.Private.rawValue
-                }
-            //}
+            if let _ = groupInfo["topic"] {
+                group.groupType = GroupType.Public.rawValue
+            } else {
+                group.groupType = GroupType.Private.rawValue
+            }
 
             if group.conversation == nil {
                 let conversation = Conversation()
@@ -627,9 +620,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                     conversation.updatedUnixTime = updatedUnixTime
                 }
 
-                //let _ = try? realm.write {
-                    realm.add(conversation)
-                //}
+                realm.add(conversation)
             }
 
             // Group Owner
@@ -657,21 +648,17 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                             newUser.friendState = UserFriendState.Stranger.rawValue
                         }
 
-                        //let _ = try? realm.write {
-                            realm.add(newUser)
-                        //}
+                        realm.add(newUser)
 
                         owner = newUser
                     }
                     
                     if let owner = owner {
 
-                        let _ = try? realm.write {
-                            // 更新个人信息
-                            updateUserWithUserID(owner.userID, useUserInfo: ownerInfo, inRealm: realm)
+                        // 更新个人信息
+                        updateUserWithUserID(owner.userID, useUserInfo: ownerInfo, inRealm: realm)
 
-                            group.owner = owner
-                        }
+                        group.owner = owner
                     }
                 }
             }
@@ -724,11 +711,9 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                                 newMember.friendState = UserFriendState.Stranger.rawValue
                             }
 
-                            //let _ = try? realm.write {
-                                realm.add(newMember)
+                            realm.add(newMember)
 
-                                localMembers.append(newMember)
-                            //}
+                            localMembers.append(newMember)
 
                             member = newMember
                         }
@@ -736,16 +721,13 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                         if let member = member {
 
                             // 更新个人信息
-
                             updateUserWithUserID(member.userID, useUserInfo: memberInfo, inRealm: realm)
                         }
                     }
                 }
 
-                //let _ = try? realm.write {
-                    group.members.removeAll()
-                    group.members.appendContentsOf(localMembers)
-                //}
+                group.members.removeAll()
+                group.members.appendContentsOf(localMembers)
             }
         }
 
