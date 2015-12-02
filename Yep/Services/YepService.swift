@@ -1651,7 +1651,9 @@ func officialMessages(completion completion: Int -> Void) {
                 }
             }
 
-            updateUserWithUserID(senderID, useUserInfo: senderInfo)
+            let _ = try? realm.write {
+                updateUserWithUserID(senderID, useUserInfo: senderInfo, inRealm: realm)
+            }
 
             // 存储消息列表
 
@@ -1936,11 +1938,15 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
 
         var messageIDs = [String]()
 
+        realm.beginWrite()
+
         for messageInfo in unreadMessagesData {
             syncMessageWithMessageInfo(messageInfo, messageAge: timeDirection.messageAge, inRealm: realm) { _messageIDs in
                 messageIDs += _messageIDs
             }
         }
+
+        let _ = try? realm.commitWrite()
 
         return messageIDs
     }

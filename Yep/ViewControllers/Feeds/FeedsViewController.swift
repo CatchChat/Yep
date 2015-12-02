@@ -580,10 +580,13 @@ class FeedsViewController: BaseViewController {
             guard let
                 indexPath = sender as? NSIndexPath,
                 feed = feeds[safe: indexPath.row],
-                realm = try? Realm(),
-                feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm) else {
+                realm = try? Realm() else {
                     return
             }
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
 
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)

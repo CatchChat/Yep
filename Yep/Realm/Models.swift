@@ -12,8 +12,8 @@ import Crashlytics
 import MapKit
 
 // 总是在这个队列里使用 Realm
-let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-
+//let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
+let realmQueue = dispatch_queue_create("com.YourApp.YourQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
 
 // MARK: User
 
@@ -966,15 +966,14 @@ func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group
 
 func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 //func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+
     // save feed
     
     if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
         println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
 
-        let _ = try? realm.write {
-            feed.kind = feedData.kind.rawValue
-            feed.deleted = false
-        }
+        feed.kind = feedData.kind.rawValue
+        feed.deleted = false
 
         #if DEBUG
         if feed.group == nil {
@@ -1000,9 +999,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
         newFeed.messagesCount = feedData.messagesCount
         
         if let feedSkill = feedData.skill {
-            let _ = try? realm.write {
-                newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
-            }
+            newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
         }
 
         if let attachment = feedData.attachment {
@@ -1012,7 +1009,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             case .Images(let attachments):
 
                 newFeed.attachments.removeAll()
-                let attachments = attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                let attachments = attachmentFromDiscoveredAttachment(attachments)
                 newFeed.attachments.appendContentsOf(attachments)
 
             case .Github(let repo):
@@ -1027,17 +1024,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                     let newSocialWorkGithubRepo = SocialWorkGithubRepo()
                     newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
 
-                    let _ = try? realm.write {
-                        realm.add(newSocialWorkGithubRepo)
-                    }
+                    realm.add(newSocialWorkGithubRepo)
 
                     socialWorkGithubRepo = newSocialWorkGithubRepo
                 }
 
                 if let socialWorkGithubRepo = socialWorkGithubRepo {
-                    let _ = try? realm.write {
-                        socialWorkGithubRepo.synced = true
-                    }
+                    socialWorkGithubRepo.synced = true
                 }
 
                 socialWork.githubRepo = socialWorkGithubRepo
@@ -1056,17 +1049,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                     let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
                     newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
 
-                    let _ = try? realm.write {
-                        realm.add(newSocialWorkDribbbleShot)
-                    }
+                    realm.add(newSocialWorkDribbbleShot)
 
                     socialWorkDribbbleShot = newSocialWorkDribbbleShot
                 }
 
                 if let socialWorkDribbbleShot = socialWorkDribbbleShot {
-                    let _ = try? realm.write {
-                        socialWorkDribbbleShot.synced = true
-                    }
+                    socialWorkDribbbleShot.synced = true
                 }
 
                 socialWork.dribbbleShot = socialWorkDribbbleShot
@@ -1097,10 +1086,8 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
         newFeed.group = group
         
-        let _ = try? realm.write {
-            group.groupType = GroupType.Public.rawValue
-            realm.add(newFeed)
-        }
+        group.groupType = GroupType.Public.rawValue
+        realm.add(newFeed)
     }
 }
 
@@ -1112,6 +1099,8 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     let predicate = NSPredicate(format: "messageID = %@", messageID)
 
     let messages = realm.objects(Message).filter(predicate)
+
+    /*
     if messages.count > 1 {
         
         println("Warning: same messageID: \(messages.count), \(messageID)")
@@ -1147,6 +1136,7 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
 //            }
 //        }
     }
+    */
 
     return messages.first
 }
@@ -1259,9 +1249,7 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
 }
 
 func deleteMessage(message: Message, inRealm realm: Realm) {
-    let _ = try? realm.write {
-        realm.delete(message)
-    }
+    realm.delete(message)
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
@@ -1402,77 +1390,70 @@ func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 
 // MARK: Update with info
 
-func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary) {
-
-    guard let realm = try? Realm() else {
-        return
-    }
+func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, inRealm realm: Realm) {
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
-        let _ = try? realm.write {
+        // 更新用户信息
 
-            // 更新用户信息
+        if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval {
+            user.lastSignInUnixTime = lastSignInUnixTime
+        }
 
-            if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval {
-                user.lastSignInUnixTime = lastSignInUnixTime
-            }
+        if let username = userInfo["username"] as? String {
+            user.username = username
+        }
 
-            if let username = userInfo["username"] as? String {
-                user.username = username
-            }
+        if let nickname = userInfo["nickname"] as? String {
+            user.nickname = nickname
+        }
 
-            if let nickname = userInfo["nickname"] as? String {
-                user.nickname = nickname
-            }
+        if let introduction = userInfo["introduction"] as? String {
+            user.introduction = introduction
+        }
 
-            if let introduction = userInfo["introduction"] as? String {
-                user.introduction = introduction
-            }
+        if let avatarURLString = userInfo["avatar_url"] as? String {
+            user.avatarURLString = avatarURLString
+        }
 
-            if let avatarURLString = userInfo["avatar_url"] as? String {
-                user.avatarURLString = avatarURLString
-            }
+        if let longitude = userInfo["longitude"] as? Double {
+            user.longitude = longitude
+        }
 
-            if let longitude = userInfo["longitude"] as? Double {
-                user.longitude = longitude
-            }
+        if let latitude = userInfo["latitude"] as? Double {
+            user.latitude = latitude
+        }
 
-            if let latitude = userInfo["latitude"] as? Double {
-                user.latitude = latitude
-            }
+        if let badge = userInfo["badge"] as? String {
+            user.badge = badge
+        }
 
-            if let badge = userInfo["badge"] as? String {
-                user.badge = badge
-            }
+        // 更新技能
 
-            // 更新技能
+        if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
+            user.learningSkills.removeAll()
+            let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
+            user.learningSkills.appendContentsOf(userSkills)
+        }
 
-            if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
-                user.learningSkills.removeAll()
-                let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-                user.learningSkills.appendContentsOf(userSkills)
-            }
+        if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
+            user.masterSkills.removeAll()
+            let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
+            user.masterSkills.appendContentsOf(userSkills)
+        }
 
-            if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
-                user.masterSkills.removeAll()
-                let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-                user.masterSkills.appendContentsOf(userSkills)
-            }
+        // 更新 Social Account Provider
 
-            // 更新 Social Account Provider
+        if let providersInfo = userInfo["providers"] as? [String: Bool] {
 
-            if let providersInfo = userInfo["providers"] as? [String: Bool] {
+            user.socialAccountProviders.removeAll()
 
-                user.socialAccountProviders.removeAll()
+            for (name, enabled) in providersInfo {
+                let provider = UserSocialAccountProvider()
+                provider.name = name
+                provider.enabled = enabled
 
-                for (name, enabled) in providersInfo {
-                    let provider = UserSocialAccountProvider()
-                    provider.name = name
-                    provider.enabled = enabled
-
-                    user.socialAccountProviders.append(provider)
-                }
+                user.socialAccountProviders.append(provider)
             }
         }
     }
@@ -1486,25 +1467,19 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
     // delete attachments of messages
 
-    let _ = try? realm.write {
-        messages.forEach { $0.deleteAttachmentInRealm(realm) }
-    }
+    messages.forEach { $0.deleteAttachmentInRealm(realm) }
 
     // delete all mediaMetaDatas
 
     for message in messages {
         if let mediaMetaData = message.mediaMetaData {
-            let _ = try? realm.write {
-                realm.delete(mediaMetaData)
-            }
+            realm.delete(mediaMetaData)
         }
     }
 
     // delete all messages in conversation
 
-    let _ = try? realm.write {
-        realm.delete(messages)
-    }
+    realm.delete(messages)
 }
 
 func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
@@ -1513,35 +1488,32 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
     // delete conversation, finally
 
-    let _ = try? realm.write {
+    if let group = conversation.withGroup {
 
-        if let group = conversation.withGroup {
+        if let feed = conversation.withGroup?.withFeed {
 
-            if let feed = conversation.withGroup?.withFeed {
-
-                feed.cascadeDelete()
-            }
-
-            let groupID = group.groupID
-
-            FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
-
-            if needLeaveGroup {
-                leaveGroup(groupID: groupID, failureHandler: nil, completion: {
-                    println("leaved group: \(groupID)")
-
-                    afterLeaveGroup?()
-                })
-
-            } else {
-                println("deleteConversation, not need leave group: \(groupID)")
-            }
-
-            realm.delete(group)
+            feed.cascadeDelete()
         }
 
-        realm.delete(conversation)
+        let groupID = group.groupID
+
+        FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+
+        if needLeaveGroup {
+            leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                println("leaved group: \(groupID)")
+
+                afterLeaveGroup?()
+            })
+
+        } else {
+            println("deleteConversation, not need leave group: \(groupID)")
+        }
+
+        realm.delete(group)
     }
+
+    realm.delete(conversation)
 }
 
 func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
@@ -1552,11 +1524,15 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
 
     let clearMessages: () -> Void = {
+        realm.beginWrite()
         clearMessagesOfConversation(conversation, inRealm: realm)
+        let _ = try? realm.commitWrite()
     }
 
     let delete: () -> Void = {
+        realm.beginWrite()
         deleteConversation(conversation, inRealm: realm)
+        let _ = try? realm.commitWrite()
     }
 
     // show ActionSheet before delete

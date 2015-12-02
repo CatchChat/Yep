@@ -51,7 +51,11 @@ enum ConversationFeed {
             guard let realm = try? Realm() else {
                 return nil
             }
-            return getOrCreateUserWithDiscoverUser(discoveredFeed.creator, inRealm: realm)
+            realm.beginWrite()
+            let user = getOrCreateUserWithDiscoverUser(discoveredFeed.creator, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            return user
             
         case .FeedType(let feed):
             return feed.creator
@@ -261,7 +265,7 @@ enum ConversationFeed {
 
             if let attachment = discoveredFeed.attachment {
                 if case let .Images(attachments) = attachment {
-                    return attachmentFromDiscoveredAttachment(attachments, inRealm: nil)
+                    return attachmentFromDiscoveredAttachment(attachments)
                 }
             }
 
