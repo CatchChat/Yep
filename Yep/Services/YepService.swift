@@ -2834,7 +2834,7 @@ let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
     return []
 }
 
-func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredFeed] -> Void) {
 
     var requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
@@ -2850,7 +2850,22 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
         requestParameters["max_id"] = maxFeedID
     }
 
-    let parse = parseFeeds
+    //let parse = parseFeeds
+    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
+
+        if let realm = try? Realm() {
+            if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
+
+                let offlineJSON = OfflineJSON(name: "feeds", data: offlineData)
+
+                let _ = try? realm.write {
+                    realm.add(offlineJSON, update: true)
+                }
+            }
+        }
+
+        return parseFeeds(data)
+    }
 
     let resource = authJsonResource(path: "/api/v2/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
 
