@@ -37,6 +37,24 @@ class YepTabBarController: UITabBarController {
 
     var previousTab = Tab.Conversations
 
+    var checkDoubleTapOnFeedsTimer: NSTimer?
+    var hasFirstTapOnFeedsWhenItIsAtTop = false {
+        willSet {
+            if newValue {
+                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkDoubleTapOnFeeds:", userInfo: nil, repeats: false)
+                checkDoubleTapOnFeedsTimer = timer
+
+            } else {
+                checkDoubleTapOnFeedsTimer?.invalidate()
+            }
+        }
+    }
+
+    func checkDoubleTapOnFeeds(timer: NSTimer) {
+
+        hasFirstTapOnFeedsWhenItIsAtTop = false
+    }
+
     struct Listener {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
@@ -91,6 +109,34 @@ class YepTabBarController: UITabBarController {
 
 extension YepTabBarController: UITabBarControllerDelegate {
 
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+
+        guard
+            let tab = Tab(rawValue: selectedIndex),
+            let nvc = viewController as? UINavigationController else {
+                return false
+        }
+
+        if tab != previousTab {
+            return true
+        }
+
+        if case .Feeds = tab {
+
+            if let vc = nvc.topViewController as? FeedsViewController {
+                if vc.feedsTableView.yep_isAtTop {
+
+                    if !hasFirstTapOnFeedsWhenItIsAtTop {
+                        hasFirstTapOnFeedsWhenItIsAtTop = true
+                        return false
+                    }
+                }
+            }
+        }
+
+        return true
+    }
+
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
         guard
@@ -126,6 +172,12 @@ extension YepTabBarController: UITabBarControllerDelegate {
             if let vc = nvc.topViewController as? FeedsViewController {
                 if !vc.feedsTableView.yep_isAtTop {
                     vc.feedsTableView.yep_scrollsToTop()
+
+                } else {
+                    if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                        vc.feedsTableView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                        hasFirstTapOnFeedsWhenItIsAtTop = false
+                    }
                 }
             }
 

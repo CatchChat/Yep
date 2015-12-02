@@ -100,6 +100,7 @@ class PullToRefreshView: UIView {
 extension PullToRefreshView: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
+
         if isRefreshing {
             return
         }
@@ -113,11 +114,24 @@ extension PullToRefreshView: UIScrollViewDelegate {
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
         if !isRefreshing && progressPercentage == 1 {
 
             beginRefreshing()
 
             targetContentOffset.memory.y = -scrollView.contentInset.top
+
+            delegate?.pulllToRefreshViewDidRefresh(self)
+        }
+    }
+
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+
+        if !isRefreshing && progressPercentage == 1 {
+
+            beginRefreshing()
+
+            scrollView.contentOffset.y = -scrollView.contentInset.top
 
             delegate?.pulllToRefreshViewDidRefresh(self)
         }

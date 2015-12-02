@@ -1055,6 +1055,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
+
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+
+        pullToRefreshView.scrollViewDidEndScrollingAnimation(scrollView)
+    }
 }
 
 // MARK: PullToRefreshViewDelegate

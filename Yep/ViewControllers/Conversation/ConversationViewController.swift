@@ -676,6 +676,8 @@ class ConversationViewController: BaseViewController {
 
             if let strongSelf = self {
 
+                let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
+
                 if strongSelf.messageToolbarBottomConstraint.constant > 0 {
 
                     // 注意第一次要减去已经有的高度偏移
@@ -685,14 +687,14 @@ class ConversationViewController: BaseViewController {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
                     }
 
-                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height
+                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
 
                     strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
                     strongSelf.view.layoutIfNeeded()
 
                 } else {
                     strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
-                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height
+                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
 
                     strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
                     strongSelf.view.layoutIfNeeded()
