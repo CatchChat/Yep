@@ -126,6 +126,9 @@ extension YepTabBarController: UITabBarControllerDelegate {
             if let vc = nvc.topViewController as? FeedsViewController {
                 if !vc.feedsTableView.yep_isAtTop {
                     vc.feedsTableView.yep_scrollsToTop()
+
+                } else {
+                    vc.feedsTableView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
                 }
             }
 
