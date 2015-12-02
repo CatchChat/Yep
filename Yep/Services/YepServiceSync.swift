@@ -420,26 +420,27 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let localUsers = realm.objects(User)
 
+            // 一个大的写入，减少 realm 发通知
+
+            realm.beginWrite()
+
             for i in 0..<localUsers.count {
                 let localUser = localUsers[i]
 
                 if !remoteUerIDSet.contains(localUser.userID) {
 
-                    let _ = try? realm.write {
+                    localUser.friendshipID = ""
 
-                        localUser.friendshipID = ""
+                    if let myUserID = YepUserDefaults.userID.value {
+                        if myUserID == localUser.userID {
+                            localUser.friendState = UserFriendState.Me.rawValue
 
-                        if let myUserID = YepUserDefaults.userID.value {
-                            if myUserID == localUser.userID {
-                                localUser.friendState = UserFriendState.Me.rawValue
-
-                            } else if localUser.friendState == UserFriendState.Normal.rawValue {
-                                localUser.friendState = UserFriendState.Stranger.rawValue
-                            }
+                        } else if localUser.friendState == UserFriendState.Normal.rawValue {
+                            localUser.friendState = UserFriendState.Stranger.rawValue
                         }
-                        
-                        localUser.isBestfriend = false
                     }
+                    
+                    localUser.isBestfriend = false
                 }
             }
 
@@ -458,37 +459,35 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 newUser.createdUnixTime = createdUnixTime
                             }
 
-                            let _ = try? realm.write {
-                                realm.add(newUser)
-                            }
+                            realm.add(newUser)
 
                             user = newUser
                         }
 
                         if let user = user {
 
-                            let _ = try? realm.write {
-                                // 更新用户信息
-                                updateUserWithUserID(user.userID, useUserInfo: friendInfo, inRealm: realm)
+                            // 更新用户信息
+                            updateUserWithUserID(user.userID, useUserInfo: friendInfo, inRealm: realm)
 
-                                if let friendshipID = friendshipInfo["id"] as? String {
-                                    user.friendshipID = friendshipID
-                                }
+                            if let friendshipID = friendshipInfo["id"] as? String {
+                                user.friendshipID = friendshipID
+                            }
 
-                                user.friendState = UserFriendState.Normal.rawValue
+                            user.friendState = UserFriendState.Normal.rawValue
 
-                                if let isBestfriend = friendInfo["favored"] as? Bool {
-                                    user.isBestfriend = isBestfriend
-                                }
-                                
-                                if let bestfriendIndex = friendInfo["favored_position"] as? Int {
-                                    user.bestfriendIndex = bestfriendIndex
-                                }
+                            if let isBestfriend = friendInfo["favored"] as? Bool {
+                                user.isBestfriend = isBestfriend
+                            }
+                            
+                            if let bestfriendIndex = friendInfo["favored_position"] as? Int {
+                                user.bestfriendIndex = bestfriendIndex
                             }
                         }
                     }
                 }
             }
+
+            let _ = try? realm.commitWrite()
             
             // do further action
 
