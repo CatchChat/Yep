@@ -89,7 +89,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
             
             var skillImage: UIImage?
         
-            if let image = skillCardCache[discoveredUser.id]{
+            if let image = skillCardCache[discoveredUser.id] {
                 skillImage = image
             } else {
                 let processedImage = genSkillImageWithSkills(skills)
