@@ -2856,7 +2856,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
         if let realm = try? Realm() {
             if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
 
-                let offlineJSON = OfflineJSON(name: "feeds", data: offlineData)
+                let offlineJSON = OfflineJSON(name: OfflineJSONName.Feeds.rawValue, data: offlineData)
 
                 let _ = try? realm.write {
                     realm.add(offlineJSON, update: true)

@@ -781,6 +781,11 @@ class Feed: Object {
 
 // MARK: Offline JSON
 
+enum OfflineJSONName: String {
+
+    case Feeds
+}
+
 class OfflineJSON: Object {
 
     dynamic var name: String!
@@ -795,6 +800,10 @@ class OfflineJSON: Object {
 
         self.name = name
         self.data = data
+    }
+
+    var JSON: JSONDictionary? {
+        return decodeJSON(data)
     }
 }
 

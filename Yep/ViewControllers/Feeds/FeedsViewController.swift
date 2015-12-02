@@ -296,8 +296,16 @@ class FeedsViewController: BaseViewController {
                 feedSortStyle = .Match
             }
         }
+
+        if let realm = try? Realm() {
+            if let offlineJSON = realm.objects(OfflineJSON).filter("name = %@", OfflineJSONName.Feeds.rawValue).first {
+                if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                    self.feeds = feeds
+                }
+            }
+        }
     }
-    
+
     // MARK: Actions
     
     func addSkillToMe() {
