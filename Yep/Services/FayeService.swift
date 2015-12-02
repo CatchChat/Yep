@@ -243,19 +243,21 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
             realm.beginWrite()
 
-            syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { messageIDs in
-                
-                delay(0.01) {
-                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
-                    /*
-                    self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
-                    // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因
-                    // 上面的 Delegate fayeRecievedNewMessages 替代了 Notification
-                    */
-                }
+            var messageIDs: [String] = []
+
+            syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
+
+                messageIDs = _messageIDs
             }
 
             let _ = try? realm.commitWrite()
+
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            /*
+            self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
+            // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因
+            // 上面的 Delegate fayeRecievedNewMessages 替代了 Notification
+            */
         }
     }
 
