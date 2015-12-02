@@ -3540,9 +3540,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if let sender = message.fromFriend {
                 
                 if let cell = cell as? ChatBaseCell {
+
                     if let _ = self.conversation.withGroup {
                         cell.inGroup = true
+                    } else {
+                        cell.inGroup = false
                     }
+
                     cell.tapAvatarAction = { [weak self] user in
                         self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
