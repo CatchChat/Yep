@@ -241,6 +241,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 }
             }
 
+            realm.beginWrite()
+
             syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { messageIDs in
                 
                 delay(0.01) {
@@ -252,6 +254,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
                     */
                 }
             }
+
+            let _ = try? realm.commitWrite()
         }
     }
 

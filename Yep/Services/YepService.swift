@@ -1938,11 +1938,15 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
 
         var messageIDs = [String]()
 
+        realm.beginWrite()
+
         for messageInfo in unreadMessagesData {
             syncMessageWithMessageInfo(messageInfo, messageAge: timeDirection.messageAge, inRealm: realm) { _messageIDs in
                 messageIDs += _messageIDs
             }
         }
+
+        let _ = try? realm.commitWrite()
 
         return messageIDs
     }

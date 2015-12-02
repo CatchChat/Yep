@@ -1259,9 +1259,7 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
 }
 
 func deleteMessage(message: Message, inRealm realm: Realm) {
-    let _ = try? realm.write {
-        realm.delete(message)
-    }
+    realm.delete(message)
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
