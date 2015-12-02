@@ -1259,10 +1259,20 @@ class ConversationViewController: BaseViewController {
             if updateOlderMessagesIfNeeded {
 
                 var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
+                //var predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
 
                 if case .OneToOne = recipient.type {
                     predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
                 }
+
+                /*
+                let hasUnread: Bool = messages.map({ !$0.readed }).reduce(false, combine: { return $0 || $1 })
+                println("hasUnread: \(hasUnread)")
+
+                messages.filter("readed = false").forEach {
+                    println("unread message.textContent: \($0.textContent), \($0.fromFriend?.nickname)")
+                }
+                */
 
                 let filteredMessages = messages.filter(predicate)
 
@@ -1290,6 +1300,14 @@ class ConversationViewController: BaseViewController {
             // 群组里没有我，不需要标记
             if recipient.type == .Group {
                 if let group = conversation.withGroup where !group.includeMe {
+
+                    // 此情况强制所有消息“已读”
+                    messages.forEach { message in
+                        let _ = try? realm.write {
+                            message.readed = true
+                        }
+                    }
+
                     needMarkInServer = false
                 }
             }
