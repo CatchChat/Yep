@@ -247,6 +247,14 @@ class MediaPreviewViewController: UIViewController {
             self?.mediaControlView.alpha = 0
         }, completion: nil)
 
+
+        var frame = self.previewImageViewInitalFrame ?? CGRectZero
+        let offsetIndex = currentIndex - startIndex
+        if abs(offsetIndex) > 0 {
+            let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(abs(offsetIndex) - 1) * 5
+            frame.origin.x += offsetX
+        }
+
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.clearColor()
@@ -256,7 +264,6 @@ class MediaPreviewViewController: UIViewController {
                 self?.bottomPreviewImageView.alpha = 1
             }
 
-            let frame = self?.previewImageViewInitalFrame ?? CGRectZero
             self?.topPreviewImageView.frame = frame
             self?.bottomPreviewImageView.frame = frame
 
