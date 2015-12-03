@@ -12,6 +12,7 @@ import CoreLocation
 import Kingfisher
 
 let imageFadeShowDuration: NSTimeInterval = 0.25
+let avatarFadeTransitionDuration: NSTimeInterval = 0.25
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
     .Options([.BackgroundDecode, .LowPriority]),
