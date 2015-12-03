@@ -2532,6 +2532,11 @@ class ConversationViewController: BaseViewController {
             afterSentMessageAction?()
 
             if isSubscribeViewShowing {
+
+                realm.beginWrite()
+                conversation.withGroup?.includeMe = true
+                let _ = try? realm.commitWrite()
+
                 delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
                 }
