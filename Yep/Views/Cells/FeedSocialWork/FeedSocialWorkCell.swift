@@ -349,7 +349,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
 
         if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 

@@ -9,6 +9,12 @@
 import UIKit
 import Ruler
 import CoreLocation
+import Kingfisher
+
+let MediaOptionsInfos: KingfisherOptionsInfo = [
+    .Options([.BackgroundDecode, .LowPriority]),
+    .Transition(ImageTransition.Fade(0.3))
+]
 
 class YepConfig {
 
