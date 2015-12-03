@@ -304,7 +304,7 @@ class FeedView: UIView {
 
         if let creator = feed.creator {
             let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
-            avatarImageView.navi_setAvatar(userAvatar)
+            avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
         }
