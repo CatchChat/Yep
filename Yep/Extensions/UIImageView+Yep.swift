@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 private var attachmentURLKey: Void?
+private var locationxKey: Void?
 
 extension UIImageView {
 
-    var yep_attachmentURL: NSURL? {
+    private var yep_attachmentURL: NSURL? {
         return objc_getAssociatedObject(self, &attachmentURLKey) as? NSURL
     }
 
@@ -31,6 +33,30 @@ extension UIImageView {
         ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: size, completion: { [weak self] (url, image) in
 
             guard let strongSelf = self, yep_attachmentURL = strongSelf.yep_attachmentURL where yep_attachmentURL == url else {
+                return
+            }
+
+            UIView.transitionWithView(strongSelf, duration: 0.3, options: .TransitionCrossDissolve, animations: { () -> Void in
+                strongSelf.image = image
+            }, completion: nil)
+        })
+    }
+
+    private var yep_location: CLLocation? {
+        return objc_getAssociatedObject(self, &locationxKey) as? CLLocation
+    }
+
+    private func yep_setLocation(location: CLLocation) {
+        objc_setAssociatedObject(self, &locationxKey, location, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    func yep_setImageOfLocation(location: CLLocation, withSize size: CGSize) {
+
+        yep_setLocation(location)
+
+        ImageCache.sharedInstance.mapImageOfLocationCoordinate(location.coordinate, withSize: size, completion: { [weak self] image in
+
+            guard let strongSelf = self, _location = strongSelf.yep_location where _location == location else {
                 return
             }
 
