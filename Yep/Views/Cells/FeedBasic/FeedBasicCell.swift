@@ -115,7 +115,7 @@ class FeedBasicCell: UITableViewCell {
         }
 
         let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-        avatarImageView.navi_setAvatar(plainAvatar)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         nicknameLabel.text = feed.creator.nickname
 

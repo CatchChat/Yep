@@ -329,12 +329,9 @@ class FeedSocialWorkCell: FeedBasicCell {
             if let attachment = feed.attachment {
                 if case let .Location(locationInfo) = attachment {
 
-                    let locationCoordinate = CLLocationCoordinate2D(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
-
+                    let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
                     let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
-                    ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
-                        self?.locationMapImageView.image = image
-                    })
+                    locationMapImageView.yep_setImageOfLocation(location, withSize: size)
 
                     locationNameLabel.text = locationInfo.name
                 }
@@ -349,7 +346,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
 
         if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 

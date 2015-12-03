@@ -9,6 +9,16 @@
 import UIKit
 import Ruler
 import CoreLocation
+import Kingfisher
+
+let avatarFadeTransitionDuration: NSTimeInterval = 0.0
+let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.2
+let imageFadeTransitionDuration: NSTimeInterval = 0.3
+
+let MediaOptionsInfos: KingfisherOptionsInfo = [
+    .Options([.BackgroundDecode, .LowPriority]),
+    .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
+]
 
 class YepConfig {
 
@@ -120,12 +130,27 @@ class YepConfig {
     struct Settings {
         static let userCellAvatarSize: CGFloat = 80
 
-        static let introFont = UIFont.systemFontOfSize(12)
+        static let introFont: UIFont = {
+            if #available(iOS 8.2, *) {
+                return UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
+            } else {
+                return UIFont(name: "HelveticaNeue-Light", size: 12)!
+            }
+        }()
+
         static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
     }
 
     struct EditProfile {
-        static let introFont = UIFont.systemFontOfSize(15)
+
+        static let introFont: UIFont = {
+            if #available(iOS 8.2, *) {
+                return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
+            } else {
+                return UIFont(name: "HelveticaNeue-Light", size: 15)!
+            }
+        }()
+
         static let introInset: CGFloat = 20 + 20
     }
 

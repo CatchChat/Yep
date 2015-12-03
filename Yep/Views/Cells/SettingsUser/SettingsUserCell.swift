@@ -68,7 +68,7 @@ class SettingsUserCell: UITableViewCell {
             let avatarSize = YepConfig.Settings.userCellAvatarSize
             let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
             let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
-            avatarImageView.navi_setAvatar(plainAvatar)
+            avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
     }
 

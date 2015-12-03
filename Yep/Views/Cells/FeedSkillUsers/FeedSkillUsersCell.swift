@@ -38,21 +38,21 @@ class FeedSkillUsersCell: UITableViewCell {
 
         if let creator = feedCreators[safe: 0] {
             let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-            avatarImageView1.navi_setAvatar(plainAvatar)
+            avatarImageView1.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         } else {
             avatarImageView1.image = nil
         }
 
         if let creator = feedCreators[safe: 1] {
             let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-            avatarImageView2.navi_setAvatar(plainAvatar)
+            avatarImageView2.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         } else {
             avatarImageView2.image = nil
         }
 
         if let creator = feedCreators[safe: 2] {
             let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
-            avatarImageView3.navi_setAvatar(plainAvatar)
+            avatarImageView3.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         } else {
             avatarImageView3.image = nil
         }

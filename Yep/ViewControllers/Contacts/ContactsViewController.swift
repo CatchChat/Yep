@@ -184,7 +184,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         let userAvatar = UserAvatar(userID: friend.userID, avatarStyle: miniAvatarStyle)
-        cell.avatarImageView.navi_setAvatar(userAvatar)
+        cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         cell.nameLabel.text = friend.nickname
 

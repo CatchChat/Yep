@@ -52,7 +52,7 @@ class FriendRequestView: UIView {
         willSet {
             if let user = newValue {
                 let userAvatar = UserAvatar(userID: user.userID, avatarStyle: nanoAvatarStyle)
-                avatarImageView.navi_setAvatar(userAvatar)
+                avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                 nicknameLabel.text = user.nickname
             }

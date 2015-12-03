@@ -112,6 +112,7 @@
 		502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60671BD6252B00D9C17E /* UserAvatar.swift */; };
 		502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */; };
 		502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606D1BD6567600D9C17E /* AvatarStyles.swift */; };
+		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		503315981AC1017E0008A209 /* ChatLeftTextCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503315961AC1017E0008A209 /* ChatLeftTextCell.xib */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
@@ -464,6 +465,7 @@
 		502B60671BD6252B00D9C17E /* UserAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAvatar.swift; path = Caches/UserAvatar.swift; sourceTree = "<group>"; };
 		502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlainAvatar.swift; path = Caches/PlainAvatar.swift; sourceTree = "<group>"; };
 		502B606D1BD6567600D9C17E /* AvatarStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarStyles.swift; path = Caches/AvatarStyles.swift; sourceTree = "<group>"; };
+		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		503315961AC1017E0008A209 /* ChatLeftTextCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextCell.xib; path = Views/Cells/ChatLeftText/ChatLeftTextCell.xib; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
@@ -1128,6 +1130,7 @@
 				504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */,
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* NSURL+Yep.swift */,
+				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2625,6 +2628,7 @@
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
 				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
+				502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */,
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,

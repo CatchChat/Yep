@@ -35,7 +35,7 @@ class ContactsCell: UITableViewCell {
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
-        avatarImageView.navi_setAvatar(plainAvatar)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         joinedDateLabel.text = discoveredUser.introduction
 
