@@ -1687,11 +1687,10 @@ func officialMessages(completion completion: Int -> Void) {
                             let _ = try? realm.write {
                                 message.conversation = conversation
 
+                                // 纪录消息的 detail 信息
+
+                                recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
                             }
-
-                            // 纪录消息的 detail 信息
-
-                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             messagesCount++
                         }
