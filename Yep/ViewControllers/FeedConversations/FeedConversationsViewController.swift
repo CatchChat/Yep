@@ -195,8 +195,12 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     guard let realm = conversation.realm else {
                         return
                     }
+
+                    realm.beginWrite()
                     
                     deleteConversation(conversation, inRealm: realm)
+
+                    let _ = try? realm.commitWrite()
 
                     realm.refresh()
                     
