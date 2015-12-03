@@ -218,13 +218,9 @@ class Group: Object {
 
     // 级联删除关联的数据对象
 
-    func cascadeDelete() {
+    func cascadeDeleteInRealm(realm: Realm) {
 
-        guard let realm = realm else {
-            return
-        }
-
-        withFeed?.cascadeDelete()
+        withFeed?.cascadeDeleteInRealm(realm)
 
         if let conversation = conversation {
             realm.delete(conversation)
@@ -748,11 +744,7 @@ class Feed: Object {
 
     // 级联删除关联的数据对象
 
-    func cascadeDelete() {
-
-        guard let realm = realm else {
-            return
-        }
+    func cascadeDeleteInRealm(realm: Realm) {
 
         attachments.forEach {
             realm.delete($0)
@@ -1492,7 +1484,7 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
         if let feed = conversation.withGroup?.withFeed {
 
-            feed.cascadeDelete()
+            feed.cascadeDeleteInRealm(realm)
         }
 
         let groupID = group.groupID

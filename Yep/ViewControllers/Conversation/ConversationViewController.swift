@@ -2130,9 +2130,13 @@ class ConversationViewController: BaseViewController {
                         return
                     }
 
+                    realm.beginWrite()
+
                     deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
                         afterLeaveGroup?()
                     })
+
+                    let _ = try? realm.commitWrite()
 
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
 

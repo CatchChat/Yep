@@ -538,7 +538,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                     }
 
                 } else {
-                    group.cascadeDelete()
+                    group.cascadeDeleteInRealm(realm)
                 }
             }
 
