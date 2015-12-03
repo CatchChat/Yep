@@ -70,6 +70,8 @@ class MediaPreviewViewController: UIViewController {
     var topPreviewImage: UIImage?
     var bottomPreviewImage: UIImage?
 
+    weak var transitionView: UIView?
+
     var afterDismissAction: (() -> Void)?
 
     var showFinished = false
@@ -219,19 +221,24 @@ class MediaPreviewViewController: UIViewController {
             }
         }
 
-//        guard currentIndex == startIndex else {
-//
-//            UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-//                self?.view.backgroundColor = UIColor.clearColor()
-//                self?.mediaControlView.alpha = 0
-//                self?.mediasCollectionView.alpha = 0
-//
-//            }, completion: { _ in
-//                finishDismissAction()
-//            })
-//
-//            return
-//        }
+        if case .MessageType = previewMedias[0] {
+
+            guard currentIndex == startIndex else {
+
+                transitionView?.alpha = 1
+
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.view.backgroundColor = UIColor.clearColor()
+                    self?.mediaControlView.alpha = 0
+                    self?.mediasCollectionView.alpha = 0
+
+                }, completion: { _ in
+                    finishDismissAction()
+                })
+
+                return
+            }
+        }
 
         if let _ = topPreviewImage {
             topPreviewImageView.alpha = 1
@@ -247,6 +254,17 @@ class MediaPreviewViewController: UIViewController {
             self?.mediaControlView.alpha = 0
         }, completion: nil)
 
+
+        var frame = self.previewImageViewInitalFrame ?? CGRectZero
+
+        if case .AttachmentType = previewMedias[0] {
+            let offsetIndex = currentIndex - startIndex
+            if abs(offsetIndex) > 0 {
+                let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(offsetIndex) * 5
+                frame.origin.x += offsetX
+            }
+        }
+
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.clearColor()
@@ -256,7 +274,6 @@ class MediaPreviewViewController: UIViewController {
                 self?.bottomPreviewImageView.alpha = 1
             }
 
-            let frame = self?.previewImageViewInitalFrame ?? CGRectZero
             self?.topPreviewImageView.frame = frame
             self?.bottomPreviewImageView.frame = frame
 
@@ -429,6 +446,30 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             currentIndex = newCurrentIndex
 
             println("scroll to new media")
+
+            transitionView?.alpha = (currentIndex == startIndex) ? 0 : 1
+
+            if case .AttachmentType = previewMedias[0] {
+
+                guard let image = cell.mediaView.image else {
+                    return
+                }
+
+                bottomPreviewImageView.image = image
+
+                let viewWidth = UIScreen.mainScreen().bounds.width
+                let viewHeight = UIScreen.mainScreen().bounds.height
+
+                let previewImageWidth = image.size.width
+                let previewImageHeight = image.size.height
+
+                let previewImageViewWidth = viewWidth
+                let previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+
+                let frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+
+                bottomPreviewImageView.frame = frame
+            }
         }
     }
 

@@ -1619,7 +1619,9 @@ class ConversationViewController: BaseViewController {
             let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
             vc.previewImageViewInitalFrame = frame
             vc.bottomPreviewImage = image
-            
+
+            vc.transitionView = transitionView
+
             self?.view.endEditing(true)
 
             delay(0.3, work: { () -> Void in
@@ -3394,6 +3396,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 vc.previewImageViewInitalFrame = frame
                 vc.topPreviewImage = message.thumbnailImage
                 vc.bottomPreviewImage = image
+
+                vc.transitionView = transitionView
 
                 delay(0.0, work: { () -> Void in
                     transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
