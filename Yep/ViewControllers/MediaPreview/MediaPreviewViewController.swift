@@ -221,19 +221,24 @@ class MediaPreviewViewController: UIViewController {
             }
         }
 
-//        guard currentIndex == startIndex else {
-//
-//            UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-//                self?.view.backgroundColor = UIColor.clearColor()
-//                self?.mediaControlView.alpha = 0
-//                self?.mediasCollectionView.alpha = 0
-//
-//            }, completion: { _ in
-//                finishDismissAction()
-//            })
-//
-//            return
-//        }
+        if case .MessageType = previewMedias[0] {
+
+            guard currentIndex == startIndex else {
+
+                transitionView?.alpha = 1
+
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.view.backgroundColor = UIColor.clearColor()
+                    self?.mediaControlView.alpha = 0
+                    self?.mediasCollectionView.alpha = 0
+
+                }, completion: { _ in
+                    finishDismissAction()
+                })
+
+                return
+            }
+        }
 
         if let _ = topPreviewImage {
             topPreviewImageView.alpha = 1

@@ -3397,6 +3397,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 vc.topPreviewImage = message.thumbnailImage
                 vc.bottomPreviewImage = image
 
+                vc.transitionView = transitionView
+
                 delay(0.0, work: { () -> Void in
                     transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
                 })
