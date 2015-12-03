@@ -1619,7 +1619,9 @@ class ConversationViewController: BaseViewController {
             let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
             vc.previewImageViewInitalFrame = frame
             vc.bottomPreviewImage = image
-            
+
+            vc.transitionView = transitionView
+
             self?.view.endEditing(true)
 
             delay(0.3, work: { () -> Void in
