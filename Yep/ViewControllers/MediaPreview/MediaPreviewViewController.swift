@@ -70,6 +70,8 @@ class MediaPreviewViewController: UIViewController {
     var topPreviewImage: UIImage?
     var bottomPreviewImage: UIImage?
 
+    weak var transitionView: UIView?
+
     var afterDismissAction: (() -> Void)?
 
     var showFinished = false
@@ -439,6 +441,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             currentIndex = newCurrentIndex
 
             println("scroll to new media")
+
+            transitionView?.alpha = (currentIndex == startIndex) ? 0 : 1
 
             if case .AttachmentType = previewMedias[0] {
 

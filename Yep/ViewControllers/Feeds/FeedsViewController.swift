@@ -946,6 +946,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     vc.previewImageViewInitalFrame = frame
                     vc.bottomPreviewImage = image
 
+                    vc.transitionView = transitionView
+
                     delay(0) {
                         transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
                     }
