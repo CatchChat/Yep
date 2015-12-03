@@ -253,7 +253,7 @@ class MediaPreviewViewController: UIViewController {
         if case .AttachmentType = previewMedias[0] {
             let offsetIndex = currentIndex - startIndex
             if abs(offsetIndex) > 0 {
-                let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(abs(offsetIndex) - 1) * 5
+                let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(offsetIndex) * 5
                 frame.origin.x += offsetX
             }
         }
@@ -441,8 +441,25 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             println("scroll to new media")
 
             if case .AttachmentType = previewMedias[0] {
-                let image = cell.mediaView.image
+
+                guard let image = cell.mediaView.image else {
+                    return
+                }
+
                 bottomPreviewImageView.image = image
+
+                let viewWidth = UIScreen.mainScreen().bounds.width
+                let viewHeight = UIScreen.mainScreen().bounds.height
+
+                let previewImageWidth = image.size.width
+                let previewImageHeight = image.size.height
+
+                let previewImageViewWidth = viewWidth
+                let previewImageViewHeight = (previewImageHeight / previewImageWidth) * previewImageViewWidth
+
+                let frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+
+                bottomPreviewImageView.frame = frame
             }
         }
     }
