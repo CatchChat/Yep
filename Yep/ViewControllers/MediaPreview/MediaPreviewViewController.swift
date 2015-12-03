@@ -249,10 +249,13 @@ class MediaPreviewViewController: UIViewController {
 
 
         var frame = self.previewImageViewInitalFrame ?? CGRectZero
-        let offsetIndex = currentIndex - startIndex
-        if abs(offsetIndex) > 0 {
-            let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(abs(offsetIndex) - 1) * 5
-            frame.origin.x += offsetX
+
+        if case .AttachmentType = previewMedias[0] {
+            let offsetIndex = currentIndex - startIndex
+            if abs(offsetIndex) > 0 {
+                let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(abs(offsetIndex) - 1) * 5
+                frame.origin.x += offsetX
+            }
         }
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
@@ -436,6 +439,11 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             currentIndex = newCurrentIndex
 
             println("scroll to new media")
+
+            if case .AttachmentType = previewMedias[0] {
+                let image = cell.mediaView.image
+                bottomPreviewImageView.image = image
+            }
         }
     }
 
