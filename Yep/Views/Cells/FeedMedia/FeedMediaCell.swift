@@ -40,6 +40,9 @@ class FeedMediaCell: UICollectionViewCell {
 
         attachmentURL = NSURL(string: attachment.URLString)!
 
+        imageView.yep_setImageOfAttachment(attachment, withSize: imageView.frame.size)
+
+        /*
         if bigger {
             ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: imageView.frame.size, completion: { [weak self] (url, image) in
                 
@@ -62,6 +65,7 @@ class FeedMediaCell: UICollectionViewCell {
                 self?.imageView.image = image
             })
         }
+        */
 
         deleteImageView.hidden = true
     }
