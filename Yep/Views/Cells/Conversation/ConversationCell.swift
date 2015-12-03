@@ -99,7 +99,7 @@ class ConversationCell: UITableViewCell {
                 self.nameLabel.text = conversationWithFriend.nickname
 
                 let userAvatar = UserAvatar(userID: conversationWithFriend.userID, avatarStyle: miniAvatarStyle)
-                avatarImageView.navi_setAvatar(userAvatar)
+                avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                 updateInfoLabels()
             }
@@ -119,13 +119,13 @@ class ConversationCell: UITableViewCell {
 
                 if let user = group.owner {
                     let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
-                    avatarImageView.navi_setAvatar(userAvatar)
+                    avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                 } else {
 
                     if let user = group.withFeed?.creator {
                         let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
-                        avatarImageView.navi_setAvatar(userAvatar)
+                        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                     } else {
                         avatarImageView.image = UIImage(named: "default_avatar_60")

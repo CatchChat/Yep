@@ -16,7 +16,6 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -24,7 +23,6 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -32,7 +30,6 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
 
@@ -40,7 +37,6 @@ class FeedMediaView: UIView {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
-//        view.layer.minificationFilter = kCAFilterTrilinear
         return view
         }()
     
@@ -59,34 +55,35 @@ class FeedMediaView: UIView {
         case 1:
             imageView1.frame = fullRect
 
-            ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: fullRect.size, completion: { [weak self] (url, image) in
-                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                    return
-                }
-                self?.imageView1.image = image
-            })
+            if let thumbnailImage = attachments[0].thumbnailImage {
+                imageView1.image = thumbnailImage
+
+            } else {
+                imageView1.yep_setImageOfAttachment(attachments[0], withSize: fullRect.size)
+            }
+
             addSubview(imageView1)
 
         case 2:
             imageView1.frame = halfRect
             imageView1.center = CGPoint(x: halfRect.width * 0.5, y: imageView1.center.y)
 
-            ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: halfRect.size, completion: { [weak self] (url, image) in
-                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                    return
-                }
-                self?.imageView1.image = image
-            })
+            if let thumbnailImage = attachments[0].thumbnailImage {
+                imageView1.image = thumbnailImage
+
+            } else {
+                imageView1.yep_setImageOfAttachment(attachments[0], withSize: halfRect.size)
+            }
 
             imageView2.frame = halfRect
             imageView2.center = CGPoint(x: halfRect.width * 1.5, y: imageView2.center.y)
 
-            ImageCache.sharedInstance.imageOfAttachment(attachments[1], withSize: halfRect.size, completion: { [weak self] (url, image) in
-                guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                    return
-                }
-                self?.imageView2.image = image
-                })
+            if let thumbnailImage = attachments[1].thumbnailImage {
+                imageView2.image = thumbnailImage
+
+            } else {
+                imageView2.yep_setImageOfAttachment(attachments[1], withSize: halfRect.size)
+            }
 
             addSubview(imageView1)
             addSubview(imageView2)
@@ -98,12 +95,7 @@ class FeedMediaView: UIView {
                 imageView1.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView1.image = image
-                })
+                imageView1.yep_setImageOfAttachment(attachments[0], withSize: quarterRect.size)
             }
 
             imageView2.frame = quarterRect
@@ -113,12 +105,7 @@ class FeedMediaView: UIView {
                 imageView2.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[1], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView2.image = image
-                })
+                imageView2.yep_setImageOfAttachment(attachments[1], withSize: quarterRect.size)
             }
 
             imageView3.frame = halfRect
@@ -128,12 +115,7 @@ class FeedMediaView: UIView {
                 imageView3.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[2], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView3.image = image
-                })
+                imageView3.yep_setImageOfAttachment(attachments[2], withSize: halfRect.size)
             }
 
             addSubview(imageView1)
@@ -148,12 +130,7 @@ class FeedMediaView: UIView {
                 imageView1.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[0], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView1.image = image
-                })
+                imageView1.yep_setImageOfAttachment(attachments[0], withSize: quarterRect.size)
             }
 
             imageView2.frame = quarterRect
@@ -163,12 +140,7 @@ class FeedMediaView: UIView {
                 imageView2.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[1], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView2.image = image
-                })
+                imageView2.yep_setImageOfAttachment(attachments[1], withSize: quarterRect.size)
             }
 
             imageView3.frame = quarterRect
@@ -178,12 +150,7 @@ class FeedMediaView: UIView {
                 imageView3.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[2], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView3.image = image
-                })
+                imageView3.yep_setImageOfAttachment(attachments[2], withSize: quarterRect.size)
             }
 
             imageView4.frame = quarterRect
@@ -193,12 +160,7 @@ class FeedMediaView: UIView {
                 imageView4.image = thumbnailImage
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachments[3], withSize: quarterRect.size, completion: { [weak self] (url, image) in
-                    guard let strongSelf = self where strongSelf.attachmentURLs.contains(url) else {
-                        return
-                    }
-                    self?.imageView4.image = image
-                })
+                imageView4.yep_setImageOfAttachment(attachments[3], withSize: quarterRect.size)
             }
 
             addSubview(imageView1)

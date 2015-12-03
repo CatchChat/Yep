@@ -137,7 +137,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
-            avatarImageView.navi_setAvatar(userAvatar)
+            avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
     }
 }

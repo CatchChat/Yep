@@ -30,18 +30,18 @@ class ImageCache {
         
         if let withSize = withSize {
             
-            let screenScale = UIScreen.mainScreen().scale * 0.75
+            let screenScale = UIScreen.mainScreen().scale// * 0.75
             
             let deviceSize = CGSizeMake(withSize.width * screenScale, withSize.height * screenScale)
             
             cacheSize = deviceSize
         }
         
-        let attachmentOriginKey = "\(attachmentURL.absoluteString)-\(0)"
+        let attachmentOriginKey = "attachment-\(attachmentURL.absoluteString)"
 
-        let attachmentSizeKey = "\(attachmentURL.absoluteString)-\(cacheSize.width)"
+        let attachmentSizeKey = "attachment-\(cacheSize)-\(attachmentURL.absoluteString)"
         
-        let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: 1.0)
+        let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: UIScreen.mainScreen().scale)
         //查找当前 Size 的 Cache
         
         Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSizeKey, options: OptionsInfos) { (image, type) -> () in
@@ -50,6 +50,7 @@ class ImageCache {
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(url: attachmentURL, image: image)
                 }
+
             } else {
                 
                 //查找原图
@@ -82,36 +83,33 @@ class ImageCache {
                         
                         ImageDownloader.defaultDownloader.downloadImageWithURL(attachmentURL, options: OptionsInfos, progressBlock: { receivedSize, totalSize  in
                             
-                            }, completionHandler: {  image, error , imageURL, originalData in
+                        }, completionHandler: {  image, error , imageURL, originalData in
+                            
+                            if let image = image {
                                 
-                                if let image = image {
-                                    
-                                    Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
-                                    
-                                    var storeImage = image
-                                    
-                                    if cacheSize != CGSizeZero {
-                                        storeImage = storeImage.resizeToTargetSize(cacheSize)
-                                    }
-                                    
-                                    Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
-                                        
-                                    })
-                                    
-                                    let finalImage = storeImage.decodedImage()
-                                    
-                                    println("Image Decode size \(storeImage.size)")
-                                    
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        completion(url: attachmentURL, image: finalImage)
-                                    }
-
-                                } else {
-
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        completion(url: attachmentURL, image: nil)
-                                    }
+                                Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
+                                
+                                var storeImage = image
+                                
+                                if cacheSize != CGSizeZero {
+                                    storeImage = storeImage.resizeToTargetSize(cacheSize)
                                 }
+                                
+                                Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: nil)
+                                
+                                let finalImage = storeImage.decodedImage()
+                                
+                                println("Image Decode size \(storeImage.size)")
+                                
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    completion(url: attachmentURL, image: finalImage)
+                                }
+
+                            } else {
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    completion(url: attachmentURL, image: nil)
+                                }
+                            }
                         })
                     }
                 }

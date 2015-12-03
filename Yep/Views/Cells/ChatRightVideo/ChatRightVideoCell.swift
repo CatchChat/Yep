@@ -86,7 +86,7 @@ class ChatRightVideoCell: ChatRightBaseCell {
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
-            avatarImageView.navi_setAvatar(userAvatar)
+            avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
 
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
