@@ -63,7 +63,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         let avatarSize: CGFloat = 170
         let avatarStyle: AvatarStyle = .Rectangle(size: CGSize(width: avatarSize, height: avatarSize))
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
-        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: bigAvatarFadeTransitionDuration)
 
         if let accountName = discoveredUser.recently_updated_provider, account = SocialAccount(rawValue: accountName) {
             serviceImageView.image = UIImage(named: account.iconName)

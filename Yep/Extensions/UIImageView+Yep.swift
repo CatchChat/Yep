@@ -36,7 +36,7 @@ extension UIImageView {
                 return
             }
 
-            UIView.transitionWithView(strongSelf, duration: imageFadeShowDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
+            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
                 strongSelf.image = image
             }, completion: nil)
         })
@@ -60,7 +60,7 @@ extension UIImageView {
                 return
             }
 
-            UIView.transitionWithView(strongSelf, duration: imageFadeShowDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
+            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
                 strongSelf.image = image
             }, completion: nil)
         })

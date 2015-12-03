@@ -11,12 +11,13 @@ import Ruler
 import CoreLocation
 import Kingfisher
 
-let imageFadeShowDuration: NSTimeInterval = 0.25
-let avatarFadeTransitionDuration: NSTimeInterval = 0.25
+let avatarFadeTransitionDuration: NSTimeInterval = 0.0
+let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.2
+let imageFadeTransitionDuration: NSTimeInterval = 0.3
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
     .Options([.BackgroundDecode, .LowPriority]),
-    .Transition(ImageTransition.Fade(imageFadeShowDuration))
+    .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
 
 class YepConfig {
