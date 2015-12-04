@@ -28,10 +28,11 @@ class ChatRightBaseCell: ChatBaseCell {
                 dotImageView.image = UIImage(named: "icon_dot_sending")
                 dotImageView.hidden = false
                 
-                delay(0.1, work: { [weak self] in
-                    self?.showSendingAnimation()
-                })
-
+                delay(0.1) { [weak self] in
+                    if let messageSendState = self?.messageSendState where messageSendState == .NotSend {
+                        self?.showSendingAnimation()
+                    }
+                }
 
             case MessageSendState.Successed:
                 dotImageView.image = UIImage(named: "icon_dot_unread")
