@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import MonkeyKing
 import Kingfisher
+import Ruler
 
 let mediaPreviewWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
 
@@ -140,19 +141,24 @@ class MediaPreviewViewController: UIViewController {
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
 
+            let fade: (() -> Void)? = { [weak self] in
+                self?.topPreviewImageView.alpha = 0
+                self?.bottomPreviewImageView.alpha = 0
+            }
+
             UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
                 self?.mediaControlView.alpha = 1
 
-            }, completion: nil)
+            }, completion: { _ in
+                Ruler.iPhoneHorizontal(fade, nil, nil).value?()
+            })
             
-            // 原图需要更快的显示出来，避免停留在 thumbnial 太久
-            
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
-                self?.topPreviewImageView.alpha = 0
-                self?.bottomPreviewImageView.alpha = 0
+            UIView.animateWithDuration(0.1, delay: 0.1, options: .CurveLinear, animations: {
+                Ruler.iPhoneHorizontal(nil, fade, fade).value?()
+
             }, completion: { [weak self] _ in
-                    self?.showFinished = true
-                    println("showFinished")
+                self?.showFinished = true
+                println("showFinished")
             })
         })
 
