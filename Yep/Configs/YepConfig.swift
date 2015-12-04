@@ -180,7 +180,7 @@ class YepConfig {
 
         static let minTextWidth: CGFloat = 17
         
-        static let gapBetweenDotImageViewAndBubble: CGFloat = 5
+        static let gapBetweenDotImageViewAndBubble: CGFloat = 13
 
         static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
 
