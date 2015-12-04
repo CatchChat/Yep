@@ -12,8 +12,8 @@ import CoreLocation
 import Kingfisher
 
 let avatarFadeTransitionDuration: NSTimeInterval = 0.0
-let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.2
-let imageFadeTransitionDuration: NSTimeInterval = 0.3
+let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
+let imageFadeTransitionDuration: NSTimeInterval = 0.2
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
     .Options([.BackgroundDecode, .LowPriority]),
@@ -180,7 +180,7 @@ class YepConfig {
 
         static let minTextWidth: CGFloat = 17
         
-        static let gapBetweenDotImageViewAndBubble: CGFloat = 5
+        static let gapBetweenDotImageViewAndBubble: CGFloat = 13
 
         static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
 

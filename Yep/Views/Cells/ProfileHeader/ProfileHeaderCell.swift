@@ -126,7 +126,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         let avatarStyle = AvatarStyle.Original
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
 
-        AvatarPod.wakeAvatar(plainAvatar) { [weak self] finished, image in
+        AvatarPod.wakeAvatar(plainAvatar) { [weak self] finished, image, _ in
 
             if finished {
                 self?.blurImage(image) { blurredImage in

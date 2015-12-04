@@ -477,7 +477,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
                     let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
-                    AvatarPod.wakeAvatar(userAvatar, completion: { _ ,_ in })
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
                 }
             }
         }
