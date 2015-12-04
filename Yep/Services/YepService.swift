@@ -2103,6 +2103,8 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
 
     let message = Message()
 
+    println("send newMessage.createdUnixTime: \(message.createdUnixTime)")
+
     // 确保本地刚创建的消息比任何已有的消息都要新
     if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
         if message.createdUnixTime < latestMessage.createdUnixTime {
