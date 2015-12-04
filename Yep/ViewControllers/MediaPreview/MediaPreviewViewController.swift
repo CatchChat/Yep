@@ -409,19 +409,19 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
 
-        let previewMedia = previewMedias[indexPath.item]
-        configureCell(cell, withPreviewMedia: previewMedia)
+//        let previewMedia = previewMedias[indexPath.item]
+//        configureCell(cell, withPreviewMedia: previewMedia)
 
         return cell
     }
 
-//    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-//
-//        if let cell = cell as? MediaViewCell {
-//            let previewMedia = previewMedias[indexPath.item]
-//            configureCell(cell, withPreviewMedia: previewMedia)
-//        }
-//    }
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+
+        if let cell = cell as? MediaViewCell {
+            let previewMedia = previewMedias[indexPath.item]
+            configureCell(cell, withPreviewMedia: previewMedia)
+        }
+    }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         return UIScreen.mainScreen().bounds.size
