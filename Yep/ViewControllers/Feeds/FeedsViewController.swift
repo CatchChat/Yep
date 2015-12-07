@@ -439,6 +439,12 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
+                    let newFeeds = feeds
+
+                    var needReloadData = false
+
+                    needReloadData = strongSelf.feeds.isEmpty
+
                     if isLoadMore {
                         strongSelf.feeds += feeds
 
@@ -446,10 +452,30 @@ class FeedsViewController: BaseViewController {
                         strongSelf.feeds = feeds
                     }
 
-                    // 确保有新的才 reload
                     if !feeds.isEmpty {
+                        if newFeeds.count == strongSelf.feeds.count {
+
+                            var index = 0
+                            while index < newFeeds.count {
+                                let newFeed = newFeeds[index]
+                                let oldFeed = strongSelf.feeds[index]
+
+                                if newFeed.id != oldFeed.id {
+                                    needReloadData = true
+                                    break
+                                }
+
+                                index += 1
+                            }
+
+                        } else {
+                            needReloadData = true
+                        }
+                    }
+
+                    if needReloadData {
                         println("new feeds, reloadData")
-                        strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                        strongSelf.feedsTableView.reloadData()
                     }
                 }
             }

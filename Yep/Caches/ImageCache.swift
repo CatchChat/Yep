@@ -40,7 +40,7 @@ class ImageCache {
         let attachmentOriginKey = "attachment-0.0-0.0-\(attachmentURL.absoluteString)"
 
         let attachmentSizeKey = "attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
-        
+
         let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: UIScreen.mainScreen().scale)
         //查找当前 Size 的 Cache
         
@@ -49,8 +49,6 @@ class ImageCache {
             if let image = image?.decodedImage() {
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(url: attachmentURL, image: image, cacheType: type)
-
-                    Kingfisher.ImageCache.defaultCache.storeImage(image, forKey: attachmentSizeKey, toDisk: false, completionHandler: nil)
                 }
 
             } else {
