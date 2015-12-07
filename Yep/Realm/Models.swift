@@ -1420,14 +1420,6 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
     messages.forEach { $0.deleteAttachmentInRealm(realm) }
 
-    // delete all mediaMetaDatas
-
-    for message in messages {
-        if let mediaMetaData = message.mediaMetaData {
-            realm.delete(mediaMetaData)
-        }
-    }
-
     // delete all messages in conversation
 
     realm.delete(messages)
@@ -1514,4 +1506,37 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     
     vc.presentViewController(deleteAlertController, animated: true, completion: nil)
 }
+
+func clearOldObjects() {
+
+    guard let realm = try? Realm() else {
+        return
+    }
+
+    realm.beginWrite()
+
+    // 7天前
+    let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+
+    // User
+
+    // Group
+
+    // Message
+
+    do {
+        let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
+        let oldMessages = realm.objects(Message).filter(predicate)
+
+        oldMessages.forEach({
+            $0.deleteAttachmentInRealm(realm)
+            realm.delete($0)
+        })
+    }
+
+    // Feed
+
+    let _ = try? realm.commitWrite()
+}
+
 
