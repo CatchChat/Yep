@@ -1089,10 +1089,6 @@ extension FeedsViewController: PullToRefreshViewDelegate {
 
         pullToRefreshView.refreshTimeoutAction = finish
 
-        let timer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: pulllToRefreshView, selector: "refreshTimeout:", userInfo: nil, repeats: false)
-
-        pullToRefreshView.refreshTimeoutTimer = timer
-
         updateFeeds(finish: finish)
     }
 

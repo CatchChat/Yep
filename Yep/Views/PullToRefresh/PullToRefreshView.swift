@@ -23,12 +23,23 @@ class PullToRefreshView: UIView {
 
     weak var delegate: PullToRefreshViewDelegate?
 
-    var isRefreshing = false
-
     var refreshItems = [RefreshItem]()
 
+    var isRefreshing = false {
+        didSet {
+            if !isRefreshing {
+                refreshTimeoutTimer?.invalidate()
+            }
+        }
+    }
+
     var refreshTimeoutTimer: NSTimer?
-    var refreshTimeoutAction: (() -> Void)?
+    var refreshTimeoutAction: (() -> Void)? {
+        didSet {
+            refreshTimeoutTimer?.invalidate()
+            refreshTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "refreshTimeout:", userInfo: nil, repeats: false)
+        }
+    }
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
