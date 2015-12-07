@@ -177,12 +177,40 @@ class User: Object {
         return linkingObjects(Group.self, forProperty: "members")
     }
 
+    var createdFeeds: [Feed] {
+        return linkingObjects(Feed.self, forProperty: "creator")
+    }
+
     var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
             return userID == myUserID
         }
         
         return false
+    }
+
+    // 级联删除关联的数据对象
+
+    func cascadeDeleteInRealm(realm: Realm) {
+
+        if let avatar = avatar {
+
+            if !avatar.avatarFileName.isEmpty {
+                NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
+            }
+
+            realm.delete(avatar)
+        }
+
+        if let doNotDisturb = doNotDisturb {
+            realm.delete(doNotDisturb)
+        }
+
+        socialAccountProviders.forEach({
+            realm.delete($0)
+        })
+
+        realm.delete(self)
     }
 }
 
@@ -1542,10 +1570,6 @@ func clearUselessRealmObjects() {
 
     realm.beginWrite()
 
-    // User
-
-    // Group
-
     // Message
 
     do {
@@ -1597,6 +1621,34 @@ func clearUselessRealmObjects() {
             }
         })
     }
+
+    // User
+
+    do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+        let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
+        //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
+
+        let strangers = realm.objects(User).filter(predicate)
+
+        // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
+        let realStrangers = strangers.filter({
+            if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
+                return true
+            }
+
+            return false
+        })
+
+        println("realStrangers.count: \(realStrangers.count)")
+
+        realStrangers.forEach({
+            $0.cascadeDeleteInRealm(realm)
+        })
+    }
+
+    // Group
 
     let _ = try? realm.commitWrite()
 }
