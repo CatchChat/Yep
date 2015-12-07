@@ -20,7 +20,7 @@ class ImageCache {
     let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
     
-    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?) -> Void) {
+    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
 
         guard let attachmentURL = NSURL(string: attachment.URLString) else {
             return
@@ -40,15 +40,15 @@ class ImageCache {
         let attachmentOriginKey = "attachment-0.0-0.0-\(attachmentURL.absoluteString)"
 
         let attachmentSizeKey = "attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
-        
+
         let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: UIScreen.mainScreen().scale)
         //查找当前 Size 的 Cache
         
         Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSizeKey, options: OptionsInfos) { (image, type) -> () in
-            
+
             if let image = image?.decodedImage() {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion(url: attachmentURL, image: image)
+                    completion(url: attachmentURL, image: image, cacheType: type)
                 }
 
             } else {
@@ -72,7 +72,7 @@ class ImageCache {
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(url: attachmentURL, image: finalImage)
+                            completion(url: attachmentURL, image: finalImage, cacheType: type)
                         }
                         
                     } else {
@@ -100,12 +100,12 @@ class ImageCache {
                                 println("Image Decode size \(storeImage.size)")
                                 
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    completion(url: attachmentURL, image: finalImage)
+                                    completion(url: attachmentURL, image: finalImage, cacheType: .None)
                                 }
 
                             } else {
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    completion(url: attachmentURL, image: nil)
+                                    completion(url: attachmentURL, image: nil, cacheType: .None)
                                 }
                             }
                         })

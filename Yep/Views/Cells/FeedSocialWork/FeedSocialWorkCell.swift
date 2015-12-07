@@ -340,6 +340,7 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationMapImageView.maskView = socialWorkMaskImageView
 
             socialWorkContainerViewHeightConstraint.constant = 110
+            contentView.layoutIfNeeded()
 
         default:
             break

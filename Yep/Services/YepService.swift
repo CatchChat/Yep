@@ -2860,13 +2860,16 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     //let parse = parseFeeds
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
 
-        if let realm = try? Realm() {
-            if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
+        // 只离线第一页
+        if pageIndex == 1 {
+            if let realm = try? Realm() {
+                if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
 
-                let offlineJSON = OfflineJSON(name: OfflineJSONName.Feeds.rawValue, data: offlineData)
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.Feeds.rawValue, data: offlineData)
 
-                let _ = try? realm.write {
-                    realm.add(offlineJSON, update: true)
+                    let _ = try? realm.write {
+                        realm.add(offlineJSON, update: true)
+                    }
                 }
             }
         }

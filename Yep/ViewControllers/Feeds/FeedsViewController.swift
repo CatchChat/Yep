@@ -204,7 +204,7 @@ class FeedsViewController: BaseViewController {
             filterBarItem?.title = feedSortStyle.nameWithArrow
 
             updateFeeds()
-            
+
             YepUserDefaults.feedSortStyle.value = feedSortStyle.rawValue
         }
     }
@@ -287,6 +287,7 @@ class FeedsViewController: BaseViewController {
 
         // 没有 profileUser 才设置 feedSortStyle 以请求服务器
         if profileUser == nil {
+
             if let
                 value = YepUserDefaults.feedSortStyle.value,
                 _feedSortStyle = FeedSortStyle(rawValue: value) {
@@ -438,16 +439,47 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
+                    let newFeeds = feeds
+                    let oldFeeds = strongSelf.feeds
+
+                    var needReloadData = false
+
+                    needReloadData = strongSelf.feeds.isEmpty
+
                     if isLoadMore {
                         strongSelf.feeds += feeds
+
+                        needReloadData = true
 
                     } else {
                         strongSelf.feeds = feeds
                     }
 
-                    // 确保有新的才 reload
-                    if !feeds.isEmpty {
-                        strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
+                    if !needReloadData && !newFeeds.isEmpty {
+
+                        if newFeeds.count == oldFeeds.count {
+
+                            var index = 0
+                            while index < newFeeds.count {
+                                let newFeed = newFeeds[index]
+                                let oldFeed = oldFeeds[index]
+
+                                if newFeed.id != oldFeed.id {
+                                    needReloadData = true
+                                    break
+                                }
+
+                                index += 1
+                            }
+
+                        } else {
+                            needReloadData = true
+                        }
+                    }
+
+                    if needReloadData {
+                        println("new feeds, reloadData")
+                        strongSelf.feedsTableView.reloadData()
                     }
                 }
             }
