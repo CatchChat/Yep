@@ -27,6 +27,9 @@ class PullToRefreshView: UIView {
 
     var refreshItems = [RefreshItem]()
 
+    var refreshTimeoutTimer: NSTimer?
+    var refreshTimeoutAction: (() -> Void)?
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
@@ -94,6 +97,11 @@ class PullToRefreshView: UIView {
 
             self.refreshView.updateRamdonShapePositions()
         })
+    }
+
+    func refreshTimeout(timer: NSTimer) {
+        println("PullToRefreshView refreshTimeout")
+        refreshTimeoutAction?()
     }
 }
 
