@@ -929,19 +929,9 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
     // save feed
     
-    if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
+    var _feed = feedWithFeedID(feedData.id, inRealm: realm)
 
-        feed.kind = feedData.kind.rawValue
-        feed.deleted = false
-
-        #if DEBUG
-        if feed.group == nil {
-            println("feed have not with group, it may old (not deleted with conversation before)")
-        }
-        #endif
-        
-    } else {
+    if _feed == nil {
         let newFeed = Feed()
         newFeed.feedID = feedData.id
         newFeed.allowComment = feedData.allowComment
@@ -949,106 +939,144 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
         newFeed.updatedUnixTime = feedData.updatedUnixTime
         newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
-        newFeed.kind = feedData.kind.rawValue
-        newFeed.deleted = false
-        
-        if let distance = feedData.distance {
-            newFeed.distance = distance
-        }
-        
-        newFeed.messagesCount = feedData.messagesCount
-        
+
         if let feedSkill = feedData.skill {
             newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
         }
 
-        if let attachment = feedData.attachment {
-
-            switch attachment {
-
-            case .Images(let attachments):
-
-                newFeed.attachments.removeAll()
-                let attachments = attachmentFromDiscoveredAttachment(attachments)
-                newFeed.attachments.appendContentsOf(attachments)
-
-            case .Github(let repo):
-
-                let socialWork = MessageSocialWork()
-                socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
-
-                let repoID = repo.ID//(repo.ID as NSString).integerValue
-                var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
-
-                if socialWorkGithubRepo == nil {
-                    let newSocialWorkGithubRepo = SocialWorkGithubRepo()
-                    newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
-
-                    realm.add(newSocialWorkGithubRepo)
-
-                    socialWorkGithubRepo = newSocialWorkGithubRepo
-                }
-
-                if let socialWorkGithubRepo = socialWorkGithubRepo {
-                    socialWorkGithubRepo.synced = true
-                }
-
-                socialWork.githubRepo = socialWorkGithubRepo
-                
-                newFeed.socialWork = socialWork
-
-            case .Dribbble(let shot):
-
-                let socialWork = MessageSocialWork()
-                socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
-
-                let shotID = shot.ID//(shot.ID as NSString).integerValue
-                var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
-
-                if socialWorkDribbbleShot == nil {
-                    let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
-                    newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
-
-                    realm.add(newSocialWorkDribbbleShot)
-
-                    socialWorkDribbbleShot = newSocialWorkDribbbleShot
-                }
-
-                if let socialWorkDribbbleShot = socialWorkDribbbleShot {
-                    socialWorkDribbbleShot.synced = true
-                }
-
-                socialWork.dribbbleShot = socialWorkDribbbleShot
-
-                newFeed.socialWork = socialWork
-
-            case .Audio(let audioInfo):
-
-                let feedAudio = FeedAudio()
-                feedAudio.feedID = audioInfo.feedID
-                feedAudio.URLString = audioInfo.URLString
-                feedAudio.metadata = audioInfo.metaData
-
-                newFeed.audio = feedAudio
-
-            case .Location(let locationInfo):
-
-                let feedLocation = FeedLocation()
-                feedLocation.name = locationInfo.name
-
-                let coordinate = Coordinate()
-                coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
-                feedLocation.coordinate = coordinate
-
-                newFeed.location = feedLocation
-            }
-        }
-
-        newFeed.group = group
-        
-        group.groupType = GroupType.Public.rawValue
-
         realm.add(newFeed)
+
+        _feed = newFeed
+
+    } else {
+        #if DEBUG
+            if _feed?.group == nil {
+                println("feed have not with group, it may old (not deleted with conversation before)")
+            }
+        #endif
+    }
+
+    guard let feed = _feed else {
+        return
+    }
+
+    // update feed
+
+    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+
+    feed.kind = feedData.kind.rawValue
+    feed.deleted = false
+
+    feed.group = group
+
+    group.groupType = GroupType.Public.rawValue
+
+    if let distance = feedData.distance {
+        feed.distance = distance
+    }
+
+    feed.messagesCount = feedData.messagesCount
+
+    if let attachment = feedData.attachment {
+
+        switch attachment {
+
+        case .Images(let attachments):
+
+            guard feed.attachments.isEmpty else {
+                break
+            }
+
+            feed.attachments.removeAll()
+            let attachments = attachmentFromDiscoveredAttachment(attachments)
+            feed.attachments.appendContentsOf(attachments)
+
+        case .Github(let repo):
+
+            guard feed.socialWork?.githubRepo == nil else {
+                break
+            }
+
+            let socialWork = MessageSocialWork()
+            socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
+
+            let repoID = repo.ID
+            var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+            if socialWorkGithubRepo == nil {
+                let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
+
+                realm.add(newSocialWorkGithubRepo)
+
+                socialWorkGithubRepo = newSocialWorkGithubRepo
+            }
+
+            if let socialWorkGithubRepo = socialWorkGithubRepo {
+                socialWorkGithubRepo.synced = true
+            }
+
+            socialWork.githubRepo = socialWorkGithubRepo
+
+            feed.socialWork = socialWork
+
+        case .Dribbble(let shot):
+
+            guard feed.socialWork?.dribbbleShot == nil else {
+                break
+            }
+
+            let socialWork = MessageSocialWork()
+            socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+
+            let shotID = shot.ID
+            var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+            if socialWorkDribbbleShot == nil {
+                let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
+
+                realm.add(newSocialWorkDribbbleShot)
+
+                socialWorkDribbbleShot = newSocialWorkDribbbleShot
+            }
+
+            if let socialWorkDribbbleShot = socialWorkDribbbleShot {
+                socialWorkDribbbleShot.synced = true
+            }
+
+            socialWork.dribbbleShot = socialWorkDribbbleShot
+
+            feed.socialWork = socialWork
+
+        case .Audio(let audioInfo):
+
+            guard feed.audio == nil else {
+                break
+            }
+
+            let feedAudio = FeedAudio()
+            feedAudio.feedID = audioInfo.feedID
+            feedAudio.URLString = audioInfo.URLString
+            feedAudio.metadata = audioInfo.metaData
+
+            feed.audio = feedAudio
+
+        case .Location(let locationInfo):
+
+            guard feed.location == nil else {
+                break
+            }
+
+            let feedLocation = FeedLocation()
+            feedLocation.name = locationInfo.name
+
+            let coordinate = Coordinate()
+            coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
+            feedLocation.coordinate = coordinate
+
+            feed.location = feedLocation
+        }
     }
 }
 
