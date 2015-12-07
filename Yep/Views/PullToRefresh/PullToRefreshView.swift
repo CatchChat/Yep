@@ -85,11 +85,16 @@ class PullToRefreshView: UIView {
 
     func endRefreshingAndDoFurtherAction(furtherAction: () -> Void) {
 
+        guard isRefreshing else {
+            return
+        }
+
+        isRefreshing = false
+
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.delegate?.scrollView().contentInset.top -= sceneHeight
 
         }, completion: { (_) -> Void in
-            self.isRefreshing = false
 
             furtherAction()
             
