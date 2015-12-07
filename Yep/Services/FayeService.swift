@@ -176,14 +176,16 @@ class FayeService: NSObject, MZFayeClientDelegate {
                                     if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
                                         
                                         if let
-                                            last_read_at = messageDataInfo["last_read_at"] as? NSTimeInterval,
-                                            recipient_type = messageDataInfo["recipient_type"] as? String,
-                                            recipient_id = messageDataInfo["recipient_id"] as? String {
+                                            lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
+                                            recipientType = messageDataInfo["recipient_type"] as? String,
+                                            recipientID = messageDataInfo["recipient_id"] as? String {
                                                 
-                                                println("Mark recipient_id \(recipient_id) As Read")
+                                                println("Mark recipient_id \(recipientID) As Read")
+
+                                                let lastReadAt = lastReadAt + 5 // 治标：服务器返回的时间可能较旧，会导致最后一条消息无法被标记
 
                                                 dispatch_async(dispatch_get_main_queue()) {
-                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": last_read_at, "recipient_type": recipient_type, "recipient_id": recipient_id])
+                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "recipient_type": recipientType, "recipient_id": recipientID])
                                                    //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                                                 }
                                         }

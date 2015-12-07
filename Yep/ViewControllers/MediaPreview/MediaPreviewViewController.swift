@@ -408,6 +408,10 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
+
+//        let previewMedia = previewMedias[indexPath.item]
+//        configureCell(cell, withPreviewMedia: previewMedia)
+
         return cell
     }
 

@@ -1081,13 +1081,17 @@ extension FeedsViewController: PullToRefreshViewDelegate {
 
         activityIndicator.alpha = 0
 
-        updateFeeds { [weak self] in
+        let finish: () -> Void = { [weak self] in
             pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
 
             self?.activityIndicator.alpha = 1
         }
+
+        pullToRefreshView.refreshTimeoutAction = finish
+
+        updateFeeds(finish: finish)
     }
-    
+
     func scrollView() -> UIScrollView {
         return feedsTableView
     }

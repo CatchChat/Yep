@@ -23,9 +23,23 @@ class PullToRefreshView: UIView {
 
     weak var delegate: PullToRefreshViewDelegate?
 
-    var isRefreshing = false
-
     var refreshItems = [RefreshItem]()
+
+    var isRefreshing = false {
+        didSet {
+            if !isRefreshing {
+                refreshTimeoutTimer?.invalidate()
+            }
+        }
+    }
+
+    var refreshTimeoutTimer: NSTimer?
+    var refreshTimeoutAction: (() -> Void)? {
+        didSet {
+            refreshTimeoutTimer?.invalidate()
+            refreshTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "refreshTimeout:", userInfo: nil, repeats: false)
+        }
+    }
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -82,11 +96,16 @@ class PullToRefreshView: UIView {
 
     func endRefreshingAndDoFurtherAction(furtherAction: () -> Void) {
 
+        guard isRefreshing else {
+            return
+        }
+
+        isRefreshing = false
+
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.delegate?.scrollView().contentInset.top -= sceneHeight
 
         }, completion: { (_) -> Void in
-            self.isRefreshing = false
 
             furtherAction()
             
@@ -94,6 +113,11 @@ class PullToRefreshView: UIView {
 
             self.refreshView.updateRamdonShapePositions()
         })
+    }
+
+    func refreshTimeout(timer: NSTimer) {
+        println("PullToRefreshView refreshTimeout")
+        refreshTimeoutAction?()
     }
 }
 

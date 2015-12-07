@@ -18,6 +18,11 @@ class MediaControlView: UIView {
 
     var type: Type = .Video {
         didSet {
+
+            guard type != oldValue else {
+                return
+            }
+
             switch type {
                 
             case .Image:

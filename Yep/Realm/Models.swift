@@ -177,12 +177,40 @@ class User: Object {
         return linkingObjects(Group.self, forProperty: "members")
     }
 
+    var createdFeeds: [Feed] {
+        return linkingObjects(Feed.self, forProperty: "creator")
+    }
+
     var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
             return userID == myUserID
         }
         
         return false
+    }
+
+    // 级联删除关联的数据对象
+
+    func cascadeDeleteInRealm(realm: Realm) {
+
+        if let avatar = avatar {
+
+            if !avatar.avatarFileName.isEmpty {
+                NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
+            }
+
+            realm.delete(avatar)
+        }
+
+        if let doNotDisturb = doNotDisturb {
+            realm.delete(doNotDisturb)
+        }
+
+        socialAccountProviders.forEach({
+            realm.delete($0)
+        })
+
+        realm.delete(self)
     }
 }
 
@@ -709,6 +737,15 @@ class FeedAudio: Object {
 
         return nil
     }
+
+    func deleteAudioFile() {
+
+        guard !fileName.isEmpty else {
+            return
+        }
+
+        NSFileManager.removeMessageAudioFileWithName(fileName)
+    }
 }
 
 class FeedLocation: Object {
@@ -765,6 +802,22 @@ class Feed: Object {
             }
 
             realm.delete(socialWork)
+        }
+
+        if let audio = audio {
+
+            audio.deleteAudioFile()
+
+            realm.delete(audio)
+        }
+
+        if let location = location {
+
+            if let coordinate = location.coordinate {
+                realm.delete(coordinate)
+            }
+
+            realm.delete(location)
         }
 
         realm.delete(self)
@@ -925,55 +978,13 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 }
 
-/*
-func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-
-    println("saveFeedWithFeedDataWithoutFullGroup joinGroup")
-
-    // try sync group first
-
-    let groupID = group.groupID
-    
-    joinGroup(groupID: groupID, failureHandler: nil, completion: {
-
-        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
-            
-            guard let realm = try? Realm() else {
-                return
-            }
-            
-            //println("feed groupInfo: \(groupInfo)")
-            
-            syncGroupWithGroupInfo(groupInfo, inRealm: realm)
-            
-            // now try save feed with full group
-            
-            if let group = groupWithGroupID(groupID, inRealm: realm) {
-                saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-            }
-        })
-    })
-}
-*/
-
 func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-//func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // save feed
     
-    if let feed = feedWithFeedID(feedData.id, inRealm: realm) {
-        println("saveFeed: \(feedData.kind.rawValue), \(feed.feedID), do nothing.")
+    var _feed = feedWithFeedID(feedData.id, inRealm: realm)
 
-        feed.kind = feedData.kind.rawValue
-        feed.deleted = false
-
-        #if DEBUG
-        if feed.group == nil {
-            println("feed have not with group, it may old (not deleted with conversation before)")
-        }
-        #endif
-        
-    } else {
+    if _feed == nil {
         let newFeed = Feed()
         newFeed.feedID = feedData.id
         newFeed.allowComment = feedData.allowComment
@@ -981,105 +992,144 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
         newFeed.updatedUnixTime = feedData.updatedUnixTime
         newFeed.creator = getOrCreateUserWithDiscoverUser(feedData.creator, inRealm: realm)
         newFeed.body = feedData.body
-        newFeed.kind = feedData.kind.rawValue
-        newFeed.deleted = false
-        
-        if let distance = feedData.distance {
-            newFeed.distance = distance
-        }
-        
-        newFeed.messagesCount = feedData.messagesCount
-        
+
         if let feedSkill = feedData.skill {
             newFeed.skill = userSkillsFromSkills([feedSkill], inRealm: realm).first
         }
 
-        if let attachment = feedData.attachment {
-
-            switch attachment {
-
-            case .Images(let attachments):
-
-                newFeed.attachments.removeAll()
-                let attachments = attachmentFromDiscoveredAttachment(attachments)
-                newFeed.attachments.appendContentsOf(attachments)
-
-            case .Github(let repo):
-
-                let socialWork = MessageSocialWork()
-                socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
-
-                let repoID = repo.ID//(repo.ID as NSString).integerValue
-                var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
-
-                if socialWorkGithubRepo == nil {
-                    let newSocialWorkGithubRepo = SocialWorkGithubRepo()
-                    newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
-
-                    realm.add(newSocialWorkGithubRepo)
-
-                    socialWorkGithubRepo = newSocialWorkGithubRepo
-                }
-
-                if let socialWorkGithubRepo = socialWorkGithubRepo {
-                    socialWorkGithubRepo.synced = true
-                }
-
-                socialWork.githubRepo = socialWorkGithubRepo
-                
-                newFeed.socialWork = socialWork
-
-            case .Dribbble(let shot):
-
-                let socialWork = MessageSocialWork()
-                socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
-
-                let shotID = shot.ID//(shot.ID as NSString).integerValue
-                var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
-
-                if socialWorkDribbbleShot == nil {
-                    let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
-                    newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
-
-                    realm.add(newSocialWorkDribbbleShot)
-
-                    socialWorkDribbbleShot = newSocialWorkDribbbleShot
-                }
-
-                if let socialWorkDribbbleShot = socialWorkDribbbleShot {
-                    socialWorkDribbbleShot.synced = true
-                }
-
-                socialWork.dribbbleShot = socialWorkDribbbleShot
-
-                newFeed.socialWork = socialWork
-
-            case .Audio(let audioInfo):
-
-                let feedAudio = FeedAudio()
-                feedAudio.feedID = audioInfo.feedID
-                feedAudio.URLString = audioInfo.URLString
-                feedAudio.metadata = audioInfo.metaData
-
-                newFeed.audio = feedAudio
-
-            case .Location(let locationInfo):
-
-                let feedLocation = FeedLocation()
-                feedLocation.name = locationInfo.name
-
-                let coordinate = Coordinate()
-                coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
-                feedLocation.coordinate = coordinate
-
-                newFeed.location = feedLocation
-            }
-        }
-
-        newFeed.group = group
-        
-        group.groupType = GroupType.Public.rawValue
         realm.add(newFeed)
+
+        _feed = newFeed
+
+    } else {
+        #if DEBUG
+            if _feed?.group == nil {
+                println("feed have not with group, it may old (not deleted with conversation before)")
+            }
+        #endif
+    }
+
+    guard let feed = _feed else {
+        return
+    }
+
+    // update feed
+
+    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+
+    feed.kind = feedData.kind.rawValue
+    feed.deleted = false
+
+    feed.group = group
+
+    group.groupType = GroupType.Public.rawValue
+
+    if let distance = feedData.distance {
+        feed.distance = distance
+    }
+
+    feed.messagesCount = feedData.messagesCount
+
+    if let attachment = feedData.attachment {
+
+        switch attachment {
+
+        case .Images(let attachments):
+
+            guard feed.attachments.isEmpty else {
+                break
+            }
+
+            feed.attachments.removeAll()
+            let attachments = attachmentFromDiscoveredAttachment(attachments)
+            feed.attachments.appendContentsOf(attachments)
+
+        case .Github(let repo):
+
+            guard feed.socialWork?.githubRepo == nil else {
+                break
+            }
+
+            let socialWork = MessageSocialWork()
+            socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
+
+            let repoID = repo.ID
+            var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
+
+            if socialWorkGithubRepo == nil {
+                let newSocialWorkGithubRepo = SocialWorkGithubRepo()
+                newSocialWorkGithubRepo.fillWithFeedGithubRepo(repo)
+
+                realm.add(newSocialWorkGithubRepo)
+
+                socialWorkGithubRepo = newSocialWorkGithubRepo
+            }
+
+            if let socialWorkGithubRepo = socialWorkGithubRepo {
+                socialWorkGithubRepo.synced = true
+            }
+
+            socialWork.githubRepo = socialWorkGithubRepo
+
+            feed.socialWork = socialWork
+
+        case .Dribbble(let shot):
+
+            guard feed.socialWork?.dribbbleShot == nil else {
+                break
+            }
+
+            let socialWork = MessageSocialWork()
+            socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+
+            let shotID = shot.ID
+            var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
+
+            if socialWorkDribbbleShot == nil {
+                let newSocialWorkDribbbleShot = SocialWorkDribbbleShot()
+                newSocialWorkDribbbleShot.fillWithFeedDribbbleShot(shot)
+
+                realm.add(newSocialWorkDribbbleShot)
+
+                socialWorkDribbbleShot = newSocialWorkDribbbleShot
+            }
+
+            if let socialWorkDribbbleShot = socialWorkDribbbleShot {
+                socialWorkDribbbleShot.synced = true
+            }
+
+            socialWork.dribbbleShot = socialWorkDribbbleShot
+
+            feed.socialWork = socialWork
+
+        case .Audio(let audioInfo):
+
+            guard feed.audio == nil else {
+                break
+            }
+
+            let feedAudio = FeedAudio()
+            feedAudio.feedID = audioInfo.feedID
+            feedAudio.URLString = audioInfo.URLString
+            feedAudio.metadata = audioInfo.metaData
+
+            feed.audio = feedAudio
+
+        case .Location(let locationInfo):
+
+            guard feed.location == nil else {
+                break
+            }
+
+            let feedLocation = FeedLocation()
+            feedLocation.name = locationInfo.name
+
+            let coordinate = Coordinate()
+            coordinate.safeConfigureWithLatitude(locationInfo.latitude, longitude:locationInfo.longitude)
+            feedLocation.coordinate = coordinate
+
+            feed.location = feedLocation
+        }
     }
 }
 
@@ -1091,44 +1141,6 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     let predicate = NSPredicate(format: "messageID = %@", messageID)
 
     let messages = realm.objects(Message).filter(predicate)
-
-    /*
-    if messages.count > 1 {
-        
-        println("Warning: same messageID: \(messages.count), \(messageID)")
-        
-        // Remove if dupicated
-        while messages.count > 1 {
-            if let message = messages.last {
-                
-                let messageID = message.messageID
-                
-                if let userID = YepUserDefaults.userID.value,
-                    nickname = YepUserDefaults.nickname.value{
-                        Answers.logCustomEventWithName("Dupicated Message",
-                            customAttributes: [
-                                "userID": userID,
-                                "nickname": nickname,
-                                "messageID": messageID,
-                                "time": NSDate().description
-                            ])
-                        
-                }
-                
-                let _ = try? realm.write {
-                    realm.delete(message)
-                }
-            }
-        }
-        
-//        // 治标未读
-//        let _ = try? realm.write {
-//            for message in messages {
-//                message.readed = true
-//            }
-//        }
-    }
-    */
 
     return messages.first
 }
@@ -1461,14 +1473,6 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
     messages.forEach { $0.deleteAttachmentInRealm(realm) }
 
-    // delete all mediaMetaDatas
-
-    for message in messages {
-        if let mediaMetaData = message.mediaMetaData {
-            realm.delete(mediaMetaData)
-        }
-    }
-
     // delete all messages in conversation
 
     realm.delete(messages)
@@ -1554,5 +1558,98 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     deleteAlertController.addAction(cancelAction)
     
     vc.presentViewController(deleteAlertController, animated: true, completion: nil)
+}
+
+func clearUselessRealmObjects() {
+
+    guard let realm = try? Realm() else {
+        return
+    }
+
+    println("do clearUselessRealmObjects")
+
+    realm.beginWrite()
+
+    // Message
+
+    do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+
+        let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
+        let oldMessages = realm.objects(Message).filter(predicate)
+
+        println("oldMessages.count: \(oldMessages.count)")
+
+        oldMessages.forEach({
+            $0.deleteAttachmentInRealm(realm)
+            realm.delete($0)
+        })
+    }
+
+    // Feed
+
+    do {
+        let predicate = NSPredicate(format: "group == nil")
+        let noGroupFeeds = realm.objects(Feed).filter(predicate)
+
+        println("noGroupFeeds.count: \(noGroupFeeds.count)")
+
+        noGroupFeeds.forEach({
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
+        })
+    }
+
+    do {
+        // 2天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
+
+        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
+        let notJoinedFeeds = realm.objects(Feed).filter(predicate)
+
+        println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
+
+        notJoinedFeeds.forEach({
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
+        })
+    }
+
+    // User
+
+    do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+        let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
+        //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
+
+        let strangers = realm.objects(User).filter(predicate)
+
+        // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
+        let realStrangers = strangers.filter({
+            if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
+                return true
+            }
+
+            return false
+        })
+
+        println("realStrangers.count: \(realStrangers.count)")
+
+        realStrangers.forEach({
+            $0.cascadeDeleteInRealm(realm)
+        })
+    }
+
+    // Group
+
+    let _ = try? realm.commitWrite()
 }
 

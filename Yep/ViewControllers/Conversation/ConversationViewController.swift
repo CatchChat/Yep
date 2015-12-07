@@ -1998,6 +1998,8 @@ class ConversationViewController: BaseViewController {
 
     private func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval) {
 
+        println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime)")
+
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
             guard let recipient = self?.conversation.recipient else {
@@ -2042,7 +2044,7 @@ class ConversationViewController: BaseViewController {
         }
 
         if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
-            self.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+            markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
         }
     }
 
