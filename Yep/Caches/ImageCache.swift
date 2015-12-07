@@ -20,7 +20,7 @@ class ImageCache {
     let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
     
-    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?) -> Void) {
+    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
 
         guard let attachmentURL = NSURL(string: attachment.URLString) else {
             return
@@ -48,7 +48,7 @@ class ImageCache {
             
             if let image = image?.decodedImage() {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completion(url: attachmentURL, image: image)
+                    completion(url: attachmentURL, image: image, cacheType: type)
                 }
 
             } else {
@@ -72,7 +72,7 @@ class ImageCache {
                         }
                         
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(url: attachmentURL, image: finalImage)
+                            completion(url: attachmentURL, image: finalImage, cacheType: type)
                         }
                         
                     } else {
@@ -100,12 +100,12 @@ class ImageCache {
                                 println("Image Decode size \(storeImage.size)")
                                 
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    completion(url: attachmentURL, image: finalImage)
+                                    completion(url: attachmentURL, image: finalImage, cacheType: .None)
                                 }
 
                             } else {
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    completion(url: attachmentURL, image: nil)
+                                    completion(url: attachmentURL, image: nil, cacheType: .None)
                                 }
                             }
                         })

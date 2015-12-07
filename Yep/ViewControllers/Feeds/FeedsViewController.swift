@@ -198,7 +198,7 @@ class FeedsViewController: BaseViewController {
     
     var feedSortStyle: FeedSortStyle = .Match {
         didSet {
-            feeds = []
+            //feeds = []
             feedsTableView.reloadData()
 
             filterBarItem?.title = feedSortStyle.nameWithArrow
@@ -447,6 +447,7 @@ class FeedsViewController: BaseViewController {
 
                     // 确保有新的才 reload
                     if !feeds.isEmpty {
+                        println("new feeds, reloadData")
                         strongSelf.feedsTableView.reloadData() // 服务端有新的排序算法，以及避免刷新后消息数字更新不及时的问题
                     }
                 }
