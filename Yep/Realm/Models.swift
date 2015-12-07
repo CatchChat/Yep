@@ -709,6 +709,15 @@ class FeedAudio: Object {
 
         return nil
     }
+
+    func deleteAudioFile() {
+
+        guard !fileName.isEmpty else {
+            return
+        }
+
+        NSFileManager.removeMessageAudioFileWithName(fileName)
+    }
 }
 
 class FeedLocation: Object {
@@ -765,6 +774,22 @@ class Feed: Object {
             }
 
             realm.delete(socialWork)
+        }
+
+        if let audio = audio {
+
+            audio.deleteAudioFile()
+
+            realm.delete(audio)
+        }
+
+        if let location = location {
+
+            if let coordinate = location.coordinate {
+                realm.delete(coordinate)
+            }
+
+            realm.delete(location)
         }
 
         realm.delete(self)
@@ -1507,16 +1532,15 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     vc.presentViewController(deleteAlertController, animated: true, completion: nil)
 }
 
-func clearOldObjects() {
+func clearUselessRealmObjects() {
 
     guard let realm = try? Realm() else {
         return
     }
 
-    realm.beginWrite()
+    println("do clearUselessRealmObjects")
 
-    // 7天前
-    let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+    realm.beginWrite()
 
     // User
 
@@ -1525,8 +1549,13 @@ func clearOldObjects() {
     // Message
 
     do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 1)).timeIntervalSince1970
+
         let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
         let oldMessages = realm.objects(Message).filter(predicate)
+
+        println("oldMessages.count: \(oldMessages.count)")
 
         oldMessages.forEach({
             $0.deleteAttachmentInRealm(realm)
@@ -1535,6 +1564,28 @@ func clearOldObjects() {
     }
 
     // Feed
+
+    do {
+        let predicate = NSPredicate(format: "group == nil")
+        let noGroupFeeds = realm.objects(Feed).filter(predicate)
+
+        println("noGroupFeeds.count: \(noGroupFeeds.count)")
+
+        noGroupFeeds.forEach({
+            $0.cascadeDeleteInRealm(realm)
+        })
+    }
+
+    do {
+        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false")
+        let notJoinedFeeds = realm.objects(Feed).filter(predicate)
+
+        println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
+
+        notJoinedFeeds.forEach({
+            $0.cascadeDeleteInRealm(realm)
+        })
+    }
 
     let _ = try? realm.commitWrite()
 }
