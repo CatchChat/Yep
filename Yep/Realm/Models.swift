@@ -1572,7 +1572,11 @@ func clearUselessRealmObjects() {
         println("noGroupFeeds.count: \(noGroupFeeds.count)")
 
         noGroupFeeds.forEach({
-            $0.cascadeDeleteInRealm(realm)
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
         })
     }
 
@@ -1586,7 +1590,11 @@ func clearUselessRealmObjects() {
         println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
 
         notJoinedFeeds.forEach({
-            $0.cascadeDeleteInRealm(realm)
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
         })
     }
 
