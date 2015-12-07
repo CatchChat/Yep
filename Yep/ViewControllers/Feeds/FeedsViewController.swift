@@ -440,6 +440,7 @@ class FeedsViewController: BaseViewController {
                 if let strongSelf = self {
 
                     let newFeeds = feeds
+                    let oldFeeds = strongSelf.feeds
 
                     var needReloadData = false
 
@@ -448,18 +449,20 @@ class FeedsViewController: BaseViewController {
                     if isLoadMore {
                         strongSelf.feeds += feeds
 
+                        needReloadData = true
+
                     } else {
                         strongSelf.feeds = feeds
                     }
 
-                    if !needReloadData && !feeds.isEmpty {
+                    if !needReloadData && !newFeeds.isEmpty {
 
-                        if newFeeds.count == strongSelf.feeds.count {
+                        if newFeeds.count == oldFeeds.count {
 
                             var index = 0
                             while index < newFeeds.count {
                                 let newFeed = newFeeds[index]
-                                let oldFeed = strongSelf.feeds[index]
+                                let oldFeed = oldFeeds[index]
 
                                 if newFeed.id != oldFeed.id {
                                     needReloadData = true
