@@ -41,13 +41,11 @@ extension UIImageView {
                     strongSelf.image = image
                 }, completion: nil)
 
-                println("cacheType != .Memory")
-
             } else {
                 strongSelf.image = image
-
-                println("cacheType == .Memory")
             }
+
+            println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 

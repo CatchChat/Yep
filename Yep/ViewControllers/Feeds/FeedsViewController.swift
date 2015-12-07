@@ -198,13 +198,13 @@ class FeedsViewController: BaseViewController {
     
     var feedSortStyle: FeedSortStyle = .Match {
         didSet {
-            //feeds = []
+            feeds = []
             feedsTableView.reloadData()
 
             filterBarItem?.title = feedSortStyle.nameWithArrow
 
             updateFeeds()
-            
+
             YepUserDefaults.feedSortStyle.value = feedSortStyle.rawValue
         }
     }
@@ -287,6 +287,7 @@ class FeedsViewController: BaseViewController {
 
         // 没有 profileUser 才设置 feedSortStyle 以请求服务器
         if profileUser == nil {
+
             if let
                 value = YepUserDefaults.feedSortStyle.value,
                 _feedSortStyle = FeedSortStyle(rawValue: value) {

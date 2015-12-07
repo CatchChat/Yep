@@ -45,10 +45,12 @@ class ImageCache {
         //查找当前 Size 的 Cache
         
         Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSizeKey, options: OptionsInfos) { (image, type) -> () in
-            
+
             if let image = image?.decodedImage() {
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(url: attachmentURL, image: image, cacheType: type)
+
+                    Kingfisher.ImageCache.defaultCache.storeImage(image, forKey: attachmentSizeKey, toDisk: false, completionHandler: nil)
                 }
 
             } else {
