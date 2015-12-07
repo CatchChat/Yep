@@ -452,7 +452,8 @@ class FeedsViewController: BaseViewController {
                         strongSelf.feeds = feeds
                     }
 
-                    if !feeds.isEmpty {
+                    if !needReloadData && !feeds.isEmpty {
+
                         if newFeeds.count == strongSelf.feeds.count {
 
                             var index = 0
