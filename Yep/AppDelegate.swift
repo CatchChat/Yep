@@ -117,8 +117,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Enter background")
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
-
-        clearUselessRealmObjects()
     }
 
     func applicationWillEnterForeground(application: UIApplication) {

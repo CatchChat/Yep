@@ -1550,7 +1550,7 @@ func clearUselessRealmObjects() {
 
     do {
         // 7天前
-        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 1)).timeIntervalSince1970
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
 
         let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
         let oldMessages = realm.objects(Message).filter(predicate)
@@ -1577,7 +1577,10 @@ func clearUselessRealmObjects() {
     }
 
     do {
-        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false")
+        // 2天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
+
+        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
         let notJoinedFeeds = realm.objects(Feed).filter(predicate)
 
         println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
@@ -1589,5 +1592,4 @@ func clearUselessRealmObjects() {
 
     let _ = try? realm.commitWrite()
 }
-
 
