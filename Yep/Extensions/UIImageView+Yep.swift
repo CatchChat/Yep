@@ -30,15 +30,22 @@ extension UIImageView {
 
         yep_setAttachmentURL(attachmentURL)
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: size, completion: { [weak self] (url, image) in
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: size, completion: { [weak self] (url, image, cacheType) in
 
             guard let strongSelf = self, yep_attachmentURL = strongSelf.yep_attachmentURL where yep_attachmentURL == url else {
                 return
             }
 
-            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
+            if cacheType != .Memory {
+                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
+                    strongSelf.image = image
+                }, completion: nil)
+
+            } else {
                 strongSelf.image = image
-            }, completion: nil)
+            }
+
+            println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 
