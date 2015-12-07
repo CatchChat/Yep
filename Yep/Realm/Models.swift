@@ -925,39 +925,7 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 }
 
-/*
-func saveFeedWithFeedDataWithoutFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-
-    println("saveFeedWithFeedDataWithoutFullGroup joinGroup")
-
-    // try sync group first
-
-    let groupID = group.groupID
-    
-    joinGroup(groupID: groupID, failureHandler: nil, completion: {
-
-        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
-            
-            guard let realm = try? Realm() else {
-                return
-            }
-            
-            //println("feed groupInfo: \(groupInfo)")
-            
-            syncGroupWithGroupInfo(groupInfo, inRealm: realm)
-            
-            // now try save feed with full group
-            
-            if let group = groupWithGroupID(groupID, inRealm: realm) {
-                saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-            }
-        })
-    })
-}
-*/
-
 func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
-//func saveFeedWithFeedDataWithFullGroup(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // save feed
     
@@ -1079,6 +1047,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
         newFeed.group = group
         
         group.groupType = GroupType.Public.rawValue
+
         realm.add(newFeed)
     }
 }
@@ -1091,44 +1060,6 @@ func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
     let predicate = NSPredicate(format: "messageID = %@", messageID)
 
     let messages = realm.objects(Message).filter(predicate)
-
-    /*
-    if messages.count > 1 {
-        
-        println("Warning: same messageID: \(messages.count), \(messageID)")
-        
-        // Remove if dupicated
-        while messages.count > 1 {
-            if let message = messages.last {
-                
-                let messageID = message.messageID
-                
-                if let userID = YepUserDefaults.userID.value,
-                    nickname = YepUserDefaults.nickname.value{
-                        Answers.logCustomEventWithName("Dupicated Message",
-                            customAttributes: [
-                                "userID": userID,
-                                "nickname": nickname,
-                                "messageID": messageID,
-                                "time": NSDate().description
-                            ])
-                        
-                }
-                
-                let _ = try? realm.write {
-                    realm.delete(message)
-                }
-            }
-        }
-        
-//        // 治标未读
-//        let _ = try? realm.write {
-//            for message in messages {
-//                message.readed = true
-//            }
-//        }
-    }
-    */
 
     return messages.first
 }
