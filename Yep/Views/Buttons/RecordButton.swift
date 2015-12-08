@@ -103,6 +103,8 @@ class RecordButton: UIButton {
         layer.lineWidth = self.appearance.outerLineWidth
         layer.strokeColor = UIColor.yepTintColor().CGColor
         layer.fillColor = self.appearance.outerFillColor.CGColor
+        layer.fillRule = kCAFillRuleEvenOdd
+        layer.contentsScale = UIScreen.mainScreen().scale
         return layer
     }()
 
@@ -111,13 +113,12 @@ class RecordButton: UIButton {
         layer.path = self.innerPath.CGPath
         layer.fillColor = UIColor.yepTintColor().CGColor
         layer.fillRule = kCAFillRuleEvenOdd
+        layer.contentsScale = UIScreen.mainScreen().scale
         return layer
     }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-
-        backgroundColor = UIColor.clearColor()
 
         layer.addSublayer(outerShapeLayer)
         layer.addSublayer(innerShapeLayer)
