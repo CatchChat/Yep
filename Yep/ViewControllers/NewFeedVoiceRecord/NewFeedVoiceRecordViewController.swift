@@ -21,7 +21,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    @IBOutlet weak var voiceRecordButton: UIButton!
+    @IBOutlet weak var voiceRecordButton: RecordButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
 
@@ -38,14 +38,17 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = false
 
-                voiceIndicatorImageView.hidden = true
+                voiceIndicatorImageView.alpha = 0
 
-                voiceRecordButton.hidden = false
-                let image =  UIImage(named: "button_voice_record")
-                voiceRecordButton.setImage(image, forState: .Normal)
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
-                playButton.hidden = true
-                resetButton.hidden = true
+                    self?.voiceRecordButton.alpha = 1
+                    self?.voiceRecordButton.appearance = .Default
+
+                    self?.playButton.alpha = 0
+                    self?.resetButton.alpha = 0
+
+                }, completion: { _ in })
 
                 voiceRecordSampleView.reset()
                 sampleValues = []
@@ -63,25 +66,31 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = false
 
-                voiceIndicatorImageView.hidden = true
+                voiceIndicatorImageView.alpha = 0
 
-                voiceRecordButton.hidden = false
-                let image =  UIImage(named: "button_voice_record_stop")
-                voiceRecordButton.setImage(image, forState: .Normal)
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
-                playButton.hidden = true
-                resetButton.hidden = true
+                    self?.voiceRecordButton.alpha = 1
+                    self?.voiceRecordButton.appearance = .Recording
+
+                    self?.playButton.alpha = 0
+                    self?.resetButton.alpha = 0
+
+                }, completion: { _ in })
 
             case .FinishRecord:
 
                 nextButton.enabled = true
 
                 voiceIndicatorImageView.alpha = 0
-                voiceIndicatorImageView.hidden = false
 
-                voiceRecordButton.hidden = true
-                playButton.hidden = false
-                resetButton.hidden = false
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+                    self?.voiceRecordButton.alpha = 0
+                    self?.playButton.alpha = 1
+                    self?.resetButton.alpha = 1
+                    
+                }, completion: { _ in })
 
                 let fullWidth = voiceRecordSampleView.bounds.width
 
@@ -92,6 +101,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                     self?.voiceIndicatorImageView.alpha = 1
+
                 }, completion: { _ in
 
                     UIView.animateWithDuration(0.75, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
@@ -298,6 +308,18 @@ class NewFeedVoiceRecordViewController: UIViewController {
     @IBAction func voiceRecord(sender: UIButton) {
 
         if state == .Recording {
+
+            if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
+
+                YepAudioService.sharedManager.endRecord()
+
+                YepAlert.alertSorry(message: NSLocalizedString("Voice recording time is too short!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                    self?.state = .Default
+                })
+
+                return
+            }
+            
             YepAudioService.sharedManager.endRecord()
 
         } else {
