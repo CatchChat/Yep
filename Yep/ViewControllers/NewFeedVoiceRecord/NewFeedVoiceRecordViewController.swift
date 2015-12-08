@@ -21,7 +21,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
     
     @IBOutlet weak var timeLabel: UILabel!
     
-    @IBOutlet weak var voiceRecordButton: UIButton!
+    @IBOutlet weak var voiceRecordButton: RecordButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var resetButton: UIButton!
 
