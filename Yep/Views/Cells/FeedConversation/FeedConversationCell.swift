@@ -11,12 +11,10 @@ import UIKit
 class FeedConversationCell: UITableViewCell {
 
     @IBOutlet weak var mediaView: FeedMediaView!
-    @IBOutlet weak var redDotImageView: UIImageView!
-    @IBOutlet weak var unreadCountLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var chatLabel: UILabel!
+    @IBOutlet weak var redDotImageView: UIImageView!
     @IBOutlet weak var accessoryImageView: UIImageView!
-    //@IBOutlet weak var timeLabel: UILabel!
 
     var conversation: Conversation!
 
@@ -25,9 +23,6 @@ class FeedConversationCell: UITableViewCell {
             let hidden = countOfUnreadMessages == 0
 
             redDotImageView.hidden = hidden
-            unreadCountLabel.hidden = hidden
-
-            unreadCountLabel.text = "\(countOfUnreadMessages)"
         }
     }
 
@@ -62,17 +57,10 @@ class FeedConversationCell: UITableViewCell {
             return
         }
 
-        //countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
-        countOfUnreadMessages = conversation.unreadMessagesCount
+        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        //countOfUnreadMessages = conversation.unreadMessagesCount
 
         nameLabel.text = feed.body
-        
-//        if let creator = feed.creator {
-//            timeLabel.text = String(format: NSLocalizedString("Created by %@ at %@", comment: ""), creator.nickname, NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)
-//        
-//        } else {
-//            timeLabel.text = ""
-//        }
 
         let attachments = feed.attachments.map({
             DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
