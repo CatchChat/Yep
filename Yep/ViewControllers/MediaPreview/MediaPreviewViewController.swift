@@ -48,6 +48,25 @@ class MediaPreviewViewController: UIViewController {
         }
     }
 
+    private struct AttachmentImagePool {
+        var imagesDic = [String: UIImage]()
+
+        mutating func addImage(image: UIImage, forKey key: String) {
+            guard !key.isEmpty else {
+                return
+            }
+
+            if imagesDic[key] == nil {
+                imagesDic[key] = image
+            }
+        }
+
+        func imageWithKey(key: String) -> UIImage? {
+            return imagesDic[key]
+        }
+    }
+    private var attachmentImagePool = AttachmentImagePool()
+
     var currentPlayer: AVPlayer?
 
     @IBOutlet weak var mediasCollectionView: UICollectionView!
@@ -174,6 +193,8 @@ class MediaPreviewViewController: UIViewController {
         view.addGestureRecognizer(swipeDown)
 
         currentIndex = startIndex
+
+        prepareInAdvance()
     }
 
     var isFirstLayoutSubviews = true
@@ -203,6 +224,23 @@ class MediaPreviewViewController: UIViewController {
         }
         
         isFirstLayoutSubviews = false
+    }
+
+    // MARK: Private
+
+    private func prepareInAdvance() {
+
+        for previewMedia in previewMedias {
+
+            if case let .AttachmentType(attachment) = previewMedia {
+
+                ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { [weak self] (url, image, _) in
+                    if let image = image {
+                        self?.attachmentImagePool.addImage(image, forKey: attachment.URLString)
+                    }
+                })
+            }
+        }
     }
 
     // MARK: Actions
@@ -383,12 +421,21 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             mediaControlView.type = .Image
 
-            ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { (url, image, _) in
-                guard url.absoluteString == attachment.URLString else {
-                    return
-                }
+            if let image = attachmentImagePool.imageWithKey(attachment.URLString) {
                 cell.mediaView.image = image
-            })
+
+            } else {
+                ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { [weak self] (url, image, _) in
+                    guard url.absoluteString == attachment.URLString else {
+                        return
+                    }
+                    cell.mediaView.image = image
+
+                    if let image = image {
+                        self?.attachmentImagePool.addImage(image, forKey: attachment.URLString)
+                    }
+                })
+            }
 
         case .WebImage(let imageURL, _):
 
@@ -408,10 +455,6 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
-
-//        let previewMedia = previewMedias[indexPath.item]
-//        configureCell(cell, withPreviewMedia: previewMedia)
-
         return cell
     }
 
