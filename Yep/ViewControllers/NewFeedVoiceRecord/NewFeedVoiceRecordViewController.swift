@@ -298,6 +298,18 @@ class NewFeedVoiceRecordViewController: UIViewController {
     @IBAction func voiceRecord(sender: UIButton) {
 
         if state == .Recording {
+
+            if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
+
+                YepAudioService.sharedManager.endRecord()
+
+                YepAlert.alertSorry(message: NSLocalizedString("Voice recording time is too short!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                    self?.state = .Default
+                })
+
+                return
+            }
+            
             YepAudioService.sharedManager.endRecord()
 
         } else {
