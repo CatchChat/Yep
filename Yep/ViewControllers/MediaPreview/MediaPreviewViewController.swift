@@ -193,6 +193,18 @@ class MediaPreviewViewController: UIViewController {
         view.addGestureRecognizer(swipeDown)
 
         currentIndex = startIndex
+
+        for previewMedia in previewMedias {
+
+            if case let .AttachmentType(attachment) = previewMedia {
+
+                ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { [weak self] (url, image, _) in
+                    if let image = image {
+                        self?.attachmentImagePool.addImage(image, forKey: attachment.URLString)
+                    }
+                })
+            }
+        }
     }
 
     var isFirstLayoutSubviews = true
