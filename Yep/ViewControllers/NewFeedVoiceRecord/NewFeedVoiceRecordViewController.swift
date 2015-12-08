@@ -41,8 +41,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 voiceIndicatorImageView.hidden = true
 
                 voiceRecordButton.hidden = false
-                let image =  UIImage(named: "button_voice_record")
-                voiceRecordButton.setImage(image, forState: .Normal)
+                //let image =  UIImage(named: "button_voice_record")
+                //voiceRecordButton.setImage(image, forState: .Normal)
+                voiceRecordButton.appearance = .Default
 
                 playButton.hidden = true
                 resetButton.hidden = true
@@ -66,8 +67,9 @@ class NewFeedVoiceRecordViewController: UIViewController {
                 voiceIndicatorImageView.hidden = true
 
                 voiceRecordButton.hidden = false
-                let image =  UIImage(named: "button_voice_record_stop")
-                voiceRecordButton.setImage(image, forState: .Normal)
+                //let image =  UIImage(named: "button_voice_record_stop")
+                //voiceRecordButton.setImage(image, forState: .Normal)
+                voiceRecordButton.appearance = .Recording
 
                 playButton.hidden = true
                 resetButton.hidden = true
