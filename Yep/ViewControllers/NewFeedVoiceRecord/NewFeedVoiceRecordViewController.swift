@@ -38,15 +38,17 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = false
 
-                voiceIndicatorImageView.hidden = true
+                voiceIndicatorImageView.alpha = 0
 
-                voiceRecordButton.hidden = false
-                //let image =  UIImage(named: "button_voice_record")
-                //voiceRecordButton.setImage(image, forState: .Normal)
-                voiceRecordButton.appearance = .Default
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
-                playButton.hidden = true
-                resetButton.hidden = true
+                    self?.voiceRecordButton.alpha = 1
+                    self?.voiceRecordButton.appearance = .Default
+
+                    self?.playButton.alpha = 0
+                    self?.resetButton.alpha = 0
+
+                }, completion: { _ in })
 
                 voiceRecordSampleView.reset()
                 sampleValues = []
@@ -64,26 +66,31 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 nextButton.enabled = false
 
-                voiceIndicatorImageView.hidden = true
+                voiceIndicatorImageView.alpha = 0
 
-                voiceRecordButton.hidden = false
-                //let image =  UIImage(named: "button_voice_record_stop")
-                //voiceRecordButton.setImage(image, forState: .Normal)
-                voiceRecordButton.appearance = .Recording
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
-                playButton.hidden = true
-                resetButton.hidden = true
+                    self?.voiceRecordButton.alpha = 1
+                    self?.voiceRecordButton.appearance = .Recording
+
+                    self?.playButton.alpha = 0
+                    self?.resetButton.alpha = 0
+
+                }, completion: { _ in })
 
             case .FinishRecord:
 
                 nextButton.enabled = true
 
                 voiceIndicatorImageView.alpha = 0
-                voiceIndicatorImageView.hidden = false
 
-                voiceRecordButton.hidden = true
-                playButton.hidden = false
-                resetButton.hidden = false
+                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+
+                    self?.voiceRecordButton.alpha = 0
+                    self?.playButton.alpha = 1
+                    self?.resetButton.alpha = 1
+                    
+                }, completion: { _ in })
 
                 let fullWidth = voiceRecordSampleView.bounds.width
 
@@ -94,6 +101,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                     self?.voiceIndicatorImageView.alpha = 1
+
                 }, completion: { _ in
 
                     UIView.animateWithDuration(0.75, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
