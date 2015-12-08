@@ -53,7 +53,7 @@ class PickLocationViewController: UIViewController {
                 if let location = self.location {
                     if case .Default = location {
                         var info = location.info
-                        info.name = placemark.name
+                        info.name = placemark.yep_autoName
                         self.location = .Default(info: info)
                     }
                 }
@@ -69,7 +69,7 @@ class PickLocationViewController: UIViewController {
                 if let location = self.location {
                     if case .Picked = location {
                         var info = location.info
-                        info.name = placemark.name
+                        info.name = placemark.yep_autoName
                         self.location = .Picked(info: info)
                     }
                 }
@@ -250,7 +250,7 @@ class PickLocationViewController: UIViewController {
                     return
                 }
 
-                let _location = Location.Default(info: Location.Info(coordinate: location.coordinate, name: userLocationPlacemarks.first?.name))
+                let _location = Location.Default(info: Location.Info(coordinate: location.coordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
                 performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }
@@ -569,12 +569,12 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             if let _location = mapView.userLocation.location {
-                location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.name ?? NSLocalizedString("My Current Location", comment: "")))
+                location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("My Current Location", comment: "")))
             }
 
         case Section.UserPickedLocation.rawValue:
             if let coordinate = locationPin?.coordinate {
-                location = .Picked(info: Location.Info(coordinate: coordinate, name: pickedLocationPlacemarks.first?.name ?? NSLocalizedString("Picked Location", comment: "")))
+                location = .Picked(info: Location.Info(coordinate: coordinate, name: pickedLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("Picked Location", comment: "")))
             }
 
         case Section.UserLocationPlacemarks.rawValue:
