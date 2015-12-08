@@ -23,7 +23,7 @@ class RecordButton: UIButton {
     }()
 
     lazy var innerRecordingPath: UIBezierPath = {
-        return UIBezierPath(roundedRect: CGRectInset(self.bounds, 30, 30), cornerRadius: 5)
+        return UIBezierPath(roundedRect: CGRectInset(self.bounds, 35, 35), cornerRadius: 5)
     }()
 
     var innerPath: UIBezierPath {
@@ -89,7 +89,7 @@ class RecordButton: UIButton {
     lazy var innerShapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.path = self.innerPath.CGPath
-        layer.fillColor = UIColor.redColor().CGColor
+        layer.fillColor = UIColor.yepTintColor().CGColor
         layer.fillRule = kCAFillRuleEvenOdd
         return layer
     }()
