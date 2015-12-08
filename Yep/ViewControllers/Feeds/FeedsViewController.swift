@@ -300,6 +300,7 @@ class FeedsViewController: BaseViewController {
             if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
                 if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
                     self.feeds = feeds
+                    activityIndicator.stopAnimating()
                 }
             }
         }
@@ -399,7 +400,7 @@ class FeedsViewController: BaseViewController {
 
         isFetchingFeeds = true
 
-        if !isLoadMore {
+        if !isLoadMore && feeds.isEmpty {
             activityIndicator.startAnimating()
         }
 

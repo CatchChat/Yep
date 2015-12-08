@@ -195,6 +195,7 @@
 		50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */; };
 		50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */; };
 		50894D101AEE3C25000981AF /* YepHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894D0F1AEE3C25000981AF /* YepHUD.swift */; };
+		508A084E1C166EBA000A3305 /* CLPlacemark+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508A084D1C166EBA000A3305 /* CLPlacemark+Yep.swift */; };
 		508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508B717C1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift */; };
 		508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C2AA21AD661B3002B8097 /* UserStateCell.swift */; };
 		508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508C2AA31AD661B3002B8097 /* UserStateCell.xib */; };
@@ -549,6 +550,7 @@
 		50894D0A1AEE0177000981AF /* EditProfileColoredTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileColoredTitleCell.swift; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.swift; sourceTree = "<group>"; };
 		50894D0B1AEE0177000981AF /* EditProfileColoredTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditProfileColoredTitleCell.xib; path = Views/Cells/EditProfileColoredTitle/EditProfileColoredTitleCell.xib; sourceTree = "<group>"; };
 		50894D0F1AEE3C25000981AF /* YepHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHUD.swift; path = Helpers/YepHUD.swift; sourceTree = "<group>"; };
+		508A084D1C166EBA000A3305 /* CLPlacemark+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CLPlacemark+Yep.swift"; path = "Extensions/CLPlacemark+Yep.swift"; sourceTree = "<group>"; };
 		508B717C1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightBaseCell.swift; path = Views/Cells/ChatRightBase/ChatRightBaseCell.swift; sourceTree = "<group>"; };
 		508C2AA21AD661B3002B8097 /* UserStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserStateCell.swift; path = Views/Cells/UserState/UserStateCell.swift; sourceTree = "<group>"; };
 		508C2AA31AD661B3002B8097 /* UserStateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UserStateCell.xib; path = Views/Cells/UserState/UserStateCell.xib; sourceTree = "<group>"; };
@@ -1131,6 +1133,7 @@
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* NSURL+Yep.swift */,
 				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
+				508A084D1C166EBA000A3305 /* CLPlacemark+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2623,6 +2626,7 @@
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
 				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
+				508A084E1C166EBA000A3305 /* CLPlacemark+Yep.swift in Sources */,
 				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
