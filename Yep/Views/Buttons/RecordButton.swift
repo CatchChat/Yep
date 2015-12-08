@@ -47,6 +47,15 @@ class RecordButton: UIButton {
                 return 3
             }
         }
+
+        var outerFillColor: UIColor {
+            switch self {
+            case .Default:
+                return UIColor.whiteColor()
+            case .Recording:
+                return UIColor(red: 237/255.0, green: 247/255.0, blue: 1, alpha: 1)
+            }
+        }
     }
 
     var appearance: Appearance = .Default {
@@ -61,6 +70,17 @@ class RecordButton: UIButton {
                 animation.removedOnCompletion = false
 
                 outerShapeLayer.addAnimation(animation, forKey: "lineWidth")
+            }
+
+            do {
+                let animation = CABasicAnimation(keyPath: "fillColor")
+                animation.toValue = appearance.outerFillColor.CGColor
+                animation.duration = 0.25
+                animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+                animation.fillMode = kCAFillModeBoth
+                animation.removedOnCompletion = false
+
+                outerShapeLayer.addAnimation(animation, forKey: "fillColor")
             }
 
             do {
@@ -82,7 +102,7 @@ class RecordButton: UIButton {
         layer.path = self.outerPath.CGPath
         layer.lineWidth = self.appearance.outerLineWidth
         layer.strokeColor = UIColor.yepTintColor().CGColor
-        layer.fillColor = UIColor.whiteColor().CGColor
+        layer.fillColor = self.appearance.outerFillColor.CGColor
         return layer
     }()
 
