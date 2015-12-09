@@ -12,14 +12,14 @@ import DeviceGuru
 
 class FeedbackViewController: UIViewController {
 
-    @IBOutlet weak var promptLabel: UILabel! {
+    @IBOutlet private weak var promptLabel: UILabel! {
         didSet {
             promptLabel.text = NSLocalizedString("We read every feedback", comment: "")
             promptLabel.textColor = UIColor.darkGrayColor()
         }
     }
 
-    @IBOutlet weak var feedbackTextView: UITextView! {
+    @IBOutlet private weak var feedbackTextView: UITextView! {
         didSet {
             feedbackTextView.text = ""
             feedbackTextView.delegate = self
@@ -27,31 +27,31 @@ class FeedbackViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var feedbackTextViewTopLineView: HorizontalLineView! {
+    @IBOutlet private weak var feedbackTextViewTopLineView: HorizontalLineView! {
         didSet {
             feedbackTextViewTopLineView.lineColor = UIColor.lightGrayColor()
         }
     }
 
-    @IBOutlet weak var feedbackTextViewBottomLineView: HorizontalLineView! {
+    @IBOutlet private weak var feedbackTextViewBottomLineView: HorizontalLineView! {
         didSet {
             feedbackTextViewBottomLineView.lineColor = UIColor.lightGrayColor()
         }
     }
 
-    @IBOutlet weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
+    @IBOutlet private weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
         didSet {
             feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
         }
     }
 
-    var isDirty = false {
+    private var isDirty = false {
         willSet {
             navigationItem.rightBarButtonItem?.enabled = newValue
         }
     }
 
-    let keyboardMan = KeyboardMan()
+    private let keyboardMan = KeyboardMan()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +60,7 @@ class FeedbackViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "done")
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "done:")
         navigationItem.rightBarButtonItem = doneBarButtonItem
         navigationItem.rightBarButtonItem?.enabled = false
 
@@ -74,7 +74,7 @@ class FeedbackViewController: UIViewController {
             self?.view.layoutIfNeeded()
         }
 
-        let tap = UITapGestureRecognizer(target: self, action: "tap")
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
         view.addGestureRecognizer(tap)
     }
 
@@ -86,11 +86,11 @@ class FeedbackViewController: UIViewController {
 
     // MARK: Actions
 
-    func tap() {
+    @objc private func tap(sender: UITapGestureRecognizer) {
         feedbackTextView.resignFirstResponder()
     }
 
-    func done() {
+    @objc private func done(sender: AnyObject) {
 
         feedbackTextView.resignFirstResponder()
 
