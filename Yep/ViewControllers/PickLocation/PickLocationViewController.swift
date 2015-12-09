@@ -18,6 +18,8 @@ class PickLocationViewController: UIViewController {
     }
     var purpose: Purpose = .Message
 
+    var preparedSkill: Skill?
+
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     typealias SendLocationAction = (locationInfo: Location.Info) -> Void
@@ -202,6 +204,8 @@ class PickLocationViewController: UIViewController {
             let location = (sender as! Box<Location>).value
 
             vc.attachment = .Location(location)
+
+            vc.preparedSkill = preparedSkill
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 

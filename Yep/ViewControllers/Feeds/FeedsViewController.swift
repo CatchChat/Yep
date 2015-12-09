@@ -668,6 +668,8 @@ class FeedsViewController: BaseViewController {
 
             vc.purpose = .Feed
 
+            vc.preparedSkill = skill
+
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
         /*
