@@ -11,6 +11,7 @@ import UIKit
 class RegisterPickSkillsViewController: BaseViewController {
 
     var isRegister = true
+
     var isDirty = false {
         didSet {
             if !isRegister {

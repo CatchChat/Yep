@@ -11,19 +11,19 @@ import Ruler
 
 class RegisterPickMobileViewController: UIViewController {
 
-    @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
-    @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
+    @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var areaCodeTextField: BorderTextField!
+    @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var mobileNumberTextField: BorderTextField!
-    @IBOutlet weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
-    lazy var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
-        }()
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,7 @@ class RegisterPickMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    func adjustAreaCodeTextFieldWidth() {
+    private func adjustAreaCodeTextFieldWidth() {
 
         guard let text = areaCodeTextField.text else {
             return
@@ -83,7 +83,7 @@ class RegisterPickMobileViewController: UIViewController {
         })
     }
 
-    func textFieldDidChange(textField: UITextField) {
+    @objc private func textFieldDidChange(textField: UITextField) {
 
         guard let areaCode = areaCodeTextField.text, mobileNumber = mobileNumberTextField.text else {
             return
@@ -96,7 +96,7 @@ class RegisterPickMobileViewController: UIViewController {
         }
     }
 
-    func next(sender: UIBarButtonItem) {
+    @objc private func next(sender: UIBarButtonItem) {
         tryShowRegisterVerifyMobile()
     }
 
