@@ -12,10 +12,10 @@ class SearchedUsersViewController: BaseViewController {
 
     var searchText = "NIX"
 
-    @IBOutlet weak var searchedUsersTableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var searchedUsersTableView: UITableView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    var searchedUsers = [DiscoveredUser]() {
+    private var searchedUsers = [DiscoveredUser]() {
         didSet {
             if searchedUsers.count > 0 {
                 updateSearchedUsersTableView()
@@ -26,7 +26,7 @@ class SearchedUsersViewController: BaseViewController {
         }
     }
 
-    let cellIdentifier = "ContactsCell"
+    private let cellIdentifier = "ContactsCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +55,7 @@ class SearchedUsersViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateSearchedUsersTableView() {
+    private func updateSearchedUsersTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.searchedUsersTableView.reloadData()
         }
@@ -106,3 +106,4 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
 }
+
