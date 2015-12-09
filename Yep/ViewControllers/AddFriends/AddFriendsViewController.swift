@@ -12,10 +12,10 @@ import Proposer
 
 class AddFriendsViewController: UIViewController {
 
-    @IBOutlet weak var addFriendsTableView: UITableView!
+    @IBOutlet private weak var addFriendsTableView: UITableView!
 
-    let addFriendSearchCellIdentifier = "AddFriendSearchCell"
-    let addFriendMoreCellIdentifier = "AddFriendMoreCell"
+    private let addFriendSearchCellIdentifier = "AddFriendSearchCell"
+    private let addFriendMoreCellIdentifier = "AddFriendMoreCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class AddFriendsViewController: UIViewController {
 
 extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
         case Search = 0
         case More
 
@@ -54,7 +54,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    enum More: Int, CustomStringConvertible {
+    private enum More: Int, CustomStringConvertible {
         case Contacts
         //case FaceToFace
 
@@ -149,6 +149,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension AddFriendsViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(textField: UITextField) -> Bool {
 
         let text = textField.text
