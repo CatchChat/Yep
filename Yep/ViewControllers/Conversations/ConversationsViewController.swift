@@ -303,7 +303,7 @@ class ConversationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func reloadConversationsTableView() {
+    @objc private func reloadConversationsTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.conversationsTableView.reloadData()
         }
