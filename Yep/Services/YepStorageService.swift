@@ -160,9 +160,9 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
     let resource = authJsonResource(path: url, method: .GET, requestParameters:[:], parse: parse)
     
     if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: failureHandler, completion: completion)
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
-        apiRequest({_ in}, baseURL: baseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
 

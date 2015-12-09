@@ -85,13 +85,13 @@ enum SocialAccount: String {
         
         switch self {
         case .Dribbble:
-            return NSURL(string: "\(baseURL.absoluteString)/auth/dribbble")!
+            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/dribbble")!
         case .Github:
-            return NSURL(string: "\(baseURL.absoluteString)/auth/github")!
+            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/github")!
         case .Behance:
-            return NSURL(string: "\(baseURL.absoluteString)/auth/behance")!
+            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/behance")!
         case .Instagram:
-            return NSURL(string: "\(baseURL.absoluteString)/auth/instagram")!
+            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/instagram")!
         }
     }
 }
