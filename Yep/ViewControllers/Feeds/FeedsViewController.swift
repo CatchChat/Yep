@@ -1074,10 +1074,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    // Edit (for Delete)
+    // Report
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
+
+        let feed = feeds[indexPath.item]
+
+        if feed.creator.id == YepUserDefaults.userID.value {
+            return false
+        }
+
         return true
     }
     
