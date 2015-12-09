@@ -27,8 +27,9 @@ class ConversationLayout: UICollectionViewFlowLayout {
         for updateItem in updateItems {
             switch updateItem.updateAction {
             case .Insert:
-                let indexPath = updateItem.indexPathAfterUpdate
-                insertIndexPathSet.insert(indexPath)
+                if let indexPath = updateItem.indexPathAfterUpdate {
+                    insertIndexPathSet.insert(indexPath)
+                }
 
             default:
                 break
