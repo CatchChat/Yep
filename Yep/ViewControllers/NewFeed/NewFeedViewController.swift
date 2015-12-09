@@ -16,7 +16,7 @@ import Crashlytics
 import Kingfisher
 import MapKit
 
-let genrealSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
+let generalSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
 
 struct FeedVoice {
 
@@ -49,64 +49,65 @@ class NewFeedViewController: UIViewController {
 
     var attachment: Attachment = .Default
 
-    //var socialWork: MessageSocialWork?
-
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+
+    var preparedSkill: Skill?
+
+
+    @IBOutlet private weak var feedWhiteBGView: UIView!
     
-    @IBOutlet weak var feedWhiteBGView: UIView!
+    @IBOutlet private weak var messageTextView: UITextView!
+
+    @IBOutlet private weak var mediaCollectionView: UICollectionView!
+    @IBOutlet private weak var mediaCollectionViewHeightConstraint: NSLayoutConstraint!
+
+    @IBOutlet private weak var socialWorkContainerView: UIView!
+    @IBOutlet private weak var socialWorkImageView: UIImageView!
+    @IBOutlet private weak var githubRepoContainerView: UIView!
+    @IBOutlet private weak var githubRepoImageView: UIImageView!
+    @IBOutlet private weak var githubRepoNameLabel: UILabel!
+    @IBOutlet private weak var githubRepoDescriptionLabel: UILabel!
+
+    @IBOutlet private weak var voiceContainerView: UIView!
+    @IBOutlet private weak var voiceBubbleImageVIew: UIImageView!
+    @IBOutlet private weak var voicePlayButton: UIButton!
+    @IBOutlet private weak var voiceSampleView: SampleView!
+    @IBOutlet private weak var voiceTimeLabel: UILabel!
+
+    @IBOutlet private weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+
+    @IBOutlet private weak var locationContainerView: UIView!
+    @IBOutlet private weak var locationMapImageView: UIImageView!
+    @IBOutlet private weak var locationNameLabel: UILabel!
+
+    @IBOutlet private weak var channelView: UIView!
+    @IBOutlet private weak var channelViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var messageTextView: UITextView!
-
-    @IBOutlet weak var mediaCollectionView: UICollectionView!
-    @IBOutlet weak var mediaCollectionViewHeightConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var socialWorkContainerView: UIView!
-    @IBOutlet weak var socialWorkImageView: UIImageView!
-    @IBOutlet weak var githubRepoContainerView: UIView!
-    @IBOutlet weak var githubRepoImageView: UIImageView!
-    @IBOutlet weak var githubRepoNameLabel: UILabel!
-    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
-
-    @IBOutlet weak var voiceContainerView: UIView!
-    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet weak var voicePlayButton: UIButton!
-    @IBOutlet weak var voiceSampleView: SampleView!
-    @IBOutlet weak var voiceTimeLabel: UILabel!
-
-    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var locationContainerView: UIView!
-    @IBOutlet weak var locationMapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
-
-    @IBOutlet weak var channelView: UIView!
-    @IBOutlet weak var channelViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var channelViewTopLineView: HorizontalLineView!
+    @IBOutlet private weak var channelViewBottomLineView: HorizontalLineView!
     
-    @IBOutlet weak var channelViewTopLineView: HorizontalLineView!
-    @IBOutlet weak var channelViewBottomLineView: HorizontalLineView!
+    @IBOutlet private weak var channelLabel: UILabel!
+    @IBOutlet private weak var choosePromptLabel: UILabel!
     
-    @IBOutlet weak var channelLabel: UILabel!
-    @IBOutlet weak var choosePromptLabel: UILabel!
+    @IBOutlet private weak var pickedSkillBubbleImageView: UIImageView!
+    @IBOutlet private weak var pickedSkillLabel: UILabel!
     
-    @IBOutlet weak var pickedSkillBubbleImageView: UIImageView!
-    @IBOutlet weak var pickedSkillLabel: UILabel!
-    
-    @IBOutlet weak var skillPickerView: UIPickerView!
+    @IBOutlet private weak var skillPickerView: UIPickerView!
 
-    lazy var socialWorkHalfMaskImageView: UIImageView = {
+    private lazy var socialWorkHalfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
 
-    lazy var socialWorkFullMaskImageView: UIImageView = {
+    private lazy var socialWorkFullMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
         return imageView
     }()
 
-    let infoAboutThisFeed = NSLocalizedString("Info about this Feed...", comment: "")
+    private let infoAboutThisFeed = NSLocalizedString("Info about this Feed...", comment: "")
 
-    var isNeverInputMessage = true
-    var isDirty = false {
+    private var isNeverInputMessage = true
+    private var isDirty = false {
         willSet {
             postButton.enabled = newValue
 
@@ -118,13 +119,13 @@ class NewFeedViewController: UIViewController {
         }
     }
 
-    lazy var postButton: UIBarButtonItem = {
+    private lazy var postButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: "post:")
             button.enabled = false
         return button
     }()
 
-    lazy var imagePicker: UIImagePickerController = {
+    private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.mediaTypes = [kUTTypeImage as String]
@@ -132,9 +133,9 @@ class NewFeedViewController: UIViewController {
         return imagePicker
     }()
     
-    var imageAssets: [PHAsset] = []
+    private var imageAssets: [PHAsset] = []
     
-    var mediaImages = [UIImage]() {
+    private var mediaImages = [UIImage]() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.mediaCollectionView.reloadData()
@@ -142,12 +143,12 @@ class NewFeedViewController: UIViewController {
         }
     }
     
-    let feedMediaAddCellID = "FeedMediaAddCell"
-    let feedMediaCellID = "FeedMediaCell"
+    private let feedMediaAddCellID = "FeedMediaAddCell"
+    private let feedMediaCellID = "FeedMediaCell"
     
     //let max = Int(INT16_MAX)
     
-    let skills: [Skill] = {
+    private let skills: [Skill] = {
         if let
             myUserID = YepUserDefaults.userID.value,
             realm = try? Realm(),
@@ -155,7 +156,7 @@ class NewFeedViewController: UIViewController {
                 
                 var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
                 
-                skills.insert(genrealSkill, atIndex: 0)
+                skills.insert(generalSkill, atIndex: 0)
                 
                 return skills
         }
@@ -163,8 +164,7 @@ class NewFeedViewController: UIViewController {
         return []
     }()
     
-    var preparedSkill: Skill?
-    var pickedSkill: Skill? {
+    private var pickedSkill: Skill? {
         willSet {
             pickedSkillLabel.text = newValue?.localName
             choosePromptLabel.hidden = (newValue != nil)
@@ -333,7 +333,7 @@ class NewFeedViewController: UIViewController {
         socialWorkHalfMaskImageView.frame = locationMapImageView.bounds
     }
 
-    func updateUIForSocialWork(socialWork: MessageSocialWork) {
+    private func updateUIForSocialWork(socialWork: MessageSocialWork) {
 
         socialWorkImageView.maskView = socialWorkFullMaskImageView
         locationMapImageView.maskView = socialWorkHalfMaskImageView
@@ -404,7 +404,7 @@ class NewFeedViewController: UIViewController {
     
     // MARK: Actions
     
-    func showSkillPickerView(tap: UITapGestureRecognizer) {
+    @objc private func showSkillPickerView(tap: UITapGestureRecognizer) {
         
         // 初次 show，预先 selectRow
 
@@ -453,9 +453,9 @@ class NewFeedViewController: UIViewController {
         })
     }
     
-    func hideSkillPickerView() {
+    private func hideSkillPickerView() {
         
-        if pickedSkill == genrealSkill {
+        if pickedSkill == generalSkill {
             pickedSkill = nil
         }
         
@@ -491,7 +491,7 @@ class NewFeedViewController: UIViewController {
         }
     }
 
-    func cancel(sender: UIBarButtonItem) {
+    @objc private func cancel(sender: UIBarButtonItem) {
         
         messageTextView.resignFirstResponder()
 
@@ -500,13 +500,13 @@ class NewFeedViewController: UIViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    struct UploadImageInfo {
+    private struct UploadImageInfo {
         
         let s3UploadParams: S3UploadParams
         let metaDataString: String?
     }
     
-    func post(sender: UIBarButtonItem) {
+    @objc private func post(sender: UIBarButtonItem) {
 
         messageTextView.resignFirstResponder()
         
@@ -759,7 +759,7 @@ class NewFeedViewController: UIViewController {
         }
     }
 
-    @IBAction func playOrPauseAudio(sender: UIButton) {
+    @IBAction private func playOrPauseAudio(sender: UIButton) {
         YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
     }
 }
