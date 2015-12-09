@@ -15,19 +15,19 @@ class FriendsInContactsViewController: BaseViewController {
         static let NewFriends = "NewFriendsInContactsNotification"
     }
 
-    @IBOutlet weak var friendsTableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var friendsTableView: UITableView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    lazy var addressBook: APAddressBook = {
+    private lazy var addressBook: APAddressBook = {
         let addressBook = APAddressBook()
         addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
         return addressBook
         }()
 
-    var discoveredUsers = [DiscoveredUser]() {
+    private var discoveredUsers = [DiscoveredUser]() {
         didSet {
             if discoveredUsers.count > 0 {
-                updateDiscoverTableView()
+                updateFriendsTableView()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
 
@@ -37,7 +37,7 @@ class FriendsInContactsViewController: BaseViewController {
         }
     }
     
-    let cellIdentifier = "ContactsCell"
+    private let cellIdentifier = "ContactsCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,7 +98,7 @@ class FriendsInContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateDiscoverTableView() {
+    private func updateFriendsTableView() {
         friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
 
@@ -122,7 +122,6 @@ class FriendsInContactsViewController: BaseViewController {
             }
         }
     }
-
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
