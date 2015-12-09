@@ -452,12 +452,12 @@ class FeedsViewController: BaseViewController {
                     needReloadData = strongSelf.feeds.isEmpty
 
                     if isLoadMore {
-                        strongSelf.feeds += feeds
+                        strongSelf.feeds += newFeeds
 
-                        needReloadData = true
+                        needReloadData = !newFeeds.isEmpty
 
                     } else {
-                        strongSelf.feeds = feeds
+                        strongSelf.feeds = newFeeds
                     }
 
                     if !needReloadData && !newFeeds.isEmpty {
