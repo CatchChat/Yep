@@ -72,7 +72,7 @@ class FeedsViewController: BaseViewController {
         titleLabel.layer.masksToBounds = true
 
         return titleLabel
-        }()
+    }()
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
@@ -97,7 +97,7 @@ class FeedsViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints(constraintsH)
         
         return pullToRefreshView
-        }()
+    }()
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
     private let feedCellID = "FeedCell"
@@ -297,10 +297,12 @@ class FeedsViewController: BaseViewController {
                 feedSortStyle = .Match
             }
 
-            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
-                    self.feeds = feeds
-                    activityIndicator.stopAnimating()
+            if skill == nil {
+                if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                        self.feeds = feeds
+                        activityIndicator.stopAnimating()
+                    }
                 }
             }
         }
