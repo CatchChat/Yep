@@ -64,9 +64,9 @@ struct DoNotDisturbPeriod {
 
 class NotificationsViewController: UIViewController {
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView!
 
-    var doNotDisturbPeriod = DoNotDisturbPeriod() {
+    private var doNotDisturbPeriod = DoNotDisturbPeriod() {
         didSet {
             dispatch_async(dispatch_get_main_queue()) {
                 self.tableView.reloadData()
@@ -74,10 +74,10 @@ class NotificationsViewController: UIViewController {
         }
     }
 
-    let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
-    let DoNotDisturbPeriodCellID = "DoNotDisturbPeriodCell"
+    private let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
+    private let DoNotDisturbPeriodCellID = "DoNotDisturbPeriodCell"
 
-    let settingsMoreCellID = "SettingsMoreCell"
+    private let settingsMoreCellID = "SettingsMoreCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +127,7 @@ class NotificationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func enableDoNotDisturb(failed failed: () -> Void) {
+    private func enableDoNotDisturb(failed failed: () -> Void) {
 
         guard let realm = try? Realm() else {
             return
@@ -185,7 +185,7 @@ class NotificationsViewController: UIViewController {
         }
     }
 
-    func disableDoNotDisturb(failed failed: () -> Void) {
+    private func disableDoNotDisturb(failed failed: () -> Void) {
 
         guard let realm = try? Realm() else {
             return
@@ -241,7 +241,7 @@ class NotificationsViewController: UIViewController {
 
 extension NotificationsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum DoNotDisturbPeriodRow: Int {
+    private enum DoNotDisturbPeriodRow: Int {
         case Switch
         case Period
     }
