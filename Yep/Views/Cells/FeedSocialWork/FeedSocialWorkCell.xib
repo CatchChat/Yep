@@ -334,6 +334,7 @@
                     <constraint firstItem="Xeg-hl-49c" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="leading" id="ygU-tt-O9Y"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="avatarImageView" destination="lyg-eU-J2p" id="o1o-7n-PKc"/>
                 <outlet property="distanceLabel" destination="v8d-Cd-K5Y" id="jiE-wW-az6"/>
