@@ -11,23 +11,23 @@ import Ruler
 
 class AboutViewController: UIViewController {
 
-    @IBOutlet weak var appLogoImageView: UIImageView!
-    @IBOutlet weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var appLogoImageView: UIImageView!
+    @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var appNameLabel: UILabel!
-    @IBOutlet weak var appNameLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var appVersionLabel: UILabel!
+    @IBOutlet private weak var appNameLabel: UILabel!
+    @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var appVersionLabel: UILabel!
     
-    @IBOutlet weak var aboutTableView: UITableView!
-    @IBOutlet weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var aboutTableView: UITableView!
+    @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var copyrightLabel: UILabel!
+    @IBOutlet private weak var copyrightLabel: UILabel!
 
-    let aboutCellID = "AboutCell"
+    private let aboutCellID = "AboutCell"
 
-    let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
+    private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
 
-    let aboutAnnotations: [String] = [
+    private let aboutAnnotations: [String] = [
         NSLocalizedString("Pods help Yep", comment: ""),
         NSLocalizedString("Rate Yep on App Store", comment: ""),
         NSLocalizedString("Terms of Service", comment: ""),
@@ -59,7 +59,7 @@ class AboutViewController: UIViewController {
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Row: Int {
+    private enum Row: Int {
         case Pods = 1
         case Rate
         case Terms
