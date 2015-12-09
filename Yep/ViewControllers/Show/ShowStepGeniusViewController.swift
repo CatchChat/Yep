@@ -10,19 +10,19 @@ import UIKit
 
 class ShowStepGeniusViewController: ShowStepViewController {
 
-    @IBOutlet weak var rightPurpleDot: UIImageView!
-    @IBOutlet weak var leftGreenDot: UIImageView!
-    @IBOutlet weak var leftBlueDot: UIImageView!
-    @IBOutlet weak var leftRedDot: UIImageView!
-    @IBOutlet weak var leftPurpleDot: UIImageView!
-    @IBOutlet weak var topRedDot: UIImageView!
-    @IBOutlet weak var rightBlueDot: UIImageView!
-    @IBOutlet weak var centerBlueDot: UIImageView!
-    @IBOutlet weak var centerOrangeDot: UIImageView!
-    @IBOutlet weak var rightYellowDot: UIImageView!
-    @IBOutlet weak var rightGreenDot: UIImageView!
+    @IBOutlet private weak var rightPurpleDot: UIImageView!
+    @IBOutlet private weak var leftGreenDot: UIImageView!
+    @IBOutlet private weak var leftBlueDot: UIImageView!
+    @IBOutlet private weak var leftRedDot: UIImageView!
+    @IBOutlet private weak var leftPurpleDot: UIImageView!
+    @IBOutlet private weak var topRedDot: UIImageView!
+    @IBOutlet private weak var rightBlueDot: UIImageView!
+    @IBOutlet private weak var centerBlueDot: UIImageView!
+    @IBOutlet private weak var centerOrangeDot: UIImageView!
+    @IBOutlet private weak var rightYellowDot: UIImageView!
+    @IBOutlet private weak var rightGreenDot: UIImageView!
 
-    @IBOutlet weak var dotsLink: UIImageView!
+    @IBOutlet private weak var dotsLink: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

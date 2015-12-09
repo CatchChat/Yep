@@ -2860,8 +2860,8 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     //let parse = parseFeeds
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
 
-        // 只离线第一页
-        if pageIndex == 1 {
+        // 只离线第一页，且无 skill
+        if pageIndex == 1 && skill == nil {
             if let realm = try? Realm() {
                 if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
 

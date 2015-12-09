@@ -20,14 +20,16 @@ class FeedsViewController: BaseViewController {
     
     var hideRightBarItem: Bool = false
 
-    @IBOutlet weak var feedsTableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    var feeds = [DiscoveredFeed]()
 
-    var filterBarItem: UIBarButtonItem?
+    @IBOutlet weak var feedsTableView: UITableView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+
+    private var filterBarItem: UIBarButtonItem?
     
-    lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
     
-    lazy var newFeedTypesView: NewFeedTypesView = {
+    private lazy var newFeedTypesView: NewFeedTypesView = {
         let view = NewFeedTypesView()
 
         view.createTextAndPhotosFeedAction = { [weak self] in
@@ -48,7 +50,7 @@ class FeedsViewController: BaseViewController {
         return view
     }()
     
-    lazy var skillTitleView: UIView = {
+    private lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
 
@@ -70,7 +72,7 @@ class FeedsViewController: BaseViewController {
         titleLabel.layer.masksToBounds = true
 
         return titleLabel
-        }()
+    }()
 
     lazy var pullToRefreshView: PullToRefreshView = {
 
@@ -95,16 +97,14 @@ class FeedsViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints(constraintsH)
         
         return pullToRefreshView
-        }()
+    }()
 
-    let feedSkillUsersCellID = "FeedSkillUsersCell"
-    let feedCellID = "FeedCell"
-    let feedSocialWorkCellID = "FeedSocialWorkCell"
-    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
+    private let feedSkillUsersCellID = "FeedSkillUsersCell"
+    private let feedCellID = "FeedCell"
+    private let feedSocialWorkCellID = "FeedSocialWorkCell"
+    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
-    lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
-
-    var feeds = [DiscoveredFeed]()
+    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
 
@@ -196,7 +196,7 @@ class FeedsViewController: BaseViewController {
         }
     }
     
-    var feedSortStyle: FeedSortStyle = .Match {
+    private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
             feeds = []
             feedsTableView.reloadData()
@@ -209,8 +209,8 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
-    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
+    //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     
     deinit {
 
@@ -253,7 +253,7 @@ class FeedsViewController: BaseViewController {
                         
                         if me.masterSkills.filter(predicate).count == 0
                             && me.learningSkills.filter(predicate).count == 0 {
-                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe")
+                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe:")
                                 navigationItem.rightBarButtonItem = addSkillToMeButton
                         }
                 }
@@ -297,10 +297,12 @@ class FeedsViewController: BaseViewController {
                 feedSortStyle = .Match
             }
 
-            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
-                    self.feeds = feeds
-                    activityIndicator.stopAnimating()
+            if skill == nil {
+                if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                        self.feeds = feeds
+                        activityIndicator.stopAnimating()
+                    }
                 }
             }
         }
@@ -308,7 +310,7 @@ class FeedsViewController: BaseViewController {
 
     // MARK: Actions
     
-    func addSkillToMe() {
+    @objc private func addSkillToMe(sender: AnyObject) {
         println("addSkillToMe")
         
         if let skillID = skill?.id, skillLocalName = skill?.localName {
@@ -354,11 +356,13 @@ class FeedsViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        /*
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {
             navigationController?.delegate = delegate
             navigationControllerDelegate = nil
         }
+        */
 
         navigationController?.setNavigationBarHidden(false, animated: false)
 
@@ -367,7 +371,7 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction func showFilter(sender: AnyObject) {
+    @IBAction private func showFilter(sender: AnyObject) {
         
         if feedSortStyle != .Time {
             filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
@@ -389,9 +393,9 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    var currentPageIndex = 1
-    var isFetchingFeeds = false
-    func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    private var currentPageIndex = 1
+    private var isFetchingFeeds = false
+    private func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
         if isFetchingFeeds {
             finish?()
@@ -504,14 +508,14 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    @IBAction func createNewFeed(sender: AnyObject) {
+    @IBAction private func createNewFeed(sender: AnyObject) {
 
         if let window = view.window {
             newFeedTypesView.showInView(window)
         }
     }
 
-    func updateAudioPlaybackProgress(timer: NSTimer) {
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
         func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
 
@@ -649,6 +653,8 @@ class FeedsViewController: BaseViewController {
                 return
             }
 
+            vc.preparedSkill = skill
+
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
         case "presentPickLocation":
@@ -661,6 +667,8 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.purpose = .Feed
+
+            vc.preparedSkill = skill
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
@@ -723,7 +731,7 @@ class FeedsViewController: BaseViewController {
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
         case SkillUsers
         case Feed
         case LoadMore

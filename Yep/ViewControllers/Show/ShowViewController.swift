@@ -11,16 +11,16 @@ import Ruler
 
 class ShowViewController: UIViewController {
 
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
 
-    @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet private weak var pageControl: UIPageControl!
 
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var loginButton: EdgeBorderButton!
+    @IBOutlet private weak var registerButton: UIButton!
+    @IBOutlet private weak var loginButton: EdgeBorderButton!
 
-    var isFirstAppear = true
+    private var isFirstAppear = true
 
-    var steps = [UIViewController]()
+    private var steps = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ class ShowViewController: UIViewController {
         isFirstAppear = false
     }
 
-    func makeUI() {
+    private func makeUI() {
 
         let stepA = stepGenius()
         let stepB = stepMatch()
@@ -128,14 +128,14 @@ class ShowViewController: UIViewController {
 
     // MARK: Actions
     
-    @IBAction func register(sender: UIButton) {
+    @IBAction private func register(sender: UIButton) {
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("RegisterPickNameViewController") as! RegisterPickNameViewController
 
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    @IBAction func login(sender: UIButton) {
+    @IBAction private func login(sender: UIButton) {
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("LoginByMobileViewController") as! LoginByMobileViewController
 
@@ -157,5 +157,4 @@ extension ShowViewController: UIScrollViewDelegate {
         pageControl.currentPage = page
     }
 }
-
 

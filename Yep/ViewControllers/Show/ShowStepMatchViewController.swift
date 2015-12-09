@@ -10,11 +10,11 @@ import UIKit
 
 class ShowStepMatchViewController: ShowStepViewController {
 
-    @IBOutlet weak var camera: UIImageView!
-    @IBOutlet weak var pen: UIImageView!
-    @IBOutlet weak var book: UIImageView!
-    @IBOutlet weak var controller: UIImageView!
-    @IBOutlet weak var keyboard: UIImageView!
+    @IBOutlet private weak var camera: UIImageView!
+    @IBOutlet private weak var pen: UIImageView!
+    @IBOutlet private weak var book: UIImageView!
+    @IBOutlet private weak var controller: UIImageView!
+    @IBOutlet private weak var keyboard: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

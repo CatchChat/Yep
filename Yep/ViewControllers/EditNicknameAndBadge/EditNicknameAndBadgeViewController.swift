@@ -11,36 +11,36 @@ import Ruler
 
 class EditNicknameAndBadgeViewController: UITableViewController {
 
-    @IBOutlet weak var nicknameTextField: UITextField!
+    @IBOutlet private weak var nicknameTextField: UITextField!
 
-    @IBOutlet weak var centerLeft1GapConstraint: NSLayoutConstraint!
-    @IBOutlet weak var centerRight1GapConstraint: NSLayoutConstraint!
-    @IBOutlet weak var left1Left2GapConstraint: NSLayoutConstraint!
-    @IBOutlet weak var right1Right2GapConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var centerLeft1GapConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var centerRight1GapConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var left1Left2GapConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var right1Right2GapConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var promptPickBadgeLabel: UILabel!
+    @IBOutlet private weak var promptPickBadgeLabel: UILabel!
     
-    @IBOutlet weak var badgeEnabledImageView: UIImageView!
+    @IBOutlet private weak var badgeEnabledImageView: UIImageView!
 
-    @IBOutlet weak var paletteBadgeView: BadgeView!
-    @IBOutlet weak var planeBadgeView: BadgeView!
-    @IBOutlet weak var heartBadgeView: BadgeView!
-    @IBOutlet weak var starBadgeView: BadgeView!
-    @IBOutlet weak var bubbleBadgeView: BadgeView!
+    @IBOutlet private weak var paletteBadgeView: BadgeView!
+    @IBOutlet private weak var planeBadgeView: BadgeView!
+    @IBOutlet private weak var heartBadgeView: BadgeView!
+    @IBOutlet private weak var starBadgeView: BadgeView!
+    @IBOutlet private weak var bubbleBadgeView: BadgeView!
 
-    @IBOutlet weak var androidBadgeView: BadgeView!
-    @IBOutlet weak var appleBadgeView: BadgeView!
-    @IBOutlet weak var petBadgeView: BadgeView!
-    @IBOutlet weak var wineBadgeView: BadgeView!
-    @IBOutlet weak var musicBadgeView: BadgeView!
+    @IBOutlet private weak var androidBadgeView: BadgeView!
+    @IBOutlet private weak var appleBadgeView: BadgeView!
+    @IBOutlet private weak var petBadgeView: BadgeView!
+    @IBOutlet private weak var wineBadgeView: BadgeView!
+    @IBOutlet private weak var musicBadgeView: BadgeView!
 
-    @IBOutlet weak var steveBadgeView: BadgeView!
-    @IBOutlet weak var cameraBadgeView: BadgeView!
-    @IBOutlet weak var gameBadgeView: BadgeView!
-    @IBOutlet weak var ballBadgeView: BadgeView!
-    @IBOutlet weak var techBadgeView: BadgeView!
+    @IBOutlet private weak var steveBadgeView: BadgeView!
+    @IBOutlet private weak var cameraBadgeView: BadgeView!
+    @IBOutlet private weak var gameBadgeView: BadgeView!
+    @IBOutlet private weak var ballBadgeView: BadgeView!
+    @IBOutlet private weak var techBadgeView: BadgeView!
 
-    var badgeViews = [BadgeView]()
+    private var badgeViews = [BadgeView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,7 +143,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
-    func badgeEnabledImageViewAppearInCenter(center: CGPoint) {
+    private func badgeEnabledImageViewAppearInCenter(center: CGPoint) {
 
         badgeEnabledImageView.center = center
         badgeEnabledImageView.alpha = 0

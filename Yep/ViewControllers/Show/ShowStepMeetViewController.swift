@@ -10,9 +10,9 @@ import UIKit
 
 class ShowStepMeetViewController: ShowStepViewController {
 
-    @IBOutlet weak var yellowTriangle: UIImageView!
-    @IBOutlet weak var greenTriangle: UIImageView!
-    @IBOutlet weak var purpleTriangle: UIImageView!
+    @IBOutlet private weak var yellowTriangle: UIImageView!
+    @IBOutlet private weak var greenTriangle: UIImageView!
+    @IBOutlet private weak var purpleTriangle: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

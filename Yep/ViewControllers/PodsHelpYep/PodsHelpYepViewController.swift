@@ -10,7 +10,7 @@ import UIKit
 
 class PodsHelpYepViewController: UITableViewController {
 
-    let pods: [[String: String]] = [
+    private let pods: [[String: String]] = [
         [
             "name": "RealmSwift",
             "URLString": "https://realm.io",

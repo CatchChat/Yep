@@ -10,7 +10,7 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
-    enum Tab: Int {
+    private enum Tab: Int {
 
         case Conversations
         case Contacts
@@ -35,10 +35,10 @@ class YepTabBarController: UITabBarController {
         }
     }
 
-    var previousTab = Tab.Conversations
+    private var previousTab = Tab.Conversations
 
-    var checkDoubleTapOnFeedsTimer: NSTimer?
-    var hasFirstTapOnFeedsWhenItIsAtTop = false {
+    private var checkDoubleTapOnFeedsTimer: NSTimer?
+    private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
             if newValue {
                 let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkDoubleTapOnFeeds:", userInfo: nil, repeats: false)
@@ -50,12 +50,12 @@ class YepTabBarController: UITabBarController {
         }
     }
 
-    func checkDoubleTapOnFeeds(timer: NSTimer) {
+    @objc private func checkDoubleTapOnFeeds(timer: NSTimer) {
 
         hasFirstTapOnFeedsWhenItIsAtTop = false
     }
 
-    struct Listener {
+    private struct Listener {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
 

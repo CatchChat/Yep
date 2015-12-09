@@ -307,32 +307,18 @@ enum ProfileUser {
 
 class ProfileViewController: UIViewController {
     
-    var socialAccount: SocialAccount?
-    
-    var oAuthCompleteAction: (() -> Void)?
-    
-    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
-    
-    lazy var shareView: ShareProfileView = {
-    
-        let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
-        share.alpha = 0
-        self.view.addSubview(share)
-        return share
-        
-    }()
-
-    var statusBarShouldLight = false
-
-    var noNeedToChangeStatusBar = false
+    private var socialAccount: SocialAccount?
 
     enum FromType {
         case None
         case OneToOneConversation
         case GroupConversation
     }
-
     var fromType: FromType = .None
+
+    var oAuthCompleteAction: (() -> Void)?
+    
+    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
 
     var profileUser: ProfileUser?
     var profileUserIsMe = true {
@@ -358,39 +344,50 @@ class ProfileViewController: UIViewController {
             } else {
                 sayHiView.hidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings")
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
             }
         }
     }
 
-    @IBOutlet weak var topShadowImageView: UIImageView!
+    private lazy var shareView: ShareProfileView = {
+        let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
+        share.alpha = 0
+        self.view.addSubview(share)
+        return share
+    }()
+
+    private var statusBarShouldLight = false
+
+    private var noNeedToChangeStatusBar = false
+
+    @IBOutlet private weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
-    @IBOutlet weak var sayHiView: BottomButtonView!
+    @IBOutlet private weak var sayHiView: BottomButtonView!
 
-    var customNavigationBar: UINavigationBar!
+    private var customNavigationBar: UINavigationBar!
 
-    let skillCellIdentifier = "SkillCell"
-    let headerCellIdentifier = "ProfileHeaderCell"
-    let footerCellIdentifier = "ProfileFooterCell"
-    let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
-    let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
-    let separationLineCellIdentifier = "ProfileSeparationLineCell"
-    let socialAccountCellIdentifier = "ProfileSocialAccountCell"
-    let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
-    let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
-    let feedsCellIdentifier = "ProfileFeedsCell"
+    private let skillCellIdentifier = "SkillCell"
+    private let headerCellIdentifier = "ProfileHeaderCell"
+    private let footerCellIdentifier = "ProfileFooterCell"
+    private let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
+    private let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
+    private let separationLineCellIdentifier = "ProfileSeparationLineCell"
+    private let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    private let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
+    private let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
+    private let feedsCellIdentifier = "ProfileFeedsCell"
 
-    lazy var collectionViewWidth: CGFloat = {
+    private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
-        }()
-    lazy var sectionLeftEdgeInset: CGFloat = { return YepConfig.Profile.leftEdgeInset }()
-    lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
-    lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
+    }()
+    private lazy var sectionLeftEdgeInset: CGFloat = { return YepConfig.Profile.leftEdgeInset }()
+    private lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
+    private lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
 
-    lazy var introductionText: String = {
+    private lazy var introductionText: String = {
 
         var introduction: String?
 
@@ -426,9 +423,9 @@ class ProfileViewController: UIViewController {
         return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
     }()
 
-    var masterSkills = [Skill]()
+    private var masterSkills = [Skill]()
 
-    var learningSkills = [Skill]()
+    private var learningSkills = [Skill]()
 
     private func updateMyMasterSkills() {
 
@@ -472,34 +469,30 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    var dribbbleWork: DribbbleWork?
-    var instagramWork: InstagramWork?
-    var githubWork: GithubWork?
-    var feeds: [DiscoveredFeed]?
-    var feedAttachments: [DiscoveredAttachment]?
+    private var dribbbleWork: DribbbleWork?
+    private var instagramWork: InstagramWork?
+    private var githubWork: GithubWork?
+    private var feeds: [DiscoveredFeed]?
+    private var feedAttachments: [DiscoveredAttachment]?
 
+    private let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
-    let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
-
-    var footerCellHeight: CGFloat {
-        get {
-            let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
-            let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-            let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
-            return ceil(rect.height) + 4
-        }
+    private var footerCellHeight: CGFloat {
+        let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
+        let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
+        let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
+        return ceil(rect.height) + 4
     }
-    
-    var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
+    private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
-    struct Listener {
+    private struct Listener {
         let nickname: String
         let introduction: String
         let avatar: String
     }
 
-    lazy var listener: Listener = {
+    private lazy var listener: Listener = {
 
         let suffix = NSUUID().UUIDString
 
@@ -545,7 +538,7 @@ class ProfileViewController: UIViewController {
 
         println("init ProfileViewController \(self)")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout", name: EditProfileViewController.Notification.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareForOAuthResult:", name: YepConfig.Notification.OAuthResult, object: nil)
 
@@ -778,7 +771,7 @@ class ProfileViewController: UIViewController {
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile")
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile:")
                     customNavigationItem.leftBarButtonItem = shareMyProfileButton
                 }
 
@@ -786,7 +779,7 @@ class ProfileViewController: UIViewController {
                 // share others' profile button
 
                 if let _ = profileUser.username {
-                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile")
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile:")
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
@@ -872,7 +865,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    func tryShareMyProfile() {
+    @objc private func tryShareMyProfile(sender: AnyObject?) {
 
         if let _ = profileUser?.username {
             
@@ -919,11 +912,11 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    func shareOthersProfile() {
+    @objc private func shareOthersProfile(sender: AnyObject) {
         shareProfile()
     }
 
-    func pickSkills() {
+    private func pickSkills() {
 
         let storyboard = UIStoryboard(name: "Intro", bundle: nil)
         let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
@@ -947,25 +940,25 @@ class ProfileViewController: UIViewController {
         self.navigationController?.pushViewController(pickSkillsController, animated: true)
     }
 
-    func showSettings() {
+    @objc private func showSettings(sender: AnyObject) {
         self.performSegueWithIdentifier("showSettings", sender: self)
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack")
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack:")
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    func popBack() {
+    @objc private func popBack(sender: AnyObject) {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    func cleanForLogout() {
+    @objc private func cleanForLogout(sender: NSNotification) {
         profileUser = nil
     }
 
-    func updateProfileCollectionView() {
+    private func updateProfileCollectionView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.profileCollectionView.collectionViewLayout.invalidateLayout()
             self.profileCollectionView.reloadData()
@@ -973,11 +966,10 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    func sayHi() {
+    private func sayHi() {
 
         if let profileUser = profileUser {
         
-            
             if let userID = YepUserDefaults.userID.value,
                 nickname = YepUserDefaults.nickname.value{
                     
@@ -988,7 +980,6 @@ class ProfileViewController: UIViewController {
                             "byUserID": userID,
                             "byNickname": nickname
                     ])
-                    
             }
 
             guard let realm = try? Realm() else {
@@ -1835,7 +1826,7 @@ extension ProfileViewController: UIScrollViewDelegate {
         if shareView.progress >= 1.0 {
             shareView.shareActionAnimationAndDoFurther({
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.tryShareMyProfile()
+                    self?.tryShareMyProfile(nil)
                 }
             })
         }

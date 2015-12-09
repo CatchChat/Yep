@@ -12,10 +12,10 @@ import Ruler
 class ShowStepViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var titleLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var titleLabelBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var subTitleLabel: UILabel!
-    @IBOutlet weak var subTitleLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var subTitleLabelBottomConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +62,6 @@ class ShowStepViewController: UIViewController {
         view.layer.addAnimation(animation, forKey: "Animation")
     }
 
-
     func animate(view: UIView, offset: UInt32, duration: CFTimeInterval) {
 
         let path = UIBezierPath()
@@ -97,3 +96,4 @@ class ShowStepViewController: UIViewController {
         view.layer.addAnimation(rotate, forKey: "Rotate")
     }
 }
+

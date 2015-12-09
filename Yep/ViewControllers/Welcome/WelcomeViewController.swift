@@ -10,13 +10,13 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
 
-    @IBOutlet weak var logoLabel: UILabel!
-    @IBOutlet weak var sloganLabel: UILabel!
+    @IBOutlet private weak var logoLabel: UILabel!
+    @IBOutlet private weak var sloganLabel: UILabel!
 
-    @IBOutlet weak var registerButton: BorderButton!
-    @IBOutlet weak var loginButton: BorderButton!
+    @IBOutlet private weak var registerButton: BorderButton!
+    @IBOutlet private weak var loginButton: BorderButton!
 
-    @IBOutlet weak var companyLabel: UILabel!
+    @IBOutlet private weak var companyLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,11 +38,11 @@ class WelcomeViewController: UIViewController {
 
     // MARK: Actions
 
-    @IBAction func register(sender: UIButton) {
+    @IBAction private func register(sender: UIButton) {
         performSegueWithIdentifier("showRegisterPickName", sender: nil)
     }
 
-    @IBAction func login(sender: UIButton) {
+    @IBAction private func login(sender: UIButton) {
         performSegueWithIdentifier("showLoginByMobile", sender: nil)
     }
 }
