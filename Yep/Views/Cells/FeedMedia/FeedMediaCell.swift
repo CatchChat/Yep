@@ -13,6 +13,8 @@ class FeedMediaCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageView: UIImageView!
     
+    @IBOutlet weak var borderImageView: UIImageView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
