@@ -11,19 +11,19 @@ import Ruler
 
 class LoginByMobileViewController: BaseViewController {
 
-    @IBOutlet weak var pickMobileNumberPromptLabel: UILabel!
-    @IBOutlet weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
+    @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var areaCodeTextField: BorderTextField!
+    @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var mobileNumberTextField: BorderTextField!
-    @IBOutlet weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
     
-    lazy var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
-        }()
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +68,7 @@ class LoginByMobileViewController: BaseViewController {
 
     // MARK: Actions
 
-    func adjustAreaCodeTextFieldWidth() {
+    private func adjustAreaCodeTextFieldWidth() {
         guard let text = areaCodeTextField.text else {
             return
         }
@@ -84,7 +84,7 @@ class LoginByMobileViewController: BaseViewController {
         })
     }
 
-    func textFieldDidChange(textField: UITextField) {
+    @objc private func textFieldDidChange(textField: UITextField) {
 
         guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
             return
@@ -97,7 +97,7 @@ class LoginByMobileViewController: BaseViewController {
         }
     }
 
-    func next(sender: UIBarButtonItem) {
+    @objc private func next(sender: UIBarButtonItem) {
         tryShowLoginVerifyMobile()
     }
 
@@ -141,7 +141,7 @@ class LoginByMobileViewController: BaseViewController {
         })
     }
 
-    func showLoginVerifyMobile() {
+    private func showLoginVerifyMobile() {
         guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
             return
         }
@@ -168,6 +168,7 @@ class LoginByMobileViewController: BaseViewController {
 extension LoginByMobileViewController: UITextFieldDelegate {
 
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
         }
@@ -176,6 +177,7 @@ extension LoginByMobileViewController: UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(textField: UITextField) {
+
         if textField == areaCodeTextField {
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.areaCodeTextFieldWidthConstraint.constant = 60

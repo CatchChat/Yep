@@ -15,28 +15,29 @@ class LoginVerifyMobileViewController: UIViewController {
     var areaCode: String!
 
 
-    @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
-    @IBOutlet weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var phoneNumberLabel: UILabel!
+    @IBOutlet private weak var phoneNumberLabel: UILabel!
 
-    @IBOutlet weak var verifyCodeTextField: BorderTextField!
-    @IBOutlet weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var verifyCodeTextField: BorderTextField!
+    @IBOutlet private weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var callMePromptLabel: UILabel!
-    @IBOutlet weak var callMeButton: UIButton!
-    @IBOutlet weak var callMeButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var callMePromptLabel: UILabel!
+    @IBOutlet private weak var callMeButton: UIButton!
+    @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
-    lazy var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
-        }()
+    }()
 
-    lazy var callMeTimer: NSTimer = {
+    private lazy var callMeTimer: NSTimer = {
         let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tryCallMe:", userInfo: nil, repeats: true)
         return timer
-        }()
-    var haveAppropriateInput = false {
+    }()
+
+    private var haveAppropriateInput = false {
         willSet {
             nextButton.enabled = newValue
 
@@ -45,7 +46,8 @@ class LoginVerifyMobileViewController: UIViewController {
             }
         }
     }
-    var callMeInSeconds = YepConfig.callMeInSeconds()
+
+    private var callMeInSeconds = YepConfig.callMeInSeconds()
 
 
     override func viewDidLoad() {
@@ -93,11 +95,11 @@ class LoginVerifyMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    func activeAgain(notification: NSNotification) {
+    @objc private func activeAgain(notification: NSNotification) {
         verifyCodeTextField.becomeFirstResponder()
     }
     
-    func tryCallMe(timer: NSTimer) {
+    @objc private func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
@@ -122,7 +124,7 @@ class LoginVerifyMobileViewController: UIViewController {
         }
     }
 
-    @IBAction func callMe(sender: UIButton) {
+    @IBAction private func callMe(sender: UIButton) {
         
         callMeTimer.invalidate()
 
@@ -158,7 +160,7 @@ class LoginVerifyMobileViewController: UIViewController {
         })
     }
 
-    func textFieldDidChange(textField: UITextField) {
+    @objc private func textFieldDidChange(textField: UITextField) {
         guard let text = textField.text else {
             return
         }
@@ -166,7 +168,7 @@ class LoginVerifyMobileViewController: UIViewController {
         haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
     }
 
-    func next(sender: UIBarButtonItem) {
+    @objc private func next(sender: UIBarButtonItem) {
         login()
     }
 
