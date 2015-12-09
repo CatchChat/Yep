@@ -653,6 +653,8 @@ class FeedsViewController: BaseViewController {
                 return
             }
 
+            vc.preparedSkill = skill
+
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
         case "presentPickLocation":
