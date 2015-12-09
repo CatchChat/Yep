@@ -452,12 +452,12 @@ class FeedsViewController: BaseViewController {
                     needReloadData = strongSelf.feeds.isEmpty
 
                     if isLoadMore {
-                        strongSelf.feeds += feeds
+                        strongSelf.feeds += newFeeds
 
-                        needReloadData = true
+                        needReloadData = !newFeeds.isEmpty
 
                     } else {
-                        strongSelf.feeds = feeds
+                        strongSelf.feeds = newFeeds
                     }
 
                     if !needReloadData && !newFeeds.isEmpty {
@@ -1074,10 +1074,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     
-    // Edit (for Delete)
+    // Report
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
+
+        let feed = feeds[indexPath.item]
+
+        if feed.creator.id == YepUserDefaults.userID.value {
+            return false
+        }
+
         return true
     }
     
