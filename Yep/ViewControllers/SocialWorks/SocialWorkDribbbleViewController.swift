@@ -19,20 +19,20 @@ class SocialWorkDribbbleViewController: BaseViewController {
     var afterGetDribbbleWork: (DribbbleWork -> Void)?
 
 
-    lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+    private lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
         return button
         }()
     
-    @IBOutlet weak var dribbbleCollectionView: UICollectionView!
+    @IBOutlet private weak var dribbbleCollectionView: UICollectionView!
 
-    let dribbbleShotCellIdentifier = "DribbbleShotCell"
+    private let dribbbleShotCellIdentifier = "DribbbleShotCell"
 
-    lazy var collectionViewWidth: CGFloat = {
+    private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.dribbbleCollectionView.bounds)
-        }()
+    }()
 
-    var dribbbleShots = Array<DribbbleWork.Shot>() {
+    private var dribbbleShots = Array<DribbbleWork.Shot>() {
         didSet {
             updateDribbbleCollectionView()
         }
@@ -108,13 +108,13 @@ class SocialWorkDribbbleViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateDribbbleCollectionView() {
+    private func updateDribbbleCollectionView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.dribbbleCollectionView.reloadData()
         }
     }
 
-    func share() {
+    @objc private func share(sender: AnyObject) {
 
         if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
 

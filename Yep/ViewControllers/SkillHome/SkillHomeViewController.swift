@@ -16,16 +16,6 @@ let ScrollViewTag = 100
 
 class SkillHomeViewController: BaseViewController {
 
-    lazy var masterTableView: YepChildScrollView = {
-        let tempTableView = YepChildScrollView(frame: CGRectZero)
-        return tempTableView;
-    }()
-    
-    lazy var learningtTableView: YepChildScrollView = {
-        let tempTableView = YepChildScrollView(frame: CGRectZero)
-        return tempTableView;
-    }()
-
     var skill: SkillCell.Skill? {
         willSet {
             title = newValue?.localName
@@ -33,7 +23,17 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-    var skillCoverURLString: String? {
+    private lazy var masterTableView: YepChildScrollView = {
+        let tempTableView = YepChildScrollView(frame: CGRectZero)
+        return tempTableView;
+    }()
+    
+    private lazy var learningtTableView: YepChildScrollView = {
+        let tempTableView = YepChildScrollView(frame: CGRectZero)
+        return tempTableView;
+    }()
+
+    private var skillCoverURLString: String? {
         willSet {
             headerView?.skillCoverURLString = newValue
         }
@@ -41,18 +41,18 @@ class SkillHomeViewController: BaseViewController {
 
     var afterUpdatedSkillCoverAction: (() -> Void)?
 
-    lazy var imagePicker: UIImagePickerController = {
+    private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         return imagePicker
-        }()
+    }()
     
-    var isFirstAppear = true
+    private var isFirstAppear = true
 
     var preferedSkillSet: SkillSet?
     
-    var skillSet: SkillSet = .Master {
+    private var skillSet: SkillSet = .Master {
         willSet {
             switch newValue {
             case .Master:
@@ -76,16 +76,16 @@ class SkillHomeViewController: BaseViewController {
         }
     }
     
-    @IBOutlet weak var skillHomeScrollView: UIScrollView!
+    @IBOutlet private weak var skillHomeScrollView: UIScrollView!
     
-    @IBOutlet weak var headerView: SkillHomeHeaderView!
+    @IBOutlet private weak var headerView: SkillHomeHeaderView!
     
-    @IBOutlet weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
-    var discoveredMasterUsers = [DiscoveredUser]()
-    var discoveredLearningUsers = [DiscoveredUser]()
+    private var discoveredMasterUsers = [DiscoveredUser]()
+    private var discoveredLearningUsers = [DiscoveredUser]()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -104,8 +104,8 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-    let cellIdentifier = "ContactsCell"
-    let loadMoreTableViewCellID = "LoadMoreTableViewCell"
+    private let cellIdentifier = "ContactsCell"
+    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,9 +139,9 @@ class SkillHomeViewController: BaseViewController {
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
-        headerView.masterButton.addTarget(self, action: "changeToMaster", forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.masterButton.addTarget(self, action: "changeToMaster:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        headerView.learningButton.addTarget(self, action: "changeToLearning", forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.learningButton.addTarget(self, action: "changeToLearning:", forControlEvents: UIControlEvents.TouchUpInside)
 
         headerView.changeCoverAction = { [weak self] in
 
@@ -229,7 +229,7 @@ class SkillHomeViewController: BaseViewController {
 
                     if me.masterSkills.filter(predicate).count == 0
                         && me.learningSkills.filter(predicate).count == 0 {
-                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe")
+                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe:")
                             navigationItem.rightBarButtonItem = addSkillToMeButton
                     }
             }
@@ -238,7 +238,7 @@ class SkillHomeViewController: BaseViewController {
 
     // MARK: UI
 
-    func customTitleView() {
+    private func customTitleView() {
 
         let titleLabel = UILabel()
 
@@ -264,7 +264,7 @@ class SkillHomeViewController: BaseViewController {
 
     // MARK: Actions
 
-    func addSkillToMe() {
+    @objc private func addSkillToMe(sender: AnyObject) {
         println("addSkillToMe")
 
         if let skillID = skill?.ID, skillLocalName = skill?.localName {
@@ -307,11 +307,11 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-    func changeToMaster() {
+    @objc private func changeToMaster(sender: AnyObject) {
         skillSet = .Master
     }
     
-    func changeToLearning() {
+    @objc private func changeToLearning(sender: AnyObject) {
         skillSet = .Learning
     }
 
@@ -404,7 +404,7 @@ class SkillHomeViewController: BaseViewController {
         })
     }
 
-    func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
+    private func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
 
         if let skillSet = skillSet {
             switch skillSet {
@@ -419,29 +419,6 @@ class SkillHomeViewController: BaseViewController {
         }
     }
 
-    // MARK: UIScrollViewDelegate
-
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        if scrollView.tag != ScrollViewTag {
-            return
-        }
-        
-        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
-        
-        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
-            
-            if skillSet != .Learning {
-                skillSet = .Learning
-            }
-            
-        } else {
-            if skillSet != .Master {
-                skillSet = .Master
-            }
-        }
-    }
-    
     // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -461,6 +438,31 @@ class SkillHomeViewController: BaseViewController {
                 vc.hidesBottomBarWhenPushed = true
                 
                 vc.setBackButtonWithTitle()
+            }
+        }
+    }
+}
+
+// MARK: UIScrollViewDelegate
+
+extension SkillHomeViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+
+        if scrollView.tag != ScrollViewTag {
+            return
+        }
+
+        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+
+        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
+
+            if skillSet != .Learning {
+                skillSet = .Learning
+            }
+
+        } else {
+            if skillSet != .Master {
+                skillSet = .Master
             }
         }
     }
@@ -562,7 +564,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
 extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
-    enum Section: Int {
+    private enum Section: Int {
         case Users
         case LoadMore
     }

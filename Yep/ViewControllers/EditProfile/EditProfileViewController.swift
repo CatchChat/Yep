@@ -18,40 +18,38 @@ class EditProfileViewController: UIViewController {
         static let Logout = "LogoutNotification"
     }
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    @IBOutlet weak var mobileLabel: UILabel!
+    @IBOutlet private weak var mobileLabel: UILabel!
 
-    @IBOutlet weak var editProfileTableView: TPKeyboardAvoidingTableView!
+    @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
 
-    lazy var imagePicker: UIImagePickerController = {
+    private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         return imagePicker
-        }()
+    }()
 
-    lazy var doneButton: UIBarButtonItem = {
+    private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "saveIntroduction:")
         return button
-        }()
+    }()
 
-    let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
-    let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
-    let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
+    private let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
+    private let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
+    private let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
 
-    var introduction: String {
-        get {
-            return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
-        }
+    private var introduction: String {
+        return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
     }
 
-    let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
+    private let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
 
-    struct Listener {
+    private struct Listener {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
@@ -75,8 +73,7 @@ class EditProfileViewController: UIViewController {
         let avatarSize = YepConfig.editProfileAvatarSize()
         avatarImageViewWidthConstraint.constant = avatarSize
 
-        updateAvatar() {
-        }
+        updateAvatar() {}
 
         mobileLabel.text = YepUserDefaults.fullPhoneNumber
 
@@ -87,7 +84,7 @@ class EditProfileViewController: UIViewController {
 
     // MARK: Actions
 
-    func updateAvatar(completion:() -> Void) {
+    private func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
 
             let avatarSize = YepConfig.editProfileAvatarSize()
@@ -99,7 +96,7 @@ class EditProfileViewController: UIViewController {
         }
     }
 
-    @IBAction func changeAvatar(sender: UITapGestureRecognizer) {
+    @IBAction private func changeAvatar(sender: UITapGestureRecognizer) {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
@@ -150,7 +147,7 @@ class EditProfileViewController: UIViewController {
         }
     }
 
-    func saveIntroduction(sender: UIBarButtonItem) {
+    @objc private func saveIntroduction(sender: UIBarButtonItem) {
 
         let introductionCellIndexPath = NSIndexPath(forRow: InfoRow.Intro.rawValue, inSection: Section.Info.rawValue)
         if let introductionCell = editProfileTableView.cellForRowAtIndexPath(introductionCellIndexPath) as? EditProfileMoreInfoCell {
@@ -161,12 +158,12 @@ class EditProfileViewController: UIViewController {
 
 extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
         case Info
         case LogOut
     }
 
-    enum InfoRow: Int {
+    private enum InfoRow: Int {
         case Username = 0
         case Nickname
         case Intro

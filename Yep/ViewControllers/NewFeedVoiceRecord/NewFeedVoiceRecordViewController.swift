@@ -13,24 +13,24 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
-    @IBOutlet weak var nextButton: UIBarButtonItem!
+    @IBOutlet private weak var nextButton: UIBarButtonItem!
 
-    @IBOutlet weak var voiceRecordSampleView: VoiceRecordSampleView!
-    @IBOutlet weak var voiceIndicatorImageView: UIImageView!
-    @IBOutlet weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var voiceRecordSampleView: VoiceRecordSampleView!
+    @IBOutlet private weak var voiceIndicatorImageView: UIImageView!
+    @IBOutlet private weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet private weak var timeLabel: UILabel!
     
-    @IBOutlet weak var voiceRecordButton: RecordButton!
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet private weak var voiceRecordButton: RecordButton!
+    @IBOutlet private weak var playButton: UIButton!
+    @IBOutlet private weak var resetButton: UIButton!
 
-    enum State {
+    private enum State {
         case Default
         case Recording
         case FinishRecord
     }
-    var state: State = .Default {
+    private var state: State = .Default {
         willSet {
             switch newValue {
 
@@ -113,11 +113,11 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    var voiceFileURL: NSURL?
-    var audioPlayer: AVAudioPlayer?
-    var displayLink: CADisplayLink!
+    private var voiceFileURL: NSURL?
+    private var audioPlayer: AVAudioPlayer?
+    private var displayLink: CADisplayLink!
 
-    var sampleValues: [CGFloat] = [] {
+    private var sampleValues: [CGFloat] = [] {
         didSet {
             let count = sampleValues.count
             let frequency = 10
@@ -129,7 +129,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    var audioPlaying: Bool = false {
+    private var audioPlaying: Bool = false {
         willSet {
             if newValue != audioPlaying {
                 if newValue {
@@ -141,7 +141,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    var playbackTimer: NSTimer? {
+    private var playbackTimer: NSTimer? {
         didSet {
             if let oldPlaybackTimer = oldValue {
                 oldPlaybackTimer.invalidate()
@@ -149,7 +149,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    var audioPlayedDuration: NSTimeInterval = 0 {
+    private var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
 
             guard newValue != audioPlayedDuration else {
@@ -194,7 +194,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
         nextButton.title = NSLocalizedString("Next", comment: "")
 
-        displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue")
+        displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue:")
         displayLink.frameInterval = 6 // 频率为每秒 10 次
         displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
 
@@ -208,7 +208,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
 
     // MARK: - Actions
 
-    @IBAction func cancel(sender: UIBarButtonItem) {
+    @IBAction private func cancel(sender: UIBarButtonItem) {
 
         dismissViewControllerAnimated(true, completion: { [weak self] in
 
@@ -224,7 +224,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         })
     }
 
-    @IBAction func next(sender: UIBarButtonItem) {
+    @IBAction private func next(sender: UIBarButtonItem) {
 
         guard let fileURL = voiceFileURL where !sampleValues.isEmpty else {
             return
@@ -290,7 +290,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
     }
 
-    func checkVoiceRecordValue() {
+    @objc private func checkVoiceRecordValue(sender: AnyObject) {
 
         if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
 
@@ -305,7 +305,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    @IBAction func voiceRecord(sender: UIButton) {
+    @IBAction private func voiceRecord(sender: UIButton) {
 
         if state == .Recording {
 
@@ -337,7 +337,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    func updateAudioPlaybackProgress(timer: NSTimer) {
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
         if let audioPlayer = audioPlayer {
             let currentTime = audioPlayer.currentTime
@@ -345,7 +345,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    @IBAction func playOrPauseAudio(sender: UIButton) {
+    @IBAction private func playOrPauseAudio(sender: UIButton) {
 
         guard let voiceFileURL = voiceFileURL else {
             return
@@ -402,7 +402,7 @@ class NewFeedVoiceRecordViewController: UIViewController {
         }
     }
 
-    @IBAction func reset(sender: UIButton) {
+    @IBAction private func reset(sender: UIButton) {
 
         state = .Default
     }

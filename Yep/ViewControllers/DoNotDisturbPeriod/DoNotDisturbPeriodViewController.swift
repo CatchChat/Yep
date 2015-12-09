@@ -13,18 +13,20 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     var doNotDisturbPeriod = DoNotDisturbPeriod()
 
-    @IBOutlet weak var fromButton: UIButton!
-    @IBOutlet weak var toButton: UIButton!
-    @IBOutlet weak var pickerView: UIPickerView!
+    var dirtyAction: (DoNotDisturbPeriod -> Void)?
 
-    enum ActiveTime {
+    @IBOutlet private weak var fromButton: UIButton!
+    @IBOutlet private weak var toButton: UIButton!
+    @IBOutlet private weak var pickerView: UIPickerView!
+
+    private enum ActiveTime {
         case From
         case To
     }
 
-    let max = Int(INT16_MAX)
+    private let max = Int(INT16_MAX)
 
-    var activeTime: ActiveTime = .From {
+    private var activeTime: ActiveTime = .From {
         willSet {
             switch newValue {
 
@@ -45,18 +47,16 @@ class DoNotDisturbPeriodViewController: UIViewController {
         }
     }
 
-    var isDirty = false {
+    private var isDirty = false {
         didSet {
             updateDoNotDisturb(success: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.dirtyAction?(strongSelf.doNotDisturbPeriod)
                 }
-
             })
         }
     }
-    var dirtyAction: (DoNotDisturbPeriod -> Void)?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -70,7 +70,7 @@ class DoNotDisturbPeriodViewController: UIViewController {
 
     // MARK: - Actions
 
-    func updateDoNotDisturb(success success: () -> Void) {
+    private func updateDoNotDisturb(success success: () -> Void) {
 
         let info: JSONDictionary = [
             "mute_started_at_string": doNotDisturbPeriod.serverFromString,
@@ -123,19 +123,19 @@ class DoNotDisturbPeriodViewController: UIViewController {
         })
     }
 
-    func updateFromButton() {
+    private func updateFromButton() {
         fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.localFromString, forState: .Normal)
     }
 
-    func updateToButton() {
+    private func updateToButton() {
         toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, forState: .Normal)
     }
 
-    @IBAction func activeFrom() {
+    @IBAction private func activeFrom() {
         activeTime = .From
     }
 
-    @IBAction func activeTo() {
+    @IBAction private func activeTo() {
         activeTime = .To
     }
 }

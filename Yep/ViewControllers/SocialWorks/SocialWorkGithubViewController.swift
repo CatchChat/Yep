@@ -19,23 +19,23 @@ class SocialWorkGithubViewController: BaseViewController {
     var afterGetGithubWork: (GithubWork -> Void)?
 
 
-    lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+    private lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
         return button
-        }()
+    }()
 
-    @IBOutlet weak var infoView: UIView!
+    @IBOutlet private weak var infoView: UIView!
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var followersCountLabel: UILabel!
-    @IBOutlet weak var starsCountLabel: UILabel!
-    @IBOutlet weak var followingCountLabel: UILabel!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var followersCountLabel: UILabel!
+    @IBOutlet private weak var starsCountLabel: UILabel!
+    @IBOutlet private weak var followingCountLabel: UILabel!
 
-    @IBOutlet weak var githubTableView: UITableView!
+    @IBOutlet private weak var githubTableView: UITableView!
 
-    let githubRepoCellIdentifier = "GithubRepoCell"
+    private let githubRepoCellIdentifier = "GithubRepoCell"
 
-    var githubUser: GithubWork.User? {
+    private var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
                 shareButton.enabled = true
@@ -53,7 +53,7 @@ class SocialWorkGithubViewController: BaseViewController {
         }
     }
 
-    var githubRepos = Array<GithubWork.Repo>() {
+    private var githubRepos = Array<GithubWork.Repo>() {
         didSet {
             let repos = githubRepos
             let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
@@ -141,13 +141,14 @@ class SocialWorkGithubViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateGithubTableView() {
+    private func updateGithubTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.githubTableView.reloadData()
         }
     }
 
-    func share() {
+    @objc private func share(sender: AnyObject) {
+
         if let user = githubUser, githubURL = NSURL(string: user.htmlURLString) {
 
             var title: String?
@@ -158,6 +159,7 @@ class SocialWorkGithubViewController: BaseViewController {
             var thumbnail: UIImage?
             if let image = avatarImageView.image {
                 thumbnail = image
+
             } else {
                 if let socialAccount = socialAccount {
                     thumbnail = UIImage(named: socialAccount.iconName)
@@ -196,7 +198,6 @@ class SocialWorkGithubViewController: BaseViewController {
             presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
-
 }
 
 extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDelegate {

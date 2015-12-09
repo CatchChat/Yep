@@ -11,20 +11,20 @@ import Ruler
 
 class RegisterPickNameViewController: BaseViewController {
 
-    @IBOutlet weak var pickNamePromptLabel: UILabel!
-    @IBOutlet weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var pickNamePromptLabel: UILabel!
+    @IBOutlet private weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var promptTermsLabel: UILabel!
+    @IBOutlet private weak var promptTermsLabel: UILabel!
 
-    @IBOutlet weak var nameTextField: BorderTextField!
-    @IBOutlet weak var nameTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var nameTextField: BorderTextField!
+    @IBOutlet private weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
-    lazy var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
-        }()
+    }()
 
-    var isDirty = false {
+    private var isDirty = false {
         willSet {
             nextButton.enabled = newValue
             promptTermsLabel.alpha = newValue ? 1.0 : 0.5
@@ -62,7 +62,7 @@ class RegisterPickNameViewController: BaseViewController {
         promptTermsLabel.alpha = 0.5
 
         promptTermsLabel.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tapTerms")
+        let tap = UITapGestureRecognizer(target: self, action: "tapTerms:")
         promptTermsLabel.addGestureRecognizer(tap)
 
         nameTextField.backgroundColor = UIColor.whiteColor()
@@ -89,13 +89,13 @@ class RegisterPickNameViewController: BaseViewController {
 
     // MARK: Actions
 
-    func tapTerms() {
+    @objc private func tapTerms(sender: UITapGestureRecognizer) {
         if let URL = NSURL(string: YepConfig.termsURLString) {
             yep_openURL(URL)
         }
     }
 
-    func textFieldDidChange(textField: UITextField) {
+    @objc private func textFieldDidChange(textField: UITextField) {
         guard let text = textField.text else {
             return
         }
@@ -103,7 +103,7 @@ class RegisterPickNameViewController: BaseViewController {
         isDirty = !text.isEmpty
     }
 
-    func next(sender: UIBarButtonItem) {
+    @objc private func next(sender: UIBarButtonItem) {
         showRegisterPickMobile()
     }
 

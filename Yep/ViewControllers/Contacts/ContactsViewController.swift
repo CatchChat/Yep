@@ -14,23 +14,23 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
-    @IBOutlet weak var coverUnderStatusBarView: UIView!
+    @IBOutlet private weak var coverUnderStatusBarView: UIView!
     
-    var searchController: UISearchController?
-    var searchControllerIsActive: Bool {
+    private var searchController: UISearchController?
+    private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
 
-    let cellIdentifier = "ContactsCell"
+    private let cellIdentifier = "ContactsCell"
 
-    lazy var friends = normalFriends()
-    var filteredFriends: Results<User>?
+    private lazy var friends = normalFriends()
+    private var filteredFriends: Results<User>?
 
-    var realmNotificationToken: NotificationToken?
+    private var realmNotificationToken: NotificationToken?
 
-    lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
+    private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
 
-    var noContacts = false {
+    private var noContacts = false {
         didSet {
             if noContacts != oldValue {
                 contactsTableView.tableFooterView = noContacts ? noContactsFooterView : UIView()
@@ -38,7 +38,7 @@ class ContactsViewController: BaseViewController {
         }
     }
 
-    struct Listener {
+    private struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
         static let Avatar = "ContactsViewController.Avatar"
     }
@@ -57,7 +57,7 @@ class ContactsViewController: BaseViewController {
 
         title = NSLocalizedString("Contacts", comment: "")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships:", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
 
         coverUnderStatusBarView.hidden = true
 
@@ -116,13 +116,13 @@ class ContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateContactsTableView() {
+    private func updateContactsTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.contactsTableView.reloadData()
         }
     }
 
-    func syncFriendships() {
+    @objc private func syncFriendships(sender: NSNotification) {
         syncFriendshipsAndDoFurtherAction {
             dispatch_async(dispatch_get_main_queue()) {
                 self.updateContactsTableView()
@@ -130,7 +130,7 @@ class ContactsViewController: BaseViewController {
         }
     }
 
-    @IBAction func showAddFriends(sender: UIBarButtonItem) {
+    @IBAction private func showAddFriends(sender: UIBarButtonItem) {
         performSegueWithIdentifier("showAddFriends", sender: nil)
     }
 

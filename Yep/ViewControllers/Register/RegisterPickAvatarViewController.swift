@@ -13,35 +13,35 @@ import Navi
 
 class RegisterPickAvatarViewController: UIViewController {
     
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var cameraPreviewView: CameraPreviewView!
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var cameraPreviewView: CameraPreviewView!
 
-    @IBOutlet weak var takePicturePromptLabel: UILabel!
+    @IBOutlet private weak var takePicturePromptLabel: UILabel!
 
-    @IBOutlet weak var openCameraButton: BorderButton!
+    @IBOutlet private weak var openCameraButton: BorderButton!
 
-    @IBOutlet weak var cameraRollButton: UIButton!
-    @IBOutlet weak var captureButton: UIButton!
-    @IBOutlet weak var retakeButton: UIButton!
+    @IBOutlet private weak var cameraRollButton: UIButton!
+    @IBOutlet private weak var captureButton: UIButton!
+    @IBOutlet private weak var retakeButton: UIButton!
 
-    lazy var nextButton: UIBarButtonItem = {
+    private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
-        }()
+    }()
 
-    var avatar = UIImage() {
+    private var avatar = UIImage() {
         willSet {
             avatarImageView.image = newValue
         }
     }
 
-    enum PickAvatarState {
+    private enum PickAvatarState {
         case Default
         case CameraOpen
         case Captured
     }
 
-    var pickAvatarState: PickAvatarState = .Default {
+    private var pickAvatarState: PickAvatarState = .Default {
         willSet {
             switch newValue {
             case .Default:
@@ -89,30 +89,30 @@ class RegisterPickAvatarViewController: UIViewController {
         }
     }
 
-    lazy var sessionQueue: dispatch_queue_t = dispatch_queue_create("session_queue", DISPATCH_QUEUE_SERIAL)
+    private lazy var sessionQueue: dispatch_queue_t = dispatch_queue_create("session_queue", DISPATCH_QUEUE_SERIAL)
 
-    lazy var session: AVCaptureSession = {
+    private lazy var session: AVCaptureSession = {
         let _session = AVCaptureSession()
         _session.sessionPreset = AVCaptureSessionPreset640x480
 
         return _session
-        }()
+    }()
 
-    let mediaType = AVMediaTypeVideo
+    private let mediaType = AVMediaTypeVideo
 
-    lazy var videoDeviceInput: AVCaptureDeviceInput? = {
+    private lazy var videoDeviceInput: AVCaptureDeviceInput? = {
         guard let videoDevice = self.deviceWithMediaType(self.mediaType, preferringPosition: .Front) else {
             return nil
         }
 
         return try? AVCaptureDeviceInput(device: videoDevice)
-        }()
+    }()
 
-    lazy var stillImageOutput: AVCaptureStillImageOutput = {
+    private lazy var stillImageOutput: AVCaptureStillImageOutput = {
         let _stillImageOutput = AVCaptureStillImageOutput()
         _stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
         return _stillImageOutput
-        }()
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,11 +162,11 @@ class RegisterPickAvatarViewController: UIViewController {
 
     // MARK: Actions
 
-    func next(sender: UIBarButtonItem) {
+    @objc private func next(sender: UIBarButtonItem) {
         uploadAvatarAndGotoPickSkills()
     }
 
-    @IBAction func tryOpenCamera(sender: UIButton) {
+    @IBAction private func tryOpenCamera(sender: UIButton) {
         proposeToAccess(.Camera, agreed: {
             self.openCamera()
 
@@ -204,7 +204,7 @@ class RegisterPickAvatarViewController: UIViewController {
         }
     }
 
-    @IBAction func tryOpenCameraRoll(sender: UIButton) {
+    @IBAction private func tryOpenCameraRoll(sender: UIButton) {
 
         let openCameraRoll: ProposerAction = { [weak self] in
             if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
@@ -222,7 +222,7 @@ class RegisterPickAvatarViewController: UIViewController {
         })
     }
 
-    func uploadAvatarAndGotoPickSkills() {
+    private func uploadAvatarAndGotoPickSkills() {
         
         YepHUD.showActivityIndicator()
 
@@ -260,7 +260,7 @@ class RegisterPickAvatarViewController: UIViewController {
         })
     }
 
-    @IBAction func captureOrFinish(sender: UIButton) {
+    @IBAction private func captureOrFinish(sender: UIButton) {
         if pickAvatarState == .Captured {
             uploadAvatarAndGotoPickSkills()
 
@@ -287,21 +287,23 @@ class RegisterPickAvatarViewController: UIViewController {
         }
     }
 
-    @IBAction func retake(sender: UIButton) {
+    @IBAction private func retake(sender: UIButton) {
         pickAvatarState = .CameraOpen
     }
-
 }
 
 // MARK: UIImagePicker
 
 extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.avatar = image
-            self.pickAvatarState = .Captured
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.avatar = image
+            self?.pickAvatarState = .Captured
         }
 
         dismissViewControllerAnimated(true, completion: nil)
     }
 }
+

@@ -15,22 +15,21 @@ class EditSkillsViewController: BaseViewController {
     var skillSet: SkillSet?
     var afterChangedSkillsAction: (() -> Void)?
 
-    var realm: Realm!
-    var me: User?
+    private var realm: Realm!
+    private var me: User?
 
-    @IBOutlet weak var skillsTableView: UITableView!
+    @IBOutlet private weak var skillsTableView: UITableView!
 
-    @IBOutlet weak var addSkillsView: BottomButtonView!
+    @IBOutlet private weak var addSkillsView: BottomButtonView!
 
-    lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
+    private lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
 
-    var masterSkills = [Skill]()
-    var learningSkills = [Skill]()
+    private var masterSkills = [Skill]()
+    private var learningSkills = [Skill]()
 
-    var skillCategories: [SkillCategory]?
+    private var skillCategories: [SkillCategory]?
 
-
-    let editSkillCellID = "EditSkillCell"
+    private let editSkillCellID = "EditSkillCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,7 +227,7 @@ class EditSkillsViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateSkillsTableView() {
+    private func updateSkillsTableView() {
         skillsTableView.reloadData()
     }
 }

@@ -17,20 +17,21 @@ class SocialWorkInstagramViewController: BaseViewController {
 
     var afterGetInstagramWork: (InstagramWork -> Void)?
 
-    lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share")
+
+    private lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
         return button
         }()
 
-    @IBOutlet weak var instagramCollectionView: UICollectionView!
+    @IBOutlet private weak var instagramCollectionView: UICollectionView!
 
-    let instagramMediaCellIdentifier = "InstagramMediaCell"
+    private let instagramMediaCellIdentifier = "InstagramMediaCell"
 
-    lazy var collectionViewWidth: CGFloat = {
+    private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.instagramCollectionView.bounds)
-        }()
+    }()
 
-    var instagramMedias = Array<InstagramWork.Media>() {
+    private var instagramMedias = Array<InstagramWork.Media>() {
         didSet {
             updateInstagramCollectionView()
 
@@ -106,13 +107,13 @@ class SocialWorkInstagramViewController: BaseViewController {
 
     // MARK: Actions
 
-    func updateInstagramCollectionView() {
+    private func updateInstagramCollectionView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.instagramCollectionView.reloadData()
         }
     }
 
-    func share() {
+    @objc private func share(sender: AnyObject) {
 
         if let firstMedia = instagramMedias.first {
 

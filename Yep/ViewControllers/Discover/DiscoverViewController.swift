@@ -19,17 +19,17 @@ class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoveredUsersCollectionView: UICollectionView!
     
-    @IBOutlet weak var filterButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
     
-    @IBOutlet weak var modeButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var modeButtonItem: UIBarButtonItem!
 
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
-    let NormalUserIdentifier = "DiscoverNormalUserCell"
-    let CardUserIdentifier = "DiscoverCardUserCell"
-    let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
+    private let NormalUserIdentifier = "DiscoverNormalUserCell"
+    private let CardUserIdentifier = "DiscoverCardUserCell"
+    private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
     
-    var userMode: DiscoverUserMode = .Card {
+    private var userMode: DiscoverUserMode = .Card {
         didSet {
             switch userMode {
 
@@ -47,9 +47,9 @@ class DiscoverViewController: BaseViewController {
         }
     }
     
-    let layout = DiscoverFlowLayout()
+    private let layout = DiscoverFlowLayout()
 
-    var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
             discoveredUsers = []
             discoveredUsersCollectionView.reloadData()
@@ -64,9 +64,9 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    var discoveredUsers = [DiscoveredUser]()
+    private var discoveredUsers = [DiscoveredUser]()
 
-    lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +101,7 @@ class DiscoverViewController: BaseViewController {
 
     // MARK: Actions
     
-    @IBAction func changeMode(sender: AnyObject) {
+    @IBAction private func changeMode(sender: AnyObject) {
 
         switch userMode {
             
@@ -113,7 +113,7 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    @IBAction func showFilters(sender: UIBarButtonItem) {
+    @IBAction private func showFilters(sender: UIBarButtonItem) {
 
         filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
         
@@ -126,9 +126,9 @@ class DiscoverViewController: BaseViewController {
         }
     }
 
-    var currentPageIndex = 1
-    var isFetching = false
-    func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    private var currentPageIndex = 1
+    private var isFetching = false
+    private func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
         if isFetching {
             return
@@ -226,7 +226,7 @@ class DiscoverViewController: BaseViewController {
 
 extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    enum Section: Int {
+    private enum Section: Int {
         case User
         case LoadMore
     }

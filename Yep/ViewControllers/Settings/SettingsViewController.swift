@@ -10,18 +10,18 @@ import UIKit
 
 class SettingsViewController: BaseViewController {
 
-    @IBOutlet weak var settingsTableView: UITableView!
+    @IBOutlet private weak var settingsTableView: UITableView!
 
-    let settingsUserCellIdentifier = "SettingsUserCell"
-    let settingsMoreCellIdentifier = "SettingsMoreCell"
+    private let settingsUserCellIdentifier = "SettingsUserCell"
+    private let settingsMoreCellIdentifier = "SettingsMoreCell"
 
-    var introduction: String {
+    private var introduction: String {
         get {
             return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
         }
     }
 
-    let moreAnnotations: [[String: String]] = [
+    private let moreAnnotations: [[String: String]] = [
         [
             "name": NSLocalizedString("Notifications & Privacy", comment: ""),
             "segue": "showNotifications",
@@ -36,9 +36,9 @@ class SettingsViewController: BaseViewController {
         ],
     ]
 
-    let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
+    private let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
 
-    struct Listener {
+    private struct Listener {
         static let Introduction = "SettingsViewController.Introduction"
     }
 
@@ -76,12 +76,11 @@ class SettingsViewController: BaseViewController {
             }
         }
     }
-
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
         case User = 0
         case More
     }

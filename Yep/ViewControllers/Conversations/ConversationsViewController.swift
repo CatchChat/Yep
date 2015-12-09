@@ -17,18 +17,18 @@ let YepNotificationOKAction = "YepNotificationOKAction"
 
 class ConversationsViewController: UIViewController {
 
-    lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+    private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
     @IBOutlet weak var conversationsTableView: UITableView!
 
-    let feedConversationDockCellID = "FeedConversationDockCell"
-    let cellIdentifier = "ConversationCell"
+    private let feedConversationDockCellID = "FeedConversationDockCell"
+    private let cellIdentifier = "ConversationCell"
 
-    var realm: Realm!
+    private var realm: Realm!
 
-    var realmNotificationToken: NotificationToken?
+    private var realmNotificationToken: NotificationToken?
 
-    var haveUnreadMessages = false {
+    private var haveUnreadMessages = false {
         didSet {
             if haveUnreadMessages != oldValue {
                 if haveUnreadMessages {
@@ -43,9 +43,9 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Have a nice day!", comment: ""))
+    private lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Have a nice day!", comment: ""))
 
-    var noConversation = false {
+    private var noConversation = false {
         didSet {
             if noConversation != oldValue {
                 conversationsTableView.tableFooterView = UIView()
@@ -53,12 +53,12 @@ class ConversationsViewController: UIViewController {
         }
     }
 
-    lazy var conversations: Results<Conversation> = {
+    private lazy var conversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
         }()
 
-    struct Listener {
+    private struct Listener {
         static let Nickname = "ConversationsViewController.Nickname"
         static let Avatar = "ConversationsViewController.Avatar"
 
@@ -240,7 +240,7 @@ class ConversationsViewController: UIViewController {
         cacheInAdvance()
     }
     
-    func askForNotification() {
+    private func askForNotification() {
 
         if #available(iOS 9.0, *) {
             
@@ -303,7 +303,7 @@ class ConversationsViewController: UIViewController {
 
     // MARK: Actions
 
-    func reloadConversationsTableView() {
+    @objc private func reloadConversationsTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.conversationsTableView.reloadData()
         }
@@ -314,7 +314,7 @@ class ConversationsViewController: UIViewController {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
 
         case FeedConversation
         case Conversation

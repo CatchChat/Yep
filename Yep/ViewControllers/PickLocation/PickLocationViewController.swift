@@ -23,31 +23,31 @@ class PickLocationViewController: UIViewController {
     typealias SendLocationAction = (locationInfo: Location.Info) -> Void
     var sendLocationAction: SendLocationAction?
 
-    @IBOutlet weak var cancelButton: UIBarButtonItem!
-    @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var cancelButton: UIBarButtonItem!
+    @IBOutlet private weak var doneButton: UIBarButtonItem!
+    @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    var isFirstShowUserLocation = true
+    private var isFirstShowUserLocation = true
 
-    var locationPin: LocationPin? {
+    private var locationPin: LocationPin? {
         didSet {
             reloadTableView()
         }
     }
 
-    var searchedMapItems = [MKMapItem]() {
+    private var searchedMapItems = [MKMapItem]() {
         didSet {
             reloadTableView()
         }
     }
 
-    lazy var geocoder = CLGeocoder()
+    private lazy var geocoder = CLGeocoder()
 
-    var userLocationPlacemarks = [CLPlacemark]() {
+    private var userLocationPlacemarks = [CLPlacemark]() {
         didSet {
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
@@ -63,7 +63,7 @@ class PickLocationViewController: UIViewController {
         }
     }
 
-    var pickedLocationPlacemarks = [CLPlacemark]() {
+    private var pickedLocationPlacemarks = [CLPlacemark]() {
         didSet {
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
@@ -79,13 +79,13 @@ class PickLocationViewController: UIViewController {
         }
     }
 
-    var foursquareVenues = [FoursquareVenue]() {
+    private var foursquareVenues = [FoursquareVenue]() {
         didSet {
             reloadTableView()
         }
     }
 
-    let pickLocationCellIdentifier = "PickLocationCell"
+    private let pickLocationCellIdentifier = "PickLocationCell"
 
     enum Location {
 
@@ -119,7 +119,7 @@ class PickLocationViewController: UIViewController {
         }
     }
 
-    var location: Location? {
+    private var location: Location? {
         willSet {
             if let coordinate = newValue?.info.coordinate {
                 updateLocationPinWithCoordinate(coordinate)
@@ -129,7 +129,7 @@ class PickLocationViewController: UIViewController {
         }
     }
 
-    var selectedLocationIndexPath: NSIndexPath?
+    private var selectedLocationIndexPath: NSIndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -212,12 +212,12 @@ class PickLocationViewController: UIViewController {
 
     // MARK: Actions
     
-    @IBAction func cancel(sender: UIBarButtonItem) {
+    @IBAction private func cancel(sender: UIBarButtonItem) {
 
         dismissViewControllerAnimated(true, completion: nil)
     }
 
-    @IBAction func done(sender: UIBarButtonItem) {
+    @IBAction private func done(sender: UIBarButtonItem) {
 
         switch purpose {
 
@@ -269,7 +269,7 @@ class PickLocationViewController: UIViewController {
         locationPin = pin
     }
 
-    func addAnnotation(sender: UITapGestureRecognizer) {
+    @objc private func addAnnotation(sender: UITapGestureRecognizer) {
 
         let point = sender.locationInView(mapView)
         let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
@@ -284,7 +284,7 @@ class PickLocationViewController: UIViewController {
         selectedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
 
-    func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
+    private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
         geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
 
@@ -308,7 +308,7 @@ class PickLocationViewController: UIViewController {
         })
     }
 
-    func reloadTableView() {
+    private func reloadTableView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
         }
@@ -451,7 +451,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
 extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate {
 
-    enum Section: Int {
+    private enum Section: Int {
         case CurrentLocation = 0
         case UserPickedLocation
         case UserLocationPlacemarks
