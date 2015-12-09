@@ -36,6 +36,9 @@ class SearchedUsersViewController: BaseViewController {
         searchedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         searchedUsersTableView.rowHeight = 80
 
+        searchedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        searchedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
         activityIndicator.startAnimating()
 
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
