@@ -76,7 +76,7 @@ class FeedConversationCell: UITableViewCell {
             if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
             } else {
-                self.chatLabel.text = "\(nickname): \(latestMessage.textContent)"
+                self.chatLabel.text = String(format: NSLocalizedString("%@: %@", comment: ""), nickname, latestMessage.textContent)
             }
             
         } else {

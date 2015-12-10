@@ -11,6 +11,7 @@ import UIKit
 class ChatRightImageCell: ChatRightBaseCell {
 
     @IBOutlet weak var messageImageView: UIImageView!
+    @IBOutlet weak var borderImageView: UIImageView!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -108,6 +109,8 @@ class ChatRightImageCell: ChatRightBaseCell {
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
+                        strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                     }
                 }
                 
@@ -128,6 +131,8 @@ class ChatRightImageCell: ChatRightBaseCell {
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
+                        strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                     }
                 }
 
@@ -149,6 +154,8 @@ class ChatRightImageCell: ChatRightBaseCell {
                 if let strongSelf = self {
                     strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                     strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
+                    strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                 }
             }
 

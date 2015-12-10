@@ -11,6 +11,7 @@ import UIKit
 class ChatLeftVideoCell: ChatBaseCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var borderImageView: UIImageView!
 
     @IBOutlet weak var playImageView: UIImageView!
 
@@ -160,6 +161,8 @@ class ChatLeftVideoCell: ChatBaseCell {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                         strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+
+                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                     }
                 }
 
@@ -181,6 +184,8 @@ class ChatLeftVideoCell: ChatBaseCell {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                         strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+
+                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                     }
                 }
 
@@ -203,6 +208,8 @@ class ChatLeftVideoCell: ChatBaseCell {
                     strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                     strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                     strongSelf.loadingProgressView.center = strongSelf.playImageView.center
+
+                    strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                 }
             }
 

@@ -989,8 +989,20 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
 }
 
 func latestMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
-    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
-    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+
+//    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+//    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+
+    switch conversationType {
+
+    case .OneToOne:
+        let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+
+    case .Group:
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
+        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    }
 }
 
 func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
