@@ -712,3 +712,5 @@
 
 "Voice recording time is too short!" = "语音录制时间太短！";
 
+"%@: %@" = "%1$@：%2$@";
+
