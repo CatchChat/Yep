@@ -64,14 +64,14 @@ extension UIImage {
 
         let pixelSideLength = sideLength * UIScreen.mainScreen().scale
 
-        println("pixelSideLength: \(pixelSideLength)")
-        println("size: \(size)")
+        //println("pixelSideLength: \(pixelSideLength)")
+        //println("size: \(size)")
 
         let pixelWidth = size.width * scale
         let pixelHeight = size.height * scale
 
-        println("pixelWidth: \(pixelWidth)")
-        println("pixelHeight: \(pixelHeight)")
+        //println("pixelWidth: \(pixelWidth)")
+        //println("pixelHeight: \(pixelHeight)")
 
         let newSize: CGSize
 
@@ -95,10 +95,11 @@ extension UIImage {
             let newHeight = (pixelSideLength / pixelWidth) * pixelHeight
             newSize = CGSize(width: newWidth, height: newHeight)
         }
-        println("newSize: \(newSize)")
+
 
         if scale == UIScreen.mainScreen().scale {
             let newSize = CGSize(width: newSize.width / scale, height: newSize.height / scale)
+            //println("newSize: \(newSize)")
 
             UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
             let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
@@ -113,6 +114,7 @@ extension UIImage {
             return self
 
         } else {
+            //println("newSize: \(newSize)")
             UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
             let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
             self.drawInRect(rect)

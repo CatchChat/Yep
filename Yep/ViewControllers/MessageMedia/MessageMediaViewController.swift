@@ -240,7 +240,7 @@ extension MessageMediaViewController: UICollectionViewDataSource, UICollectionVi
 
             mediaControlView.type = .Image
             
-            ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { (url, image, _) in
+            ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil, completion: { (url, image, _) in
                 guard url.absoluteString == attachment.URLString else {
                     return
                 }

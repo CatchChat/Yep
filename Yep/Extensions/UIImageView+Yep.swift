@@ -30,7 +30,7 @@ extension UIImageView {
 
         yep_setAttachmentURL(attachmentURL)
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: size, completion: { [weak self] (url, image, cacheType) in
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
 
             guard let strongSelf = self, yep_attachmentURL = strongSelf.yep_attachmentURL where yep_attachmentURL == url else {
                 return
