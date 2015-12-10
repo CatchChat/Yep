@@ -3388,12 +3388,12 @@ func foursquareVenuesNearby(location: CLLocation, failureHandler: ((Reason, Stri
 
     let resource = jsonResource(path: "/v2/venues/search", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    let baseURL = NSURL(string: "https://api.foursquare.com")!
+    let foursquareBaseURL = NSURL(string: "https://api.foursquare.com")!
 
     if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+        apiRequest({_ in}, baseURL: foursquareBaseURL, resource: resource, failure: failureHandler, completion: completion)
     } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+        apiRequest({_ in}, baseURL: foursquareBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
 

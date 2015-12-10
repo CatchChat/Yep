@@ -20,31 +20,28 @@ class ImageCache {
     let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
 //    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
     
-    func imageOfAttachment(attachment: DiscoveredAttachment, withSize: CGSize?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+    func imageOfAttachment(attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
 
         guard let attachmentURL = NSURL(string: attachment.URLString) else {
             return
         }
 
-        var cacheSize = CGSizeZero
-        
-        if let withSize = withSize {
-            
-            let screenScale = UIScreen.mainScreen().scale// * 0.75
-            
-            let deviceSize = CGSizeMake(withSize.width * screenScale, withSize.height * screenScale)
-            
-            cacheSize = deviceSize
+        var sideLength: CGFloat = 0
+
+        if let withMinSideLength = withMinSideLength {
+            sideLength = withMinSideLength
         }
         
-        let attachmentOriginKey = "attachment-0.0-0.0-\(attachmentURL.absoluteString)"
+        let attachmentOriginKey = "attachment-0.0-\(attachmentURL.absoluteString)"
 
-        let attachmentSizeKey = "attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
+        let attachmentSideLengthKey = "attachment-\(sideLength)-\(attachmentURL.absoluteString)"
+
+        //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
         let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: UIScreen.mainScreen().scale)
         //查找当前 Size 的 Cache
         
-        Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSizeKey, options: OptionsInfos) { (image, type) -> () in
+        Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSideLengthKey, options: OptionsInfos) { (image, type) -> () in
 
             if let image = image?.decodedImage() {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -62,12 +59,12 @@ class ImageCache {
                         //裁剪并存储
                         var finalImage = image
                         
-                        if cacheSize != CGSizeZero {
-                            finalImage = finalImage.resizeToTargetSize(cacheSize)
+                        if sideLength != 0 {
+                            finalImage = finalImage.scaleToMinSideLength(sideLength)
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
-                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSizeKey, toDisk: true, completionHandler: { () -> () in
+                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
                         
@@ -89,11 +86,11 @@ class ImageCache {
                                 
                                 var storeImage = image
                                 
-                                if cacheSize != CGSizeZero {
-                                    storeImage = storeImage.resizeToTargetSize(cacheSize)
+                                if sideLength != 0 {
+                                    storeImage = storeImage.scaleToMinSideLength(sideLength)
                                 }
 
-                                Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: nil)
+                                Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
                                 
                                 let finalImage = storeImage.decodedImage()
                                 

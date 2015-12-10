@@ -393,7 +393,7 @@ func syncSocialWorksToMessagesForYepTeam() {
 
                         socialWork.dribbbleShot = socialWorkDribbbleShot
 
-                    case .Instagram(let media):
+                    case .Instagram(let _):
                         break
                     }
 

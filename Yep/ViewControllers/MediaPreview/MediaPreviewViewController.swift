@@ -234,7 +234,7 @@ class MediaPreviewViewController: UIViewController {
 
             if case let .AttachmentType(attachment) = previewMedia {
 
-                ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { [weak self] (url, image, _) in
+                ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil, completion: { [weak self] (url, image, _) in
                     if let image = image {
                         self?.attachmentImagePool.addImage(image, forKey: attachment.URLString)
                     }
@@ -425,7 +425,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 cell.mediaView.image = image
 
             } else {
-                ImageCache.sharedInstance.imageOfAttachment(attachment, withSize: nil, completion: { [weak self] (url, image, _) in
+                ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil, completion: { [weak self] (url, image, _) in
                     guard url.absoluteString == attachment.URLString else {
                         return
                     }

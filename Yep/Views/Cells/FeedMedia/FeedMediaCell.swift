@@ -38,7 +38,9 @@ class FeedMediaCell: UICollectionViewCell {
 
     func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
 
-        imageView.yep_setImageOfAttachment(attachment, withSize: imageView.frame.size)
+        let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
+
+        imageView.yep_setImageOfAttachment(attachment, withSize: size)
 
         deleteImageView.hidden = true
     }

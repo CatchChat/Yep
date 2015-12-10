@@ -56,8 +56,77 @@ extension UIImage {
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return newImage
+    }
+
+    func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
+
+        let pixelSideLength = sideLength * UIScreen.mainScreen().scale
+
+        //println("pixelSideLength: \(pixelSideLength)")
+        //println("size: \(size)")
+
+        let pixelWidth = size.width * scale
+        let pixelHeight = size.height * scale
+
+        //println("pixelWidth: \(pixelWidth)")
+        //println("pixelHeight: \(pixelHeight)")
+
+        let newSize: CGSize
+
+        if pixelWidth > pixelHeight {
+
+            guard pixelHeight > pixelSideLength else {
+                return self
+            }
+
+            let newHeight = pixelSideLength
+            let newWidth = (pixelSideLength / pixelHeight) * pixelWidth
+            newSize = CGSize(width: newWidth, height: newHeight)
+
+        } else {
+
+            guard pixelWidth > pixelSideLength else {
+                return self
+            }
+
+            let newWidth = pixelSideLength
+            let newHeight = (pixelSideLength / pixelWidth) * pixelHeight
+            newSize = CGSize(width: newWidth, height: newHeight)
+        }
+
+
+        if scale == UIScreen.mainScreen().scale {
+            let newSize = CGSize(width: newSize.width / scale, height: newSize.height / scale)
+            //println("newSize: \(newSize)")
+
+            UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
+            let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+            self.drawInRect(rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            if let image = newImage {
+                return image
+            }
+
+            return self
+
+        } else {
+            //println("newSize: \(newSize)")
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+            let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+            self.drawInRect(rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            if let image = newImage {
+                return image
+            }
+
+            return self
+        }
     }
 
     func fixRotation() -> UIImage {
