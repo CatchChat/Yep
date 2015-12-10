@@ -39,9 +39,9 @@ class ImageCache {
 //            cacheSize = deviceSize
         }
         
-        let attachmentOriginKey = "y7attachment-0.0-0.0-\(attachmentURL.absoluteString)"
+        let attachmentOriginKey = "y9attachment-0.0-0.0-\(attachmentURL.absoluteString)"
 
-        let attachmentSizeKey = "y7attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
+        let attachmentSizeKey = "y9attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
 
         println("attachmentSizeKey: \(attachmentSizeKey)")
 

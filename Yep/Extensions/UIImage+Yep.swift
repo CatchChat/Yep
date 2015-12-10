@@ -97,17 +97,34 @@ extension UIImage {
         }
         println("newSize: \(newSize)")
 
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-        let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
-        self.drawInRect(rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        if scale == UIScreen.mainScreen().scale {
+            let newSize = CGSize(width: newSize.width / scale, height: newSize.height / scale)
 
-        if let image = newImage {
-            let size = image.size
+            UIGraphicsBeginImageContextWithOptions(newSize, false, scale)
+            let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+            self.drawInRect(rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            if let image = newImage {
+                return image
+            }
+
+            return self
+
+        } else {
+            UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+            let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+            self.drawInRect(rect)
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+
+            if let image = newImage {
+                return image
+            }
+
+            return self
         }
-
-        return newImage ?? self
     }
 
     func fixRotation() -> UIImage {
