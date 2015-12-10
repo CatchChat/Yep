@@ -1078,13 +1078,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
-        let feed = feeds[indexPath.item]
+        switch indexPath.section {
 
-        if feed.creator.id == YepUserDefaults.userID.value {
+        case Section.SkillUsers.rawValue:
+            return false
+
+        case Section.Feed.rawValue:
+            let feed = feeds[indexPath.item]
+            if feed.creator.id == YepUserDefaults.userID.value {
+                return false
+            } else {
+                return true
+            }
+
+        default:
             return false
         }
-
-        return true
     }
     
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
