@@ -84,6 +84,12 @@ class FeedbackViewController: UIViewController {
         feedbackTextView.becomeFirstResponder()
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        feedbackTextView.resignFirstResponder()
+    }
+
     // MARK: Actions
 
     @objc private func tap(sender: UITapGestureRecognizer) {

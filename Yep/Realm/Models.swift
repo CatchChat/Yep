@@ -508,6 +508,14 @@ class Message: Object {
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
 
+    var nicknameWithTextContent: String {
+        if let nickname = fromFriend?.nickname {
+            return String(format: NSLocalizedString("%@: %@", comment: ""), nickname, textContent)
+        } else {
+            return textContent
+        }
+    }
+
     var thumbnailImage: UIImage? {
         switch mediaType {
         case MessageMediaType.Image.rawValue:
@@ -1002,6 +1010,20 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
         return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    }
+}
+
+func latestUnreadMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+
+    switch conversationType {
+
+    case .OneToOne:
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+
+    case .Group:
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
+        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 }
 
