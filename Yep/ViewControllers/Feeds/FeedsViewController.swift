@@ -1072,8 +1072,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             break
         }
     }
-    
-    
+
+
     // Report
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
