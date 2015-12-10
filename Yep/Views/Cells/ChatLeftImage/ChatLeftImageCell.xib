@@ -21,7 +21,7 @@
                         <rect key="frame" x="60" y="0.0" width="180" height="144"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ORB-JN-4bj" userLabel="Border Image View">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="left_tail_image_bubble_border" id="ORB-JN-4bj" userLabel="Border Image View">
                         <rect key="frame" x="60" y="0.0" width="180" height="144"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -43,4 +43,7 @@
             <point key="canvasLocation" x="288" y="408"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="left_tail_image_bubble_border" width="48" height="46"/>
+    </resources>
 </document>
