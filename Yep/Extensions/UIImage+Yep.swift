@@ -56,8 +56,43 @@ extension UIImage {
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
+
         return newImage
+    }
+
+    func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
+
+        let sideLength = sideLength * UIScreen.mainScreen().scale
+
+        println("sideLength: \(sideLength)")
+        println("size: \(size)")
+
+        let width = size.width
+        let height = size.height
+
+        let newSize: CGSize
+        if width > height {
+            let newHeight = sideLength
+            let newWidth = (sideLength / height) * width
+            newSize = CGSize(width: newWidth, height: newHeight)
+        } else {
+            let newWidth = sideLength
+            let newHeight = (sideLength / width) * height
+            newSize = CGSize(width: newWidth, height: newHeight)
+        }
+        println("newSize: \(newSize)")
+
+        UIGraphicsBeginImageContext(newSize)
+        let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
+        self.drawInRect(rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        if let image = newImage {
+            let size = image.size
+        }
+
+        return newImage ?? self
     }
 
     func fixRotation() -> UIImage {

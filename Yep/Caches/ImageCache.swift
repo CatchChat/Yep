@@ -29,17 +29,21 @@ class ImageCache {
         var cacheSize = CGSizeZero
         
         if let withSize = withSize {
+
+            cacheSize = withSize
             
-            let screenScale = UIScreen.mainScreen().scale// * 0.75
-            
-            let deviceSize = CGSizeMake(withSize.width * screenScale, withSize.height * screenScale)
-            
-            cacheSize = deviceSize
+//            let screenScale = UIScreen.mainScreen().scale// * 0.75
+//            
+//            let deviceSize = CGSizeMake(withSize.width * screenScale, withSize.height * screenScale)
+//            
+//            cacheSize = deviceSize
         }
         
-        let attachmentOriginKey = "attachment-0.0-0.0-\(attachmentURL.absoluteString)"
+        let attachmentOriginKey = "y3attachment-0.0-0.0-\(attachmentURL.absoluteString)"
 
-        let attachmentSizeKey = "attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
+        let attachmentSizeKey = "y3attachment-\(cacheSize.width)-\(cacheSize.height)-\(attachmentURL.absoluteString)"
+
+        println("attachmentSizeKey: \(attachmentSizeKey)")
 
         let OptionsInfos: KingfisherManager.Options = (forceRefresh: false, lowPriority: false, cacheMemoryOnly: false, shouldDecode: false, queue: cacheAttachmentQueue, scale: UIScreen.mainScreen().scale)
         //查找当前 Size 的 Cache
@@ -63,7 +67,7 @@ class ImageCache {
                         var finalImage = image
                         
                         if cacheSize != CGSizeZero {
-                            finalImage = finalImage.resizeToTargetSize(cacheSize)
+                            finalImage = finalImage.scaleToMinSideLength(cacheSize.width)
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
@@ -90,7 +94,7 @@ class ImageCache {
                                 var storeImage = image
                                 
                                 if cacheSize != CGSizeZero {
-                                    storeImage = storeImage.resizeToTargetSize(cacheSize)
+                                    storeImage = storeImage.scaleToMinSideLength(cacheSize.width)
                                 }
 
                                 Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSizeKey, toDisk: true, completionHandler: nil)
