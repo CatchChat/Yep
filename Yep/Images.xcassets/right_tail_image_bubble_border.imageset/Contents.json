@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "right_tail_image_bubble.pdf",
+      "filename" : "right_tail_image_bubble_border.pdf",
       "resizing" : {
         "mode" : "9-part",
         "center" : {

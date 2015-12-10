@@ -11,6 +11,7 @@ import UIKit
 class ChatRightVideoCell: ChatRightBaseCell {
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var borderImageView: UIImageView!
 
     @IBOutlet weak var playImageView: UIImageView!
 
@@ -110,6 +111,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+
+                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                     }
                 }
 
@@ -131,6 +134,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                         strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                         strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+
+                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                     }
                 }
 
@@ -153,6 +158,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                     strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
                     strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
                     strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
+
+                    strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
                 }
             }
 

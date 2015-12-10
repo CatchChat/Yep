@@ -13,6 +13,7 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var locationNameLabel: UILabel!
+    @IBOutlet weak var borderImageView: UIImageView!
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -26,6 +27,8 @@ class ChatRightLocationCell: ChatRightBaseCell {
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
 
         mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - 192, y: 0, width: 192, height: 108)
+
+        borderImageView.frame = mapImageView.frame
 
         dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
 
