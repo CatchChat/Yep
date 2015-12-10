@@ -62,27 +62,42 @@ extension UIImage {
 
     func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
 
-        let sideLength = sideLength * UIScreen.mainScreen().scale
+        let pixelSideLength = sideLength * UIScreen.mainScreen().scale
 
-        println("sideLength: \(sideLength)")
+        println("pixelSideLength: \(pixelSideLength)")
         println("size: \(size)")
 
-        let width = size.width
-        let height = size.height
+        let pixelWidth = size.width * scale
+        let pixelHeight = size.height * scale
+
+        println("pixelWidth: \(pixelWidth)")
+        println("pixelHeight: \(pixelHeight)")
 
         let newSize: CGSize
-        if width > height {
-            let newHeight = sideLength
-            let newWidth = (sideLength / height) * width
+
+        if pixelWidth > pixelHeight {
+
+            guard pixelHeight > pixelSideLength else {
+                return self
+            }
+
+            let newHeight = pixelSideLength
+            let newWidth = (pixelSideLength / pixelHeight) * pixelWidth
             newSize = CGSize(width: newWidth, height: newHeight)
+
         } else {
-            let newWidth = sideLength
-            let newHeight = (sideLength / width) * height
+
+            guard pixelWidth > pixelSideLength else {
+                return self
+            }
+
+            let newWidth = pixelSideLength
+            let newHeight = (pixelSideLength / pixelWidth) * pixelHeight
             newSize = CGSize(width: newWidth, height: newHeight)
         }
         println("newSize: \(newSize)")
 
-        UIGraphicsBeginImageContext(newSize)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         let rect = CGRectMake(0, 0, floor(newSize.width), floor(newSize.height))
         self.drawInRect(rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
