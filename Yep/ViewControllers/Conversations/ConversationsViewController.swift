@@ -344,7 +344,10 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
-            if let latestMessage = latestMessageInRealm(realm, withConversationType: ConversationType.Group) {
+            // 先找最新且未读的消息
+            let latestUnreadMessage = latestUnreadMessageInRealm(realm, withConversationType: ConversationType.Group)
+            // 找不到就找最新的消息
+            if let latestMessage = (latestUnreadMessage ?? latestMessageInRealm(realm, withConversationType: ConversationType.Group)) {
 
                 if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
                     cell.chatLabel.text = placeholder

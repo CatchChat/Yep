@@ -1013,6 +1013,20 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     }
 }
 
+func latestUnreadMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+
+    switch conversationType {
+
+    case .OneToOne:
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+
+    case .Group:
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
+        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    }
+}
+
 func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // save feed
