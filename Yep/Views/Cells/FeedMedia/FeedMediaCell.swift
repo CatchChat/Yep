@@ -38,7 +38,7 @@ class FeedMediaCell: UICollectionViewCell {
 
     func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
 
-        let size = bigger ? CGSize(width: 160, height: 160) : CGSize(width: 80, height: 80)
+        let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
 
         imageView.yep_setImageOfAttachment(attachment, withSize: size)
 

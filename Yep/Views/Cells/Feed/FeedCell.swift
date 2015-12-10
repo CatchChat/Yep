@@ -8,6 +8,9 @@
 
 import UIKit
 
+let feedAttachmentImageSize = CGSize(width: 80, height: 80)
+let feedAttachmentBiggerImageSize = CGSize(width: 160, height: 160)
+
 class FeedCell: FeedBasicCell {
 
     @IBOutlet weak var mediaCollectionView: UICollectionView!
@@ -21,9 +24,9 @@ class FeedCell: FeedBasicCell {
             let oldHeight = collectionViewHeight.constant
             let newHeight: CGFloat
             if attachments.count == 1 {
-                newHeight = 160
+                newHeight = feedAttachmentBiggerImageSize.height
             } else {
-                newHeight = 80
+                newHeight = feedAttachmentImageSize.height
             }
             if newHeight != oldHeight {
                 collectionViewHeight.constant = newHeight
@@ -48,7 +51,7 @@ class FeedCell: FeedBasicCell {
 
         if let attachment = feed.attachment {
             if case let .Images(attachments) = attachment {
-                let imageHeight: CGFloat = attachments.count == 1 ? 160 : 80
+                let imageHeight: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
                 height += (imageHeight + 15)
             }
         }
@@ -109,9 +112,9 @@ class FeedCell: FeedBasicCell {
         }
 
         if attachments.count > 1 {
-            timeLabelTopConstraint.constant = hasMedia ? (15 + 80 + 15) : 15
+            timeLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
         } else {
-            timeLabelTopConstraint.constant = hasMedia ? (15 + 160 + 15) : 15
+            timeLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
         }
 
         mediaCollectionView.hidden = hasMedia ? false : true
@@ -145,10 +148,10 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         if attachments.count > 1 {
-            return CGSize(width: 80, height: 80)
+            return feedAttachmentImageSize
 
         } else {
-            return CGSize(width: 160, height: 160)
+            return feedAttachmentBiggerImageSize
         }
     }
 
