@@ -508,6 +508,14 @@ class Message: Object {
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
 
+    var nicknameWithTextContent: String {
+        if let nickname = fromFriend?.nickname {
+            return String(format: NSLocalizedString("%@: %@", comment: ""), nickname, textContent)
+        } else {
+            return textContent
+        }
+    }
+
     var thumbnailImage: UIImage? {
         switch mediaType {
         case MessageMediaType.Image.rawValue:

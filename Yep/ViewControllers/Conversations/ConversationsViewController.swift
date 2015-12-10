@@ -350,11 +350,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                     cell.chatLabel.text = placeholder
 
                 } else {
-                    if let nickname = latestMessage.fromFriend?.nickname {
-                        cell.chatLabel.text = String(format: NSLocalizedString("%@: %@", comment: ""), nickname, latestMessage.textContent)
-                    } else {
-                        cell.chatLabel.text = latestMessage.textContent
-                    }
+                    cell.chatLabel.text = latestMessage.nicknameWithTextContent
                 }
 
             } else {
