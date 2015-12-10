@@ -774,19 +774,17 @@ class ConversationViewController: BaseViewController {
 
         case ConversationType.Group.rawValue:
 
-            if let groupID = conversation.withGroup?.groupID {
+            if let group = conversation.withGroup {
+
+                let groupIncludeMe = group.includeMe
+                let groupID = group.groupID
 
                 // 直接同步消息
                 syncMessages(failedAction: {
-                    /*
-                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
-                        syncMessages(failedAction: nil, successAction: nil)
-                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                    })
-                    */
-
                 }, successAction: {
-                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                    if groupIncludeMe {
+                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                    }
                 })
             }
 
