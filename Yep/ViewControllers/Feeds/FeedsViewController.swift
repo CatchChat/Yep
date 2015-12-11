@@ -459,7 +459,9 @@ class FeedsViewController: BaseViewController {
                         let newFeedsCount = strongSelf.feeds.count
 
                         let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
-                        wayToUpdate = .Insert(indexPaths)
+                        if !indexPaths.isEmpty {
+                            wayToUpdate = .Insert(indexPaths)
+                        }
 
                     } else {
                         strongSelf.feeds = newFeeds
