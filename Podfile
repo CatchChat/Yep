@@ -4,6 +4,7 @@ use_frameworks!
 
 def pods
     pod 'Navi'
+    pod 'Appsee'
     pod 'Alamofire'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
