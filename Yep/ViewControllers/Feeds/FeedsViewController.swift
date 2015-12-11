@@ -464,10 +464,8 @@ class FeedsViewController: BaseViewController {
                     let newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
-                    //var needReloadData = false
                     var wayToUpdateTableView: WayToUpdateTableView = .None
 
-                    //needReloadData = strongSelf.feeds.isEmpty
                     if strongSelf.feeds.isEmpty {
                         wayToUpdateTableView = .ReloadData
                     }
@@ -477,7 +475,6 @@ class FeedsViewController: BaseViewController {
                         strongSelf.feeds += newFeeds
                         let newFeedsCount = strongSelf.feeds.count
 
-                        //needReloadData = !newFeeds.isEmpty
                         let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
                         wayToUpdateTableView = .Insert(indexPaths)
 
@@ -495,7 +492,6 @@ class FeedsViewController: BaseViewController {
                                 let oldFeed = oldFeeds[index]
 
                                 if newFeed.id != oldFeed.id {
-                                    //needReloadData = true
                                     wayToUpdateTableView = .ReloadData
                                     break
                                 }
@@ -504,15 +500,9 @@ class FeedsViewController: BaseViewController {
                             }
 
                         } else {
-                            //needReloadData = true
                             wayToUpdateTableView = .ReloadData
                         }
                     }
-
-//                    if needReloadData {
-//                        println("new feeds, reloadData")
-//                        strongSelf.feedsTableView.reloadData()
-//                    }
 
                     switch wayToUpdateTableView {
                     case .None:
