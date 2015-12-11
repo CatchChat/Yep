@@ -447,10 +447,10 @@ class FeedsViewController: BaseViewController {
                     let newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
-                    var wayToUpdateFeedsTableView: UITableView.WayToUpdate = .None
+                    var wayToUpdate: UITableView.WayToUpdate = .None
 
                     if strongSelf.feeds.isEmpty {
-                        wayToUpdateFeedsTableView = .ReloadData
+                        wayToUpdate = .ReloadData
                     }
 
                     if isLoadMore {
@@ -459,13 +459,13 @@ class FeedsViewController: BaseViewController {
                         let newFeedsCount = strongSelf.feeds.count
 
                         let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
-                        wayToUpdateFeedsTableView = .Insert(indexPaths)
+                        wayToUpdate = .Insert(indexPaths)
 
                     } else {
                         strongSelf.feeds = newFeeds
                     }
 
-                    if !wayToUpdateFeedsTableView.needsLabor && !newFeeds.isEmpty {
+                    if !wayToUpdate.needsLabor && !newFeeds.isEmpty {
 
                         if newFeeds.count == oldFeeds.count {
 
@@ -475,7 +475,7 @@ class FeedsViewController: BaseViewController {
                                 let oldFeed = oldFeeds[index]
 
                                 if newFeed.id != oldFeed.id {
-                                    wayToUpdateFeedsTableView = .ReloadData
+                                    wayToUpdate = .ReloadData
                                     break
                                 }
 
@@ -483,20 +483,11 @@ class FeedsViewController: BaseViewController {
                             }
 
                         } else {
-                            wayToUpdateFeedsTableView = .ReloadData
+                            wayToUpdate = .ReloadData
                         }
                     }
 
-                    switch wayToUpdateFeedsTableView {
-                    case .None:
-                        println("no new feeds")
-                    case .ReloadData:
-                        println("new feeds, reloadData")
-                        strongSelf.feedsTableView.reloadData()
-                    case .Insert(let indexPaths):
-                        println("new feeds, Insert")
-                        strongSelf.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
-                    }
+                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
                 }
             }
         }
