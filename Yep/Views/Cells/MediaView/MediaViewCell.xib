@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -17,17 +17,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="231" height="311"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mfX-VP-XUW">
+                        <rect key="frame" x="97" y="137" width="37" height="37"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="NF5-Ia-bdW" secondAttribute="bottom" id="9qu-4A-U6y"/>
+                <constraint firstItem="mfX-VP-XUW" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="aqC-8c-tOl"/>
                 <constraint firstItem="NF5-Ia-bdW" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="ghH-ab-JX3"/>
+                <constraint firstItem="mfX-VP-XUW" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="p3F-h2-qgi"/>
                 <constraint firstAttribute="trailing" secondItem="NF5-Ia-bdW" secondAttribute="trailing" id="qiu-3b-ggx"/>
                 <constraint firstItem="NF5-Ia-bdW" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="yOh-54-kef"/>
             </constraints>
             <size key="customSize" width="231" height="311"/>
             <connections>
+                <outlet property="activityIndicator" destination="mfX-VP-XUW" id="LbU-0u-zUY"/>
                 <outlet property="mediaView" destination="NF5-Ia-bdW" id="hHs-9y-ms8"/>
             </connections>
             <point key="canvasLocation" x="185.5" y="288.5"/>

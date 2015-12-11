@@ -696,6 +696,8 @@
 
 "Info about this Feed..." = "此话题的介绍…";
 
+"Feed info is too long!\nUp to %d letters." = "话题介绍字数过多！\n最多%d个字符。";
+
 "Text & Photos" = "文字配图片";
 
 "Voice" = "语音";
@@ -713,4 +715,6 @@
 "Voice recording time is too short!" = "语音录制时间太短！";
 
 "%@: %@" = "%1$@：%2$@";
+
+"Unknown location" = "未知位置";
 

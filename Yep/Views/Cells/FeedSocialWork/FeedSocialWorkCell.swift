@@ -333,7 +333,12 @@ class FeedSocialWorkCell: FeedBasicCell {
                     let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
                     locationMapImageView.yep_setImageOfLocation(location, withSize: size)
 
-                    locationNameLabel.text = locationInfo.name
+                    if locationInfo.name.isEmpty {
+                        locationNameLabel.text = NSLocalizedString("Unknown location", comment: "")
+
+                    } else {
+                        locationNameLabel.text = locationInfo.name
+                    }
                 }
             }
 

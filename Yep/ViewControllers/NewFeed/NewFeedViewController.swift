@@ -508,11 +508,16 @@ class NewFeedViewController: UIViewController {
     
     @objc private func post(sender: UIBarButtonItem) {
 
+        sender.enabled = false
+
         messageTextView.resignFirstResponder()
         
         let messageLength = (messageTextView.text as NSString).length
         
         if messageLength > YepConfig.maxFeedTextLength {
+            let message = String(format: NSLocalizedString("Feed info is too long!\nUp to %d letters.", comment: ""), YepConfig.maxFeedTextLength)
+            YepAlert.alertSorry(message: message, inViewController: self)
+
             return
         }
         
@@ -539,6 +544,10 @@ class NewFeedViewController: UIViewController {
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    sender.enabled = true
+                }
 
                 YepHUD.hideActivityIndicator()
 
@@ -894,21 +903,7 @@ extension NewFeedViewController: UITextViewDelegate {
         return true
     }
 
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
-        let newString = textView.text! + text
-        
-        if NSString(string: newString).length > YepConfig.maxFeedTextLength {
-            return false
-        }
-        
-        return true
-    }
-    
     func textViewDidChange(textView: UITextView) {
-        if NSString(string: textView.text).length > YepConfig.maxFeedTextLength {
-            textView.text = (textView.text as NSString).substringWithRange(NSMakeRange(0,YepConfig.maxFeedTextLength))
-        }
 
         isDirty = NSString(string: textView.text).length > 0
     }

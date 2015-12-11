@@ -40,6 +40,7 @@ class FeedMediaCell: UICollectionViewCell {
 
         let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
 
+        imageView.yep_showActivityIndicatorWhenLoading = true
         imageView.yep_setImageOfAttachment(attachment, withSize: size)
 
         deleteImageView.hidden = true
