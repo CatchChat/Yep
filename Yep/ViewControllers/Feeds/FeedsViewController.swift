@@ -447,20 +447,27 @@ class FeedsViewController: BaseViewController {
                     let newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
-                    var needReloadData = false
+                    var wayToUpdate: UITableView.WayToUpdate = .None
 
-                    needReloadData = strongSelf.feeds.isEmpty
+                    if strongSelf.feeds.isEmpty {
+                        wayToUpdate = .ReloadData
+                    }
 
                     if isLoadMore {
+                        let oldFeedsCount = strongSelf.feeds.count
                         strongSelf.feeds += newFeeds
+                        let newFeedsCount = strongSelf.feeds.count
 
-                        needReloadData = !newFeeds.isEmpty
+                        let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+                        if !indexPaths.isEmpty {
+                            wayToUpdate = .Insert(indexPaths)
+                        }
 
                     } else {
                         strongSelf.feeds = newFeeds
                     }
 
-                    if !needReloadData && !newFeeds.isEmpty {
+                    if !wayToUpdate.needsLabor && !newFeeds.isEmpty {
 
                         if newFeeds.count == oldFeeds.count {
 
@@ -470,7 +477,7 @@ class FeedsViewController: BaseViewController {
                                 let oldFeed = oldFeeds[index]
 
                                 if newFeed.id != oldFeed.id {
-                                    needReloadData = true
+                                    wayToUpdate = .ReloadData
                                     break
                                 }
 
@@ -478,14 +485,11 @@ class FeedsViewController: BaseViewController {
                             }
 
                         } else {
-                            needReloadData = true
+                            wayToUpdate = .ReloadData
                         }
                     }
 
-                    if needReloadData {
-                        println("new feeds, reloadData")
-                        strongSelf.feedsTableView.reloadData()
-                    }
+                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
                 }
             }
         }
