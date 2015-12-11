@@ -383,6 +383,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
     private func configureCell(cell: MediaViewCell, withPreviewMedia previewMedia: PreviewMedia) {
 
+        cell.activityIndicator.startAnimating()
+
         switch previewMedia {
 
         case .MessageType(let message):
@@ -402,6 +404,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         cell.mediaView.image = image
                 }
 
+                cell.activityIndicator.stopAnimating()
+
             case MessageMediaType.Video.rawValue:
 
                 mediaControlView.type = .Video
@@ -413,8 +417,10 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         cell.mediaView.image = image
                 }
 
+                cell.activityIndicator.stopAnimating()
+
             default:
-                break
+                cell.activityIndicator.stopAnimating()
             }
 
         case .AttachmentType(let attachment):
@@ -424,12 +430,17 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             if let image = attachmentImagePool.imageWithKey(attachment.URLString) {
                 cell.mediaView.image = image
 
+                cell.activityIndicator.stopAnimating()
+
             } else {
                 ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil, completion: { [weak self] (url, image, _) in
                     guard url.absoluteString == attachment.URLString else {
                         return
                     }
+
                     cell.mediaView.image = image
+
+                    cell.activityIndicator.stopAnimating()
 
                     if let image = image {
                         self?.attachmentImagePool.addImage(image, forKey: attachment.URLString)
@@ -447,6 +458,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
                 dispatch_async(dispatch_get_main_queue()) {
                     cell.mediaView.image = image
+
+                    cell.activityIndicator.stopAnimating()
                 }
             })
         }

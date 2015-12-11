@@ -11,6 +11,7 @@ import UIKit
 class MediaViewCell: UICollectionViewCell {
 
     @IBOutlet weak var mediaView: MediaView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
