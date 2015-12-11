@@ -180,21 +180,33 @@ class DiscoverViewController: BaseViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
+                guard let strongSelf = self else {
+                    return
+                }
+
+                var wayToUpdate: UICollectionView.WayToUpdate = .None
+
                 if isLoadMore {
-                    self?.discoveredUsers += discoveredUsers
+                    let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
+                    strongSelf.discoveredUsers += discoveredUsers
+                    let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
+
+                    let indexPaths = Array(oldDiscoveredUsersCount..<newDiscoveredUsersCount).map({ NSIndexPath(forItem: $0, inSection: Section.User.rawValue) })
+                    if !indexPaths.isEmpty {
+                        wayToUpdate = .Insert(indexPaths)
+                    }
 
                 } else {
-                    self?.discoveredUsers = discoveredUsers
+                    strongSelf.discoveredUsers = discoveredUsers
+                    wayToUpdate = .ReloadData
                 }
 
-                self?.activityIndicator.stopAnimating()
-                self?.isFetching = false
+                strongSelf.activityIndicator.stopAnimating()
+                strongSelf.isFetching = false
 
                 finish?()
-                
-                if !discoveredUsers.isEmpty {
-                    self?.discoveredUsersCollectionView.reloadData()
-                }
+
+                wayToUpdate.performWithCollectionView(strongSelf.discoveredUsersCollectionView)
             }
         })
     }

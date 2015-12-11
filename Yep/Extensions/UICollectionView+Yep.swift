@@ -1,5 +1,5 @@
 //
-//  UITableView+Yep.swift
+//  UICollectionView+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/12/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UITableView {
+extension UICollectionView {
 
     enum WayToUpdate {
 
@@ -28,18 +28,18 @@ extension UITableView {
             }
         }
 
-        func performWithTableView(tableView: UITableView) {
+        func performWithCollectionView(collectionView: UICollectionView) {
 
             switch self {
             case .None:
-                println("tableView WayToUpdate: None")
+                println("collectionView WayToUpdate: None")
                 break
             case .ReloadData:
-                println("tableView WayToUpdate: ReloadData")
-                tableView.reloadData()
+                println("collectionView WayToUpdate: ReloadData")
+                collectionView.reloadData()
             case .Insert(let indexPaths):
-                println("tableView WayToUpdate: Insert")
-                tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                println("collectionView WayToUpdate: Insert")
+                collectionView.insertItemsAtIndexPaths(indexPaths)
             }
         }
     }

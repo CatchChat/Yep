@@ -255,6 +255,7 @@
 		50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */; };
 		50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C090A31ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift */; };
 		50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */; };
+		50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE431ACA9B4200459CE0 /* ChatRightImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
@@ -612,6 +613,7 @@
 		50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSkillsReusableView.xib; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.xib; sourceTree = "<group>"; };
 		50C090A31ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsViewController.swift; path = ViewControllers/Register/RegisterSelectSkillsViewController.swift; sourceTree = "<group>"; };
 		50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
+		50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE411ACA9B4200459CE0 /* ChatRightImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightImageCell.xib; path = Views/Cells/ChatRightImage/ChatRightImageCell.xib; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
@@ -1139,6 +1141,7 @@
 				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
 				508A084D1C166EBA000A3305 /* CLPlacemark+Yep.swift */,
 				50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */,
+				50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -2759,6 +2762,7 @@
 				50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */,
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
+				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
