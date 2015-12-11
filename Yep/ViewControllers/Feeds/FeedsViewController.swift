@@ -393,6 +393,23 @@ class FeedsViewController: BaseViewController {
         }
     }
 
+    enum WayToUpdateTableView {
+        case None
+        case ReloadData
+        case Insert([NSIndexPath])
+
+        var needsLabor: Bool {
+
+            switch self {
+            case .None:
+                return false
+            case .ReloadData:
+                return true
+            case .Insert:
+                return true
+            }
+        }
+    }
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
     private func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
@@ -447,20 +464,28 @@ class FeedsViewController: BaseViewController {
                     let newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
-                    var needReloadData = false
+                    //var needReloadData = false
+                    var wayToUpdateTableView: WayToUpdateTableView = .None
 
-                    needReloadData = strongSelf.feeds.isEmpty
+                    //needReloadData = strongSelf.feeds.isEmpty
+                    if strongSelf.feeds.isEmpty {
+                        wayToUpdateTableView = .ReloadData
+                    }
 
                     if isLoadMore {
+                        let oldFeedsCount = strongSelf.feeds.count
                         strongSelf.feeds += newFeeds
+                        let newFeedsCount = strongSelf.feeds.count
 
-                        needReloadData = !newFeeds.isEmpty
+                        //needReloadData = !newFeeds.isEmpty
+                        let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+                        wayToUpdateTableView = .Insert(indexPaths)
 
                     } else {
                         strongSelf.feeds = newFeeds
                     }
 
-                    if !needReloadData && !newFeeds.isEmpty {
+                    if !wayToUpdateTableView.needsLabor && !newFeeds.isEmpty {
 
                         if newFeeds.count == oldFeeds.count {
 
@@ -470,7 +495,8 @@ class FeedsViewController: BaseViewController {
                                 let oldFeed = oldFeeds[index]
 
                                 if newFeed.id != oldFeed.id {
-                                    needReloadData = true
+                                    //needReloadData = true
+                                    wayToUpdateTableView = .ReloadData
                                     break
                                 }
 
@@ -478,13 +504,25 @@ class FeedsViewController: BaseViewController {
                             }
 
                         } else {
-                            needReloadData = true
+                            //needReloadData = true
+                            wayToUpdateTableView = .ReloadData
                         }
                     }
 
-                    if needReloadData {
+//                    if needReloadData {
+//                        println("new feeds, reloadData")
+//                        strongSelf.feedsTableView.reloadData()
+//                    }
+
+                    switch wayToUpdateTableView {
+                    case .None:
+                        println("no new feeds")
+                    case .ReloadData:
                         println("new feeds, reloadData")
                         strongSelf.feedsTableView.reloadData()
+                    case .Insert(let indexPaths):
+                        println("new feeds, Insert")
+                        strongSelf.feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
                     }
                 }
             }
