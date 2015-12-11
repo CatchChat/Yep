@@ -508,6 +508,8 @@ class NewFeedViewController: UIViewController {
     
     @objc private func post(sender: UIBarButtonItem) {
 
+        sender.enabled = false
+
         messageTextView.resignFirstResponder()
         
         let messageLength = (messageTextView.text as NSString).length
@@ -539,6 +541,10 @@ class NewFeedViewController: UIViewController {
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    sender.enabled = true
+                }
 
                 YepHUD.hideActivityIndicator()
 
