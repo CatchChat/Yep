@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>195</string>
+	<string>196</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -52,6 +52,15 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>apikey</key>
+					<string>f0584c1b669d414ba992f7c467e6e16a</string>
+				</dict>
+				<key>KitName</key>
+				<string>Appsee</string>
 			</dict>
 		</array>
 	</dict>

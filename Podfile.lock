@@ -4,6 +4,7 @@ PODS:
   - APAddressBook/Core (0.2.1)
   - APAddressBook/Swift (0.2.1):
     - APAddressBook/Core
+  - Appsee (2.1.5)
   - Base64 (1.0.1)
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
@@ -33,6 +34,7 @@ DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
   - Alamofire
   - APAddressBook/Swift
+  - Appsee
   - Crashlytics
   - DeviceGuru
   - Fabric
@@ -57,6 +59,7 @@ SPEC CHECKSUMS:
   1PasswordExtension: 9f471645d378283cb88c6d4bf502e4381a42c0ad
   Alamofire: 9f93b56389e48def9220dd57d1f44b1927229a5a
   APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
+  Appsee: 77f144701aa1a53d854d319a46667561849e8cf5
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
   DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
