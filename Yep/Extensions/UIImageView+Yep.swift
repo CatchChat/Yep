@@ -24,7 +24,7 @@ extension UIImageView {
         objc_setAssociatedObject(self, &activityIndicatorKey, activityIndicator, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
-    public var yep_showIndicatorWhenLoading: Bool {
+    public var yep_showActivityIndicatorWhenLoading: Bool {
         get {
             guard let result = objc_getAssociatedObject(self, &showActivityIndicatorWhenLoadingKey) as? NSNumber else {
                 return false
@@ -34,7 +34,7 @@ extension UIImageView {
         }
 
         set {
-            if yep_showIndicatorWhenLoading == newValue {
+            if yep_showActivityIndicatorWhenLoading == newValue {
                 return
 
             } else {
@@ -82,6 +82,15 @@ extension UIImageView {
             return
         }
 
+        let showActivityIndicatorWhenLoading = yep_showActivityIndicatorWhenLoading
+        var activityIndicator: UIActivityIndicatorView? = nil
+
+        if showActivityIndicatorWhenLoading {
+            activityIndicator = yep_activityIndicator
+            activityIndicator?.hidden = false
+            activityIndicator?.startAnimating()
+        }
+
         yep_setAttachmentURL(attachmentURL)
 
         ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
@@ -98,6 +107,8 @@ extension UIImageView {
             } else {
                 strongSelf.image = image
             }
+
+            activityIndicator?.stopAnimating()
 
             println("imageOfAttachment cacheType: \(cacheType)")
         })
