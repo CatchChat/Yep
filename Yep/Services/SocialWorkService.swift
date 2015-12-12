@@ -169,7 +169,7 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
 struct DribbbleShot {
     let ID: Int
     let title: String
-    let description: String
+    let description: String?
     let htmlURLString: String
 
     struct Images {
@@ -208,7 +208,6 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
             if let
                 ID = shotInfo["id"] as? Int,
                 title = shotInfo["title"] as? String,
-                description = shotInfo["description"] as? String,
                 htmlURLString = shotInfo["html_url"] as? String,
                 imagesInfo = shotInfo["images"] as? JSONDictionary,
                 likesCount = shotInfo["likes_count"] as? Int,
@@ -220,7 +219,10 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
                     if let
                         normal = imagesInfo["normal"] as? String,
                         teaser = imagesInfo["teaser"] as? String {
+                            
                             let hidpi = imagesInfo["hidpi"] as? String
+                            
+                            let description = shotInfo["description"] as? String
 
                             let images = DribbbleShot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
 

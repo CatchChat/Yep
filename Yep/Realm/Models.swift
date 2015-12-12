@@ -443,8 +443,16 @@ class SocialWorkDribbbleShot: Object {
         self.shotID = dribbbleShot.ID
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
-        self.imageURLString = dribbbleShot.images.normal
-        self.shotDescription = dribbbleShot.description
+        
+        if let hidpi = dribbbleShot.images.hidpi where dribbbleShot.images.normal.contains("gif") {
+            self.imageURLString = hidpi
+        } else {
+            self.imageURLString = dribbbleShot.images.normal
+        }
+        
+        if let description = dribbbleShot.description {
+            self.shotDescription = description
+        }
 
         self.createdUnixTime = dribbbleShot.createdAt.timeIntervalSince1970
     }
@@ -454,7 +462,9 @@ class SocialWorkDribbbleShot: Object {
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
         self.imageURLString = dribbbleShot.imageURLString
-        self.shotDescription = dribbbleShot.description
+        if let description = dribbbleShot.description {
+            self.shotDescription = description
+        }
 
         self.createdUnixTime = dribbbleShot.createdUnixTime
     }
