@@ -352,7 +352,10 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
 
         if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            // 暂时改为如此，参考 nix 的 PR https://github.com/onevcat/Kingfisher/pull/171
+            // 原因为 MediaOptionsInfos 里的 decode 属性会导致 Kingfisher 丢失 GIF 的 images，不再有动画
+            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+            //socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 

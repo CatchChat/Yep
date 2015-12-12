@@ -42,7 +42,7 @@ DEPENDENCIES:
   - JPush-iOS-SDK
   - KeyboardMan
   - Kingfisher
-  - MonkeyKing (~> 0.0.2)
+  - MonkeyKing (= 0.0.2)
   - MZFayeClient (from `../CatchLib-iOS/MZFayeClient/`)
   - Navi
   - pop
