@@ -27,6 +27,12 @@ class DribbbleShotCell: UICollectionViewCell {
     func configureWithDribbbleShot(shot: DribbbleWork.Shot) {
         
         imageView.kf_showIndicatorWhenLoading = true
-        imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+        
+        if let hidpi = shot.images.hidpi where shot.images.normal.contains("gif") {
+            imageView.kf_setImageWithURL(NSURL(string: hidpi)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+        } else {
+            imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+        }
+        
     }
 }

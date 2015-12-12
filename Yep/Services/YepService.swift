@@ -2640,7 +2640,7 @@ struct DiscoveredFeed: Hashable {
     struct DribbbleShot {
         let ID: Int
         let title: String
-        let description: String
+        let description: String?
         let imageURLString: String
         let htmlURLString: String
         let createdUnixTime: NSTimeInterval
@@ -2649,12 +2649,13 @@ struct DiscoveredFeed: Hashable {
             guard let
                 ID = json["shot_id"] as? Int,
                 title = json["title"] as? String,
-                description = json["description"] as? String,
                 imageURLString = json["media_url"] as? String,
                 htmlURLString = json["url"] as? String,
                 createdUnixTime = json["created_at"] as? NSTimeInterval else {
                     return nil
             }
+            
+            let description = json["description"] as? String
 
             return DribbbleShot(ID: ID, title: title, description: description, imageURLString: imageURLString, htmlURLString: htmlURLString, createdUnixTime: createdUnixTime)
         }
@@ -3159,7 +3160,7 @@ struct DribbbleWork {
         }
 
         let title: String
-        let description: String
+        let description: String?
         let htmlURLString: String
         let images: Images
         let likesCount: Int
@@ -3188,7 +3189,6 @@ func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Stri
                 for shotInfo in shotsData {
                     if let
                         title = shotInfo["title"] as? String,
-                        description = shotInfo["description"] as? String,
                         htmlURLString = shotInfo["html_url"] as? String,
                         imagesInfo = shotInfo["images"] as? JSONDictionary,
                         likesCount = shotInfo["likes_count"] as? Int,
@@ -3196,7 +3196,10 @@ func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Stri
                             if let
                                 normal = imagesInfo["normal"] as? String,
                                 teaser = imagesInfo["teaser"] as? String {
+                                    
                                     let hidpi = imagesInfo["hidpi"] as? String
+                                    
+                                    let description = shotInfo["description"] as? String
 
                                     let images = DribbbleWork.Shot.Images(hidpi: hidpi, normal: normal, teaser: teaser)
 
