@@ -77,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cacheInAdvance()
 
         delay(0.5) { () -> Void in
-            Fabric.with([Crashlytics.self])
+            Fabric.with([Crashlytics.self, Appsee.self])
             APService.setupWithOption(launchOptions)
         }
         
