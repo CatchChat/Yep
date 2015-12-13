@@ -1033,7 +1033,7 @@ func latestUnreadMessageInRealm(realm: Realm, withConversationType conversationT
 
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
-        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 }
 
