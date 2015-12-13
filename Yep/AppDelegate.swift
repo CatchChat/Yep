@@ -144,6 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startFaye()
         }
 
+        
         /*
         if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
