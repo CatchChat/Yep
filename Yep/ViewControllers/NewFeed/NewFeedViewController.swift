@@ -577,6 +577,9 @@ class NewFeedViewController: UIViewController {
 
             var uploadImageInfos = [UploadImageInfo]()
 
+            let mediaImagesCount = mediaImages.count
+            var uploadErrorMessage: String?
+
             mediaImages.forEach({ image in
 
                 let imageWidth = image.size.width
@@ -606,6 +609,7 @@ class NewFeedViewController: UIViewController {
                         defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
+                            uploadErrorMessage = errorMessage
                             dispatch_group_leave(uploadImagesGroup)
                         }
 
@@ -626,7 +630,19 @@ class NewFeedViewController: UIViewController {
                 }
             })
 
-            dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) {
+            dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) { [weak self] in
+
+                guard uploadImageInfos.count == mediaImagesCount else {
+
+                    YepHUD.hideActivityIndicator()
+                    self?.postButton.enabled = true
+
+                    let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
+
+                    YepAlert.alertSorry(message: message, inViewController: self)
+
+                    return
+                }
 
                 if !uploadImageInfos.isEmpty {
 
