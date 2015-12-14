@@ -569,11 +569,11 @@ class NewFeedViewController: UIViewController {
             })
         }
 
-        let uploadMediaImagesGroup = dispatch_group_create()
-
         switch attachment {
 
         case .Default:
+
+            let uploadImagesGroup = dispatch_group_create()
 
             var uploadImageInfos = [UploadImageInfo]()
 
@@ -599,14 +599,14 @@ class NewFeedViewController: UIViewController {
 
                 if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
 
-                    dispatch_group_enter(uploadMediaImagesGroup)
+                    dispatch_group_enter(uploadImagesGroup)
 
                     s3UploadFileOfKind(.Feed, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
                         defaultFailureHandler(reason, errorMessage: errorMessage)
 
                         dispatch_async(dispatch_get_main_queue()) {
-                            dispatch_group_leave(uploadMediaImagesGroup)
+                            dispatch_group_leave(uploadImagesGroup)
                         }
 
                     }, completion: { s3UploadParams in
@@ -620,13 +620,13 @@ class NewFeedViewController: UIViewController {
                         dispatch_async(dispatch_get_main_queue()) {
                             uploadImageInfos.append(uploadImageInfo)
 
-                            dispatch_group_leave(uploadMediaImagesGroup)
+                            dispatch_group_leave(uploadImagesGroup)
                         }
                     })
                 }
             })
 
-            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) {
+            dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) {
 
                 if !uploadImageInfos.isEmpty {
 
@@ -717,14 +717,16 @@ class NewFeedViewController: UIViewController {
                 }
             }
 
-            dispatch_group_enter(uploadMediaImagesGroup)
+            let uploadVoiceGroup = dispatch_group_create()
+
+            dispatch_group_enter(uploadVoiceGroup)
 
             s3UploadFileOfKind(.Feed, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: MessageMediaType.Audio.mineType, failureHandler: { (reason, errorMessage) in
 
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    dispatch_group_leave(uploadMediaImagesGroup)
+                    dispatch_group_leave(uploadVoiceGroup)
                 }
 
             }, completion: { s3UploadParams in
@@ -739,11 +741,11 @@ class NewFeedViewController: UIViewController {
                 ]
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    dispatch_group_leave(uploadMediaImagesGroup)
+                    dispatch_group_leave(uploadVoiceGroup)
                 }
             })
 
-            dispatch_group_notify(uploadMediaImagesGroup, dispatch_get_main_queue()) { [weak self] in
+            dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
                 kind = .Audio
                 doCreateFeed()
 
