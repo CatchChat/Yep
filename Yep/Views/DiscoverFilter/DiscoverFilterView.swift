@@ -324,7 +324,9 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
         
         if let row = Row(rawValue: indexPath.row) {
             

@@ -549,7 +549,9 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         if let selectedLocationIndexPath = selectedLocationIndexPath {
             if let cell = tableView.cellForRowAtIndexPath(selectedLocationIndexPath) as? PickLocationCell {

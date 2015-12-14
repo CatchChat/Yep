@@ -104,7 +104,10 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
