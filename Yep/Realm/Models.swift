@@ -293,9 +293,9 @@ enum MessageDownloadState: Int {
 }
 
 enum FileExtension: String {
-    case Image = "jpg"
-    case Video = "mp4"
-    case Audio = "m4a"
+    case JPEG = "jpg"
+    case MP4 = "mp4"
+    case M4A = "m4a"
 }
 
 enum MessageMediaType: Int, CustomStringConvertible {
@@ -345,11 +345,11 @@ enum MessageMediaType: Int, CustomStringConvertible {
     var fileExtension: FileExtension? {
         switch self {
         case .Image:
-            return .Image
+            return .JPEG
         case .Video:
-            return .Video
+            return .MP4
         case .Audio:
-            return .Audio
+            return .M4A
         default:
             return nil // TODO: more
         }

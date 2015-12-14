@@ -2322,7 +2322,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    s3UploadFileOfKind(.Message, withFileExtension: .Image, inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
+                    s3UploadFileOfKind(.Message, withFileExtension: .JPEG, inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
 
                         if let metaData = metaData {
                             let attachments = [

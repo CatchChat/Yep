@@ -230,7 +230,7 @@ class RegisterPickAvatarViewController: UIViewController {
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-        s3UploadFileOfKind(.Avatar, withFileExtension: .Image, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+        s3UploadFileOfKind(.Avatar, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
