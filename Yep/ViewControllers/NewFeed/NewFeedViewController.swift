@@ -142,6 +142,36 @@ class NewFeedViewController: UIViewController {
             }
         }
     }
+
+    enum UploadState {
+        case Ready
+        case Uploading
+        case Failed(message: String)
+        case Success
+    }
+    var uploadState: UploadState = .Ready {
+        willSet {
+            switch newValue {
+
+            case .Ready:
+                break
+
+            case .Uploading:
+                postButton.enabled = false
+                messageTextView.resignFirstResponder()
+                YepHUD.showActivityIndicator()
+
+            case .Failed(let message):
+                YepHUD.hideActivityIndicator()
+                postButton.enabled = true
+                YepAlert.alertSorry(message: message, inViewController: self)
+
+            case .Success:
+                YepHUD.hideActivityIndicator()
+                messageTextView.text = nil
+            }
+        }
+    }
     
     private let feedMediaAddCellID = "FeedMediaAddCell"
     private let feedMediaCellID = "FeedMediaCell"
@@ -508,21 +538,16 @@ class NewFeedViewController: UIViewController {
     
     @objc private func post(sender: UIBarButtonItem) {
 
-        sender.enabled = false
-
-        messageTextView.resignFirstResponder()
-        
         let messageLength = (messageTextView.text as NSString).length
-        
-        if messageLength > YepConfig.maxFeedTextLength {
+
+        guard messageLength <= YepConfig.maxFeedTextLength else {
             let message = String(format: NSLocalizedString("Feed info is too long!\nUp to %d letters.", comment: ""), YepConfig.maxFeedTextLength)
             YepAlert.alertSorry(message: message, inViewController: self)
 
             return
         }
         
-        // Begin Uploading
-        YepHUD.showActivityIndicator()
+        uploadState = .Uploading
         
         let message = messageTextView.text
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
@@ -543,20 +568,17 @@ class NewFeedViewController: UIViewController {
             createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create feed failed!", comment: ""), inViewController: self)
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    sender.enabled = true
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
+                    self?.uploadState = .Failed(message: message)
                 }
-
-                YepHUD.hideActivityIndicator()
 
             }, completion: { data in
                 println(data)
 
-                YepHUD.hideActivityIndicator()
-
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    self?.uploadState = .Success
 
                     if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
                         self?.afterCreatedFeedAction?(feed: feed)
@@ -633,13 +655,8 @@ class NewFeedViewController: UIViewController {
             dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) { [weak self] in
 
                 guard uploadImageInfos.count == mediaImagesCount else {
-
-                    YepHUD.hideActivityIndicator()
-                    self?.postButton.enabled = true
-
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
-
-                    YepAlert.alertSorry(message: message, inViewController: self)
+                    self?.uploadState = .Failed(message: message)
 
                     return
                 }
@@ -768,14 +785,9 @@ class NewFeedViewController: UIViewController {
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
 
                 guard mediaInfo != nil else {
-
-                    YepHUD.hideActivityIndicator()
-                    self?.postButton.enabled = true
-
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
+                    self?.uploadState = .Failed(message: message)
 
-                    YepAlert.alertSorry(message: message, inViewController: self)
-                    
                     return
                 }
 
