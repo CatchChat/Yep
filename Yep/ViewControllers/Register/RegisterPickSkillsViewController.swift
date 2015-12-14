@@ -166,6 +166,15 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     // MARK: Navigaition
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "presentSelectSkills" {

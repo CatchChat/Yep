@@ -66,6 +66,15 @@ class SearchedUsersViewController: BaseViewController {
 
     // MARK: Navigation
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showProfile" {
             if let indexPath = sender as? NSIndexPath {
@@ -104,7 +113,10 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         performSegueWithIdentifier("showProfile", sender: indexPath)
     }
