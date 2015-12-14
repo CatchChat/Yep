@@ -351,7 +351,7 @@ enum MessageMediaType: Int, CustomStringConvertible {
         case .Audio:
             return .Audio
         default:
-            return nil
+            return nil // TODO: more
         }
     }
 

@@ -112,8 +112,12 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
 ///
 /// :S3UploadParams:     The Upload Params
 
-private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> Void) {
-    
+private func s3UploadParams(url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> Void) {
+
+    let requestParameters = [
+        "extname": fileExtension.rawValue
+    ]
+
     let parse: JSONDictionary -> S3UploadParams? = { data in
         //println("s3FormData: \(data)")
         
@@ -157,7 +161,7 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
         return nil
     }
     
-    let resource = authJsonResource(path: url, method: .GET, requestParameters:[:], parse: parse)
+    let resource = authJsonResource(path: url, method: .GET, requestParameters: requestParameters, parse: parse)
     
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
@@ -166,25 +170,25 @@ private func s3UploadParams(url: String, failureHandler: ((Reason, String?) -> (
     }
 }
 
-private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
+private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
 
-    s3UploadParams("/api/v2/attachments/\(kind.rawValue)/s3_upload_form_fields", failureHandler: { (reason, error)  in
+    s3UploadParams("/api/v2/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
             failureHandler(reason, error)
         } else {
             defaultFailureHandler(reason, errorMessage: error)
         }
 
-        }, completion: { S3PrivateUploadParams in
-            completion(S3PrivateUploadParams)
+    }, completion: { S3PrivateUploadParams in
+        completion(S3PrivateUploadParams)
     })
 }
 
-// API
+// MARK: - API
 
-func s3UploadFileOfKind(kind: S3UploadParams.Kind, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
+func s3UploadFileOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
 
-    s3UploadParamsOfKind(kind, failureHandler: failureHandler) { s3UploadParams in
+    s3UploadParamsOfKind(kind, withFileExtension: fileExtension, failureHandler: failureHandler) { s3UploadParams in
         uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {
             completion(s3UploadParams)
         }

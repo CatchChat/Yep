@@ -508,7 +508,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                             YepHUD.showActivityIndicator()
 
-                            s3UploadFileOfKind(.Avatar, inFilePath: nil, orFileData: data, mimeType: MessageMediaType.Image.mineType, failureHandler: { [weak self] reason, errorMessage in
+                            s3UploadFileOfKind(.Avatar, withFileExtension: .Image, inFilePath: nil, orFileData: data, mimeType: MessageMediaType.Image.mineType, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 
