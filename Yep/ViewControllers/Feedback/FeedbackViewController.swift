@@ -100,7 +100,7 @@ class FeedbackViewController: UIViewController {
 
         feedbackTextView.resignFirstResponder()
 
-        let deviceInfo = (hardwareDescription() ?? "nixDevice") + ", " + NSProcessInfo().operatingSystemVersionString
+        let deviceInfo = (DeviceGuru.hardwareDescription() ?? "nixDevice") + ", " + NSProcessInfo().operatingSystemVersionString
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
