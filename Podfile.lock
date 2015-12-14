@@ -8,7 +8,7 @@ PODS:
   - Base64 (1.0.1)
   - Crashlytics (3.4.1):
     - Fabric (~> 1.6.0)
-  - DeviceGuru (1.2.3)
+  - DeviceGuru (1.3.1)
   - Fabric (1.6.1)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
@@ -53,7 +53,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: "../CatchLib-iOS/MZFayeClient/"
+    :path: ../CatchLib-iOS/MZFayeClient/
 
 SPEC CHECKSUMS:
   1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
@@ -62,7 +62,7 @@ SPEC CHECKSUMS:
   Appsee: 77f144701aa1a53d854d319a46667561849e8cf5
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
-  DeviceGuru: 6703820f7058693781c0048184eb4c3594b602cc
+  DeviceGuru: fabb7625666d212b807cfc50c202253a1f702306
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
