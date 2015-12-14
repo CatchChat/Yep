@@ -27,24 +27,33 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         return
                     }
 
-                    let shots = dribbbleWork.shots
+                    // 对于从左到右排列，且左边的最新，要处理数量不足的情况
 
-                    if let shot = shots[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView1.image = nil
+                    var shots: [DribbbleWork.Shot?] = dribbbleWork.shots.map({ $0 })
+
+                    let imageViews = [
+                        imageView3,
+                        imageView2,
+                        imageView1,
+                    ]
+
+                    // 不足补空
+                    if shots.count < imageViews.count {
+
+                        let empty: [DribbbleWork.Shot?] = Array(0..<(imageViews.count - shots.count)).map({ _ in
+                            return nil
+                        })
+
+                        shots.insertContentsOf(empty, at: 0)
                     }
 
-                    if let shot = shots[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView2.image = nil
-                    }
+                    for i in 0..<imageViews.count {
 
-                    if let shot = shots[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView3.image = nil
+                        if let shot = shots[i] {
+                            imageViews[i].kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                        } else {
+                            imageViews[i].image = nil
+                        }
                     }
 
                 case .Instagram(let instagramWork):
@@ -53,24 +62,33 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         return
                     }
 
-                    let medias = instagramWork.medias
+                    // 对于从左到右排列，且左边的最新，要处理数量不足的情况
 
-                    if let media = medias[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView1.image = nil
+                    var medias: [InstagramWork.Media?] = instagramWork.medias.map({ $0 })
+
+                    let imageViews = [
+                        imageView3,
+                        imageView2,
+                        imageView1,
+                    ]
+
+                    // 不足补空
+                    if medias.count < imageViews.count {
+
+                        let empty: [InstagramWork.Media?] = Array(0..<(imageViews.count - medias.count)).map({ _ in
+                            return nil
+                        })
+
+                        medias.insertContentsOf(empty, at: 0)
                     }
 
-                    if let media = medias[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView2.image = nil
-                    }
+                    for i in 0..<imageViews.count {
 
-                    if let media = medias[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView3.image = nil
+                        if let media = medias[i] {
+                            imageViews[i].kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                        } else {
+                            imageViews[i].image = nil
+                        }
                     }
                 }
             }
