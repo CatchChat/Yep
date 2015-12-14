@@ -82,6 +82,17 @@ class EditProfileViewController: UIViewController {
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
+    // MARK: Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     // MARK: Actions
 
     private func updateAvatar(completion:() -> Void) {
@@ -355,7 +366,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         switch indexPath.section {
 

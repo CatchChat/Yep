@@ -111,7 +111,10 @@ class PodsHelpYepViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         let pod = pods[indexPath.row]
 

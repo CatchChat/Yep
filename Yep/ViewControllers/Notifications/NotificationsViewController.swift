@@ -112,6 +112,15 @@ class NotificationsViewController: UIViewController {
 
     // MARK: Navigation
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showDoNotDisturbPeriod" {
@@ -357,7 +366,10 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         switch indexPath.section {
         case 0:

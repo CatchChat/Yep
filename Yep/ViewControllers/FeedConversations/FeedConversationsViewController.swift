@@ -89,6 +89,15 @@ class FeedConversationsViewController: UIViewController {
 
     // MARK: Navigation
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
@@ -161,7 +170,10 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
             performSegueWithIdentifier("showConversation", sender: cell.conversation)

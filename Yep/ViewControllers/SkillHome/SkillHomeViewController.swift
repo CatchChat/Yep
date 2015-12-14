@@ -420,6 +420,15 @@ class SkillHomeViewController: BaseViewController {
     }
 
     // MARK: - Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
@@ -638,7 +647,10 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
 
         switch indexPath.section {
 
