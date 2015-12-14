@@ -145,6 +145,17 @@ class RegisterPickAvatarViewController: UIViewController {
         nextButton.enabled = false
     }
 
+    // MARK: Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     // MARK: Helpers
 
     private func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {

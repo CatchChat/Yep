@@ -53,6 +53,17 @@ class AboutViewController: UIViewController {
 
         aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
     }
+
+    // MARK: Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate

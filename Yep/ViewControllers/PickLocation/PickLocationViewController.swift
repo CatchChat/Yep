@@ -189,6 +189,15 @@ class PickLocationViewController: UIViewController {
 
     // MARK: Navigation
 
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {

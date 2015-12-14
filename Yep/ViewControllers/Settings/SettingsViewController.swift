@@ -76,6 +76,17 @@ class SettingsViewController: BaseViewController {
             }
         }
     }
+
+    // MARK: Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {

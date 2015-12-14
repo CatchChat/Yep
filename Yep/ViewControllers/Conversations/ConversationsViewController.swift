@@ -276,6 +276,17 @@ class ConversationsViewController: UIViewController {
         }
     }
 
+    // MARK: Navigation
+
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+
+        guard navigationController?.topViewController == self else {
+            return false
+        }
+
+        return true
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
