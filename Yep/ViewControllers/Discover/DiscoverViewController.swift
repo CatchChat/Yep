@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 enum DiscoverUserMode: Int {
     case Normal = 0
@@ -97,10 +98,17 @@ class DiscoverViewController: BaseViewController {
         discoveredUsersCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
 
         userMode = .Card
+
+        if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.DiscoveredUsers, inRealm: realm) {
+            if let JSON = offlineJSON.JSON, discoveredUsers = parseDiscoveredUsers(JSON) {
+                self.discoveredUsers = discoveredUsers
+                activityIndicator.stopAnimating()
+            }
+        }
     }
 
     // MARK: Actions
-    
+
     @IBAction private func changeMode(sender: AnyObject) {
 
         switch userMode {

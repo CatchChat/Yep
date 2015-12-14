@@ -859,6 +859,7 @@ class Feed: Object {
 enum OfflineJSONName: String {
 
     case Feeds
+    case DiscoveredUsers
 }
 
 class OfflineJSON: Object {

@@ -1305,7 +1305,25 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
         "per_page": perPage,
     ]
     
-    let parse = parseDiscoveredUsers
+    //let parse = parseDiscoveredUsers
+    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+
+        // 只离线第一页
+        if page == 1 {
+            if let realm = try? Realm() {
+                if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
+
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.DiscoveredUsers.rawValue, data: offlineData)
+
+                    let _ = try? realm.write {
+                        realm.add(offlineJSON, update: true)
+                    }
+                }
+            }
+        }
+        
+        return parseDiscoveredUsers(data)
+    }
     
     let resource = authJsonResource(path: "/api/v2/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
