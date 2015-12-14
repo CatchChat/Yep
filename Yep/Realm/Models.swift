@@ -292,6 +292,12 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
+enum FileExtension: String {
+    case Image = "jpg"
+    case Video = "mp4"
+    case Audio = "m4a"
+}
+
 enum MessageMediaType: Int, CustomStringConvertible {
     case Text           = 0
     case Image          = 1
@@ -333,6 +339,19 @@ enum MessageMediaType: Int, CustomStringConvertible {
             return "audio/m4a"
         default:
             return "" // TODO: more mineType
+        }
+    }
+
+    var fileExtension: FileExtension? {
+        switch self {
+        case .Image:
+            return .Image
+        case .Video:
+            return .Video
+        case .Audio:
+            return .Audio
+        default:
+            return nil
         }
     }
 
@@ -718,7 +737,6 @@ enum AttachmentKind: String {
     case Audio = "audio"
     case Video = "video"
 }
-
 
 class Attachment: Object {
 
