@@ -8,7 +8,14 @@
 
 import UIKit
 
+enum FileExtension: String {
+    case JPEG = "jpg"
+    case MP4 = "mp4"
+    case M4A = "m4a"
+}
+
 extension NSFileManager {
+
     class func yepCachesURL() -> NSURL {
         return try! NSFileManager.defaultManager().URLForDirectory(.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
     }
@@ -33,7 +40,7 @@ extension NSFileManager {
     class func yepAvatarURLWithName(name: String) -> NSURL? {
 
         if let avatarCachesURL = yepAvatarCachesURL() {
-            return avatarCachesURL.URLByAppendingPathComponent("\(name).jpg")
+            return avatarCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
         }
 
         return nil
@@ -82,7 +89,7 @@ extension NSFileManager {
     class func yepMessageImageURLWithName(name: String) -> NSURL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).jpg")
+            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
         }
 
         return nil
@@ -118,7 +125,7 @@ extension NSFileManager {
     class func yepMessageAudioURLWithName(name: String) -> NSURL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).m4a")
+            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.M4A.rawValue)")
         }
 
         return nil
@@ -154,7 +161,7 @@ extension NSFileManager {
     class func yepMessageVideoURLWithName(name: String) -> NSURL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).mp4")
+            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.MP4.rawValue)")
         }
 
         return nil
@@ -218,5 +225,5 @@ extension NSFileManager {
             cleanCachesDirectoryAtURL(messageCachesURL)
         }
     }
-
 }
+

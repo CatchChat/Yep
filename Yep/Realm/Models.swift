@@ -292,12 +292,6 @@ enum MessageDownloadState: Int {
     case Downloaded     = 2 // 已下载
 }
 
-enum FileExtension: String {
-    case JPEG = "jpg"
-    case MP4 = "mp4"
-    case M4A = "m4a"
-}
-
 enum MessageMediaType: Int, CustomStringConvertible {
     case Text           = 0
     case Image          = 1
