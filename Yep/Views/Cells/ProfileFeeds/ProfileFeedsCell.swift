@@ -25,10 +25,36 @@ class ProfileFeedsCell: UICollectionViewCell {
 
     var feedAttachments: [DiscoveredAttachment]? {
         willSet {
-            guard let attachments = newValue else {
+            guard let _attachments = newValue else {
                 return
             }
 
+            // 对于从左到右排列，且左边的最新，要处理数量不足的情况
+
+            var attachments: [DiscoveredAttachment?] = _attachments.map({ $0 })
+
+            let imageViews = [
+                imageView4,
+                imageView3,
+                imageView2,
+                imageView1,
+            ]
+
+            // 不足补空
+            if attachments.count < imageViews.count {
+
+                let empty: [DiscoveredAttachment?] = Array(0..<(imageViews.count - attachments.count)).map({ _ in
+                    return nil
+                })
+
+                attachments.insertContentsOf(empty, at: 0)
+            }
+
+            for i in 0..<imageViews.count {
+                imageViews[i].image = attachments[i]?.thumbnailImage
+            }
+
+            /*
             if let attachment = attachments[safe: 3] {
                 imageView1.image = attachment.thumbnailImage
             } else {
@@ -52,6 +78,7 @@ class ProfileFeedsCell: UICollectionViewCell {
             } else {
                 imageView4.image = nil
             }
+            */
         }
     }
 
