@@ -136,12 +136,17 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
                 URLString = repoInfo["html_url"] as? String,
                 description = repoInfo["description"] as? String,
                 createdAtString = repoInfo["created_at"] as? String,
-                isPrivate = repoInfo["private"] as? Bool
+                isPrivate = repoInfo["private"] as? Bool,
+                isFork = repoInfo["fork"] as? Bool
             else {
                 continue
             }
 
             guard !isPrivate else {
+                continue
+            }
+
+            guard !isFork else {
                 continue
             }
 
