@@ -735,6 +735,8 @@ class NewFeedViewController: UIViewController {
 
             let uploadVoiceGroup = dispatch_group_create()
 
+            var uploadErrorMessage: String?
+
             dispatch_group_enter(uploadVoiceGroup)
 
             s3UploadFileOfKind(.Feed, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: MessageMediaType.Audio.mineType, failureHandler: { (reason, errorMessage) in
@@ -742,6 +744,8 @@ class NewFeedViewController: UIViewController {
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
+                    uploadErrorMessage = errorMessage
+
                     dispatch_group_leave(uploadVoiceGroup)
                 }
 
@@ -762,6 +766,19 @@ class NewFeedViewController: UIViewController {
             })
 
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
+
+                guard mediaInfo != nil else {
+
+                    YepHUD.hideActivityIndicator()
+                    self?.postButton.enabled = true
+
+                    let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
+
+                    YepAlert.alertSorry(message: message, inViewController: self)
+                    
+                    return
+                }
+
                 kind = .Audio
                 doCreateFeed()
 
