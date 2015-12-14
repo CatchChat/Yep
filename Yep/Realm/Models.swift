@@ -336,6 +336,19 @@ enum MessageMediaType: Int, CustomStringConvertible {
         }
     }
 
+    var fileExtension: FileExtension? {
+        switch self {
+        case .Image:
+            return .JPEG
+        case .Video:
+            return .MP4
+        case .Audio:
+            return .M4A
+        default:
+            return nil // TODO: more
+        }
+    }
+
     var placeholder: String? {
         switch self {
         case .Text:
@@ -718,7 +731,6 @@ enum AttachmentKind: String {
     case Audio = "audio"
     case Video = "video"
 }
-
 
 class Attachment: Object {
 

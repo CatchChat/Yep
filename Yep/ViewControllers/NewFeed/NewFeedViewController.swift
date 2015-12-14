@@ -626,7 +626,7 @@ class NewFeedViewController: UIViewController {
 
                     dispatch_group_enter(uploadImagesGroup)
 
-                    s3UploadFileOfKind(.Feed, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+                    s3UploadFileOfKind(.Feed, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
 
                         defaultFailureHandler(reason, errorMessage: errorMessage)
 
@@ -756,7 +756,7 @@ class NewFeedViewController: UIViewController {
 
             dispatch_group_enter(uploadVoiceGroup)
 
-            s3UploadFileOfKind(.Feed, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: MessageMediaType.Audio.mineType, failureHandler: { (reason, errorMessage) in
+            s3UploadFileOfKind(.Feed, withFileExtension: .M4A, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: MessageMediaType.Audio.mineType, failureHandler: { (reason, errorMessage) in
 
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
