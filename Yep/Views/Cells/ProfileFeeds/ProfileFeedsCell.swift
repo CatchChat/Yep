@@ -53,32 +53,6 @@ class ProfileFeedsCell: UICollectionViewCell {
             for i in 0..<imageViews.count {
                 imageViews[i].image = attachments[i]?.thumbnailImage
             }
-
-            /*
-            if let attachment = attachments[safe: 3] {
-                imageView1.image = attachment.thumbnailImage
-            } else {
-                imageView1.image = nil
-            }
-
-            if let attachment = attachments[safe: 2] {
-                imageView2.image = attachment.thumbnailImage
-            } else {
-                imageView2.image = nil
-            }
-
-            if let attachment = attachments[safe: 1] {
-                imageView3.image = attachment.thumbnailImage
-            } else {
-                imageView3.image = nil
-            }
-
-            if let attachment = attachments[safe: 0] {
-                imageView4.image = attachment.thumbnailImage
-            } else {
-                imageView4.image = nil
-            }
-            */
         }
     }
 

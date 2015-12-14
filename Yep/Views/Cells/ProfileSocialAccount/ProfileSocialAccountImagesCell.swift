@@ -56,28 +56,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         }
                     }
 
-                    /*
-                    let shots = dribbbleWork.shots
-
-                    if let shot = shots[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView1.image = nil
-                    }
-
-                    if let shot = shots[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView2.image = nil
-                    }
-
-                    if let shot = shots[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView3.image = nil
-                    }
-                    */
-
                 case .Instagram(let instagramWork):
                     
                     if socialAccount != SocialAccount(rawValue: "instagram") {
@@ -112,28 +90,6 @@ class ProfileSocialAccountImagesCell: UICollectionViewCell {
                             imageViews[i].image = nil
                         }
                     }
-
-                    /*
-                    let medias = instagramWork.medias
-
-                    if let media = medias[safe: 2] {
-                        imageView1.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView1.image = nil
-                    }
-
-                    if let media = medias[safe: 1] {
-                        imageView2.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView2.image = nil
-                    }
-
-                    if let media = medias[safe: 0] {
-                        imageView3.kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-                    } else {
-                        imageView3.image = nil
-                    }
-                    */
                 }
             }
         }
