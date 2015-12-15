@@ -49,7 +49,7 @@ class FPSLabel: UILabel {
 
         let timeDelta = displayLink.timestamp - lastTime
 
-        if timeDelta < 1 {
+        if timeDelta < 0.25 {
             return
         }
 
@@ -60,6 +60,7 @@ class FPSLabel: UILabel {
         count = 0
 
         text = String(format: "%.0f", fps)
+        textColor = fps > 50 ? UIColor.greenColor() : UIColor.redColor()
     }
 }
 

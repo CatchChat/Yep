@@ -110,7 +110,7 @@ extension UIImageView {
 
             activityIndicator?.stopAnimating()
 
-            println("imageOfAttachment cacheType: \(cacheType)")
+            //println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 }
