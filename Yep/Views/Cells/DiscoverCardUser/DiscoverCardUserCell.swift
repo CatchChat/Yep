@@ -33,7 +33,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
         contentView.backgroundColor = UIColor.whiteColor()
         contentView.layer.cornerRadius  = 6
         contentView.layer.masksToBounds = true
@@ -44,7 +44,6 @@ class DiscoverCardUserCell: UICollectionViewCell {
         avatarImageView.contentMode = UIViewContentMode.ScaleAspectFill
         avatarImageView.clipsToBounds = true
         skillImageView.contentMode = UIViewContentMode.ScaleAspectFit
-    
     }
 
     override func prepareForReuse() {
@@ -117,7 +116,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         var skillLabels = [CGRect]()
         
         //let context = UIGraphicsGetCurrentContext()
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), true, UIScreen.mainScreen().scale)
         
         for (index, skill) in skills.enumerate() {
             
