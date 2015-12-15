@@ -21,6 +21,14 @@ class FPSLabel: UILabel {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
+        frame = CGRect(x: 15, y: 150, width: 40, height: 40)
+        layer.cornerRadius = 20
+        clipsToBounds = true
+        backgroundColor = UIColor.blackColor()
+        textColor = UIColor.greenColor()
+        textAlignment = .Center
+        font = UIFont.systemFontOfSize(24)
+
         run()
     }
 
@@ -51,7 +59,7 @@ class FPSLabel: UILabel {
 
         count = 0
 
-        text = String(format: "%.1f", fps)
+        text = String(format: "%.0f", fps)
     }
 }
 
