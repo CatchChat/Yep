@@ -137,12 +137,13 @@ class RegisterPickAvatarViewController: UIViewController {
         cameraRollButton.tintColor = UIColor.yepTintColor()
         captureButton.tintColor = UIColor.yepTintColor()
         retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+
+        nextButton.enabled = false
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
     }
 
     // MARK: Navigation

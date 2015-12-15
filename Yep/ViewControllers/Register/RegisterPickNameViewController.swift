@@ -73,12 +73,13 @@ class RegisterPickNameViewController: BaseViewController {
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
+
+        nextButton.enabled = false
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -50,12 +50,13 @@ class RegisterPickMobileViewController: UIViewController {
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
+
+        nextButton.enabled = false
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
     }
 
     override func viewDidAppear(animated: Bool) {
