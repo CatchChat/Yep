@@ -2749,6 +2749,26 @@ struct DiscoveredFeed: Hashable {
     let groupID: String
     var messagesCount: Int
 
+    var timeAndDistanceString: String {
+
+        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
+
+        var distanceString: String?
+        if let distance = distance {
+            if distance < 1 {
+                distanceString = NSLocalizedString("Nearby", comment: "")
+            } else {
+                distanceString = "\(distance.format(".1")) km"
+            }
+        }
+
+        if let distanceString = distanceString {
+            return timeString + "  ∙  " + distanceString
+        } else {
+            return timeString
+        }
+    }
+
     static func fromFeedInfo(feedInfo: JSONDictionary, groupInfo: JSONDictionary?) -> DiscoveredFeed? {
 
         //println("feedInfo: \(feedInfo)")
