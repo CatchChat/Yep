@@ -129,6 +129,7 @@ class FeedBasicCell: UITableViewCell {
 
         timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
         messageCountLabel.text = "\(feed.messagesCount)"
+        messageCountLabel.hidden = (feed.messagesCount == 0)
     }
 
     // MARK: Actions
