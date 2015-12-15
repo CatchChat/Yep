@@ -38,6 +38,19 @@ class HorizontalLineView: UIView {
         }
     }
 
+    enum PositionStyle: Int {
+        case Top
+        case Center
+        case Bottom
+    }
+
+    @IBInspectable
+    var positionStyle: PositionStyle = .Center {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
     // MARK: Draw
 
     override func drawRect(rect: CGRect) {
@@ -49,7 +62,16 @@ class HorizontalLineView: UIView {
 
         CGContextSetLineWidth(context, lineWidth)
 
-        let y = ceil(CGRectGetHeight(rect) * 0.5)
+        let y: CGFloat
+        let fullHeight = CGRectGetHeight(rect)
+        switch positionStyle {
+        case .Top:
+            y = lineWidth * 0.5
+        case .Center:
+            y = (fullHeight * 0.5) - lineWidth * 0.5
+        case .Bottom:
+            y = fullHeight - lineWidth * 0.5
+        }
 
         CGContextMoveToPoint(context, leftMargin, y)
         CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightMargin, y)
