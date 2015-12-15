@@ -22,7 +22,37 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tdd-kc-O7L">
                                         <rect key="frame" x="0.0" y="20" width="375" height="200"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nJU-wa-osq" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="hw6-fW-lcW"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="atBottom" value="NO"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8SZ-PV-kFD" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="199" width="375" height="1"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="lmN-QR-sqt"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="atBottom" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                        </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="nJU-wa-osq" firstAttribute="top" secondItem="tdd-kc-O7L" secondAttribute="top" id="7h8-R1-cw5"/>
+                                            <constraint firstItem="nJU-wa-osq" firstAttribute="leading" secondItem="tdd-kc-O7L" secondAttribute="leading" id="CVS-fs-Ikf"/>
+                                            <constraint firstAttribute="bottom" secondItem="8SZ-PV-kFD" secondAttribute="bottom" id="Y8B-UT-O11"/>
+                                            <constraint firstAttribute="trailing" secondItem="8SZ-PV-kFD" secondAttribute="trailing" id="fCA-Hb-yBV"/>
+                                            <constraint firstItem="8SZ-PV-kFD" firstAttribute="leading" secondItem="tdd-kc-O7L" secondAttribute="leading" id="nBk-q2-bGe"/>
+                                            <constraint firstAttribute="trailing" secondItem="nJU-wa-osq" secondAttribute="trailing" id="ubn-nn-GKf"/>
+                                        </constraints>
                                     </view>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-hy-hsK">
                                         <rect key="frame" x="15" y="40" width="345" height="60"/>
