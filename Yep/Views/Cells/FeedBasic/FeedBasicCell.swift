@@ -114,22 +114,7 @@ class FeedBasicCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
-        let timeString = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-
-        var distanceString: String?
-        if let distance = feed.distance {
-            if distance < 1 {
-                distanceString = NSLocalizedString("Nearby", comment: "")
-            } else {
-                distanceString = "\(distance.format(".1")) km"
-            }
-        }
-
-        if let distanceString = distanceString {
-            leftBottomLabel.text = timeString + " ∙ " + distanceString
-        } else {
-            leftBottomLabel.text = timeString
-        }
+        leftBottomLabel.text = feed.timeAndDistanceString
 
         messageCountLabel.text = "\(feed.messagesCount)"
         messageCountLabel.hidden = (feed.messagesCount == 0)
