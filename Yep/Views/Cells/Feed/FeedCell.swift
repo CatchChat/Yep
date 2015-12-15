@@ -16,6 +16,8 @@ class FeedCell: FeedBasicCell {
     @IBOutlet weak var mediaCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
+    @IBOutlet weak var leftBottomLabelTopConstraint: NSLayoutConstraint!
+
     var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
 
     var attachments = [DiscoveredAttachment]() {
@@ -112,9 +114,9 @@ class FeedCell: FeedBasicCell {
         }
 
         if attachments.count > 1 {
-            timeLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
+            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
         } else {
-            timeLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
+            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
         }
 
         mediaCollectionView.hidden = hasMedia ? false : true

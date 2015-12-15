@@ -18,10 +18,7 @@ class FeedBasicCell: UITableViewCell {
     @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dotLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var leftBottomLabel: UILabel!
 
     @IBOutlet weak var messageCountLabel: UILabel!
 
@@ -44,9 +41,7 @@ class FeedBasicCell: UITableViewCell {
 
         nicknameLabel.textColor = UIColor.yepTintColor()
         messageTextView.textColor = UIColor.yepMessageColor()
-        distanceLabel.textColor = UIColor.grayColor()
-        timeLabel.textColor = UIColor.grayColor()
-        dotLabel.textColor = UIColor.grayColor()
+        leftBottomLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
         skillLabel.textColor = UIColor.yepTintColor()
 
@@ -119,15 +114,23 @@ class FeedBasicCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
+        let timeString = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+
+        var distanceString: String?
         if let distance = feed.distance {
             if distance < 1 {
-                distanceLabel.text = NSLocalizedString("Nearby", comment: "")
+                distanceString = NSLocalizedString("Nearby", comment: "")
             } else {
-                distanceLabel.text = "\(distance.format(".1")) km"
+                distanceString = "\(distance.format(".1")) km"
             }
         }
 
-        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+        if let distanceString = distanceString {
+            leftBottomLabel.text = timeString + " ∙ " + distanceString
+        } else {
+            leftBottomLabel.text = timeString
+        }
+
         messageCountLabel.text = "\(feed.messagesCount)"
         messageCountLabel.hidden = (feed.messagesCount == 0)
     }
