@@ -116,7 +116,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         var skillLabels = [CGRect]()
         
         //let context = UIGraphicsGetCurrentContext()
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), true, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.mainScreen().scale)
         
         for (index, skill) in skills.enumerate() {
             
