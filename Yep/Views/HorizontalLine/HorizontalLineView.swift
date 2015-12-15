@@ -38,14 +38,8 @@ class HorizontalLineView: UIView {
         }
     }
 
-    enum PositionStyle: Int {
-        case Top
-        case Center
-        case Bottom
-    }
-
     @IBInspectable
-    var positionStyle: PositionStyle = .Center {
+    var atBottom: Bool = true {
         didSet {
             setNeedsDisplay()
         }
@@ -64,13 +58,11 @@ class HorizontalLineView: UIView {
 
         let y: CGFloat
         let fullHeight = CGRectGetHeight(rect)
-        switch positionStyle {
-        case .Top:
-            y = lineWidth * 0.5
-        case .Center:
-            y = (fullHeight * 0.5) - lineWidth * 0.5
-        case .Bottom:
+
+        if atBottom {
             y = fullHeight - lineWidth * 0.5
+        } else {
+            y = lineWidth * 0.5
         }
 
         CGContextMoveToPoint(context, leftMargin, y)

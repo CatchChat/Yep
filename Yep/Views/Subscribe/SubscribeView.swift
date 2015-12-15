@@ -68,7 +68,8 @@ class SubscribeView: UIView {
             horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
 
             horizontalLineView.backgroundColor = UIColor.clearColor()
-            horizontalLineView.lineColor = UIColor.grayColor()
+            //horizontalLineView.lineColor = UIColor.lightGrayColor()
+            horizontalLineView.atBottom = false
 
             let views = [
                 "horizontalLineView": horizontalLineView,
