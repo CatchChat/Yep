@@ -69,6 +69,13 @@ class DiscoverViewController: BaseViewController {
 
     private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
 
+    #if DEBUG
+    private lazy var discoverFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -105,6 +112,10 @@ class DiscoverViewController: BaseViewController {
                 activityIndicator.stopAnimating()
             }
         }
+
+        #if DEBUG
+            view.addSubview(discoverFPSLabel)
+        #endif
     }
 
     // MARK: Actions

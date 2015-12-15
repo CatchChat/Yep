@@ -110,7 +110,7 @@ extension UIImageView {
 
             activityIndicator?.stopAnimating()
 
-            println("imageOfAttachment cacheType: \(cacheType)")
+            //println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 }
@@ -131,6 +131,15 @@ extension UIImageView {
 
     func yep_setImageOfLocation(location: CLLocation, withSize size: CGSize) {
 
+        let showActivityIndicatorWhenLoading = yep_showActivityIndicatorWhenLoading
+        var activityIndicator: UIActivityIndicatorView? = nil
+
+        if showActivityIndicatorWhenLoading {
+            activityIndicator = yep_activityIndicator
+            activityIndicator?.hidden = false
+            activityIndicator?.startAnimating()
+        }
+
         yep_setLocation(location)
 
         ImageCache.sharedInstance.mapImageOfLocationCoordinate(location.coordinate, withSize: size, completion: { [weak self] image in
@@ -142,6 +151,8 @@ extension UIImageView {
             UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
                 strongSelf.image = image
             }, completion: nil)
+
+            activityIndicator?.stopAnimating()
         })
     }
 }
