@@ -540,6 +540,13 @@ class ConversationViewController: BaseViewController {
         return imagePicker
     }()
 
+    #if DEBUG
+    private lazy var conversationFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     private let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     private let chatStateCellIdentifier = "ChatStateCell"
     private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
@@ -850,6 +857,10 @@ class ConversationViewController: BaseViewController {
                 }
             })
         }
+
+        #if DEBUG
+            view.addSubview(conversationFPSLabel)
+        #endif
     }
     
     override func viewWillAppear(animated: Bool) {

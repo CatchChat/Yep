@@ -358,6 +358,13 @@ class ProfileViewController: UIViewController {
         return share
     }()
 
+    #if DEBUG
+    private lazy var profileFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     private var statusBarShouldLight = false
 
     private var noNeedToChangeStatusBar = false
@@ -784,6 +791,10 @@ class ProfileViewController: UIViewController {
                 }
             }
         }
+
+        #if DEBUG
+            view.addSubview(profileFPSLabel)
+        #endif
     }
 
     override func viewWillAppear(animated: Bool) {

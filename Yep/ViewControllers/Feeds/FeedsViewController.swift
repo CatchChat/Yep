@@ -99,6 +99,13 @@ class FeedsViewController: BaseViewController {
         return pullToRefreshView
     }()
 
+    #if DEBUG
+    private lazy var feedsFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
     private let feedCellID = "FeedCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
@@ -306,6 +313,10 @@ class FeedsViewController: BaseViewController {
                 }
             }
         }
+
+        #if DEBUG
+            view.addSubview(feedsFPSLabel)
+        #endif
     }
 
     // MARK: Actions

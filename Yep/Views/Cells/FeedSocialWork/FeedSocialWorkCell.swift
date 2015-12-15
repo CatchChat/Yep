@@ -331,6 +331,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                     let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
                     let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
+                    locationMapImageView.yep_showActivityIndicatorWhenLoading = true
                     locationMapImageView.yep_setImageOfLocation(location, withSize: size)
 
                     if locationInfo.name.isEmpty {
