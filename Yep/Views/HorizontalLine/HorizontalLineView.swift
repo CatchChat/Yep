@@ -38,6 +38,13 @@ class HorizontalLineView: UIView {
         }
     }
 
+    @IBInspectable
+    var atBottom: Bool = true {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+
     // MARK: Draw
 
     override func drawRect(rect: CGRect) {
@@ -49,7 +56,14 @@ class HorizontalLineView: UIView {
 
         CGContextSetLineWidth(context, lineWidth)
 
-        let y = ceil(CGRectGetHeight(rect) * 0.5)
+        let y: CGFloat
+        let fullHeight = CGRectGetHeight(rect)
+
+        if atBottom {
+            y = fullHeight - lineWidth * 0.5
+        } else {
+            y = lineWidth * 0.5
+        }
 
         CGContextMoveToPoint(context, leftMargin, y)
         CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightMargin, y)

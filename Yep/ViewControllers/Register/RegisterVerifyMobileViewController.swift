@@ -83,6 +83,8 @@ class RegisterVerifyMobileViewController: UIViewController {
 
         nextButton.enabled = false
         callMeButton.enabled = false
+
+        verifyCodeTextField.text = nil
     }
 
     override func viewDidAppear(animated: Bool) {
