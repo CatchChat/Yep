@@ -15,7 +15,14 @@ class ContactsViewController: BaseViewController {
     @IBOutlet weak var contactsTableView: UITableView!
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
-    
+
+    #if DEBUG
+    private lazy var contactsFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     private var searchController: UISearchController?
     private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
@@ -112,6 +119,10 @@ class ContactsViewController: BaseViewController {
                 self?.updateContactsTableView()
             }
         }
+
+        #if DEBUG
+            view.addSubview(contactsFPSLabel)
+        #endif
     }
 
     // MARK: Actions

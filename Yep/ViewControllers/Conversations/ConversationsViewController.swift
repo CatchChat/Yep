@@ -53,6 +53,13 @@ class ConversationsViewController: UIViewController {
         }
     }
 
+    #if DEBUG
+    private lazy var conversationsFPSLabel: FPSLabel = {
+        let label = FPSLabel()
+        return label
+    }()
+    #endif
+
     private lazy var conversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
@@ -138,6 +145,10 @@ class ConversationsViewController: UIViewController {
         if PrivateResource.Location(.WhenInUse).isAuthorized {
             YepLocationService.turnOn()
         }
+
+        #if DEBUG
+            view.addSubview(conversationsFPSLabel)
+        #endif
     }
 
     private func cacheInAdvance() {
