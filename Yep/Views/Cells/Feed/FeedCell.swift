@@ -11,68 +11,27 @@ import UIKit
 let feedAttachmentImageSize = CGSize(width: 80, height: 80)
 let feedAttachmentBiggerImageSize = CGSize(width: 160, height: 160)
 
+private let feedMediaCellID = "FeedMediaCell"
+
 class FeedCell: FeedBasicCell {
 
-    @IBOutlet weak var mediaCollectionView: UICollectionView!
-    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
+    //@IBOutlet weak var mediaCollectionView: UICollectionView!
+    //@IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
 
-    @IBOutlet weak var leftBottomLabelTopConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var leftBottomLabelTopConstraint: NSLayoutConstraint!
 
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    lazy var mediaCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
 
-    var attachments = [DiscoveredAttachment]() {
-        didSet {
+        collectionView.scrollsToTop = false
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = UIColor.clearColor()
+        collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+        collectionView.dataSource = self
+        collectionView.delegate = self
 
-            let oldHeight = collectionViewHeight.constant
-            let newHeight: CGFloat
-            if attachments.count == 1 {
-                newHeight = feedAttachmentBiggerImageSize.height
-            } else {
-                newHeight = feedAttachmentImageSize.height
-            }
-            if newHeight != oldHeight {
-                collectionViewHeight.constant = newHeight
-            }
-
-            mediaCollectionView.reloadData()
-        }
-    }
-
-    static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
-        return maxWidth
-    }()
-
-    let feedMediaCellID = "FeedMediaCell"
-
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
-
-        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
-
-        if let attachment = feed.attachment {
-            if case let .Images(attachments) = attachment {
-                let imageHeight: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
-                height += (imageHeight + 15)
-            }
-        }
-
-        return ceil(height)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        mediaCollectionView.scrollsToTop = false
-        mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
-        mediaCollectionView.showsHorizontalScrollIndicator = false
-        mediaCollectionView.backgroundColor = UIColor.clearColor()
-        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
-        mediaCollectionView.dataSource = self
-        mediaCollectionView.delegate = self
-
-        let backgroundView = TouchClosuresView(frame: mediaCollectionView.bounds)
+        let backgroundView = TouchClosuresView(frame: collectionView.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
@@ -91,7 +50,64 @@ class FeedCell: FeedBasicCell {
                 strongSelf.touchesCancelledAction?(strongSelf)
             }
         }
-        mediaCollectionView.backgroundView = backgroundView
+        collectionView.backgroundView = backgroundView
+
+        return collectionView
+    }()
+
+
+    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+
+    var attachments = [DiscoveredAttachment]() {
+        didSet {
+
+            /*
+            let oldHeight = collectionViewHeight.constant
+            let newHeight: CGFloat
+            if attachments.count == 1 {
+                newHeight = feedAttachmentBiggerImageSize.height
+            } else {
+                newHeight = feedAttachmentImageSize.height
+            }
+            if newHeight != oldHeight {
+                collectionViewHeight.constant = newHeight
+            }
+            */
+
+            mediaCollectionView.reloadData()
+        }
+    }
+
+    static let messageTextViewMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        return maxWidth
+    }()
+
+
+    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+
+        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+
+        if let attachment = feed.attachment {
+            if case let .Images(attachments) = attachment {
+                let imageHeight: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
+                height += (imageHeight + 15)
+            }
+        }
+
+        return ceil(height)
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        contentView.addSubview(mediaCollectionView)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func prepareForReuse() {
@@ -113,11 +129,11 @@ class FeedCell: FeedBasicCell {
             }
         }
 
-        if attachments.count > 1 {
-            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
-        } else {
-            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
-        }
+//        if attachments.count > 1 {
+//            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
+//        } else {
+//            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
+//        }
 
         mediaCollectionView.hidden = hasMedia ? false : true
     }

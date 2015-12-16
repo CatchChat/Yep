@@ -8,19 +8,115 @@
 
 import UIKit
 
+private let screenWidth = UIScreen.mainScreen().bounds.width
+
 class FeedBasicCell: UITableViewCell {
 
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var nicknameLabel: UILabel!
+    //@IBOutlet weak var avatarImageView: UIImageView!
+    //@IBOutlet weak var nicknameLabel: UILabel!
 
-    @IBOutlet weak var skillButton: UIButton!
+    //@IBOutlet weak var skillButton: UIButton!
 
-    @IBOutlet weak var messageTextView: FeedTextView!
-    @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var messageTextView: FeedTextView!
+    //@IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var leftBottomLabel: UILabel!
+    //@IBOutlet weak var leftBottomLabel: UILabel!
 
-    @IBOutlet weak var messageCountLabel: UILabel!
+    //@IBOutlet weak var messageCountLabel: UILabel!
+
+    lazy var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.frame = CGRect(x: 15, y: 10, width: 40, height: 40)
+        imageView.contentMode = .ScaleAspectFit
+
+        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(tapAvatar)
+
+        return imageView
+    }()
+
+    lazy var nicknameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.yepTintColor()
+        label.font = UIFont.systemFontOfSize(15)
+        label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
+        return label
+    }()
+
+    lazy var skillButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "sill_bubble_empty"), forState: .Normal)
+        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.titleLabel?.font = UIFont.feedSkillFont()
+
+        let cellWidth = self.bounds.width
+        let width: CGFloat = 60
+        button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
+
+        button.addTarget(self, action: "tapSkill:", forControlEvents: .TouchUpInside)
+
+        return button
+    }()
+
+    lazy var messageTextView: FeedTextView = {
+        let textView = FeedTextView()
+        textView.textColor = UIColor.yepMessageColor()
+        textView.font = UIFont.feedMessageFont()
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.dataDetectorTypes = .Link
+
+        let cellWidth = self.bounds.width
+        textView.frame = CGRect(x: 65, y: 54, width: cellWidth - 65 - 15, height: 26)
+
+        textView.touchesBeganAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesBeganAction?(strongSelf)
+            }
+        }
+        textView.touchesEndedAction = { [weak self] in
+            if let strongSelf = self {
+                if strongSelf.editing {
+                    return
+                }
+                strongSelf.touchesEndedAction?(strongSelf)
+            }
+        }
+        textView.touchesCancelledAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesCancelledAction?(strongSelf)
+            }
+        }
+
+        return textView
+    }()
+
+    lazy var leftBottomLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.yepTintColor()
+        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = UIColor.grayColor()
+
+        return label
+    }()
+
+    lazy var messageCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.yepTintColor()
+        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = UIColor.grayColor()
+        return label
+    }()
+
+    lazy var discussionImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_discussion")
+        return imageView
+    }()
+
+
+
 
     var tapAvatarAction: (UITableViewCell -> Void)?
     var tapSkillAction: (UITableViewCell -> Void)?
@@ -36,46 +132,22 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        nicknameLabel.textColor = UIColor.yepTintColor()
-        messageTextView.textColor = UIColor.yepMessageColor()
-        leftBottomLabel.textColor = UIColor.grayColor()
-        messageCountLabel.textColor = UIColor.yepTintColor()
-        skillButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(nicknameLabel)
+        contentView.addSubview(skillButton)
 
-        messageTextView.font = UIFont.feedMessageFont()
-        messageTextView.textContainer.lineFragmentPadding = 0
-        messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        messageTextView.dataDetectorTypes = .Link
+        contentView.addSubview(messageTextView)
 
-        skillButton.titleLabel?.font = UIFont.feedSkillFont()
+        contentView.addSubview(leftBottomLabel)
+        contentView.addSubview(messageCountLabel)
+        contentView.addSubview(discussionImageView)
+    }
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
-        avatarImageView.userInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(tapAvatar)
-
-        skillButton.addTarget(self, action: "tapSkill:", forControlEvents: .TouchUpInside)
-
-        messageTextView.touchesBeganAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesBeganAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesEndedAction = { [weak self] in
-            if let strongSelf = self {
-                if strongSelf.editing {
-                    return
-                }
-                strongSelf.touchesEndedAction?(strongSelf)
-            }
-        }
-        messageTextView.touchesCancelledAction = { [weak self] in
-            if let strongSelf = self {
-                strongSelf.touchesCancelledAction?(strongSelf)
-            }
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -87,7 +159,7 @@ class FeedBasicCell: UITableViewCell {
     private func calHeightOfMessageTextView() {
 
         let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
-        messageTextViewHeightConstraint.constant = ceil(rect.height)
+        //messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
     func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {

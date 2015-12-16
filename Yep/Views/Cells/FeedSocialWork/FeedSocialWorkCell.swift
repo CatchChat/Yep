@@ -16,6 +16,7 @@ private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).
 
 class FeedSocialWorkCell: FeedBasicCell {
 
+    /*
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var logoImageViewTrailingConstraint: NSLayoutConstraint!
 
@@ -32,6 +33,46 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
+    */
+
+    lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_github")
+        return imageView
+    }()
+
+    lazy var mediaContainerView: FeedMediaContainerView = {
+        let view = FeedMediaContainerView()
+        return view
+    }()
+
+    lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
+        let view = FeedGithubRepoContainerView()
+        return view
+    }()
+
+    lazy var voiceContainerView: FeedVoiceContainerView = {
+        let view = FeedVoiceContainerView()
+        return view
+    }()
+
+    lazy var locationContainerView: FeedLocationContainerView = {
+        let view = FeedLocationContainerView()
+        return view
+    }()
+
+    lazy var socialWorkBorderImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "social_work_border")
+        return imageView
+    }()
+
+
+
+
+
+
+
 
     lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
@@ -99,9 +140,19 @@ class FeedSocialWorkCell: FeedBasicCell {
         locationContainerView.mapImageView.image = nil
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        contentView.addSubview(logoImageView)
+        contentView.addSubview(mediaContainerView)
+        contentView.addSubview(githubRepoContainerView)
+        contentView.addSubview(voiceContainerView)
+        contentView.addSubview(locationContainerView)
+        contentView.addSubview(socialWorkBorderImageView)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -136,12 +187,12 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         self.feed = feed
 
-        if needShowSkill, let skill = feed.skill {
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-            logoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
-        } else {
-            logoImageViewTrailingConstraint.constant = 15
-        }
+//        if needShowSkill, let skill = feed.skill {
+//            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
+//            logoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
+//        } else {
+//            logoImageViewTrailingConstraint.constant = 15
+//        }
 
         if let
             accountName = feed.kind.accountName,
@@ -185,7 +236,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 80
+            //socialWorkContainerViewHeightConstraint.constant = 80
 
         case .DribbbleShot:
 
@@ -230,8 +281,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             mediaContainerView.mediaImageView.maskView = halfMaskImageView
 
-            socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
-            contentView.layoutIfNeeded()
+            //socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
+            //contentView.layoutIfNeeded()
 
         case .Audio:
 
@@ -252,7 +303,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                     let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
 
-                    voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    //voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
 
                     if let realm = try? Realm() {
 
@@ -316,7 +367,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 44
+            //socialWorkContainerViewHeightConstraint.constant = 44
 
         case .Location:
 
@@ -357,8 +408,8 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 110
-            contentView.layoutIfNeeded()
+            //socialWorkContainerViewHeightConstraint.constant = 110
+            //contentView.layoutIfNeeded()
 
         default:
             break

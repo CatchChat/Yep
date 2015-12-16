@@ -279,8 +279,13 @@ class FeedsViewController: BaseViewController {
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
-        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
-        feedsTableView.registerNib(UINib(nibName: feedSocialWorkCellID, bundle: nil), forCellReuseIdentifier: feedSocialWorkCellID)
+
+//        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
+//        feedsTableView.registerNib(UINib(nibName: feedSocialWorkCellID, bundle: nil), forCellReuseIdentifier: feedSocialWorkCellID)
+
+        feedsTableView.registerClass(FeedCell.self, forCellReuseIdentifier: feedCellID)
+        feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
+
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
 
