@@ -10,6 +10,8 @@ import UIKit
 
 class FeedLocationContainerView: UIView {
 
+    var tapAction: (() -> Void)?
+
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
@@ -34,6 +36,9 @@ class FeedLocationContainerView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        addGestureRecognizer(tap)
     }
 
     private func makeUI() {
@@ -70,6 +75,10 @@ class FeedLocationContainerView: UIView {
         NSLayoutConstraint.activateConstraints(horizontalLineViewH)
         NSLayoutConstraint.activateConstraints(horizontalLineViewV)
         NSLayoutConstraint.activateConstraints([horizontalLineViewTop])
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        tapAction?()
     }
 }
 

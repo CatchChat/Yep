@@ -142,9 +142,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
-
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
-        locationContainerView.addGestureRecognizer(tapLocation)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -366,6 +363,18 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             locationContainerView.mapImageView.maskView = socialWorkMaskImageView
 
+            locationContainerView.tapAction = { [weak self] in
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .Location = feed.kind {
+                    if case let .Location(locationInfo) = attachment {
+                        self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+                    }
+                }
+            }
+
             socialWorkContainerViewHeightConstraint.constant = 110
             contentView.layoutIfNeeded()
 
@@ -396,19 +405,6 @@ class FeedSocialWorkCell: FeedBasicCell {
             if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
                 let socialWorkImageView = mediaContainerView.socialWorkImageView
                 tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
-            }
-        }
-    }
-
-    func tapLocation(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .Location = feed.kind {
-            if case let .Location(locationInfo) = attachment {
-                tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
             }
         }
     }
