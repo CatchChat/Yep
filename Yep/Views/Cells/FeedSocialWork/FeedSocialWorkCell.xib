@@ -23,7 +23,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="viF-na-QGX" userLabel="Nickname Label">
-                        <rect key="frame" x="65" y="21" width="231" height="18"/>
+                        <rect key="frame" x="65" y="21" width="227" height="18"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -39,7 +39,7 @@
                         </constraints>
                     </imageView>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="42" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhp-xa-CcY" userLabel="Message Count Label">
-                        <rect key="frame" x="330" y="310" width="17" height="17"/>
+                        <rect key="frame" x="332" y="310" width="17" height="17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -283,7 +283,7 @@
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_github" translatesAutoresizingMaskIntoConstraints="NO" id="Tlc-MI-H1b">
-                        <rect key="frame" x="304" y="21" width="18" height="18"/>
+                        <rect key="frame" x="300" y="21" width="18" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="18" id="UaS-K6-jBs"/>
                             <constraint firstAttribute="height" constant="18" id="Y99-oD-aJp"/>
@@ -298,11 +298,11 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="Tlc-MI-H1b" secondAttribute="trailing" constant="80" id="0Ef-zJ-e9x"/>
+                    <constraint firstAttribute="trailing" secondItem="Tlc-MI-H1b" secondAttribute="trailing" constant="84" id="0Ef-zJ-e9x"/>
                     <constraint firstItem="viF-na-QGX" firstAttribute="centerY" secondItem="lyg-eU-J2p" secondAttribute="centerY" id="5So-sI-oYv"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="6cS-RN-NhO"/>
                     <constraint firstItem="lyg-eU-J2p" firstAttribute="width" secondItem="lyg-eU-J2p" secondAttribute="height" multiplier="1:1" id="Cil-Iy-8VS"/>
-                    <constraint firstItem="fqI-ij-1Pj" firstAttribute="leading" secondItem="dhp-xa-CcY" secondAttribute="trailing" constant="10" id="Kot-8P-yc1"/>
+                    <constraint firstItem="fqI-ij-1Pj" firstAttribute="leading" secondItem="dhp-xa-CcY" secondAttribute="trailing" constant="8" id="Kot-8P-yc1"/>
                     <constraint firstItem="Xeg-hl-49c" firstAttribute="top" secondItem="lyg-eU-J2p" secondAttribute="bottom" constant="4" id="KvD-q8-C6x"/>
                     <constraint firstItem="Tlc-MI-H1b" firstAttribute="centerY" secondItem="viF-na-QGX" secondAttribute="centerY" id="M6V-9K-GkW"/>
                     <constraint firstItem="9CZ-zE-b9N" firstAttribute="leading" secondItem="viF-na-QGX" secondAttribute="leading" id="QwI-Mp-xqY"/>
