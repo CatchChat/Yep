@@ -13,6 +13,7 @@ import RealmSwift
 import MapKit
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -187,13 +188,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         self.feed = feed
 
-//        if needShowSkill, let skill = feed.skill {
-//            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-//            logoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
-//        } else {
-//            logoImageViewTrailingConstraint.constant = 15
-//        }
-
         if let
             accountName = feed.kind.accountName,
             socialAccount = SocialAccount(rawValue: accountName) {
@@ -237,6 +231,9 @@ class FeedSocialWorkCell: FeedBasicCell {
             }
 
             //socialWorkContainerViewHeightConstraint.constant = 80
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            githubRepoContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
 
         case .DribbbleShot:
 
@@ -283,6 +280,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             //socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             //contentView.layoutIfNeeded()
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            mediaContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            mediaContainerView.layoutIfNeeded()
 
         case .Audio:
 
@@ -304,6 +305,9 @@ class FeedSocialWorkCell: FeedBasicCell {
                     let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
 
                     //voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
+                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 40)
 
                     if let realm = try? Realm() {
 
@@ -410,6 +414,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             //socialWorkContainerViewHeightConstraint.constant = 110
             //contentView.layoutIfNeeded()
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            locationContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            locationContainerView.layoutIfNeeded()
 
         default:
             break
