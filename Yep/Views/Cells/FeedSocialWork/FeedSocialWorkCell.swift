@@ -44,21 +44,25 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     lazy var mediaContainerView: FeedMediaContainerView = {
         let view = FeedMediaContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         return view
     }()
 
     lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
         let view = FeedGithubRepoContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         return view
     }()
 
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         return view
     }()
 
     lazy var locationContainerView: FeedLocationContainerView = {
         let view = FeedLocationContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         return view
     }()
 
@@ -235,6 +239,8 @@ class FeedSocialWorkCell: FeedBasicCell {
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             githubRepoContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
 
+            socialWorkBorderImageView.frame = githubRepoContainerView.frame
+
         case .DribbbleShot:
 
             mediaContainerView.hidden = false
@@ -284,6 +290,8 @@ class FeedSocialWorkCell: FeedBasicCell {
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             mediaContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
             mediaContainerView.layoutIfNeeded()
+
+            socialWorkBorderImageView.frame = mediaContainerView.frame
 
         case .Audio:
 
@@ -418,6 +426,8 @@ class FeedSocialWorkCell: FeedBasicCell {
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             locationContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
             locationContainerView.layoutIfNeeded()
+
+            socialWorkBorderImageView.frame = locationContainerView.frame
 
         default:
             break
