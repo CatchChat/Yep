@@ -18,6 +18,12 @@ class FeedLocationContainerView: UIView {
         return imageView
     }()
 
+    lazy var pinImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_pin_shadow")
+        return imageView
+    }()
+
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
         view.atBottom = false
@@ -44,10 +50,12 @@ class FeedLocationContainerView: UIView {
     private func makeUI() {
 
         addSubview(mapImageView)
+        addSubview(pinImageView)
         addSubview(horizontalLineView)
         addSubview(nameLabel)
 
         mapImageView.translatesAutoresizingMaskIntoConstraints = false
+        pinImageView.translatesAutoresizingMaskIntoConstraints = false
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -67,6 +75,9 @@ class FeedLocationContainerView: UIView {
         let horizontalLineViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
         let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .Top, relatedBy: .Equal, toItem: nameLabel, attribute: .Top, multiplier: 1.0, constant: 0)
 
+        let pinImageViewCenterX = NSLayoutConstraint(item: pinImageView, attribute: .CenterX, relatedBy: .Equal, toItem: mapImageView, attribute: .CenterX, multiplier: 1.0, constant: 0)
+        let pinImageViewCenterY = NSLayoutConstraint(item: pinImageView, attribute: .CenterY, relatedBy: .Equal, toItem: mapImageView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
         NSLayoutConstraint.activateConstraints(constraintsH1)
         NSLayoutConstraint.activateConstraints(constraintsH2)
         NSLayoutConstraint.activateConstraints(constraintsH3)
@@ -75,6 +86,8 @@ class FeedLocationContainerView: UIView {
         NSLayoutConstraint.activateConstraints(horizontalLineViewH)
         NSLayoutConstraint.activateConstraints(horizontalLineViewV)
         NSLayoutConstraint.activateConstraints([horizontalLineViewTop])
+
+        NSLayoutConstraint.activateConstraints([pinImageViewCenterX, pinImageViewCenterY])
     }
 
     @objc private func tap(sender: UITapGestureRecognizer) {
