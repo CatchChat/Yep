@@ -226,6 +226,10 @@ class YepConfig {
         static let voiceTimeLengthTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
         ]
+
+        static let bottomLabelsTextAttributes:[String: NSObject] = [
+            NSFontAttributeName: UIFont.feedBottomLabelsFont(),
+        ]
     }
 
     struct FeedView {
