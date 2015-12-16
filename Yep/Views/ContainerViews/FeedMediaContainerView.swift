@@ -16,6 +16,7 @@ class FeedMediaContainerView: UIView {
     lazy var mediaImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
 
