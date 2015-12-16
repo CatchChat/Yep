@@ -41,6 +41,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     */
     @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
 
+    /*
     @IBOutlet weak var voiceContainerView: UIView!
     @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
     @IBOutlet weak var voicePlayButton: UIButton!
@@ -48,6 +49,10 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var voiceTimeLabel: UILabel!
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+    */
+
+    @IBOutlet weak var voiceContainerView: FeedVoiceContainerView!
+    @IBOutlet weak var voiceContainerViewWidthConstraint: NSLayoutConstraint!
 
     /*
     @IBOutlet weak var locationContainerView: UIView!
@@ -74,13 +79,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     var audioPlaying: Bool = false {
         willSet {
-            if newValue != audioPlaying {
-                if newValue {
-                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
-                } else {
-                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
-                }
-            }
+            voiceContainerView.audioPlaying = newValue
         }
     }
     var playOrPauseAudioAction: (FeedSocialWorkCell -> Void)?
@@ -97,8 +96,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let (audioDuration, audioSamples) = feedAudio.audioMetaInfo {
 
-            voiceSampleView.samples = audioSamples
-            voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
+            voiceContainerView.voiceSampleView.samples = audioSamples
+            voiceContainerView.voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
         }
 
         if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
@@ -134,11 +133,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-        voicePlayButton.tintColor = UIColor.lightGrayColor()
-        voicePlayButton.tintAdjustmentMode = .Normal
-        voiceTimeLabel.textColor = UIColor.lightGrayColor()
 
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
@@ -271,12 +265,15 @@ class FeedSocialWorkCell: FeedBasicCell {
             if let attachment = feed.attachment {
                 if case let .Audio(audioInfo) = attachment {
 
-                    voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                    voiceSampleView.samples = audioInfo.sampleValues
+                    voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                    voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
 
-                    voiceTimeLabel.text = String(format: "%.1f\"", audioInfo.duration)
+                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
+                    voiceContainerView.timeLengthLabel.text = timeLengthString
 
-                    voiceSampleViewWidthConstraint.constant = CGFloat(audioInfo.sampleValues.count) * 3
+                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+
+                    voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
 
                     if let realm = try? Realm() {
 
