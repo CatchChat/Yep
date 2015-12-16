@@ -13,12 +13,14 @@ class FeedMediaContainerView: UIView {
 
     lazy var socialWorkImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
         return imageView
     }()
 
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
         view.atBottom = false
+        view.backgroundColor = UIColor.whiteColor()
         return view
     }()
 

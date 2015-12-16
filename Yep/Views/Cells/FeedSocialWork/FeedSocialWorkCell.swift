@@ -137,9 +137,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
 
-//        let tapDribbbleLink = UITapGestureRecognizer(target: self, action: "tapDribbbleLink:")
-//        linkContainerView.addGestureRecognizer(tapDribbbleLink)
-
         let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
         githubRepoContainerView.addGestureRecognizer(tapGithubLink)
 
@@ -235,9 +232,21 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
+            mediaContainerView.linkContainerView.tapAction = { [weak self] in
+
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .DribbbleShot = feed.kind {
+                    if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
+                        self?.tapDribbbleShotLinkAction?(URL)
+                    }
+                }
+            }
+
             mediaContainerView.socialWorkImageView.maskView = socialWorkMaskImageView
 
-            //linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
 
@@ -373,19 +382,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         if case .GithubRepo = feed.kind {
             if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
                 tapGithubRepoLinkAction?(URL)
-            }
-        }
-    }
-
-    func tapDribbbleLink(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .DribbbleShot = feed.kind {
-            if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
-                tapDribbbleShotLinkAction?(URL)
             }
         }
     }

@@ -10,6 +10,8 @@ import UIKit
 
 class LinkContainerView: UIView {
 
+    var tapAction: (() -> Void)?
+
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_link")
@@ -35,6 +37,9 @@ class LinkContainerView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        addGestureRecognizer(tap)
     }
 
     private func makeUI() {
@@ -62,6 +67,10 @@ class LinkContainerView: UIView {
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints([iconImageViewCenterY])
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        tapAction?()
     }
 }
 
