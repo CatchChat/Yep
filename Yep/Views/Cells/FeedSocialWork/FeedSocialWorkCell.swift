@@ -65,7 +65,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
-    lazy var socialWorkMaskImageView: UIImageView = {
+    lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
@@ -116,26 +116,24 @@ class FeedSocialWorkCell: FeedBasicCell {
         super.layoutSubviews()
 
         if feed?.hasSocialImage ?? false {
-            socialWorkMaskImageView.frame = mediaContainerView.socialWorkImageView.bounds
+            halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
         }
 
         if feed?.hasMapImage ?? false {
-            socialWorkMaskImageView.frame = locationContainerView.mapImageView.bounds
+            halfMaskImageView.frame = locationContainerView.mapImageView.bounds
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        mediaContainerView.socialWorkImageView.image = nil
+        mediaContainerView.mediaImageView.image = nil
         locationContainerView.mapImageView.image = nil
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
-        mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -236,6 +234,19 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
+            mediaContainerView.tapMediaAction = { [weak self] mediaImageView in
+
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .DribbbleShot = feed.kind {
+                    if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                        self?.tapDribbbleShotMediaAction?(transitionView: mediaImageView, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
+                    }
+                }
+            }
+
             mediaContainerView.linkContainerView.tapAction = { [weak self] in
 
                 guard let attachment = feed.attachment else {
@@ -249,7 +260,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            mediaContainerView.socialWorkImageView.maskView = socialWorkMaskImageView
+            mediaContainerView.mediaImageView.maskView = halfMaskImageView
 
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
@@ -364,7 +375,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            locationContainerView.mapImageView.maskView = socialWorkMaskImageView
+            locationContainerView.mapImageView.maskView = halfMaskImageView
 
             locationContainerView.tapAction = { [weak self] in
                 guard let attachment = feed.attachment else {
@@ -387,23 +398,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let URL = socialWorkImageURL {
             // ref https://github.com/onevcat/Kingfisher/pull/171
-            mediaContainerView.socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-        }
-    }
-
-    // MARK: Actions
-
-    func tapDribbbleMedia(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .DribbbleShot = feed.kind {
-            if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
-                let socialWorkImageView = mediaContainerView.socialWorkImageView
-                tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
-            }
+            mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 }
