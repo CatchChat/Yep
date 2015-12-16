@@ -69,6 +69,8 @@ class FeedBasicCell: UITableViewCell {
         textView.font = UIFont.feedMessageFont()
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.editable = false
+        textView.scrollEnabled = false
         textView.dataDetectorTypes = .Link
 
         textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
