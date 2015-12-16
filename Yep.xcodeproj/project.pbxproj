@@ -135,6 +135,7 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
+		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; };
 		50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */; };
 		50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */; };
@@ -495,6 +496,7 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
+		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
 		50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickPhotosViewController.swift; path = ViewControllers/PickPhotos/PickPhotosViewController.swift; sourceTree = "<group>"; };
 		50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCacheController.swift; path = ViewControllers/PickPhotos/ImageCacheController.swift; sourceTree = "<group>"; };
@@ -2198,6 +2200,7 @@
 				50FD75411C2100550050A382 /* ChatTextContainerView.swift */,
 				50FD75431C21097A0050A382 /* LinkContainerView.swift */,
 				50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */,
+				505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */,
 			);
 			name = ContainerViews;
 			sourceTree = "<group>";
@@ -2777,6 +2780,7 @@
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
+				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
 				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,

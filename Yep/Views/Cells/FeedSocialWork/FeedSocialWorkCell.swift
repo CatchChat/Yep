@@ -32,11 +32,14 @@ class FeedSocialWorkCell: FeedBasicCell {
     */
     @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
 
+    /*
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
     @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
+    */
+    @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
 
     @IBOutlet weak var voiceContainerView: UIView!
     @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
@@ -128,7 +131,6 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
         voicePlayButton.tintColor = UIColor.lightGrayColor()
         voicePlayButton.tintAdjustmentMode = .Normal
@@ -206,12 +208,10 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
             if let attachment = feed.attachment {
                 if case let .Github(githubRepo) = attachment {
-                    githubRepoNameLabel.text = githubRepo.name
-                    githubRepoDescriptionLabel.text = githubRepo.description
+                    githubRepoContainerView.nameLabel.text = githubRepo.name
+                    githubRepoContainerView.descriptionLabel.text = githubRepo.description
                 }
             }
 
