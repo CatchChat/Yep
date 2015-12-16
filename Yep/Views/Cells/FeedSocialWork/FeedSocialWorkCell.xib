@@ -150,10 +150,10 @@
             <connections>
                 <outlet property="avatarImageView" destination="lyg-eU-J2p" id="o1o-7n-PKc"/>
                 <outlet property="githubRepoContainerView" destination="tpD-68-XCp" id="M47-oR-QPU"/>
-                <outlet property="githubRepoImageViewTrailingConstraint" destination="0Ef-zJ-e9x" id="l0Y-6K-DvF"/>
                 <outlet property="leftBottomLabel" destination="9CZ-zE-b9N" id="JGf-RX-sTu"/>
                 <outlet property="locationContainerView" destination="bIi-Kx-Rnj" id="7Of-HK-npZ"/>
                 <outlet property="logoImageView" destination="Tlc-MI-H1b" id="awx-yd-g5F"/>
+                <outlet property="logoImageViewTrailingConstraint" destination="0Ef-zJ-e9x" id="uKa-Bv-9Cf"/>
                 <outlet property="mediaContainerView" destination="FZd-l0-SQA" id="LCU-HU-fxL"/>
                 <outlet property="messageCountLabel" destination="dhp-xa-CcY" id="GAv-oY-UAJ"/>
                 <outlet property="messageTextView" destination="Xeg-hl-49c" id="qAM-BL-3xN"/>

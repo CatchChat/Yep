@@ -17,6 +17,7 @@ private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).
 class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var logoImageViewTrailingConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var socialWorkContainerView: UIView!
 
@@ -31,7 +32,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
     lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
@@ -138,9 +138,9 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if needShowSkill, let skill = feed.skill {
             let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-            githubRepoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
+            logoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
         } else {
-            githubRepoImageViewTrailingConstraint.constant = 15
+            logoImageViewTrailingConstraint.constant = 15
         }
 
         if let
