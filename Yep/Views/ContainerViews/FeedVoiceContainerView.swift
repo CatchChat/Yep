@@ -10,6 +10,8 @@ import UIKit
 
 class FeedVoiceContainerView: UIView {
 
+    var playOrPauseAudioAction: (() -> Void)?
+
     var audioPlaying: Bool = false {
         willSet {
             if newValue != audioPlaying {
@@ -34,6 +36,8 @@ class FeedVoiceContainerView: UIView {
         button.setImage(UIImage(named: "icon_play"), forState: .Normal)
         button.tintColor = UIColor.lightGrayColor()
         button.tintAdjustmentMode = .Normal
+
+        button.addTarget(self, action: "playOrPauseAudio:", forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -94,6 +98,10 @@ class FeedVoiceContainerView: UIView {
         let playButtonCenterY = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal, toItem: bubbleImageView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
         NSLayoutConstraint.activateConstraints([playButtonCenterY])
+    }
+
+    @objc private func playOrPauseAudio(sender: UIButton) {
+        playOrPauseAudioAction?()
     }
 }
 

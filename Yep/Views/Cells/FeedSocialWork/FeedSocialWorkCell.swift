@@ -327,6 +327,12 @@ class FeedSocialWorkCell: FeedBasicCell {
                                 })
                             }
                         }
+
+                        voiceContainerView.playOrPauseAudioAction = { [weak self] in
+                            if let strongSelf = self {
+                                strongSelf.playOrPauseAudioAction?(strongSelf)
+                            }
+                        }
                     }
                 }
             }
@@ -386,11 +392,6 @@ class FeedSocialWorkCell: FeedBasicCell {
     }
 
     // MARK: Actions
-
-    @IBAction func playOrPauseAudio(sender: UIButton) {
-
-        playOrPauseAudioAction?(self)
-    }
 
     func tapDribbbleMedia(sender: UITapGestureRecognizer) {
 
