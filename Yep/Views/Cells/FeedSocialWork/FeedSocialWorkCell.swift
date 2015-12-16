@@ -49,9 +49,12 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
+    /*
     @IBOutlet weak var locationContainerView: UIView!
     @IBOutlet weak var locationMapImageView: UIImageView!
     @IBOutlet weak var locationNameLabel: UILabel!
+    */
+    @IBOutlet weak var locationContainerView: FeedLocationContainerView!
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
@@ -118,14 +121,15 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
 
         if feed?.hasMapImage ?? false {
-            socialWorkMaskImageView.frame = locationMapImageView.bounds
+            socialWorkMaskImageView.frame = locationContainerView.mapImageView.bounds
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        locationMapImageView.image = nil
+        mediaContainerView.socialWorkImageView.image = nil
+        locationContainerView.mapImageView.image = nil
     }
 
     override func awakeFromNib() {
@@ -347,20 +351,20 @@ class FeedSocialWorkCell: FeedBasicCell {
                 if case let .Location(locationInfo) = attachment {
 
                     let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
-                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
-                    locationMapImageView.yep_showActivityIndicatorWhenLoading = true
-                    locationMapImageView.yep_setImageOfLocation(location, withSize: size)
+                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
+                    locationContainerView.mapImageView.yep_showActivityIndicatorWhenLoading = true
+                    locationContainerView.mapImageView.yep_setImageOfLocation(location, withSize: size)
 
                     if locationInfo.name.isEmpty {
-                        locationNameLabel.text = NSLocalizedString("Unknown location", comment: "")
+                        locationContainerView.nameLabel.text = NSLocalizedString("Unknown location", comment: "")
 
                     } else {
-                        locationNameLabel.text = locationInfo.name
+                        locationContainerView.nameLabel.text = locationInfo.name
                     }
                 }
             }
 
-            locationMapImageView.maskView = socialWorkMaskImageView
+            locationContainerView.mapImageView.maskView = socialWorkMaskImageView
 
             socialWorkContainerViewHeightConstraint.constant = 110
             contentView.layoutIfNeeded()

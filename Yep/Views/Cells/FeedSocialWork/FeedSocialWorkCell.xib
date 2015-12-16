@@ -114,48 +114,9 @@
                                     <constraint firstItem="944-sv-1et" firstAttribute="centerY" secondItem="36H-D3-r3h" secondAttribute="centerY" id="rym-qV-0YI"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C2i-3A-dt0">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bIi-Kx-Rnj" customClass="FeedLocationContainerView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="277" height="200"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TIo-OM-kyU" userLabel="Map Image View">
-                                        <rect key="frame" x="1" y="1" width="275" height="169"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="8em-0q-jE1">
-                                        <rect key="frame" x="129" y="73" width="18" height="24"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border_line" translatesAutoresizingMaskIntoConstraints="NO" id="3Re-c6-tcE">
-                                        <rect key="frame" x="1" y="169" width="275" height="1"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="PMc-wc-ynP"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GN4-MT-5YH" userLabel="Location Name Label">
-                                        <rect key="frame" x="10" y="170" width="257" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="swS-X2-twH"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="8em-0q-jE1" firstAttribute="centerX" secondItem="TIo-OM-kyU" secondAttribute="centerX" id="12T-1p-iBz"/>
-                                    <constraint firstItem="GN4-MT-5YH" firstAttribute="leading" secondItem="C2i-3A-dt0" secondAttribute="leading" constant="10" id="2PP-n1-69q"/>
-                                    <constraint firstItem="TIo-OM-kyU" firstAttribute="top" secondItem="C2i-3A-dt0" secondAttribute="top" constant="1" id="39h-Yf-gjS"/>
-                                    <constraint firstAttribute="trailing" secondItem="TIo-OM-kyU" secondAttribute="trailing" constant="1" id="7wK-2q-FuJ"/>
-                                    <constraint firstItem="TIo-OM-kyU" firstAttribute="leading" secondItem="C2i-3A-dt0" secondAttribute="leading" constant="1" id="F7y-Uy-2yK"/>
-                                    <constraint firstItem="3Re-c6-tcE" firstAttribute="leading" secondItem="TIo-OM-kyU" secondAttribute="leading" id="Oxv-yx-wUm"/>
-                                    <constraint firstItem="GN4-MT-5YH" firstAttribute="top" secondItem="TIo-OM-kyU" secondAttribute="bottom" id="SsJ-SG-kR7"/>
-                                    <constraint firstItem="3Re-c6-tcE" firstAttribute="bottom" secondItem="TIo-OM-kyU" secondAttribute="bottom" id="T7a-f2-9Fa"/>
-                                    <constraint firstItem="8em-0q-jE1" firstAttribute="centerY" secondItem="TIo-OM-kyU" secondAttribute="centerY" id="d3K-ZS-qGs"/>
-                                    <constraint firstAttribute="trailing" secondItem="GN4-MT-5YH" secondAttribute="trailing" constant="10" id="eIC-Ed-E0D"/>
-                                    <constraint firstItem="3Re-c6-tcE" firstAttribute="trailing" secondItem="TIo-OM-kyU" secondAttribute="trailing" id="tRJ-G6-vyC"/>
-                                    <constraint firstAttribute="bottom" secondItem="GN4-MT-5YH" secondAttribute="bottom" id="z7Y-nA-RLS"/>
-                                </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="Iob-TA-bgf">
                                 <rect key="frame" x="0.0" y="0.0" width="277" height="200"/>
@@ -165,10 +126,11 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="FZd-l0-SQA" secondAttribute="trailing" id="5cP-Qk-6n7"/>
                             <constraint firstItem="2Wk-SP-ftQ" firstAttribute="centerY" secondItem="eHY-0K-bDQ" secondAttribute="centerY" id="DD7-mI-QIF"/>
+                            <constraint firstAttribute="bottom" secondItem="bIi-Kx-Rnj" secondAttribute="bottom" id="GuF-Eu-SIk"/>
                             <constraint firstItem="tpD-68-XCp" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="HY2-aO-Wcm"/>
                             <constraint firstAttribute="trailing" secondItem="tpD-68-XCp" secondAttribute="trailing" id="HZ0-ON-v4A"/>
+                            <constraint firstAttribute="trailing" secondItem="bIi-Kx-Rnj" secondAttribute="trailing" id="InX-V8-eVD"/>
                             <constraint firstItem="Iob-TA-bgf" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="MvN-Gi-duP"/>
-                            <constraint firstItem="C2i-3A-dt0" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="OQu-8A-7ql"/>
                             <constraint firstAttribute="height" constant="200" id="Ogh-S5-nei"/>
                             <constraint firstItem="Iob-TA-bgf" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="P4P-tA-MrO"/>
                             <constraint firstAttribute="trailing" secondItem="Iob-TA-bgf" secondAttribute="trailing" id="Rgw-iN-KuX"/>
@@ -176,12 +138,11 @@
                             <constraint firstItem="tpD-68-XCp" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="ZvG-hQ-rUk"/>
                             <constraint firstItem="2Wk-SP-ftQ" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="aFR-W5-2Fg"/>
                             <constraint firstAttribute="bottom" secondItem="Iob-TA-bgf" secondAttribute="bottom" id="bDt-as-dcI"/>
-                            <constraint firstItem="C2i-3A-dt0" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="c0j-23-Slr"/>
                             <constraint firstItem="tpD-68-XCp" firstAttribute="centerY" secondItem="eHY-0K-bDQ" secondAttribute="centerY" id="gyI-Ik-drE"/>
                             <constraint firstAttribute="bottom" secondItem="FZd-l0-SQA" secondAttribute="bottom" id="iP0-Zu-Uz9"/>
+                            <constraint firstItem="bIi-Kx-Rnj" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="kj1-hJ-1ss"/>
                             <constraint firstAttribute="bottom" secondItem="tpD-68-XCp" secondAttribute="bottom" id="o2b-Jg-uOq"/>
-                            <constraint firstAttribute="bottom" secondItem="C2i-3A-dt0" secondAttribute="bottom" id="p2B-OR-bXN"/>
-                            <constraint firstAttribute="trailing" secondItem="C2i-3A-dt0" secondAttribute="trailing" id="t0a-xS-XYo"/>
+                            <constraint firstItem="bIi-Kx-Rnj" firstAttribute="leading" secondItem="eHY-0K-bDQ" secondAttribute="leading" id="wju-Wp-354"/>
                             <constraint firstItem="FZd-l0-SQA" firstAttribute="top" secondItem="eHY-0K-bDQ" secondAttribute="top" id="yNJ-XO-rA1"/>
                         </constraints>
                     </view>
@@ -231,9 +192,7 @@
                 <outlet property="githubRepoContainerView" destination="tpD-68-XCp" id="M47-oR-QPU"/>
                 <outlet property="githubRepoImageViewTrailingConstraint" destination="0Ef-zJ-e9x" id="l0Y-6K-DvF"/>
                 <outlet property="leftBottomLabel" destination="9CZ-zE-b9N" id="JGf-RX-sTu"/>
-                <outlet property="locationContainerView" destination="C2i-3A-dt0" id="k1k-Nr-hGj"/>
-                <outlet property="locationMapImageView" destination="TIo-OM-kyU" id="fgz-xJ-Yxn"/>
-                <outlet property="locationNameLabel" destination="GN4-MT-5YH" id="tci-7w-JCJ"/>
+                <outlet property="locationContainerView" destination="bIi-Kx-Rnj" id="7Of-HK-npZ"/>
                 <outlet property="logoImageView" destination="Tlc-MI-H1b" id="awx-yd-g5F"/>
                 <outlet property="mediaContainerView" destination="FZd-l0-SQA" id="LCU-HU-fxL"/>
                 <outlet property="messageCountLabel" destination="dhp-xa-CcY" id="GAv-oY-UAJ"/>
@@ -258,10 +217,8 @@
         <image name="bubble_body" width="42" height="40"/>
         <image name="icon_discussion" width="30" height="19"/>
         <image name="icon_github" width="24" height="23"/>
-        <image name="icon_pin_shadow" width="18" height="24"/>
         <image name="icon_play" width="30" height="30"/>
         <image name="skill_bubble_empty" width="23" height="22"/>
         <image name="social_work_border" width="11" height="11"/>
-        <image name="social_work_border_line" width="22" height="2"/>
     </resources>
 </document>
