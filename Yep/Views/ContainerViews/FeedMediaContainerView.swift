@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class FeedMediaContainerView: UIView {
 
@@ -21,8 +22,8 @@ class FeedMediaContainerView: UIView {
         return view
     }()
 
-    lazy var linkContainerView: UIView = {
-        let view = UIView()
+    lazy var linkContainerView: LinkContainerView = {
+        let view = LinkContainerView()
         return view
     }()
 
@@ -50,7 +51,9 @@ class FeedMediaContainerView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[socialWorkImageView]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[socialWorkImageView][horizontalLineView(1)][linkContainerView(44)]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+        let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
+
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[socialWorkImageView][horizontalLineView(1)][linkContainerView(linkContainerViewHeight)]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: ["linkContainerViewHeight": linkContainerViewHeight], views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)

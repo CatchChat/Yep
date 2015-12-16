@@ -13,7 +13,6 @@ import RealmSwift
 import MapKit
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
-private let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -130,7 +129,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         super.awakeFromNib()
 
         githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
-        //linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
         voicePlayButton.tintColor = UIColor.lightGrayColor()
         voicePlayButton.tintAdjustmentMode = .Normal
@@ -230,12 +228,10 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
-            //linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
             if let attachment = feed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
-                    //linkLabel.text = dribbbleShot.title
+                    mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
                 }
             }
 
