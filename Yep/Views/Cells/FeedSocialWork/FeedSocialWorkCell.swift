@@ -180,7 +180,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if needShowSkill, let skill = feed.skill {
             let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-            githubRepoImageViewTrailingConstraint.constant = 10 + (10 + rect.width + 10) + 15
+            githubRepoImageViewTrailingConstraint.constant = 5 + (10 + rect.width + 10) + 15
         } else {
             githubRepoImageViewTrailingConstraint.constant = 15
         }
