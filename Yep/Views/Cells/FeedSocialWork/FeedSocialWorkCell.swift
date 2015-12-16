@@ -39,6 +39,7 @@ class FeedSocialWorkCell: FeedBasicCell {
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_github")
+        imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
         return imageView
     }()
 
@@ -198,6 +199,14 @@ class FeedSocialWorkCell: FeedBasicCell {
                 logoImageView.image = UIImage(named: socialAccount.iconName)
                 logoImageView.tintColor = socialAccount.tintColor
                 logoImageView.hidden = false
+
+                if needShowSkill, let _ = feed.skill {
+                    logoImageView.frame.origin.x = skillButton.frame.origin.x - 8 - 18
+                    logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+                } else {
+                    logoImageView.frame.origin.x = screenWidth - 18 - 15
+                    logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+                }
 
         } else {
             logoImageView.hidden = true
