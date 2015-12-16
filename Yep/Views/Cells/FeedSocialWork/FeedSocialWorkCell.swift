@@ -21,6 +21,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkContainerView: UIView!
 
+    /*
     @IBOutlet weak var mediaContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
@@ -29,6 +30,8 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var linkAccessoryImageView: UIImageView!
     @IBOutlet weak var linkContainerViewHeightConstraint: NSLayoutConstraint!
+    */
+    @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
 
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
@@ -109,7 +112,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         super.layoutSubviews()
 
         if feed?.hasSocialImage ?? false {
-            socialWorkMaskImageView.frame = socialWorkImageView.bounds
+            socialWorkMaskImageView.frame = mediaContainerView.socialWorkImageView.bounds
         }
 
         if feed?.hasMapImage ?? false {
@@ -127,7 +130,7 @@ class FeedSocialWorkCell: FeedBasicCell {
         super.awakeFromNib()
 
         githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
-        linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        //linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
         voicePlayButton.tintColor = UIColor.lightGrayColor()
         voicePlayButton.tintAdjustmentMode = .Normal
@@ -136,8 +139,8 @@ class FeedSocialWorkCell: FeedBasicCell {
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
 
-        let tapDribbbleLink = UITapGestureRecognizer(target: self, action: "tapDribbbleLink:")
-        linkContainerView.addGestureRecognizer(tapDribbbleLink)
+//        let tapDribbbleLink = UITapGestureRecognizer(target: self, action: "tapDribbbleLink:")
+//        linkContainerView.addGestureRecognizer(tapDribbbleLink)
 
         let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
         githubRepoContainerView.addGestureRecognizer(tapGithubLink)
@@ -227,18 +230,18 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
-            linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
+            //linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
             if let attachment = feed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
-                    linkLabel.text = dribbbleShot.title
+                    //linkLabel.text = dribbbleShot.title
                 }
             }
 
-            socialWorkImageView.maskView = socialWorkMaskImageView
+            mediaContainerView.socialWorkImageView.maskView = socialWorkMaskImageView
 
-            linkContainerViewHeightConstraint.constant = linkContainerViewHeight
+            //linkContainerViewHeightConstraint.constant = linkContainerViewHeight
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
 
@@ -354,7 +357,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let URL = socialWorkImageURL {
             // ref https://github.com/onevcat/Kingfisher/pull/171
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            mediaContainerView.socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 
@@ -399,6 +402,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if case .DribbbleShot = feed.kind {
             if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                let socialWorkImageView = mediaContainerView.socialWorkImageView
                 tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
             }
         }
