@@ -127,7 +127,6 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
-		503ED23D1B8C12100072187D /* ChatTextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED23C1B8C12100072187D /* ChatTextContainerView.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
@@ -136,6 +135,9 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
 		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
+		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
+		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
+		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; };
 		50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */; };
 		50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */; };
@@ -321,6 +323,9 @@
 		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */; };
+		50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */; };
+		50FD75421C2100550050A382 /* ChatTextContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75411C2100550050A382 /* ChatTextContainerView.swift */; };
+		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -485,7 +490,6 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
-		503ED23C1B8C12100072187D /* ChatTextContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextContainerView.swift; path = Views/ChatTextContainer/ChatTextContainerView.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
@@ -494,6 +498,9 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
 		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
+		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
+		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
+		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
 		50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickPhotosViewController.swift; path = ViewControllers/PickPhotos/PickPhotosViewController.swift; sourceTree = "<group>"; };
 		50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCacheController.swift; path = ViewControllers/PickPhotos/ImageCacheController.swift; sourceTree = "<group>"; };
@@ -680,6 +687,9 @@
 		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FPSLabel.swift; path = Views/Labels/FPSLabel.swift; sourceTree = "<group>"; };
+		50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaContainerView.swift; path = Views/ContainerViews/FeedMediaContainerView.swift; sourceTree = "<group>"; };
+		50FD75411C2100550050A382 /* ChatTextContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextContainerView.swift; path = Views/ContainerViews/ChatTextContainerView.swift; sourceTree = "<group>"; };
+		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -1154,8 +1164,8 @@
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
 				50F2B9791B2EEAE300F840CC /* Labels */,
+				50FD75401C20FF940050A382 /* ContainerViews */,
 				50A9D4581ACD3943000B2599 /* AudioWaves */,
-				503ED23E1B8C13280072187D /* ChatTextContainer */,
 				5023DE3A1AB697A700B3EE96 /* Cells */,
 				502AE5221AB71C82005BD199 /* Buttons */,
 				502AE52F1AB8387D005BD199 /* TextFields */,
@@ -1510,14 +1520,6 @@
 				50DEE0501BEA09DD00015741 /* BlackList.storyboard */,
 			);
 			name = BlackList;
-			sourceTree = "<group>";
-		};
-		503ED23E1B8C13280072187D /* ChatTextContainer */ = {
-			isa = PBXGroup;
-			children = (
-				503ED23C1B8C12100072187D /* ChatTextContainerView.swift */,
-			);
-			name = ChatTextContainer;
 			sourceTree = "<group>";
 		};
 		504CBA3B1B3D048900663A90 /* TextViews */ = {
@@ -2196,6 +2198,19 @@
 			name = FeedMedia;
 			sourceTree = "<group>";
 		};
+		50FD75401C20FF940050A382 /* ContainerViews */ = {
+			isa = PBXGroup;
+			children = (
+				50FD75411C2100550050A382 /* ChatTextContainerView.swift */,
+				50FD75431C21097A0050A382 /* LinkContainerView.swift */,
+				50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */,
+				505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */,
+				505082341C212E9200643CEB /* FeedLocationContainerView.swift */,
+				505082361C21377E00643CEB /* FeedVoiceContainerView.swift */,
+			);
+			name = ContainerViews;
+			sourceTree = "<group>";
+		};
 		59CC1DE9D59AC08247B97B4F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2607,12 +2622,14 @@
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */,
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
+				50FD75421C2100550050A382 /* ChatTextContainerView.swift in Sources */,
 				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
+				50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */,
 				50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */,
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
@@ -2669,7 +2686,6 @@
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
-				503ED23D1B8C12100072187D /* ChatTextContainerView.swift in Sources */,
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
@@ -2723,6 +2739,7 @@
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
 				5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */,
 				50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */,
+				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
@@ -2746,6 +2763,7 @@
 				50EB8CCE1AEA1B38001AC1EE /* MessageMediaViewController.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
+				505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
 				6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */,
 				50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */,
@@ -2756,6 +2774,7 @@
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
+				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
 				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
@@ -2769,6 +2788,7 @@
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
+				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
 				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,

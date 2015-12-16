@@ -48,4 +48,8 @@ extension UIFont {
     class func feedSkillFont() -> UIFont {
         return UIFont.systemFontOfSize(12)
     }
+
+    class func feedVoiceTimeLengthFont() -> UIFont {
+        return UIFont.systemFontOfSize(15)
+    }
 }

@@ -13,7 +13,6 @@ import RealmSwift
 import MapKit
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
-private let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
 
 class FeedSocialWorkCell: FeedBasicCell {
 
@@ -21,6 +20,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkContainerView: UIView!
 
+    /*
     @IBOutlet weak var mediaContainerView: UIView!
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
@@ -29,13 +29,19 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var linkAccessoryImageView: UIImageView!
     @IBOutlet weak var linkContainerViewHeightConstraint: NSLayoutConstraint!
+    */
+    @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
 
+    /*
     @IBOutlet weak var githubRepoContainerView: UIView!
     @IBOutlet weak var githubRepoImageView: UIImageView!
     @IBOutlet weak var githubRepoNameLabel: UILabel!
     @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
     @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
+    */
+    @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
 
+    /*
     @IBOutlet weak var voiceContainerView: UIView!
     @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
     @IBOutlet weak var voicePlayButton: UIButton!
@@ -43,16 +49,23 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBOutlet weak var voiceTimeLabel: UILabel!
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+    */
 
+    @IBOutlet weak var voiceContainerView: FeedVoiceContainerView!
+    @IBOutlet weak var voiceContainerViewWidthConstraint: NSLayoutConstraint!
+
+    /*
     @IBOutlet weak var locationContainerView: UIView!
     @IBOutlet weak var locationMapImageView: UIImageView!
     @IBOutlet weak var locationNameLabel: UILabel!
+    */
+    @IBOutlet weak var locationContainerView: FeedLocationContainerView!
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
     @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var githubRepoImageViewTrailingConstraint: NSLayoutConstraint!
 
-    lazy var socialWorkMaskImageView: UIImageView = {
+    lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
@@ -66,13 +79,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     var audioPlaying: Bool = false {
         willSet {
-            if newValue != audioPlaying {
-                if newValue {
-                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
-                } else {
-                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
-                }
-            }
+            voiceContainerView.audioPlaying = newValue
         }
     }
     var playOrPauseAudioAction: (FeedSocialWorkCell -> Void)?
@@ -89,8 +96,8 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let (audioDuration, audioSamples) = feedAudio.audioMetaInfo {
 
-            voiceSampleView.samples = audioSamples
-            voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
+            voiceContainerView.voiceSampleView.samples = audioSamples
+            voiceContainerView.voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
         }
 
         if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
@@ -109,41 +116,24 @@ class FeedSocialWorkCell: FeedBasicCell {
         super.layoutSubviews()
 
         if feed?.hasSocialImage ?? false {
-            socialWorkMaskImageView.frame = socialWorkImageView.bounds
+            halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
         }
 
         if feed?.hasMapImage ?? false {
-            socialWorkMaskImageView.frame = locationMapImageView.bounds
+            halfMaskImageView.frame = locationContainerView.mapImageView.bounds
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        locationMapImageView.image = nil
+        mediaContainerView.mediaImageView.image = nil
+        locationContainerView.mapImageView.image = nil
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        githubRepoAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
-        linkAccessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
-        voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-        voicePlayButton.tintColor = UIColor.lightGrayColor()
-        voicePlayButton.tintAdjustmentMode = .Normal
-        voiceTimeLabel.textColor = UIColor.lightGrayColor()
-
-        let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
-        mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
-
-        let tapDribbbleLink = UITapGestureRecognizer(target: self, action: "tapDribbbleLink:")
-        linkContainerView.addGestureRecognizer(tapDribbbleLink)
-
-        let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
-        githubRepoContainerView.addGestureRecognizer(tapGithubLink)
-
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
-        locationContainerView.addGestureRecognizer(tapLocation)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -208,12 +198,22 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
-            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
             if let attachment = feed.attachment {
                 if case let .Github(githubRepo) = attachment {
-                    githubRepoNameLabel.text = githubRepo.name
-                    githubRepoDescriptionLabel.text = githubRepo.description
+                    githubRepoContainerView.nameLabel.text = githubRepo.name
+                    githubRepoContainerView.descriptionLabel.text = githubRepo.description
+                }
+            }
+
+            githubRepoContainerView.tapAction = { [weak self] in
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .GithubRepo = feed.kind {
+                    if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
+                        self?.tapGithubRepoLinkAction?(URL)
+                    }
                 }
             }
 
@@ -227,18 +227,41 @@ class FeedSocialWorkCell: FeedBasicCell {
             locationContainerView.hidden = true
             socialWorkBorderImageView.hidden = false
 
-            linkImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
             if let attachment = feed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
                     socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
-                    linkLabel.text = dribbbleShot.title
+                    mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
                 }
             }
 
-            socialWorkImageView.maskView = socialWorkMaskImageView
+            mediaContainerView.tapMediaAction = { [weak self] mediaImageView in
 
-            linkContainerViewHeightConstraint.constant = linkContainerViewHeight
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .DribbbleShot = feed.kind {
+                    if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                        self?.tapDribbbleShotMediaAction?(transitionView: mediaImageView, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
+                    }
+                }
+            }
+
+            mediaContainerView.linkContainerView.tapAction = { [weak self] in
+
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .DribbbleShot = feed.kind {
+                    if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
+                        self?.tapDribbbleShotLinkAction?(URL)
+                    }
+                }
+            }
+
+            mediaContainerView.mediaImageView.maskView = halfMaskImageView
+
             socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
             contentView.layoutIfNeeded()
 
@@ -253,12 +276,15 @@ class FeedSocialWorkCell: FeedBasicCell {
             if let attachment = feed.attachment {
                 if case let .Audio(audioInfo) = attachment {
 
-                    voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                    voiceSampleView.samples = audioInfo.sampleValues
+                    voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                    voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
 
-                    voiceTimeLabel.text = String(format: "%.1f\"", audioInfo.duration)
+                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
+                    voiceContainerView.timeLengthLabel.text = timeLengthString
 
-                    voiceSampleViewWidthConstraint.constant = CGFloat(audioInfo.sampleValues.count) * 3
+                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+
+                    voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
 
                     if let realm = try? Realm() {
 
@@ -312,6 +338,12 @@ class FeedSocialWorkCell: FeedBasicCell {
                                 })
                             }
                         }
+
+                        voiceContainerView.playOrPauseAudioAction = { [weak self] in
+                            if let strongSelf = self {
+                                strongSelf.playOrPauseAudioAction?(strongSelf)
+                            }
+                        }
                     }
                 }
             }
@@ -330,20 +362,32 @@ class FeedSocialWorkCell: FeedBasicCell {
                 if case let .Location(locationInfo) = attachment {
 
                     let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
-                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationNameLabel.bounds.height)
-                    locationMapImageView.yep_showActivityIndicatorWhenLoading = true
-                    locationMapImageView.yep_setImageOfLocation(location, withSize: size)
+                    let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
+                    locationContainerView.mapImageView.yep_showActivityIndicatorWhenLoading = true
+                    locationContainerView.mapImageView.yep_setImageOfLocation(location, withSize: size)
 
                     if locationInfo.name.isEmpty {
-                        locationNameLabel.text = NSLocalizedString("Unknown location", comment: "")
+                        locationContainerView.nameLabel.text = NSLocalizedString("Unknown location", comment: "")
 
                     } else {
-                        locationNameLabel.text = locationInfo.name
+                        locationContainerView.nameLabel.text = locationInfo.name
                     }
                 }
             }
 
-            locationMapImageView.maskView = socialWorkMaskImageView
+            locationContainerView.mapImageView.maskView = halfMaskImageView
+
+            locationContainerView.tapAction = { [weak self] in
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .Location = feed.kind {
+                    if case let .Location(locationInfo) = attachment {
+                        self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+                    }
+                }
+            }
 
             socialWorkContainerViewHeightConstraint.constant = 110
             contentView.layoutIfNeeded()
@@ -354,66 +398,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let URL = socialWorkImageURL {
             // ref https://github.com/onevcat/Kingfisher/pull/171
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-        }
-    }
-
-    // MARK: Actions
-
-    @IBAction func playOrPauseAudio(sender: UIButton) {
-
-        playOrPauseAudioAction?(self)
-    }
-
-    func tapGithubLink(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .GithubRepo = feed.kind {
-            if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
-                tapGithubRepoLinkAction?(URL)
-            }
-        }
-    }
-
-    func tapDribbbleLink(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .DribbbleShot = feed.kind {
-            if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
-                tapDribbbleShotLinkAction?(URL)
-            }
-        }
-    }
-
-    func tapDribbbleMedia(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .DribbbleShot = feed.kind {
-            if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
-                tapDribbbleShotMediaAction?(transitionView: socialWorkImageView, image: socialWorkImageView.image, imageURL: imageURL, linkURL: linkURL)
-            }
-        }
-    }
-
-    func tapLocation(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .Location = feed.kind {
-            if case let .Location(locationInfo) = attachment {
-                tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
-            }
+            mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
 }
