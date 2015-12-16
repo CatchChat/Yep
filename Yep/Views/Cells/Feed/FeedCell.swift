@@ -12,6 +12,7 @@ let feedAttachmentImageSize = CGSize(width: 80, height: 80)
 let feedAttachmentBiggerImageSize = CGSize(width: 160, height: 160)
 
 private let feedMediaCellID = "FeedMediaCell"
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedCell: FeedBasicCell {
 
@@ -21,8 +22,12 @@ class FeedCell: FeedBasicCell {
     //@IBOutlet weak var leftBottomLabelTopConstraint: NSLayoutConstraint!
 
     lazy var mediaCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
 
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 5
+        layout.scrollDirection = .Horizontal
+
+        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         collectionView.scrollsToTop = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         collectionView.showsHorizontalScrollIndicator = false
@@ -60,19 +65,6 @@ class FeedCell: FeedBasicCell {
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
-
-            /*
-            let oldHeight = collectionViewHeight.constant
-            let newHeight: CGFloat
-            if attachments.count == 1 {
-                newHeight = feedAttachmentBiggerImageSize.height
-            } else {
-                newHeight = feedAttachmentImageSize.height
-            }
-            if newHeight != oldHeight {
-                collectionViewHeight.constant = newHeight
-            }
-            */
 
             mediaCollectionView.reloadData()
         }
@@ -121,21 +113,22 @@ class FeedCell: FeedBasicCell {
 
         var hasMedia = false
 
-        if let attachment = feed.attachment {
-            if case let .Images(attachments) = attachment {
-                hasMedia = !attachments.isEmpty
+        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+            hasMedia = !attachments.isEmpty
+
+            mediaCollectionView.hidden = hasMedia ? false : true
+
+            if !mediaCollectionView.hidden {
+                let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+                let height: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
+                mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
 
                 self.attachments = attachments
             }
+
+        } else {
+            mediaCollectionView.hidden = true
         }
-
-//        if attachments.count > 1 {
-//            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentImageSize.height + 15) : 15
-//        } else {
-//            leftBottomLabelTopConstraint.constant = hasMedia ? (15 + feedAttachmentBiggerImageSize.height + 15) : 15
-//        }
-
-        mediaCollectionView.hidden = hasMedia ? false : true
     }
 }
 
