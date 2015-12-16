@@ -20,45 +20,13 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     @IBOutlet weak var socialWorkContainerView: UIView!
 
-    /*
-    @IBOutlet weak var mediaContainerView: UIView!
-    @IBOutlet weak var socialWorkImageView: UIImageView!
-
-    @IBOutlet weak var linkContainerView: UIView!
-    @IBOutlet weak var linkImageView: UIImageView!
-    @IBOutlet weak var linkLabel: UILabel!
-    @IBOutlet weak var linkAccessoryImageView: UIImageView!
-    @IBOutlet weak var linkContainerViewHeightConstraint: NSLayoutConstraint!
-    */
     @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
 
-    /*
-    @IBOutlet weak var githubRepoContainerView: UIView!
-    @IBOutlet weak var githubRepoImageView: UIImageView!
-    @IBOutlet weak var githubRepoNameLabel: UILabel!
-    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
-    @IBOutlet weak var githubRepoAccessoryImageView: UIImageView!
-    */
     @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
-
-    /*
-    @IBOutlet weak var voiceContainerView: UIView!
-    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet weak var voicePlayButton: UIButton!
-    @IBOutlet weak var voiceSampleView: SampleView!
-    @IBOutlet weak var voiceTimeLabel: UILabel!
-
-    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
-    */
 
     @IBOutlet weak var voiceContainerView: FeedVoiceContainerView!
     @IBOutlet weak var voiceContainerViewWidthConstraint: NSLayoutConstraint!
 
-    /*
-    @IBOutlet weak var locationContainerView: UIView!
-    @IBOutlet weak var locationMapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
-    */
     @IBOutlet weak var locationContainerView: FeedLocationContainerView!
 
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
@@ -398,6 +366,7 @@ class FeedSocialWorkCell: FeedBasicCell {
 
         if let URL = socialWorkImageURL {
             // ref https://github.com/onevcat/Kingfisher/pull/171
+            mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
             mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
         }
     }
