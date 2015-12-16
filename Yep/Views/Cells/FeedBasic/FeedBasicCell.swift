@@ -12,8 +12,8 @@ class FeedBasicCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var skillBubbleImageView: UIImageView!
-    @IBOutlet weak var skillLabel: UILabel!
+
+    @IBOutlet weak var skillButton: UIButton!
 
     @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -43,22 +43,20 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.textColor = UIColor.yepMessageColor()
         leftBottomLabel.textColor = UIColor.grayColor()
         messageCountLabel.textColor = UIColor.yepTintColor()
-        skillLabel.textColor = UIColor.yepTintColor()
+        skillButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
 
         messageTextView.font = UIFont.feedMessageFont()
         messageTextView.textContainer.lineFragmentPadding = 0
         messageTextView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         messageTextView.dataDetectorTypes = .Link
 
-        skillLabel.font = UIFont.feedSkillFont()
+        skillButton.titleLabel?.font = UIFont.feedSkillFont()
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapSkill = UITapGestureRecognizer(target: self, action: "tapSkill:")
-        skillBubbleImageView.userInteractionEnabled = true
-        skillBubbleImageView.addGestureRecognizer(tapSkill)
+        skillButton.addTarget(self, action: "tapSkill:", forControlEvents: .TouchUpInside)
 
         messageTextView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
@@ -99,14 +97,11 @@ class FeedBasicCell: UITableViewCell {
         calHeightOfMessageTextView()
 
         if needShowSkill, let skill = feed.skill {
-            skillLabel.text = skill.localName
-
-            skillBubbleImageView.hidden = false
-            skillLabel.hidden = false
+            skillButton.setTitle(skill.localName, forState: .Normal)
+            skillButton.hidden = false
 
         } else {
-            skillBubbleImageView.hidden = true
-            skillLabel.hidden = true
+            skillButton.hidden = true
         }
 
         let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -127,7 +122,7 @@ class FeedBasicCell: UITableViewCell {
         tapAvatarAction?(self)
     }
 
-    func tapSkill(sender: UITapGestureRecognizer) {
+    func tapSkill(sender: AnyObject) {
 
         tapSkillAction?(self)
     }
