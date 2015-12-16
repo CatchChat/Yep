@@ -366,7 +366,7 @@ enum MessageMediaType: Int, CustomStringConvertible {
         case .SocialWork:
             return NSLocalizedString("[Social Work]", comment: "")
         default:
-            return (arc4random() % 2 == 0) ?  "I love NIX." : "We love NIX."
+            return NSLocalizedString("All message read", comment: "")
         }
     }
 }
