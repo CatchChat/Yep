@@ -10,6 +10,8 @@ import UIKit
 
 class FeedGithubRepoContainerView: UIView {
 
+    var tapAction: (() -> Void)?
+
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_repo")
@@ -88,6 +90,10 @@ class FeedGithubRepoContainerView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints([iconImageViewCenterY, accessoryImageViewCenterY])
         NSLayoutConstraint.activateConstraints([helperViewCenterY, helperViewTop, helperViewBottom])
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        tapAction?()
     }
 }
 

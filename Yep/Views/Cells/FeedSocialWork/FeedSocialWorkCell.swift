@@ -139,9 +139,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         let tapDribbbleMedia = UITapGestureRecognizer(target: self, action: "tapDribbbleMedia:")
         mediaContainerView.addGestureRecognizer(tapDribbbleMedia)
 
-        let tapGithubLink = UITapGestureRecognizer(target: self, action: "tapGithubLink:")
-        githubRepoContainerView.addGestureRecognizer(tapGithubLink)
-
         let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
         locationContainerView.addGestureRecognizer(tapLocation)
     }
@@ -212,6 +209,18 @@ class FeedSocialWorkCell: FeedBasicCell {
                 if case let .Github(githubRepo) = attachment {
                     githubRepoContainerView.nameLabel.text = githubRepo.name
                     githubRepoContainerView.descriptionLabel.text = githubRepo.description
+                }
+            }
+
+            githubRepoContainerView.tapAction = { [weak self] in
+                guard let attachment = feed.attachment else {
+                    return
+                }
+
+                if case .GithubRepo = feed.kind {
+                    if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
+                        self?.tapGithubRepoLinkAction?(URL)
+                    }
                 }
             }
 
@@ -371,19 +380,6 @@ class FeedSocialWorkCell: FeedBasicCell {
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
         playOrPauseAudioAction?(self)
-    }
-
-    func tapGithubLink(sender: UITapGestureRecognizer) {
-
-        guard let feed = feed, attachment = feed.attachment else {
-            return
-        }
-
-        if case .GithubRepo = feed.kind {
-            if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
-                tapGithubRepoLinkAction?(URL)
-            }
-        }
     }
 
     func tapDribbbleMedia(sender: UITapGestureRecognizer) {
