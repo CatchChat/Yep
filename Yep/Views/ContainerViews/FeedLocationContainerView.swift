@@ -56,12 +56,20 @@ class FeedLocationContainerView: UIView {
         let constraintsH2 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
         let constraintsH3 = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][horizontalLineView(1)][nameLabel(30)]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(30)]|", options: [], metrics: nil, views: views)
+
+        let horizontalLineViewH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
+        let horizontalLineViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
+        let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .Top, relatedBy: .Equal, toItem: nameLabel, attribute: .Top, multiplier: 1.0, constant: 0)
 
         NSLayoutConstraint.activateConstraints(constraintsH1)
         NSLayoutConstraint.activateConstraints(constraintsH2)
         NSLayoutConstraint.activateConstraints(constraintsH3)
         NSLayoutConstraint.activateConstraints(constraintsV)
+
+        NSLayoutConstraint.activateConstraints(horizontalLineViewH)
+        NSLayoutConstraint.activateConstraints(horizontalLineViewV)
+        NSLayoutConstraint.activateConstraints([horizontalLineViewTop])
     }
 }
 
