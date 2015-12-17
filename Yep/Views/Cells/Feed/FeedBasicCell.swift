@@ -12,18 +12,6 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedBasicCell: UITableViewCell {
 
-    //@IBOutlet weak var avatarImageView: UIImageView!
-    //@IBOutlet weak var nicknameLabel: UILabel!
-
-    //@IBOutlet weak var skillButton: UIButton!
-
-    //@IBOutlet weak var messageTextView: FeedTextView!
-    //@IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
-
-    //@IBOutlet weak var leftBottomLabel: UILabel!
-
-    //@IBOutlet weak var messageCountLabel: UILabel!
-
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
