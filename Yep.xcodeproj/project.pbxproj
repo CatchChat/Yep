@@ -183,6 +183,7 @@
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
 		50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBA1C22487900EDE492 /* FeedBasicCell.swift */; };
 		50858EBD1C22488100EDE492 /* FeedSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */; };
+		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -545,6 +546,7 @@
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
 		50858EBA1C22487900EDE492 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/Feed/FeedBasicCell.swift; sourceTree = "<group>"; };
 		50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSocialWorkCell.swift; path = Views/Cells/Feed/FeedSocialWorkCell.swift; sourceTree = "<group>"; };
+		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -1958,6 +1960,7 @@
 			children = (
 				50858EBA1C22487900EDE492 /* FeedBasicCell.swift */,
 				50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */,
+				50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */,
 				50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */,
 			);
 			name = Feed;
@@ -2702,6 +2705,7 @@
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
+				50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
