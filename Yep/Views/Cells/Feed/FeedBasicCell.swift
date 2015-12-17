@@ -132,13 +132,6 @@ class FeedBasicCell: UITableViewCell {
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-
-        messageTextView.text = nil
-        messageTextView.attributedText = nil
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -175,6 +168,15 @@ class FeedBasicCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        feed = nil
+
+        messageTextView.text = nil
+        messageTextView.attributedText = nil
     }
 
     private func calHeightOfMessageTextView() {

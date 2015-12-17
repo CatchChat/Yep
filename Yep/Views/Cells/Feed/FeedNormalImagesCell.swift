@@ -46,7 +46,7 @@ class FeedNormalImagesCell: FeedBasicCell {
 
     lazy var imageView3: UIImageView = {
         let x = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
-        let frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
+        let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         let imageView = self.createImageViewWithFrame(frame)
 
         return imageView
