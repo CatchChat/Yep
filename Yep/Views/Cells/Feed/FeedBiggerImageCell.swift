@@ -17,6 +17,8 @@ class FeedBiggerImageCell: FeedBasicCell {
         imageView.contentMode = .ScaleAspectFill
         imageView.clipsToBounds = true
         imageView.frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedBiggerImageCell.imageSize)
+        imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
+        imageView.layer.borderWidth = 1
         return imageView
     }()
 
