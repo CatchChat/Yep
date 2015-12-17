@@ -110,6 +110,7 @@ class FeedsViewController: BaseViewController {
     private let feedBasicCellID = "FeedBasicCell"
     private let feedCellID = "FeedCell"
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
+    private let feedNormalImagesCellID = "FeedNormalImagesCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
@@ -287,6 +288,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
         feedsTableView.registerClass(FeedCell.self, forCellReuseIdentifier: feedCellID)
         feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
+        feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
         feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
@@ -809,6 +811,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 if feed.imageAttachmentsCount == 1 {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
                     return cell
+
+                } else if feed.imageAttachmentsCount <= 3 {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
+                    return cell
+
                 } else {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
                     return cell
@@ -929,6 +936,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 if feed.imageAttachmentsCount == 1 {
                     guard let cell = cell as? FeedBiggerImageCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                    cell.tapMediaAction = tapMediaAction
+
+                } else if feed.imageAttachmentsCount <= 3 {
+
+                    guard let cell = cell as? FeedNormalImagesCell else {
                         break
                     }
 

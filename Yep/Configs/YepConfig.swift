@@ -236,6 +236,10 @@ class YepConfig {
         static let imageSize: CGSize = CGSize(width: 160, height: 160)
     }
 
+    struct FeedNormalImagesCell {
+        static let imageSize: CGSize = CGSize(width: 80, height: 80)
+    }
+
     struct FeedView {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),

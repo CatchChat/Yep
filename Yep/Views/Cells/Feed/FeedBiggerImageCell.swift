@@ -19,6 +19,11 @@ class FeedBiggerImageCell: FeedBasicCell {
         imageView.frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedBiggerImageCell.imageSize)
         imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
         imageView.layer.borderWidth = 1
+
+        imageView.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        imageView.addGestureRecognizer(tap)
+
         return imageView
     }()
 
@@ -26,10 +31,6 @@ class FeedBiggerImageCell: FeedBasicCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(biggerImageView)
-
-        biggerImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
-        biggerImageView.addGestureRecognizer(tap)
     }
 
     required init?(coder aDecoder: NSCoder) {
