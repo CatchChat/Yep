@@ -129,8 +129,17 @@ struct FeedCellLayout {
                 height = FeedAnyImagesCell.heightOfFeed(feed)
             }
 
-        case .GithubRepo, .DribbbleShot, .Audio, .Location:
-            height = FeedSocialWorkCell.heightOfFeed(feed)
+        case .GithubRepo:
+            height = FeedGithubRepoCell.heightOfFeed(feed)
+
+        case .DribbbleShot:
+            height = FeedDribbbleShotCell.heightOfFeed(feed)
+
+        case .Audio:
+            height = FeedVoiceCell.heightOfFeed(feed)
+
+        case .Location:
+            height = FeedLocationCell.heightOfFeed(feed)
 
         default:
             height = FeedBasicCell.heightOfFeed(feed)
