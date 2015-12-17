@@ -70,7 +70,11 @@ struct FeedCellLayout {
 
     struct AnyImagesLayout {
 
-        let mediaCollectionView: CGRect
+        let mediaCollectionViewFrame: CGRect
+
+        init(mediaCollectionViewFrame: CGRect) {
+            self.mediaCollectionViewFrame = mediaCollectionViewFrame
+        }
     }
     var anyImagesLayout: AnyImagesLayout?
 

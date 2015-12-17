@@ -90,25 +90,33 @@ class FeedAnyImagesCell: FeedBasicCell {
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
-        super.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
-        var hasMedia = false
+        var _newLayout: FeedCellLayout?
+        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
+            _newLayout = newLayout
+        }), needShowSkill: needShowSkill)
 
-        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
-            hasMedia = !attachments.isEmpty
-
-            mediaCollectionView.hidden = hasMedia ? false : true
-
-            if !mediaCollectionView.hidden {
-                let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-                let height = feedAttachmentImageSize.height
-                mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
-
-                self.attachments = attachments
-            }
+        if let anyImagesLayout = layoutCache.layout?.anyImagesLayout {
+            mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
 
         } else {
-            mediaCollectionView.hidden = true
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height = feedAttachmentImageSize.height
+            mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
+        }
+
+        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+            self.attachments = attachments
+        }
+
+        if layoutCache.layout == nil {
+
+            let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionView.frame)
+            _newLayout?.anyImagesLayout = anyImagesLayout
+
+            if let newLayout = _newLayout {
+                layoutCache.update(layout: newLayout)
+            }
         }
     }
 }
