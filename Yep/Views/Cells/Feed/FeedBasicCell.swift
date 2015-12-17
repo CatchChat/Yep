@@ -158,6 +158,20 @@ class FeedBasicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    static let messageTextViewMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        return maxWidth
+    }()
+
+    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+
+        let height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+
+        return ceil(height)
+    }
+
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -166,7 +180,7 @@ class FeedBasicCell: UITableViewCell {
 
     private func calHeightOfMessageTextView() {
 
-        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         messageTextView.frame.size.height = ceil(rect.height)
     }

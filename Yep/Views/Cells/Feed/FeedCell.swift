@@ -70,17 +70,9 @@ class FeedCell: FeedBasicCell {
         }
     }
 
-    static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
-        return maxWidth
-    }()
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
-
-        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+        var height = super.heightOfFeed(feed)
 
         if let attachment = feed.attachment {
             if case let .Images(attachments) = attachment {

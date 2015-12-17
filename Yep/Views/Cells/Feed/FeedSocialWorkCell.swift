@@ -122,11 +122,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
 
-    static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
-        return maxWidth
-    }()
-
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -167,11 +162,10 @@ class FeedSocialWorkCell: FeedBasicCell {
         // Configure the view for the selected state
     }
 
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedSocialWorkCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        var height = super.heightOfFeed(feed)
 
-        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         switch feed.kind {
         case .GithubRepo:
             height += (80 + 15)

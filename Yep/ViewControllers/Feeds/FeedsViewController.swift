@@ -107,6 +107,7 @@ class FeedsViewController: BaseViewController {
     #endif
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
+    private let feedBasicCellID = "FeedBasicCell"
     private let feedCellID = "FeedCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
@@ -189,6 +190,8 @@ class FeedsViewController: BaseViewController {
 
             let height: CGFloat
             switch feed.kind {
+            case .Text:
+                height = FeedBasicCell.heightOfFeed(feed)
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
             default:
@@ -280,9 +283,7 @@ class FeedsViewController: BaseViewController {
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
 
-//        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
-//        feedsTableView.registerNib(UINib(nibName: feedSocialWorkCellID, bundle: nil), forCellReuseIdentifier: feedSocialWorkCellID)
-
+        feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
         feedsTableView.registerClass(FeedCell.self, forCellReuseIdentifier: feedCellID)
         feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
 
@@ -798,6 +799,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
+            case .Text:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                return cell
+
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
@@ -873,6 +878,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             switch feed.kind {
+
+            case .Text:
+
+                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
 
