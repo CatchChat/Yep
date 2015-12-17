@@ -17,25 +17,6 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedSocialWorkCell: FeedBasicCell {
 
-    /*
-    @IBOutlet weak var logoImageView: UIImageView!
-    @IBOutlet weak var logoImageViewTrailingConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var socialWorkContainerView: UIView!
-
-    @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
-
-    @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
-
-    @IBOutlet weak var voiceContainerView: FeedVoiceContainerView!
-    @IBOutlet weak var voiceContainerViewWidthConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var locationContainerView: FeedLocationContainerView!
-
-    @IBOutlet weak var socialWorkBorderImageView: UIImageView!
-    @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
-    */
-
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_github")
@@ -72,13 +53,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         imageView.image = UIImage(named: "social_work_border")
         return imageView
     }()
-
-
-
-
-
-
-
 
     lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))

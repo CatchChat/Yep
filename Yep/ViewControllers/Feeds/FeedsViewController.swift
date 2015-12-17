@@ -903,7 +903,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Image:
 
-                let tapMediaAction: (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void = { [weak self] transitionView, image, attachments, index in
+                let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
                         return

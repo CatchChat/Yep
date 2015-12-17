@@ -10,7 +10,7 @@ import UIKit
 
 class FeedNormalImagesCell: FeedBasicCell {
 
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapMediaAction: FeedTapMediaAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {
         let imageView = UIImageView()

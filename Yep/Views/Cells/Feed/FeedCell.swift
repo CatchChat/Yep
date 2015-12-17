@@ -14,12 +14,9 @@ let feedAttachmentBiggerImageSize = CGSize(width: 160, height: 160)
 private let feedMediaCellID = "FeedMediaCell"
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
+typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
+
 class FeedCell: FeedBasicCell {
-
-    //@IBOutlet weak var mediaCollectionView: UICollectionView!
-    //@IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
-
-    //@IBOutlet weak var leftBottomLabelTopConstraint: NSLayoutConstraint!
 
     lazy var mediaCollectionView: UICollectionView = {
 
@@ -60,8 +57,7 @@ class FeedCell: FeedBasicCell {
         return collectionView
     }()
 
-
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapMediaAction: FeedTapMediaAction?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {

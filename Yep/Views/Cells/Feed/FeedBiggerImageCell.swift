@@ -10,7 +10,7 @@ import UIKit
 
 class FeedBiggerImageCell: FeedBasicCell {
 
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapMediaAction: FeedTapMediaAction?
 
     lazy var biggerImageView: UIImageView = {
         let imageView = UIImageView()
