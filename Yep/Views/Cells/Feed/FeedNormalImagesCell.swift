@@ -89,8 +89,8 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView3.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
-        super.configureWithFeed(feed, needShowSkill: needShowSkill)
+    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+        super.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
         if let attachments = feed.imageAttachments {
 

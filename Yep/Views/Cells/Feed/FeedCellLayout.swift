@@ -10,6 +10,9 @@ import Foundation
 
 struct FeedCellLayout {
 
+    typealias Update = (layout: FeedCellLayout) -> Void
+    typealias Cache = (layout: FeedCellLayout?, update: Update)
+
     struct BasicLayout {
 
         let avatarImageViewFrame: CGRect
@@ -21,13 +24,35 @@ struct FeedCellLayout {
         let leftBottomLabelFrame: CGRect
         let messageCountLabelFrame: CGRect
         let discussionImageViewFrame: CGRect
+
+        init(avatarImageViewFrame: CGRect,
+            nicknameLabelFrame: CGRect,
+            skillButtonFrame: CGRect,
+            messageTextViewFrame: CGRect,
+            leftBottomLabelFrame: CGRect,
+            messageCountLabelFrame: CGRect,
+            discussionImageViewFrame: CGRect) {
+                self.avatarImageViewFrame = avatarImageViewFrame
+                self.nicknameLabelFrame = nicknameLabelFrame
+                self.skillButtonFrame = skillButtonFrame
+
+                self.messageTextViewFrame = messageTextViewFrame
+
+                self.leftBottomLabelFrame = leftBottomLabelFrame
+                self.messageCountLabelFrame = messageCountLabelFrame
+                self.discussionImageViewFrame = discussionImageViewFrame
+        }
     }
     let basicLayout: BasicLayout
 
     struct BiggerImageLayout {
         let biggerImageViewFrame: CGRect
+
+        init(biggerImageViewFrame: CGRect) {
+            self.biggerImageViewFrame = biggerImageViewFrame
+        }
     }
-    let biggerImageLayout: BiggerImageLayout?
+    var biggerImageLayout: BiggerImageLayout?
 
     struct NormalImagesLayout {
 
@@ -35,12 +60,16 @@ struct FeedCellLayout {
         let imageView2Frame: CGRect
         let imageView3Frame: CGRect
     }
-    let normalImagesLayout: NormalImagesLayout?
+    var normalImagesLayout: NormalImagesLayout?
 
     struct AnyImagesLayout {
 
         let mediaCollectionView: CGRect
     }
-    let anyImagesLayout: AnyImagesLayout?
+    var anyImagesLayout: AnyImagesLayout?
+
+    init(basicLayout: BasicLayout) {
+        self.basicLayout = basicLayout
+    }
 }
 

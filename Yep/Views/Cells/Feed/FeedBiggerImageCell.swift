@@ -56,14 +56,33 @@ class FeedBiggerImageCell: FeedBasicCell {
         biggerImageView.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
-        super.configureWithFeed(feed, needShowSkill: needShowSkill)
+    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+
+        var _newLayout: FeedCellLayout?
+        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
+            _newLayout = newLayout
+        }), needShowSkill: needShowSkill)
+
+        if let biggerImageLayout = layoutCache.layout?.biggerImageLayout {
+            biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
+
+        } else {
+            biggerImageView.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+        }
 
         if let onlyAttachment = feed.imageAttachments?.first {
             biggerImageView.yep_showActivityIndicatorWhenLoading = true
             biggerImageView.yep_setImageOfAttachment(onlyAttachment, withSize: YepConfig.FeedBiggerImageCell.imageSize)
+        }
 
-            biggerImageView.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+        if layoutCache.layout == nil {
+
+            let biggerImageLayout = FeedCellLayout.BiggerImageLayout(biggerImageViewFrame: biggerImageView.frame)
+            _newLayout?.biggerImageLayout = biggerImageLayout
+
+            if let newLayout = _newLayout {
+                layoutCache.update(layout: newLayout)
+            }
         }
     }
 

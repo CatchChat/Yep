@@ -221,7 +221,26 @@ class FeedsViewController: BaseViewController {
             return height
         }
     }
-    
+
+    private var feedCellLayoutHash = [String: FeedCellLayout]()
+
+    private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
+        let key = feed.id
+
+        return feedCellLayoutHash[key]
+    }
+
+    private func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
+
+        let key = feed.id
+
+        if !key.isEmpty {
+            feedCellLayoutHash[key] = layout
+        }
+
+        println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+    }
+
     private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
             feeds = []
@@ -909,11 +928,17 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
+            let layout = feedCellLayoutOfFeed(feed)
+            let update: FeedCellLayout.Update = { [weak self] newLayout in
+                self?.updateFeedCellLayout(newLayout, forFeed: feed)
+            }
+            let layoutCache = (layout: layout, update: update)
+
             switch feed.kind {
 
             case .Text:
 
-                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: (skill == nil) ? true : false)
 
             case .Image:
 
@@ -953,7 +978,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: (skill == nil) ? true : false)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -963,7 +988,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: (skill == nil) ? true : false)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -972,7 +997,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: (skill == nil) ? true : false)
 
                     cell.tapMediaAction = tapMediaAction
                 }
@@ -983,7 +1008,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: (skill == nil) ? true : false)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
