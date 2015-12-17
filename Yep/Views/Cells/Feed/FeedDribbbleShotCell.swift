@@ -67,6 +67,12 @@ class FeedDribbbleShotCell: FeedBasicCell {
         return ceil(height)
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        mediaContainerView.mediaImageView.image = nil
+    }
+
     override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
 
         var _newLayout: FeedCellLayout?

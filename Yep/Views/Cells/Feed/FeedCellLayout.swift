@@ -92,6 +92,11 @@ struct FeedCellLayout {
     }
     var dribbbleShotLayout: DribbbleShotLayout?
 
+    struct AudioLayout {
+        let voiceContainerViewFrame: CGRect
+    }
+    var audioLayout: AudioLayout?
+
     // MARK: - Init
 
     init(height: CGFloat, basicLayout: BasicLayout) {
@@ -230,6 +235,7 @@ struct FeedCellLayout {
             self.githubRepoLayout = githubRepoLayout
 
         case .DribbbleShot:
+
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
             let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
 
@@ -237,7 +243,25 @@ struct FeedCellLayout {
 
             self.dribbbleShotLayout = dribbbleShotLayout
 
-        case .Audio, .Location:
+        case .Audio:
+
+            if let attachment = feed.attachment {
+                if case let .Audio(audioInfo) = attachment {
+                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
+                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+
+                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let y = beginY + 2
+
+                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 40)
+
+                    let audioLayout = FeedCellLayout.AudioLayout(voiceContainerViewFrame: voiceContainerViewFrame)
+
+                    self.audioLayout = audioLayout
+                }
+            }
+
+        case .Location:
             break
 
         default:

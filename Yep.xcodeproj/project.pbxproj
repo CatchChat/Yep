@@ -306,6 +306,7 @@
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
 		50E392C21C22B9E400C0CECB /* FeedDribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C11C22B9E400C0CECB /* FeedDribbbleShotCell.swift */; };
+		50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */; };
 		50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
@@ -673,6 +674,7 @@
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
 		50E392C11C22B9E400C0CECB /* FeedDribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedDribbbleShotCell.swift; path = Views/Cells/Feed/FeedDribbbleShotCell.swift; sourceTree = "<group>"; };
+		50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceCell.swift; path = Views/Cells/Feed/FeedVoiceCell.swift; sourceTree = "<group>"; };
 		50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTitleView.swift; path = Views/ConversationTitle/ConversationTitleView.swift; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
@@ -1974,6 +1976,7 @@
 				50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */,
 				50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */,
 				50E392C11C22B9E400C0CECB /* FeedDribbbleShotCell.swift */,
+				50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -2696,6 +2699,7 @@
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
+				50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
