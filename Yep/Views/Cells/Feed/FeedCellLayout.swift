@@ -59,6 +59,12 @@ struct FeedCellLayout {
         let imageView1Frame: CGRect
         let imageView2Frame: CGRect
         let imageView3Frame: CGRect
+
+        init(imageView1Frame: CGRect, imageView2Frame: CGRect, imageView3Frame: CGRect) {
+            self.imageView1Frame = imageView1Frame
+            self.imageView2Frame = imageView2Frame
+            self.imageView3Frame = imageView3Frame
+        }
     }
     var normalImagesLayout: NormalImagesLayout?
 
