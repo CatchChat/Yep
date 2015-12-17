@@ -793,7 +793,7 @@ class ProfileViewController: UIViewController {
         }
 
         #if DEBUG
-            view.addSubview(profileFPSLabel)
+//            view.addSubview(profileFPSLabel)
         #endif
     }
 

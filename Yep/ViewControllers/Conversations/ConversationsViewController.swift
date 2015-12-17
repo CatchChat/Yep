@@ -147,7 +147,7 @@ class ConversationsViewController: UIViewController {
         }
 
         #if DEBUG
-            view.addSubview(conversationsFPSLabel)
+//            view.addSubview(conversationsFPSLabel)
         #endif
     }
 

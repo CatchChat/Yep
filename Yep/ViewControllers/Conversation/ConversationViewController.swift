@@ -859,7 +859,7 @@ class ConversationViewController: BaseViewController {
         }
 
         #if DEBUG
-            view.addSubview(conversationFPSLabel)
+//            view.addSubview(conversationFPSLabel)
         #endif
     }
     

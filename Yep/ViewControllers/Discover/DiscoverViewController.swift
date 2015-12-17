@@ -114,7 +114,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         #if DEBUG
-            view.addSubview(discoverFPSLabel)
+//            view.addSubview(discoverFPSLabel)
         #endif
     }
 
