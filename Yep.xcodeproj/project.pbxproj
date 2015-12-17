@@ -182,7 +182,6 @@
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
 		50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBA1C22487900EDE492 /* FeedBasicCell.swift */; };
-		50858EBD1C22488100EDE492 /* FeedSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */; };
 		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
@@ -551,7 +550,6 @@
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
 		50858EBA1C22487900EDE492 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/Feed/FeedBasicCell.swift; sourceTree = "<group>"; };
-		50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSocialWorkCell.swift; path = Views/Cells/Feed/FeedSocialWorkCell.swift; sourceTree = "<group>"; };
 		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
@@ -1975,7 +1973,6 @@
 				50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */,
 				50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */,
 				50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */,
-				50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */,
 				50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */,
 				50E392C11C22B9E400C0CECB /* FeedDribbbleShotCell.swift */,
 				50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */,
@@ -2779,7 +2776,6 @@
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
 				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
 				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
-				50858EBD1C22488100EDE492 /* FeedSocialWorkCell.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
 				50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */,
