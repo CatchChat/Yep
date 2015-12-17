@@ -806,7 +806,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
 
             case .Image:
-                if feed.attachmentImagesCount == 1 {
+                if feed.imageAttachmentsCount == 1 {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
                     return cell
                 } else {
@@ -896,57 +896,54 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Image:
 
-                if feed.attachmentImagesCount == 1 {
+                let tapMediaAction: (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void = { [weak self] transitionView, image, attachments, index in
+
+                    guard image != nil else {
+                        return
+                    }
+
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
+                    vc.startIndex = index
+
+                    let transitionView = transitionView
+                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
+                    vc.previewImageViewInitalFrame = frame
+                    vc.bottomPreviewImage = image
+
+                    vc.transitionView = transitionView
+
+                    delay(0) {
+                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    }
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
+                }
+
+                if feed.imageAttachmentsCount == 1 {
                     guard let cell = cell as? FeedBiggerImageCell else {
                         break
                     }
+
                     cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                    cell.tapMediaAction = tapMediaAction
 
                 } else {
                     guard let cell = cell as? FeedCell else {
                         break
                     }
+
                     cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
-                    cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-                        guard image != nil else {
-                            return
-                        }
-
-                        let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                        vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                        vc.startIndex = index
-
-                        let transitionView = transitionView
-                        let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
-                        vc.previewImageViewInitalFrame = frame
-                        vc.bottomPreviewImage = image
-
-                        vc.transitionView = transitionView
-
-                        delay(0) {
-                            transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                        }
-                        vc.afterDismissAction = { [weak self] in
-                            transitionView.alpha = 1
-                            self?.view.window?.makeKeyAndVisible()
-                        }
-
-                        mediaPreviewWindow.rootViewController = vc
-                        mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                        mediaPreviewWindow.makeKeyAndVisible()
-
-                        /*
-                        let info: [String: AnyObject] = [
-                            "transitionView": transitionView,
-                            "attachments": Box(value: attachments),
-                            "index": index,
-                        ]
-                        self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-                        */
-                    }
+                    cell.tapMediaAction = tapMediaAction
                 }
 
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
@@ -977,7 +974,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     vc.startIndex = 0
 
                     let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
                     vc.previewImageViewInitalFrame = frame
                     vc.bottomPreviewImage = image
 

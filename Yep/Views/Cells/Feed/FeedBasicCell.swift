@@ -123,8 +123,7 @@ class FeedBasicCell: UITableViewCell {
         return imageView
     }()
 
-
-
+    var feed: DiscoveredFeed?
 
     var tapAvatarAction: (UITableViewCell -> Void)?
     var tapSkillAction: (UITableViewCell -> Void)?
@@ -186,6 +185,8 @@ class FeedBasicCell: UITableViewCell {
     }
 
     func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
+
+        self.feed = feed
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 

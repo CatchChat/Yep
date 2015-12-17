@@ -85,8 +85,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         return imageView
     }()
 
-    var feed: DiscoveredFeed?
-
     var tapGithubRepoLinkAction: (NSURL -> Void)?
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
     var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
@@ -184,8 +182,6 @@ class FeedSocialWorkCell: FeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
-
-        self.feed = feed
 
         if let
             accountName = feed.kind.accountName,

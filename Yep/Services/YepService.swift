@@ -2743,11 +2743,16 @@ struct DiscoveredFeed: Hashable {
 
     let attachment: Attachment?
 
-    var attachmentImagesCount: Int {
+    var imageAttachments: [DiscoveredAttachment]? {
         if let attachment = attachment, case let .Images(attachments) = attachment {
-            return attachments.count
+            return attachments
         }
-        return 0
+
+        return nil
+    }
+
+    var imageAttachmentsCount: Int {
+        return imageAttachments?.count ?? 0
     }
 
     let distance: Double?
