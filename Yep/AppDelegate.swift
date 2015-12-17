@@ -13,7 +13,7 @@ import AVFoundation
 import RealmSwift
 import MonkeyKing
 import Navi
-import Appsee
+//import Appsee
 
 
 @UIApplicationMain
