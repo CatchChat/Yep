@@ -135,6 +135,8 @@ class FeedBasicCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        separatorInset = UIEdgeInsets(top: 0, left: 65, bottom: 0, right: 0)
+
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(skillButton)
