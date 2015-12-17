@@ -29,7 +29,7 @@ class FeedBiggerImageCell: FeedBasicCell {
 
         biggerImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tap:")
-        addGestureRecognizer(tap)
+        biggerImageView.addGestureRecognizer(tap)
     }
 
     required init?(coder aDecoder: NSCoder) {
