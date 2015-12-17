@@ -97,6 +97,11 @@ struct FeedCellLayout {
     }
     var audioLayout: AudioLayout?
 
+    struct LocationLayout {
+        let locationContainerViewFrame: CGRect
+    }
+    var locationLayout: LocationLayout?
+
     // MARK: - Init
 
     init(height: CGFloat, basicLayout: BasicLayout) {
@@ -262,7 +267,13 @@ struct FeedCellLayout {
             }
 
         case .Location:
-            break
+
+            let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
+            let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+
+            let locationLayout = FeedCellLayout.LocationLayout(locationContainerViewFrame: locationContainerViewFrame)
+
+            self.locationLayout = locationLayout
 
         default:
             break

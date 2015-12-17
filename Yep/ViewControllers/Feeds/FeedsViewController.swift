@@ -111,10 +111,10 @@ class FeedsViewController: BaseViewController {
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
     private let feedNormalImagesCellID = "FeedNormalImagesCell"
     private let feedAnyImagesCellID = "FeedAnyImagesCell"
-    private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let feedGithubRepoCellID = "FeedGithubRepoCell"
     private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
     private let feedVoiceCellID = "FeedVoiceCell"
+    private let feedLocationCellID = "FeedLocationCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -220,7 +220,7 @@ class FeedsViewController: BaseViewController {
                 height = FeedVoiceCell.heightOfFeed(feed)
 
             case .Location:
-                height = FeedSocialWorkCell.heightOfFeed(feed)
+                height = FeedLocationCell.heightOfFeed(feed)
 
             default:
                 height = FeedBasicCell.heightOfFeed(feed)
@@ -334,10 +334,10 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
         feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
         feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
-        feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
         feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
         feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
         feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
+        feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
@@ -888,7 +888,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
 
             case .Location:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedLocationCellID) as! FeedLocationCell
                 return cell
 
             default:
@@ -1161,7 +1161,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Location:
 
-                guard let cell = cell as? FeedSocialWorkCell else {
+                guard let cell = cell as? FeedLocationCell else {
                     break
                 }
 
