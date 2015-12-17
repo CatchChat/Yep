@@ -82,6 +82,11 @@ struct FeedCellLayout {
     }
     var anyImagesLayout: AnyImagesLayout?
 
+    struct GithubRepoLayout {
+        let githubRepoContainerViewFrame: CGRect
+    }
+    var githubRepoLayout: GithubRepoLayout?
+
     init(height: CGFloat, basicLayout: BasicLayout) {
         self.height = height
         self.basicLayout = basicLayout
@@ -166,6 +171,8 @@ struct FeedCellLayout {
 
         self.basicLayout = basicLayout
 
+        let beginY = messageTextViewFrame.origin.y + messageTextViewFrame.height + 15
+
         switch feed.kind {
 
         case .Text:
@@ -173,7 +180,6 @@ struct FeedCellLayout {
             
         case .Image:
 
-            let beginY = messageTextViewFrame.origin.y + messageTextViewFrame.height + 15
 
             if feed.imageAttachmentsCount == 1 {
 
@@ -207,7 +213,16 @@ struct FeedCellLayout {
                 self.anyImagesLayout = anyImagesLayout
             }
 
-        case .GithubRepo, .DribbbleShot, .Audio, .Location:
+        case .GithubRepo:
+
+            let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
+            let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+
+            let githubRepoLayout = FeedCellLayout.GithubRepoLayout(githubRepoContainerViewFrame: githubRepoContainerViewFrame)
+
+            self.githubRepoLayout = githubRepoLayout
+
+        case .DribbbleShot, .Audio, .Location:
             break
 
         default:
