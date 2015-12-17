@@ -248,7 +248,7 @@ class FeedBasicCell: UITableViewCell {
 
             let basicLayout = FeedCellLayout.BasicLayout(avatarImageViewFrame: avatarImageView.frame, nicknameLabelFrame: nicknameLabel.frame, skillButtonFrame: skillButton.frame, messageTextViewFrame: messageTextView.frame, leftBottomLabelFrame: leftBottomLabel.frame, messageCountLabelFrame: messageCountLabel.frame, discussionImageViewFrame: discussionImageView.frame)
 
-            let newLayout = FeedCellLayout(basicLayout: basicLayout)
+            let newLayout = FeedCellLayout(height: contentView.bounds.height, basicLayout: basicLayout)
 
             layoutCache.update(layout: newLayout)
         }
