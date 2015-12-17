@@ -189,15 +189,29 @@ class FeedsViewController: BaseViewController {
             return height
 
         } else {
-
             let height: CGFloat
+
             switch feed.kind {
+
             case .Text:
                 height = FeedBasicCell.heightOfFeed(feed)
+
+            case .Image:
+                if feed.imageAttachmentsCount == 1 {
+                    height = FeedBiggerImageCell.heightOfFeed(feed)
+
+                } else if feed.imageAttachmentsCount <= 3 {
+                    height = FeedNormalImagesCell.heightOfFeed(feed)
+
+                } else {
+                    height = FeedCell.heightOfFeed(feed)
+                }
+
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
+
             default:
-                height = FeedCell.heightOfFeed(feed)
+                height = FeedBasicCell.heightOfFeed(feed)
             }
 
             if !key.isEmpty {
