@@ -107,7 +107,10 @@ class FeedsViewController: BaseViewController {
     #endif
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
-    private let feedCellID = "FeedCell"
+    private let feedBasicCellID = "FeedBasicCell"
+    private let feedBiggerImageCellID = "FeedBiggerImageCell"
+    private let feedNormalImagesCellID = "FeedNormalImagesCell"
+    private let feedAnyImagesCellID = "FeedAnyImagesCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
@@ -186,13 +189,29 @@ class FeedsViewController: BaseViewController {
             return height
 
         } else {
-
             let height: CGFloat
+
             switch feed.kind {
+
+            case .Text:
+                height = FeedBasicCell.heightOfFeed(feed)
+
+            case .Image:
+                if feed.imageAttachmentsCount == 1 {
+                    height = FeedBiggerImageCell.heightOfFeed(feed)
+
+                } else if feed.imageAttachmentsCount <= 3 {
+                    height = FeedNormalImagesCell.heightOfFeed(feed)
+
+                } else {
+                    height = FeedAnyImagesCell.heightOfFeed(feed)
+                }
+
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
+
             default:
-                height = FeedCell.heightOfFeed(feed)
+                height = FeedBasicCell.heightOfFeed(feed)
             }
 
             if !key.isEmpty {
@@ -279,8 +298,13 @@ class FeedsViewController: BaseViewController {
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
-        feedsTableView.registerNib(UINib(nibName: feedCellID, bundle: nil), forCellReuseIdentifier: feedCellID)
-        feedsTableView.registerNib(UINib(nibName: feedSocialWorkCellID, bundle: nil), forCellReuseIdentifier: feedSocialWorkCellID)
+
+        feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
+        feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
+        feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
+        feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
+        feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
+
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
 
@@ -793,12 +817,30 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
+            case .Text:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                return cell
+
+            case .Image:
+                if feed.imageAttachmentsCount == 1 {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
+                    return cell
+
+                } else if feed.imageAttachmentsCount <= 3 {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
+                    return cell
+
+                } else {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(feedAnyImagesCellID) as! FeedAnyImagesCell
+                    return cell
+                }
+
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
 
             default:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
                 return cell
             }
 
@@ -869,13 +911,77 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
+            case .Text:
+
+                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+            case .Image:
+
+                let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
+
+                    guard image != nil else {
+                        return
+                    }
+
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
+                    vc.startIndex = index
+
+                    let transitionView = transitionView
+                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
+                    vc.previewImageViewInitalFrame = frame
+                    vc.bottomPreviewImage = image
+
+                    vc.transitionView = transitionView
+
+                    delay(0) {
+                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    }
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
+                }
+
+                if feed.imageAttachmentsCount == 1 {
+                    guard let cell = cell as? FeedBiggerImageCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                    cell.tapMediaAction = tapMediaAction
+
+                } else if feed.imageAttachmentsCount <= 3 {
+
+                    guard let cell = cell as? FeedNormalImagesCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                    cell.tapMediaAction = tapMediaAction
+
+                } else {
+                    guard let cell = cell as? FeedAnyImagesCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+
+                    cell.tapMediaAction = tapMediaAction
+                }
+
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
 
                 guard let cell = cell as? FeedSocialWorkCell else {
                     break
                 }
-
-                let feed = feeds[indexPath.item]
 
                 cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
 
@@ -899,7 +1005,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     vc.startIndex = 0
 
                     let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
+                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
                     vc.previewImageViewInitalFrame = frame
                     vc.bottomPreviewImage = image
 
@@ -986,54 +1092,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
             default:
-
-                guard let cell = cell as? FeedCell else {
-                    break
-                }
-
-                let feed = feeds[indexPath.item]
-
-                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
-
-                cell.tapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-                    guard image != nil else {
-                        return
-                    }
-
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                    vc.startIndex = index
-
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
-
-                    vc.transitionView = transitionView
-
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
-
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
-
-                    /*
-                    let info: [String: AnyObject] = [
-                        "transitionView": transitionView,
-                        "attachments": Box(value: attachments),
-                        "index": index,
-                    ]
-                    self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-                    */
-                }
+                break
             }
 
         case Section.LoadMore.rawValue:

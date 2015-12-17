@@ -19,7 +19,7 @@ class FeedMediaCell: UICollectionViewCell {
         super.awakeFromNib()
 
         imageView.backgroundColor = YepConfig.FeedMedia.backgroundColor
-        imageView.layer.minificationFilter = kCAFilterLinear
+//        imageView.layer.minificationFilter = kCAFilterLinear
 
         contentView.backgroundColor = UIColor.clearColor()
     }

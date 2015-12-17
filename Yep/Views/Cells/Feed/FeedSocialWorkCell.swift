@@ -13,32 +13,51 @@ import RealmSwift
 import MapKit
 
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedSocialWorkCell: FeedBasicCell {
 
-    @IBOutlet weak var logoImageView: UIImageView!
-    @IBOutlet weak var logoImageViewTrailingConstraint: NSLayoutConstraint!
+    lazy var logoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "icon_github")
+        imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
+        return imageView
+    }()
 
-    @IBOutlet weak var socialWorkContainerView: UIView!
+    lazy var mediaContainerView: FeedMediaContainerView = {
+        let view = FeedMediaContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        return view
+    }()
 
-    @IBOutlet weak var mediaContainerView: FeedMediaContainerView!
+    lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
+        let view = FeedGithubRepoContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        return view
+    }()
 
-    @IBOutlet weak var githubRepoContainerView: FeedGithubRepoContainerView!
+    lazy var voiceContainerView: FeedVoiceContainerView = {
+        let view = FeedVoiceContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        return view
+    }()
 
-    @IBOutlet weak var voiceContainerView: FeedVoiceContainerView!
-    @IBOutlet weak var voiceContainerViewWidthConstraint: NSLayoutConstraint!
+    lazy var locationContainerView: FeedLocationContainerView = {
+        let view = FeedLocationContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        return view
+    }()
 
-    @IBOutlet weak var locationContainerView: FeedLocationContainerView!
-
-    @IBOutlet weak var socialWorkBorderImageView: UIImageView!
-    @IBOutlet weak var socialWorkContainerViewHeightConstraint: NSLayoutConstraint!
+    lazy var socialWorkBorderImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "social_work_border")
+        return imageView
+    }()
 
     lazy var halfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
         return imageView
     }()
-
-    var feed: DiscoveredFeed?
 
     var tapGithubRepoLinkAction: (NSURL -> Void)?
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
@@ -75,11 +94,6 @@ class FeedSocialWorkCell: FeedBasicCell {
         }
     }
 
-    static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
-        return maxWidth
-    }()
-
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -99,9 +113,19 @@ class FeedSocialWorkCell: FeedBasicCell {
         locationContainerView.mapImageView.image = nil
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        contentView.addSubview(logoImageView)
+        contentView.addSubview(mediaContainerView)
+        contentView.addSubview(githubRepoContainerView)
+        contentView.addSubview(voiceContainerView)
+        contentView.addSubview(locationContainerView)
+        contentView.addSubview(socialWorkBorderImageView)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -110,11 +134,10 @@ class FeedSocialWorkCell: FeedBasicCell {
         // Configure the view for the selected state
     }
 
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedSocialWorkCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        var height = super.heightOfFeed(feed)
 
-        var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         switch feed.kind {
         case .GithubRepo:
             height += (80 + 15)
@@ -134,21 +157,20 @@ class FeedSocialWorkCell: FeedBasicCell {
     override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
         super.configureWithFeed(feed, needShowSkill: needShowSkill)
 
-        self.feed = feed
-
-        if needShowSkill, let skill = feed.skill {
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-            logoImageViewTrailingConstraint.constant = 8 + (10 + rect.width + 10) + 15
-        } else {
-            logoImageViewTrailingConstraint.constant = 15
-        }
-
         if let
             accountName = feed.kind.accountName,
             socialAccount = SocialAccount(rawValue: accountName) {
                 logoImageView.image = UIImage(named: socialAccount.iconName)
                 logoImageView.tintColor = socialAccount.tintColor
                 logoImageView.hidden = false
+
+                if needShowSkill, let _ = feed.skill {
+                    logoImageView.frame.origin.x = skillButton.frame.origin.x - 8 - 18
+                    logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+                } else {
+                    logoImageView.frame.origin.x = screenWidth - 18 - 15
+                    logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+                }
 
         } else {
             logoImageView.hidden = true
@@ -185,7 +207,12 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 80
+            //socialWorkContainerViewHeightConstraint.constant = 80
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            githubRepoContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+
+            socialWorkBorderImageView.frame = githubRepoContainerView.frame
 
         case .DribbbleShot:
 
@@ -230,8 +257,14 @@ class FeedSocialWorkCell: FeedBasicCell {
 
             mediaContainerView.mediaImageView.maskView = halfMaskImageView
 
-            socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
-            contentView.layoutIfNeeded()
+            //socialWorkContainerViewHeightConstraint.constant = dribbbleShotHeight
+            //contentView.layoutIfNeeded()
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            mediaContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            mediaContainerView.layoutIfNeeded()
+
+            socialWorkBorderImageView.frame = mediaContainerView.frame
 
         case .Audio:
 
@@ -252,7 +285,10 @@ class FeedSocialWorkCell: FeedBasicCell {
 
                     let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
 
-                    voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    //voiceContainerViewWidthConstraint.constant = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
+                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 40)
 
                     if let realm = try? Realm() {
 
@@ -316,7 +352,7 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 44
+            //socialWorkContainerViewHeightConstraint.constant = 44
 
         case .Location:
 
@@ -357,8 +393,14 @@ class FeedSocialWorkCell: FeedBasicCell {
                 }
             }
 
-            socialWorkContainerViewHeightConstraint.constant = 110
-            contentView.layoutIfNeeded()
+            //socialWorkContainerViewHeightConstraint.constant = 110
+            //contentView.layoutIfNeeded()
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            locationContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            locationContainerView.layoutIfNeeded()
+
+            socialWorkBorderImageView.frame = locationContainerView.frame
 
         default:
             break
