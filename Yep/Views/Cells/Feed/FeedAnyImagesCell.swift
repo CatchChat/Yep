@@ -1,5 +1,5 @@
 //
-//  FeedCell.swift
+//  FeedAnyImagesCell.swift
 //  Yep
 //
 //  Created by nixzhu on 15/9/30.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-let feedAttachmentImageSize = CGSize(width: 80, height: 80)
-let feedAttachmentBiggerImageSize = CGSize(width: 160, height: 160)
+let feedAttachmentImageSize = YepConfig.FeedNormalImagesCell.imageSize
+let feedAttachmentBiggerImageSize = YepConfig.FeedBiggerImageCell.imageSize
 
 private let feedMediaCellID = "FeedMediaCell"
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
 
-class FeedCell: FeedBasicCell {
+class FeedAnyImagesCell: FeedBasicCell {
 
     lazy var mediaCollectionView: UICollectionView = {
 
@@ -68,14 +68,7 @@ class FeedCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        var height = super.heightOfFeed(feed)
-
-        if let attachment = feed.attachment {
-            if case let .Images(attachments) = attachment {
-                let imageHeight: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
-                height += (imageHeight + 15)
-            }
-        }
+        let height = super.heightOfFeed(feed) + feedAttachmentImageSize.height + 15
 
         return ceil(height)
     }
@@ -108,7 +101,7 @@ class FeedCell: FeedBasicCell {
 
             if !mediaCollectionView.hidden {
                 let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-                let height: CGFloat = attachments.count == 1 ? feedAttachmentBiggerImageSize.height : feedAttachmentImageSize.height
+                let height = feedAttachmentImageSize.height
                 mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
 
                 self.attachments = attachments
@@ -120,7 +113,7 @@ class FeedCell: FeedBasicCell {
     }
 }
 
-extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -146,12 +139,7 @@ extension FeedCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        if attachments.count > 1 {
-            return feedAttachmentImageSize
-
-        } else {
-            return feedAttachmentBiggerImageSize
-        }
+        return feedAttachmentImageSize
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

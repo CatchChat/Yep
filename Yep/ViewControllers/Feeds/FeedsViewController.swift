@@ -108,9 +108,9 @@ class FeedsViewController: BaseViewController {
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
     private let feedBasicCellID = "FeedBasicCell"
-    private let feedCellID = "FeedCell"
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
     private let feedNormalImagesCellID = "FeedNormalImagesCell"
+    private let feedAnyImagesCellID = "FeedAnyImagesCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
@@ -204,7 +204,7 @@ class FeedsViewController: BaseViewController {
                     height = FeedNormalImagesCell.heightOfFeed(feed)
 
                 } else {
-                    height = FeedCell.heightOfFeed(feed)
+                    height = FeedAnyImagesCell.heightOfFeed(feed)
                 }
 
             case .GithubRepo, .DribbbleShot, .Audio, .Location:
@@ -300,9 +300,9 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
 
         feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
-        feedsTableView.registerClass(FeedCell.self, forCellReuseIdentifier: feedCellID)
         feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
         feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
+        feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
         feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
@@ -831,7 +831,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     return cell
 
                 } else {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedCellID) as! FeedCell
+                    let cell = tableView.dequeueReusableCellWithIdentifier(feedAnyImagesCellID) as! FeedAnyImagesCell
                     return cell
                 }
 
@@ -968,7 +968,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.tapMediaAction = tapMediaAction
 
                 } else {
-                    guard let cell = cell as? FeedCell else {
+                    guard let cell = cell as? FeedAnyImagesCell else {
                         break
                     }
 

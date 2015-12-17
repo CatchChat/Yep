@@ -94,7 +94,7 @@ class ImageCache {
                                 
                                 let finalImage = storeImage.decodedImage()
                                 
-                                println("Image Decode size \(storeImage.size)")
+                                //println("Image Decode size \(storeImage.size)")
                                 
                                 dispatch_async(dispatch_get_main_queue()) {
                                     completion(url: attachmentURL, image: finalImage, cacheType: .None)

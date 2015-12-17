@@ -316,7 +316,7 @@
 		50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */; };
 		50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */; };
 		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; };
-		50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */; };
+		50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; };
 		50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */; };
 		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; };
@@ -680,7 +680,7 @@
 		50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedViewController.swift; path = ViewControllers/NewFeed/NewFeedViewController.swift; sourceTree = "<group>"; };
 		50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeed.storyboard; path = ViewControllers/NewFeed/NewFeed.storyboard; sourceTree = "<group>"; };
 		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
-		50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCell.swift; path = Views/Cells/Feed/FeedCell.swift; sourceTree = "<group>"; };
+		50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAnyImagesCell.swift; path = Views/Cells/Feed/FeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
 		50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaAddCell.xib; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.xib; sourceTree = "<group>"; };
 		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
@@ -1961,9 +1961,9 @@
 			isa = PBXGroup;
 			children = (
 				50858EBA1C22487900EDE492 /* FeedBasicCell.swift */,
-				50F5AF8A1BBBB64C0033C9BC /* FeedCell.swift */,
 				50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */,
 				50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */,
+				50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */,
 				50858EBC1C22488100EDE492 /* FeedSocialWorkCell.swift */,
 			);
 			name = Feed;
@@ -2750,7 +2750,7 @@
 				505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
 				6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */,
-				50F5AF8C1BBBB64C0033C9BC /* FeedCell.swift in Sources */,
+				50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */,
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
