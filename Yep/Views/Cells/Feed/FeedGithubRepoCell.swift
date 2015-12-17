@@ -16,7 +16,7 @@ class FeedGithubRepoCell: FeedBasicCell {
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_github")
+        imageView.image = UIImage(named: SocialAccount.Github.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
         imageView.tintColor = SocialAccount.Github.tintColor
         return imageView

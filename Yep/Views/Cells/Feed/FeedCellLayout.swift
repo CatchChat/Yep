@@ -87,6 +87,13 @@ struct FeedCellLayout {
     }
     var githubRepoLayout: GithubRepoLayout?
 
+    struct DribbbleShotLayout {
+        let dribbbleShotContainerViewFrame: CGRect
+    }
+    var dribbbleShotLayout: DribbbleShotLayout?
+
+    // MARK: - Init
+
     init(height: CGFloat, basicLayout: BasicLayout) {
         self.height = height
         self.basicLayout = basicLayout
@@ -222,7 +229,15 @@ struct FeedCellLayout {
 
             self.githubRepoLayout = githubRepoLayout
 
-        case .DribbbleShot, .Audio, .Location:
+        case .DribbbleShot:
+            let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
+            let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+
+            let dribbbleShotLayout = FeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: dribbbleShotContainerViewFrame)
+
+            self.dribbbleShotLayout = dribbbleShotLayout
+
+        case .Audio, .Location:
             break
 
         default:

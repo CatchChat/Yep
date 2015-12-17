@@ -113,6 +113,7 @@ class FeedsViewController: BaseViewController {
     private let feedAnyImagesCellID = "FeedAnyImagesCell"
     private let feedSocialWorkCellID = "FeedSocialWorkCell"
     private let feedGithubRepoCellID  = "FeedGithubRepoCell"
+    private let feedDribbbleShotCellID  = "FeedDribbbleShotCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -211,7 +212,10 @@ class FeedsViewController: BaseViewController {
             case .GithubRepo:
                 height = FeedGithubRepoCell.heightOfFeed(feed)
 
-            case .DribbbleShot, .Audio, .Location:
+            case .DribbbleShot:
+                height = FeedDribbbleShotCell.heightOfFeed(feed)
+
+            case .Audio, .Location:
                 height = FeedSocialWorkCell.heightOfFeed(feed)
 
             default:
@@ -328,6 +332,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
         feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
         feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
+        feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
@@ -869,7 +874,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedGithubRepoCellID) as! FeedGithubRepoCell
                 return cell
 
-            case .DribbbleShot, .Audio, .Location:
+            case .DribbbleShot:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedDribbbleShotCellID) as! FeedDribbbleShotCell
+                return cell
+
+            case .Audio, .Location:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
                 return cell
 
@@ -1031,9 +1040,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     self?.yep_openURL(URL)
                 }
 
-            case .DribbbleShot, .Audio, .Location:
+            case .DribbbleShot:
 
-                guard let cell = cell as? FeedSocialWorkCell else {
+                guard let cell = cell as? FeedDribbbleShotCell else {
                     break
                 }
 
@@ -1071,6 +1080,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
+
+            case .Audio, .Location:
+
+                guard let cell = cell as? FeedSocialWorkCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
