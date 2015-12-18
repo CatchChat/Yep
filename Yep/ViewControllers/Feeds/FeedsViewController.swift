@@ -210,7 +210,7 @@ class FeedsViewController: BaseViewController {
             return layout.height
 
         } else {
-            let layout = FeedCellLayout(feed: feed, needShowSkill: needShowSkill)
+            let layout = FeedCellLayout(feed: feed)
             updateFeedCellLayout(layout, forFeed: feed)
             return layout.height
         }
@@ -463,9 +463,8 @@ class FeedsViewController: BaseViewController {
 
         let completion: [DiscoveredFeed] -> Void = { [weak self] feeds in
 
-            let needShowSkill: Bool = self?.needShowSkill ?? true
             feeds.forEach({ feed in
-                let newLayout = FeedCellLayout(feed: feed, needShowSkill: needShowSkill)
+                let newLayout = FeedCellLayout(feed: feed)
                 self?.updateFeedCellLayout(newLayout, forFeed: feed)
             })
 

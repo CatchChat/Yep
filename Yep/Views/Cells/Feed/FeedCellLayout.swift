@@ -19,8 +19,17 @@ struct FeedCellLayout {
 
     struct BasicLayout {
 
+        func nicknameLabelFrameWhen(hasLogo hasLogo: Bool, hasSkill: Bool) -> CGRect {
+
+            var frame = nicknameLabelFrame
+            frame.size.width -= hasLogo ? (18 + 10) : 0
+            frame.size.width -= hasSkill ? (skillButtonFrame.width + 10) : 0
+
+            return frame
+        }
+
         let avatarImageViewFrame: CGRect
-        let nicknameLabelFrame: CGRect
+        private let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
 
         let messageTextViewFrame: CGRect
@@ -109,7 +118,7 @@ struct FeedCellLayout {
         self.basicLayout = basicLayout
     }
 
-    init(feed: DiscoveredFeed, needShowSkill: Bool) {
+    init(feed: DiscoveredFeed) {
 
         let height: CGFloat
 
@@ -152,7 +161,7 @@ struct FeedCellLayout {
         let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
         
-        if needShowSkill, let skill = feed.skill {
+        if let skill = feed.skill {
 
             let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
 
@@ -160,7 +169,7 @@ struct FeedCellLayout {
 
             skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
 
-            let nicknameLabelWidth = screenWidth - 65 - skillButtonWidth - 15 - 16 - 18
+            let nicknameLabelWidth = screenWidth - 65 - 15
             nicknameLabelFrame = CGRect(x: 65, y: 21, width: nicknameLabelWidth, height: 18)
 
         } else {

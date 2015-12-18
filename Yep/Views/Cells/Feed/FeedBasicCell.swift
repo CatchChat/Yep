@@ -196,7 +196,7 @@ class FeedBasicCell: UITableViewCell {
 
             if let basicLayout = layout?.basicLayout {
                 skillButton.frame = basicLayout.skillButtonFrame
-                nicknameLabel.frame = basicLayout.nicknameLabelFrame
+                nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
 
             } else {
                 let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
@@ -205,14 +205,14 @@ class FeedBasicCell: UITableViewCell {
 
                 skillButton.frame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
 
-                nicknameLabel.frame.size.width = screenWidth - 65 - skillButtonWidth - 15 - 16 - 18
+                nicknameLabel.frame.size.width = screenWidth - 65 - skillButtonWidth - 20 - 10 - 15
             }
 
         } else {
             skillButton.hidden = true
 
             if let basicLayout = layout?.basicLayout {
-                nicknameLabel.frame = basicLayout.nicknameLabelFrame
+                nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
             } else {
                 nicknameLabel.frame.size.width = screenWidth - 65 - 15
             }
@@ -246,7 +246,10 @@ class FeedBasicCell: UITableViewCell {
 
         if layoutCache.layout == nil {
 
-            let basicLayout = FeedCellLayout.BasicLayout(avatarImageViewFrame: avatarImageView.frame, nicknameLabelFrame: nicknameLabel.frame, skillButtonFrame: skillButton.frame, messageTextViewFrame: messageTextView.frame, leftBottomLabelFrame: leftBottomLabel.frame, messageCountLabelFrame: messageCountLabel.frame, discussionImageViewFrame: discussionImageView.frame)
+            var nicknameLabelFrame = nicknameLabel.frame
+            nicknameLabelFrame.size.width = screenWidth - 65 - 15
+
+            let basicLayout = FeedCellLayout.BasicLayout(avatarImageViewFrame: avatarImageView.frame, nicknameLabelFrame: nicknameLabelFrame, skillButtonFrame: skillButton.frame, messageTextViewFrame: messageTextView.frame, leftBottomLabelFrame: leftBottomLabel.frame, messageCountLabelFrame: messageCountLabel.frame, discussionImageViewFrame: discussionImageView.frame)
 
             let newLayout = FeedCellLayout(height: contentView.bounds.height, basicLayout: basicLayout)
 

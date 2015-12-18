@@ -74,6 +74,7 @@ class FeedGithubRepoCell: FeedBasicCell {
             logoImageView.frame.origin.x = screenWidth - 18 - 15
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
         }
+        nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
 
         if let attachment = feed.attachment {
             if case let .Github(githubRepo) = attachment {
