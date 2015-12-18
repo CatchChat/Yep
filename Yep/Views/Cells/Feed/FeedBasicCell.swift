@@ -32,6 +32,9 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.systemFontOfSize(15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
+        label.opaque = true
+        label.backgroundColor = UIColor.whiteColor()
+        label.clipsToBounds = true
 
         return label
     }()
@@ -62,6 +65,8 @@ class FeedBasicCell: UITableViewCell {
         textView.dataDetectorTypes = .Link
 
         textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
+        textView.opaque = true
+        textView.backgroundColor = UIColor.whiteColor()
 
         textView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
@@ -91,6 +96,9 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.feedBottomLabelsFont()
 
         label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
+        label.opaque = true
+        label.backgroundColor = UIColor.whiteColor()
+        label.clipsToBounds = true
 
         return label
     }()
@@ -101,6 +109,9 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.feedBottomLabelsFont()
 
         label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
+        label.opaque = true
+        label.backgroundColor = UIColor.whiteColor()
+        label.clipsToBounds = true
 
         return label
     }()
