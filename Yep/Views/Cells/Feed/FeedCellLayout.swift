@@ -165,7 +165,7 @@ struct FeedCellLayout {
 
             let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
 
-            let skillButtonWidth = rect.width + 20
+            let skillButtonWidth = ceil(rect.width) + 20
 
             skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
 
@@ -190,7 +190,8 @@ struct FeedCellLayout {
 
         let _rect2 = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
 
-        let messageCountLabelFrame = CGRect(x: screenWidth - _rect2.width - 45 - 8, y: leftBottomLabelOriginY, width: _rect2.width, height: 19)
+        let _width = ceil(_rect2.width)
+        let messageCountLabelFrame = CGRect(x: screenWidth - _width - 45 - 8, y: leftBottomLabelOriginY, width: _width, height: 19)
 
         let discussionImageViewFrame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabelOriginY - 1, width: 30, height: 19)
 
@@ -214,7 +215,6 @@ struct FeedCellLayout {
             break
             
         case .Image:
-
 
             if feed.imageAttachmentsCount == 1 {
 

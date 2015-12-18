@@ -32,11 +32,9 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.systemFontOfSize(15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
-        /*
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
-        */
 
         return label
     }()
@@ -214,7 +212,7 @@ class FeedBasicCell: UITableViewCell {
             } else {
                 let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
 
-                let skillButtonWidth = rect.width + 20
+                let skillButtonWidth = ceil(rect.width) + 20
 
                 skillButton.frame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
 
@@ -252,7 +250,8 @@ class FeedBasicCell: UITableViewCell {
 
             let rect = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
 
-            messageCountLabel.frame = CGRect(x: screenWidth - rect.width - 45 - 8, y: leftBottomLabel.frame.origin.y, width: rect.width, height: 19)
+            let width = ceil(rect.width)
+            messageCountLabel.frame = CGRect(x: screenWidth - width - 45 - 8, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
 
             discussionImageView.frame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)
         }
