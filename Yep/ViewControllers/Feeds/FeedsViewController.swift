@@ -14,6 +14,9 @@ import MapKit
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
+    var needShowSkill: Bool {
+        return (skill == nil) ? true : false
+    }
 
     var profileUser: ProfileUser?
     var preparedFeedsCount = 0
@@ -207,7 +210,7 @@ class FeedsViewController: BaseViewController {
             return layout.height
 
         } else {
-            let layout = FeedCellLayout(feed: feed, needShowSkill: true)
+            let layout = FeedCellLayout(feed: feed, needShowSkill: needShowSkill)
             updateFeedCellLayout(layout, forFeed: feed)
             return layout.height
         }
@@ -460,7 +463,7 @@ class FeedsViewController: BaseViewController {
 
         let completion: [DiscoveredFeed] -> Void = { [weak self] feeds in
 
-            let needShowSkill: Bool = (self?.skill == nil) ? true : false
+            let needShowSkill: Bool = self?.needShowSkill ?? true
             feeds.forEach({ feed in
                 let newLayout = FeedCellLayout(feed: feed, needShowSkill: needShowSkill)
                 self?.updateFeedCellLayout(newLayout, forFeed: feed)
@@ -920,8 +923,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
-
-            let needShowSkill: Bool = (skill == nil) ? true : false
 
             let layout = feedCellLayoutOfFeed(feed)
             let update: FeedCellLayout.Update = { [weak self] newLayout in
