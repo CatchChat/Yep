@@ -32,9 +32,11 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.systemFontOfSize(15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
+        /*
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
+        */
 
         return label
     }()
