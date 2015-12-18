@@ -14,6 +14,9 @@ import MapKit
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
+    var needShowSkill: Bool {
+        return (skill == nil) ? true : false
+    }
 
     var profileUser: ProfileUser?
     var preparedFeedsCount = 0
@@ -111,7 +114,10 @@ class FeedsViewController: BaseViewController {
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
     private let feedNormalImagesCellID = "FeedNormalImagesCell"
     private let feedAnyImagesCellID = "FeedAnyImagesCell"
-    private let feedSocialWorkCellID = "FeedSocialWorkCell"
+    private let feedGithubRepoCellID = "FeedGithubRepoCell"
+    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
+    private let feedVoiceCellID = "FeedVoiceCell"
+    private let feedLocationCellID = "FeedLocationCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -148,7 +154,7 @@ class FeedsViewController: BaseViewController {
 
                     let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
 
-                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
                         cell.audioPlayedDuration = 0
                     }
 
@@ -179,49 +185,41 @@ class FeedsViewController: BaseViewController {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
-    private var feedHeightHash = [String: CGFloat]()
+    private struct LayoutPool {
 
-    private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+        private var feedCellLayoutHash = [String: FeedCellLayout]()
 
-        let key = feed.id
+        private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
+            let key = feed.id
 
-        if let height = feedHeightHash[key] {
-            return height
+            return feedCellLayoutHash[key]
+        }
 
-        } else {
-            let height: CGFloat
+        private mutating func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
 
-            switch feed.kind {
-
-            case .Text:
-                height = FeedBasicCell.heightOfFeed(feed)
-
-            case .Image:
-                if feed.imageAttachmentsCount == 1 {
-                    height = FeedBiggerImageCell.heightOfFeed(feed)
-
-                } else if feed.imageAttachmentsCount <= 3 {
-                    height = FeedNormalImagesCell.heightOfFeed(feed)
-
-                } else {
-                    height = FeedAnyImagesCell.heightOfFeed(feed)
-                }
-
-            case .GithubRepo, .DribbbleShot, .Audio, .Location:
-                height = FeedSocialWorkCell.heightOfFeed(feed)
-
-            default:
-                height = FeedBasicCell.heightOfFeed(feed)
-            }
+            let key = feed.id
 
             if !key.isEmpty {
-                feedHeightHash[key] = height
+                feedCellLayoutHash[key] = layout
             }
 
-            return height
+            //println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+        }
+
+        private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+            if let layout = feedCellLayoutOfFeed(feed) {
+                return layout.height
+
+            } else {
+                let layout = FeedCellLayout(feed: feed)
+                updateFeedCellLayout(layout, forFeed: feed)
+                return layout.height
+            }
         }
     }
-    
+    private static var layoutPool = LayoutPool()
+
     private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
             feeds = []
@@ -303,7 +301,10 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
         feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
         feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
-        feedsTableView.registerClass(FeedSocialWorkCell.self, forCellReuseIdentifier: feedSocialWorkCellID)
+        feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
+        feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
+        feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
+        feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
@@ -566,7 +567,7 @@ class FeedsViewController: BaseViewController {
 
                     let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
 
-                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
                         cell.audioPlayedDuration = currentTime
                     }
 
@@ -835,8 +836,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     return cell
                 }
 
-            case .GithubRepo, .DribbbleShot, .Audio, .Location:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedSocialWorkCellID) as! FeedSocialWorkCell
+            case .GithubRepo:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedGithubRepoCellID) as! FeedGithubRepoCell
+                return cell
+
+            case .DribbbleShot:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedDribbbleShotCellID) as! FeedDribbbleShotCell
+                return cell
+
+            case .Audio:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedVoiceCellID) as! FeedVoiceCell
+                return cell
+
+            case .Location:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedLocationCellID) as! FeedLocationCell
                 return cell
 
             default:
@@ -909,11 +922,17 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
+            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+            let update: FeedCellLayout.Update = { newLayout in
+                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
+            }
+            let layoutCache = (layout: layout, update: update)
+
             switch feed.kind {
 
             case .Text:
 
-                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
             case .Image:
 
@@ -953,7 +972,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -963,7 +982,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -972,22 +991,30 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
                 }
 
-            case .GithubRepo, .DribbbleShot, .Audio, .Location:
+            case .GithubRepo:
 
-                guard let cell = cell as? FeedSocialWorkCell else {
+                guard let cell = cell as? FeedGithubRepoCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, needShowSkill: (skill == nil) ? true : false)
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
                 }
+
+            case .DribbbleShot:
+
+                guard let cell = cell as? FeedDribbbleShotCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -1021,6 +1048,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
+
+            case .Audio:
+
+                guard let cell = cell as? FeedVoiceCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
@@ -1062,7 +1097,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                                     let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
 
-                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedSocialWorkCell {
+                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
                                         cell.audioPlaying = false
                                     }
 
@@ -1082,6 +1117,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         }
                     }
                 }
+
+            case .Location:
+
+                guard let cell = cell as? FeedLocationCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.tapLocationAction = { locationName, locationCoordinate in
 
@@ -1125,7 +1168,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.Feed.rawValue:
             let feed = feeds[indexPath.row]
-            return heightOfFeed(feed)
+            return FeedsViewController.layoutPool.heightOfFeed(feed)
 
         case Section.LoadMore.rawValue:
             return 60

@@ -89,8 +89,23 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView3.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, needShowSkill: Bool) {
-        super.configureWithFeed(feed, needShowSkill: needShowSkill)
+    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+
+        var _newLayout: FeedCellLayout?
+        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
+            _newLayout = newLayout
+        }), needShowSkill: needShowSkill)
+
+        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
+            imageView1.frame = normalImagesLayout.imageView1Frame
+            imageView2.frame = normalImagesLayout.imageView2Frame
+            imageView3.frame = normalImagesLayout.imageView3Frame
+
+        } else {
+            imageViews.forEach({
+                $0.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            })
+        }
 
         if let attachments = feed.imageAttachments {
 
@@ -100,13 +115,21 @@ class FeedNormalImagesCell: FeedBasicCell {
                     imageViews[i].yep_showActivityIndicatorWhenLoading = true
                     imageViews[i].yep_setImageOfAttachment(attachment, withSize: YepConfig.FeedNormalImagesCell.imageSize)
 
-                    imageViews[i].frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-
                     imageViews[i].hidden = false
 
                 } else {
                     imageViews[i].hidden = true
                 }
+            }
+        }
+
+        if layoutCache.layout == nil {
+
+            let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1.frame, imageView2Frame: imageView2.frame, imageView3Frame: imageView3.frame)
+            _newLayout?.normalImagesLayout = normalImagesLayout
+
+            if let newLayout = _newLayout {
+                layoutCache.update(layout: newLayout)
             }
         }
     }
