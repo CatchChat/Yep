@@ -182,58 +182,6 @@ class FeedsViewController: BaseViewController {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
-    private var feedHeightHash = [String: CGFloat]()
-
-    private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let key = feed.id
-
-        if let height = feedHeightHash[key] {
-            return height
-
-        } else {
-            let height: CGFloat
-
-            switch feed.kind {
-
-            case .Text:
-                height = FeedBasicCell.heightOfFeed(feed)
-
-            case .Image:
-                if feed.imageAttachmentsCount == 1 {
-                    height = FeedBiggerImageCell.heightOfFeed(feed)
-
-                } else if feed.imageAttachmentsCount <= 3 {
-                    height = FeedNormalImagesCell.heightOfFeed(feed)
-
-                } else {
-                    height = FeedAnyImagesCell.heightOfFeed(feed)
-                }
-
-            case .GithubRepo:
-                height = FeedGithubRepoCell.heightOfFeed(feed)
-
-            case .DribbbleShot:
-                height = FeedDribbbleShotCell.heightOfFeed(feed)
-
-            case .Audio:
-                height = FeedVoiceCell.heightOfFeed(feed)
-
-            case .Location:
-                height = FeedLocationCell.heightOfFeed(feed)
-
-            default:
-                height = FeedBasicCell.heightOfFeed(feed)
-            }
-
-            if !key.isEmpty {
-                feedHeightHash[key] = height
-            }
-
-            return height
-        }
-    }
-
     private var feedCellLayoutHash = [String: FeedCellLayout]()
 
     private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
@@ -251,6 +199,18 @@ class FeedsViewController: BaseViewController {
         }
 
         println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+    }
+
+    private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        if let layout = feedCellLayoutOfFeed(feed) {
+            return layout.height
+
+        } else {
+            let layout = FeedCellLayout(feed: feed, needShowSkill: true)
+            updateFeedCellLayout(layout, forFeed: feed)
+            return layout.height
+        }
     }
 
     private var feedSortStyle: FeedSortStyle = .Match {
