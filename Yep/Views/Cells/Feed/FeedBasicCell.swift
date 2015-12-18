@@ -197,6 +197,8 @@ class FeedBasicCell: UITableViewCell {
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
+        //println("messageTextView.text: >>>\(messageTextView.text)<<<")
+
         if let basicLayout = layout?.basicLayout {
             messageTextView.frame = basicLayout.messageTextViewFrame
         } else {
