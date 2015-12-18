@@ -185,7 +185,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
-    struct LayoutPool {
+    private struct LayoutPool {
 
         private var feedCellLayoutHash = [String: FeedCellLayout]()
 
@@ -203,7 +203,7 @@ class FeedsViewController: BaseViewController {
                 feedCellLayoutHash[key] = layout
             }
 
-            println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+            //println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
         }
 
         private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
@@ -218,7 +218,7 @@ class FeedsViewController: BaseViewController {
             }
         }
     }
-    static var layoutPool = LayoutPool()
+    private static var layoutPool = LayoutPool()
 
     private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
@@ -466,11 +466,6 @@ class FeedsViewController: BaseViewController {
         }
 
         let completion: [DiscoveredFeed] -> Void = { feeds in
-
-            feeds.forEach({ feed in
-                let newLayout = FeedCellLayout(feed: feed)
-                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
-            })
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
