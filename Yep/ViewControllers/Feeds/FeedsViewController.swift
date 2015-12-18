@@ -185,36 +185,40 @@ class FeedsViewController: BaseViewController {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
-    private var feedCellLayoutHash = [String: FeedCellLayout]()
+    struct LayoutPool {
 
-    private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
-        let key = feed.id
+        private var feedCellLayoutHash = [String: FeedCellLayout]()
 
-        return feedCellLayoutHash[key]
-    }
+        private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
+            let key = feed.id
 
-    private func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
-
-        let key = feed.id
-
-        if !key.isEmpty {
-            feedCellLayoutHash[key] = layout
+            return feedCellLayoutHash[key]
         }
 
-        println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
-    }
+        private mutating func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
 
-    private func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+            let key = feed.id
 
-        if let layout = feedCellLayoutOfFeed(feed) {
-            return layout.height
+            if !key.isEmpty {
+                feedCellLayoutHash[key] = layout
+            }
 
-        } else {
-            let layout = FeedCellLayout(feed: feed)
-            updateFeedCellLayout(layout, forFeed: feed)
-            return layout.height
+            println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+        }
+
+        private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+            if let layout = feedCellLayoutOfFeed(feed) {
+                return layout.height
+
+            } else {
+                let layout = FeedCellLayout(feed: feed)
+                updateFeedCellLayout(layout, forFeed: feed)
+                return layout.height
+            }
         }
     }
+    static var layoutPool = LayoutPool()
 
     private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
@@ -461,11 +465,11 @@ class FeedsViewController: BaseViewController {
             defaultFailureHandler(reason, errorMessage: errorMessage)
         }
 
-        let completion: [DiscoveredFeed] -> Void = { [weak self] feeds in
+        let completion: [DiscoveredFeed] -> Void = { feeds in
 
             feeds.forEach({ feed in
                 let newLayout = FeedCellLayout(feed: feed)
-                self?.updateFeedCellLayout(newLayout, forFeed: feed)
+                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
             })
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -923,9 +927,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
-            let layout = feedCellLayoutOfFeed(feed)
-            let update: FeedCellLayout.Update = { [weak self] newLayout in
-                self?.updateFeedCellLayout(newLayout, forFeed: feed)
+            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+            let update: FeedCellLayout.Update = { newLayout in
+                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
             }
             let layoutCache = (layout: layout, update: update)
 
@@ -1169,7 +1173,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Section.Feed.rawValue:
             let feed = feeds[indexPath.row]
-            return heightOfFeed(feed)
+            return FeedsViewController.layoutPool.heightOfFeed(feed)
 
         case Section.LoadMore.rawValue:
             return 60
