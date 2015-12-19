@@ -558,7 +558,7 @@ class NewFeedViewController: UIViewController {
         
         uploadState = .Uploading
         
-        let message = messageTextView.text
+        let message = messageTextView.text.trimming(.WhitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
         var mediaInfo: JSONDictionary?

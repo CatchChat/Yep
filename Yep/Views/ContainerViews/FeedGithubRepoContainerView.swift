@@ -68,10 +68,13 @@ class FeedGithubRepoContainerView: UIView {
             "accessoryImageView": accessoryImageView,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView]-10-[nameLabel]-5-[accessoryImageView]-10-|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
 
         iconImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         accessoryImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+
+        iconImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        accessoryImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel]-3-[descriptionLabel]", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
 

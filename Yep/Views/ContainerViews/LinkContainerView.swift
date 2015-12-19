@@ -58,10 +58,7 @@ class LinkContainerView: UIView {
             "accessoryImageView": accessoryImageView,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView]-10-[textLabel]-5-[accessoryImageView]-10-|", options: [.AlignAllCenterY], metrics: nil, views: views)
-
-        iconImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-        accessoryImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(20)]-10-[textLabel]-5-[accessoryImageView(8)]-10-|", options: [.AlignAllCenterY], metrics: nil, views: views)
 
         let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
 

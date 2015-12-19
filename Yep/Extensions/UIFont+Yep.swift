@@ -49,6 +49,10 @@ extension UIFont {
         return UIFont.systemFontOfSize(12)
     }
 
+    class func feedBottomLabelsFont() -> UIFont {
+        return UIFont.systemFontOfSize(14)
+    }
+
     class func feedVoiceTimeLengthFont() -> UIFont {
         return UIFont.systemFontOfSize(15)
     }

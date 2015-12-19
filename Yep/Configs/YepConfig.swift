@@ -226,6 +226,18 @@ class YepConfig {
         static let voiceTimeLengthTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
         ]
+
+        static let bottomLabelsTextAttributes:[String: NSObject] = [
+            NSFontAttributeName: UIFont.feedBottomLabelsFont(),
+        ]
+    }
+
+    struct FeedBiggerImageCell {
+        static let imageSize: CGSize = CGSize(width: 160, height: 160)
+    }
+
+    struct FeedNormalImagesCell {
+        static let imageSize: CGSize = CGSize(width: 80, height: 80)
     }
 
     struct FeedView {
