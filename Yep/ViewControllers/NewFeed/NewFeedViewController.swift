@@ -561,7 +561,7 @@ class NewFeedViewController: UIViewController {
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
-        var mediaInfo: [JSONDictionary]?
+        var attachments: [JSONDictionary]?
 
         let doCreateFeed: () -> Void = { [weak self] in
 
@@ -574,7 +574,7 @@ class NewFeedViewController: UIViewController {
                     ])
             }
 
-            createFeedWithKind(kind, message: message, attachments: mediaInfo, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -710,11 +710,11 @@ class NewFeedViewController: UIViewController {
                     })
                     */
 
-                    let imageInfosData: [JSONDictionary] = uploadAttachmentIDs.map({
+                    let imageInfos: [JSONDictionary] = uploadAttachmentIDs.map({
                         ["id": $0]
                     })
 
-                    mediaInfo = imageInfosData
+                    attachments = imageInfos
 
                     kind = .Image
                 }
@@ -745,7 +745,7 @@ class NewFeedViewController: UIViewController {
                     "created_at": githubRepo.createdUnixTime,
                 ]
 
-                mediaInfo = [repoInfo]
+                attachments = [repoInfo]
 
                 kind = .GithubRepo
 
@@ -764,7 +764,7 @@ class NewFeedViewController: UIViewController {
                     "created_at": dribbbleShot.createdUnixTime,
                 ]
 
-                mediaInfo = [shotInfo]
+                attachments = [shotInfo]
 
                 kind = .DribbbleShot
 
@@ -813,7 +813,7 @@ class NewFeedViewController: UIViewController {
                     "metadata": metaDataString,
                 ]
 
-                mediaInfo = [audioInfo]
+                attachments = [audioInfo]
 
                 dispatch_async(dispatch_get_main_queue()) {
                     dispatch_group_leave(uploadVoiceGroup)
@@ -822,7 +822,7 @@ class NewFeedViewController: UIViewController {
 
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
 
-                guard mediaInfo != nil else {
+                guard attachments != nil else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
                     self?.uploadState = .Failed(message: message)
 
@@ -843,7 +843,7 @@ class NewFeedViewController: UIViewController {
                 "longitude": location.info.coordinate.longitude,
             ]
 
-            mediaInfo = [locationInfo]
+            attachments = [locationInfo]
 
             kind = .Location
 
