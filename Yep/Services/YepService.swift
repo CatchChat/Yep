@@ -2734,7 +2734,7 @@ enum FeedSortStyle: String {
 
 struct DiscoveredAttachment {
 
-    let kind: AttachmentKind
+    //let kind: AttachmentKind
     let metadata: String
     let URLString: String
 
@@ -2760,15 +2760,16 @@ struct DiscoveredAttachment {
 
     static func fromJSONDictionary(json: JSONDictionary) -> DiscoveredAttachment? {
         guard let
-            kindString = json["kind"] as? String,
-            kind = AttachmentKind(rawValue: kindString),
+            //kindString = json["kind"] as? String,
+            //kind = AttachmentKind(rawValue: kindString),
             metadata = json["metadata"] as? String,
             fileInfo = json["file"] as? JSONDictionary,
             URLString = fileInfo["url"] as? String else {
                 return nil
         }
 
-        return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
+        //return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
+        return DiscoveredAttachment(metadata: metadata, URLString: URLString)
     }
 }
 

@@ -63,7 +63,8 @@ class FeedConversationCell: UITableViewCell {
         nameLabel.text = feed.body
 
         let attachments = feed.attachments.map({
-            DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+            //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+            DiscoveredAttachment( metadata: $0.metadata, URLString: $0.URLString)
         })
         mediaView.setImagesWithAttachments(attachments)
 

@@ -711,17 +711,17 @@ class Conversation: Object {
 
 // MARK: Feed
 
-enum AttachmentKind: String {
-
-    case Image = "image"
-    case Thumbnail = "thumbnail"
-    case Audio = "audio"
-    case Video = "video"
-}
+//enum AttachmentKind: String {
+//
+//    case Image = "image"
+//    case Thumbnail = "thumbnail"
+//    case Audio = "audio"
+//    case Video = "video"
+//}
 
 class Attachment: Object {
 
-    dynamic var kind: String = ""
+    //dynamic var kind: String = ""
     dynamic var metadata: String = ""
     dynamic var URLString: String = ""
 }

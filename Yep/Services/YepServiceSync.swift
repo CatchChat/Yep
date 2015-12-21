@@ -98,7 +98,7 @@ func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachme
     return discoverAttachments.map({ discoverAttachment -> Attachment? in
         
         let newAttachment = Attachment()
-        newAttachment.kind = discoverAttachment.kind.rawValue
+        //newAttachment.kind = discoverAttachment.kind.rawValue
         newAttachment.metadata = discoverAttachment.metadata
         newAttachment.URLString = discoverAttachment.URLString
 
@@ -827,6 +827,8 @@ func syncMessagesReadStatus() {
 
 func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
+    println("messageInfo: \(messageInfo)")
+
     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
         if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
@@ -856,15 +858,26 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             for attachmentInfo in attachments {
 
                 // S3: normal file
-                if let
-                    normalFileInfo = attachmentInfo["file"] as? JSONDictionary,
-                    fileURLString = normalFileInfo["url"] as? String,
-                    kind = attachmentInfo["kind"] as? String {
-                        if kind == "thumbnail" {
-                            message.thumbnailURLString = fileURLString
-                        } else {
-                            message.attachmentURLString = fileURLString
-                        }
+//                if let
+//                    normalFileInfo = attachmentInfo["file"] as? JSONDictionary,
+//                    fileURLString = normalFileInfo["url"] as? String,
+//                    kind = attachmentInfo["kind"] as? String {
+//                        if kind == "thumbnail" {
+//                            message.thumbnailURLString = fileURLString
+//                        } else {
+//                            message.attachmentURLString = fileURLString
+//                        }
+//                }
+
+                if let fileInfo = attachmentInfo["file"] as? JSONDictionary {
+
+                    if let URLString = fileInfo["url"] as? String {
+                        message.attachmentURLString = URLString
+                    }
+
+                    if let URLString = fileInfo["thumb_url"] as? String {
+                        message.thumbnailURLString = URLString
+                    }
                 }
 
                 if let metaDataString = attachmentInfo["metadata"] as? String {
