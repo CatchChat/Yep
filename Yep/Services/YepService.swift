@@ -1230,7 +1230,8 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
     if let
         id = userInfo["id"] as? String,
         nickname = userInfo["nickname"] as? String,
-        avatarURLString = userInfo["avatar_url"] as? String,
+        avatarInfo = userInfo["avatar"] as? JSONDictionary,
+        avatarURLString = avatarInfo["url"] as? String,
         createdUnixTime = userInfo["created_at"] as? NSTimeInterval,
         lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval,
         longitude = userInfo["longitude"] as? Double,
