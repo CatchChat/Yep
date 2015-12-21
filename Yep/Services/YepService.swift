@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import CoreLocation
+import Alamofire
 
 #if STAGING
 let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
@@ -467,6 +468,49 @@ func updateMyselfWithInfo(info: JSONDictionary, failureHandler: ((Reason, String
     } else {
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
+}
+
+func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+
+    guard let token = YepUserDefaults.v1AccessToken.value else {
+        println("updateAvatarWithImageData no token")
+        return
+    }
+
+    let parameters: [String: String] = [
+        "Authorization": "Token token=\"\(token)\"",
+    ]
+
+    let filename = "avatar.jpg"
+
+    Alamofire.upload(.PATCH, yepBaseURL.absoluteString + "/api/v1/user/set_avatar", headers: parameters, multipartFormData: { multipartFormData in
+
+        multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
+
+    }, encodingCompletion: { encodingResult in
+        println("encodingResult: \(encodingResult)")
+
+        switch encodingResult {
+        case .Success(let upload, _, _):
+
+            upload.response { request, response, data, error in
+
+                if let response = response {
+                    print(response.statusCode)
+                    print(response)
+
+                } else {
+                    failureHandler?(.Other(nil), nil)
+                }
+            }
+
+        case .Failure(let encodingError):
+
+            println("Error \(encodingError)")
+
+            failureHandler?(.Other(nil), nil)
+        }
+    })
 }
 
 enum VerifyCodeMethod: String {

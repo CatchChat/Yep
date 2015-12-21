@@ -458,11 +458,23 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
+        defer {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+
         activityIndicator.startAnimating()
 
         let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
+        if let imageData = imageData {
+
+            updateAvatarWithImageData(imageData, failureHandler: nil, completion: { _ in
+
+            })
+        }
+
+        /*
         s3UploadFileOfKind(.Avatar, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
             
             defaultFailureHandler(reason, errorMessage: errorMessage)
@@ -496,7 +508,6 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                 }
             })
         })
-
-        dismissViewControllerAnimated(true, completion: nil)
+        */
     }
 }
