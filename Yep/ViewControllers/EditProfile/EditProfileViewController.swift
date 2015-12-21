@@ -490,41 +490,5 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                 }
             })
         }
-
-        /*
-        s3UploadFileOfKind(.Avatar, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
-            
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.activityIndicator.stopAnimating()
-            }
-
-        }, completion: { s3UploadParams in
-
-            let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-
-            updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.activityIndicator.stopAnimating()
-                }
-
-            }, completion: { success in
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    YepUserDefaults.avatarURLString.value = newAvatarURLString
-
-                    self.updateAvatar() {
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                            self?.activityIndicator.stopAnimating()
-                        }
-                    }
-                }
-            })
-        })
-        */
     }
 }
