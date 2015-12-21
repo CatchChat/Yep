@@ -561,7 +561,7 @@ class NewFeedViewController: UIViewController {
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
-        var mediaInfo: JSONDictionary?
+        var mediaInfo: [JSONDictionary]?
 
         let doCreateFeed: () -> Void = { [weak self] in
 
@@ -606,7 +606,8 @@ class NewFeedViewController: UIViewController {
 
             let uploadImagesGroup = dispatch_group_create()
 
-            var uploadImageInfos = [UploadImageInfo]()
+            //var uploadImageInfos = [UploadImageInfo]()
+            var uploadAttachmentIDs = [String]()
 
             let mediaImagesCount = mediaImages.count
             var uploadErrorMessage: String?
@@ -635,6 +636,31 @@ class NewFeedViewController: UIViewController {
 
                     dispatch_group_enter(uploadImagesGroup)
 
+                    let source: UploadAttachment.Source = .Data(imageData)
+
+                    let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
+
+                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
+
+                    tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
+
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            uploadErrorMessage = errorMessage
+                            dispatch_group_leave(uploadImagesGroup)
+                        }
+                        
+                    }, completion: { uploadAttachmentID in
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            uploadAttachmentIDs.append(uploadAttachmentID)
+
+                            dispatch_group_leave(uploadImagesGroup)
+                        }
+                    })
+
+                    /*
                     let fileExtension: FileExtension = .JPEG
 
                     s3UploadFileOfKind(.Feed, withFileExtension: fileExtension, inFilePath: nil, orFileData: imageData, mimeType: fileExtension.mimeType, failureHandler: { (reason, errorMessage) in
@@ -660,30 +686,35 @@ class NewFeedViewController: UIViewController {
                             dispatch_group_leave(uploadImagesGroup)
                         }
                     })
+                    */
                 }
             })
 
             dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) { [weak self] in
 
-                guard uploadImageInfos.count == mediaImagesCount else {
+                guard uploadAttachmentIDs.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
                     self?.uploadState = .Failed(message: message)
 
                     return
                 }
 
-                if !uploadImageInfos.isEmpty {
+                if !uploadAttachmentIDs.isEmpty {
 
+                    /*
                     let imageInfosData = uploadImageInfos.map({
                         [
                             "file": $0.s3UploadParams.key,
                             "metadata": $0.metaDataString ?? "",
                         ]
                     })
+                    */
 
-                    mediaInfo = [
-                        "image": imageInfosData,
-                    ]
+                    let imageInfosData: [JSONDictionary] = uploadAttachmentIDs.map({
+                        ["id": $0]
+                    })
+
+                    mediaInfo = imageInfosData
 
                     kind = .Image
                 }
@@ -705,7 +736,7 @@ class NewFeedViewController: UIViewController {
                     break
                 }
 
-                let repoInfo = [
+                let repoInfo: JSONDictionary = [
                     "repo_id": githubRepo.repoID,
                     "name": githubRepo.name,
                     "full_name": githubRepo.fullName,
@@ -714,9 +745,7 @@ class NewFeedViewController: UIViewController {
                     "created_at": githubRepo.createdUnixTime,
                 ]
 
-                mediaInfo = [
-                    "github": [repoInfo]
-                ]
+                mediaInfo = [repoInfo]
 
                 kind = .GithubRepo
 
@@ -726,7 +755,7 @@ class NewFeedViewController: UIViewController {
                     break
                 }
 
-                let shotInfo = [
+                let shotInfo: JSONDictionary = [
                     "shot_id": dribbbleShot.shotID,
                     "title": dribbbleShot.title,
                     "description": dribbbleShot.shotDescription,
@@ -735,9 +764,7 @@ class NewFeedViewController: UIViewController {
                     "created_at": dribbbleShot.createdUnixTime,
                 ]
 
-                mediaInfo = [
-                    "dribbble": [shotInfo]
-                ]
+                mediaInfo = [shotInfo]
 
                 kind = .DribbbleShot
 
@@ -781,14 +808,12 @@ class NewFeedViewController: UIViewController {
 
             }, completion: { s3UploadParams in
 
-                let audioInfo = [
+                let audioInfo: JSONDictionary = [
                     "file": s3UploadParams.key,
                     "metadata": metaDataString,
                 ]
 
-                mediaInfo = [
-                    "audio": [audioInfo]
-                ]
+                mediaInfo = [audioInfo]
 
                 dispatch_async(dispatch_get_main_queue()) {
                     dispatch_group_leave(uploadVoiceGroup)
@@ -812,15 +837,13 @@ class NewFeedViewController: UIViewController {
 
         case .Location(let location):
 
-            let locationInfo = [
+            let locationInfo: JSONDictionary = [
                 "place": location.info.name ?? "",
                 "latitude": location.info.coordinate.latitude,
                 "longitude": location.info.coordinate.longitude,
             ]
 
-            mediaInfo = [
-                "location": [locationInfo]
-            ]
+            mediaInfo = [locationInfo]
 
             kind = .Location
 
