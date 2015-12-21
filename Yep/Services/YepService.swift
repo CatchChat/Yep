@@ -11,7 +11,7 @@ import RealmSwift
 import CoreLocation
 
 #if STAGING
-let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
+let yepBaseURL = NSURL(string: "https://api.soyep.com")!
 let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
 let yepBaseURL = NSURL(string: "https://park.catchchatchina.com")!
