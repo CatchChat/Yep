@@ -1488,7 +1488,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
             user.introduction = introduction
         }
 
-        if let avatarURLString = userInfo["avatar_url"] as? String {
+        if let avatarInfo = userInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
             user.avatarURLString = avatarURLString
         }
 

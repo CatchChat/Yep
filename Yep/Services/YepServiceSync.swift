@@ -361,7 +361,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                         YepUserDefaults.introduction.value = introduction
                     }
 
-                    if let avatarURLString = friendInfo["avatar_url"] as? String {
+                    if let avatarInfo = friendInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
                         YepUserDefaults.avatarURLString.value = avatarURLString
                     }
 
