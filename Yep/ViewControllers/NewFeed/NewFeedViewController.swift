@@ -794,6 +794,33 @@ class NewFeedViewController: UIViewController {
 
             dispatch_group_enter(uploadVoiceGroup)
 
+            let source: UploadAttachment.Source = .FilePath(feedVoice.fileURL.path!)
+
+            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
+
+            tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
+
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    uploadErrorMessage = errorMessage
+                    dispatch_group_leave(uploadVoiceGroup)
+                }
+
+            }, completion: { uploadAttachmentID in
+
+                let audioInfo: JSONDictionary = [
+                    "id": uploadAttachmentID
+                ]
+
+                attachments = [audioInfo]
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(uploadVoiceGroup)
+                }
+            })
+
+            /*
             let fileExtension: FileExtension = .M4A
 
             s3UploadFileOfKind(.Feed, withFileExtension: fileExtension, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: fileExtension.mimeType, failureHandler: { (reason, errorMessage) in
@@ -819,6 +846,7 @@ class NewFeedViewController: UIViewController {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
             })
+            */
 
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
 
