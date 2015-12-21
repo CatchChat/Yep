@@ -1664,25 +1664,37 @@ struct UploadAttachment {
 
     let fileExtension: FileExtension
 
-    let metadata: String?
+    let metaDataString: String?
 }
 
-func uploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
 
     guard let token = YepUserDefaults.v1AccessToken.value else {
         println("uploadAttachment no token")
         return
     }
 
-    let parameters: [String: String] = [
+    let headers: [String: String] = [
         "Authorization": "Token token=\"\(token)\"",
     ]
+
+    var parameters: [String: String] = [
+        "attachable_type": uploadAttachment.type.rawValue,
+    ]
+
+    if let metaDataString = uploadAttachment.metaDataString {
+        parameters["metadata"] = metaDataString
+    }
 
     let name = "file"
     let filename = "file.\(uploadAttachment.fileExtension.rawValue)"
     let mimeType = uploadAttachment.fileExtension.mimeType
 
-    Alamofire.upload(.POST, yepBaseURL.absoluteString + "/api/v1/attachments", headers: parameters, multipartFormData: { multipartFormData in
+    Alamofire.upload(.POST, yepBaseURL.absoluteString + "/api/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
+
+        for parameter in parameters {
+            multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)
+        }
 
         switch uploadAttachment.source {
 
@@ -1704,7 +1716,15 @@ func uploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((Reas
 
                 guard let
                     data = response.data,
-                    json = decodeJSON(data),
+                    json = decodeJSON(data)
+                else {
+                    failureHandler?(.CouldNotParseJSON, nil)
+                    return
+                }
+
+                println("tryUploadAttachment json: \(json)")
+
+                guard let
                     uploadAttachmentID = json["id"] as? String
                 else {
                     failureHandler?(.CouldNotParseJSON, nil)
@@ -2390,6 +2410,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
         switch mediaType {
 
         case .Text, .Location:
+
             createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -2408,6 +2429,40 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
+            var source: UploadAttachment.Source! // TODO: refactor
+            if let filePath = filePath {
+                source = .FilePath(filePath)
+            }
+            if let fileData = fileData {
+                source = .Data(fileData)
+            }
+
+            let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
+
+            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadAttachmentID in
+
+                messageInfo["attachment_id"] = uploadAttachmentID
+
+                let doCreateMessage = {
+                    createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            let realm = message.realm
+                            let _ = try? realm?.write {
+                                message.messageID = messageID
+                                message.sendState = MessageSendState.Successed.rawValue
+                            }
+
+                            completion(success: true)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                        }
+                    })
+                }
+
+                doCreateMessage()
+            })
+
+            /*
             s3UploadFileOfKind(.Message, withFileExtension: mediaType.fileExtension!, inFilePath: filePath, orFileData: fileData, mimeType: mediaType.fileExtension!.mimeType, failureHandler: failureHandler, completion: { s3UploadParams in
 
                 switch mediaType {
@@ -2493,6 +2548,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                     doCreateMessage()
                 }
             })
+            */
         }
     }
 }
