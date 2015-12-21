@@ -469,8 +469,25 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
         if let imageData = imageData {
 
-            updateAvatarWithImageData(imageData, failureHandler: nil, completion: { _ in
+            updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
+                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.activityIndicator.stopAnimating()
+                }
+                
+            }, completion: { newAvatarURLString in
+                dispatch_async(dispatch_get_main_queue()) {
+
+                    YepUserDefaults.avatarURLString.value = newAvatarURLString
+
+                    self.updateAvatar() {
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            self?.activityIndicator.stopAnimating()
+                        }
+                    }
+                }
             })
         }
 

@@ -470,7 +470,7 @@ func updateMyselfWithInfo(info: JSONDictionary, failureHandler: ((Reason, String
     }
 }
 
-func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
 
     guard let token = YepUserDefaults.v1AccessToken.value else {
         println("updateAvatarWithImageData no token")
@@ -488,27 +488,30 @@ func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, Stri
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
 
     }, encodingCompletion: { encodingResult in
-        println("encodingResult: \(encodingResult)")
+        //println("encodingResult: \(encodingResult)")
 
         switch encodingResult {
+
         case .Success(let upload, _, _):
 
-            upload.response { request, response, data, error in
+            upload.responseJSON(completionHandler: { response in
 
-                if let response = response {
-                    print(response.statusCode)
-                    print(response)
-
-                } else {
-                    failureHandler?(.Other(nil), nil)
+                guard let
+                    data = response.data,
+                    json = decodeJSON(data),
+                    avatarInfo = json["avatar"] as? JSONDictionary,
+                    avatarURLString = avatarInfo["url"] as? String
+                else {
+                    failureHandler?(.CouldNotParseJSON, nil)
+                    return
                 }
-            }
+
+                completion(avatarURLString)
+            })
 
         case .Failure(let encodingError):
 
-            println("Error \(encodingError)")
-
-            failureHandler?(.Other(nil), nil)
+            failureHandler?(.Other(nil), "\(encodingError)")
         }
     })
 }
