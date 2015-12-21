@@ -1646,6 +1646,81 @@ func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, complet
     })
 }
 
+// MARK: - UploadAttachment
+
+struct UploadAttachment {
+
+    enum Type: String {
+        case Message = "Message"
+        case Feed = "Topic"
+    }
+    let type: Type
+
+    enum Source {
+        case Data(NSData)
+        case FilePath(String)
+    }
+    let source: Source
+
+    let fileExtension: FileExtension
+
+    let metadata: String?
+}
+
+func uploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+
+    guard let token = YepUserDefaults.v1AccessToken.value else {
+        println("uploadAttachment no token")
+        return
+    }
+
+    let parameters: [String: String] = [
+        "Authorization": "Token token=\"\(token)\"",
+    ]
+
+    let name = "file"
+    let filename = "file.\(uploadAttachment.fileExtension.rawValue)"
+    let mimeType = uploadAttachment.fileExtension.mimeType
+
+    Alamofire.upload(.POST, yepBaseURL.absoluteString + "/api/v1/attachments", headers: parameters, multipartFormData: { multipartFormData in
+
+        switch uploadAttachment.source {
+
+        case .Data(let data):
+            multipartFormData.appendBodyPart(data: data, name: name, fileName: filename, mimeType: mimeType)
+
+        case .FilePath(let filePath):
+            multipartFormData.appendBodyPart(fileURL: NSURL(fileURLWithPath: filePath), name: name, fileName: filename, mimeType: mimeType)
+        }
+
+    }, encodingCompletion: { encodingResult in
+        //println("encodingResult: \(encodingResult)")
+
+        switch encodingResult {
+
+        case .Success(let upload, _, _):
+
+            upload.responseJSON(completionHandler: { response in
+
+                guard let
+                    data = response.data,
+                    json = decodeJSON(data),
+                    uploadAttachmentID = json["id"] as? String
+                else {
+                    failureHandler?(.CouldNotParseJSON, nil)
+                    return
+                }
+
+                completion(uploadAttachmentID)
+            })
+            
+        case .Failure(let encodingError):
+            
+            failureHandler?(.Other(nil), "\(encodingError)")
+        }
+    })
+}
+
 // MARK: - Messages
 
 func lastMessageReadUnixTimeByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (NSTimeInterval?) -> Void) {
@@ -2333,7 +2408,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
         default:
 
-            s3UploadFileOfKind(.Message, withFileExtension: mediaType.fileExtension!, inFilePath: filePath, orFileData: fileData, mimeType: mediaType.mineType, failureHandler: failureHandler, completion: { s3UploadParams in
+            s3UploadFileOfKind(.Message, withFileExtension: mediaType.fileExtension!, inFilePath: filePath, orFileData: fileData, mimeType: mediaType.fileExtension!.mimeType, failureHandler: failureHandler, completion: { s3UploadParams in
 
                 switch mediaType {
 
@@ -2388,7 +2463,9 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
                     }
 
-                    s3UploadFileOfKind(.Message, withFileExtension: .JPEG, inFilePath: nil, orFileData: thumbnailData, mimeType: MessageMediaType.Image.mineType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
+                    let fileExtension: FileExtension = .JPEG
+
+                    s3UploadFileOfKind(.Message, withFileExtension: fileExtension, inFilePath: nil, orFileData: thumbnailData, mimeType: fileExtension.mimeType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
 
                         if let metaData = metaData {
                             let attachments = [

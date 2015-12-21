@@ -323,19 +323,6 @@ enum MessageMediaType: Int, CustomStringConvertible {
         }
     }
 
-    var mineType: String {
-        switch self {
-        case .Image:
-            return "image/jpeg"
-        case .Video:
-            return "video/mp4"
-        case .Audio:
-            return "audio/m4a"
-        default:
-            return "" // TODO: more mineType
-        }
-    }
-
     var fileExtension: FileExtension? {
         switch self {
         case .Image:

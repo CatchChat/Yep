@@ -12,6 +12,17 @@ enum FileExtension: String {
     case JPEG = "jpg"
     case MP4 = "mp4"
     case M4A = "m4a"
+
+    var mimeType: String {
+        switch self {
+        case .JPEG:
+            return "image/jpeg"
+        case .MP4:
+            return "video/mp4"
+        case .M4A:
+            return "audio/m4a"
+        }
+    }
 }
 
 extension NSFileManager {
