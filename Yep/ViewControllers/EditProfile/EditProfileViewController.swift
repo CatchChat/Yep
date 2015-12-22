@@ -98,6 +98,8 @@ class EditProfileViewController: UIViewController {
     private func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
 
+            println("avatarURLString: \(avatarURLString)")
+
             let avatarSize = YepConfig.editProfileAvatarSize()
             let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
             let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
@@ -481,6 +483,8 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                 dispatch_async(dispatch_get_main_queue()) {
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
+
+                    println("newAvatarURLString: \(newAvatarURLString)")
 
                     self.updateAvatar() {
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
