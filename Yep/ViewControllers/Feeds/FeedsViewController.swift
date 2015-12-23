@@ -1201,9 +1201,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-
     // Report
-    
+
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
         switch indexPath.section {
@@ -1223,20 +1222,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return false
         }
     }
-    
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
-        return NSLocalizedString("Report", comment: "")
-    }
-    
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        if editingStyle == .Delete {
-            
-            let feed = feeds[indexPath.item]
-            report(.Feed(feed))
+
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+
+        let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
+
+            if let feed = self?.feeds[indexPath.row] {
+                self?.report(.Feed(feed))
+            }
 
             tableView.setEditing(false, animated: true)
         }
+
+        return [reportAction]
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
     }
 
     // MARK: UIScrollViewDelegate
