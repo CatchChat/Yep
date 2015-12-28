@@ -323,19 +323,6 @@ enum MessageMediaType: Int, CustomStringConvertible {
         }
     }
 
-    var mineType: String {
-        switch self {
-        case .Image:
-            return "image/jpeg"
-        case .Video:
-            return "video/mp4"
-        case .Audio:
-            return "audio/m4a"
-        default:
-            return "" // TODO: more mineType
-        }
-    }
-
     var fileExtension: FileExtension? {
         switch self {
         case .Image:
@@ -724,17 +711,17 @@ class Conversation: Object {
 
 // MARK: Feed
 
-enum AttachmentKind: String {
-
-    case Image = "image"
-    case Thumbnail = "thumbnail"
-    case Audio = "audio"
-    case Video = "video"
-}
+//enum AttachmentKind: String {
+//
+//    case Image = "image"
+//    case Thumbnail = "thumbnail"
+//    case Audio = "audio"
+//    case Video = "video"
+//}
 
 class Attachment: Object {
 
-    dynamic var kind: String = ""
+    //dynamic var kind: String = ""
     dynamic var metadata: String = ""
     dynamic var URLString: String = ""
 }
@@ -1488,7 +1475,7 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
             user.introduction = introduction
         }
 
-        if let avatarURLString = userInfo["avatar_url"] as? String {
+        if let avatarInfo = userInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
             user.avatarURLString = avatarURLString
         }
 

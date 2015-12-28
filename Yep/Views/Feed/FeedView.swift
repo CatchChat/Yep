@@ -297,7 +297,8 @@ class FeedView: UIView {
         timeLabelTopConstraint.constant = hasAttachment ? (15 + (feed.kind == .Audio ? 44 : 80) + 15) : 15
 
         attachments = feed.attachments.map({
-            DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+            //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+            DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString)
         })
 
         messageLabelTrailingConstraint.constant = attachments.isEmpty ? 15 : 60

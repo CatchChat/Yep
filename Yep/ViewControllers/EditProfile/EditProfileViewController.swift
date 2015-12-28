@@ -98,6 +98,8 @@ class EditProfileViewController: UIViewController {
     private func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
 
+            println("avatarURLString: \(avatarURLString)")
+
             let avatarSize = YepConfig.editProfileAvatarSize()
             let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
             let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
@@ -458,35 +460,31 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
+        defer {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+
         activityIndicator.startAnimating()
 
         let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-        s3UploadFileOfKind(.Avatar, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
-            
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+        if let imageData = imageData {
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.activityIndicator.stopAnimating()
-            }
+            updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-        }, completion: { s3UploadParams in
-
-            let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-
-            updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.activityIndicator.stopAnimating()
                 }
-
-            }, completion: { success in
-
+                
+            }, completion: { newAvatarURLString in
                 dispatch_async(dispatch_get_main_queue()) {
-                    
+
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
+
+                    println("newAvatarURLString: \(newAvatarURLString)")
 
                     self.updateAvatar() {
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -495,8 +493,6 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                     }
                 }
             })
-        })
-
-        dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 }
