@@ -242,24 +242,15 @@ class RegisterPickAvatarViewController: UIViewController {
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
 
-        s3UploadFileOfKind(.Avatar, withFileExtension: .JPEG, inFilePath: nil, orFileData: imageData, mimeType: MessageMediaType.Image.mineType, failureHandler: { (reason, errorMessage) in
+        if let imageData = imageData {
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-            YepHUD.hideActivityIndicator()
-
-        }, completion: { s3UploadParams in
-
-            let newAvatarURLString = "\(s3UploadParams.url)\(s3UploadParams.key)"
-
-            updateMyselfWithInfo(["avatar_url": newAvatarURLString], failureHandler: { (reason, errorMessage) in
+            updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 
-            }, completion: { success in
-
+            }, completion: { newAvatarURLString in
                 YepHUD.hideActivityIndicator()
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -269,7 +260,7 @@ class RegisterPickAvatarViewController: UIViewController {
                     self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
                 }
             })
-        })
+        }
     }
 
     @IBAction private func captureOrFinish(sender: UIButton) {
