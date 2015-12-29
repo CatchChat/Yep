@@ -12,8 +12,8 @@ class ChatBaseCell: UICollectionViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     
-    var longpress: UILongPressGestureRecognizer!
-    
+//    var longpress: UILongPressGestureRecognizer!
+
     var user: User?
     var tapAvatarAction: ((user: User) -> Void)?
     
@@ -28,20 +28,38 @@ class ChatBaseCell: UICollectionViewCell {
         return label
     }()
 
+    deinit {
+        NSNotificationCenter.defaultCenter()
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
         avatarImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapAvatar")
         avatarImageView.addGestureRecognizer(tap)
-        longpress = UILongPressGestureRecognizer(target: self, action: "doNothing")
-        longpress.minimumPressDuration = 0.5
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+
+//        longpress = UILongPressGestureRecognizer(target: self, action: "doNothing")
+//        longpress.minimumPressDuration = 0.5
     }
     
-    func doNothing() {
-        
+//    func doNothing() {
+//        
+//    }
+
+    var prepareForMenuAction: ((otherGesturesEnabled: Bool) -> Void)?
+
+    @objc func menuWillShow(notification: NSNotification) {
+        prepareForMenuAction?(otherGesturesEnabled: false)
     }
-    
+
+    @objc func menuWillHide(notification: NSNotification) {
+        prepareForMenuAction?(otherGesturesEnabled: true)
+    }
+
     var inGroup = false
 
     func tapAvatar() {
@@ -52,20 +70,22 @@ class ChatBaseCell: UICollectionViewCell {
         }
     }
     
-    override func respondsToSelector(aSelector: Selector) -> Bool {
-        if ["deleteMessage:", "copy:"].contains(aSelector) {
-            return true
-        } else {
-            return super.respondsToSelector(aSelector)
-        }
-    }
-    
+//    override func respondsToSelector(aSelector: Selector) -> Bool {
+//        if ["deleteMessage:", "copy:"].contains(aSelector) {
+//            return true
+//        } else {
+//            return super.respondsToSelector(aSelector)
+//        }
+//    }
+
     func deleteMessage(object: UIMenuController?) {
         deleteMessageAction?()
     }
 }
 
 extension ChatBaseCell: UIGestureRecognizerDelegate {
+
+    // 让触发 Menu 和 Tap Media 能同时工作，不然 Tap 会让 Menu 不能弹出
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 

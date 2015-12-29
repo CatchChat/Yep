@@ -578,8 +578,6 @@ class ConversationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UIMenuController.sharedMenuController().menuItems = [ UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action: "deleteMessage:") ]
-        
         realm = try! Realm()
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
@@ -3224,6 +3222,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         selectedIndexPathForMenu = indexPath
 
         if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
+
+            // must configure it before show
+            UIMenuController.sharedMenuController().menuItems = [
+                UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action: "deleteMessage:")
+            ]
+
             return true
 
         } else {
@@ -3234,7 +3238,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        
+
         if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
             if action == "copy:" {
                 return true

@@ -50,9 +50,13 @@ class ChatLeftVideoCell: ChatBaseCell {
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         thumbnailImageView.addGestureRecognizer(tap)
         
-        thumbnailImageView.addGestureRecognizer(longpress)
-        
-        tap.requireGestureRecognizerToFail(longpress)
+//        thumbnailImageView.addGestureRecognizer(longpress)
+//        
+//        tap.requireGestureRecognizerToFail(longpress)
+
+        prepareForMenuAction = { otherGesturesEnabled in
+            tap.enabled = otherGesturesEnabled
+        }
     }
 
     func tapMediaView() {
