@@ -245,7 +245,9 @@ class ImageCache {
 
     func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: (UIImage) -> ()) {
 
-        let imageKey = "mapImage-\(message.coordinate)"
+        let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)"
+
+        //println("mapImageOfMessage imageKey: \(imageKey)")
 
         // 先看看缓存
         if let image = cache.objectForKey(imageKey) as? UIImage {
