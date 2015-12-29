@@ -65,6 +65,8 @@ class FeedConversationsViewController: UIViewController {
         }
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.deletedMessages, object: nil)
     }
 
     var isFirstAppear = true
