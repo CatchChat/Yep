@@ -17,7 +17,7 @@ class ChatBaseCell: UICollectionViewCell {
     var user: User?
     var tapAvatarAction: ((user: User) -> Void)?
     
-    var longPressAction: (() -> Void)?
+    var deleteMessageAction: (() -> Void)?
     
     lazy var nameLabel: UILabel = {
         let label = UILabel(frame: CGRectZero)
@@ -61,9 +61,7 @@ class ChatBaseCell: UICollectionViewCell {
     }
     
     func deleteMessage(object: UIMenuController?) {
-        if let longPressAction = longPressAction {
-            longPressAction()
-        }
+        deleteMessageAction?()
     }
 }
 

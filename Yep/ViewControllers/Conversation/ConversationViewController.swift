@@ -3555,7 +3555,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            let longPressAction: () -> Void = { [weak self] in
+            let deleteMessageAction: () -> Void = { [weak self] in
                 self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
             }
             
@@ -3589,7 +3589,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
                     
-                    cell.longPressAction = longPressAction
+                    cell.deleteMessageAction = deleteMessageAction
                 }
                 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend

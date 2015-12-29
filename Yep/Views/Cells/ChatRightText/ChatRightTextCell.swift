@@ -55,14 +55,14 @@ class ChatRightTextCell: ChatRightBaseCell {
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         textContainerView.addGestureRecognizer(tap)
         
-        textContainerView.copyTextAction = { [weak self] in
-            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
-        }
+//        textContainerView.copyTextAction = { [weak self] in
+//            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
+//        }
+//
+//        textContainerView.deleteTextMessageAction = { [weak self] in
+//            self?.longPressAction?()
+//        }
 
-        textContainerView.deleteTextMessageAction = { [weak self] in
-            self?.longPressAction?()
-        }
-        
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
         
         if let bubblePosition = layer.sublayers {

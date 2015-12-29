@@ -53,9 +53,9 @@ class ChatLeftTextCell: ChatBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
-        textContainerView.copyTextAction = { [weak self] in
-            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
-        }
+//        textContainerView.copyTextAction = { [weak self] in
+//            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
+//        }
 
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
         
