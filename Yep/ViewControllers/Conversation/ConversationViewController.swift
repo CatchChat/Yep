@@ -3318,7 +3318,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         realm.delete(sectionDateMessage)
 
                         if isMyMessage {
+
+                            let messageID = message.messageID
+
                             realm.delete(message)
+
+                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                                println("deleteMessageFromServer: \(messageID)")
+                            })
 
                         } else {
                             message.deleted = true
@@ -3339,7 +3346,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         message.deleteAttachmentInRealm(realm)
 
                         if isMyMessage {
+
+                            let messageID = message.messageID
+
                             realm.delete(message)
+
+                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                                println("deleteMessageFromServer: \(messageID)")
+                            })
 
                         } else {
                             message.deleted = true
