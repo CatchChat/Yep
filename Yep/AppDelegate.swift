@@ -292,6 +292,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         realm.delete(message)
                     }
 
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
+
                     completionHandler(UIBackgroundFetchResult.NoData)
                 }
 

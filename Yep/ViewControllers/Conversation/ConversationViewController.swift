@@ -611,6 +611,7 @@ class ConversationViewController: BaseViewController {
 
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleDeletedMessagesNotification:", name: YepConfig.Notification.deletedMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
 
@@ -2492,6 +2493,11 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    @objc private func handleDeletedMessagesNotification(notification: NSNotification) {
+
+        reloadConversationCollectionView()
     }
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
