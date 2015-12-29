@@ -3230,8 +3230,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
 
             // must configure it before show
+
+            let title: String
+            if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
+                let isMyMessage = message.fromFriend?.isMe ?? false
+                if isMyMessage {
+                    title = NSLocalizedString("Recall", comment: "")
+                } else {
+                    title = NSLocalizedString("Hide", comment: "")
+                }
+            } else {
+                title = NSLocalizedString("Delete", comment: "")
+            }
+
             UIMenuController.sharedMenuController().menuItems = [
-                UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action: "deleteMessage:")
+                UIMenuItem(title: title, action: "deleteMessage:")
             ]
 
             return true
