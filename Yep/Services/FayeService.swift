@@ -157,7 +157,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                             return
                         }
 
-                        println("messageType: \(messageType)")
+                        //println("messageType: \(messageType)")
 
                         switch messageType {
 
@@ -206,39 +206,12 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                             guard let
                                 messageInfo = messageInfo["message"] as? JSONDictionary,
-                                messageID = messageInfo["id"] as? String,
-                                realm = try? Realm(),
-                                message = messageWithMessageID(messageID, inRealm: realm),
-                                conversation = message.conversation
+                                messageID = messageInfo["id"] as? String
                             else {
                                 break
                             }
 
-                            let messages = messagesOfConversation(conversation, inRealm: realm)
-
-                            var sectionDateMessage: Message?
-                            if let currentMessageIndex = messages.indexOf(message) {
-                                let previousMessageIndex = currentMessageIndex - 1
-                                if let previousMessage = messages[safe: previousMessageIndex] {
-                                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                                        sectionDateMessage = previousMessage
-                                    }
-                                }
-                            }
-
-                            let _ = try? realm.write {
-
-                                if let sectionDateMessage = sectionDateMessage {
-                                    realm.delete(sectionDateMessage)
-                                }
-                                
-                                message.deleteAttachmentInRealm(realm)
-                                realm.delete(message)
-                            }
-
-                            dispatch_async(dispatch_get_main_queue()) {
-                                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
-                            }
+                            handleMessageDeletedFromServer(messageID: messageID)
                         }
                     })
 
