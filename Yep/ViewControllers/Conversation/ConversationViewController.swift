@@ -3160,55 +3160,77 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func didRecieveMenuWillHideNotification(notification: NSNotification) {
+    @objc private func didRecieveMenuWillHideNotification(notification: NSNotification) {
 
         println("Menu Will hide")
         
         selectedIndexPathForMenu = nil
     }
     
-    func didRecieveMenuWillShowNotification(notification: NSNotification) {
+    @objc private func didRecieveMenuWillShowNotification(notification: NSNotification) {
         
         println("Menu Will show")
         
-        if let menu = notification.object as? UIMenuController,
-            selectedIndexPathForMenu = selectedIndexPathForMenu
-        {
-            
-            var bubbleFrame = CGRectZero
-            
-            if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightTextCell {
-                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
-            } else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftTextCell {
-                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftAudioCell {
-                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightAudioCell {
-                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftVideoCell {
-                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightVideoCell {
-                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftLocationCell {
-                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightLocationCell {
-                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftImageCell{
-                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightImageCell {
-                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
-            } else {
-                return
-            }
-            
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
-
-            menu.setTargetRect(bubbleFrame, inView: view)
-
-            menu.setMenuVisible(true, animated: true)
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        guard let menu = notification.object as? UIMenuController, selectedIndexPathForMenu = selectedIndexPathForMenu, cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatBaseCell else {
+            return
         }
+
+        var bubbleFrame = CGRectZero
+
+        if let cell = cell as? ChatLeftTextCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightTextCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        }  else if let cell = cell as? ChatLeftImageCell {
+            bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightImageCell {
+            bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftAudioCell {
+            bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightAudioCell {
+            bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftVideoCell {
+            bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightVideoCell {
+            bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftLocationCell {
+            bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightLocationCell {
+            bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+        } else {
+            return
+        }
+
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+        menu.setTargetRect(bubbleFrame, inView: view)
+        menu.setMenuVisible(true, animated: true)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        selectedIndexPathForMenu = indexPath
+
+        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
+            return true
+
+        } else {
+            selectedIndexPathForMenu = nil
+        }
+
+        return false
     }
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
@@ -3217,6 +3239,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if action == "copy:" {
                 return true
             }
+
         } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
             if action == "copy:" {
                 return true
@@ -3236,12 +3259,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
+
         } else if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
             if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
         }
-        
     }
     
     func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
@@ -3317,21 +3340,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
     }
-    
-    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
-        selectedIndexPathForMenu = indexPath
-        
-        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
 
-            return true
-        }  else {
-            selectedIndexPathForMenu = nil
-        }
-
-        return false
-    }
-    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }

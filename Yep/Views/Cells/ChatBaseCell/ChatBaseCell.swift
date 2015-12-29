@@ -53,7 +53,7 @@ class ChatBaseCell: UICollectionViewCell {
     }
     
     override func respondsToSelector(aSelector: Selector) -> Bool {
-        if  ["deleteMessage:" ,"copy:"].contains(aSelector) {
+        if ["deleteMessage:", "copy:"].contains(aSelector) {
             return true
         } else {
             return super.respondsToSelector(aSelector)
