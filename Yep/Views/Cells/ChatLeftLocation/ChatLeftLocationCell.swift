@@ -59,9 +59,9 @@ class ChatLeftLocationCell: ChatBaseCell {
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         mapImageView.addGestureRecognizer(tap)
         
-        mapImageView.addGestureRecognizer(longpress)
-        
-        tap.requireGestureRecognizerToFail(longpress)
+        prepareForMenuAction = { otherGesturesEnabled in
+            tap.enabled = otherGesturesEnabled
+        }
     }
 
     func tapMediaView() {

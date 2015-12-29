@@ -394,15 +394,15 @@ extension UIImage {
             var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
             maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
-            }()
+        }()
 
         static let rightTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
-            let orientation: UIImageOrientation = .UpMirrored
-            var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
-            maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: UIImageResizingMode.Stretch)
+            let orientation: UIImageOrientation = .Up
+            var maskImage = UIImage(CGImage: UIImage(named: "right_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
+            maskImage = maskImage.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: UIImageResizingMode.Stretch)
             return maskImage
-            }()
+        }()
     }
 
     func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {

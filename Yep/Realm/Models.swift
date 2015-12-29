@@ -550,6 +550,7 @@ class Message: Object {
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
+    dynamic var deleted: Bool = false // 标记已被删除，删除对方消息，使之不再显示
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -1306,13 +1307,50 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 */
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
+    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
 
 func deleteMessage(message: Message, inRealm realm: Realm) {
     realm.delete(message)
+}
+
+func handleMessageDeletedFromServer(messageID messageID: String) {
+
+    guard let
+        realm = try? Realm(),
+        message = messageWithMessageID(messageID, inRealm: realm),
+        conversation = message.conversation
+    else {
+        return
+    }
+
+    let messages = messagesOfConversation(conversation, inRealm: realm)
+
+    var sectionDateMessage: Message?
+    if let currentMessageIndex = messages.indexOf(message) {
+        let previousMessageIndex = currentMessageIndex - 1
+        if let previousMessage = messages[safe: previousMessageIndex] {
+            if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                sectionDateMessage = previousMessage
+            }
+        }
+    }
+
+    let _ = try? realm.write {
+
+        if let sectionDateMessage = sectionDateMessage {
+            realm.delete(sectionDateMessage)
+        }
+
+        message.deleteAttachmentInRealm(realm)
+        realm.delete(message)
+    }
+
+    dispatch_async(dispatch_get_main_queue()) {
+        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
+    }
 }
 
 func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
@@ -1524,9 +1562,14 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
 // MARK: Delete
 
-private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) {
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepDeletedMessages: Bool) {
 
-    let messages = conversation.messages
+    let messages: [Message]
+    if keepDeletedMessages {
+        messages = conversation.messages.filter({ $0.deleted == false })
+    } else {
+        messages = conversation.messages
+    }
 
     // delete attachments of messages
 
@@ -1539,7 +1582,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
-    clearMessagesOfConversation(conversation, inRealm: realm)
+    clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: false)
 
     // delete conversation, finally
 
@@ -1580,7 +1623,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
     let clearMessages: () -> Void = {
         realm.beginWrite()
-        clearMessagesOfConversation(conversation, inRealm: realm)
+        clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: true)
         let _ = try? realm.commitWrite()
     }
 

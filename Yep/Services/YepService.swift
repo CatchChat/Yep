@@ -2708,6 +2708,21 @@ func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: M
     }
 }
 
+func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/messages/\(messageID)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Feeds
 
 enum FeedSortStyle: String {

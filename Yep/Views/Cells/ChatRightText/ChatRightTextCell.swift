@@ -14,7 +14,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     
     var bubbleBodyShapeLayer: CAShapeLayer!
 
-    @IBOutlet weak var textContainerView: ChatTextContainerView!
+    @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
     typealias MediaTapAction = () -> Void
@@ -54,15 +54,11 @@ class ChatRightTextCell: ChatRightBaseCell {
         textContainerView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         textContainerView.addGestureRecognizer(tap)
-        
-        textContainerView.copyTextAction = { [weak self] in
-            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
+
+        prepareForMenuAction = { otherGesturesEnabled in
+            tap.enabled = otherGesturesEnabled
         }
 
-        textContainerView.deleteTextMessageAction = { [weak self] in
-            self?.longPressAction?()
-        }
-        
         bubbleTailImageView.tintColor = UIColor.rightBubbleTintColor()
         
         if let bubblePosition = layer.sublayers {
@@ -95,8 +91,8 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         if ceil(size.width) != textContentLabelWidth {
 
-            println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
-            println(">>>\(message.textContent)<<<")
+            //println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            //println(">>>\(message.textContent)<<<")
 
             //textContentLabelWidth += YepConfig.ChatCell.magicWidth
 

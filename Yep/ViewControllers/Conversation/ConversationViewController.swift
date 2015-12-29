@@ -307,7 +307,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    private let messagesBunchCount = 10 // TODO: 分段载入的“一束”消息的数量
+    private let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
     private var displayedMessagesRange = NSRange()
     
     // 上一次更新 UI 时的消息数
@@ -578,8 +578,6 @@ class ConversationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UIMenuController.sharedMenuController().menuItems = [ UIMenuItem(title: NSLocalizedString("Delete", comment: ""), action: "deleteMessage:") ]
-        
         realm = try! Realm()
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
@@ -613,6 +611,7 @@ class ConversationViewController: BaseViewController {
 
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleDeletedMessagesNotification:", name: YepConfig.Notification.deletedMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
 
@@ -2496,6 +2495,11 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    @objc private func handleDeletedMessagesNotification(notification: NSNotification) {
+
+        reloadConversationCollectionView()
+    }
+
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
 
     @objc private func tryInsertInActiveNewMessages(notification: NSNotification) {
@@ -3160,63 +3164,105 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
 
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
-    func didRecieveMenuWillHideNotification(notification: NSNotification) {
+    @objc private func didRecieveMenuWillHideNotification(notification: NSNotification) {
 
         println("Menu Will hide")
         
         selectedIndexPathForMenu = nil
     }
     
-    func didRecieveMenuWillShowNotification(notification: NSNotification) {
+    @objc private func didRecieveMenuWillShowNotification(notification: NSNotification) {
         
         println("Menu Will show")
         
-        if let menu = notification.object as? UIMenuController,
-            selectedIndexPathForMenu = selectedIndexPathForMenu
-        {
-            
-            var bubbleFrame = CGRectZero
-            
-            if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightTextCell {
-                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
-            } else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftTextCell {
-                bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftAudioCell {
-                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightAudioCell {
-                bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftVideoCell {
-                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightVideoCell {
-                bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftLocationCell {
-                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightLocationCell {
-                bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatLeftImageCell{
-                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
-            }else if let cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatRightImageCell {
-                bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
-            } else {
-                return
-            }
-            
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
-
-            menu.setTargetRect(bubbleFrame, inView: view)
-
-            menu.setMenuVisible(true, animated: true)
-            
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        guard let menu = notification.object as? UIMenuController, selectedIndexPathForMenu = selectedIndexPathForMenu, cell = conversationCollectionView.cellForItemAtIndexPath(selectedIndexPathForMenu) as? ChatBaseCell else {
+            return
         }
+
+        var bubbleFrame = CGRectZero
+
+        if let cell = cell as? ChatLeftTextCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightTextCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        }  else if let cell = cell as? ChatLeftImageCell {
+            bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightImageCell {
+            bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftAudioCell {
+            bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightAudioCell {
+            bubbleFrame = cell.convertRect(cell.audioContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftVideoCell {
+            bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightVideoCell {
+            bubbleFrame = cell.convertRect(cell.thumbnailImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftLocationCell {
+            bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightLocationCell {
+            bubbleFrame = cell.convertRect(cell.mapImageView.frame, toView: view)
+
+        } else {
+            return
+        }
+
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+        menu.setTargetRect(bubbleFrame, inView: view)
+        menu.setMenuVisible(true, animated: true)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        selectedIndexPathForMenu = indexPath
+
+        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
+
+            // must configure it before show
+
+            let title: String
+            if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
+                let isMyMessage = message.fromFriend?.isMe ?? false
+                if isMyMessage {
+                    title = NSLocalizedString("Recall", comment: "")
+                } else {
+                    title = NSLocalizedString("Hide", comment: "")
+                }
+            } else {
+                title = NSLocalizedString("Delete", comment: "")
+            }
+
+            UIMenuController.sharedMenuController().menuItems = [
+                UIMenuItem(title: title, action: "deleteMessage:")
+            ]
+
+            return true
+
+        } else {
+            selectedIndexPathForMenu = nil
+        }
+
+        return false
     }
     
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        
+
         if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
             if action == "copy:" {
                 return true
             }
+
         } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
             if action == "copy:" {
                 return true
@@ -3236,17 +3282,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
+
         } else if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
             if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
         }
-        
     }
     
-    func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
+    private func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if let strongSelf = self, realm = message.realm {
+
+                let isMyMessage = message.fromFriend?.isMe ?? false
                 
                 var sectionDateMessage: Message?
                 
@@ -3284,14 +3332,23 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     }
                     
                     let _ = try? realm.write {
-                        if let mediaMetaData = sectionDateMessage.mediaMetaData {
-                            realm.delete(mediaMetaData)
-                        }
-                        if let mediaMetaData = message.mediaMetaData {
-                            realm.delete(mediaMetaData)
-                        }
+                        message.deleteAttachmentInRealm(realm)
+
                         realm.delete(sectionDateMessage)
-                        realm.delete(message)
+
+                        if isMyMessage {
+
+                            let messageID = message.messageID
+
+                            realm.delete(message)
+
+                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                                println("deleteMessageFromServer: \(messageID)")
+                            })
+
+                        } else {
+                            message.deleted = true
+                        }
                     }
                     
                     if canDeleteTwoMessages {
@@ -3303,12 +3360,25 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                 } else {
                     strongSelf.displayedMessagesRange.length -= 1
+
                     let _ = try? realm.write {
-                        if let mediaMetaData = message.mediaMetaData {
-                            realm.delete(mediaMetaData)
+                        message.deleteAttachmentInRealm(realm)
+
+                        if isMyMessage {
+
+                            let messageID = message.messageID
+
+                            realm.delete(message)
+
+                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                                println("deleteMessageFromServer: \(messageID)")
+                            })
+
+                        } else {
+                            message.deleted = true
                         }
-                        realm.delete(message)
                     }
+
                     strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                 }
                 
@@ -3317,21 +3387,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
     }
-    
-    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        
-        selectedIndexPathForMenu = indexPath
-        
-        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatBaseCell {
 
-            return true
-        }  else {
-            selectedIndexPathForMenu = nil
-        }
-
-        return false
-    }
-    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -3546,10 +3602,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            let longPressAction: () -> Void = { [weak self] in
-                self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
-            }
-            
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
                 
                 if let cell = cell as? ChatSectionDateCell {
@@ -3580,7 +3632,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
                     
-                    cell.longPressAction = longPressAction
+                    cell.deleteMessageAction = { [weak self] in
+                        self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
+                    }
                 }
                 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend

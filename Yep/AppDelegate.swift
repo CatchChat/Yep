@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 16, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 17, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case Message = "message"
         case OfficialMessage = "official_message"
         case FriendRequest = "friend_request"
+        case MessageDeleted = "message_deleted"
     }
 
     private var remoteNotificationType: RemoteNotificationType? {
@@ -231,17 +232,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch remoteNotificationType {
 
                 case .Message:
+
                     syncUnreadMessages() {
                         completionHandler(UIBackgroundFetchResult.NewData)
                     }
 
                 case .OfficialMessage:
+
                     officialMessages { messagesCount in
                         completionHandler(UIBackgroundFetchResult.NewData)
                         println("new officialMessages count: \(messagesCount)")
                     }
 
                 case .FriendRequest:
+
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
@@ -251,8 +255,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             completionHandler(UIBackgroundFetchResult.NoData)
                         }
                     } else {
-                            completionHandler(UIBackgroundFetchResult.NoData)
+                        completionHandler(UIBackgroundFetchResult.NoData)
                     }
+
+                case .MessageDeleted:
+
+                    defer {
+                        completionHandler(UIBackgroundFetchResult.NoData)
+                    }
+
+                    guard let
+                        messageInfo = userInfo["message"] as? JSONDictionary,
+                        messageID = messageInfo["id"] as? String
+                    else {
+                        break
+                    }
+
+                    handleMessageDeletedFromServer(messageID: messageID)
                 }
 
                 // 非前台才记录启动通知类型
