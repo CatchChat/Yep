@@ -14,7 +14,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     
     var bubbleBodyShapeLayer: CAShapeLayer!
 
-    @IBOutlet weak var textContainerView: ChatTextContainerView!
+    @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
     typealias MediaTapAction = () -> Void

@@ -14,7 +14,7 @@ class ChatLeftTextCell: ChatBaseCell {
     
     var bubbleBodyShapeLayer: CAShapeLayer!
 
-    @IBOutlet weak var textContainerView: ChatTextContainerView!
+    @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
     func makeUI() {
@@ -59,14 +59,6 @@ class ChatLeftTextCell: ChatBaseCell {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
         }
     }
-    
-//    override func respondsToSelector(aSelector: Selector) -> Bool {
-//        if  ["copy:"].contains(aSelector) {
-//            return true
-//        } else {
-//            return super.respondsToSelector(aSelector)
-//        }
-//    }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
