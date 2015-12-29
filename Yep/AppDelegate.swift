@@ -51,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case Message = "message"
         case OfficialMessage = "official_message"
         case FriendRequest = "friend_request"
+        case MessageDeleted = "message_deleted"
     }
 
     private var remoteNotificationType: RemoteNotificationType? {
@@ -231,17 +232,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch remoteNotificationType {
 
                 case .Message:
+
                     syncUnreadMessages() {
                         completionHandler(UIBackgroundFetchResult.NewData)
                     }
 
                 case .OfficialMessage:
+
                     officialMessages { messagesCount in
                         completionHandler(UIBackgroundFetchResult.NewData)
                         println("new officialMessages count: \(messagesCount)")
                     }
 
                 case .FriendRequest:
+
                     if let subType = userInfo["subtype"] as? String {
                         if subType == "accepted" {
                             syncFriendshipsAndDoFurtherAction {
@@ -251,8 +255,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             completionHandler(UIBackgroundFetchResult.NoData)
                         }
                     } else {
-                            completionHandler(UIBackgroundFetchResult.NoData)
+                        completionHandler(UIBackgroundFetchResult.NoData)
                     }
+
+                case .MessageDeleted:
+
+                    guard let
+                        messageInfo = userInfo["message"] as? JSONDictionary,
+                        messageID = messageInfo["id"] as? String,
+                        realm = try? Realm(),
+                        message = messageWithMessageID(messageID, inRealm: realm),
+                        conversation = message.conversation
+                    else {
+                        break
+                    }
+
+                    let messages = messagesOfConversation(conversation, inRealm: realm)
+
+                    var sectionDateMessage: Message?
+                    if let currentMessageIndex = messages.indexOf(message) {
+                        let previousMessageIndex = currentMessageIndex - 1
+                        if let previousMessage = messages[safe: previousMessageIndex] {
+                            if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                sectionDateMessage = previousMessage
+                            }
+                        }
+                    }
+
+                    let _ = try? realm.write {
+
+                        if let sectionDateMessage = sectionDateMessage {
+                            realm.delete(sectionDateMessage)
+                        }
+
+                        message.deleteAttachmentInRealm(realm)
+                        realm.delete(message)
+                    }
+
+                    completionHandler(UIBackgroundFetchResult.NoData)
                 }
 
                 // 非前台才记录启动通知类型
