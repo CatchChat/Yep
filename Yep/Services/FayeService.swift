@@ -34,6 +34,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
         case Default = "message"
         case Instant = "instant_state"
         case Read = "mark_as_read"
+        case MessageDeleted = "message_deleted"
     }
 
     enum InstantStateType: Int, CustomStringConvertible {
@@ -147,57 +148,101 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
                     self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
                         //println("subscribeToChannel: \(data)")
-                        if let
+                        guard let
                             messageInfo = data as? JSONDictionary,
-                            messageType = messageInfo["message_type"] as? String {
+                            messageTypeString = messageInfo["message_type"] as? String,
+                            messageType = FayeService.MessageType(rawValue: messageTypeString)
+                        else {
+                            println("Faye recieved unknown message type")
+                            return
+                        }
 
-                                switch messageType {
+                        println("messageType: \(messageType)")
 
-                                case FayeService.MessageType.Default.rawValue:
-                                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                        self?.saveMessageWithMessageInfo(messageDataInfo)
-                                    }
+                        switch messageType {
 
-                                case FayeService.MessageType.Instant.rawValue:
-                                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                        case .Default:
 
-                                        if let
-                                            user = messageDataInfo["user"] as? JSONDictionary,
-                                            userID = user["id"] as? String,
-                                            state = messageDataInfo["state"] as? Int {
+                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                                self?.saveMessageWithMessageInfo(messageDataInfo)
+                            }
 
-                                                if let instantStateType = InstantStateType(rawValue: state) {
-                                                    self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
-                                                }
+                        case .Instant:
+
+                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+
+                                if let
+                                    user = messageDataInfo["user"] as? JSONDictionary,
+                                    userID = user["id"] as? String,
+                                    state = messageDataInfo["state"] as? Int {
+
+                                        if let instantStateType = InstantStateType(rawValue: state) {
+                                            self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
                                         }
-                                    }
-                                    
-                                case FayeService.MessageType.Read.rawValue:
-                                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                        
-                                        if let
-                                            lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
-                                            recipientType = messageDataInfo["recipient_type"] as? String,
-                                            recipientID = messageDataInfo["recipient_id"] as? String {
-                                                
-                                                println("Mark recipient_id \(recipientID) As Read")
-
-                                                let lastReadAt = lastReadAt + 5 // 治标：服务器返回的时间可能较旧，会导致最后一条消息无法被标记
-
-                                                dispatch_async(dispatch_get_main_queue()) {
-                                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "recipient_type": recipientType, "recipient_id": recipientID])
-                                                   //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
-                                                }
-                                        }
-                                    }
-                                default:
-                                    println("Recieved unknow message type")
                                 }
+                            }
+                            
+                        case .Read:
+
+                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                                
+                                if let
+                                    lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
+                                    recipientType = messageDataInfo["recipient_type"] as? String,
+                                    recipientID = messageDataInfo["recipient_id"] as? String {
+                                        
+                                        println("Mark recipient_id \(recipientID) As Read")
+
+                                        let lastReadAt = lastReadAt + 5 // 治标：服务器返回的时间可能较旧，会导致最后一条消息无法被标记
+
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "recipient_type": recipientType, "recipient_id": recipientID])
+                                           //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
+                                        }
+                                }
+                            }
+
+                        case .MessageDeleted:
+
+                            guard let
+                                messageInfo = messageInfo["message"] as? JSONDictionary,
+                                messageID = messageInfo["id"] as? String,
+                                realm = try? Realm(),
+                                message = messageWithMessageID(messageID, inRealm: realm),
+                                conversation = message.conversation
+                            else {
+                                break
+                            }
+
+                            let messages = messagesOfConversation(conversation, inRealm: realm)
+
+                            var sectionDateMessage: Message?
+                            if let currentMessageIndex = messages.indexOf(message) {
+                                let previousMessageIndex = currentMessageIndex - 1
+                                if let previousMessage = messages[safe: previousMessageIndex] {
+                                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                                        sectionDateMessage = previousMessage
+                                    }
+                                }
+                            }
+
+                            let _ = try? realm.write {
+
+                                if let sectionDateMessage = sectionDateMessage {
+                                    realm.delete(sectionDateMessage)
+                                }
+                                
+                                message.deleteAttachmentInRealm(realm)
+                                realm.delete(message)
+                            }
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
+                            }
                         }
                     })
 
                     self?.client.connect()
-                    
                 }
 
         } else {
