@@ -1307,7 +1307,7 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 */
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", conversation)
+    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
@@ -1525,9 +1525,14 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
 // MARK: Delete
 
-private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) {
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepDeletedMessages: Bool) {
 
-    let messages = conversation.messages
+    let messages: [Message]
+    if keepDeletedMessages {
+        messages = conversation.messages.filter({ $0.deleted == false })
+    } else {
+        messages = conversation.messages
+    }
 
     // delete attachments of messages
 
@@ -1540,7 +1545,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
-    clearMessagesOfConversation(conversation, inRealm: realm)
+    clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: false)
 
     // delete conversation, finally
 
@@ -1581,7 +1586,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
     let clearMessages: () -> Void = {
         realm.beginWrite()
-        clearMessagesOfConversation(conversation, inRealm: realm)
+        clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: true)
         let _ = try? realm.commitWrite()
     }
 
