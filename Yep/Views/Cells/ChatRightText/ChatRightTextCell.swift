@@ -91,8 +91,8 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         if ceil(size.width) != textContentLabelWidth {
 
-            println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
-            println(">>>\(message.textContent)<<<")
+            //println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            //println(">>>\(message.textContent)<<<")
 
             //textContentLabelWidth += YepConfig.ChatCell.magicWidth
 

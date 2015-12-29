@@ -12,8 +12,6 @@ class ChatBaseCell: UICollectionViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     
-//    var longpress: UILongPressGestureRecognizer!
-
     var user: User?
     var tapAvatarAction: ((user: User) -> Void)?
     
@@ -41,14 +39,7 @@ class ChatBaseCell: UICollectionViewCell {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
-
-//        longpress = UILongPressGestureRecognizer(target: self, action: "doNothing")
-//        longpress.minimumPressDuration = 0.5
     }
-    
-//    func doNothing() {
-//        
-//    }
 
     var prepareForMenuAction: ((otherGesturesEnabled: Bool) -> Void)?
 
@@ -69,14 +60,6 @@ class ChatBaseCell: UICollectionViewCell {
             tapAvatarAction?(user: user)
         }
     }
-    
-//    override func respondsToSelector(aSelector: Selector) -> Bool {
-//        if ["deleteMessage:", "copy:"].contains(aSelector) {
-//            return true
-//        } else {
-//            return super.respondsToSelector(aSelector)
-//        }
-//    }
 
     func deleteMessage(object: UIMenuController?) {
         deleteMessageAction?()

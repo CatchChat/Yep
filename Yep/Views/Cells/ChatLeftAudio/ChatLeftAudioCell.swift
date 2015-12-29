@@ -97,10 +97,6 @@ class ChatLeftAudioCell: ChatBaseCell {
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleImageView.addGestureRecognizer(tap)
         
-//        bubbleImageView.addGestureRecognizer(longpress)
-//        
-//        tap.requireGestureRecognizerToFail(longpress)
-
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }

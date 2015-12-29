@@ -53,25 +53,20 @@ class ChatLeftTextCell: ChatBaseCell {
             NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
         ]
 
-//        textContainerView.copyTextAction = { [weak self] in
-//            UIPasteboard.generalPasteboard().string = self?.textContentTextView.text
-//        }
-
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
         
         if let bubblePosition = layer.sublayers {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
         }
-
     }
     
-    override func respondsToSelector(aSelector: Selector) -> Bool {
-        if  ["copy:"].contains(aSelector) {
-            return true
-        } else {
-            return super.respondsToSelector(aSelector)
-        }
-    }
+//    override func respondsToSelector(aSelector: Selector) -> Bool {
+//        if  ["copy:"].contains(aSelector) {
+//            return true
+//        } else {
+//            return super.respondsToSelector(aSelector)
+//        }
+//    }
 
     func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
@@ -90,11 +85,10 @@ class ChatLeftTextCell: ChatBaseCell {
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
         if ceil(size.width) != textContentLabelWidth {
-            println("left ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
-            println(">>>\(message.textContent)<<<")
+            //println("left ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
+            //println(">>>\(message.textContent)<<<")
 
             //textContentLabelWidth += YepConfig.ChatCell.magicWidth
-
             if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
                 textContentLabelWidth += YepConfig.ChatCell.magicWidth
             }
