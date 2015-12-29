@@ -550,6 +550,7 @@ class Message: Object {
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
+    dynamic var deleted: Bool = false // 标记已被删除，删除对方消息，使之不再显示
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -1306,7 +1307,7 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 */
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
+    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", conversation)
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }

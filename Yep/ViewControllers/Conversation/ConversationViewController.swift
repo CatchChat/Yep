@@ -307,7 +307,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    private let messagesBunchCount = 10 // TODO: 分段载入的“一束”消息的数量
+    private let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
     private var displayedMessagesRange = NSRange()
     
     // 上一次更新 UI 时的消息数
@@ -3267,9 +3267,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
     
-    func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
+    private func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if let strongSelf = self, realm = message.realm {
+
+                let isMyMessage = message.fromFriend?.isMe ?? false
                 
                 var sectionDateMessage: Message?
                 
@@ -3307,14 +3309,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     }
                     
                     let _ = try? realm.write {
-                        if let mediaMetaData = sectionDateMessage.mediaMetaData {
-                            realm.delete(mediaMetaData)
-                        }
-                        if let mediaMetaData = message.mediaMetaData {
-                            realm.delete(mediaMetaData)
-                        }
+                        message.deleteAttachmentInRealm(realm)
+
                         realm.delete(sectionDateMessage)
-                        realm.delete(message)
+
+                        if isMyMessage {
+                            realm.delete(message)
+
+                        } else {
+                            message.deleted = true
+                        }
                     }
                     
                     if canDeleteTwoMessages {
@@ -3326,12 +3330,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     
                 } else {
                     strongSelf.displayedMessagesRange.length -= 1
+
                     let _ = try? realm.write {
-                        if let mediaMetaData = message.mediaMetaData {
-                            realm.delete(mediaMetaData)
+                        message.deleteAttachmentInRealm(realm)
+
+                        if isMyMessage {
+                            realm.delete(message)
+
+                        } else {
+                            message.deleted = true
                         }
-                        realm.delete(message)
                     }
+
                     strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                 }
                 
@@ -3555,10 +3565,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
             
-            let deleteMessageAction: () -> Void = { [weak self] in
-                self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
-            }
-            
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
                 
                 if let cell = cell as? ChatSectionDateCell {
@@ -3589,7 +3595,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         self?.performSegueWithIdentifier("showProfile", sender: user)
                     }
                     
-                    cell.deleteMessageAction = deleteMessageAction
+                    cell.deleteMessageAction = { [weak self] in
+                        self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
+                    }
                 }
                 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
