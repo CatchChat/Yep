@@ -64,7 +64,14 @@ class ChatLeftTextCell: ChatBaseCell {
 
         self.user = message.fromFriend
 
-        textContentTextView.text = message.textContent
+        textContentTextView.text = message.textContentToShow
+
+        if message.deletedByCreator {
+            textContentTextView.textColor = UIColor.lightGrayColor()
+        } else {
+            textContentTextView.textColor = UIColor.blackColor()
+        }
+
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
         
         //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left

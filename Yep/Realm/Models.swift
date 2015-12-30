@@ -511,6 +511,14 @@ class Message: Object {
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
 
     dynamic var textContent: String = ""
+    var textContentToShow: String {
+        if deletedByCreator {
+            return NSLocalizedString("Deleted by creator.", comment: "")
+        } else {
+            return textContent
+        }
+    }
+
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
@@ -550,7 +558,8 @@ class Message: Object {
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
-    dynamic var deleted: Bool = false // 标记已被删除，删除对方消息，使之不再显示
+    dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
+    dynamic var deletedByCreator: Bool = false
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -610,6 +619,25 @@ class Message: Object {
         default:
             break // TODO: if have other message media need to delete
         }
+    }
+
+    func deleteInRealm(realm: Realm) {
+        deleteAttachmentInRealm(realm)
+        realm.delete(self)
+    }
+
+    func updateForDeletedFromServerInRealm(realm: Realm) {
+
+        deletedByCreator = true
+
+        // 删除附件
+        deleteAttachmentInRealm(realm)
+
+        // 再将其变为文字消息
+        sendState = MessageSendState.Read.rawValue
+        readed = true
+        textContent = "" 
+        mediaType = MessageMediaType.Text.rawValue
     }
 }
 
@@ -708,6 +736,10 @@ class Conversation: Object {
     }
 
     dynamic var unreadMessagesCount: Int = 0
+
+    var latestValidMessage: Message? {
+        return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    }
 }
 
 // MARK: Feed
@@ -1007,7 +1039,7 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
-func latestMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
 //    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
 //    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
@@ -1015,26 +1047,30 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
-        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
+
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
     }
 }
 
-func latestUnreadMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
-        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
+
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
     }
 }
 
@@ -1307,25 +1343,28 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 */
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", argumentArray: [conversation])
+    let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
-}
-
-func deleteMessage(message: Message, inRealm realm: Realm) {
-    realm.delete(message)
 }
 
 func handleMessageDeletedFromServer(messageID messageID: String) {
 
     guard let
         realm = try? Realm(),
-        message = messageWithMessageID(messageID, inRealm: realm),
-        conversation = message.conversation
+        message = messageWithMessageID(messageID, inRealm: realm)
+        //conversation = message.conversation
     else {
         return
     }
 
+    let _ = try? realm.write {
+        message.updateForDeletedFromServerInRealm(realm)
+    }
+
+    let messageIDs: [String] = [message.messageID]
+
+    /*
     let messages = messagesOfConversation(conversation, inRealm: realm)
 
     var sectionDateMessage: Message?
@@ -1347,9 +1386,10 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
         message.deleteAttachmentInRealm(realm)
         realm.delete(message)
     }
+    */
 
     dispatch_async(dispatch_get_main_queue()) {
-        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }
 
@@ -1562,11 +1602,11 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
 // MARK: Delete
 
-private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepDeletedMessages: Bool) {
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepHiddenMessages: Bool) {
 
     let messages: [Message]
-    if keepDeletedMessages {
-        messages = conversation.messages.filter({ $0.deleted == false })
+    if keepHiddenMessages {
+        messages = conversation.messages.filter({ $0.hidden == false })
     } else {
         messages = conversation.messages
     }
@@ -1582,7 +1622,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
-    clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: false)
+    clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
     // delete conversation, finally
 
@@ -1623,7 +1663,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
     let clearMessages: () -> Void = {
         realm.beginWrite()
-        clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: true)
+        clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: true)
         let _ = try? realm.commitWrite()
     }
 

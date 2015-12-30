@@ -1800,7 +1800,8 @@ class ConversationViewController: BaseViewController {
         switch message.mediaType {
 
         case MessageMediaType.Text.rawValue:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+            let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -1870,6 +1871,9 @@ class ConversationViewController: BaseViewController {
         }
         
         return height
+    }
+    private func clearHeightOfMessageWithKey(key: String) {
+        messageHeights[key] = nil
     }
 
     private var textContentLabelWidths = [String: CGFloat]()
@@ -2497,7 +2501,17 @@ class ConversationViewController: BaseViewController {
 
     @objc private func handleDeletedMessagesNotification(notification: NSNotification) {
 
-        reloadConversationCollectionView()
+        defer {
+            reloadConversationCollectionView()
+        }
+
+        guard let info = notification.object as? [String: AnyObject], messageIDs = info["messageIDs"] as? [String] else {
+            return
+        }
+
+        messageIDs.forEach {
+            clearHeightOfMessageWithKey($0)
+        }
     }
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
@@ -3347,7 +3361,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            message.deleted = true
+                            message.hidden = true
                         }
                     }
                     
@@ -3375,7 +3389,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            message.deleted = true
+                            message.hidden = true
                         }
                     }
 

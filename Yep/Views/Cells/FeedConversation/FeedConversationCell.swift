@@ -68,12 +68,12 @@ class FeedConversationCell: UITableViewCell {
         })
         mediaView.setImagesWithAttachments(attachments)
 
-        if let latestMessage = messagesInConversation(conversation).last {
+        if let latestValidMessage = conversation.latestValidMessage {
 
-            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
             } else {
-                self.chatLabel.text = latestMessage.nicknameWithTextContent
+                self.chatLabel.text = latestValidMessage.nicknameWithTextContent
             }
             
         } else {

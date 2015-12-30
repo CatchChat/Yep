@@ -69,15 +69,15 @@ class ConversationCell: UITableViewCell {
 
     func updateInfoLabels() {
 
-        if let latestMessage = messagesInConversation(conversation).last {
+        if let latestValidMessage = conversation.latestValidMessage {
 
-            if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
             } else {
-                self.chatLabel.text = latestMessage.textContent
+                self.chatLabel.text = latestValidMessage.textContent
             }
 
-            let createdAt = NSDate(timeIntervalSince1970: latestMessage.createdUnixTime)
+            let createdAt = NSDate(timeIntervalSince1970: latestValidMessage.createdUnixTime)
             self.timeAgoLabel.text = createdAt.timeAgo
 
         } else {
