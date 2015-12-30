@@ -1800,7 +1800,15 @@ class ConversationViewController: BaseViewController {
         switch message.mediaType {
 
         case MessageMediaType.Text.rawValue:
-            let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+            let textContent: String
+            if message.deletedByCreator {
+                textContent = NSLocalizedString("Deleted by creator.", comment: "")
+            } else {
+                textContent = message.textContent
+            }
+
+            let rect = textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 

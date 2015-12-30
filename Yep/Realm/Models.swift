@@ -623,7 +623,7 @@ class Message: Object {
         // 再将其变为文字消息
         sendState = MessageSendState.Read.rawValue
         readed = true
-        textContent = NSLocalizedString("This message deleted by creator.", comment: "")
+        textContent = "" 
         mediaType = MessageMediaType.Text.rawValue
     }
 }

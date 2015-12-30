@@ -64,7 +64,13 @@ class ChatLeftTextCell: ChatBaseCell {
 
         self.user = message.fromFriend
 
-        textContentTextView.text = message.textContent
+        let textContent: String
+        if message.deletedByCreator {
+            textContent = NSLocalizedString("Deleted by creator.", comment: "")
+        } else {
+            textContent = message.textContent
+        }
+        textContentTextView.text = textContent
 
         if message.deletedByCreator {
             textContentTextView.textColor = UIColor.lightGrayColor()
