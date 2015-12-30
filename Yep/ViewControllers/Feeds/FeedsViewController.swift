@@ -1267,9 +1267,11 @@ extension FeedsViewController: PullToRefreshViewDelegate {
         activityIndicator.alpha = 0
 
         let finish: () -> Void = { [weak self] in
-            pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
+            delay(0.3) { // 人为延迟，增加等待感
+                pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
 
-            self?.activityIndicator.alpha = 1
+                self?.activityIndicator.alpha = 1
+            }
         }
 
         pullToRefreshView.refreshTimeoutAction = finish
