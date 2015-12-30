@@ -4064,7 +4064,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                 messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
                     println("messagesFromRecipient: \(messageIDs.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    delay(0.3) { // 人为延迟，增加等待感
                         pulllToRefreshView.endRefreshingAndDoFurtherAction() {
                             dispatch_async(dispatch_get_main_queue()) {
                                 tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
