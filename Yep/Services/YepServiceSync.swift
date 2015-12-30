@@ -917,10 +917,25 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 }
 
 func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
-    
+
     if let messageID = messageInfo["id"] as? String {
 
         var message = messageWithMessageID(messageID, inRealm: realm)
+
+        // 如果消息被删除，且的发送者是自己，不同步且删除本地已有的
+        let deleted = (messageInfo["deleted"] as? Bool) ?? false
+        if deleted {
+            if let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
+                if senderID == YepUserDefaults.userID.value {
+                    if let message = message {
+                        message.deleteAttachmentInRealm(realm)
+                        realm.delete(message)
+                    }
+
+                    return
+                }
+            }
+        }
 
         if message == nil {
             let newMessage = Message()
