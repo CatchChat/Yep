@@ -738,11 +738,7 @@ class Conversation: Object {
     dynamic var unreadMessagesCount: Int = 0
 
     var latestValidMessage: Message? {
-        guard let realm = realm, type = ConversationType(rawValue: type) else {
-            return nil
-        }
-
-        return latestValidMessageInRealm(realm, withConversationType: type)
+        return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 }
 
