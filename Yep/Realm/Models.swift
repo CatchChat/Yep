@@ -511,6 +511,14 @@ class Message: Object {
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
 
     dynamic var textContent: String = ""
+    var textContentToShow: String {
+        if deletedByCreator {
+            return NSLocalizedString("Deleted by creator.", comment: "")
+        } else {
+            return textContent
+        }
+    }
+
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
