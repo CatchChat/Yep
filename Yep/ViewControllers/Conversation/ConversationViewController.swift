@@ -1871,6 +1871,9 @@ class ConversationViewController: BaseViewController {
         
         return height
     }
+    private func clearHeightOfMessageWithKey(key: String) {
+        messageHeights[key] = nil
+    }
 
     private var textContentLabelWidths = [String: CGFloat]()
     private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
@@ -2497,7 +2500,17 @@ class ConversationViewController: BaseViewController {
 
     @objc private func handleDeletedMessagesNotification(notification: NSNotification) {
 
-        reloadConversationCollectionView()
+        defer {
+            reloadConversationCollectionView()
+        }
+
+        guard let info = notification.object as? [String: AnyObject], messageIDs = info["messageIDs"] as? [String] else {
+            return
+        }
+
+        messageIDs.forEach {
+            clearHeightOfMessageWithKey($0)
+        }
     }
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
