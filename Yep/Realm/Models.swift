@@ -550,7 +550,8 @@ class Message: Object {
     dynamic var sendState: Int = MessageSendState.NotSend.rawValue
     dynamic var readed: Bool = false
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
-    dynamic var deleted: Bool = false // 标记已被删除，删除对方消息，使之不再显示
+    dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
+    dynamic var deletedByCreator: Bool = false
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -1307,7 +1308,7 @@ func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Rea
 */
 
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND deleted = false", argumentArray: [conversation])
+    let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
 }
@@ -1562,11 +1563,11 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
 // MARK: Delete
 
-private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepDeletedMessages: Bool) {
+private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepHiddenMessages: Bool) {
 
     let messages: [Message]
-    if keepDeletedMessages {
-        messages = conversation.messages.filter({ $0.deleted == false })
+    if keepHiddenMessages {
+        messages = conversation.messages.filter({ $0.hidden == false })
     } else {
         messages = conversation.messages
     }
@@ -1582,7 +1583,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
-    clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: false)
+    clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
     // delete conversation, finally
 
@@ -1623,7 +1624,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
     let clearMessages: () -> Void = {
         realm.beginWrite()
-        clearMessagesOfConversation(conversation, inRealm: realm, keepDeletedMessages: true)
+        clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: true)
         let _ = try? realm.commitWrite()
     }
 

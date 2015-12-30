@@ -3347,7 +3347,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            message.deleted = true
+                            message.hidden = true
                         }
                     }
                     
@@ -3375,7 +3375,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
 
                         } else {
-                            message.deleted = true
+                            message.hidden = true
                         }
                     }
 
