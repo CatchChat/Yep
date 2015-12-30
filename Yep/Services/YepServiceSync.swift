@@ -827,9 +827,21 @@ func syncMessagesReadStatus() {
 
 func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
-    println("messageInfo: \(messageInfo)")
+    //println("messageInfo: \(messageInfo)")
+
+    let deleted = (messageInfo["deleted"] as? Bool) ?? false
 
     if let message = messageWithMessageID(messageID, inRealm: realm) {
+
+        guard !deleted else {
+
+            message.sendState = MessageSendState.Read.rawValue
+            message.readed = true
+            message.textContent = NSLocalizedString("This message deleted by creator.", comment: "")
+            message.mediaType = MessageMediaType.Text.rawValue
+            
+            return
+        }
 
         if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
             message.sendState = MessageSendState.Read.rawValue
