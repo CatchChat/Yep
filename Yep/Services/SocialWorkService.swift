@@ -449,7 +449,7 @@ func syncSocialWorksToMessagesForYepTeam() {
                         return messageIDs
 
                     } else {
-                        deleteMessage(message, inRealm: realm)
+                        message.deleteInRealm(realm)
                     }
                 }
 
