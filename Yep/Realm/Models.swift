@@ -736,6 +736,14 @@ class Conversation: Object {
     }
 
     dynamic var unreadMessagesCount: Int = 0
+
+    var latestValidMessage: Message? {
+        guard let realm = realm, type = ConversationType(rawValue: type) else {
+            return nil
+        }
+
+        return latestValidMessageInRealm(realm, withConversationType: type)
+    }
 }
 
 // MARK: Feed
@@ -1035,7 +1043,7 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
-func latestMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
 //    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
 //    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
@@ -1043,26 +1051,30 @@ func latestMessageInRealm(realm: Realm, withConversationType conversationType: C
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
-        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
+
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
     }
 }
 
-func latestUnreadMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group:
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
-        return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
+
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
     }
 }
 
