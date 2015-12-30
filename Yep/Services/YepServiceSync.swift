@@ -1133,7 +1133,7 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                             }
 
                         } else {
-                            deleteMessage(message, inRealm: realm)
+                            message.deleteInRealm(realm)
                         }
                     }
                 }

@@ -621,6 +621,11 @@ class Message: Object {
         }
     }
 
+    func deleteInRealm(realm: Realm) {
+        deleteAttachmentInRealm(realm)
+        realm.delete(self)
+    }
+
     func updateForDeletedFromServerInRealm(realm: Realm) {
 
         deletedByCreator = true
@@ -1333,10 +1338,6 @@ func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) ->
     let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
     return messages
-}
-
-func deleteMessage(message: Message, inRealm realm: Realm) {
-    realm.delete(message)
 }
 
 func handleMessageDeletedFromServer(messageID messageID: String) {
