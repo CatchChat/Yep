@@ -1321,12 +1321,21 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
 
     guard let
         realm = try? Realm(),
-        message = messageWithMessageID(messageID, inRealm: realm),
-        conversation = message.conversation
+        message = messageWithMessageID(messageID, inRealm: realm)
+        //conversation = message.conversation
     else {
         return
     }
 
+    let _ = try? realm.write {
+        message.deleteAttachmentInRealm(realm)
+        message.sendState = MessageSendState.Read.rawValue
+        message.readed = true
+        message.textContent = NSLocalizedString("This message deleted by creator.", comment: "")
+        message.mediaType = MessageMediaType.Text.rawValue
+    }
+
+    /*
     let messages = messagesOfConversation(conversation, inRealm: realm)
 
     var sectionDateMessage: Message?
@@ -1348,6 +1357,7 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
         message.deleteAttachmentInRealm(realm)
         realm.delete(message)
     }
+    */
 
     dispatch_async(dispatch_get_main_queue()) {
         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
