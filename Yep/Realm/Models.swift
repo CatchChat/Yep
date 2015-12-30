@@ -615,7 +615,12 @@ class Message: Object {
 
     func updateForDeletedFromServerInRealm(realm: Realm) {
 
+        deletedByCreator = true
+
+        // 删除附件
         deleteAttachmentInRealm(realm)
+
+        // 再将其变为文字消息
         sendState = MessageSendState.Read.rawValue
         readed = true
         textContent = NSLocalizedString("This message deleted by creator.", comment: "")
@@ -1340,6 +1345,8 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
         message.updateForDeletedFromServerInRealm(realm)
     }
 
+    let messageIDs: [String] = [message.messageID]
+
     /*
     let messages = messagesOfConversation(conversation, inRealm: realm)
 
@@ -1365,7 +1372,7 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
     */
 
     dispatch_async(dispatch_get_main_queue()) {
-        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }
 
