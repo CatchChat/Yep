@@ -612,6 +612,15 @@ class Message: Object {
             break // TODO: if have other message media need to delete
         }
     }
+
+    func updateForDeletedFromServerInRealm(realm: Realm) {
+
+        deleteAttachmentInRealm(realm)
+        sendState = MessageSendState.Read.rawValue
+        readed = true
+        textContent = NSLocalizedString("This message deleted by creator.", comment: "")
+        mediaType = MessageMediaType.Text.rawValue
+    }
 }
 
 class Draft: Object {
@@ -1328,11 +1337,7 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
     }
 
     let _ = try? realm.write {
-        message.deleteAttachmentInRealm(realm)
-        message.sendState = MessageSendState.Read.rawValue
-        message.readed = true
-        message.textContent = NSLocalizedString("This message deleted by creator.", comment: "")
-        message.mediaType = MessageMediaType.Text.rawValue
+        message.updateForDeletedFromServerInRealm(realm)
     }
 
     /*

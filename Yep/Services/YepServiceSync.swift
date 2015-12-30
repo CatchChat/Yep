@@ -834,12 +834,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
     if let message = messageWithMessageID(messageID, inRealm: realm) {
 
         guard !deleted else {
-
-            message.sendState = MessageSendState.Read.rawValue
-            message.readed = true
-            message.textContent = NSLocalizedString("This message deleted by creator.", comment: "")
-            message.mediaType = MessageMediaType.Text.rawValue
-            
+            message.updateForDeletedFromServerInRealm(realm)
             return
         }
 
