@@ -710,8 +710,32 @@ class FeedsViewController: BaseViewController {
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
-            vc.afterDeletedFeedAction = { [weak self] in
-                self?.updateFeeds()
+            vc.afterDeletedFeedAction = { feedID in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let strongSelf = self {
+                        var deletedFeed: DiscoveredFeed?
+                        for feed in strongSelf.feeds {
+                            if feed.id == feedID {
+                                deletedFeed = feed
+                                break
+                            }
+                        }
+
+                        if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                            strongSelf.feeds.removeAtIndex(index)
+
+                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                            strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+
+                            return
+                        }
+                    }
+
+                    // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
+                    delay(0.5) {
+                        self?.updateFeeds()
+                    }
+                }
             }
 
             vc.conversationDirtyAction = { [weak self] in
