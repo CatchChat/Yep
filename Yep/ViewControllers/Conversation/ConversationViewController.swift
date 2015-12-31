@@ -2738,6 +2738,10 @@ class ConversationViewController: BaseViewController {
     private func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if let strongSelf = self {
+                guard !strongSelf.conversation.invalidated else {
+                    return
+                }
+
                 if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
                     titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), timeAgo.lowercaseString)
                 } else if let friend = strongSelf.conversation.withFriend {
