@@ -515,6 +515,9 @@ class FeedsViewController: BaseViewController {
                                 if newFeed.id != oldFeed.id {
                                     wayToUpdate = .ReloadData
                                     break
+                                } else if newFeed.messagesCount != oldFeed.messagesCount {
+                                    wayToUpdate = .ReloadData
+                                    break
                                 }
 
                                 index += 1
