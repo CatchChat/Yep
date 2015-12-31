@@ -146,7 +146,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startFaye()
         }
 
-        
+        application.applicationIconBadgeNumber = 0
+
         /*
         if YepUserDefaults.isLogined {
             syncMessagesReadStatus()
