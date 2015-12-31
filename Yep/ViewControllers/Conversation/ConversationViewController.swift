@@ -2003,9 +2003,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval) {
-
-        println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime)")
+    private func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
 
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -2019,7 +2017,18 @@ class ConversationViewController: BaseViewController {
                     return
                 }
 
-                let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, unixTime + 1) // TODO: Time offset
+                var lastMessageCreatedUnixTime = unixTime
+                //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
+                if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
+                    let createdUnixTime = message.createdUnixTime
+                    //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
+                    if createdUnixTime > lastMessageCreatedUnixTime {
+                        println("NOTICE: markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), lastMessageCreatedUnixTime: \(createdUnixTime)")
+                        lastMessageCreatedUnixTime = createdUnixTime
+                    }
+                }
+
+                let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
 
                 let unreadMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
 
@@ -2030,10 +2039,10 @@ class ConversationViewController: BaseViewController {
                         $0.sendState = MessageSendState.Read.rawValue
                     }
                 }
-                
-                delay(0.5, work: {
+
+                delay(0.5) {
                     NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                })
+                }
             }
         }
     }
@@ -2045,13 +2054,14 @@ class ConversationViewController: BaseViewController {
         guard let
             messageDataInfo = notifictaion.object as? [String: AnyObject],
             lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
+            lastReadMessageID = messageDataInfo["last_read_id"] as? String,
             recipientType = messageDataInfo["recipient_type"] as? String,
             recipientID = messageDataInfo["recipient_id"] as? String else {
                 return
         }
 
         if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
-            markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+            markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
         }
     }
 
