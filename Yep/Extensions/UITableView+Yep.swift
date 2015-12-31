@@ -14,6 +14,7 @@ extension UITableView {
 
         case None
         case ReloadData
+        case ReloadIndexPaths([NSIndexPath])
         case Insert([NSIndexPath])
 
         var needsLabor: Bool {
@@ -23,6 +24,8 @@ extension UITableView {
                 return false
             case .ReloadData:
                 return true
+            case .ReloadIndexPaths:
+                return true
             case .Insert:
                 return true
             }
@@ -31,12 +34,19 @@ extension UITableView {
         func performWithTableView(tableView: UITableView) {
 
             switch self {
+
             case .None:
                 println("tableView WayToUpdate: None")
                 break
+
             case .ReloadData:
                 println("tableView WayToUpdate: ReloadData")
                 tableView.reloadData()
+
+            case .ReloadIndexPaths(let indexPaths):
+                println("tableView WayToUpdate: ReloadIndexPaths")
+                tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+
             case .Insert(let indexPaths):
                 println("tableView WayToUpdate: Insert")
                 tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)

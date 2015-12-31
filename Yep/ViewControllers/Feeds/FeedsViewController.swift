@@ -431,7 +431,12 @@ class FeedsViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
-    private func updateFeeds(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    enum UpdateFeedsMode {
+        case Top
+        case LoadMore
+        case Static
+    }
+    private func updateFeeds(mode mode: UpdateFeedsMode = .Top, finish: (() -> Void)? = nil) {
 
         if isFetchingFeeds {
             finish?()
@@ -440,15 +445,17 @@ class FeedsViewController: BaseViewController {
 
         isFetchingFeeds = true
 
-        if !isLoadMore && feeds.isEmpty {
+        if mode == .Top && feeds.isEmpty {
             activityIndicator.startAnimating()
         }
 
-        if isLoadMore {
-            currentPageIndex++
-
-        } else {
+        switch mode {
+        case .Top:
             currentPageIndex = 1
+        case .LoadMore:
+            currentPageIndex++
+        case .Static:
+            break
         }
 
         let failureHandler: (Reason, String?) -> Void = { reason, errorMessage in
@@ -489,7 +496,11 @@ class FeedsViewController: BaseViewController {
                         wayToUpdate = .ReloadData
                     }
 
-                    if isLoadMore {
+                    switch mode {
+                    case .Top:
+                        strongSelf.feeds = newFeeds
+
+                    case .LoadMore:
                         let oldFeedsCount = strongSelf.feeds.count
                         strongSelf.feeds += newFeeds
                         let newFeedsCount = strongSelf.feeds.count
@@ -499,11 +510,25 @@ class FeedsViewController: BaseViewController {
                             wayToUpdate = .Insert(indexPaths)
                         }
 
-                    } else {
-                        strongSelf.feeds = newFeeds
+                    case .Static:
+                        var indexesOfMessagesCountUpdated = [Int]()
+                        newFeeds.forEach({ feed in
+                            if let index = strongSelf.feeds.indexOf(feed) {
+                                if strongSelf.feeds[index].messagesCount != feed.messagesCount {
+                                    strongSelf.feeds[index].messagesCount = feed.messagesCount
+                                    indexesOfMessagesCountUpdated.append(index)
+                                }
+                            }
+                        })
+
+                        let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+
+                        wayToUpdate = .ReloadIndexPaths(indexPaths)
                     }
 
                     if !wayToUpdate.needsLabor && !newFeeds.isEmpty {
+
+                        var indexesOfMessagesCountUpdated = [Int]()
 
                         if newFeeds.count == oldFeeds.count {
 
@@ -515,6 +540,8 @@ class FeedsViewController: BaseViewController {
                                 if newFeed.id != oldFeed.id {
                                     wayToUpdate = .ReloadData
                                     break
+                                } else if newFeed.messagesCount != oldFeed.messagesCount {
+                                    indexesOfMessagesCountUpdated.append(index)
                                 }
 
                                 index += 1
@@ -522,6 +549,12 @@ class FeedsViewController: BaseViewController {
 
                         } else {
                             wayToUpdate = .ReloadData
+                        }
+
+                        if !wayToUpdate.needsLabor {
+                            let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+
+                            wayToUpdate = .ReloadIndexPaths(indexPaths)
                         }
                     }
 
@@ -542,7 +575,7 @@ class FeedsViewController: BaseViewController {
                 feedSortStyle = .Time
             }
 
-            let maxFeedID = (isLoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
+            let maxFeedID = (mode == .LoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
 
             discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
         }
@@ -676,8 +709,13 @@ class FeedsViewController: BaseViewController {
 
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
             vc.afterDeletedFeedAction = { [weak self] in
                 self?.updateFeeds()
+            }
+
+            vc.conversationDirtyAction = { [weak self] in
+                self?.updateFeeds(mode: .Static)
             }
 
         case "presentNewFeed":
@@ -1150,7 +1188,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.loadingActivityIndicator.startAnimating()
             }
 
-            updateFeeds(isLoadMore: true, finish: { [weak cell] in
+            updateFeeds(mode: .LoadMore, finish: { [weak cell] in
                 cell?.loadingActivityIndicator.stopAnimating()
             })
 

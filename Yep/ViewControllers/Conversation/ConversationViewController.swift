@@ -289,13 +289,13 @@ enum ConversationFeed {
 
 class ConversationViewController: BaseViewController {
     
-    var conversationFeed: ConversationFeed?
-    
     var conversation: Conversation!
+    var conversationFeed: ConversationFeed?
 
     var afterSentMessageAction: (() -> Void)?
-
     var afterDeletedFeedAction: (() -> Void)?
+    var conversationDirtyAction: (() -> Void)?
+    var conversationIsDirty = false
 
     private var selectedIndexPathForMenu: NSIndexPath?
 
@@ -1342,6 +1342,10 @@ class ConversationViewController: BaseViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        if conversationIsDirty {
+            conversationDirtyAction?()
+        }
 
         if let checkTypingStatusTimer = checkTypingStatusTimer {
             checkTypingStatusTimer.invalidate()
@@ -2551,6 +2555,8 @@ class ConversationViewController: BaseViewController {
 
         if messageIDs == nil {
             afterSentMessageAction?()
+
+            conversationIsDirty = true
 
             if isSubscribeViewShowing {
 
