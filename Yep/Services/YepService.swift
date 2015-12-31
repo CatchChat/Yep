@@ -1742,12 +1742,21 @@ func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((R
 }
 
 // MARK: - Messages
-
-func lastMessageReadUnixTimeByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (NSTimeInterval?) -> Void) {
+struct LastMessageRead {
+    let unixTime: NSTimeInterval
+    let messageID: String
+}
+func lastMessageReadByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (LastMessageRead?) -> Void) {
     
-    let parse: JSONDictionary -> (NSTimeInterval?)? = { data in
-        
-        return data["last_read_at"] as? NSTimeInterval
+    let parse: JSONDictionary -> (LastMessageRead?)? = { data in
+
+        println("lastMessageReadByRecipient: \(data)")
+
+        guard let lastReadUnixTime = data["last_read_at"] as? NSTimeInterval, lastReadMessageID = data["last_read_id"] as? String else {
+            return nil
+        }
+
+        return LastMessageRead(unixTime: lastReadUnixTime, messageID: lastReadMessageID)
     }
     
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForBatchMarkAsRead)/\(recipient.ID)/messages/sent_last_read_at", method: .GET, requestParameters: [:], parse: parse)
