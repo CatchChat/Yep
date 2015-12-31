@@ -1054,7 +1054,7 @@ func latestValidMessageInRealm(realm: Realm, withConversationType conversationTy
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
     }
 }
 
@@ -1070,7 +1070,7 @@ func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversa
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) }).first
+        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
     }
 }
 
