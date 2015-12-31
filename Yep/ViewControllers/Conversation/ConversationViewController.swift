@@ -1994,10 +1994,10 @@ class ConversationViewController: BaseViewController {
     private func syncMessagesReadStatus() {
 
         if let recipient = conversation.recipient {
-            lastMessageReadUnixTimeByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastReadUnixTime in
+            lastMessageReadByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastMessageRead in
 
-                if let lastReadUnixTime = lastReadUnixTime {
-                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime)
+                if let lastMessageRead = lastMessageRead {
+                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastMessageRead.unixTime, lastReadMessageID: lastMessageRead.messageID)
                 }
             })
         }
