@@ -503,6 +503,8 @@ class FeedsViewController: BaseViewController {
                         strongSelf.feeds = newFeeds
                     }
 
+                    var indexesOfMessagesCountUpdated = [Int]()
+
                     if !wayToUpdate.needsLabor && !newFeeds.isEmpty {
 
                         if newFeeds.count == oldFeeds.count {
@@ -516,8 +518,7 @@ class FeedsViewController: BaseViewController {
                                     wayToUpdate = .ReloadData
                                     break
                                 } else if newFeed.messagesCount != oldFeed.messagesCount {
-                                    wayToUpdate = .ReloadData
-                                    break
+                                    indexesOfMessagesCountUpdated.append(index)
                                 }
 
                                 index += 1
@@ -526,6 +527,12 @@ class FeedsViewController: BaseViewController {
                         } else {
                             wayToUpdate = .ReloadData
                         }
+                    }
+
+                    if !wayToUpdate.needsLabor {
+                        let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+
+                        wayToUpdate = .ReloadIndexPaths(indexPaths)
                     }
 
                     wayToUpdate.performWithTableView(strongSelf.feedsTableView)
