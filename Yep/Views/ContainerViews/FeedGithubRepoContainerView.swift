@@ -12,6 +12,12 @@ class FeedGithubRepoContainerView: UIView {
 
     var tapAction: (() -> Void)?
 
+    lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "feed_container_background")
+        return imageView
+    }()
+
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_repo")
@@ -51,22 +57,33 @@ class FeedGithubRepoContainerView: UIView {
 
     private func makeUI() {
 
+        backgroundColor = UIColor.whiteColor()
+        tintAdjustmentMode = .Normal
+
+        addSubview(backgroundImageView)
         addSubview(iconImageView)
         addSubview(nameLabel)
         addSubview(descriptionLabel)
         addSubview(accessoryImageView)
 
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
+            "backgroundImageView": backgroundImageView,
             "iconImageView": iconImageView,
             "nameLabel": nameLabel,
             "descriptionLabel": descriptionLabel,
             "accessoryImageView": accessoryImageView,
         ]
+
+        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activateConstraints(backgroundH)
+        NSLayoutConstraint.activateConstraints(backgroundV)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
 
