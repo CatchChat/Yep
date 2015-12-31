@@ -293,7 +293,7 @@ class ConversationViewController: BaseViewController {
     var conversationFeed: ConversationFeed?
 
     var afterSentMessageAction: (() -> Void)?
-    var afterDeletedFeedAction: (() -> Void)?
+    var afterDeletedFeedAction: ((feedID: String) -> Void)?
     var conversationDirtyAction: (() -> Void)?
     var conversationIsDirty = false
 
@@ -2179,7 +2179,7 @@ class ConversationViewController: BaseViewController {
                     doDeleteConversation(afterLeaveGroup: {
                         deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                             println("deleted feed: \(feedID)")
-                            self?.afterDeletedFeedAction?()
+                            self?.afterDeletedFeedAction?(feedID: feedID)
                         })
                     })
 
