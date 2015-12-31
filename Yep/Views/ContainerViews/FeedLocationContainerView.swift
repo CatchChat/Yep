@@ -12,6 +12,12 @@ class FeedLocationContainerView: UIView {
 
     var tapAction: (() -> Void)?
 
+    lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "feed_container_background")
+        return imageView
+    }()
+
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
@@ -49,21 +55,29 @@ class FeedLocationContainerView: UIView {
 
     private func makeUI() {
 
+        addSubview(backgroundImageView)
         addSubview(mapImageView)
         addSubview(pinImageView)
         addSubview(horizontalLineView)
         addSubview(nameLabel)
 
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         mapImageView.translatesAutoresizingMaskIntoConstraints = false
         pinImageView.translatesAutoresizingMaskIntoConstraints = false
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
+            "backgroundImageView": backgroundImageView,
             "mapImageView": mapImageView,
             "horizontalLineView": horizontalLineView,
             "nameLabel": nameLabel,
         ]
+
+        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activateConstraints(backgroundH)
+        NSLayoutConstraint.activateConstraints(backgroundV)
 
         let constraintsH1 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mapImageView]|", options: [], metrics: nil, views: views)
         let constraintsH2 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)

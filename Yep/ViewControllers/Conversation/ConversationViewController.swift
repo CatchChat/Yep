@@ -289,13 +289,13 @@ enum ConversationFeed {
 
 class ConversationViewController: BaseViewController {
     
-    var conversationFeed: ConversationFeed?
-    
     var conversation: Conversation!
+    var conversationFeed: ConversationFeed?
 
     var afterSentMessageAction: (() -> Void)?
-
     var afterDeletedFeedAction: (() -> Void)?
+    var conversationDirtyAction: (() -> Void)?
+    var conversationIsDirty = false
 
     private var selectedIndexPathForMenu: NSIndexPath?
 
@@ -1342,6 +1342,10 @@ class ConversationViewController: BaseViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        if conversationIsDirty {
+            conversationDirtyAction?()
+        }
 
         if let checkTypingStatusTimer = checkTypingStatusTimer {
             checkTypingStatusTimer.invalidate()
@@ -2552,6 +2556,8 @@ class ConversationViewController: BaseViewController {
         if messageIDs == nil {
             afterSentMessageAction?()
 
+            conversationIsDirty = true
+
             if isSubscribeViewShowing {
 
                 realm.beginWrite()
@@ -2732,6 +2738,10 @@ class ConversationViewController: BaseViewController {
     private func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if let strongSelf = self {
+                guard !strongSelf.conversation.invalidated else {
+                    return
+                }
+
                 if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
                     titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), timeAgo.lowercaseString)
                 } else if let friend = strongSelf.conversation.withFriend {
@@ -4064,7 +4074,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
                 messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
                     println("messagesFromRecipient: \(messageIDs.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    delay(0.3) { // 人为延迟，增加等待感
                         pulllToRefreshView.endRefreshingAndDoFurtherAction() {
                             dispatch_async(dispatch_get_main_queue()) {
                                 tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)

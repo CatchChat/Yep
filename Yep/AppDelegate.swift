@@ -123,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
 
         #if DEBUG
-        clearUselessRealmObjects()
+        //clearUselessRealmObjects() // only for test
         #endif
     }
 
