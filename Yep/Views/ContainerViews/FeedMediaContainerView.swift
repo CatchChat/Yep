@@ -13,6 +13,12 @@ class FeedMediaContainerView: UIView {
 
     var tapMediaAction: ((mediaImageView: UIImageView) -> Void)?
 
+    lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "feed_container_background")
+        return imageView
+    }()
+
     lazy var mediaImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
@@ -44,19 +50,27 @@ class FeedMediaContainerView: UIView {
 
     private func makeUI() {
 
+        addSubview(backgroundImageView)
         addSubview(mediaImageView)
         addSubview(horizontalLineView)
         addSubview(linkContainerView)
 
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         mediaImageView.translatesAutoresizingMaskIntoConstraints = false
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         linkContainerView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
+            "backgroundImageView": backgroundImageView,
             "mediaImageView": mediaImageView,
             "horizontalLineView": horizontalLineView,
             "linkContainerView": linkContainerView,
         ]
+
+        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activateConstraints(backgroundH)
+        NSLayoutConstraint.activateConstraints(backgroundV)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaImageView]|", options: [], metrics: nil, views: views)
 
