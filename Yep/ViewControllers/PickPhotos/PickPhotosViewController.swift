@@ -91,12 +91,13 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
             //println("targetSize: \(targetSize)")
 
-            imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
-                if let image = image {
-                    //println("image.size: \(image.size)")
-                    images.append(image)
+            imageManager.requestImageDataForAsset(imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
+                if let data = data, image = UIImage(data: data) {
+                    if let image = image.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
+                        images.append(image)
+                    }
                 }
-            }
+            })
         }
 
         completion?(images: images, imageAssets: pickedImageAssets)

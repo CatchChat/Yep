@@ -305,7 +305,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                             targetSize = CGSize(width: width, height: height)
                         }
                         
-                        println("targetSize: \(targetSize)")
+                        //println("targetSize: \(targetSize)")
 
                         imageManager.requestImageDataForAsset(imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
                             if let data = data, image = UIImage(data: data) {
@@ -314,15 +314,6 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                                 }
                             }
                         })
-                        
-//                        imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
-//                            if let image = image {
-//                            //if let image = image?.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
-//                                println("image.size: \(image.size), scale: \(image.scale), \(image.imageOrientation.rawValue)")
-//                                println("info: \(info)")
-//                                images.append(image)
-//                            }
-//                        }
                     }
                     
                     for (index, image) in images.enumerate() {
