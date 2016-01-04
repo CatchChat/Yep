@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class FeedConversationsViewController: UIViewController {
+class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
@@ -90,15 +90,6 @@ class FeedConversationsViewController: UIViewController {
     }
 
     // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {

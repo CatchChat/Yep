@@ -305,7 +305,7 @@ enum ProfileUser {
     }
 }
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: SegueViewController {
     
     private var socialAccount: SocialAccount?
 
@@ -1183,15 +1183,6 @@ class ProfileViewController: UIViewController {
     */
 
     // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 

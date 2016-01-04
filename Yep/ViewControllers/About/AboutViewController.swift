@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class AboutViewController: UIViewController {
+class AboutViewController: SegueViewController {
 
     @IBOutlet private weak var appLogoImageView: UIImageView!
     @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
@@ -52,17 +52,6 @@ class AboutViewController: UIViewController {
         aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
 
         aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
-    }
-
-    // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
     }
 }
 
