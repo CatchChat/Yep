@@ -62,14 +62,13 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         var images = [UIImage]()
 
-        let options = PHImageRequestOptions()
-        options.synchronous = true
+        let options = PHImageRequestOptions.yep_sharedOptions
 
         let pickedImageAssets = Array(pickedImageSet)
 
         for imageAsset in pickedImageAssets {
 
-            let maxSize: CGFloat = 512
+            let maxSize: CGFloat = 1024
 
             let pixelWidth = CGFloat(imageAsset.pixelWidth)
             let pixelHeight = CGFloat(imageAsset.pixelHeight)

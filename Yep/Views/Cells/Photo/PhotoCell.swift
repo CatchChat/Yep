@@ -16,19 +16,15 @@ class PhotoCell: UICollectionViewCell {
 
     var imageManager: PHImageManager?
 
-    static var imageRequestOptions: PHImageRequestOptions = {
-        let options = PHImageRequestOptions()
-        options.synchronous = true
-        return options
-        }()
-
     var imageAsset: PHAsset? {
         willSet {
             guard let imageAsset = newValue else {
                 return
             }
 
-            self.imageManager?.requestImageForAsset(imageAsset, targetSize: CGSize(width: 120, height: 120), contentMode: .AspectFill, options: PhotoCell.imageRequestOptions) { [weak self] image, info in
+            let options = PHImageRequestOptions.yep_sharedOptions
+
+            self.imageManager?.requestImageForAsset(imageAsset, targetSize: CGSize(width: 120, height: 120), contentMode: .AspectFill, options: options) { [weak self] image, info in
                 self?.photoImageView.image = image
             }
         }
