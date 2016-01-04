@@ -624,21 +624,6 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
-
-    override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
-        if shouldPerformSegueWithIdentifier(identifier, sender: sender) {
-            super.performSegueWithIdentifier(identifier, sender: sender)
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
