@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class RegisterPickMobileViewController: UIViewController {
+class RegisterPickMobileViewController: SegueViewController {
 
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -169,15 +169,6 @@ class RegisterPickMobileViewController: UIViewController {
     }
 
     // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showRegisterVerifyMobile" {

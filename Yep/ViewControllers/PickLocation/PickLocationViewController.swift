@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import Proposer
 
-class PickLocationViewController: UIViewController {
+class PickLocationViewController: SegueViewController {
 
     enum Purpose {
         case Message
@@ -188,15 +188,6 @@ class PickLocationViewController: UIViewController {
     }
 
     // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 

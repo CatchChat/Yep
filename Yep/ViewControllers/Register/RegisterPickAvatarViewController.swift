@@ -11,7 +11,7 @@ import AVFoundation
 import Proposer
 import Navi
 
-class RegisterPickAvatarViewController: UIViewController {
+class RegisterPickAvatarViewController: SegueViewController {
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var cameraPreviewView: CameraPreviewView!
@@ -139,22 +139,6 @@ class RegisterPickAvatarViewController: UIViewController {
         retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
 
         nextButton.enabled = false
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-    }
-
-    // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
     }
 
     // MARK: Helpers

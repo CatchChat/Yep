@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class NewFeedVoiceRecordViewController: UIViewController {
+class NewFeedVoiceRecordViewController: SegueViewController {
 
     var preparedSkill: Skill?
 
@@ -410,15 +410,6 @@ class NewFeedVoiceRecordViewController: UIViewController {
     }
 
     // MARK: - Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
