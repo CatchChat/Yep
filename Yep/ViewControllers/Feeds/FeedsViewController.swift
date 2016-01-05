@@ -1283,7 +1283,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return 70
 
         case .UploadingFeed:
-            return 100
+            let feed = uploadingFeeds[indexPath.row]
+            return FeedsViewController.layoutPool.heightOfFeed(feed)
 
         case .Feed:
             let feed = feeds[indexPath.row]
