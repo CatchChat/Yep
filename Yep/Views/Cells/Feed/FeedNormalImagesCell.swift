@@ -142,6 +142,10 @@ class FeedNormalImagesCell: FeedBasicCell {
 
     @objc private func tap(sender: UITapGestureRecognizer) {
 
+        guard let firstAttachment = feed?.imageAttachments?.first where !firstAttachment.isTemporary else {
+            return
+        }
+        
         if let imageView = sender.view as? UIImageView, index = imageViews.indexOf(imageView) {
 
             if let attachments = feed?.imageAttachments {

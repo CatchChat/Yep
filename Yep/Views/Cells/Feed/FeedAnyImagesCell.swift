@@ -156,6 +156,10 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
+        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+            return
+        }
+
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
         let transitionView = cell.imageView

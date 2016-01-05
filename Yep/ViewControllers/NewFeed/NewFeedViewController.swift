@@ -201,6 +201,10 @@ class NewFeedViewController: SegueViewController {
             choosePromptLabel.hidden = (newValue != nil)
         }
     }
+
+    deinit {
+        println("NewFeed deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -93,6 +93,10 @@ class FeedBiggerImageCell: FeedBasicCell {
 
     @objc private func tap(sender: UITapGestureRecognizer) {
 
+        guard let firstAttachment = feed?.imageAttachments?.first where !firstAttachment.isTemporary else {
+            return
+        }
+
         if let attachments = feed?.imageAttachments {
             tapMediaAction?(transitionView: biggerImageView, image: biggerImageView.image, attachments: attachments, index: 0)
         }
