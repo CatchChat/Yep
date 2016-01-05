@@ -585,7 +585,7 @@ class NewFeedViewController: SegueViewController {
             // resize to smaller, not need fixRotation
 
             if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
-                return DiscoveredAttachment(metadata: "", URLString: "", image: nil)
+                return DiscoveredAttachment(metadata: "", URLString: "", image: image)
             } else {
                 return nil
             }

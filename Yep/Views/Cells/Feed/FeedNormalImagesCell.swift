@@ -112,8 +112,14 @@ class FeedNormalImagesCell: FeedBasicCell {
             for i in 0..<imageViews.count {
 
                 if let attachment = attachments[safe: i] {
-                    imageViews[i].yep_showActivityIndicatorWhenLoading = true
-                    imageViews[i].yep_setImageOfAttachment(attachment, withSize: YepConfig.FeedNormalImagesCell.imageSize)
+
+                    if attachment.isTemporary {
+                        imageViews[i].image = attachment.image
+
+                    } else {
+                        imageViews[i].yep_showActivityIndicatorWhenLoading = true
+                        imageViews[i].yep_setImageOfAttachment(attachment, withSize: YepConfig.FeedNormalImagesCell.imageSize)
+                    }
 
                     imageViews[i].hidden = false
 

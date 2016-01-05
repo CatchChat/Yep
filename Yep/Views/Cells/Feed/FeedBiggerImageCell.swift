@@ -71,8 +71,13 @@ class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let onlyAttachment = feed.imageAttachments?.first {
-            biggerImageView.yep_showActivityIndicatorWhenLoading = true
-            biggerImageView.yep_setImageOfAttachment(onlyAttachment, withSize: YepConfig.FeedBiggerImageCell.imageSize)
+            if onlyAttachment.isTemporary {
+                biggerImageView.image = onlyAttachment.image
+
+            } else {
+                biggerImageView.yep_showActivityIndicatorWhenLoading = true
+                biggerImageView.yep_setImageOfAttachment(onlyAttachment, withSize: YepConfig.FeedBiggerImageCell.imageSize)
+            }
         }
 
         if layoutCache.layout == nil {

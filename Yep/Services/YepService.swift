@@ -2778,6 +2778,10 @@ struct DiscoveredAttachment {
 
     var image: UIImage?
 
+    var isTemporary: Bool {
+        return image != nil
+    }
+
     var thumbnailImage: UIImage? {
 
         guard (metadata as NSString).length > 0 else {

@@ -38,10 +38,15 @@ class FeedMediaCell: UICollectionViewCell {
 
     func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
 
-        let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
+        if attachment.isTemporary {
+            imageView.image = attachment.image
 
-        imageView.yep_showActivityIndicatorWhenLoading = true
-        imageView.yep_setImageOfAttachment(attachment, withSize: size)
+        } else {
+            let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
+
+            imageView.yep_showActivityIndicatorWhenLoading = true
+            imageView.yep_setImageOfAttachment(attachment, withSize: size)
+        }
 
         deleteImageView.hidden = true
     }
