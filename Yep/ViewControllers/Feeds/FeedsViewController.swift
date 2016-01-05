@@ -683,9 +683,20 @@ class FeedsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let indexPath = sender as? NSIndexPath {
-                let discoveredUser = feeds[indexPath.row].creator
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+
+                switch section {
+                case .SkillUsers:
+                    break
+                case .UploadingFeed:
+                    let discoveredUser = uploadingFeeds[indexPath.row].creator
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                case .Feed:
+                    let discoveredUser = feeds[indexPath.row].creator
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                case .LoadMore:
+                    break
+                }
             }
 
             vc.fromType = .None
@@ -707,8 +718,18 @@ class FeedsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! FeedsViewController
 
-            if let indexPath = sender as? NSIndexPath {
-                vc.skill = feeds[indexPath.row].skill
+            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+
+                switch section {
+                case .SkillUsers:
+                    break
+                case .UploadingFeed:
+                    vc.skill = uploadingFeeds[indexPath.row].skill
+                case .Feed:
+                    vc.skill = feeds[indexPath.row].skill
+                case .LoadMore:
+                    break
+                }
             }
 
             vc.hidesBottomBarWhenPushed = true
@@ -982,6 +1003,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
                     self?.performSegueWithIdentifier("showProfile", sender: indexPath)
                 }
             }
