@@ -835,38 +835,50 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
+        case UploadingFeed
         case Feed
         case LoadMore
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 3
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        switch section {
-        case Section.SkillUsers.rawValue:
-            return (skill == nil) ? 0 : 1
-        case Section.Feed.rawValue:
-            return feeds.count
-        case Section.LoadMore.rawValue:
-            return feeds.isEmpty ? 0 : 1
-        default:
+        guard let section = Section(rawValue: section) else {
             return 0
+        }
+
+        switch section {
+        case .SkillUsers:
+            return (skill == nil) ? 0 : 1
+        case .UploadingFeed:
+            return 1
+        case .Feed:
+            return feeds.count
+        case .LoadMore:
+            return feeds.isEmpty ? 0 : 1
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
             return cell
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            return UITableViewCell()
+
+        case .Feed:
             let feed = feeds[indexPath.row]
 
             switch feed.kind {
@@ -910,20 +922,21 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
 
             guard let cell = cell as? FeedSkillUsersCell else {
                 break
@@ -931,7 +944,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.configureWithFeeds(feeds)
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            break
+
+        case .Feed:
 
             let feed = feeds[indexPath.row]
 
@@ -1191,7 +1207,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 break
             }
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
                 break
@@ -1206,28 +1222,29 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             updateFeeds(mode: .LoadMore, finish: { [weak cell] in
                 cell?.loadingActivityIndicator.stopAnimating()
             })
-
-        default:
-            break
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return 0
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             return 70
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            return 100
+
+        case .Feed:
             let feed = feeds[indexPath.row]
             return FeedsViewController.layoutPool.heightOfFeed(feed)
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             return 60
-
-        default:
-            return 0
         }
     }
 
@@ -1241,15 +1258,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             performSegueWithIdentifier("showSkillHome", sender: nil)
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            break
+
+        case .Feed:
             performSegueWithIdentifier("showConversation", sender: indexPath)
 
-        default:
+        case .LoadMore:
             break
         }
     }
@@ -1258,12 +1282,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return false
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             return false
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            return false
+
+        case .Feed:
             let feed = feeds[indexPath.item]
             if feed.creator.id == YepUserDefaults.userID.value {
                 return false
@@ -1271,23 +1302,32 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 return true
             }
 
-        default:
+        case .LoadMore:
             return false
         }
     }
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-        let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
-
-            if let feed = self?.feeds[indexPath.row] {
-                self?.report(.Feed(feed))
-            }
-
-            tableView.setEditing(false, animated: true)
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
         }
 
-        return [reportAction]
+        if case .Feed = section {
+
+            let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
+
+                if let feed = self?.feeds[indexPath.row] {
+                    self?.report(.Feed(feed))
+                }
+
+                tableView.setEditing(false, animated: true)
+            }
+
+            return [reportAction]
+        }
+
+        return nil
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
