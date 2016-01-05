@@ -564,7 +564,34 @@ class NewFeedViewController: SegueViewController {
             break
         }
 
-        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: nil, distance: 0, skill: nil, groupID: "", messagesCount: 0)
+        let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
+
+            let imageWidth = image.size.width
+            let imageHeight = image.size.height
+
+            let fixedImageWidth: CGFloat
+            let fixedImageHeight: CGFloat
+
+            if imageWidth > imageHeight {
+                fixedImageWidth = min(imageWidth, YepConfig.Media.miniImageWidth)
+                fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+            } else {
+                fixedImageHeight = min(imageHeight, YepConfig.Media.miniImageHeight)
+                fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+            }
+
+            let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+            // resize to smaller, not need fixRotation
+
+            if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                return DiscoveredAttachment(metadata: "", URLString: "", image: nil)
+            } else {
+                return nil
+            }
+        }).flatMap({ $0 })
+
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: .Images(imageAttachments), distance: 0, skill: nil, groupID: "", messagesCount: 0)
     }
 
     @objc private func post(sender: UIBarButtonItem) {
@@ -578,7 +605,7 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
-        if let feed = tryMakeUploadingFeed() where feed.kind == .Image {
+        if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
             beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
             dismissViewControllerAnimated(true, completion: nil)
@@ -621,7 +648,7 @@ class NewFeedViewController: SegueViewController {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
 
-                    if kind == .Image {
+                    if !kind.needBackgroundUpload {
                         self?.dismissViewControllerAnimated(true, completion: nil)
                     }
                 }

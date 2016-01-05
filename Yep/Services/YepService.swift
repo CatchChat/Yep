@@ -2776,6 +2776,8 @@ struct DiscoveredAttachment {
     let metadata: String
     let URLString: String
 
+    var image: UIImage?
+
     var thumbnailImage: UIImage? {
 
         guard (metadata as NSString).length > 0 else {
@@ -2807,7 +2809,7 @@ struct DiscoveredAttachment {
         }
 
         //return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
-        return DiscoveredAttachment(metadata: metadata, URLString: URLString)
+        return DiscoveredAttachment(metadata: metadata, URLString: URLString, image: nil)
     }
 }
 
@@ -3231,6 +3233,15 @@ enum FeedKind: String {
         case .DribbbleShot: return "dribbble"
         //case .InstagramMedia: return "instagram"
         default: return nil
+        }
+    }
+
+    var needBackgroundUpload: Bool {
+        switch self {
+        case .Image:
+            return true
+        default:
+            return false
         }
     }
 }
