@@ -327,6 +327,7 @@
 		50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */; };
 		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; };
 		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; };
+		50F6D32A1C3B618200CB673C /* ModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F6D3291C3B618200CB673C /* ModelTypes.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */; };
 		50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */; };
@@ -696,6 +697,7 @@
 		50F5AF941BBBCDA30033C9BC /* FeedMediaAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaAddCell.xib; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.xib; sourceTree = "<group>"; };
 		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
 		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
+		50F6D3291C3B618200CB673C /* ModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelTypes.swift; path = Protocols/ModelTypes.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FPSLabel.swift; path = Views/Labels/FPSLabel.swift; sourceTree = "<group>"; };
 		50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaContainerView.swift; path = Views/ContainerViews/FeedMediaContainerView.swift; sourceTree = "<group>"; };
@@ -826,6 +828,7 @@
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
+				50F6D3281C3B5FDB00CB673C /* Protocols */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
 				502AE52C1AB819B5005BD199 /* Configs */,
 				502AE5251AB72BE9005BD199 /* Services */,
@@ -2198,6 +2201,14 @@
 			name = FeedMedia;
 			sourceTree = "<group>";
 		};
+		50F6D3281C3B5FDB00CB673C /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				50F6D3291C3B618200CB673C /* ModelTypes.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
 		50FD75401C20FF940050A382 /* ContainerViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -2752,6 +2763,7 @@
 				50E1CE8E1BE0BFF00025B933 /* MediaViewCell.swift in Sources */,
 				50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */,
 				50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */,
+				50F6D32A1C3B618200CB673C /* ModelTypes.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
