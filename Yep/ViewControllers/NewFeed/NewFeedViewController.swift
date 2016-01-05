@@ -598,11 +598,18 @@ class NewFeedViewController: SegueViewController {
                 feedAttachment = .Images(imageAttachments)
             }
 
-        case .Voice:
+        case .Voice(let feedVoice):
 
             kind = .Audio
 
-            let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: NSData(), duration: 0, sampleValues: [])
+            let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+            let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+            let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+
+            let audioMetaData = try! NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
+
+            let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: audioMetaData, duration: audioDuration, sampleValues: feedVoice.limitedSampleValues)
 
             feedAttachment = .Audio(audioInfo)
 
