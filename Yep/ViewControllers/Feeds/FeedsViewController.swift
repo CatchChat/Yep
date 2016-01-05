@@ -625,13 +625,17 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
+    private var newFeedViewController: NewFeedViewController?
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
             return
         }
 
-        let beforeUploadingFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+        let beforeUploadingFeedAction: (DiscoveredFeed, NewFeedViewController) -> Void = { [weak self] feed, newFeedViewController in
+
+            self?.newFeedViewController = newFeedViewController
 
             dispatch_async(dispatch_get_main_queue()) {
 
@@ -646,6 +650,8 @@ class FeedsViewController: BaseViewController {
         }
 
         let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+
+            self?.newFeedViewController = nil
 
             dispatch_async(dispatch_get_main_queue()) {
 

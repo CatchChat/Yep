@@ -49,7 +49,7 @@ class NewFeedViewController: SegueViewController {
 
     var attachment: Attachment = .Default
 
-    var beforeUploadingFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     var preparedSkill: Skill?
@@ -160,15 +160,15 @@ class NewFeedViewController: SegueViewController {
             case .Uploading:
                 postButton.enabled = false
                 messageTextView.resignFirstResponder()
-                YepHUD.showActivityIndicator()
+                //YepHUD.showActivityIndicator()
 
             case .Failed(let message):
-                YepHUD.hideActivityIndicator()
+                //YepHUD.hideActivityIndicator()
                 postButton.enabled = true
                 YepAlert.alertSorry(message: message, inViewController: self)
 
             case .Success:
-                YepHUD.hideActivityIndicator()
+                //YepHUD.hideActivityIndicator()
                 messageTextView.text = nil
             }
         }
@@ -578,11 +578,11 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
-        if let feed = tryMakeUploadingFeed() {
-            beforeUploadingFeedAction?(feed: feed)
-        }
+        if let feed = tryMakeUploadingFeed() where feed.kind == .Image {
+            beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
-        dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
+        }
 
         uploadState = .Uploading
         
@@ -611,7 +611,7 @@ class NewFeedViewController: SegueViewController {
                 }
 
             }, completion: { data in
-                println(data)
+                println("createFeedWithKind: \(data)")
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -621,7 +621,9 @@ class NewFeedViewController: SegueViewController {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
 
-                    //self?.dismissViewControllerAnimated(true, completion: nil)
+                    if kind == .Image {
+                        self?.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
                 
                 syncGroupsAndDoFurtherAction {}
