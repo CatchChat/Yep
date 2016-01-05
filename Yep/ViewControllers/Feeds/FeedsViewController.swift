@@ -165,7 +165,7 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
+    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?, animation: UITableViewRowAnimation? = nil) {
 
         // refresh skillUsers
 
@@ -176,7 +176,7 @@ class FeedsViewController: BaseViewController {
 
         if let indexPaths = indexPaths where feeds.count > 1 {
             // insert
-            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation ?? .Automatic)
 
         } else {
             // or reload
@@ -651,10 +651,19 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
-                    strongSelf.feeds.insert(feed, atIndex: 0)
+                    var animation: UITableViewRowAnimation = .Automatic
 
+                    if !strongSelf.uploadingFeeds.isEmpty {
+
+                        strongSelf.uploadingFeeds = []
+                        strongSelf.feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+
+                        animation = .None
+                    }
+
+                    strongSelf.feeds.insert(feed, atIndex: 0)
                     let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath], animation: animation)
                 }
             }
 

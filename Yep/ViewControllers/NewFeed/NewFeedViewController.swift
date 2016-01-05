@@ -583,7 +583,7 @@ class NewFeedViewController: SegueViewController {
         }
 
         dismissViewControllerAnimated(true, completion: nil)
-        
+
         uploadState = .Uploading
         
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
@@ -621,7 +621,7 @@ class NewFeedViewController: SegueViewController {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
 
-                    self?.dismissViewControllerAnimated(true, completion: nil)
+                    //self?.dismissViewControllerAnimated(true, completion: nil)
                 }
                 
                 syncGroupsAndDoFurtherAction {}
