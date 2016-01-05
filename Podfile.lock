@@ -13,7 +13,7 @@ PODS:
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - KeyboardMan (0.5.2)
-  - Kingfisher (1.9.0)
+  - Kingfisher (1.9.1)
   - MonkeyKing (0.0.2)
   - MZFayeClient (1.0.1):
     - Base64 (~> 1.0.1)
@@ -67,7 +67,7 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
-  Kingfisher: 163bafc1af6ae14d707e76ecba256d8db99dc955
+  Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   MZFayeClient: 65e7ef67e61fbe7a7a8b196130541c9f06bcb5d8
   Navi: 24f5c81aeb46b89d27168ec1d459581230ae2675
