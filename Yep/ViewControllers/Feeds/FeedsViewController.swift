@@ -23,6 +23,7 @@ class FeedsViewController: BaseViewController {
     
     var hideRightBarItem: Bool = false
 
+    var uploadingFeeds = [DiscoveredFeed]()
     var feeds = [DiscoveredFeed]()
 
     @IBOutlet weak var feedsTableView: UITableView!
@@ -855,7 +856,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .SkillUsers:
             return (skill == nil) ? 0 : 1
         case .UploadingFeed:
-            return 1
+            return uploadingFeeds.count
         case .Feed:
             return feeds.count
         case .LoadMore:
@@ -869,17 +870,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
 
-        switch section {
-
-        case .SkillUsers:
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
-            return cell
-
-        case .UploadingFeed:
-            return UITableViewCell()
-
-        case .Feed:
-            let feed = feeds[indexPath.row]
+        func cellForFeed(feed: DiscoveredFeed) -> UITableViewCell {
 
             switch feed.kind {
 
@@ -921,8 +912,27 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
                 return cell
             }
+        }
+
+        switch section {
+
+        case .SkillUsers:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+            return cell
+
+        case .UploadingFeed:
+
+            let feed = uploadingFeeds[indexPath.row]
+            return cellForFeed(feed)
+
+        case .Feed:
+
+            let feed = feeds[indexPath.row]
+            return cellForFeed(feed)
 
         case .LoadMore:
+
             let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
             return cell
         }
@@ -934,25 +944,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        switch section {
-
-        case .SkillUsers:
-
-            guard let cell = cell as? FeedSkillUsersCell else {
-                break
-            }
-
-            cell.configureWithFeeds(feeds)
-
-        case .UploadingFeed:
-            break
-
-        case .Feed:
-
-            let feed = feeds[indexPath.row]
+        func configureFeedCell(cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
             guard let cell = cell as? FeedBasicCell else {
-                break
+                return
             }
 
             cell.tapAvatarAction = { [weak self] cell in
@@ -1206,6 +1201,27 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             default:
                 break
             }
+        }
+
+        switch section {
+
+        case .SkillUsers:
+
+            guard let cell = cell as? FeedSkillUsersCell else {
+                break
+            }
+
+            cell.configureWithFeeds(feeds)
+
+        case .UploadingFeed:
+
+            let feed = uploadingFeeds[indexPath.row]
+            configureFeedCell(cell, withFeed: feed)
+
+        case .Feed:
+
+            let feed = feeds[indexPath.row]
+            configureFeedCell(cell, withFeed: feed)
 
         case .LoadMore:
 
