@@ -49,6 +49,7 @@ class NewFeedViewController: SegueViewController {
 
     var attachment: Attachment = .Default
 
+    var beforeUploadingFeedAction: ((feed: DiscoveredFeed) -> Void)?
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     var preparedSkill: Skill?
@@ -530,12 +531,42 @@ class NewFeedViewController: SegueViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    private struct UploadImageInfo {
-        
-        let s3UploadParams: S3UploadParams
-        let metaDataString: String?
+//    private struct UploadImageInfo {
+//        
+//        let s3UploadParams: S3UploadParams
+//        let metaDataString: String?
+//    }
+
+    func tryMakeUploadingFeed() -> DiscoveredFeed? {
+
+        guard let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) else {
+                return nil
+        }
+
+        let creator = DiscoveredUser.fromUser(me)
+
+        var kind: FeedKind = .Text
+
+        let createdUnixTime = NSDate().timeIntervalSince1970
+        let updatedUnixTime = createdUnixTime
+
+        let message = messageTextView.text.trimming(.WhitespaceAndNewline)
+
+        switch attachment {
+        case .Default:
+            if !mediaImages.isEmpty {
+                kind = .Image
+            }
+        default:
+            break
+        }
+
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: nil, distance: 0, skill: nil, groupID: "", messagesCount: 0)
     }
-    
+
     @objc private func post(sender: UIBarButtonItem) {
 
         let messageLength = (messageTextView.text as NSString).length
@@ -546,6 +577,12 @@ class NewFeedViewController: SegueViewController {
 
             return
         }
+
+        if let feed = tryMakeUploadingFeed() {
+            beforeUploadingFeedAction?(feed: feed)
+        }
+
+        dismissViewControllerAnimated(true, completion: nil)
         
         uploadState = .Uploading
         

@@ -1276,6 +1276,11 @@ struct DiscoveredUser: Hashable {
         
         return false
     }
+
+    static func fromUser(user: User) -> DiscoveredUser {
+
+         return DiscoveredUser(id: user.userID, username: user.username, nickname: user.nickname, introduction: user.introduction, avatarURLString: user.avatarURLString, badge: user.badge, createdUnixTime: user.createdUnixTime, lastSignInUnixTime: user.lastSignInUnixTime, longitude: user.longitude, latitude: user.latitude, distance: 0, masterSkills: [], learningSkills: [], socialAccountProviders: [], recently_updated_provider: nil)
+    }
 }
 
 func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {

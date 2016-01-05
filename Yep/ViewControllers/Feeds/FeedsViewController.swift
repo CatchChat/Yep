@@ -631,6 +631,20 @@ class FeedsViewController: BaseViewController {
             return
         }
 
+        let beforeUploadingFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let strongSelf = self {
+
+                    strongSelf.uploadingFeeds.insert(feed, atIndex: 0)
+
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.UploadingFeed.rawValue)
+                    strongSelf.feedsTableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
+        }
+
         let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
 
             dispatch_async(dispatch_get_main_queue()) {
@@ -745,6 +759,7 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
+            vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
         case "presentNewFeedVoiceRecord":
