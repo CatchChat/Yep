@@ -809,6 +809,7 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
+            vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
 
         case "presentPickLocation":

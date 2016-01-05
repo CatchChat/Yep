@@ -13,6 +13,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
     var preparedSkill: Skill?
 
+    var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     @IBOutlet private weak var nextButton: UIBarButtonItem!
@@ -429,6 +430,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
                 vc.preparedSkill = preparedSkill
 
+                vc.beforeUploadingFeedAction = beforeUploadingFeedAction
                 vc.afterCreatedFeedAction = afterCreatedFeedAction
             }
 
