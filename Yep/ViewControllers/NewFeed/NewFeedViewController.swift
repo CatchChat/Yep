@@ -559,43 +559,58 @@ class NewFeedViewController: SegueViewController {
 
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
 
+        var feedAttachment: DiscoveredFeed.Attachment?
+
         switch attachment {
+
         case .Default:
+
             if !mediaImages.isEmpty {
                 kind = .Image
+
+                let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
+
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.miniImageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.miniImageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                    // resize to smaller, not need fixRotation
+
+                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                        return DiscoveredAttachment(metadata: "", URLString: "", image: image)
+                    } else {
+                        return nil
+                    }
+                }).flatMap({ $0 })
+
+                feedAttachment = .Images(imageAttachments)
             }
+
+        case .Voice:
+
+            kind = .Audio
+
+            let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: NSData(), duration: 0, sampleValues: [])
+
+            feedAttachment = .Audio(audioInfo)
+
         default:
             break
         }
 
-        let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
-
-            let imageWidth = image.size.width
-            let imageHeight = image.size.height
-
-            let fixedImageWidth: CGFloat
-            let fixedImageHeight: CGFloat
-
-            if imageWidth > imageHeight {
-                fixedImageWidth = min(imageWidth, YepConfig.Media.miniImageWidth)
-                fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-            } else {
-                fixedImageHeight = min(imageHeight, YepConfig.Media.miniImageHeight)
-                fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-            }
-
-            let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
-
-            // resize to smaller, not need fixRotation
-
-            if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
-                return DiscoveredAttachment(metadata: "", URLString: "", image: image)
-            } else {
-                return nil
-            }
-        }).flatMap({ $0 })
-
-        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: .Images(imageAttachments), distance: 0, skill: nil, groupID: "", messagesCount: 0)
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: feedAttachment, distance: 0, skill: nil, groupID: "", messagesCount: 0)
     }
 
     @objc private func post(sender: UIBarButtonItem) {

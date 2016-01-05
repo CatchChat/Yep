@@ -3244,6 +3244,8 @@ enum FeedKind: String {
         switch self {
         case .Image:
             return true
+        case .Audio:
+            return true
         default:
             return false
         }
