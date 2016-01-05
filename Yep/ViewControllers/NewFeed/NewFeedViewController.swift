@@ -54,6 +54,8 @@ class NewFeedViewController: SegueViewController {
 
     var preparedSkill: Skill?
 
+    weak var oldPresentingViewController: UIViewController?
+
 
     @IBOutlet private weak var feedWhiteBGView: UIView!
     
@@ -165,7 +167,14 @@ class NewFeedViewController: SegueViewController {
             case .Failed(let message):
                 //YepHUD.hideActivityIndicator()
                 postButton.enabled = true
-                YepAlert.alertSorry(message: message, inViewController: self)
+
+                let vc: UIViewController?
+                if presentingViewController != nil {
+                    vc = self
+                } else {
+                    vc = oldPresentingViewController
+                }
+                YepAlert.alertSorry(message: message, inViewController: vc)
 
             case .Success:
                 //YepHUD.hideActivityIndicator()
@@ -221,6 +230,8 @@ class NewFeedViewController: SegueViewController {
         }
         
         view.sendSubviewToBack(feedWhiteBGView)
+
+        oldPresentingViewController = self.presentingViewController
         
         isDirty = false
 
