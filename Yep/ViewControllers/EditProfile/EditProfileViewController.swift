@@ -12,7 +12,7 @@ import TPKeyboardAvoiding
 import Proposer
 import Navi
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: SegueViewController {
 
     struct Notification {
         static let Logout = "LogoutNotification"
@@ -80,17 +80,6 @@ class EditProfileViewController: UIViewController {
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
-    }
-
-    // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
     }
 
     // MARK: Actions

@@ -88,17 +88,6 @@ class RegisterPickNameViewController: BaseViewController {
         nameTextField.becomeFirstResponder()
     }
 
-    // MARK: Navigation
-
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
-
     // MARK: Actions
 
     @objc private func tapTerms(sender: UITapGestureRecognizer) {

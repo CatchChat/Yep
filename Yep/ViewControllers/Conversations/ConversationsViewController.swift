@@ -15,7 +15,7 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: UIViewController {
+class ConversationsViewController: SegueViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
@@ -291,15 +291,6 @@ class ConversationsViewController: UIViewController {
 
     // MARK: Navigation
 
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-
-        guard navigationController?.topViewController == self else {
-            return false
-        }
-
-        return true
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
@@ -407,10 +398,6 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
-
-        guard navigationController?.topViewController == self else {
-            return
         }
 
         switch indexPath.section {

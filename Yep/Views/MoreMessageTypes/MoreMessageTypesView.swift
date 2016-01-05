@@ -279,13 +279,12 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
                     var images = [UIImage]()
 
-                    let options = PHImageRequestOptions()
-                    options.synchronous = true
+                    let options = PHImageRequestOptions.yep_sharedOptions
 
                     let imageManager = PHCachingImageManager()
                     for imageAsset in quickPickedImageSet {
 
-                        let maxSize: CGFloat = 512
+                        let maxSize: CGFloat = 1024
 
                         let pixelWidth = CGFloat(imageAsset.pixelWidth)
                         let pixelHeight = CGFloat(imageAsset.pixelHeight)
@@ -307,13 +306,14 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                         }
                         
                         //println("targetSize: \(targetSize)")
-                        
-                        imageManager.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { image, info in
-                            if let image = image {
-                                println("image.size: \(image.size)")
-                                images.append(image)
+
+                        imageManager.requestImageDataForAsset(imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
+                            if let data = data, image = UIImage(data: data) {
+                                if let image = image.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
+                                    images.append(image)
+                                }
                             }
-                        }
+                        })
                     }
                     
                     for (index, image) in images.enumerate() {

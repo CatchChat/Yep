@@ -735,6 +735,15 @@ func blockedUsersByMe(failureHandler failureHandler: ((Reason, String?) -> Void)
                         completion(parse(blockedUsers))
                     }
                 }
+
+        } else {
+            // 没有分页信息才会到此处
+            println("headBlockedUsers not paging info.")
+            if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                completion(parse(blockedUsers))
+            } else {
+                completion([])
+            }
         }
     })
 }
