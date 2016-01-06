@@ -228,6 +228,10 @@ class PickLocationViewController: SegueViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
+    private var fixedCenterCoordinate: CLLocationCoordinate2D {
+        return mapView.convertPoint(mapView.center, toCoordinateFromView: mapView)
+    }
+
     @IBAction private func done(sender: UIBarButtonItem) {
 
         switch purpose {
@@ -238,11 +242,7 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
-                    let centerCoordinate = self.mapView.convertPoint(self.mapView.center, toCoordinateFromView: self.mapView)
-
-                    //let centerCoordinate = self.mapView.centerCoordinate
-
-                    sendLocationAction(locationInfo: Location.Info(coordinate: centerCoordinate, name: nil))
+                    sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
 
                     /*
                     if let location = self.location {
@@ -260,8 +260,8 @@ class PickLocationViewController: SegueViewController {
             })
 
         case .Feed:
-            let centerCoordinate = self.mapView.centerCoordinate
-            let location = Location.Default(info: Location.Info(coordinate: centerCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
+
+            let location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
             performSegueWithIdentifier("showNewFeed", sender: Box(location))
             /*
