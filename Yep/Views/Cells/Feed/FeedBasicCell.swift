@@ -128,6 +128,15 @@ class FeedBasicCell: UITableViewCell {
         let view = FeedUploadingErrorContainerView()
         return view
     }()
+    var hasUploadingErrorMessage = false {
+        didSet {
+            uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
+
+            leftBottomLabel.hidden = hasUploadingErrorMessage
+            messageCountLabel.hidden = hasUploadingErrorMessage
+            discussionImageView.hidden = hasUploadingErrorMessage
+        }
+    }
 
     var feed: DiscoveredFeed?
 
@@ -138,7 +147,7 @@ class FeedBasicCell: UITableViewCell {
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
 
-    var retryUploadingFeedAction: (() -> Void)?
+    var retryUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -283,7 +292,6 @@ class FeedBasicCell: UITableViewCell {
         }
 
         do {
-            var hasUploadingErrorMessage = false
 
             if let message = feed.uploadingErrorMessage {
                 hasUploadingErrorMessage = true
@@ -293,15 +301,11 @@ class FeedBasicCell: UITableViewCell {
                 uploadingErrorContainerView.errorMessageLabel.text = message
 
                 uploadingErrorContainerView.retryAction = { [weak self] in
-                    self?.retryUploadingFeedAction?()
+                    if let strongSelf = self {
+                        strongSelf.retryUploadingFeedAction?(cell: strongSelf)
+                    }
                 }
             }
-
-            uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
-
-            leftBottomLabel.hidden = hasUploadingErrorMessage
-            messageCountLabel.hidden = hasUploadingErrorMessage
-            discussionImageView.hidden = hasUploadingErrorMessage
         }
     }
 
