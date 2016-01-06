@@ -238,6 +238,10 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
+                    let centerCoordinate = self.mapView.centerCoordinate
+
+                    sendLocationAction(locationInfo: Location.Info(coordinate: centerCoordinate, name: nil))
+
                     /*
                     if let location = self.location {
                         sendLocationAction(locationInfo: location.info)
@@ -254,7 +258,10 @@ class PickLocationViewController: SegueViewController {
             })
 
         case .Feed:
-            break
+            let centerCoordinate = self.mapView.centerCoordinate
+            let location = Location.Default(info: Location.Info(coordinate: centerCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
+
+            performSegueWithIdentifier("showNewFeed", sender: Box(location))
             /*
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
