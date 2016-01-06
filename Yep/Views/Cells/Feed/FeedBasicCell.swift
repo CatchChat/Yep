@@ -152,6 +152,9 @@ class FeedBasicCell: UITableViewCell {
         contentView.addSubview(leftBottomLabel)
         contentView.addSubview(messageCountLabel)
         contentView.addSubview(discussionImageView)
+
+        contentView.addSubview(uploadingErrorContainerView)
+        uploadingErrorContainerView.hidden = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -277,12 +280,23 @@ class FeedBasicCell: UITableViewCell {
             layoutCache.update(layout: newLayout)
         }
 
-        //if let message = feed.uploadingErrorMessage {
-            let y = leftBottomLabel.frame.origin.y - (30 - leftBottomLabel.frame.height) * 0.5
-            uploadingErrorContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65, height: 30)
-            contentView.addSubview(uploadingErrorContainerView)
-            //uploadingErrorContainerView.errorMessageLabel.text = message
-        //}
+        do {
+            var hasUploadingErrorMessage = false
+
+            if let message = feed.uploadingErrorMessage {
+                let y = leftBottomLabel.frame.origin.y - (30 - leftBottomLabel.frame.height) * 0.5
+                uploadingErrorContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65, height: 30)
+                uploadingErrorContainerView.errorMessageLabel.text = message
+
+                hasUploadingErrorMessage = true
+            }
+
+            uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
+
+            leftBottomLabel.hidden = hasUploadingErrorMessage
+            messageCountLabel.hidden = hasUploadingErrorMessage
+            discussionImageView.hidden = hasUploadingErrorMessage
+        }
     }
 
     // MARK: Actions

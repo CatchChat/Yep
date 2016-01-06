@@ -24,7 +24,7 @@ class FeedUploadingErrorContainerView: UIView {
 
     lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
-        label.text = NSLocalizedString("Upload failed.", comment: "")
+        label.text = NSLocalizedString("Upload failed!", comment: "")
         label.textColor = UIColor.redColor()
         return label
     }()
