@@ -163,9 +163,6 @@ class FeedBasicCell: UITableViewCell {
         contentView.addSubview(leftBottomLabel)
         contentView.addSubview(messageCountLabel)
         contentView.addSubview(discussionImageView)
-
-        contentView.addSubview(uploadingErrorContainerView)
-        uploadingErrorContainerView.hidden = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -292,7 +289,6 @@ class FeedBasicCell: UITableViewCell {
         }
 
         do {
-
             if let message = feed.uploadingErrorMessage {
                 hasUploadingErrorMessage = true
 
@@ -305,6 +301,11 @@ class FeedBasicCell: UITableViewCell {
                         strongSelf.retryUploadingFeedAction?(cell: strongSelf)
                     }
                 }
+
+                contentView.addSubview(uploadingErrorContainerView)
+
+            } else {
+                hasUploadingErrorMessage = false
             }
         }
     }
