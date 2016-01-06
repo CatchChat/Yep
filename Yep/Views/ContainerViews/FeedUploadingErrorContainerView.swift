@@ -32,16 +32,26 @@ class FeedUploadingErrorContainerView: UIView {
     lazy var retryButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Retry", comment: ""), forState: .Normal)
+        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         return button
     }()
 
     lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Delete", comment: ""), forState: .Normal)
+        button.setTitleColor(UIColor.redColor(), forState: .Normal)
         return button
     }()
 
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        makeUI()
+    }
+
     func makeUI() {
+
+        backgroundColor = UIColor.whiteColor()
 
         do {
             addSubview(leftContainerView)
@@ -55,7 +65,7 @@ class FeedUploadingErrorContainerView: UIView {
                 "deleteButton": deleteButton,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[leftContainerView][deleteButton]|", options: [.AlignAllCenterY], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[leftContainerView]-15-[deleteButton]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
             let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[leftContainerView]|", options: [], metrics: nil, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
@@ -77,7 +87,10 @@ class FeedUploadingErrorContainerView: UIView {
                 "retryButton": retryButton,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[iconImageView][errorMessageLabel][retryButton]|", options: [.AlignAllCenterY], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[iconImageView]-[errorMessageLabel]-[retryButton]-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+
+            iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+            iconImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
             let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: leftContainerView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
