@@ -266,6 +266,9 @@ class YepConfig {
     struct Media {
         static let imageWidth: CGFloat = 2048
         static let imageHeight: CGFloat = 2048
+
+        static let miniImageWidth: CGFloat = 200
+        static let miniImageHeight: CGFloat = 200
     }
 
     struct Feedback {

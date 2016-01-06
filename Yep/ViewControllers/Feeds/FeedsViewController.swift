@@ -23,6 +23,15 @@ class FeedsViewController: BaseViewController {
     
     var hideRightBarItem: Bool = false
 
+    var uploadingFeeds = [DiscoveredFeed]()
+    func handleUploadingErrorMessage(message: String) {
+        if !uploadingFeeds.isEmpty {
+            uploadingFeeds[0].uploadingErrorMessage = message
+            feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+
+            println("handleUploadingErrorMessage: \(message)")
+        }
+    }
     var feeds = [DiscoveredFeed]()
 
     @IBOutlet weak var feedsTableView: UITableView!
@@ -164,7 +173,7 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?) {
+    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?, animation: UITableViewRowAnimation? = nil) {
 
         // refresh skillUsers
 
@@ -175,7 +184,7 @@ class FeedsViewController: BaseViewController {
 
         if let indexPaths = indexPaths where feeds.count > 1 {
             // insert
-            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation ?? .Automatic)
 
         } else {
             // or reload
@@ -624,27 +633,64 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
+    private var newFeedViewController: NewFeedViewController?
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
             return
         }
 
-        let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+        let beforeUploadingFeedAction: (DiscoveredFeed, NewFeedViewController) -> Void = { [weak self] feed, newFeedViewController in
+
+            self?.newFeedViewController = newFeedViewController
 
             dispatch_async(dispatch_get_main_queue()) {
 
                 if let strongSelf = self {
 
-                    strongSelf.feeds.insert(feed, atIndex: 0)
+                    strongSelf.uploadingFeeds.insert(feed, atIndex: 0)
 
+                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.UploadingFeed.rawValue)
+                    strongSelf.feedsTableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
+        }
+
+        let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+
+            self?.newFeedViewController = nil
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                if let strongSelf = self {
+
+                    strongSelf.feedsTableView.beginUpdates()
+
+                    var animation: UITableViewRowAnimation = .Automatic
+
+                    if !strongSelf.uploadingFeeds.isEmpty {
+
+                        strongSelf.uploadingFeeds = []
+                        strongSelf.feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+
+                        animation = .None
+                    }
+
+                    strongSelf.feeds.insert(feed, atIndex: 0)
                     let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath])
+                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath], animation: animation)
+                    
+                    strongSelf.feedsTableView.endUpdates()
                 }
             }
 
             joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
             })
+        }
+
+        let getFeedsViewController: () -> FeedsViewController? = { [weak self] in
+            return self
         }
 
         switch identifier {
@@ -653,9 +699,20 @@ class FeedsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let indexPath = sender as? NSIndexPath {
-                let discoveredUser = feeds[indexPath.row].creator
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+
+                switch section {
+                case .SkillUsers:
+                    break
+                case .UploadingFeed:
+                    let discoveredUser = uploadingFeeds[indexPath.row].creator
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                case .Feed:
+                    let discoveredUser = feeds[indexPath.row].creator
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                case .LoadMore:
+                    break
+                }
             }
 
             vc.fromType = .None
@@ -677,8 +734,18 @@ class FeedsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! FeedsViewController
 
-            if let indexPath = sender as? NSIndexPath {
-                vc.skill = feeds[indexPath.row].skill
+            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+
+                switch section {
+                case .SkillUsers:
+                    break
+                case .UploadingFeed:
+                    vc.skill = uploadingFeeds[indexPath.row].skill
+                case .Feed:
+                    vc.skill = feeds[indexPath.row].skill
+                case .LoadMore:
+                    break
+                }
             }
 
             vc.hidesBottomBarWhenPushed = true
@@ -744,7 +811,9 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
+            vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+            vc.getFeedsViewController = getFeedsViewController
 
         case "presentNewFeedVoiceRecord":
 
@@ -757,7 +826,9 @@ class FeedsViewController: BaseViewController {
 
             vc.preparedSkill = skill
 
+            vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+            vc.getFeedsViewController = getFeedsViewController
 
         case "presentPickLocation":
 
@@ -835,39 +906,41 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
+        case UploadingFeed
         case Feed
         case LoadMore
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 3
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        switch section {
-        case Section.SkillUsers.rawValue:
-            return (skill == nil) ? 0 : 1
-        case Section.Feed.rawValue:
-            return feeds.count
-        case Section.LoadMore.rawValue:
-            return feeds.isEmpty ? 0 : 1
-        default:
+        guard let section = Section(rawValue: section) else {
             return 0
+        }
+
+        switch section {
+        case .SkillUsers:
+            return (skill == nil) ? 0 : 1
+        case .UploadingFeed:
+            return uploadingFeeds.count
+        case .Feed:
+            return feeds.count
+        case .LoadMore:
+            return feeds.isEmpty ? 0 : 1
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return UITableViewCell()
+        }
 
-        case Section.SkillUsers.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
-            return cell
-
-        case Section.Feed.rawValue:
-            let feed = feeds[indexPath.row]
+        func cellForFeed(feed: DiscoveredFeed) -> UITableViewCell {
 
             switch feed.kind {
 
@@ -909,38 +982,47 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
                 return cell
             }
+        }
 
-        case Section.LoadMore.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+        switch section {
+
+        case .SkillUsers:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
             return cell
 
-        default:
-            return UITableViewCell()
+        case .UploadingFeed:
+
+            let feed = uploadingFeeds[indexPath.row]
+            return cellForFeed(feed)
+
+        case .Feed:
+
+            let feed = feeds[indexPath.row]
+            return cellForFeed(feed)
+
+        case .LoadMore:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            return cell
         }
     }
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
 
-        case Section.SkillUsers.rawValue:
-
-            guard let cell = cell as? FeedSkillUsersCell else {
-                break
-            }
-
-            cell.configureWithFeeds(feeds)
-
-        case Section.Feed.rawValue:
-
-            let feed = feeds[indexPath.row]
+        func configureFeedCell(cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
             guard let cell = cell as? FeedBasicCell else {
-                break
+                return
             }
 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
+                    println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
                     self?.performSegueWithIdentifier("showProfile", sender: indexPath)
                 }
             }
@@ -1190,8 +1272,52 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             default:
                 break
             }
+        }
 
-        case Section.LoadMore.rawValue:
+        switch section {
+
+        case .SkillUsers:
+
+            guard let cell = cell as? FeedSkillUsersCell else {
+                break
+            }
+
+            cell.configureWithFeeds(feeds)
+
+        case .UploadingFeed:
+
+            let feed = uploadingFeeds[indexPath.row]
+            configureFeedCell(cell, withFeed: feed)
+
+            if let cell = cell as? FeedBasicCell {
+
+                cell.retryUploadingFeedAction = { [weak self] cell in
+
+                    self?.newFeedViewController?.post(again: true)
+
+                    if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
+                        self?.uploadingFeeds[indexPath.row].uploadingErrorMessage = nil
+                        cell.hasUploadingErrorMessage = false
+                    }
+                }
+
+                cell.deleteUploadingFeedAction = { [weak self] cell in
+
+                    if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
+                        self?.uploadingFeeds.removeAtIndex(indexPath.row)
+                        self?.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                        self?.newFeedViewController = nil
+                    }
+                }
+            }
+
+        case .Feed:
+
+            let feed = feeds[indexPath.row]
+            configureFeedCell(cell, withFeed: feed)
+
+        case .LoadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
                 break
@@ -1206,28 +1332,30 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             updateFeeds(mode: .LoadMore, finish: { [weak cell] in
                 cell?.loadingActivityIndicator.stopAnimating()
             })
-
-        default:
-            break
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return 0
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             return 70
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            let feed = uploadingFeeds[indexPath.row]
+            return FeedsViewController.layoutPool.heightOfFeed(feed)
+
+        case .Feed:
             let feed = feeds[indexPath.row]
             return FeedsViewController.layoutPool.heightOfFeed(feed)
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             return 60
-
-        default:
-            return 0
         }
     }
 
@@ -1241,15 +1369,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             performSegueWithIdentifier("showSkillHome", sender: nil)
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            break
+
+        case .Feed:
             performSegueWithIdentifier("showConversation", sender: indexPath)
 
-        default:
+        case .LoadMore:
             break
         }
     }
@@ -1258,12 +1393,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            return false
+        }
 
-        case Section.SkillUsers.rawValue:
+        switch section {
+
+        case .SkillUsers:
             return false
 
-        case Section.Feed.rawValue:
+        case .UploadingFeed:
+            return false
+
+        case .Feed:
             let feed = feeds[indexPath.item]
             if feed.creator.id == YepUserDefaults.userID.value {
                 return false
@@ -1271,23 +1413,32 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 return true
             }
 
-        default:
+        case .LoadMore:
             return false
         }
     }
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-        let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
-
-            if let feed = self?.feeds[indexPath.row] {
-                self?.report(.Feed(feed))
-            }
-
-            tableView.setEditing(false, animated: true)
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
         }
 
-        return [reportAction]
+        if case .Feed = section {
+
+            let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
+
+                if let feed = self?.feeds[indexPath.row] {
+                    self?.report(.Feed(feed))
+                }
+
+                tableView.setEditing(false, animated: true)
+            }
+
+            return [reportAction]
+        }
+
+        return nil
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {

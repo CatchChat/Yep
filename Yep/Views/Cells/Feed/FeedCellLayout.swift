@@ -183,7 +183,7 @@ struct FeedCellLayout {
         let messageTextViewHeight = ceil(_rect1.height)
         let messageTextViewFrame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: messageTextViewHeight)
 
-        let leftBottomLabelOriginY = height - 17 - 10
+        let leftBottomLabelOriginY = height - 17 - 15
         let leftBottomLabelFrame = CGRect(x: 65, y: leftBottomLabelOriginY, width: 200, height: 17)
 
         let messagesCountString = "\(feed.messagesCount)"

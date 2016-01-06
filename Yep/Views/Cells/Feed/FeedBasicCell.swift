@@ -124,6 +124,20 @@ class FeedBasicCell: UITableViewCell {
         return imageView
     }()
 
+    lazy var uploadingErrorContainerView: FeedUploadingErrorContainerView = {
+        let view = FeedUploadingErrorContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+        return view
+    }()
+    var hasUploadingErrorMessage = false {
+        didSet {
+            uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
+
+            leftBottomLabel.hidden = hasUploadingErrorMessage
+            messageCountLabel.hidden = hasUploadingErrorMessage
+            discussionImageView.hidden = hasUploadingErrorMessage
+        }
+    }
+
     var feed: DiscoveredFeed?
 
     var tapAvatarAction: (UITableViewCell -> Void)?
@@ -132,6 +146,9 @@ class FeedBasicCell: UITableViewCell {
     var touchesBeganAction: (UITableViewCell -> Void)?
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
+
+    var retryUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
+    var deleteUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -162,7 +179,7 @@ class FeedBasicCell: UITableViewCell {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
-        let height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
+        let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15 + 17 + 15
 
         return ceil(height)
     }
@@ -250,7 +267,7 @@ class FeedBasicCell: UITableViewCell {
             discussionImageView.frame = basicLayout.discussionImageViewFrame
 
         } else {
-            leftBottomLabel.frame.origin.y = contentView.bounds.height - leftBottomLabel.frame.height - 10
+            leftBottomLabel.frame.origin.y = contentView.bounds.height - leftBottomLabel.frame.height - 15
 
             let rect = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
 
@@ -270,6 +287,33 @@ class FeedBasicCell: UITableViewCell {
             let newLayout = FeedCellLayout(height: contentView.bounds.height, basicLayout: basicLayout)
 
             layoutCache.update(layout: newLayout)
+        }
+
+        do {
+            if let message = feed.uploadingErrorMessage {
+                hasUploadingErrorMessage = true
+
+                let y = leftBottomLabel.frame.origin.y - (30 - leftBottomLabel.frame.height) * 0.5
+                uploadingErrorContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65, height: 30)
+                uploadingErrorContainerView.errorMessageLabel.text = message
+
+                uploadingErrorContainerView.retryAction = { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.retryUploadingFeedAction?(cell: strongSelf)
+                    }
+                }
+
+                uploadingErrorContainerView.deleteAction = { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.deleteUploadingFeedAction?(cell: strongSelf)
+                    }
+                }
+
+                contentView.addSubview(uploadingErrorContainerView)
+
+            } else {
+                hasUploadingErrorMessage = false
+            }
         }
     }
 

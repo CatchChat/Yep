@@ -298,7 +298,7 @@ class FeedView: UIView {
 
         attachments = feed.attachments.map({
             //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
-            DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString)
+            DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
         })
 
         messageLabelTrailingConstraint.constant = attachments.isEmpty ? 15 : 60
