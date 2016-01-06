@@ -328,6 +328,7 @@
 		50F5AF991BBBD02A0033C9BC /* FeedMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */; };
 		50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */; };
 		50F6D32A1C3B618200CB673C /* ModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F6D3291C3B618200CB673C /* ModelTypes.swift */; };
+		50F6D32E1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */; };
 		50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */; };
 		50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */; };
 		50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */; };
@@ -698,6 +699,7 @@
 		50F5AF971BBBD02A0033C9BC /* FeedMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaCell.swift; path = Views/Cells/FeedMedia/FeedMediaCell.swift; sourceTree = "<group>"; };
 		50F5AF981BBBD02A0033C9BC /* FeedMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedMediaCell.xib; path = Views/Cells/FeedMedia/FeedMediaCell.xib; sourceTree = "<group>"; };
 		50F6D3291C3B618200CB673C /* ModelTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModelTypes.swift; path = Protocols/ModelTypes.swift; sourceTree = "<group>"; };
+		50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedUploadingErrorContainerView.swift; path = Views/ContainerViews/FeedUploadingErrorContainerView.swift; sourceTree = "<group>"; };
 		50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Yep.swift"; path = "Extensions/UIViewController+Yep.swift"; sourceTree = "<group>"; };
 		50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FPSLabel.swift; path = Views/Labels/FPSLabel.swift; sourceTree = "<group>"; };
 		50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaContainerView.swift; path = Views/ContainerViews/FeedMediaContainerView.swift; sourceTree = "<group>"; };
@@ -2217,6 +2219,7 @@
 				505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */,
 				505082341C212E9200643CEB /* FeedLocationContainerView.swift */,
 				505082361C21377E00643CEB /* FeedVoiceContainerView.swift */,
+				50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */,
 			);
 			name = ContainerViews;
 			sourceTree = "<group>";
@@ -2748,6 +2751,7 @@
 				6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */,
 				5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */,
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
+				50F6D32E1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
 				5076FC5A1AF9DF6B00D7381A /* ConversationMessagePreviewTransitionManager.swift in Sources */,
 				50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */,
