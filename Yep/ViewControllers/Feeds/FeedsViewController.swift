@@ -1285,6 +1285,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             let feed = uploadingFeeds[indexPath.row]
             configureFeedCell(cell, withFeed: feed)
 
+            if let cell = cell as? FeedBasicCell {
+                cell.retryUploadingFeedAction = { [weak self] in
+                    self?.newFeedViewController?.post(again: true)
+                }
+            }
+
         case .Feed:
 
             let feed = feeds[indexPath.row]

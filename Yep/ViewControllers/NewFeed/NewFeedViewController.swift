@@ -632,6 +632,10 @@ class NewFeedViewController: SegueViewController {
     }
 
     @objc private func post(sender: UIBarButtonItem) {
+        post(again: false)
+    }
+
+    func post(again again: Bool) {
 
         let messageLength = (messageTextView.text as NSString).length
 
@@ -642,10 +646,12 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
-        if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
-            beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
+        if !again {
+            if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
+                beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
-            dismissViewControllerAnimated(true, completion: nil)
+                dismissViewControllerAnimated(true, completion: nil)
+            }
         }
 
         uploadState = .Uploading

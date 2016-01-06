@@ -138,6 +138,8 @@ class FeedBasicCell: UITableViewCell {
     var touchesEndedAction: (UITableViewCell -> Void)?
     var touchesCancelledAction: (UITableViewCell -> Void)?
 
+    var retryUploadingFeedAction: (() -> Void)?
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -284,11 +286,15 @@ class FeedBasicCell: UITableViewCell {
             var hasUploadingErrorMessage = false
 
             if let message = feed.uploadingErrorMessage {
+                hasUploadingErrorMessage = true
+
                 let y = leftBottomLabel.frame.origin.y - (30 - leftBottomLabel.frame.height) * 0.5
                 uploadingErrorContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65, height: 30)
                 uploadingErrorContainerView.errorMessageLabel.text = message
 
-                hasUploadingErrorMessage = true
+                uploadingErrorContainerView.retryAction = { [weak self] in
+                    self?.retryUploadingFeedAction?()
+                }
             }
 
             uploadingErrorContainerView.hidden = !hasUploadingErrorMessage

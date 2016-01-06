@@ -10,6 +10,8 @@ import UIKit
 
 class FeedUploadingErrorContainerView: UIView {
 
+    var retryAction: (() -> Void)?
+
     lazy var leftContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 1, green: 56/255.0, blue: 36/255.0, alpha: 0.1)
@@ -33,6 +35,7 @@ class FeedUploadingErrorContainerView: UIView {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Retry", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.addTarget(self, action: "retry:", forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -97,6 +100,10 @@ class FeedUploadingErrorContainerView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints([iconImageViewCenterY])
         }
+    }
+
+    @objc private func retry(sender: UIButton) {
+        retryAction?()
     }
 }
 
