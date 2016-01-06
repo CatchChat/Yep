@@ -1290,12 +1290,24 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             configureFeedCell(cell, withFeed: feed)
 
             if let cell = cell as? FeedBasicCell {
+
                 cell.retryUploadingFeedAction = { [weak self] cell in
+
                     self?.newFeedViewController?.post(again: true)
 
                     if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
                         self?.uploadingFeeds[indexPath.row].uploadingErrorMessage = nil
                         cell.hasUploadingErrorMessage = false
+                    }
+                }
+
+                cell.deleteUploadingFeedAction = { [weak self] cell in
+
+                    if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
+                        self?.uploadingFeeds.removeAtIndex(indexPath.row)
+                        self?.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                        self?.newFeedViewController = nil
                     }
                 }
             }

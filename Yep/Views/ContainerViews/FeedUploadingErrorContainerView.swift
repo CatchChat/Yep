@@ -11,6 +11,7 @@ import UIKit
 class FeedUploadingErrorContainerView: UIView {
 
     var retryAction: (() -> Void)?
+    var deleteAction: (() -> Void)?
 
     lazy var leftContainerView: UIView = {
         let view = UIView()
@@ -35,7 +36,7 @@ class FeedUploadingErrorContainerView: UIView {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Retry", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
-        button.addTarget(self, action: "retry:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: "retryUploadingFeed:", forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -43,6 +44,7 @@ class FeedUploadingErrorContainerView: UIView {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Delete", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.redColor(), forState: .Normal)
+        button.addTarget(self, action: "deleteUploadingFeed:", forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -102,8 +104,12 @@ class FeedUploadingErrorContainerView: UIView {
         }
     }
 
-    @objc private func retry(sender: UIButton) {
+    @objc private func retryUploadingFeed(sender: UIButton) {
         retryAction?()
+    }
+
+    @objc private func deleteUploadingFeed(sender: UIButton) {
+        deleteAction?()
     }
 }
 

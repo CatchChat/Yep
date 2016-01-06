@@ -148,6 +148,7 @@ class FeedBasicCell: UITableViewCell {
     var touchesCancelledAction: (UITableViewCell -> Void)?
 
     var retryUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
+    var deleteUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -299,6 +300,12 @@ class FeedBasicCell: UITableViewCell {
                 uploadingErrorContainerView.retryAction = { [weak self] in
                     if let strongSelf = self {
                         strongSelf.retryUploadingFeedAction?(cell: strongSelf)
+                    }
+                }
+
+                uploadingErrorContainerView.deleteAction = { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.deleteUploadingFeedAction?(cell: strongSelf)
                     }
                 }
 
