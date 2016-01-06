@@ -49,9 +49,13 @@ class NewFeedViewController: SegueViewController {
 
     var attachment: Attachment = .Default
 
+    var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
 
     var preparedSkill: Skill?
+
+    weak var feedsViewController: FeedsViewController?
+    var getFeedsViewController: (() -> FeedsViewController?)?
 
 
     @IBOutlet private weak var feedWhiteBGView: UIView!
@@ -159,15 +163,20 @@ class NewFeedViewController: SegueViewController {
             case .Uploading:
                 postButton.enabled = false
                 messageTextView.resignFirstResponder()
-                YepHUD.showActivityIndicator()
+                //YepHUD.showActivityIndicator()
 
             case .Failed(let message):
-                YepHUD.hideActivityIndicator()
+                //YepHUD.hideActivityIndicator()
                 postButton.enabled = true
-                YepAlert.alertSorry(message: message, inViewController: self)
+
+                if presentingViewController != nil {
+                    YepAlert.alertSorry(message: message, inViewController: self)
+                } else {
+                    feedsViewController?.handleUploadingErrorMessage(message)
+                }
 
             case .Success:
-                YepHUD.hideActivityIndicator()
+                //YepHUD.hideActivityIndicator()
                 messageTextView.text = nil
             }
         }
@@ -200,6 +209,10 @@ class NewFeedViewController: SegueViewController {
             choosePromptLabel.hidden = (newValue != nil)
         }
     }
+
+    deinit {
+        println("NewFeed deinit")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -216,6 +229,9 @@ class NewFeedViewController: SegueViewController {
         }
         
         view.sendSubviewToBack(feedWhiteBGView)
+
+        feedsViewController = getFeedsViewController?()
+        println("feedsViewController: \(feedsViewController)")
         
         isDirty = false
 
@@ -530,13 +546,96 @@ class NewFeedViewController: SegueViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    private struct UploadImageInfo {
-        
-        let s3UploadParams: S3UploadParams
-        let metaDataString: String?
+//    private struct UploadImageInfo {
+//        
+//        let s3UploadParams: S3UploadParams
+//        let metaDataString: String?
+//    }
+
+    func tryMakeUploadingFeed() -> DiscoveredFeed? {
+
+        guard let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) else {
+                return nil
+        }
+
+        let creator = DiscoveredUser.fromUser(me)
+
+        var kind: FeedKind = .Text
+
+        let createdUnixTime = NSDate().timeIntervalSince1970
+        let updatedUnixTime = createdUnixTime
+
+        let message = messageTextView.text.trimming(.WhitespaceAndNewline)
+
+        var feedAttachment: DiscoveredFeed.Attachment?
+
+        switch attachment {
+
+        case .Default:
+
+            if !mediaImages.isEmpty {
+                kind = .Image
+
+                let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
+
+                    let imageWidth = image.size.width
+                    let imageHeight = image.size.height
+
+                    let fixedImageWidth: CGFloat
+                    let fixedImageHeight: CGFloat
+
+                    if imageWidth > imageHeight {
+                        fixedImageWidth = min(imageWidth, YepConfig.Media.miniImageWidth)
+                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                    } else {
+                        fixedImageHeight = min(imageHeight, YepConfig.Media.miniImageHeight)
+                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                    }
+
+                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                    // resize to smaller, not need fixRotation
+
+                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                        return DiscoveredAttachment(metadata: "", URLString: "", image: image)
+                    } else {
+                        return nil
+                    }
+                }).flatMap({ $0 })
+
+                feedAttachment = .Images(imageAttachments)
+            }
+
+        case .Voice(let feedVoice):
+
+            kind = .Audio
+
+            let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+            let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+            let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+
+            let audioMetaData = try! NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
+
+            let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: audioMetaData, duration: audioDuration, sampleValues: feedVoice.limitedSampleValues)
+
+            feedAttachment = .Audio(audioInfo)
+
+        default:
+            break
+        }
+
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: feedAttachment, distance: 0, skill: nil, groupID: "", messagesCount: 0, uploadingErrorMessage: nil)
     }
-    
+
     @objc private func post(sender: UIBarButtonItem) {
+        post(again: false)
+    }
+
+    func post(again again: Bool) {
 
         let messageLength = (messageTextView.text as NSString).length
 
@@ -546,7 +645,15 @@ class NewFeedViewController: SegueViewController {
 
             return
         }
-        
+
+        if !again {
+            if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
+                beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
+
+                dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+
         uploadState = .Uploading
         
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
@@ -574,7 +681,7 @@ class NewFeedViewController: SegueViewController {
                 }
 
             }, completion: { data in
-                println(data)
+                println("createFeedWithKind: \(data)")
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -584,7 +691,9 @@ class NewFeedViewController: SegueViewController {
                         self?.afterCreatedFeedAction?(feed: feed)
                     }
 
-                    self?.dismissViewControllerAnimated(true, completion: nil)
+                    if !kind.needBackgroundUpload {
+                        self?.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
                 
                 syncGroupsAndDoFurtherAction {}

@@ -12,7 +12,7 @@ import CoreLocation
 import Alamofire
 
 #if STAGING
-let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
+let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
 let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
 let yepBaseURL = NSURL(string: "https://api.soyep.com")!
@@ -1275,6 +1275,11 @@ struct DiscoveredUser: Hashable {
         }
         
         return false
+    }
+
+    static func fromUser(user: User) -> DiscoveredUser {
+
+         return DiscoveredUser(id: user.userID, username: user.username, nickname: user.nickname, introduction: user.introduction, avatarURLString: user.avatarURLString, badge: user.badge, createdUnixTime: user.createdUnixTime, lastSignInUnixTime: user.lastSignInUnixTime, longitude: user.longitude, latitude: user.latitude, distance: 0, masterSkills: [], learningSkills: [], socialAccountProviders: [], recently_updated_provider: nil)
     }
 }
 
@@ -2771,6 +2776,12 @@ struct DiscoveredAttachment {
     let metadata: String
     let URLString: String
 
+    var image: UIImage?
+
+    var isTemporary: Bool {
+        return image != nil
+    }
+
     var thumbnailImage: UIImage? {
 
         guard (metadata as NSString).length > 0 else {
@@ -2802,7 +2813,7 @@ struct DiscoveredAttachment {
         }
 
         //return DiscoveredAttachment(kind: kind, metadata: metadata, URLString: URLString)
-        return DiscoveredAttachment(metadata: metadata, URLString: URLString)
+        return DiscoveredAttachment(metadata: metadata, URLString: URLString, image: nil)
     }
 }
 
@@ -2976,6 +2987,8 @@ struct DiscoveredFeed: Hashable {
     let groupID: String
     var messagesCount: Int
 
+    var uploadingErrorMessage: String? = nil
+
     var timeAndDistanceString: String {
 
         let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
@@ -3081,7 +3094,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
     }
 }
 
@@ -3226,6 +3239,17 @@ enum FeedKind: String {
         case .DribbbleShot: return "dribbble"
         //case .InstagramMedia: return "instagram"
         default: return nil
+        }
+    }
+
+    var needBackgroundUpload: Bool {
+        switch self {
+        case .Image:
+            return true
+        case .Audio:
+            return true
+        default:
+            return false
         }
     }
 }
