@@ -28,6 +28,7 @@ class PickLocationViewController: SegueViewController {
     @IBOutlet private weak var cancelButton: UIBarButtonItem!
     @IBOutlet private weak var doneButton: UIBarButtonItem!
     @IBOutlet private weak var mapView: MKMapView!
+    @IBOutlet private weak var pinImageView: UIImageView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
@@ -161,7 +162,7 @@ class PickLocationViewController: SegueViewController {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
             mapView.setRegion(region, animated: false)
 
-            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+            //self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
 
             placemarksAroundLocation(location) { [weak self] placemarks in
                 self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
