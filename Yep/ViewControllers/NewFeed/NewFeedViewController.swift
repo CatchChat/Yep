@@ -54,7 +54,8 @@ class NewFeedViewController: SegueViewController {
 
     var preparedSkill: Skill?
 
-    weak var oldPresentingViewController: UIViewController?
+    weak var feedsViewController: FeedsViewController?
+    var getFeedsViewController: (() -> FeedsViewController?)?
 
 
     @IBOutlet private weak var feedWhiteBGView: UIView!
@@ -168,13 +169,11 @@ class NewFeedViewController: SegueViewController {
                 //YepHUD.hideActivityIndicator()
                 postButton.enabled = true
 
-                let vc: UIViewController?
                 if presentingViewController != nil {
-                    vc = self
+                    YepAlert.alertSorry(message: message, inViewController: self)
                 } else {
-                    vc = oldPresentingViewController
+                    feedsViewController?.handleUploadingErrorMessage(message)
                 }
-                YepAlert.alertSorry(message: message, inViewController: vc)
 
             case .Success:
                 //YepHUD.hideActivityIndicator()
@@ -231,7 +230,8 @@ class NewFeedViewController: SegueViewController {
         
         view.sendSubviewToBack(feedWhiteBGView)
 
-        oldPresentingViewController = self.presentingViewController
+        feedsViewController = getFeedsViewController?()
+        println("feedsViewController: \(feedsViewController)")
         
         isDirty = false
 

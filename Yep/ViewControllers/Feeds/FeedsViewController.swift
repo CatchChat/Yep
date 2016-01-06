@@ -24,6 +24,14 @@ class FeedsViewController: BaseViewController {
     var hideRightBarItem: Bool = false
 
     var uploadingFeeds = [DiscoveredFeed]()
+    func handleUploadingErrorMessage(message: String) {
+        if !uploadingFeeds.isEmpty {
+            uploadingFeeds[0].uploadingErrorMessage = message
+            feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+
+            println("handleUploadingErrorMessage: \(message)")
+        }
+    }
     var feeds = [DiscoveredFeed]()
 
     @IBOutlet weak var feedsTableView: UITableView!
@@ -677,6 +685,10 @@ class FeedsViewController: BaseViewController {
             })
         }
 
+        let getFeedsViewController: () -> FeedsViewController? = { [weak self] in
+            return self
+        }
+
         switch identifier {
 
         case "showProfile":
@@ -797,6 +809,7 @@ class FeedsViewController: BaseViewController {
 
             vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+            vc.getFeedsViewController = getFeedsViewController
 
         case "presentNewFeedVoiceRecord":
 
@@ -811,6 +824,7 @@ class FeedsViewController: BaseViewController {
 
             vc.beforeUploadingFeedAction = beforeUploadingFeedAction
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+            vc.getFeedsViewController = getFeedsViewController
 
         case "presentPickLocation":
 
