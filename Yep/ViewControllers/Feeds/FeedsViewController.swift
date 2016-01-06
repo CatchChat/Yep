@@ -665,6 +665,8 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
+                    strongSelf.feedsTableView.beginUpdates()
+
                     var animation: UITableViewRowAnimation = .Automatic
 
                     if !strongSelf.uploadingFeeds.isEmpty {
@@ -678,6 +680,8 @@ class FeedsViewController: BaseViewController {
                     strongSelf.feeds.insert(feed, atIndex: 0)
                     let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
                     strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath], animation: animation)
+                    
+                    strongSelf.feedsTableView.endUpdates()
                 }
             }
 
