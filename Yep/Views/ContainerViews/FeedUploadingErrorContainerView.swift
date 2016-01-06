@@ -51,7 +51,7 @@ class FeedUploadingErrorContainerView: UIView {
 
     func makeUI() {
 
-        backgroundColor = UIColor.whiteColor()
+        //backgroundColor = UIColor.whiteColor()
 
         do {
             addSubview(leftContainerView)
