@@ -165,7 +165,7 @@ class PickLocationViewController: SegueViewController {
         mapView.delegate = self
 
         if let location = YepLocationService.sharedManager.locationManager.location {
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 20000, 20000)
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 10000, 10000)
             mapView.setRegion(region, animated: false)
 
             //self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
@@ -238,7 +238,9 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
-                    let centerCoordinate = self.mapView.centerCoordinate
+                    let centerCoordinate = self.mapView.convertPoint(self.mapView.center, toCoordinateFromView: self.mapView)
+
+                    //let centerCoordinate = self.mapView.centerCoordinate
 
                     sendLocationAction(locationInfo: Location.Info(coordinate: centerCoordinate, name: nil))
 
@@ -358,7 +360,7 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             doneButton.enabled = true
 
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 2000, 2000)
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
             mapView.setRegion(region, animated: true)
 
             foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
