@@ -52,6 +52,7 @@ class PickLocationViewController: SegueViewController {
 
     private var userLocationPlacemarks = [CLPlacemark]() {
         didSet {
+            /*
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
                     if case .Default = location {
@@ -61,6 +62,7 @@ class PickLocationViewController: SegueViewController {
                     }
                 }
             }
+            */
 
             reloadTableView()
         }
@@ -68,6 +70,7 @@ class PickLocationViewController: SegueViewController {
 
     private var pickedLocationPlacemarks = [CLPlacemark]() {
         didSet {
+            /*
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
                     if case .Picked = location {
@@ -77,6 +80,7 @@ class PickLocationViewController: SegueViewController {
                     }
                 }
             }
+            */
 
             reloadTableView()
         }
@@ -122,6 +126,7 @@ class PickLocationViewController: SegueViewController {
         }
     }
 
+    /*
     private var location: Location? {
         willSet {
             if let coordinate = newValue?.info.coordinate {
@@ -131,6 +136,7 @@ class PickLocationViewController: SegueViewController {
             }
         }
     }
+    */
 
     private var selectedLocationIndexPath: NSIndexPath?
 
@@ -232,6 +238,7 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
+                    /*
                     if let location = self.location {
                         sendLocationAction(locationInfo: location.info)
 
@@ -242,11 +249,13 @@ class PickLocationViewController: SegueViewController {
 
                         sendLocationAction(locationInfo: Location.Info(coordinate: location.coordinate, name: nil))
                     }
+                    */
                 }
             })
 
         case .Feed:
-
+            break
+            /*
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
 
@@ -259,9 +268,11 @@ class PickLocationViewController: SegueViewController {
 
                 performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }
+            */
         }
     }
 
+    /*
     private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
 
         if let locationPin = locationPin {
@@ -273,7 +284,9 @@ class PickLocationViewController: SegueViewController {
 
         locationPin = pin
     }
+    */
 
+    /*
     @objc private func addAnnotation(sender: UITapGestureRecognizer) {
 
         let point = sender.locationInView(mapView)
@@ -288,6 +301,7 @@ class PickLocationViewController: SegueViewController {
 
         selectedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
     }
+    */
 
     private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
@@ -474,11 +488,13 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             return 1
         case Section.UserPickedLocation.rawValue:
+            /*
             if let isPicked = location?.isPicked {
                 if isPicked {
                     return 1
                 }
             }
+            */
             return 0
         case Section.UserLocationPlacemarks.rawValue:
             //return placemarks.count
@@ -576,12 +592,16 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             if let _location = mapView.userLocation.location {
+                /*
                 location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("My Current Location", comment: "")))
+                */
             }
 
         case Section.UserPickedLocation.rawValue:
             if let coordinate = locationPin?.coordinate {
+                /*
                 location = .Picked(info: Location.Info(coordinate: coordinate, name: pickedLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("Picked Location", comment: "")))
+                */
             }
 
         case Section.UserLocationPlacemarks.rawValue:
@@ -589,18 +609,24 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             guard let _location = placemark.location else {
                 break
             }
+            /*
             location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
+            */
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
             guard let _location = placemark.location else {
                 break
             }
+            /*
             location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
+            */
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
+            /*
             location = .Selected(info: Location.Info(coordinate: foursquareVenue.coordinate, name: foursquareVenue.name))
+            */
 
         default:
             break
