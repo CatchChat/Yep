@@ -2987,6 +2987,8 @@ struct DiscoveredFeed: Hashable {
     let groupID: String
     var messagesCount: Int
 
+    var uploadingErrorMessage: String? = nil
+
     var timeAndDistanceString: String {
 
         let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
@@ -3092,7 +3094,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
     }
 }
 
