@@ -125,7 +125,7 @@ class FeedBasicCell: UITableViewCell {
     }()
 
     lazy var uploadingErrorContainerView: FeedUploadingErrorContainerView = {
-        let view = FeedUploadingErrorContainerView()
+        let view = FeedUploadingErrorContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
         return view
     }()
     var hasUploadingErrorMessage = false {
