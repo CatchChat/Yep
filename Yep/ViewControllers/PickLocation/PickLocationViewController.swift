@@ -335,9 +335,12 @@ class PickLocationViewController: SegueViewController {
 
         if sender.state == .Ended {
 
+            selectedLocationIndexPath = nil
+            tableView.reloadData()
+
             let coordinate = fixedCenterCoordinate
 
-            self.location = .Picked(info: Location.Info(coordinate: coordinate, name: nil))
+            self.location = .Picked(info: Location.Info(coordinate: coordinate.yep_cancelChinaLocationShift, name: nil))
 
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             placemarksAroundLocation(location) { [weak self] placemarks in
