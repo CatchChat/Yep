@@ -21,7 +21,10 @@ let areaCodeKey = "areaCode"
 let mobileKey = "mobile"
 
 let discoveredUserSortStyleKey = "discoveredUserSortStyle"
-let feedSortStyleKey = "feedSortStyleKey"
+let feedSortStyleKey = "feedSortStyle"
+
+let latitudeShiftKey = "latitudeShift"
+let longitudeShiftKey = "longitudeShift"
 
 struct Listener<T>: Hashable {
     let name: String
@@ -113,6 +116,8 @@ class YepUserDefaults {
         mobile.removeAllListeners()
         discoveredUserSortStyle.removeAllListeners()
         feedSortStyle.removeAllListeners()
+        latitudeShift.removeAllListeners()
+        longitudeShift.removeAllListeners()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
@@ -125,6 +130,8 @@ class YepUserDefaults {
         defaults.removeObjectForKey(mobileKey)
         defaults.removeObjectForKey(discoveredUserSortStyleKey)
         defaults.removeObjectForKey(feedSortStyleKey)
+        defaults.removeObjectForKey(latitudeShiftKey)
+        defaults.removeObjectForKey(longitudeShiftKey)
 
         defaults.synchronize()
     }
@@ -162,7 +169,7 @@ class YepUserDefaults {
                 appDelegate.startFaye()
             }
         }
-        }()
+    }()
 
     static var userID: Listenable<String?> = {
         let userID = defaults.stringForKey(userIDKey)
@@ -170,7 +177,7 @@ class YepUserDefaults {
         return Listenable<String?>(userID) { userID in
             defaults.setObject(userID, forKey: userIDKey)
         }
-        }()
+    }()
 
     static var nickname: Listenable<String?> = {
         let nickname = defaults.stringForKey(nicknameKey)
@@ -191,7 +198,7 @@ class YepUserDefaults {
                     }
             }
         }
-        }()
+    }()
 
     static var introduction: Listenable<String?> = {
         let introduction = defaults.stringForKey(introductionKey)
@@ -212,7 +219,7 @@ class YepUserDefaults {
                     }
             }
         }
-        }()
+    }()
 
     static var avatarURLString: Listenable<String?> = {
         let avatarURLString = defaults.stringForKey(avatarURLStringKey)
@@ -233,7 +240,7 @@ class YepUserDefaults {
                     }
             }
         }
-        }()
+    }()
 
     static var badge: Listenable<String?> = {
         let badge = defaults.stringForKey(badgeKey)
@@ -254,7 +261,7 @@ class YepUserDefaults {
                     }
             }
         }
-        }()
+    }()
 
     static var pusherID: Listenable<String?> = {
         let pusherID = defaults.stringForKey(pusherIDKey)
@@ -275,7 +282,7 @@ class YepUserDefaults {
                     }
             }
         }
-        }()
+    }()
 
     static var areaCode: Listenable<String?> = {
         let areaCode = defaults.stringForKey(areaCodeKey)
@@ -283,7 +290,7 @@ class YepUserDefaults {
         return Listenable<String?>(areaCode) { areaCode in
             defaults.setObject(areaCode, forKey: areaCodeKey)
         }
-        }()
+    }()
 
     static var mobile: Listenable<String?> = {
         let mobile = defaults.stringForKey(mobileKey)
@@ -291,7 +298,7 @@ class YepUserDefaults {
         return Listenable<String?>(mobile) { mobile in
             defaults.setObject(mobile, forKey: mobileKey)
         }
-        }()
+    }()
 
     static var fullPhoneNumber: String? {
         if let areaCode = areaCode.value, mobile = mobile.value {
@@ -307,13 +314,29 @@ class YepUserDefaults {
         return Listenable<String?>(discoveredUserSortStyle) { discoveredUserSortStyle in
             defaults.setObject(discoveredUserSortStyle, forKey: discoveredUserSortStyleKey)
         }
-        }()
+    }()
     
     static var feedSortStyle: Listenable<String?> = {
         let feedSortStyle = defaults.stringForKey(feedSortStyleKey)
         
         return Listenable<String?>(feedSortStyle) { feedSortStyle in
             defaults.setObject(feedSortStyle, forKey: feedSortStyleKey)
+        }
+    }()
+
+    static var latitudeShift: Listenable<Double?> = {
+        let latitudeShift = defaults.doubleForKey(latitudeShiftKey)
+
+        return Listenable<Double?>(latitudeShift) { latitudeShift in
+            defaults.setObject(latitudeShift, forKey: latitudeShiftKey)
+        }
+    }()
+
+    static var longitudeShift: Listenable<Double?> = {
+        let longitudeShift = defaults.doubleForKey(longitudeShiftKey)
+
+        return Listenable<Double?>(longitudeShift) { longitudeShift in
+            defaults.setObject(longitudeShift, forKey: longitudeShiftKey)
         }
     }()
 }

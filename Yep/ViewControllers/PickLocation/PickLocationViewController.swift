@@ -176,7 +176,7 @@ class PickLocationViewController: SegueViewController {
         mapView.delegate = self
 
         if let location = YepLocationService.sharedManager.locationManager.location {
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500)
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate.yep_applyChinaLocationShift, 500, 500)
             mapView.setRegion(region, animated: false)
 
             self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
@@ -185,7 +185,7 @@ class PickLocationViewController: SegueViewController {
                 self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
             }
 
-            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+            foursquareVenuesNearby(coordinate: location.coordinate, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
 
@@ -210,7 +210,8 @@ class PickLocationViewController: SegueViewController {
         view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
 
-        mapView.showsUserLocation = false
+        //mapView.showsUserLocation = false
+        //mapView.userTrackingMode = .None
 
         let pan = UIPanGestureRecognizer(target: self, action: "pan:")
         mapView.addGestureRecognizer(pan)
@@ -347,7 +348,7 @@ class PickLocationViewController: SegueViewController {
 //                self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
 //            }
 
-            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+            foursquareVenuesNearby(coordinate: location.coordinate, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
         }
@@ -404,6 +405,20 @@ extension PickLocationViewController: MKMapViewDelegate {
             return
         }
 
+        if let realLocation = YepLocationService.sharedManager.locationManager.location {
+
+            println("reallatitude: \(realLocation.coordinate.latitude)")
+            println("fakelatitude: \(location.coordinate.latitude)")
+            println("reallongitude: \(realLocation.coordinate.longitude)")
+            println("fakelongitude: \(location.coordinate.longitude)")
+
+            let latitudeShift = location.coordinate.latitude - realLocation.coordinate.latitude
+            let longitudeShift = location.coordinate.longitude - realLocation.coordinate.longitude
+
+            YepUserDefaults.latitudeShift.value = latitudeShift
+            YepUserDefaults.longitudeShift.value = longitudeShift
+        }
+
         activityIndicator.stopAnimating()
 
         if isFirstShowUserLocation {
@@ -411,10 +426,11 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             doneButton.enabled = true
 
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
-            mapView.setRegion(region, animated: true)
+            //let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500)
+            //mapView.setRegion(region, animated: true)
+            mapView.setCenterCoordinate(location.coordinate, animated: true)
 
-            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+            foursquareVenuesNearby(coordinate: location.coordinate, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
         }
