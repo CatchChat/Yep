@@ -186,12 +186,18 @@ class PickLocationViewController: SegueViewController {
             activityIndicator.startAnimating()
         }
 
+        /*
         let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")
         mapView.addGestureRecognizer(tap)
+        */
 
         view.bringSubviewToFront(tableView)
         view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
+
+        let pan = UIPanGestureRecognizer(target: self, action: "pan:")
+        mapView.addGestureRecognizer(pan)
+        pan.delegate = self
     }
 
     // MARK: Navigation
@@ -312,6 +318,23 @@ class PickLocationViewController: SegueViewController {
     }
     */
 
+    @objc private func pan(sender: UIPanGestureRecognizer) {
+
+        if sender.state == .Ended {
+
+            let coordinate = fixedCenterCoordinate
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+
+//            placemarksAroundLocation(location) { [weak self] placemarks in
+//                self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
+//            }
+
+            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+                self?.foursquareVenues = venues
+            })
+        }
+    }
+
     private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
         geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
@@ -340,6 +363,16 @@ class PickLocationViewController: SegueViewController {
         dispatch_async(dispatch_get_main_queue()) {
             self.tableView.reloadData()
         }
+    }
+}
+
+// MARK: - MKMapViewDelegate
+
+extension PickLocationViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+
+        return true
     }
 }
 
