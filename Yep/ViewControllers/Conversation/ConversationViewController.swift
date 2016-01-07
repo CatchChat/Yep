@@ -1660,7 +1660,7 @@ class ConversationViewController: BaseViewController {
 
         feedView.tapLocationAction = { locationName, locationCoordinate in
 
-            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate.yep_applyChinaLocationShift, addressDictionary: nil))
             mapItem.name = locationName
 
             mapItem.openInMapsWithLaunchOptions(nil)
@@ -3739,7 +3739,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, mediaTapAction: {
                                 if let coordinate = message.coordinate {
                                     let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate.yep_applyChinaLocationShift, addressDictionary: nil))
                                     mapItem.name = message.textContent
                                     /*
                                     let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
@@ -3903,7 +3903,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 } else {
                                     if let coordinate = message.coordinate {
                                         let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate.yep_applyChinaLocationShift, addressDictionary: nil))
                                         mapItem.name = message.textContent
                                         /*
                                         let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
