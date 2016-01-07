@@ -427,17 +427,21 @@ extension PickLocationViewController: MKMapViewDelegate {
             //mapView.setRegion(region, animated: true)
             mapView.setCenterCoordinate(location.coordinate, animated: true)
 
-            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+            if let _location = self.location {
+                if case .Default = _location {
+                    self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+                }
+            }
+
+            placemarksAroundLocation(location) { [weak self] placemarks in
+                self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
+            }
 
             foursquareVenuesNearby(coordinate: location.coordinate.yep_cancelChinaLocationShift, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
 
             mapView.showsUserLocation = false
-        }
-
-        placemarksAroundLocation(location) { [weak self] placemarks in
-            self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
         }
     }
 
