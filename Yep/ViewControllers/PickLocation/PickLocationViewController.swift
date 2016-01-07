@@ -36,11 +36,13 @@ class PickLocationViewController: SegueViewController {
 
     private var isFirstShowUserLocation = true
 
+    /*
     private var locationPin: LocationPin? {
         didSet {
             reloadTableView()
         }
     }
+    */
 
     private var searchedMapItems = [MKMapItem]() {
         didSet {
@@ -650,17 +652,16 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             if let _location = mapView.userLocation.location {
-                /*
                 location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("My Current Location", comment: "")))
-                */
             }
 
         case Section.UserPickedLocation.rawValue:
+            /*
             if let coordinate = locationPin?.coordinate {
-                /*
                 location = .Picked(info: Location.Info(coordinate: coordinate, name: pickedLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("Picked Location", comment: "")))
-                */
             }
+            */
+            break
 
         case Section.UserLocationPlacemarks.rawValue:
             let placemark = userLocationPlacemarks[indexPath.row]
@@ -684,10 +685,12 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
         }
 
+        /*
         if let locationPin = locationPin {
             let region = MKCoordinateRegionMakeWithDistance(locationPin.coordinate, 200, 200)
             mapView.setRegion(region, animated: true)
         }
+        */
     }
 }
 
