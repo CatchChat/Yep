@@ -15,10 +15,19 @@ extension CLLocationCoordinate2D {
         let latitudeShift: CLLocationDegrees = YepUserDefaults.latitudeShift.value ?? 0
         let longitudeShift: CLLocationDegrees = YepUserDefaults.longitudeShift.value ?? 0
 
-        println("latitudeShift: \(latitudeShift)")
-        println("longitudeShift: \(longitudeShift)")
+        println("yep_applyChinaLocationShift: \(latitudeShift), \(longitudeShift)")
 
         return CLLocationCoordinate2D(latitude: latitude + latitudeShift, longitude: longitude + longitudeShift)
+    }
+
+    var yep_cancelChinaLocationShift: CLLocationCoordinate2D {
+
+        let latitudeShift: CLLocationDegrees = YepUserDefaults.latitudeShift.value ?? 0
+        let longitudeShift: CLLocationDegrees = YepUserDefaults.longitudeShift.value ?? 0
+
+        println("yep_cancelChinaLocationShift: \(latitudeShift), \(longitudeShift)")
+
+        return CLLocationCoordinate2D(latitude: latitude - latitudeShift, longitude: longitude - longitudeShift)
     }
 }
 

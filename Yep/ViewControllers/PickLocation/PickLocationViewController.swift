@@ -132,6 +132,7 @@ class PickLocationViewController: SegueViewController {
         willSet {
             if let coordinate = newValue?.info.coordinate {
                 self.mapView.setCenterCoordinate(coordinate, animated: true)
+                //self.mapView.setCenterCoordinate(coordinate.yep_applyChinaLocationShift, animated: true)
 
                 doneButton.enabled = true
             }
@@ -176,7 +177,7 @@ class PickLocationViewController: SegueViewController {
         mapView.delegate = self
 
         if let location = YepLocationService.sharedManager.locationManager.location {
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate.yep_applyChinaLocationShift, 500, 500)
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate.yep_applyChinaLocationShift, 1000, 1000)
             mapView.setRegion(region, animated: false)
 
             self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
@@ -342,13 +343,8 @@ class PickLocationViewController: SegueViewController {
         if sender.state == .Ended {
 
             let coordinate = fixedCenterCoordinate
-            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
 
-//            placemarksAroundLocation(location) { [weak self] placemarks in
-//                self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
-//            }
-
-            foursquareVenuesNearby(coordinate: location.coordinate, failureHandler: nil, completion: { [weak self] venues in
+            foursquareVenuesNearby(coordinate: coordinate.yep_cancelChinaLocationShift, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
         }
@@ -411,6 +407,7 @@ extension PickLocationViewController: MKMapViewDelegate {
             println("fakelatitude: \(location.coordinate.latitude)")
             println("reallongitude: \(realLocation.coordinate.longitude)")
             println("fakelongitude: \(location.coordinate.longitude)")
+            println("\n")
 
             let latitudeShift = location.coordinate.latitude - realLocation.coordinate.latitude
             let longitudeShift = location.coordinate.longitude - realLocation.coordinate.longitude
@@ -426,13 +423,15 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             doneButton.enabled = true
 
-            //let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500)
+            //let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
             //mapView.setRegion(region, animated: true)
             mapView.setCenterCoordinate(location.coordinate, animated: true)
 
-            foursquareVenuesNearby(coordinate: location.coordinate, failureHandler: nil, completion: { [weak self] venues in
+            foursquareVenuesNearby(coordinate: location.coordinate.yep_cancelChinaLocationShift, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
+
+            mapView.showsUserLocation = false
         }
 
         placemarksAroundLocation(location) { [weak self] placemarks in
