@@ -130,10 +130,7 @@ class PickLocationViewController: SegueViewController {
 
     private var location: Location? {
         willSet {
-            if let coordinate = newValue?.info.coordinate {
-                self.mapView.setCenterCoordinate(coordinate, animated: true)
-                //self.mapView.setCenterCoordinate(coordinate.yep_applyChinaLocationShift, animated: true)
-
+            if let _ = newValue {
                 doneButton.enabled = true
             }
         }
@@ -691,10 +688,12 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
                 break
             }
             location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
+            mapView.setCenterCoordinate(_location.coordinate, animated: true)
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
             location = .Selected(info: Location.Info(coordinate: foursquareVenue.coordinate, name: foursquareVenue.name))
+            mapView.setCenterCoordinate(foursquareVenue.coordinate.yep_applyChinaLocationShift, animated: true)
 
         default:
             break
