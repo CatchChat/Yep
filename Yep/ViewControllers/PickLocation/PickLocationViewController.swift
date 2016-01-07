@@ -54,7 +54,6 @@ class PickLocationViewController: SegueViewController {
 
     private var userLocationPlacemarks = [CLPlacemark]() {
         didSet {
-            /*
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
                     if case .Default = location {
@@ -64,7 +63,6 @@ class PickLocationViewController: SegueViewController {
                     }
                 }
             }
-            */
 
             reloadTableView()
         }
@@ -72,7 +70,6 @@ class PickLocationViewController: SegueViewController {
 
     private var pickedLocationPlacemarks = [CLPlacemark]() {
         didSet {
-            /*
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
                     if case .Picked = location {
@@ -82,7 +79,6 @@ class PickLocationViewController: SegueViewController {
                     }
                 }
             }
-            */
 
             reloadTableView()
         }
@@ -177,7 +173,7 @@ class PickLocationViewController: SegueViewController {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate.yep_applyChinaLocationShift, 1000, 1000)
             mapView.setRegion(region, animated: false)
 
-            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+            self.location = .Default(info: Location.Info(coordinate: location.coordinate.yep_applyChinaLocationShift, name: nil))
 
             placemarksAroundLocation(location) { [weak self] placemarks in
                 self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
@@ -341,6 +337,13 @@ class PickLocationViewController: SegueViewController {
 
             let coordinate = fixedCenterCoordinate
 
+            self.location = .Picked(info: Location.Info(coordinate: coordinate, name: nil))
+
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            placemarksAroundLocation(location) { [weak self] placemarks in
+                self?.pickedLocationPlacemarks = placemarks.filter({ $0.name != nil })
+            }
+
             foursquareVenuesNearby(coordinate: coordinate.yep_cancelChinaLocationShift, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
             })
@@ -423,6 +426,8 @@ extension PickLocationViewController: MKMapViewDelegate {
             //let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
             //mapView.setRegion(region, animated: true)
             mapView.setCenterCoordinate(location.coordinate, animated: true)
+
+            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
 
             foursquareVenuesNearby(coordinate: location.coordinate.yep_cancelChinaLocationShift, failureHandler: nil, completion: { [weak self] venues in
                 self?.foursquareVenues = venues
