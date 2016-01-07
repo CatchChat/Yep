@@ -696,7 +696,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             guard let _location = placemark.location else {
                 break
             }
-            location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
+            location = .Selected(info: Location.Info(coordinate: _location.coordinate.yep_cancelChinaLocationShift, name: placemark.name))
             mapView.setCenterCoordinate(_location.coordinate, animated: true)
 
         case Section.FoursquareVenue.rawValue:
