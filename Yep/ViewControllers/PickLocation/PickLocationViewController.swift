@@ -126,6 +126,15 @@ class PickLocationViewController: SegueViewController {
         }
     }
 
+    private var location: Location? {
+        willSet {
+            if let coordinate = newValue?.info.coordinate {
+                self.mapView.setCenterCoordinate(coordinate, animated: true)
+
+                doneButton.enabled = true
+            }
+        }
+    }
     /*
     private var location: Location? {
         willSet {
@@ -165,14 +174,18 @@ class PickLocationViewController: SegueViewController {
         mapView.delegate = self
 
         if let location = YepLocationService.sharedManager.locationManager.location {
-            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 10000, 10000)
+            let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500)
             mapView.setRegion(region, animated: false)
 
-            //self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
+            self.location = .Default(info: Location.Info(coordinate: location.coordinate, name: nil))
 
             placemarksAroundLocation(location) { [weak self] placemarks in
                 self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
             }
+
+            foursquareVenuesNearby(location, failureHandler: nil, completion: { [weak self] venues in
+                self?.foursquareVenues = venues
+            })
 
         } else {
             proposeToAccess(.Location(.WhenInUse), agreed: {
@@ -194,6 +207,8 @@ class PickLocationViewController: SegueViewController {
         view.bringSubviewToFront(tableView)
         view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
+
+        mapView.showsUserLocation = false
 
         let pan = UIPanGestureRecognizer(target: self, action: "pan:")
         mapView.addGestureRecognizer(pan)
@@ -248,42 +263,43 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
-                    sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
+                    //sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
 
-                    /*
                     if let location = self.location {
                         sendLocationAction(locationInfo: location.info)
 
                     } else {
+                        /*
                         guard let location = self.mapView.userLocation.location else {
                             return
                         }
+                        */
 
-                        sendLocationAction(locationInfo: Location.Info(coordinate: location.coordinate, name: nil))
+                        sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
                     }
-                    */
                 }
             })
 
         case .Feed:
 
-            let location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
+            //let location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
-            performSegueWithIdentifier("showNewFeed", sender: Box(location))
-            /*
+            //performSegueWithIdentifier("showNewFeed", sender: Box(location))
+
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
 
             } else {
+                /*
                 guard let location = self.mapView.userLocation.location else {
                     return
                 }
+                */
 
-                let _location = Location.Default(info: Location.Info(coordinate: location.coordinate, name: userLocationPlacemarks.first?.yep_autoName))
+                let _location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
                 performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }
-            */
         }
     }
 
@@ -528,7 +544,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         switch section {
         case Section.CurrentLocation.rawValue:
-            return 1
+            return 0
         case Section.UserPickedLocation.rawValue:
             /*
             if let isPicked = location?.isPicked {
@@ -651,24 +667,18 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             guard let _location = placemark.location else {
                 break
             }
-            /*
             location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
-            */
 
         case Section.SearchedLocation.rawValue:
             let placemark = self.searchedMapItems[indexPath.row].placemark
             guard let _location = placemark.location else {
                 break
             }
-            /*
             location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
-            */
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
-            /*
             location = .Selected(info: Location.Info(coordinate: foursquareVenue.coordinate, name: foursquareVenue.name))
-            */
 
         default:
             break
