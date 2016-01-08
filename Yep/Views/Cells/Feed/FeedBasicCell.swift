@@ -257,7 +257,7 @@ class FeedBasicCell: UITableViewCell {
 
         leftBottomLabel.text = feed.timeAndDistanceString
 
-        let messagesCountString = "\(feed.messagesCount)"
+        let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
         messageCountLabel.text = messagesCountString
         messageCountLabel.hidden = (feed.messagesCount == 0)
 
@@ -269,9 +269,10 @@ class FeedBasicCell: UITableViewCell {
         } else {
             leftBottomLabel.frame.origin.y = contentView.bounds.height - leftBottomLabel.frame.height - 15
 
-            let rect = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
+            //let rect = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
 
-            let width = ceil(rect.width)
+            //let width = ceil(rect.width)
+            let width: CGFloat = 30
             messageCountLabel.frame = CGRect(x: screenWidth - width - 45 - 8, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
 
             discussionImageView.frame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)

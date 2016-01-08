@@ -186,11 +186,12 @@ struct FeedCellLayout {
         let leftBottomLabelOriginY = height - 17 - 15
         let leftBottomLabelFrame = CGRect(x: 65, y: leftBottomLabelOriginY, width: 200, height: 17)
 
-        let messagesCountString = "\(feed.messagesCount)"
+        //let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
-        let _rect2 = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
+        //let _rect2 = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
 
-        let _width = ceil(_rect2.width)
+        //let _width = ceil(_rect2.width)
+        let _width: CGFloat = 30
         let messageCountLabelFrame = CGRect(x: screenWidth - _width - 45 - 8, y: leftBottomLabelOriginY, width: _width, height: 19)
 
         let discussionImageViewFrame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabelOriginY - 1, width: 30, height: 19)
