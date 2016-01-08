@@ -97,7 +97,7 @@ class FeedBasicCell: UITableViewCell {
         label.textColor = UIColor.grayColor()
         label.font = UIFont.feedBottomLabelsFont()
 
-        label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
+        label.frame = CGRect(x: 65, y: 0, width: screenWidth - 65 - 85, height: 17)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -109,6 +109,7 @@ class FeedBasicCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
         label.font = UIFont.feedBottomLabelsFont()
+        label.textAlignment = .Right
 
         label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
         label.opaque = true
@@ -258,6 +259,7 @@ class FeedBasicCell: UITableViewCell {
         leftBottomLabel.text = feed.timeAndDistanceString
 
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
+
         messageCountLabel.text = messagesCountString
         messageCountLabel.hidden = (feed.messagesCount == 0)
 

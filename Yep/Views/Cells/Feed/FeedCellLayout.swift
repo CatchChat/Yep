@@ -184,7 +184,7 @@ struct FeedCellLayout {
         let messageTextViewFrame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: messageTextViewHeight)
 
         let leftBottomLabelOriginY = height - 17 - 15
-        let leftBottomLabelFrame = CGRect(x: 65, y: leftBottomLabelOriginY, width: 200, height: 17)
+        let leftBottomLabelFrame = CGRect(x: 65, y: leftBottomLabelOriginY, width: screenWidth - 65 - 85, height: 17)
 
         //let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
