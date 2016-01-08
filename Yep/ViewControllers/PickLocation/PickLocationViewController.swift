@@ -704,8 +704,9 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.FoursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
-            location = .Selected(info: Location.Info(coordinate: foursquareVenue.coordinate, name: foursquareVenue.name))
-            mapView.setCenterCoordinate(foursquareVenue.coordinate.yep_applyChinaLocationShift, animated: true)
+            let coordinate = foursquareVenue.coordinate.yep_applyChinaLocationShift
+            location = .Selected(info: Location.Info(coordinate: coordinate, name: foursquareVenue.name))
+            mapView.setCenterCoordinate(coordinate, animated: true)
 
         default:
             break
