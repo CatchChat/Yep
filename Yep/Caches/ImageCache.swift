@@ -296,7 +296,7 @@ class ImageCache {
                     options.size = size
 
                     let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
-                    let mapCoordinate = locationCoordinate.yep_applyChinaLocationShift
+                    let mapCoordinate = locationCoordinate
                     options.region = MKCoordinateRegionMakeWithDistance(mapCoordinate, 500, 500)
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
@@ -379,7 +379,7 @@ class ImageCache {
             options.scale = UIScreen.mainScreen().scale
             let size = size
             options.size = size
-            options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate.yep_applyChinaLocationShift, 500, 500)
+            options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
             let mapSnapshotter = MKMapSnapshotter(options: options)
 

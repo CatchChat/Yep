@@ -340,7 +340,7 @@ class PickLocationViewController: SegueViewController {
 
             let coordinate = fixedCenterCoordinate
 
-            self.location = .Picked(info: Location.Info(coordinate: coordinate.yep_cancelChinaLocationShift, name: nil))
+            self.location = .Picked(info: Location.Info(coordinate: coordinate, name: nil))
 
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             placemarksAroundLocation(location) { [weak self] placemarks in
@@ -699,7 +699,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             guard let _location = placemark.location else {
                 break
             }
-            location = .Selected(info: Location.Info(coordinate: _location.coordinate.yep_cancelChinaLocationShift, name: placemark.name))
+            location = .Selected(info: Location.Info(coordinate: _location.coordinate, name: placemark.name))
             mapView.setCenterCoordinate(_location.coordinate, animated: true)
 
         case Section.FoursquareVenue.rawValue:
