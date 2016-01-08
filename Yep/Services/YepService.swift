@@ -3639,7 +3639,7 @@ struct FoursquareVenue {
     }
 }
 
-func foursquareVenuesNearby(location: CLLocation, failureHandler: ((Reason, String?) -> Void)?, completion: [FoursquareVenue] -> Void) {
+func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failureHandler: ((Reason, String?) -> Void)?, completion: [FoursquareVenue] -> Void) {
 
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
@@ -3649,7 +3649,7 @@ func foursquareVenuesNearby(location: CLLocation, failureHandler: ((Reason, Stri
         "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
         "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
         "v": dateString,
-        "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"
+        "ll": "\(coordinate.latitude),\(coordinate.longitude)"
     ]
 
     let parse: JSONDictionary -> [FoursquareVenue]? = { data in
