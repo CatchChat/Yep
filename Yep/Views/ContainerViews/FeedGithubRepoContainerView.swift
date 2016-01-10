@@ -36,6 +36,7 @@ class FeedGithubRepoContainerView: UIView {
         let label = UILabel()
         label.textColor = UIColor.lightGrayColor()
         label.font = UIFont.systemFontOfSize(12)
+        label.numberOfLines = 2
         return label
     }()
 

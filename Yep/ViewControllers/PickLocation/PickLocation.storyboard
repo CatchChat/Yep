@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="emf-Dt-r7z">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="emf-Dt-r7z">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Pick Location-->
@@ -20,6 +20,9 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="tMv-sj-Ihx">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                             </mapView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="hGG-VP-3D8">
+                                <rect key="frame" x="178" y="218.5" width="18" height="24"/>
+                            </imageView>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="V0o-OK-Glb">
                                 <rect key="frame" x="0.0" y="417" width="375" height="44"/>
                                 <color key="barTintColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -46,11 +49,13 @@
                             <constraint firstItem="V0o-OK-Glb" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="3BN-VK-B3j"/>
                             <constraint firstItem="GJU-cF-0Ij" firstAttribute="top" secondItem="tMv-sj-Ihx" secondAttribute="bottom" constant="206" id="40G-Hf-6Ng"/>
                             <constraint firstItem="GJU-cF-0Ij" firstAttribute="top" secondItem="Vvv-Sf-xsu" secondAttribute="bottom" id="5WK-q7-JFn"/>
+                            <constraint firstItem="hGG-VP-3D8" firstAttribute="centerX" secondItem="tMv-sj-Ihx" secondAttribute="centerX" id="Buz-ec-Vnt"/>
                             <constraint firstItem="pIo-vY-4QU" firstAttribute="top" secondItem="3ro-dX-Brx" secondAttribute="bottom" constant="120" id="Ene-CG-xWF"/>
                             <constraint firstItem="Vvv-Sf-xsu" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="HAq-O4-HIo"/>
                             <constraint firstAttribute="trailing" secondItem="V0o-OK-Glb" secondAttribute="trailing" id="Lej-9H-CWX"/>
                             <constraint firstItem="Vvv-Sf-xsu" firstAttribute="top" secondItem="V0o-OK-Glb" secondAttribute="bottom" id="Qxl-nJ-dd6"/>
                             <constraint firstAttribute="trailing" secondItem="tMv-sj-Ihx" secondAttribute="trailing" id="T5u-Ou-e00"/>
+                            <constraint firstItem="hGG-VP-3D8" firstAttribute="centerY" secondItem="tMv-sj-Ihx" secondAttribute="centerY" id="UjI-em-Fck"/>
                             <constraint firstItem="tMv-sj-Ihx" firstAttribute="leading" secondItem="Acd-G9-mDg" secondAttribute="leading" id="gmV-Le-nhP"/>
                             <constraint firstItem="tMv-sj-Ihx" firstAttribute="top" secondItem="Acd-G9-mDg" secondAttribute="top" id="kvM-ij-cn3"/>
                             <constraint firstItem="pIo-vY-4QU" firstAttribute="centerX" secondItem="Acd-G9-mDg" secondAttribute="centerX" id="nts-sy-chP"/>
@@ -74,6 +79,7 @@
                         <outlet property="cancelButton" destination="jua-ht-Ed3" id="o3J-Vi-dpY"/>
                         <outlet property="doneButton" destination="Zhh-T7-hFq" id="Ka3-x7-rku"/>
                         <outlet property="mapView" destination="tMv-sj-Ihx" id="qie-Ac-q6z"/>
+                        <outlet property="pinImageView" destination="hGG-VP-3D8" id="Ogi-F8-XXA"/>
                         <outlet property="searchBar" destination="V0o-OK-Glb" id="61A-IA-sDt"/>
                         <outlet property="searchBarTopToSuperBottomConstraint" destination="rC2-xh-8I5" id="qxu-Ju-D7R"/>
                         <outlet property="tableView" destination="Vvv-Sf-xsu" id="95A-ub-muG"/>
@@ -112,4 +118,7 @@
             <point key="canvasLocation" x="-651.5" y="3483"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_pin_shadow" width="18" height="24"/>
+    </resources>
 </document>

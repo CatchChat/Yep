@@ -296,7 +296,8 @@ class ImageCache {
                     options.size = size
 
                     let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
-                    options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
+                    let mapCoordinate = locationCoordinate
+                    options.region = MKCoordinateRegionMakeWithDistance(mapCoordinate, 500, 500)
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
 
@@ -315,7 +316,7 @@ class ImageCache {
 
                             image.drawAtPoint(CGPointZero)
 
-                            let pinCenter = snapshot.pointForCoordinate(locationCoordinate)
+                            let pinCenter = snapshot.pointForCoordinate(mapCoordinate)
 
                             let xOffset: CGFloat
                             switch tailDirection {

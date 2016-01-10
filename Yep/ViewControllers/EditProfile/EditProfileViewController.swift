@@ -82,6 +82,12 @@ class EditProfileViewController: SegueViewController {
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
     // MARK: Actions
 
     private func updateAvatar(completion:() -> Void) {
