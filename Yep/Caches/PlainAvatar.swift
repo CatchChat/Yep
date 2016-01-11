@@ -39,7 +39,7 @@ extension PlainAvatar: Navi.Avatar {
             return UIImage(named: "default_avatar_40")
 
         case picoAvatarStyle:
-            return UIImage(named: "default_avatar_40")
+            return UIImage(named: "default_avatar_30")
 
         default:
             return nil
