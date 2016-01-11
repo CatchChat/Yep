@@ -861,8 +861,8 @@ class ConversationViewController: BaseViewController {
 //            view.addSubview(conversationFPSLabel)
         #endif
 
-        usersMatchWithUsernamePrefix("a", failureHandler: nil) { data in
-            println("usersMatchWithUsernamePrefix: \(data)")
+        usersMatchWithUsernamePrefix("t", failureHandler: nil) { users in
+            println("usersMatchWithUsernamePrefix: \(users)")
         }
     }
     
