@@ -25,7 +25,6 @@ private class MentionUserCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(14)
-        label.text = "Hello"
         return label
     }()
 
@@ -33,7 +32,6 @@ private class MentionUserCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
         label.font = UIFont.systemFontOfSize(14)
-        label.text = "@World"
         return label
     }()
 
@@ -62,6 +60,8 @@ private class MentionUserCell: UITableViewCell {
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[mentionUsernameLabel]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+
+        mentionUsernameLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
         let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
         let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
