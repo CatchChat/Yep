@@ -87,6 +87,8 @@ class MentionView: UIView {
         }
     }
 
+    var pickUserAction: ((username: String) -> Void)?
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = UIColor.redColor()
@@ -138,6 +140,15 @@ extension MentionView: UITableViewDataSource, UITableViewDelegate {
         let user = users[indexPath.row]
         cell.configureWithUsernamePrefixMatchedUser(user)
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        let username = users[indexPath.row].username
+        pickUserAction?(username: username)
     }
 }
 

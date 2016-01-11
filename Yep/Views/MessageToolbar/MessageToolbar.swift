@@ -419,6 +419,29 @@ class MessageToolbar: UIToolbar {
         moreMessageTypesAction?()
     }
 
+    private var mentionUsernamePrefixRange: Range<String.Index>?
+
+    func replaceMentionedUsername(username: String) {
+
+        defer {
+            mentionUsernamePrefixRange = nil
+        }
+
+        guard !username.isEmpty else {
+            return
+        }
+
+        let usernameWithSpaceSuffix = username + " "
+
+        var text = messageTextView.text
+
+        if let range = mentionUsernamePrefixRange {
+            text.replaceRange(range, with: usernameWithSpaceSuffix)
+
+            messageTextView.text = text
+        }
+    }
+
     func tryVoiceRecordBegin() {
 
         voiceRecordButton.state = .Touched
@@ -469,6 +492,7 @@ extension MessageToolbar: UITextViewDelegate {
             if let lastPart = parts.last {
                 if lastPart.hasPrefix("@") {
                     let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
+                    mentionUsernamePrefixRange = text.rangeOfString(usernamePrefix)
                     tryMentionUserAction?(usernamePrefix: usernamePrefix)
                 }
             }

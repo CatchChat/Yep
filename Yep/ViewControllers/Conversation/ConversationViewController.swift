@@ -509,6 +509,10 @@ class ConversationViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
 
+        view.pickUserAction = { [weak self] username in
+            self?.messageToolbar.replaceMentionedUsername(username)
+        }
+
         return view
     }()
 
