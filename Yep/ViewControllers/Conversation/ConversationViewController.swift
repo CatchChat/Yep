@@ -495,6 +495,23 @@ class ConversationViewController: BaseViewController {
         return view
     }()
 
+    private lazy var mentionView: MentionView = {
+        let view = MentionView()
+
+        self.view.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: 0)
+        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: MentionView.height)
+
+        NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+        self.view.layoutIfNeeded()
+
+        return view
+    }()
+
     @IBOutlet private weak var conversationCollectionView: UICollectionView!
     private let conversationCollectionViewContentInsetYOffset: CGFloat = 10
 
@@ -863,6 +880,10 @@ class ConversationViewController: BaseViewController {
 
         usersMatchWithUsernamePrefix("t", failureHandler: nil) { users in
             println("usersMatchWithUsernamePrefix: \(users)")
+
+            delay(2) { [weak self] in
+                self?.mentionView
+            }
         }
     }
     

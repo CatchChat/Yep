@@ -10,8 +10,11 @@ import UIKit
 
 class MentionView: UIView {
 
+    static let height: CGFloat = 150
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = UIColor.redColor()
         return tableView
     }()
 
