@@ -303,6 +303,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.backgroundColor = UIColor.whiteColor()
         feedsTableView.tableFooterView = UIView()
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
         feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
 
