@@ -953,7 +953,7 @@ class ConversationViewController: BaseViewController {
                     self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 default:
-                    break
+                    self?.mentionView.hide()
                 }
             }
 
