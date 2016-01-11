@@ -94,7 +94,7 @@ class MentionView: UIView {
 
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.clearColor()
         view.lineColor = UIColor.lightGrayColor()
         return view
     }()
@@ -106,7 +106,7 @@ class MentionView: UIView {
 
         tableView.backgroundColor = UIColor.clearColor()
 
-        let effect = UIBlurEffect(style: .Light)
+        let effect = UIBlurEffect(style: .ExtraLight)
 
         let blurView = UIVisualEffectView(effect: effect)
         tableView.backgroundView = blurView
