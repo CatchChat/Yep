@@ -1110,6 +1110,8 @@ class ConversationViewController: BaseViewController {
                         println("sendText to group: \(success)")
                     })
                 }
+
+                self?.mentionView.hide()
             }
 
             // MARK: Send Audio
