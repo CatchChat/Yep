@@ -962,7 +962,13 @@ class ConversationViewController: BaseViewController {
             messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
                 usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
                         self?.mentionView.users = users
+
+                        guard !users.isEmpty else {
+                            self?.mentionView.hide()
+                            return
+                        }
 
                         self?.view.layoutIfNeeded()
                         self?.mentionView.show()
