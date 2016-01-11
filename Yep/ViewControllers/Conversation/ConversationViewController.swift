@@ -510,6 +510,7 @@ class ConversationViewController: BaseViewController {
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
 
+        view.heightConstraint = height
         view.bottomConstraint = bottom
 
         view.pickUserAction = { [weak self] username in

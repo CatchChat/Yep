@@ -99,6 +99,8 @@ class MentionView: UIView {
         return view
     }()
 
+    static let tableViewRowHeight: CGFloat = 50
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
 
@@ -113,7 +115,7 @@ class MentionView: UIView {
 
         tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
 
-        tableView.rowHeight = 50
+        tableView.rowHeight = MentionView.tableViewRowHeight
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -147,12 +149,17 @@ class MentionView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsV)
     }
 
+    weak var heightConstraint: NSLayoutConstraint?
     weak var bottomConstraint: NSLayoutConstraint?
 
     func show() {
 
+        let usersCount = users.count
+        let height = usersCount >= 3 ? MentionView.height : CGFloat(usersCount) * MentionView.tableViewRowHeight
+
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
+            self?.heightConstraint?.constant = height
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
 
