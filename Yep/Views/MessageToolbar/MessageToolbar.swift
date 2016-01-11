@@ -493,10 +493,13 @@ extension MessageToolbar: UITextViewDelegate {
             if let lastPart = parts.last {
                 if lastPart.hasPrefix("@") {
                     let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
-                    mentionUsernameRange = text.rangeOfString(lastPart)
-                    tryMentionUserAction?(usernamePrefix: usernamePrefix)
 
-                    return
+                    if !usernamePrefix.isEmpty {
+                        mentionUsernameRange = text.rangeOfString(lastPart)
+                        tryMentionUserAction?(usernamePrefix: usernamePrefix)
+
+                        return
+                    }
                 }
             }
 
