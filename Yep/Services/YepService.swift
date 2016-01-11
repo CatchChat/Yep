@@ -3689,3 +3689,23 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
     }
 }
 
+// MARK: Mention
+
+func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reason, String?) -> Void)?, completion: (JSONDictionary) -> Void) {
+
+    let requestParameters = [
+        "q": usernamePrefix,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/users/typeahead", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}

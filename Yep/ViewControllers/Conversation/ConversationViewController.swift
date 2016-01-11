@@ -860,6 +860,10 @@ class ConversationViewController: BaseViewController {
         #if DEBUG
 //            view.addSubview(conversationFPSLabel)
         #endif
+
+        usersMatchWithUsernamePrefix("a", failureHandler: nil) { data in
+            println("usersMatchWithUsernamePrefix: \(data)")
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
