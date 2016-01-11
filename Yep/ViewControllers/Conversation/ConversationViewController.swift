@@ -878,13 +878,13 @@ class ConversationViewController: BaseViewController {
 //            view.addSubview(conversationFPSLabel)
         #endif
 
-        usersMatchWithUsernamePrefix("i", failureHandler: nil) { users in
-            println("usersMatchWithUsernamePrefix: \(users)")
-
-            delay(1) { [weak self] in
-                self?.mentionView.users = users
-            }
-        }
+//        usersMatchWithUsernamePrefix("i", failureHandler: nil) { users in
+//            println("usersMatchWithUsernamePrefix: \(users)")
+//
+//            delay(1) { [weak self] in
+//                self?.mentionView.users = users
+//            }
+//        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -946,6 +946,16 @@ class ConversationViewController: BaseViewController {
 
                 default:
                     break
+                }
+            }
+
+            // MARK: Mention
+
+            messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
+                usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.mentionView.users = users
+                    }
                 }
             }
 

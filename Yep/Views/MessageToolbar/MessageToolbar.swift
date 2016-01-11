@@ -143,6 +143,8 @@ class MessageToolbar: UIToolbar {
 
     var notifyTypingAction: (() -> Void)?
 
+    var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
+
     var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
 
     var moreMessageTypesAction: (() -> Void)?
@@ -461,6 +463,15 @@ extension MessageToolbar: UITextViewDelegate {
 
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
+
+            let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+
+            if let lastPart = parts.last {
+                if lastPart.hasPrefix("@") {
+                    let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
+                    tryMentionUserAction?(usernamePrefix: usernamePrefix)
+                }
+            }
         }
     }
 }
