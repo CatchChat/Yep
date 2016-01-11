@@ -976,6 +976,10 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
+            messageToolbar.giveUpMentionUserAction = { [weak self] in
+                self?.mentionView.hide()
+            }
+
             // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
     
             func tryRecoverMessageToolBar() {

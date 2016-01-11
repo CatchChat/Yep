@@ -144,6 +144,7 @@ class MessageToolbar: UIToolbar {
     var notifyTypingAction: (() -> Void)?
 
     var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
+    var giveUpMentionUserAction: (() -> Void)?
 
     var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
 
@@ -494,8 +495,12 @@ extension MessageToolbar: UITextViewDelegate {
                     let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
                     mentionUsernameRange = text.rangeOfString(lastPart)
                     tryMentionUserAction?(usernamePrefix: usernamePrefix)
+
+                    return
                 }
             }
+
+            giveUpMentionUserAction?()
         }
     }
 }
