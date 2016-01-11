@@ -10,4 +10,5 @@ import Navi
 
 let miniAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 60, height: 60), cornerRadius: 30, borderWidth: 0)
 let nanoAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 40, height: 40), cornerRadius: 20, borderWidth: 0)
+let picoAvatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 30, height: 30), cornerRadius: 15, borderWidth: 0)
 

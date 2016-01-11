@@ -38,6 +38,9 @@ extension PlainAvatar: Navi.Avatar {
         case nanoAvatarStyle:
             return UIImage(named: "default_avatar_40")
 
+        case picoAvatarStyle:
+            return UIImage(named: "default_avatar_40")
+
         default:
             return nil
         }

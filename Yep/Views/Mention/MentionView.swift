@@ -15,12 +15,9 @@ private class MentionUserCell: UITableViewCell {
         return NSStringFromClass(self)
     }
 
-    static var avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 30, height: 30), cornerRadius: 15, borderWidth: 0)
-
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
-        imageView.backgroundColor = UIColor.blueColor()
+        imageView.contentMode = .ScaleAspectFit
         return imageView
     }()
 
@@ -72,7 +69,7 @@ private class MentionUserCell: UITableViewCell {
 
     func configureWithUsernamePrefixMatchedUser(user: UsernamePrefixMatchedUser) {
 
-        let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: MentionUserCell.avatarStyle)
+        let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: picoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         nicknameLabel.text = user.nickname
