@@ -419,24 +419,24 @@ class MessageToolbar: UIToolbar {
         moreMessageTypesAction?()
     }
 
-    private var mentionUsernamePrefixRange: Range<String.Index>?
+    private var mentionUsernameRange: Range<String.Index>?
 
     func replaceMentionedUsername(username: String) {
 
         defer {
-            mentionUsernamePrefixRange = nil
+            mentionUsernameRange = nil
         }
 
         guard !username.isEmpty else {
             return
         }
 
-        let usernameWithSpaceSuffix = username + " "
+        let mentionUsernameWithSpaceSuffix = "@" + username + " "
 
         var text = messageTextView.text
 
-        if let range = mentionUsernamePrefixRange {
-            text.replaceRange(range, with: usernameWithSpaceSuffix)
+        if let range = mentionUsernameRange {
+            text.replaceRange(range, with: mentionUsernameWithSpaceSuffix)
 
             messageTextView.text = text
         }
@@ -492,7 +492,7 @@ extension MessageToolbar: UITextViewDelegate {
             if let lastPart = parts.last {
                 if lastPart.hasPrefix("@") {
                     let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
-                    mentionUsernamePrefixRange = text.rangeOfString(usernamePrefix)
+                    mentionUsernameRange = text.rangeOfString(lastPart)
                     tryMentionUserAction?(usernamePrefix: usernamePrefix)
                 }
             }
