@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,9 +16,6 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Aee-O7-EqM">
                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image_rectangle_border" translatesAutoresizingMaskIntoConstraints="NO" id="Uhu-Ul-Nm3">
-                        <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_media_delete" translatesAutoresizingMaskIntoConstraints="NO" id="hUo-wW-DEo">
                         <rect key="frame" x="56" y="8" width="16" height="16"/>
                     </imageView>
@@ -26,10 +23,6 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="Uhu-Ul-Nm3" firstAttribute="bottom" secondItem="Aee-O7-EqM" secondAttribute="bottom" id="0pu-Pj-HRH"/>
-                <constraint firstItem="Uhu-Ul-Nm3" firstAttribute="trailing" secondItem="Aee-O7-EqM" secondAttribute="trailing" id="4Zk-oq-yiM"/>
-                <constraint firstItem="Uhu-Ul-Nm3" firstAttribute="leading" secondItem="Aee-O7-EqM" secondAttribute="leading" id="IP4-ML-ikh"/>
-                <constraint firstItem="Uhu-Ul-Nm3" firstAttribute="top" secondItem="Aee-O7-EqM" secondAttribute="top" id="bhU-SN-4E4"/>
                 <constraint firstAttribute="trailing" secondItem="hUo-wW-DEo" secondAttribute="trailing" constant="8" id="cve-33-J4n"/>
                 <constraint firstAttribute="trailing" secondItem="Aee-O7-EqM" secondAttribute="trailing" id="d2z-Xc-HRU"/>
                 <constraint firstItem="Aee-O7-EqM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dhp-RU-Pr8"/>
@@ -39,7 +32,6 @@
             </constraints>
             <size key="customSize" width="120" height="116"/>
             <connections>
-                <outlet property="borderImageView" destination="Uhu-Ul-Nm3" id="NeS-aC-QDa"/>
                 <outlet property="deleteImageView" destination="hUo-wW-DEo" id="DrB-Br-qyb"/>
                 <outlet property="imageView" destination="Aee-O7-EqM" id="X5m-t5-bCA"/>
             </connections>
@@ -48,6 +40,5 @@
     </objects>
     <resources>
         <image name="icon_media_delete" width="16" height="16"/>
-        <image name="image_rectangle_border" width="10" height="10"/>
     </resources>
 </document>

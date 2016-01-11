@@ -19,7 +19,7 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView.frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         imageView.frame = frame
         imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
-        imageView.layer.borderWidth = 1
+        imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
 
         imageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tap:")
