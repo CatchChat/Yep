@@ -70,13 +70,15 @@ private class MentionUserCell: UITableViewCell {
 
 class MentionView: UIView {
 
-    static let height: CGFloat = 150
+    static let height: CGFloat = 125
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = UIColor.redColor()
 
         tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
+
+        tableView.rowHeight = 50
 
         tableView.dataSource = self
         tableView.delegate = self
