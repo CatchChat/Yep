@@ -1,0 +1,206 @@
+//
+//  MentionView.swift
+//  Yep
+//
+//  Created by nixzhu on 16/1/11.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+import Navi
+
+private class MentionUserCell: UITableViewCell {
+
+    static var reuseIdentifier: String {
+        return NSStringFromClass(self)
+    }
+
+    lazy var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFit
+        return imageView
+    }()
+
+    lazy var nicknameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.blackColor()
+        label.font = UIFont.systemFontOfSize(14)
+        return label
+    }()
+
+    lazy var mentionUsernameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.yepTintColor()
+        label.font = UIFont.systemFontOfSize(14)
+        return label
+    }()
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        makeUI()
+    }
+
+    func makeUI() {
+
+        backgroundColor = UIColor.clearColor()
+
+        contentView.addSubview(avatarImageView)
+        contentView.addSubview(nicknameLabel)
+        contentView.addSubview(mentionUsernameLabel)
+
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
+        mentionUsernameLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = [
+            "avatarImageView": avatarImageView,
+            "nicknameLabel": nicknameLabel,
+            "mentionUsernameLabel": mentionUsernameLabel,
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[mentionUsernameLabel]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+
+        mentionUsernameLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+
+        let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints([avatarImageViewCenterY, avatarImageViewHeight])
+    }
+
+    func configureWithUsernamePrefixMatchedUser(user: UsernamePrefixMatchedUser) {
+
+        let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: picoAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = user.nickname
+        mentionUsernameLabel.text = user.mentionUsername
+    }
+}
+
+class MentionView: UIView {
+
+    static let height: CGFloat = 125
+
+    var users: [UsernamePrefixMatchedUser] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    var pickUserAction: ((username: String) -> Void)?
+
+    lazy var horizontalLineView: HorizontalLineView = {
+        let view = HorizontalLineView()
+        view.backgroundColor = UIColor.clearColor()
+        view.lineColor = UIColor.lightGrayColor()
+        return view
+    }()
+
+    static let tableViewRowHeight: CGFloat = 50
+
+    lazy var tableView: UITableView = {
+        let tableView = UITableView()
+
+        tableView.backgroundColor = UIColor.clearColor()
+
+        let effect = UIBlurEffect(style: .ExtraLight)
+
+        let blurView = UIVisualEffectView(effect: effect)
+        tableView.backgroundView = blurView
+
+        tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: effect)
+
+        tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
+
+        tableView.rowHeight = MentionView.tableViewRowHeight
+
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        return tableView
+    }()
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        makeUI()
+    }
+
+    func makeUI() {
+
+        addSubview(horizontalLineView)
+        addSubview(tableView)
+
+        horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = [
+            "horizontalLineView": horizontalLineView,
+            "tableView": tableView,
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)][tableView]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+    }
+
+    weak var heightConstraint: NSLayoutConstraint?
+    weak var bottomConstraint: NSLayoutConstraint?
+
+    func show() {
+
+        let usersCount = users.count
+        let height = usersCount >= 3 ? MentionView.height : CGFloat(usersCount) * MentionView.tableViewRowHeight
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = 0
+            self?.heightConstraint?.constant = height
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
+
+        if !users.isEmpty {
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+        }
+    }
+
+    func hide() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = MentionView.height
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
+    }
+}
+
+extension MentionView: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return users.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(MentionUserCell.reuseIdentifier, forIndexPath: indexPath) as! MentionUserCell
+        let user = users[indexPath.row]
+        cell.configureWithUsernamePrefixMatchedUser(user)
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        let username = users[indexPath.row].username
+        pickUserAction?(username: username)
+    }
+}
+

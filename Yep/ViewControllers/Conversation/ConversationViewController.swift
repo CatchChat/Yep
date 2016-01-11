@@ -297,6 +297,12 @@ class ConversationViewController: BaseViewController {
     var conversationDirtyAction: (() -> Void)?
     var conversationIsDirty = false
 
+    private var needDetectMention = false {
+        didSet {
+            messageToolbar.needDetectMention = needDetectMention
+        }
+    }
+
     private var selectedIndexPathForMenu: NSIndexPath?
 
     private var realm: Realm!
@@ -487,10 +493,40 @@ class ConversationViewController: BaseViewController {
         let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
         let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
 
-        view.bottomConstraint = bottom
-
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
+
+        view.bottomConstraint = bottom
+
+        return view
+    }()
+
+    private lazy var mentionView: MentionView = {
+        let view = MentionView()
+
+        self.view.insertSubview(view, belowSubview: self.messageToolbar)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let top = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: MentionView.height)
+        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: MentionView.height)
+
+        bottom.priority = UILayoutPriorityDefaultHigh
+
+        NSLayoutConstraint.activateConstraints([top, leading, trailing, bottom, height])
+        self.view.layoutIfNeeded()
+
+        view.heightConstraint = height
+        view.bottomConstraint = bottom
+
+        view.pickUserAction = { [weak self] username in
+            self?.messageToolbar.replaceMentionedUsername(username)
+            self?.mentionView.hide()
+        }
 
         return view
     }()
@@ -860,6 +896,8 @@ class ConversationViewController: BaseViewController {
         #if DEBUG
 //            view.addSubview(conversationFPSLabel)
         #endif
+
+        needDetectMention = conversation.needDetectMention
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -920,7 +958,34 @@ class ConversationViewController: BaseViewController {
                     self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 default:
-                    break
+                    if self?.needDetectMention ?? false {
+                        self?.mentionView.hide()
+                    }
+                }
+            }
+
+            // MARK: Mention
+
+            if needDetectMention {
+                messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
+                    usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            self?.mentionView.users = users
+
+                            guard !users.isEmpty else {
+                                self?.mentionView.hide()
+                                return
+                            }
+
+                            self?.view.layoutIfNeeded()
+                            self?.mentionView.show()
+                        }
+                    }
+                }
+
+                messageToolbar.giveUpMentionUserAction = { [weak self] in
+                    self?.mentionView.hide()
                 }
             }
 
@@ -1057,6 +1122,10 @@ class ConversationViewController: BaseViewController {
                     }, completion: { success in
                         println("sendText to group: \(success)")
                     })
+                }
+
+                if self?.needDetectMention ?? false {
+                    self?.mentionView.hide()
                 }
             }
 
@@ -1305,8 +1374,8 @@ class ConversationViewController: BaseViewController {
                 if let group = conversation.withGroup where !group.includeMe {
 
                     // 此情况强制所有消息“已读”
-                    messages.forEach { message in
-                        let _ = try? realm.write {
+                    let _ = try? realm.write {
+                        messages.forEach { message in
                             message.readed = true
                         }
                     }

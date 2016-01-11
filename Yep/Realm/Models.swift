@@ -740,6 +740,10 @@ class Conversation: Object {
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
+
+    var needDetectMention: Bool {
+        return type == ConversationType.Group.rawValue
+    }
 }
 
 // MARK: Feed
