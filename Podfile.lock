@@ -1,15 +1,15 @@
 PODS:
   - 1PasswordExtension (1.7)
   - Alamofire (3.1.4)
-  - APAddressBook/Core (0.2.1)
-  - APAddressBook/Swift (0.2.1):
+  - APAddressBook/Core (0.2.2)
+  - APAddressBook/Swift (0.2.2):
     - APAddressBook/Core
   - Appsee (2.1.5)
   - Base64 (1.0.1)
-  - Crashlytics (3.4.1):
+  - Crashlytics (3.5.0):
     - Fabric (~> 1.6.0)
   - DeviceGuru (1.3.3)
-  - Fabric (1.6.1)
+  - Fabric (1.6.2)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - KeyboardMan (0.5.2)
@@ -58,12 +58,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
-  APAddressBook: 90c0fb07579a47e10ef1a2344e23cfd35f388bec
+  APAddressBook: 26473a739b8b9c9535c98ec66bf78015b4081dab
   Appsee: 77f144701aa1a53d854d319a46667561849e8cf5
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
-  Crashlytics: 41574a245bc6ae10c55d57f385ebd2004e5bee05
+  Crashlytics: fabfd45d0e8b8dc936c682b97e302b9a49a1c827
   DeviceGuru: 49c6178d77693f8459ace21cecaf4d1d26297d08
-  Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
+  Fabric: e8296d4a1abb3c5eed770cc86b311c862f51d340
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
