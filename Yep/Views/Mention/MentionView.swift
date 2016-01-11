@@ -155,6 +155,10 @@ class MentionView: UIView {
             self?.bottomConstraint?.constant = 0
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
+
+        if !users.isEmpty {
+            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+        }
     }
 
     func hide() {
