@@ -878,11 +878,11 @@ class ConversationViewController: BaseViewController {
 //            view.addSubview(conversationFPSLabel)
         #endif
 
-        usersMatchWithUsernamePrefix("t", failureHandler: nil) { users in
+        usersMatchWithUsernamePrefix("i", failureHandler: nil) { users in
             println("usersMatchWithUsernamePrefix: \(users)")
 
-            delay(2) { [weak self] in
-                self?.mentionView
+            delay(1) { [weak self] in
+                self?.mentionView.users = users
             }
         }
     }

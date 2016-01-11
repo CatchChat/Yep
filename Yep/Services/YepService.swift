@@ -3696,6 +3696,10 @@ struct UsernamePrefixMatchedUser {
     let username: String
     let nickname: String
     let avatarURLString: String
+
+    var mentionUsername: String {
+        return "@" + username
+    }
 }
 
 func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([UsernamePrefixMatchedUser]) -> Void) {

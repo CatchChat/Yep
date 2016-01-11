@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import Navi
 
 private class MentionUserCell: UITableViewCell {
 
     static var reuseIdentifier: String {
         return NSStringFromClass(self)
     }
+
+    static var avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: 30, height: 30), cornerRadius: 15, borderWidth: 0)
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,7 +32,7 @@ private class MentionUserCell: UITableViewCell {
         return label
     }()
 
-    lazy var usernameLabel: UILabel = {
+    lazy var mentionUsernameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
         label.font = UIFont.systemFontOfSize(14)
@@ -46,19 +49,19 @@ private class MentionUserCell: UITableViewCell {
     func makeUI() {
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nicknameLabel)
-        contentView.addSubview(usernameLabel)
+        contentView.addSubview(mentionUsernameLabel)
 
         avatarImageView.translatesAutoresizingMaskIntoConstraints = false
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
-        usernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        mentionUsernameLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
             "avatarImageView": avatarImageView,
             "nicknameLabel": nicknameLabel,
-            "usernameLabel": usernameLabel,
+            "mentionUsernameLabel": mentionUsernameLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[usernameLabel]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[mentionUsernameLabel]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
 
         let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
         let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
@@ -66,11 +69,26 @@ private class MentionUserCell: UITableViewCell {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints([avatarImageViewCenterY, avatarImageViewHeight])
     }
+
+    func configureWithUsernamePrefixMatchedUser(user: UsernamePrefixMatchedUser) {
+
+        let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: MentionUserCell.avatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = user.nickname
+        mentionUsernameLabel.text = user.mentionUsername
+    }
 }
 
 class MentionView: UIView {
 
     static let height: CGFloat = 125
+
+    var users: [UsernamePrefixMatchedUser] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -115,11 +133,13 @@ extension MentionView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return users.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(MentionUserCell.reuseIdentifier, forIndexPath: indexPath) as! MentionUserCell
+        let user = users[indexPath.row]
+        cell.configureWithUsernamePrefixMatchedUser(user)
         return cell
     }
 }
