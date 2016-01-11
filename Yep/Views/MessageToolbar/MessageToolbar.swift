@@ -143,6 +143,10 @@ class MessageToolbar: UIToolbar {
 
     var notifyTypingAction: (() -> Void)?
 
+    var needDetectMention = false
+    var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
+    var giveUpMentionUserAction: (() -> Void)?
+
     var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
 
     var moreMessageTypesAction: (() -> Void)?
@@ -417,6 +421,29 @@ class MessageToolbar: UIToolbar {
         moreMessageTypesAction?()
     }
 
+    private var mentionUsernameRange: Range<String.Index>?
+
+    func replaceMentionedUsername(username: String) {
+
+        defer {
+            mentionUsernameRange = nil
+        }
+
+        guard !username.isEmpty else {
+            return
+        }
+
+        let mentionUsernameWithSpaceSuffix = "@" + username + " "
+
+        var text = messageTextView.text
+
+        if let range = mentionUsernameRange {
+            text.replaceRange(range, with: mentionUsernameWithSpaceSuffix)
+
+            messageTextView.text = text
+        }
+    }
+
     func tryVoiceRecordBegin() {
 
         voiceRecordButton.state = .Touched
@@ -461,6 +488,25 @@ extension MessageToolbar: UITextViewDelegate {
 
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
+
+            if needDetectMention {
+                let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+
+                if let lastPart = parts.last {
+                    if lastPart.hasPrefix("@") {
+                        let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
+
+                        if !usernamePrefix.isEmpty {
+                            mentionUsernameRange = text.rangeOfString(lastPart)
+                            tryMentionUserAction?(usernamePrefix: usernamePrefix)
+
+                            return
+                        }
+                    }
+                }
+
+                giveUpMentionUserAction?()
+            }
         }
     }
 }

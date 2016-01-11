@@ -3689,3 +3689,54 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
     }
 }
 
+// MARK: Mention
+
+struct UsernamePrefixMatchedUser {
+    let userID: String
+    let username: String
+    let nickname: String
+    let avatarURLString: String
+
+    var mentionUsername: String {
+        return "@" + username
+    }
+}
+
+func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
+
+    let requestParameters = [
+        "q": usernamePrefix,
+    ]
+
+    let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
+        //println("usersMatchWithUsernamePrefix: \(data)")
+
+        if let usersData = data["users"] as? [JSONDictionary] {
+            let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in
+                guard let
+                    userID = userInfo["id"] as? String,
+                    username = userInfo["username"] as? String,
+                    nickname = userInfo["nickname"] as? String,
+                    avatarInfo = userInfo["avatar"] as? JSONDictionary,
+                    avatarURLString = avatarInfo["thumb_url"] as? String
+                else {
+                    return nil
+                }
+
+                return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString)
+            }).flatMap({ $0 })
+
+            return users
+        }
+
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/v1/users/typeahead", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}

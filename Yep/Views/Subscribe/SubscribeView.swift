@@ -12,8 +12,6 @@ class SubscribeView: UIView {
 
     static let height: CGFloat = 50
 
-    var bottomConstraint: NSLayoutConstraint?
-
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_subscribe_notify")
@@ -109,6 +107,8 @@ class SubscribeView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsV)
         }
     }
+
+    weak var bottomConstraint: NSLayoutConstraint?
 
     func show() {
 
