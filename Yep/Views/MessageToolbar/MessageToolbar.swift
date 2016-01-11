@@ -143,6 +143,7 @@ class MessageToolbar: UIToolbar {
 
     var notifyTypingAction: (() -> Void)?
 
+    var needDetectMention = false
     var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
     var giveUpMentionUserAction: (() -> Void)?
 
@@ -488,22 +489,24 @@ extension MessageToolbar: UITextViewDelegate {
         if let text = textView.text {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
 
-            let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if needDetectMention {
+                let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 
-            if let lastPart = parts.last {
-                if lastPart.hasPrefix("@") {
-                    let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
+                if let lastPart = parts.last {
+                    if lastPart.hasPrefix("@") {
+                        let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
 
-                    if !usernamePrefix.isEmpty {
-                        mentionUsernameRange = text.rangeOfString(lastPart)
-                        tryMentionUserAction?(usernamePrefix: usernamePrefix)
+                        if !usernamePrefix.isEmpty {
+                            mentionUsernameRange = text.rangeOfString(lastPart)
+                            tryMentionUserAction?(usernamePrefix: usernamePrefix)
 
-                        return
+                            return
+                        }
                     }
                 }
-            }
 
-            giveUpMentionUserAction?()
+                giveUpMentionUserAction?()
+            }
         }
     }
 }

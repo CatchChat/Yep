@@ -297,6 +297,12 @@ class ConversationViewController: BaseViewController {
     var conversationDirtyAction: (() -> Void)?
     var conversationIsDirty = false
 
+    private var needDetectMention = false {
+        didSet {
+            messageToolbar.needDetectMention = needDetectMention
+        }
+    }
+
     private var selectedIndexPathForMenu: NSIndexPath?
 
     private var realm: Realm!
@@ -891,13 +897,7 @@ class ConversationViewController: BaseViewController {
 //            view.addSubview(conversationFPSLabel)
         #endif
 
-//        usersMatchWithUsernamePrefix("i", failureHandler: nil) { users in
-//            println("usersMatchWithUsernamePrefix: \(users)")
-//
-//            delay(1) { [weak self] in
-//                self?.mentionView.users = users
-//            }
-//        }
+        needDetectMention = conversation.needDetectMention
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -958,31 +958,35 @@ class ConversationViewController: BaseViewController {
                     self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 default:
-                    self?.mentionView.hide()
+                    if self?.needDetectMention ?? false {
+                        self?.mentionView.hide()
+                    }
                 }
             }
 
             // MARK: Mention
 
-            messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
-                usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            if needDetectMention {
+                messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
+                    usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                        self?.mentionView.users = users
+                            self?.mentionView.users = users
 
-                        guard !users.isEmpty else {
-                            self?.mentionView.hide()
-                            return
+                            guard !users.isEmpty else {
+                                self?.mentionView.hide()
+                                return
+                            }
+
+                            self?.view.layoutIfNeeded()
+                            self?.mentionView.show()
                         }
-
-                        self?.view.layoutIfNeeded()
-                        self?.mentionView.show()
                     }
                 }
-            }
 
-            messageToolbar.giveUpMentionUserAction = { [weak self] in
-                self?.mentionView.hide()
+                messageToolbar.giveUpMentionUserAction = { [weak self] in
+                    self?.mentionView.hide()
+                }
             }
 
             // 在这里才尝试恢复 messageToolbar 的状态，因为依赖 stateTransitionAction
@@ -1120,7 +1124,9 @@ class ConversationViewController: BaseViewController {
                     })
                 }
 
-                self?.mentionView.hide()
+                if self?.needDetectMention ?? false {
+                    self?.mentionView.hide()
+                }
             }
 
             // MARK: Send Audio
