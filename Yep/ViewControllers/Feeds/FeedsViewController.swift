@@ -349,7 +349,7 @@ class FeedsViewController: BaseViewController {
         }
 
         #if DEBUG
-            view.addSubview(feedsFPSLabel)
+//            view.addSubview(feedsFPSLabel)
         #endif
     }
 
