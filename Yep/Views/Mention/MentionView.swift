@@ -89,9 +89,15 @@ class MentionView: UIView {
 
     var pickUserAction: ((username: String) -> Void)?
 
+    lazy var horizontalLineView: HorizontalLineView = {
+        let view = HorizontalLineView()
+        view.backgroundColor = UIColor.whiteColor()
+        view.lineColor = UIColor.lightGrayColor()
+        return view
+    }()
+
     lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = UIColor.redColor()
 
         tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
 
@@ -110,15 +116,20 @@ class MentionView: UIView {
     }
 
     func makeUI() {
+
+        addSubview(horizontalLineView)
         addSubview(tableView)
+
+        horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
+            "horizontalLineView": horizontalLineView,
             "tableView": tableView,
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: [], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[tableView]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)][tableView]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
