@@ -123,6 +123,24 @@ class MentionView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
     }
+
+    weak var bottomConstraint: NSLayoutConstraint?
+
+    func show() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = 0
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
+    }
+
+    func hide() {
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.bottomConstraint?.constant = MentionView.height
+            self?.superview?.layoutIfNeeded()
+        }, completion: { _ in })
+    }
 }
 
 extension MentionView: UITableViewDataSource, UITableViewDelegate {

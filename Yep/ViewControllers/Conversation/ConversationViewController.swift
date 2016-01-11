@@ -487,10 +487,10 @@ class ConversationViewController: BaseViewController {
         let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
         let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
 
-        view.bottomConstraint = bottom
-
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
+
+        view.bottomConstraint = bottom
 
         return view
     }()
@@ -498,19 +498,23 @@ class ConversationViewController: BaseViewController {
     private lazy var mentionView: MentionView = {
         let view = MentionView()
 
-        self.view.addSubview(view)
+        self.view.insertSubview(view, belowSubview: self.messageToolbar)
+
         view.translatesAutoresizingMaskIntoConstraints = false
 
         let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
         let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: MentionView.height)
         let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: MentionView.height)
 
         NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
 
+        view.bottomConstraint = bottom
+
         view.pickUserAction = { [weak self] username in
             self?.messageToolbar.replaceMentionedUsername(username)
+            self?.mentionView.hide()
         }
 
         return view
@@ -959,6 +963,9 @@ class ConversationViewController: BaseViewController {
                 usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.mentionView.users = users
+
+                        self?.view.layoutIfNeeded()
+                        self?.mentionView.show()
                     }
                 }
             }
