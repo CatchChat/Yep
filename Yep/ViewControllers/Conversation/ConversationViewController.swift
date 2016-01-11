@@ -1305,8 +1305,8 @@ class ConversationViewController: BaseViewController {
                 if let group = conversation.withGroup where !group.includeMe {
 
                     // 此情况强制所有消息“已读”
-                    messages.forEach { message in
-                        let _ = try? realm.write {
+                    let _ = try? realm.write {
+                        messages.forEach { message in
                             message.readed = true
                         }
                     }
