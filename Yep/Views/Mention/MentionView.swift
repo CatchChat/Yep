@@ -44,6 +44,9 @@ private class MentionUserCell: UITableViewCell {
     }
 
     func makeUI() {
+
+        backgroundColor = UIColor.clearColor()
+
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(mentionUsernameLabel)
@@ -98,6 +101,15 @@ class MentionView: UIView {
 
     lazy var tableView: UITableView = {
         let tableView = UITableView()
+
+        tableView.backgroundColor = UIColor.clearColor()
+
+        let effect = UIBlurEffect(style: .Light)
+
+        let blurView = UIVisualEffectView(effect: effect)
+        tableView.backgroundView = blurView
+
+        tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: effect)
 
         tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
 
