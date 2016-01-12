@@ -441,6 +441,8 @@ class MessageToolbar: UIToolbar {
             text.replaceRange(range, with: mentionUsernameWithSpaceSuffix)
 
             messageTextView.text = text
+
+            updateHeightOfMessageTextView()
         }
     }
 
