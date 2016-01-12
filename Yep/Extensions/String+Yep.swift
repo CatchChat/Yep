@@ -41,7 +41,7 @@ extension String {
 
 extension String {
 
-    func mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
+    func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
         guard index > 0 else {
             return nil
@@ -54,9 +54,9 @@ extension String {
 
         self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
 
-            println("substring: \(substring)")
-            println("substringRange: \(substringRange)")
-            println("enclosingRange: \(enclosingRange)")
+            //println("substring: \(substring)")
+            //println("substringRange: \(substringRange)")
+            //println("enclosingRange: \(enclosingRange)")
 
             if substringRange.contains(index) {
                 wordString = substring
