@@ -11,6 +11,7 @@ PODS:
   - Fabric (1.6.2)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
+  - Kanna (1.0.3)
   - KeyboardMan (0.5.2)
   - Kingfisher (1.9.1)
   - MonkeyKing (0.0.2)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - Fabric
   - FXBlurView
   - JPush-iOS-SDK
+  - Kanna
   - KeyboardMan
   - Kingfisher
   - MonkeyKing (= 0.0.2)
@@ -63,6 +65,7 @@ SPEC CHECKSUMS:
   Fabric: e8296d4a1abb3c5eed770cc86b311c862f51d340
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
+  Kanna: 10c7f20762846e808ec5716e4191427bd71bf1c2
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb

@@ -254,15 +254,17 @@ class ConversationsViewController: SegueViewController {
 
         // test open graph
         [
-            "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
+            //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
             //"https://itun.es/cn/5_268?i=1022063849",
             //"www.douban.com",
             //"http://swiftcn.io/topics/64?f=w",
             //"https://github.com/",
-            //"https://itunes.apple.com/cn/album/li-hong-er-shi-er-shi-zhou/id1022062585?i=1022063849&l=en",
+            "https://itunes.apple.com/cn/album/li-hong-er-shi-er-shi-zhou/id1022062585?i=1022063849&l=en",
             //"http://www.douban.com/note/431101390/",
         ].forEach({
-            openGraphWithURLString($0, failureHandler: nil, completion: {})
+            openGraphWithURLString($0, failureHandler: nil, completion: { openGraph in
+                println("openGraph: \(openGraph)")
+            })
         })
     }
     
