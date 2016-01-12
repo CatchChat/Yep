@@ -491,12 +491,27 @@ extension MessageToolbar: UITextViewDelegate {
 
             if needDetectMention {
 
-                let range = textView.selectedRange
-                println("range: \(range)")
+                let currentLetterIndex = textView.selectedRange.location - 1
 
-                if let (word, range) = text.wordInIndex(range.location - 1) {
-                    println("word: \(word), \(range)")
+                if let (wordString, wordRange) = text.wordInIndex(currentLetterIndex) {
+                    println("word: \(wordString), \(wordRange)")
+
+                    if wordRange.startIndex != text.startIndex {
+                        let mentionWordRange = Range<String.Index>(start: wordRange.startIndex.advancedBy(-1), end: wordRange.endIndex)
+
+                        let mentionWord = text.substringWithRange(mentionWordRange)
+
+                        if mentionWord.hasPrefix("@") {
+
+                            mentionUsernameRange = mentionWordRange
+                            tryMentionUserAction?(usernamePrefix: wordString)
+
+                            return
+                        }
+                    }
                 }
+
+                giveUpMentionUserAction?()
 
                 /*
                 let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

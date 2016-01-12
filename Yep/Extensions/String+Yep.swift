@@ -52,7 +52,7 @@ extension String {
         var wordString: String?
         var wordRange: Range<Index>?
 
-        self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: .ByWords) { (substring, substringRange, enclosingRange, stop) -> () in
+        self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
 
             println("substring: \(substring)")
             println("substringRange: \(substringRange)")
