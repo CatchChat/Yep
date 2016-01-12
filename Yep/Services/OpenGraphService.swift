@@ -16,8 +16,9 @@ struct OpenGraph {
     var title: String?
     var description: String?
 
-    var imageURLString: String?
-    var videoURLString: String?
+    var previewImageURLString: String?
+    var previewVideoURLString: String?
+    var previewAudioURLString: String?
 
     init() {
     }
@@ -45,7 +46,7 @@ struct OpenGraph {
                 openGraph.siteName = openGraphInfo["og:site_name"]
                 openGraph.title = openGraphInfo["og:title"]
                 openGraph.description = openGraphInfo["og:description"]
-                openGraph.imageURLString = openGraphInfo["og:image"]
+                openGraph.previewImageURLString = openGraphInfo["og:image"]
             }
 
             return openGraph
@@ -76,7 +77,41 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
             println("\n openGraphWithURLString: \(URLString)\n\(HTMLString)")
 
             if let openGraph = OpenGraph.fromHTMLString(HTMLString) {
-                completion(openGraph)
+
+                var openGraph = openGraph
+
+                if let URL = response.response?.URL, host = URL.host {
+
+                    switch host {
+
+                    case "itunes.apple.com":
+
+                        if let lookupID = URL.yep_iTunesArtworkID {
+                            iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: nil, completion: { info in
+                                println("iTunesLookupWithID: \(lookupID), \(info)")
+
+                                if let artworkInfo = (info["results"] as? [JSONDictionary])?.first {
+
+                                    if let kind = artworkInfo["kind"] as? String {
+
+                                        switch kind {
+                                        case "song":
+                                            openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
+
+                                        default:
+                                            break
+                                        }
+                                    }
+                                }
+
+                                completion(openGraph)
+                            })
+                        }
+
+                    default:
+                        completion(openGraph)
+                    }
+                }
 
                 return
             }
@@ -86,6 +121,23 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
             failureHandler(.CouldNotParseJSON, nil)
         } else {
             defaultFailureHandler(.CouldNotParseJSON, errorMessage: nil)
+        }
+    }
+}
+
+private enum iTunesCountry: String {
+    case China = "cn"
+    case USA = "us"
+}
+
+private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    let lookUpURLString = "https://itunes.apple.com/lookup?id=\(lookupID)&country=\(country.rawValue)"
+
+    Alamofire.request(.GET, lookUpURLString).responseJSON { response in
+
+        if let JSON = response.result.value as? JSONDictionary {
+            completion(JSON)
         }
     }
 }

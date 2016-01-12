@@ -78,5 +78,20 @@ extension NSURL {
 
         return false
     }
+
+    // iTunes
+
+    var yep_iTunesArtworkID: String? {
+
+        if let songID = queryItemForKey("i")?.value {
+            return songID
+        }
+
+        if let albumID = queryItemForKey("id")?.value {
+            return albumID
+        }
+
+        return nil
+    }
 }
 
