@@ -20,6 +20,9 @@ extension String {
             return nil
         }
     }
+}
+
+extension String {
 
     enum TrimmingType {
         case Whitespace
@@ -35,3 +38,50 @@ extension String {
         }
     }
 }
+
+extension String {
+
+    func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
+
+        guard index > 0 else {
+            return nil
+        }
+
+        let index = startIndex.advancedBy(index)
+
+        var wordString: String?
+        var wordRange: Range<Index>?
+
+        self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
+
+            //println("substring: \(substring)")
+            //println("substringRange: \(substringRange)")
+            //println("enclosingRange: \(enclosingRange)")
+
+            if substringRange.contains(index) {
+                wordString = substring
+                wordRange = substringRange
+                stop = true
+            }
+        }
+
+        guard let _wordString = wordString, _wordRange = wordRange else {
+            return nil
+        }
+
+        guard _wordRange.startIndex != startIndex else {
+            return nil
+        }
+
+        let mentionWordRange = Range<Index>(start: _wordRange.startIndex.advancedBy(-1), end: _wordRange.endIndex)
+
+        let mentionWord = substringWithRange(mentionWordRange)
+
+        guard mentionWord.hasPrefix("@") else {
+            return nil
+        }
+
+        return (_wordString, mentionWordRange)
+    }
+}
+

@@ -441,6 +441,8 @@ class MessageToolbar: UIToolbar {
             text.replaceRange(range, with: mentionUsernameWithSpaceSuffix)
 
             messageTextView.text = text
+
+            updateHeightOfMessageTextView()
         }
     }
 
@@ -490,19 +492,16 @@ extension MessageToolbar: UITextViewDelegate {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
 
             if needDetectMention {
-                let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 
-                if let lastPart = parts.last {
-                    if lastPart.hasPrefix("@") {
-                        let usernamePrefix = lastPart.substringFromIndex(lastPart.startIndex.advancedBy(1))
+                let currentLetterIndex = textView.selectedRange.location - 1
 
-                        if !usernamePrefix.isEmpty {
-                            mentionUsernameRange = text.rangeOfString(lastPart)
-                            tryMentionUserAction?(usernamePrefix: usernamePrefix)
+                if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
+                    //println("mentionWord: \(wordString), \(mentionWordRange)")
 
-                            return
-                        }
-                    }
+                    mentionUsernameRange = mentionWordRange
+                    tryMentionUserAction?(usernamePrefix: wordString)
+
+                    return
                 }
 
                 giveUpMentionUserAction?()

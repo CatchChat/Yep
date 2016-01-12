@@ -3695,7 +3695,7 @@ struct UsernamePrefixMatchedUser {
     let userID: String
     let username: String
     let nickname: String
-    let avatarURLString: String
+    let avatarURLString: String?
 
     var mentionUsername: String {
         return "@" + username
@@ -3709,7 +3709,7 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reas
     ]
 
     let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
-        //println("usersMatchWithUsernamePrefix: \(data)")
+        println("usersMatchWithUsernamePrefix: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
             let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in
@@ -3717,11 +3717,13 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reas
                     userID = userInfo["id"] as? String,
                     username = userInfo["username"] as? String,
                     nickname = userInfo["nickname"] as? String,
-                    avatarInfo = userInfo["avatar"] as? JSONDictionary,
-                    avatarURLString = avatarInfo["thumb_url"] as? String
+                    avatarInfo = userInfo["avatar"] as? JSONDictionary
+                    //avatarURLString = avatarInfo["thumb_url"] as? String
                 else {
                     return nil
                 }
+
+                let avatarURLString = avatarInfo["thumb_url"] as? String
 
                 return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString)
             }).flatMap({ $0 })
