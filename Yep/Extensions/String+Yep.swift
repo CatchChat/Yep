@@ -41,7 +41,7 @@ extension String {
 
 extension String {
 
-    func wordInIndex(index: Int) -> (string: String, range: Range<Index>)? {
+    func mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
         guard index > 0 else {
             return nil
@@ -60,7 +60,7 @@ extension String {
 
             if substringRange.contains(index) {
                 wordString = substring
-                wordRange = enclosingRange
+                wordRange = substringRange
                 stop = true
             }
         }
@@ -69,8 +69,19 @@ extension String {
             return nil
         }
 
-        return (_wordString, _wordRange)
+        guard _wordRange.startIndex != startIndex else {
+            return nil
+        }
+
+        let mentionWordRange = Range<Index>(start: _wordRange.startIndex.advancedBy(-1), end: _wordRange.endIndex)
+
+        let mentionWord = substringWithRange(mentionWordRange)
+
+        guard mentionWord.hasPrefix("@") else {
+            return nil
+        }
+
+        return (_wordString, mentionWordRange)
     }
 }
-
 

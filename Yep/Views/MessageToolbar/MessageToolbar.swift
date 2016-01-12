@@ -493,22 +493,13 @@ extension MessageToolbar: UITextViewDelegate {
 
                 let currentLetterIndex = textView.selectedRange.location - 1
 
-                if let (wordString, wordRange) = text.wordInIndex(currentLetterIndex) {
-                    println("word: \(wordString), \(wordRange)")
+                if let (wordString, mentionWordRange) = text.mentionWordInIndex(currentLetterIndex) {
+                    println("mentionWord: \(wordString), \(mentionWordRange)")
 
-                    if wordRange.startIndex != text.startIndex {
-                        let mentionWordRange = Range<String.Index>(start: wordRange.startIndex.advancedBy(-1), end: wordRange.endIndex)
+                    mentionUsernameRange = mentionWordRange
+                    tryMentionUserAction?(usernamePrefix: wordString)
 
-                        let mentionWord = text.substringWithRange(mentionWordRange)
-
-                        if mentionWord.hasPrefix("@") {
-
-                            mentionUsernameRange = mentionWordRange
-                            tryMentionUserAction?(usernamePrefix: wordString)
-
-                            return
-                        }
-                    }
+                    return
                 }
 
                 giveUpMentionUserAction?()
