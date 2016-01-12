@@ -99,18 +99,22 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
 
                         if let lookupID = URL.yep_iTunesArtworkID {
                             iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
-                                println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
+                                //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
 
                                 if let kind = artworkInfo["kind"] as? String {
 
                                     switch kind.lowercaseString {
+
                                     case "song":
                                         openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
+
+                                    case "album":
+                                        break
 
                                     case "feature-movie":
                                         openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
 
-                                    case "album":
+                                    case "ebook":
                                         break
 
                                     default:
