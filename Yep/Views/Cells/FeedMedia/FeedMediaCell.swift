@@ -12,15 +12,14 @@ class FeedMediaCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageView: UIImageView!
-    
-    @IBOutlet weak var borderImageView: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
         imageView.backgroundColor = YepConfig.FeedMedia.backgroundColor
-//        imageView.layer.minificationFilter = kCAFilterLinear
-
+        imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
+        imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
+        
         contentView.backgroundColor = UIColor.clearColor()
     }
 

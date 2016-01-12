@@ -4,7 +4,6 @@ PODS:
   - APAddressBook/Core (0.2.2)
   - APAddressBook/Swift (0.2.2):
     - APAddressBook/Core
-  - Appsee (2.1.5)
   - Base64 (1.0.1)
   - Crashlytics (3.5.0):
     - Fabric (~> 1.6.0)
@@ -34,7 +33,6 @@ DEPENDENCIES:
   - 1PasswordExtension (~> 1.5)
   - Alamofire
   - APAddressBook/Swift
-  - Appsee
   - Crashlytics
   - DeviceGuru
   - Fabric
@@ -53,13 +51,12 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   MZFayeClient:
-    :path: ../CatchLib-iOS/MZFayeClient/
+    :path: "../CatchLib-iOS/MZFayeClient/"
 
 SPEC CHECKSUMS:
   1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   APAddressBook: 26473a739b8b9c9535c98ec66bf78015b4081dab
-  Appsee: 77f144701aa1a53d854d319a46667561849e8cf5
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: fabfd45d0e8b8dc936c682b97e302b9a49a1c827
   DeviceGuru: 49c6178d77693f8459ace21cecaf4d1d26297d08

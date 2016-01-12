@@ -28,11 +28,13 @@ class DribbbleShotCell: UICollectionViewCell {
         
         imageView.kf_showIndicatorWhenLoading = true
         
-        if let hidpi = shot.images.hidpi where shot.images.normal.contains("gif") {
-            imageView.kf_setImageWithURL(NSURL(string: hidpi)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-        } else {
+        //Kingfisher cost too much memory on HIDPI Dribbble GIF
+        
+//        if let hidpi = shot.images.hidpi where shot.images.normal.contains("gif") {
+//            imageView.kf_setImageWithURL(NSURL(string: hidpi)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+//        } else {
             imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
-        }
+//        }
         
     }
 }
