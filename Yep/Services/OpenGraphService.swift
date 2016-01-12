@@ -42,8 +42,25 @@ struct OpenGraph {
         var collectionViewURLString: String?
 
         var trackTimeMillis: Int?
+        var trackViewURLString: String?
     }
     var appleMusic: AppleMusic?
+
+    struct AppleMovie {
+
+        var artistName: String?
+
+        var artworkURLString30: String?
+        var artworkURLString60: String?
+        var artworkURLString100: String?
+
+        var shortDescription: String?
+        var longDescription: String?
+
+        var trackTimeMillis: Int?
+        var trackViewURLString: String?
+    }
+    var appleMovie: AppleMovie?
 
     init() {
     }
@@ -138,6 +155,7 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                         appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
 
                                         appleMusic.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
+                                        appleMusic.trackViewURLString = artworkInfo["trackViewUrl"] as? String
 
                                         openGraph.appleMusic = appleMusic
 
@@ -145,6 +163,22 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                         openGraph.kind = .AppleMovie
 
                                         openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
+
+                                        var appleMovie = OpenGraph.AppleMovie()
+
+                                        appleMovie.artistName = artworkInfo["artistName"] as? String
+
+                                        appleMovie.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
+                                        appleMovie.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                        appleMovie.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                        appleMovie.shortDescription = artworkInfo["shortDescription"] as? String
+                                        appleMovie.longDescription = artworkInfo["longDescription"] as? String
+                                        
+                                        appleMovie.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
+                                        appleMovie.trackViewURLString = artworkInfo["trackViewUrl"] as? String
+
+                                        openGraph.appleMovie = appleMovie
 
                                     case "ebook":
                                         openGraph.kind = .AppleEBook
