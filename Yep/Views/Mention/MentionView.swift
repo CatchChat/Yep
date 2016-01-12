@@ -72,8 +72,12 @@ private class MentionUserCell: UITableViewCell {
 
     func configureWithUsernamePrefixMatchedUser(user: UsernamePrefixMatchedUser) {
 
-        let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: picoAvatarStyle)
+        if let avatarURLString = user.avatarURLString {
+        let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: picoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        } else {
+            avatarImageView.image = UIImage(named: "default_avatar_30")
+        }
 
         nicknameLabel.text = user.nickname
         mentionUsernameLabel.text = user.mentionUsername
