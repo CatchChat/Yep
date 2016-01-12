@@ -29,6 +29,22 @@ struct OpenGraph {
     var previewVideoURLString: String?
     var previewAudioURLString: String?
 
+    struct AppleMusic {
+        var artistName: String?
+
+        var artworkURLString30: String?
+        var artworkURLString60: String?
+        var artworkURLString100: String?
+        var artworkURLString160: String?
+
+        var collectionType: String?
+        var collectionName: String?
+        var collectionViewURLString: String?
+
+        var trackTimeMillis: Int?
+    }
+    var appleMusic: AppleMusic?
+
     init() {
     }
 
@@ -108,14 +124,48 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                     case "song":
                                         openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
 
-                                    case "album":
-                                        break
+                                        var appleMusic = OpenGraph.AppleMusic()
+
+                                        appleMusic.artistName = artworkInfo["artistName"] as? String
+
+                                        appleMusic.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
+                                        appleMusic.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                        appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                        appleMusic.collectionName = artworkInfo["collectionName"] as? String
+                                        appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
+
+                                        openGraph.appleMusic = appleMusic
 
                                     case "feature-movie":
                                         openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
 
                                     case "ebook":
                                         break
+
+                                    default:
+                                        break
+                                    }
+                                }
+
+                                if let collectionType = artworkInfo["collectionType"] as? String {
+
+                                    switch collectionType.lowercaseString {
+
+                                    case "album":
+
+                                        var appleMusic = OpenGraph.AppleMusic()
+
+                                        appleMusic.artistName = artworkInfo["artistName"] as? String
+
+                                        appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+                                        appleMusic.artworkURLString160 = artworkInfo["artworkUrl160"] as? String
+
+                                        appleMusic.collectionType = collectionType
+                                        appleMusic.collectionName = artworkInfo["collectionName"] as? String
+                                        appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
+
+                                        openGraph.appleMusic = appleMusic
 
                                     default:
                                         break
