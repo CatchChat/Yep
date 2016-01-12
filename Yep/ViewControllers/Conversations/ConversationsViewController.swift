@@ -253,6 +253,7 @@ class ConversationsViewController: SegueViewController {
         cacheInAdvance()
 
         // test open graph
+        /*
         [
             //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
             //"https://itun.es/cn/5_268?i=1022063849",
@@ -270,6 +271,7 @@ class ConversationsViewController: SegueViewController {
                 println("openGraph: \(openGraph)")
             })
         })
+        */
     }
     
     private func askForNotification() {
