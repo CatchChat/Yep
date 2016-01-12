@@ -62,6 +62,20 @@ struct OpenGraph {
     }
     var appleMovie: AppleMovie?
 
+    struct AppleEBook {
+
+        var artistName: String?
+
+        var artworkURLString60: String?
+        var artworkURLString100: String?
+
+        var description: String?
+
+        var trackName: String?  // book name
+        var trackViewURLString: String?
+    }
+    var appleEBook: AppleEBook?
+
     init() {
     }
 
@@ -182,6 +196,20 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
 
                                     case "ebook":
                                         openGraph.kind = .AppleEBook
+
+                                        var appleEBook = OpenGraph.AppleEBook()
+
+                                        appleEBook.artistName = artworkInfo["artistName"] as? String
+
+                                        appleEBook.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                        appleEBook.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                        appleEBook.description = artworkInfo["description"] as? String
+
+                                        appleEBook.trackName = artworkInfo["trackName"] as? String
+                                        appleEBook.trackViewURLString = artworkInfo["trackViewUrl"] as? String
+
+                                        openGraph.appleEBook = appleEBook
 
                                     default:
                                         break

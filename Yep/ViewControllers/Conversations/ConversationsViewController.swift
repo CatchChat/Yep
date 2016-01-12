@@ -260,10 +260,10 @@ class ConversationsViewController: SegueViewController {
             //"http://swiftcn.io/topics/64?f=w",
             //"https://github.com/",
             //"http://www.douban.com/note/431101390/",
-            "https://itunes.apple.com/us/movie/headhunters/id550338059", // 电影
+            //"https://itunes.apple.com/us/movie/headhunters/id550338059", // 电影
             //"https://itunes.apple.com/cn/album/19-standard-edition/id270409624?l=en", // 专辑
             //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en", // 单曲
-            //"https://itunes.apple.com/us/book/swift-programming-language/id881256329", // 书
+            "https://itunes.apple.com/us/book/swift-programming-language/id881256329", // 书
             //"https://itunes.apple.com/cn/app/evernote/id281796108?l=en&mt=8", // APP
         ].forEach({
             openGraphWithURLString($0, failureHandler: nil, completion: { openGraph in
