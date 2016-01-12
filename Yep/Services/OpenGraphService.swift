@@ -122,6 +122,8 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                     switch kind.lowercaseString {
 
                                     case "song":
+                                        openGraph.kind = .AppleMusic
+
                                         openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
 
                                         var appleMusic = OpenGraph.AppleMusic()
@@ -140,10 +142,12 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                         openGraph.appleMusic = appleMusic
 
                                     case "feature-movie":
+                                        openGraph.kind = .AppleMovie
+
                                         openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
 
                                     case "ebook":
-                                        break
+                                        openGraph.kind = .AppleEBook
 
                                     default:
                                         break
