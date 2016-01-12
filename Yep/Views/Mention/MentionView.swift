@@ -109,6 +109,7 @@ class MentionView: UIView {
         let tableView = UITableView()
 
         tableView.backgroundColor = UIColor.clearColor()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 0)
 
         let effect = UIBlurEffect(style: .ExtraLight)
 
