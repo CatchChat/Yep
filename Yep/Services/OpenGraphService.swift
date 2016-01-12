@@ -135,6 +135,8 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                                         appleMusic.collectionName = artworkInfo["collectionName"] as? String
                                         appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
 
+                                        appleMusic.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
+
                                         openGraph.appleMusic = appleMusic
 
                                     case "feature-movie":
