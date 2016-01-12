@@ -14,9 +14,11 @@ extension NSURL {
 
     private var allQueryItems: [NSURLQueryItem] {
 
-        let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false)!
-        let allQueryItems = components.queryItems!
-        return allQueryItems as [NSURLQueryItem]
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+            return queryItems
+        }
+
+        return []
     }
 
     private func queryItemForKey(key: String) -> NSURLQueryItem? {
@@ -77,6 +79,22 @@ extension NSURL {
         }
 
         return false
+    }
+
+    // iTunes
+
+    var yep_iTunesArtworkID: String? {
+
+        if let artworkID = queryItemForKey("i")?.value {
+            return artworkID
+
+        } else {
+            if let artworkID = lastPathComponent?.stringByReplacingOccurrencesOfString("id", withString: "") {
+                return artworkID
+            }
+        }
+
+        return nil
     }
 }
 
