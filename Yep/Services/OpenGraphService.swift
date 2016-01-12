@@ -11,6 +11,15 @@ import Kanna
 
 struct OpenGraph {
 
+    enum Kind {
+        case Default
+        case AppleMusic
+        case AppleMovie
+        case AppleEBook
+    }
+
+    var kind: Kind = .Default
+
     var siteName: String?
 
     var title: String?
@@ -44,8 +53,10 @@ struct OpenGraph {
                 }
 
                 openGraph.siteName = openGraphInfo["og:site_name"]
+
                 openGraph.title = openGraphInfo["og:title"]
                 openGraph.description = openGraphInfo["og:description"]
+
                 openGraph.previewImageURLString = openGraphInfo["og:image"]
             }
 
@@ -87,20 +98,23 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
                     case "itunes.apple.com":
 
                         if let lookupID = URL.yep_iTunesArtworkID {
-                            iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: nil, completion: { info in
-                                println("iTunesLookupWithID: \(lookupID), \(info)")
+                            iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
+                                println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
 
-                                if let artworkInfo = (info["results"] as? [JSONDictionary])?.first {
+                                if let kind = artworkInfo["kind"] as? String {
 
-                                    if let kind = artworkInfo["kind"] as? String {
+                                    switch kind.lowercaseString {
+                                    case "song":
+                                        openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
 
-                                        switch kind {
-                                        case "song":
-                                            openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
+                                    case "feature-movie":
+                                        openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
 
-                                        default:
-                                            break
-                                        }
+                                    case "album":
+                                        break
+
+                                    default:
+                                        break
                                     }
                                 }
 
@@ -130,15 +144,47 @@ private enum iTunesCountry: String {
     case USA = "us"
 }
 
-private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary? -> Void) {
 
     let lookUpURLString = "https://itunes.apple.com/lookup?id=\(lookupID)&country=\(country.rawValue)"
 
     Alamofire.request(.GET, lookUpURLString).responseJSON { response in
 
-        if let JSON = response.result.value as? JSONDictionary {
-            completion(JSON)
+        println("iTunesLookupWithID \(lookupID): \(response)")
+
+        guard
+            let info = response.result.value as? JSONDictionary,
+            let resultCount = info["resultCount"] as? Int where resultCount > 0,
+            let result = (info["results"] as? [JSONDictionary])?.first
+        else {
+            completion(nil)
+            return
         }
+
+        completion(result)
     }
+}
+
+private func iTunesLookupWithID(lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: failureHandler, completion: { result in
+        if let result = result {
+            completion(result)
+
+        } else {
+            iTunesLookupWithID(lookupID, inCountry: .USA, failureHandler: failureHandler, completion: { result in
+                if let result = result {
+                    completion(result)
+
+                } else {
+                    if let failureHandler = failureHandler {
+                        failureHandler(.NoData, nil)
+                    } else {
+                        defaultFailureHandler(.NoData, errorMessage: nil)
+                    }
+                }
+            })
+        }
+    })
 }
 
