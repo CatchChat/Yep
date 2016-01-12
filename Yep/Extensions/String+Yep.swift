@@ -20,6 +20,9 @@ extension String {
             return nil
         }
     }
+}
+
+extension String {
 
     enum TrimmingType {
         case Whitespace
@@ -35,3 +38,39 @@ extension String {
         }
     }
 }
+
+extension String {
+
+    func wordInIndex(index: Int) -> (string: String, range: Range<Index>)? {
+
+        guard index > 0 else {
+            return nil
+        }
+
+        let index = startIndex.advancedBy(index)
+
+        var wordString: String?
+        var wordRange: Range<Index>?
+
+        self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: .ByWords) { (substring, substringRange, enclosingRange, stop) -> () in
+
+            println("substring: \(substring)")
+            println("substringRange: \(substringRange)")
+            println("enclosingRange: \(enclosingRange)")
+
+            if substringRange.contains(index) {
+                wordString = substring
+                wordRange = enclosingRange
+                stop = true
+            }
+        }
+
+        guard let _wordString = wordString, _wordRange = wordRange else {
+            return nil
+        }
+
+        return (_wordString, _wordRange)
+    }
+}
+
+

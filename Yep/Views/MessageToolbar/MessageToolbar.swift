@@ -490,6 +490,15 @@ extension MessageToolbar: UITextViewDelegate {
             state = text.isEmpty ? .BeginTextInput : .TextInputing
 
             if needDetectMention {
+
+                let range = textView.selectedRange
+                println("range: \(range)")
+
+                if let (word, range) = text.wordInIndex(range.location - 1) {
+                    println("word: \(word), \(range)")
+                }
+
+                /*
                 let parts = text.componentsSeparatedByCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 
                 if let lastPart = parts.last {
@@ -506,6 +515,7 @@ extension MessageToolbar: UITextViewDelegate {
                 }
 
                 giveUpMentionUserAction?()
+                */
             }
         }
     }
