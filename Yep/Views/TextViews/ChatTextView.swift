@@ -12,10 +12,17 @@ import UIKit
 
 class ChatTextStorage: NSTextStorage {
 
+    static let detectionTypeName = "ChatTextStorage.detectionTypeName"
+
+    enum DetectionType: String {
+        case Mention
+    }
+
     private var backingStore: NSMutableAttributedString = NSMutableAttributedString()
 
     var mentionRanges = [NSRange]()
     var mentionForegroundColor: UIColor = UIColor.redColor()
+
 
     override var string: String {
         return backingStore.string
@@ -64,6 +71,7 @@ class ChatTextStorage: NSTextStorage {
                 if let result = result {
                     let textAttributes: [String: AnyObject] = [
                         NSForegroundColorAttributeName: self.mentionForegroundColor,
+                        ChatTextStorage.detectionTypeName: DetectionType.Mention.rawValue,
                     ]
 
                     self.addAttributes(textAttributes, range: result.range )
@@ -133,6 +141,88 @@ class ChatTextView: UITextView {
 
     @objc private func linkTapped(sender: UITapGestureRecognizer) {
         println("linkTapped")
+
+        let location = sender.locationInView(self)
+
+        enumerateLinkRangesContainingLocation(location) { range in
+
+            guard let detectionTypeName = self.attributedText.attribute(ChatTextStorage.detectionTypeName, atIndex: range.location, effectiveRange: nil) as? String, detectionType = ChatTextStorage.DetectionType(rawValue: detectionTypeName) else {
+                return
+            }
+
+            let text = (self.text as NSString).substringWithRange(range)
+
+            self.hangleTapText(text, withDetectionType: detectionType)
+        }
+    }
+
+    private func hangleTapText(text: String, withDetectionType detectionType: ChatTextStorage.DetectionType) {
+
+        println("hangleTapText: \(text), \(detectionType)")
+    }
+
+    private func enumerateLinkRangesContainingLocation(location: CGPoint, complete: (NSRange) -> Void) {
+
+        var found = false
+
+        self.attributedText.enumerateAttribute(ChatTextStorage.detectionTypeName, inRange: NSMakeRange(0, attributedText.length), options: [], usingBlock: { value, range, stop in
+
+            if let _ = value {
+
+                self.enumerateViewRectsForRanges([NSValue(range: range)]) { rect, range, stop in
+
+                    if !found {
+                        if CGRectContainsPoint(rect, location) {
+                            self.drawRoundedCornerForRange(range, rect: rect)
+
+                            found = true
+
+                            complete(range)
+                        }
+
+                    } else {
+                        println("Found")
+                    }
+                }
+            }
+        })
+    }
+
+    private func enumerateViewRectsForRanges(ranges: [NSValue], complete: (rect: CGRect, range: NSRange, stop: Bool) -> Void) {
+
+        for rangeValue in ranges {
+
+            let range = rangeValue.rangeValue
+
+            let glyphRange = layoutManager.glyphRangeForCharacterRange(range, actualCharacterRange: nil)
+
+            layoutManager.enumerateEnclosingRectsForGlyphRange(glyphRange, withinSelectedGlyphRange: NSMakeRange(NSNotFound, 0), inTextContainer: textContainer, usingBlock: { rect, stop in
+                var rect = rect
+
+                rect.origin.x += self.textContainerInset.left
+                rect.origin.y += self.textContainerInset.top
+                //rect = UIEdgeInsetsInsetRect(rect, self.tapAreaInsets)
+
+                complete(rect: rect, range: range, stop: true)
+            })
+        }
+
+        return
+    }
+
+    private func drawRoundedCornerForRange(range: NSRange, rect: CGRect) {
+
+        let layer = CALayer()
+        layer.frame = rect
+        layer.backgroundColor = chatTextStorage.mentionForegroundColor.colorWithAlphaComponent(0.5).CGColor
+        layer.cornerRadius = 3.0
+        layer.masksToBounds = true
+
+        self.layer.addSublayer(layer)
+
+        delay(0.2) {
+            layer.removeFromSuperlayer()
+        }
     }
 
     // MARK: 点击链接 hack
