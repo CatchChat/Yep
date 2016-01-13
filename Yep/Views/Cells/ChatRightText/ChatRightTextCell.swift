@@ -17,11 +17,6 @@ class ChatRightTextCell: ChatRightBaseCell {
     @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
-//    lazy var textContentTextView: ChatTextView = {
-//        let textView = ChatTextView()
-//        return textView
-//    }()
-
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -32,8 +27,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
-
-        //contentView.addSubview(textContentTextView)
     }
 
     override func awakeFromNib() {
@@ -129,8 +122,6 @@ class ChatRightTextCell: ChatRightBaseCell {
                 strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.textContainerView.frame))
             }
         }
-
-        //println("textContentTextView.frame: \(textContentTextView.frame)")
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
