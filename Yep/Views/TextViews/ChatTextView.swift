@@ -35,7 +35,7 @@ class ChatTextView: UITextView {
 
             // mention link
 
-            let mentionPattern = "@[^\\s:：,，@]+$?"
+            let mentionPattern = "@[A-Za-z0-9_]+$?"
 
             let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
 
