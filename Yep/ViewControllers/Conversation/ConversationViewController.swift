@@ -2899,6 +2899,19 @@ class ConversationViewController: BaseViewController {
 
         switch identifier {
 
+        case "showProfileWithUsername":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let username = sender as! String
+
+            if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
+                vc.profileUser = ProfileUser.UserType(user)
+            }
+
+            vc.fromType = .GroupConversation
+            vc.setBackButtonWithTitle()
+
         case "showProfileFromFeedView":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -3837,8 +3850,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
-                            cell.tapUsernameAction = { username in
+                            cell.tapUsernameAction = { [weak self] username in
                                 println("cell.tapUsernameAction: \(username)")
+
+                                self?.performSegueWithIdentifier("showProfileWithUsername", sender: username)
                             }
                         }
                     }
