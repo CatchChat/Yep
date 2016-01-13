@@ -27,6 +27,8 @@ class ChatRightTextCell: ChatRightBaseCell {
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
+
+        textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.whiteColor()
     }
 
     override func awakeFromNib() {

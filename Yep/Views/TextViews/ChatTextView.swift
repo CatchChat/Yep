@@ -15,18 +15,7 @@ class ChatTextStorage: NSTextStorage {
     private var backingStore: NSMutableAttributedString = NSMutableAttributedString()
 
     var mentionRanges = [NSRange]()
-
-    lazy var defaultTextStyle: [String: AnyObject] = {
-
-        let paraStyle = NSMutableParagraphStyle()
-        paraStyle.lineBreakMode = NSLineBreakMode.ByWordWrapping
-
-        return [
-            NSForegroundColorAttributeName: UIColor.greenColor(),
-            NSFontAttributeName: UIFont.systemFontOfSize(15.0),
-            NSParagraphStyleAttributeName: paraStyle
-        ]
-    }()
+    var mentionForegroundColor: UIColor = UIColor.redColor()
 
     override var string: String {
         return backingStore.string
@@ -61,8 +50,6 @@ class ChatTextStorage: NSTextStorage {
 
         let paragraphRange = (self.string as NSString).paragraphRangeForRange(self.editedRange)
 
-        //addAttributes(defaultTextStyle, range: paragraphRange)
-
         //For Mention
 
         mentionRanges.removeAll()
@@ -72,12 +59,12 @@ class ChatTextStorage: NSTextStorage {
         let mentionExpression = try? NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
 
         if let mentionExpression = mentionExpression {
-            mentionExpression.enumerateMatchesInString(self.string, options: NSMatchingOptions(), range: paragraphRange, usingBlock: { (result, flags, stop) -> Void in
+            mentionExpression.enumerateMatchesInString(self.string, options: NSMatchingOptions(), range: paragraphRange, usingBlock: { result, flags, stop in
 
                 if let result = result {
-                    let textValue = (self.string as NSString).substringWithRange(result.range)
-
-                    let textAttributes: [String: AnyObject] = [NSForegroundColorAttributeName: UIColor.redColor(), NSLinkAttributeName: textValue, "RichTextViewDetectedDataHandlerAttributeName": 0]
+                    let textAttributes: [String: AnyObject] = [
+                        NSForegroundColorAttributeName: self.mentionForegroundColor,
+                    ]
 
                     self.addAttributes(textAttributes, range: result.range )
 
@@ -94,27 +81,17 @@ class ChatTextStorage: NSTextStorage {
 
 class ChatTextView: UITextView {
 
-    required init?(coder aDecoder: NSCoder) {
-
-        let layoutManager = NSLayoutManager()
-
-        let textContainer = NSTextContainer(size: CGSize(width: 200, height: CGFloat.max))
-        textContainer.widthTracksTextView = true
-
-        layoutManager.addTextContainer(textContainer)
-
-        let textStorage = ChatTextStorage()
-        textStorage.addLayoutManager(layoutManager)
-
-        super.init(frame: CGRectZero, textContainer: textContainer)
+    var chatTextStorage: ChatTextStorage {
+        return self.textStorage as! ChatTextStorage
     }
 
-    init() {
+    required init?(coder aDecoder: NSCoder) {
 
         let layoutManager = NSLayoutManager()
 
         let textContainer = NSTextContainer()
         textContainer.widthTracksTextView = true
+        textContainer.heightTracksTextView = true
 
         layoutManager.addTextContainer(textContainer)
 

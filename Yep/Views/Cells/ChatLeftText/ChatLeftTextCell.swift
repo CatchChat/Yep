@@ -30,6 +30,8 @@ class ChatLeftTextCell: ChatBaseCell {
         }
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
+
+        textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.yepTintColor()
     }
 
     override func awakeFromNib() {
