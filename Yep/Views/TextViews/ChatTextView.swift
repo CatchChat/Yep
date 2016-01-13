@@ -101,6 +101,40 @@ class ChatTextView: UITextView {
         super.init(frame: CGRectZero, textContainer: textContainer)
     }
 
+    private var linkTapGestureRecognizer: UITapGestureRecognizer?
+
+    var linkTapEnabled: Bool = false {
+        willSet {
+
+            func tryRemoveLinkTapGestureRecognizer() {
+                if let linkTapGestureRecognizer = self.linkTapGestureRecognizer {
+                    self.removeGestureRecognizer(linkTapGestureRecognizer)
+                }
+            }
+
+            func addLinkTapGestureRecognizer() {
+                let linkTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "linkTapped:")
+                linkTapGestureRecognizer.delegate = self
+                self.addGestureRecognizer(linkTapGestureRecognizer)
+
+                self.linkTapGestureRecognizer = linkTapGestureRecognizer
+            }
+
+            if newValue {
+                tryRemoveLinkTapGestureRecognizer()
+
+                addLinkTapGestureRecognizer()
+
+            } else {
+                tryRemoveLinkTapGestureRecognizer()
+            }
+        }
+    }
+
+    @objc private func linkTapped(sender: UITapGestureRecognizer) {
+        println("linkTapped")
+    }
+
     // MARK: 点击链接 hack
 
     override func canBecomeFirstResponder() -> Bool {
@@ -123,7 +157,10 @@ class ChatTextView: UITextView {
     }
 }
 
+extension ChatTextView: UIGestureRecognizerDelegate {
 
-
-
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
 
