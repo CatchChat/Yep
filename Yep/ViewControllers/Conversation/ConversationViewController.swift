@@ -2899,6 +2899,16 @@ class ConversationViewController: BaseViewController {
 
         switch identifier {
 
+        case "showProfileWithUsername":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let box = sender as! Box<ProfileUser>
+            vc.profileUser = box.value
+
+            vc.fromType = .GroupConversation
+            vc.setBackButtonWithTitle()
+
         case "showProfileFromFeedView":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -3692,15 +3702,37 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         return cell
     }
 
+    private func tryShowProfileWithUsername(username: String) {
+
+        if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
+            let profileUser = ProfileUser.UserType(user)
+
+            delay(0.1) { [weak self] in
+                self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+            }
+
+        } else {
+            discoverUserByUsername(username, failureHandler: { [weak self] reason, errorMessage in
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("User not found.", comment: ""), inViewController: self)
+
+            }, completion: { discoveredUser in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    let profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+                }
+            })
+        }
+    }
+
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            
+
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
-                
+
                 if let cell = cell as? ChatSectionDateCell {
                     let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
-                    
+
                     if createdAt.isInCurrentWeek() {
                         cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
 
@@ -3836,6 +3868,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if let cell = cell as? ChatLeftTextCell {
                             
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                            cell.tapUsernameAction = { [weak self] username in
+                                println("left text cell.tapUsernameAction: \(username)")
+                                self?.tryShowProfileWithUsername(username)
+                            }
                         }
                     }
                     
@@ -4008,6 +4045,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     })
                                 }
                             }, collectionView: collectionView, indexPath: indexPath)
+
+                            cell.tapUsernameAction = { [weak self] username in
+                                println("right text cell.tapUsernameAction: \(username)")
+                                self?.tryShowProfileWithUsername(username)
+                            }
                         }
                     }
                 }

@@ -10,6 +10,8 @@ import UIKit
 
 class ChatLeftTextCell: ChatBaseCell {
 
+    var tapUsernameAction: ((username: String) -> Void)?
+
     @IBOutlet weak var bubbleTailImageView: UIImageView!
     
     var bubbleBodyShapeLayer: CAShapeLayer!
@@ -30,6 +32,19 @@ class ChatLeftTextCell: ChatBaseCell {
         }
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
+
+        /*
+        textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.yepTintColor()
+        textContentTextView.linkTapEnabled = true
+
+        prepareForMenuAction = { [weak self] otherGesturesEnabled in
+            self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
+        }
+        */
+
+        textContentTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
+        }
     }
 
     override func awakeFromNib() {
@@ -109,7 +124,9 @@ class ChatLeftTextCell: ChatBaseCell {
                 }
 
                 strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2)
-                
+
+                strongSelf.textContentTextView.frame = strongSelf.textContainerView.bounds
+
                 let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
                 
                 strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
