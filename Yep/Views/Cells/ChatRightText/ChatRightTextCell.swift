@@ -30,6 +30,10 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.whiteColor()
         textContentTextView.linkTapEnabled = true
+
+        prepareForMenuAction = { [weak self] otherGesturesEnabled in
+            self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
+        }
     }
 
     override func awakeFromNib() {

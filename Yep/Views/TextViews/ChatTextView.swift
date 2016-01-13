@@ -101,7 +101,7 @@ class ChatTextView: UITextView {
         super.init(frame: CGRectZero, textContainer: textContainer)
     }
 
-    private var linkTapGestureRecognizer: UITapGestureRecognizer?
+    var linkTapGestureRecognizer: UITapGestureRecognizer?
 
     var linkTapEnabled: Bool = false {
         willSet {
