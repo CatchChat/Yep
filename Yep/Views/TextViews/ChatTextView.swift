@@ -31,6 +31,11 @@ class ChatTextView: UITextView {
 
             let textRange = NSMakeRange(0, (text as NSString).length)
 
+            attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
+            attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
+
+            // mention link
+
             let mentionPattern = "@[^\\s:：,，@]+$?"
 
             let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
