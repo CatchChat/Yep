@@ -89,6 +89,8 @@ class ChatTextStorage: NSTextStorage {
 
 class ChatTextView: UITextView {
 
+    var tapMentionAction: ((username: String) -> Void)?
+
     var chatTextStorage: ChatTextStorage {
         return self.textStorage as! ChatTextStorage
     }
@@ -159,6 +161,12 @@ class ChatTextView: UITextView {
     private func hangleTapText(text: String, withDetectionType detectionType: ChatTextStorage.DetectionType) {
 
         println("hangleTapText: \(text), \(detectionType)")
+
+        let username = text.substringFromIndex(text.startIndex.advancedBy(1))
+
+        if !username.isEmpty {
+            tapMentionAction?(username: username)
+        }
     }
 
     private func enumerateLinkRangesContainingLocation(location: CGPoint, complete: (NSRange) -> Void) {

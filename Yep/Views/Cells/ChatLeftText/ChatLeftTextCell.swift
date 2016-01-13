@@ -10,6 +10,8 @@ import UIKit
 
 class ChatLeftTextCell: ChatBaseCell {
 
+    var tapUsernameAction: ((username: String) -> Void)?
+
     @IBOutlet weak var bubbleTailImageView: UIImageView!
     
     var bubbleBodyShapeLayer: CAShapeLayer!
@@ -36,6 +38,10 @@ class ChatLeftTextCell: ChatBaseCell {
 
         prepareForMenuAction = { [weak self] otherGesturesEnabled in
             self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
+        }
+
+        textContentTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
         }
     }
 

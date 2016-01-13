@@ -3836,6 +3836,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         if let cell = cell as? ChatLeftTextCell {
                             
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                            cell.tapUsernameAction = { username in
+                                println("cell.tapUsernameAction: \(username)")
+                            }
                         }
                     }
                     
