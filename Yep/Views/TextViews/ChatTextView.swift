@@ -10,7 +10,6 @@ import UIKit
 
 class ChatTextView: UITextView {
 
-    var mentionForegroundColor: UIColor = UIColor.redColor()
     var tapMentionAction: ((username: String) -> Void)?
 
     static let detectionTypeName = "ChatTextStorage.detectionTypeName"
@@ -46,7 +45,6 @@ class ChatTextView: UITextView {
                     let textValue = (self.text as NSString).substringWithRange(result.range)
 
                     let textAttributes: [String: AnyObject] = [
-                        NSForegroundColorAttributeName: self.mentionForegroundColor,
                         NSLinkAttributeName: textValue,
                         ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
                     ]
