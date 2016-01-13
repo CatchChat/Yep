@@ -30,12 +30,14 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
 
+        /*
         textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.whiteColor()
         textContentTextView.linkTapEnabled = true
 
         prepareForMenuAction = { [weak self] otherGesturesEnabled in
             self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
         }
+        */
 
         textContentTextView.tapMentionAction = { [weak self] username in
             self?.tapUsernameAction?(username: username)
