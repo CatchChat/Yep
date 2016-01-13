@@ -2903,11 +2903,8 @@ class ConversationViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
 
-            let username = sender as! String
-
-            if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
-                vc.profileUser = ProfileUser.UserType(user)
-            }
+            let box = sender as! Box<ProfileUser>
+            vc.profileUser = box.value
 
             vc.fromType = .GroupConversation
             vc.setBackButtonWithTitle()
@@ -3853,7 +3850,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.tapUsernameAction = { [weak self] username in
                                 println("cell.tapUsernameAction: \(username)")
 
-                                self?.performSegueWithIdentifier("showProfileWithUsername", sender: username)
+                                if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
+                                    let profileUser = ProfileUser.UserType(user)
+
+                                    self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+                                }
+
                             }
                         }
                     }
