@@ -114,9 +114,9 @@ struct OpenGraph {
     }
 }
 
-func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
+func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
 
-    Alamofire.request(.GET, URLString, parameters: nil, encoding: .URL).responseString { response in
+    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString { response in
 
         let error = response.result.error
 
@@ -132,7 +132,7 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
         }
 
         if let HTMLString = response.result.value {
-            println("\n openGraphWithURLString: \(URLString)\n\(HTMLString)")
+            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             if let openGraph = OpenGraph.fromHTMLString(HTMLString) {
 

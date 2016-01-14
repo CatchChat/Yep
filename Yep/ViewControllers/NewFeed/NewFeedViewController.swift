@@ -714,7 +714,7 @@ class NewFeedViewController: SegueViewController {
 
             dispatch_group_enter(parseOpenGraphGroup)
 
-            openGraphWithURLString(fisrtURL.absoluteString, failureHandler: { reason, errorMessage in
+            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
