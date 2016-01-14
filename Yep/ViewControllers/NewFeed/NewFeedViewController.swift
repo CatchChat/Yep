@@ -702,46 +702,36 @@ class NewFeedViewController: SegueViewController {
                 })
             }
 
-            if kind == .Text {
-                let URLs = message.yep_embeddedURLs
+            guard kind.needParseOpenGraph, let fisrtURL = message.yep_embeddedURLs.first else {
+                doCreateFeed()
 
-                if !URLs.isEmpty {
+                return
+            }
 
-                    let parseOpenGraphGroup = dispatch_group_create()
+            let parseOpenGraphGroup = dispatch_group_create()
 
-                    var openGraphs = [OpenGraph]()
+            var openGraphs = [OpenGraph]()
 
-                    URLs.forEach({
+            dispatch_group_enter(parseOpenGraphGroup)
 
-                        dispatch_group_enter(parseOpenGraphGroup)
+            openGraphWithURLString(fisrtURL.absoluteString, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                        openGraphWithURLString($0.absoluteString, failureHandler: { reason, errorMessage in
-                            defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                            dispatch_async(dispatch_get_main_queue()) {
-                                dispatch_group_leave(parseOpenGraphGroup)
-                            }
-
-                        }, completion: { openGraph in
-                            println("openGraph: \(openGraph)")
-
-                            dispatch_async(dispatch_get_main_queue()) {
-                                openGraphs.append(openGraph)
-
-                                dispatch_group_leave(parseOpenGraphGroup)
-                            }
-                        })
-                    })
-
-                    dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
-                        doCreateFeed()
-                    }
-
-                } else {
-                    doCreateFeed()
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(parseOpenGraphGroup)
                 }
 
-            } else {
+            }, completion: { openGraph in
+                println("openGraph: \(openGraph)")
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    openGraphs.append(openGraph)
+
+                    dispatch_group_leave(parseOpenGraphGroup)
+                }
+            })
+
+            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
                 doCreateFeed()
             }
         }

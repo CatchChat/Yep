@@ -3252,6 +3252,15 @@ enum FeedKind: String {
             return false
         }
     }
+
+    var needParseOpenGraph: Bool {
+        switch self {
+        case .Text:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 func createFeedWithKind(kind: FeedKind, message: String, attachments: [JSONDictionary]?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
