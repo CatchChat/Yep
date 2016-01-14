@@ -335,6 +335,7 @@
 		50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */; };
 		50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */; };
 		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
+		50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -708,6 +709,7 @@
 		50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FPSLabel.swift; path = Views/Labels/FPSLabel.swift; sourceTree = "<group>"; };
 		50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaContainerView.swift; path = Views/ContainerViews/FeedMediaContainerView.swift; sourceTree = "<group>"; };
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
+		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -2000,6 +2002,7 @@
 				50E392C11C22B9E400C0CECB /* FeedDribbbleShotCell.swift */,
 				50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */,
 				50E392C51C22C82800C0CECB /* FeedLocationCell.swift */,
+				50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -2837,6 +2840,7 @@
 				50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
 				50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */,
+				50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */,
