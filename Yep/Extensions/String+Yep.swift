@@ -47,6 +47,10 @@ extension String {
             return nil
         }
 
+        guard (self as NSString).length > index else {
+            return nil
+        }
+
         let index = startIndex.advancedBy(index)
 
         var wordString: String?
