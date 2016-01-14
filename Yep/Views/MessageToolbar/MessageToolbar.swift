@@ -179,10 +179,7 @@ class MessageToolbar: UIToolbar {
         textView.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
-        //textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
-        //textView.layoutManager.allowsNonContiguousLayout = false
-        //textView.textContainer.widthTracksTextView = true
-        //textView.textContainer.heightTracksTextView = true
+        textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
         return textView
         }()
 
@@ -371,19 +368,30 @@ class MessageToolbar: UIToolbar {
             UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 self.messageTextViewHeightConstraint.constant = newHeight
                 self.layoutIfNeeded()
-            }, completion: { (finished) -> Void in
+
+            }, completion: { [weak self] finished in
+
+                // hack for scrollEnabled when input lots of text
+
+                if finished, let strongSelf = self {
+                    println("messageToolbar.frame: \(strongSelf.frame)")
+
+                    if strongSelf.frame.origin.y < 100 {
+                        strongSelf.messageTextView.scrollEnabled = true
+                    } else {
+                        strongSelf.messageTextView.scrollEnabled = false
+                    }
+                }
             })
+
+        } else {
         }
+        //messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
 
         //messageTextView.scrollEnabled = false
-        //messageTextView.scrollRangeToVisible(messageTextView.selectedRange)
         //messageTextView.scrollEnabled = true
-        /*
-        var range = messageTextView.selectedRange
-        range.location -= 1
-        range.length = 1
-        messageTextView.scrollRangeToVisible(range)
-        */
+
+        //messageTextView.textContainer.size = messageTextView.contentSize
     }
 
     // MARK: Actions
