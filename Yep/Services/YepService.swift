@@ -2959,12 +2959,23 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct URLInfo {
+
+        let URLString: String
+
+        let siteName: String
+        let title: String
+        let description: String
+        let thumbnailImageURLString: String
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
         case Audio(AudioInfo)
         case Location(LocationInfo)
+        case URL(URLInfo)
     }
 
     let attachment: Attachment?

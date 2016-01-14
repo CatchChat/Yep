@@ -1229,6 +1229,9 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             feedLocation.coordinate = coordinate
 
             feed.location = feedLocation
+
+        case .URL(let URLInfo):
+            break
         }
     }
 }
