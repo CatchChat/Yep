@@ -173,12 +173,16 @@ class MessageToolbar: UIToolbar {
     lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
+        //textView.textContainerInset = UIEdgeInsetsZero
         textView.font = UIFont.systemFontOfSize(15)
         textView.layer.borderWidth = 1
         textView.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
-        textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
+        //textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
+        //textView.layoutManager.allowsNonContiguousLayout = false
+        //textView.textContainer.widthTracksTextView = true
+        //textView.textContainer.heightTracksTextView = true
         return textView
         }()
 
@@ -281,6 +285,7 @@ class MessageToolbar: UIToolbar {
         let textContainerInset = messageTextView.textContainerInset
         let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
+        messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
@@ -369,6 +374,16 @@ class MessageToolbar: UIToolbar {
             }, completion: { (finished) -> Void in
             })
         }
+
+        //messageTextView.scrollEnabled = false
+        //messageTextView.scrollRangeToVisible(messageTextView.selectedRange)
+        //messageTextView.scrollEnabled = true
+        /*
+        var range = messageTextView.selectedRange
+        range.location -= 1
+        range.length = 1
+        messageTextView.scrollRangeToVisible(range)
+        */
     }
 
     // MARK: Actions
