@@ -336,6 +336,7 @@
 		50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */; };
 		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
 		50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */; };
+		50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -710,6 +711,7 @@
 		50FD753E1C20FF8D0050A382 /* FeedMediaContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaContainerView.swift; path = Views/ContainerViews/FeedMediaContainerView.swift; sourceTree = "<group>"; };
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
+		50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLContainerView.swift; path = Views/ContainerViews/FeedURLContainerView.swift; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -2228,6 +2230,7 @@
 				505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */,
 				505082341C212E9200643CEB /* FeedLocationContainerView.swift */,
 				505082361C21377E00643CEB /* FeedVoiceContainerView.swift */,
+				50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */,
 				50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */,
 			);
 			name = ContainerViews;
@@ -2815,6 +2818,7 @@
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
+				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
