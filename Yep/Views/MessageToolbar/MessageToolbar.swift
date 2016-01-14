@@ -374,13 +374,9 @@ class MessageToolbar: UIToolbar {
                 // hack for scrollEnabled when input lots of text
 
                 if finished, let strongSelf = self {
-                    println("messageToolbar.frame: \(strongSelf.frame)")
-
-                    if strongSelf.frame.origin.y < 100 {
-                        strongSelf.messageTextView.scrollEnabled = true
-                    } else {
-                        strongSelf.messageTextView.scrollEnabled = false
-                    }
+                    //println("messageToolbar.frame: \(strongSelf.frame)")
+                    let scrollEnabled = strongSelf.frame.origin.y < 100
+                    strongSelf.messageTextView.scrollEnabled = scrollEnabled
                 }
             })
         }
