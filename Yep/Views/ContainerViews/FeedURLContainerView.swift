@@ -12,21 +12,35 @@ class FeedURLContainerView: UIView {
 
     lazy var siteNameLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.lightGrayColor()
+        label.text = "iTunes"
+        label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.blackColor()
+        label.text = "NIX on iTunes"
+        label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(10)
+        label.textColor = UIColor.lightGrayColor()
+        label.numberOfLines = 0
+        label.text = "Preview and download songs and albums by NIX, including \"Love you love\", \"Hate you hate\", \"Go home\", etc."
+        label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = UIColor.blueColor()
         return imageView
     }()
 
