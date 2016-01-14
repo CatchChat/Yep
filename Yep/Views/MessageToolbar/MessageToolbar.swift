@@ -365,7 +365,7 @@ class MessageToolbar: UIToolbar {
         //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
 
         if newHeight != messageTextViewHeightConstraint.constant {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
                 self.messageTextViewHeightConstraint.constant = newHeight
                 self.layoutIfNeeded()
 
@@ -375,8 +375,8 @@ class MessageToolbar: UIToolbar {
 
                 if finished, let strongSelf = self {
                     //println("messageToolbar.frame: \(strongSelf.frame)")
-                    let scrollEnabled = strongSelf.frame.origin.y < 100
-                    strongSelf.messageTextView.scrollEnabled = scrollEnabled
+                    let enabled = strongSelf.frame.origin.y < 100
+                    strongSelf.messageTextView.scrollEnabled = enabled
                 }
             })
         }
