@@ -38,7 +38,12 @@ class SocialWorkDribbbleViewController: BaseViewController {
         }
     }
     
-
+    override func viewWillAppear(animated: Bool) {
+        self.screenName = "Dribbble Works"
+        
+        super.viewWillAppear(animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

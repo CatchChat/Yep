@@ -77,6 +77,8 @@ class FeedConversationsViewController: SegueViewController {
         if !isFirstAppear {
             haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
         }
+        
+        self.screenName = "Joined Feeds"
 
         isFirstAppear = false
     }

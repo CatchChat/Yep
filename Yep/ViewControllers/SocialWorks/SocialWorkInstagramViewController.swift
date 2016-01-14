@@ -40,6 +40,12 @@ class SocialWorkInstagramViewController: BaseViewController {
             }
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.screenName = "Instagram Works"
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

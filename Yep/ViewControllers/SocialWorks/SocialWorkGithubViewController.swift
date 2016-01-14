@@ -65,6 +65,12 @@ class SocialWorkGithubViewController: BaseViewController {
             updateGithubTableView()
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.screenName =  "Github Works"
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

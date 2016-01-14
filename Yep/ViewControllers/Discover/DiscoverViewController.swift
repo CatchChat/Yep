@@ -75,6 +75,12 @@ class DiscoverViewController: BaseViewController {
         return label
     }()
     #endif
+    
+    override func viewWillAppear(animated: Bool) {
+        self.screenName = "Discover"
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

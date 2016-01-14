@@ -239,6 +239,8 @@ class ConversationsViewController: SegueViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
+        self.screenName = "Conversations"
+        
         super.viewWillAppear(animated)
     }
 

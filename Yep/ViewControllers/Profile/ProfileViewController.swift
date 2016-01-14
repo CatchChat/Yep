@@ -570,10 +570,7 @@ class ProfileViewController: SegueViewController {
 
                     updateProfileCollectionView()
                     
-                    Answers.logContentViewWithName("\(user.nickname) Profile",
-                        contentType: "Profile",
-                        contentId: "profile-\(user.userID)",
-                        customAttributes: [:])
+                    GoogleAnalyticsTrackEvent("Visit Profile", label: user.nickname, value: 0)
                 }
 
             default:
@@ -806,6 +803,8 @@ class ProfileViewController: SegueViewController {
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
+        
+        self.screenName = "Profile"
 
         if noNeedToChangeStatusBar {
             statusBarShouldLight = true
@@ -881,11 +880,7 @@ class ProfileViewController: SegueViewController {
         if let _ = profileUser?.username {
             
             if let profileUser = profileUser {
-                Answers.logCustomEventWithName("Share Profile",
-                    customAttributes: [
-                        "userID": profileUser.userID,
-                        "nickname": profileUser.nickname
-                    ])
+                GoogleAnalyticsTrackEvent("Share Profile", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
             }
             
             shareProfile()
@@ -980,18 +975,8 @@ class ProfileViewController: SegueViewController {
     private func sayHi() {
 
         if let profileUser = profileUser {
-        
-            if let userID = YepUserDefaults.userID.value,
-                nickname = YepUserDefaults.nickname.value{
                     
-                Answers.logCustomEventWithName("Say Hi",
-                        customAttributes: [
-                            "userID": profileUser.userID,
-                            "nickname": profileUser.nickname,
-                            "byUserID": userID,
-                            "byNickname": nickname
-                    ])
-            }
+            GoogleAnalyticsTrackEvent("Say Hi", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
 
             guard let realm = try? Realm() else {
                 return

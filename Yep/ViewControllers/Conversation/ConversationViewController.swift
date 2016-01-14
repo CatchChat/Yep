@@ -903,6 +903,11 @@ class ConversationViewController: BaseViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        if let feed = conversation.withGroup?.withFeed {
+            self.screenName =  "Feed Conversation"
+        } else {
+            self.screenName =  "Conversation"
+        }
         /*
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {

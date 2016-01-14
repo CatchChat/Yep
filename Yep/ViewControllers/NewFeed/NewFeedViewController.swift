@@ -12,7 +12,6 @@ import MobileCoreServices
 import Photos
 import Proposer
 import RealmSwift
-import Crashlytics
 import Kingfisher
 import MapKit
 
@@ -664,12 +663,7 @@ class NewFeedViewController: SegueViewController {
         let doCreateFeed: () -> Void = { [weak self] in
 
             if let userID = YepUserDefaults.userID.value, nickname = YepUserDefaults.nickname.value {
-                Answers.logCustomEventWithName("New Feed",
-                    customAttributes: [
-                        "userID": userID,
-                        "nickname": nickname,
-                        "time": NSDate().description
-                    ])
+                GoogleAnalyticsTrackEvent("New Feed", label: userID, value: 0)
             }
 
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
