@@ -166,7 +166,7 @@ class MessageToolbar: UIToolbar {
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
 
     let normalCornerRadius: CGFloat = 6
 
@@ -181,7 +181,7 @@ class MessageToolbar: UIToolbar {
         textView.delegate = self
         textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
         return textView
-        }()
+    }()
 
     lazy var voiceRecordButton: VoiceRecordButton = {
         let button = VoiceRecordButton()
@@ -215,7 +215,7 @@ class MessageToolbar: UIToolbar {
         }
 
         return button
-        }()
+    }()
 
     lazy var moreButton: UIButton = {
         let button = UIButton()
@@ -224,7 +224,7 @@ class MessageToolbar: UIToolbar {
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: "moreMessageTypes", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
 
     lazy var sendButton: UIButton = {
         let button = UIButton()
@@ -234,7 +234,7 @@ class MessageToolbar: UIToolbar {
         button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
         button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
 
 
     // MARK: UI
@@ -383,15 +383,7 @@ class MessageToolbar: UIToolbar {
                     }
                 }
             })
-
-        } else {
         }
-        //messageTextView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
-
-        //messageTextView.scrollEnabled = false
-        //messageTextView.scrollEnabled = true
-
-        //messageTextView.textContainer.size = messageTextView.contentSize
     }
 
     // MARK: Actions
