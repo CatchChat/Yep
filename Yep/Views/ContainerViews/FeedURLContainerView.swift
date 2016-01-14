@@ -38,6 +38,8 @@ class FeedURLContainerView: UIView {
 
     private func makeUI() {
 
+        backgroundColor = UIColor.lightGrayColor()
+
         addSubview(siteNameLabel)
         addSubview(titleLabel)
 

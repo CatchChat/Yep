@@ -8,10 +8,12 @@
 
 import UIKit
 
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+
 class FeedURLCell: FeedBasicCell {
 
-    lazy var feedURLContainerView: UIView = {
-        let view = UIView()
+    lazy var feedURLContainerView: FeedURLContainerView = {
+        let view = FeedURLContainerView()
         return view
     }()
 
@@ -44,6 +46,10 @@ class FeedURLCell: FeedBasicCell {
         super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
+
+        let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+        let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+        feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
     }
 }
 

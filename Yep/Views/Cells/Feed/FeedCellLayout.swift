@@ -125,7 +125,8 @@ struct FeedCellLayout {
         switch feed.kind {
 
         case .Text:
-            height = FeedBasicCell.heightOfFeed(feed)
+            //height = FeedBasicCell.heightOfFeed(feed)
+            height = FeedURLCell.heightOfFeed(feed)
 
         case .Image:
             if feed.imageAttachmentsCount == 1 {

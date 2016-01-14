@@ -127,6 +127,7 @@ class FeedsViewController: BaseViewController {
     private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
     private let feedVoiceCellID = "FeedVoiceCell"
     private let feedLocationCellID = "FeedLocationCell"
+    private let feedURLCellID = "FeedURLCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -315,6 +316,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
         feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
         feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
+        feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
@@ -946,7 +948,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             switch feed.kind {
 
             case .Text:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                //let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedURLCellID) as! FeedURLCell
                 return cell
 
             case .Image:
