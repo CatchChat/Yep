@@ -253,8 +253,7 @@ class ConversationsViewController: SegueViewController {
         cacheInAdvance()
 
         // test open graph
-        /*
-        [
+        let URLStrings: [String] = [
             //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
             //"https://itun.es/cn/5_268?i=1022063849",
             //"www.douban.com",
@@ -264,14 +263,19 @@ class ConversationsViewController: SegueViewController {
             //"https://itunes.apple.com/us/movie/headhunters/id550338059", // 电影
             //"https://itunes.apple.com/cn/album/19-standard-edition/id270409624?l=en", // 专辑
             //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en", // 单曲
-            "https://itunes.apple.com/us/book/swift-programming-language/id881256329", // 书
+            //"https://itunes.apple.com/us/book/swift-programming-language/id881256329", // 书
             //"https://itunes.apple.com/cn/app/evernote/id281796108?l=en&mt=8", // APP
-        ].forEach({
+        ]
+
+        URLStrings.forEach({
             openGraphWithURLString($0, failureHandler: nil, completion: { openGraph in
                 println("openGraph: \(openGraph)")
             })
         })
-        */
+
+        let testEmbeddedURLString = "How are you? www.apple.com yes http://swiftcn.io/topics/64?f=w\nhttps://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en 再见 https://itun.es/cn/5_268?i=1022063849"
+
+        println("embeddedURL: \(testEmbeddedURLString.yep_embeddedURLs)")
     }
     
     private func askForNotification() {

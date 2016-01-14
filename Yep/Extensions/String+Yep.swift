@@ -89,3 +89,24 @@ extension String {
     }
 }
 
+extension String {
+
+    var yep_embeddedURLs: [NSURL] {
+
+        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+            return []
+        }
+
+        var URLs = [NSURL]()
+
+        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+
+            if let URL = result?.URL {
+                URLs.append(URL)
+            }
+        }
+
+        return URLs
+    }
+}
+
