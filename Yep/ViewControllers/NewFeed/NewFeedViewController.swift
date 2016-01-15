@@ -163,10 +163,10 @@ class NewFeedViewController: SegueViewController {
             case .Uploading:
                 postButton.enabled = false
                 messageTextView.resignFirstResponder()
-                //YepHUD.showActivityIndicator()
+                YepHUD.showActivityIndicator()
 
             case .Failed(let message):
-                //YepHUD.hideActivityIndicator()
+                YepHUD.hideActivityIndicator()
                 postButton.enabled = true
 
                 if presentingViewController != nil {
@@ -176,7 +176,7 @@ class NewFeedViewController: SegueViewController {
                 }
 
             case .Success:
-                //YepHUD.hideActivityIndicator()
+                YepHUD.hideActivityIndicator()
                 messageTextView.text = nil
             }
         }
@@ -646,16 +646,17 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
+        uploadState = .Uploading
+
         if !again {
             if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
+                YepHUD.hideActivityIndicator()
                 dismissViewControllerAnimated(true, completion: nil)
             }
         }
 
-        uploadState = .Uploading
-        
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
