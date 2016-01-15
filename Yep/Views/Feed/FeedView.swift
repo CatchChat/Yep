@@ -352,6 +352,18 @@ class FeedView: UIView {
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
+            if let URLInfo = feed.URLInfo {
+                feedURLContainerView.siteNameLabel.text = URLInfo.siteName
+                feedURLContainerView.titleLabel.text = URLInfo.title
+                feedURLContainerView.descriptionLabel.text = URLInfo.infoDescription
+                if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
+                    feedURLContainerView.thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+                } else {
+                    feedURLContainerView.thumbnailImageView.image = nil
+                    feedURLContainerView.thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
+                }
+            }
+
         case .Image:
 
             mediaCollectionView.hidden = false

@@ -2959,13 +2959,13 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
-    struct URLInfo {
+    struct URLInfo: FeedURLInfoType {
 
         let URL: NSURL
 
         let siteName: String
         let title: String
-        let description: String
+        let infoDescription: String
         let thumbnailImageURLString: String
 
         static func fromJSONDictionary(json: JSONDictionary) -> URLInfo? {
@@ -2974,12 +2974,12 @@ struct DiscoveredFeed: Hashable {
                 URL = NSURL(string: URLString),
                 siteName = json["site_name"] as? String,
                 title = json["title"] as? String,
-                description = json["description"] as? String,
+                infoDescription = json["description"] as? String,
                 thumbnailImageURLString = json["image_url"] as? String else {
                     return nil
             }
 
-            return URLInfo(URL: URL, siteName: siteName, title: title, description: description, thumbnailImageURLString: thumbnailImageURLString)
+            return URLInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
         }
     }
 

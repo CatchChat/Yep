@@ -817,6 +817,13 @@ class FeedURLInfo: Object {
     dynamic var thumbnailImageURLString: String = ""
 }
 
+extension FeedURLInfo: FeedURLInfoType {
+
+    var URL: NSURL {
+        return NSURL(string: URLString)!
+    }
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -1249,7 +1256,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             let feedURLInfo = FeedURLInfo()
             feedURLInfo.URLString = URLInfo.URL.absoluteString
             feedURLInfo.title = URLInfo.title
-            feedURLInfo.infoDescription = URLInfo.description
+            feedURLInfo.infoDescription = URLInfo.infoDescription
             feedURLInfo.thumbnailImageURLString = URLInfo.thumbnailImageURLString
 
             feed.URLInfo = feedURLInfo
