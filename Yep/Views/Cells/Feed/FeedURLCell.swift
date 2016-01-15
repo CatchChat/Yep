@@ -47,9 +47,14 @@ class FeedURLCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
-        let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-        let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-        feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+        if let _URLLayout = layoutCache.layout?._URLLayout {
+            feedURLContainerView.frame = _URLLayout.URLContainerViewFrame
+
+        } else {
+            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
+            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
+            feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+        }
     }
 }
 
