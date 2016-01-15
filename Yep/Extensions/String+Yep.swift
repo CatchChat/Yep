@@ -37,6 +37,10 @@ extension String {
             return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
     }
+
+    var yep_removeAllNewLines: String {
+        return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+    }
 }
 
 extension String {

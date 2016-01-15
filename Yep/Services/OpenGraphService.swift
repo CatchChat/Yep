@@ -134,6 +134,12 @@ struct OpenGraph {
                 if openGraph.previewImageURLString == nil {
                     openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
                 }
+
+                // 再去除字符串中的换行
+
+                openGraph.siteName = openGraph.siteName?.yep_removeAllNewLines
+                openGraph.title = openGraph.title?.yep_removeAllNewLines
+                openGraph.description = openGraph.description?.yep_removeAllNewLines
             }
 
             return openGraph
