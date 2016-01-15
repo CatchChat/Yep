@@ -948,7 +948,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             switch feed.kind {
 
             case .Text:
-                //let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                return cell
+
+            case .URL:
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedURLCellID) as! FeedURLCell
                 return cell
 
