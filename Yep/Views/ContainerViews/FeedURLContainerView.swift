@@ -10,6 +10,8 @@ import UIKit
 
 class FeedURLContainerView: UIView {
 
+    var tapAction: (() -> Void)?
+    
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "url_container_background")
@@ -56,6 +58,9 @@ class FeedURLContainerView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+        
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        addGestureRecognizer(tap)
     }
 
     private func makeUI() {
@@ -115,6 +120,10 @@ class FeedURLContainerView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsV1)
             NSLayoutConstraint.activateConstraints(constraintsV2)
         }
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        tapAction?()
     }
 }
 

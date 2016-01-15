@@ -1078,7 +1078,15 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .URL:
 
+                guard let cell = cell as? FeedURLCell else {
+                    break
+                }
+
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+
+                cell.tapURLAction = { [weak self] URL in
+                    self?.yep_openURL(URL)
+                }
 
             case .Image:
 
