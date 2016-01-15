@@ -87,6 +87,11 @@ struct OpenGraph {
     var appleEBook: AppleEBook?
 
     init(URL: NSURL) {
+
+        if URL.yep_isAppleURL {
+            self.URL = URL.yep_appleAllianceURL
+        }
+
         self.URL = URL
     }
 

@@ -96,5 +96,29 @@ extension NSURL {
 
         return nil
     }
+
+    var yep_isAppleURL: Bool {
+
+        guard let host = host where (host == "itunes.apple.com") || (host == "itun.es") else {
+            return false
+        }
+
+        return true
+    }
+
+    var yep_appleAllianceURL: NSURL {
+
+        guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
+            return self
+        }
+
+        URLComponents.queryItems?.append(NSURLQueryItem(name: "at", value: "1010l9k7"))
+
+        guard let resultURL = URLComponents.URL else {
+            return self
+        }
+
+        return resultURL
+    }
 }
 
