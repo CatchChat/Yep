@@ -109,7 +109,7 @@ extension String {
         return URLs
     }
 
-    var firstImageURL: NSURL? {
+    var yep_firstImageURL: NSURL? {
 
         let URLs = yep_embeddedURLs
 

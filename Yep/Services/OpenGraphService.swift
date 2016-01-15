@@ -109,6 +109,12 @@ struct OpenGraph {
 
                 openGraph.previewImageURLString = openGraphInfo["og:image"]
 
+                // 若缺失某些`og:`标签，再做补救
+
+                if openGraph.siteName == nil {
+                    openGraph.siteName = URL.host
+                }
+
                 if openGraph.title == nil {
                     let title = doc.head?.css("title").first?.text
                     openGraph.title = title
@@ -126,7 +132,7 @@ struct OpenGraph {
                 }
 
                 if openGraph.previewImageURLString == nil {
-                    openGraph.previewImageURLString = HTMLString.firstImageURL?.absoluteString
+                    openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
                 }
             }
 
