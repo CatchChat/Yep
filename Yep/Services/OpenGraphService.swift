@@ -181,112 +181,116 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
 
                 var openGraph = openGraph
 
-                if let URL = response.response?.URL, host = URL.host {
+                guard let URL = response.response?.URL, host = URL.host else {
+                    completion(openGraph)
 
-                    guard let _ = NSURL.AppleiTunesHost(rawValue: host) else {
+                    return
+                }
+
+                guard let _ = NSURL.AppleiTunesHost(rawValue: host) else {
+                    completion(openGraph)
+
+                    return
+                }
+
+                if let lookupID = URL.yep_iTunesArtworkID {
+                    iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
+                        //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
+
+                        if let kind = artworkInfo["kind"] as? String {
+
+                            switch kind.lowercaseString {
+
+                            case "song":
+                                openGraph.kind = .AppleMusic
+
+                                openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
+
+                                var appleMusic = OpenGraph.AppleMusic()
+
+                                appleMusic.artistName = artworkInfo["artistName"] as? String
+
+                                appleMusic.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
+                                appleMusic.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                appleMusic.collectionName = artworkInfo["collectionName"] as? String
+                                appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
+
+                                appleMusic.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
+                                appleMusic.trackViewURLString = artworkInfo["trackViewUrl"] as? String
+
+                                openGraph.appleMusic = appleMusic
+
+                            case "feature-movie":
+                                openGraph.kind = .AppleMovie
+
+                                openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
+
+                                var appleMovie = OpenGraph.AppleMovie()
+
+                                appleMovie.artistName = artworkInfo["artistName"] as? String
+
+                                appleMovie.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
+                                appleMovie.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                appleMovie.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                appleMovie.shortDescription = artworkInfo["shortDescription"] as? String
+                                appleMovie.longDescription = artworkInfo["longDescription"] as? String
+                                
+                                appleMovie.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
+                                appleMovie.trackViewURLString = artworkInfo["trackViewUrl"] as? String
+
+                                openGraph.appleMovie = appleMovie
+
+                            case "ebook":
+                                openGraph.kind = .AppleEBook
+
+                                var appleEBook = OpenGraph.AppleEBook()
+
+                                appleEBook.artistName = artworkInfo["artistName"] as? String
+
+                                appleEBook.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
+                                appleEBook.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+
+                                appleEBook.description = artworkInfo["description"] as? String
+
+                                appleEBook.trackName = artworkInfo["trackName"] as? String
+                                appleEBook.trackViewURLString = artworkInfo["trackViewUrl"] as? String
+
+                                openGraph.appleEBook = appleEBook
+
+                            default:
+                                break
+                            }
+                        }
+
+                        if let collectionType = artworkInfo["collectionType"] as? String {
+
+                            switch collectionType.lowercaseString {
+
+                            case "album":
+
+                                var appleMusic = OpenGraph.AppleMusic()
+
+                                appleMusic.artistName = artworkInfo["artistName"] as? String
+
+                                appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
+                                appleMusic.artworkURLString160 = artworkInfo["artworkUrl160"] as? String
+
+                                appleMusic.collectionType = collectionType
+                                appleMusic.collectionName = artworkInfo["collectionName"] as? String
+                                appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
+
+                                openGraph.appleMusic = appleMusic
+
+                            default:
+                                break
+                            }
+                        }
+
                         completion(openGraph)
-                        return
-                    }
-
-                    if let lookupID = URL.yep_iTunesArtworkID {
-                        iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
-                            //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
-
-                            if let kind = artworkInfo["kind"] as? String {
-
-                                switch kind.lowercaseString {
-
-                                case "song":
-                                    openGraph.kind = .AppleMusic
-
-                                    openGraph.previewAudioURLString = artworkInfo["previewUrl"] as? String
-
-                                    var appleMusic = OpenGraph.AppleMusic()
-
-                                    appleMusic.artistName = artworkInfo["artistName"] as? String
-
-                                    appleMusic.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
-                                    appleMusic.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
-                                    appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
-
-                                    appleMusic.collectionName = artworkInfo["collectionName"] as? String
-                                    appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
-
-                                    appleMusic.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
-                                    appleMusic.trackViewURLString = artworkInfo["trackViewUrl"] as? String
-
-                                    openGraph.appleMusic = appleMusic
-
-                                case "feature-movie":
-                                    openGraph.kind = .AppleMovie
-
-                                    openGraph.previewVideoURLString = artworkInfo["previewUrl"] as? String
-
-                                    var appleMovie = OpenGraph.AppleMovie()
-
-                                    appleMovie.artistName = artworkInfo["artistName"] as? String
-
-                                    appleMovie.artworkURLString30 = artworkInfo["artworkUrl30"] as? String
-                                    appleMovie.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
-                                    appleMovie.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
-
-                                    appleMovie.shortDescription = artworkInfo["shortDescription"] as? String
-                                    appleMovie.longDescription = artworkInfo["longDescription"] as? String
-                                    
-                                    appleMovie.trackTimeMillis = artworkInfo["trackTimeMillis"] as? Int
-                                    appleMovie.trackViewURLString = artworkInfo["trackViewUrl"] as? String
-
-                                    openGraph.appleMovie = appleMovie
-
-                                case "ebook":
-                                    openGraph.kind = .AppleEBook
-
-                                    var appleEBook = OpenGraph.AppleEBook()
-
-                                    appleEBook.artistName = artworkInfo["artistName"] as? String
-
-                                    appleEBook.artworkURLString60 = artworkInfo["artworkUrl60"] as? String
-                                    appleEBook.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
-
-                                    appleEBook.description = artworkInfo["description"] as? String
-
-                                    appleEBook.trackName = artworkInfo["trackName"] as? String
-                                    appleEBook.trackViewURLString = artworkInfo["trackViewUrl"] as? String
-
-                                    openGraph.appleEBook = appleEBook
-
-                                default:
-                                    break
-                                }
-                            }
-
-                            if let collectionType = artworkInfo["collectionType"] as? String {
-
-                                switch collectionType.lowercaseString {
-
-                                case "album":
-
-                                    var appleMusic = OpenGraph.AppleMusic()
-
-                                    appleMusic.artistName = artworkInfo["artistName"] as? String
-
-                                    appleMusic.artworkURLString100 = artworkInfo["artworkUrl100"] as? String
-                                    appleMusic.artworkURLString160 = artworkInfo["artworkUrl160"] as? String
-
-                                    appleMusic.collectionType = collectionType
-                                    appleMusic.collectionName = artworkInfo["collectionName"] as? String
-                                    appleMusic.collectionViewURLString = artworkInfo["collectionViewUrl"] as? String
-
-                                    openGraph.appleMusic = appleMusic
-
-                                default:
-                                    break
-                                }
-                            }
-
-                            completion(openGraph)
-                        })
-                    }
+                    })
                 }
 
                 return
