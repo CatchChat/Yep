@@ -175,7 +175,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         }
 
         if let HTMLString = response.result.value {
-            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
+            //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
 
