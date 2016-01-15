@@ -116,7 +116,13 @@ extension NSURL {
             return self
         }
 
-        URLComponents.queryItems?.append(NSURLQueryItem(name: "at", value: "1010l9k7"))
+        let queryItem = NSURLQueryItem(name: "at", value: "1010l9k7")
+
+        if URLComponents.queryItems == nil {
+            URLComponents.queryItems = [queryItem]
+        } else {
+            URLComponents.queryItems?.append(queryItem)
+        }
 
         guard let resultURL = URLComponents.URL else {
             return self
