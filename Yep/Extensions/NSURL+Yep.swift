@@ -97,9 +97,14 @@ extension NSURL {
         return nil
     }
 
+    enum iTunesHost: String {
+        case Long = "itunes.apple.com"
+        case Short = "itun.es"
+    }
+
     var yep_isAppleURL: Bool {
 
-        guard let host = host where (host == "itunes.apple.com") || (host == "itun.es") else {
+        guard let host = host, let _ = iTunesHost(rawValue: host) else {
             return false
         }
 
