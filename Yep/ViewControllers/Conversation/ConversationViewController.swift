@@ -1753,7 +1753,7 @@ class ConversationViewController: BaseViewController {
             mapItem.openInMapsWithLaunchOptions(nil)
         }
 
-        feedView.tapURLAction = { [weak self] URL in
+        feedView.tapURLInfoAction = { [weak self] URL in
             self?.yep_openURL(URL)
         }
 

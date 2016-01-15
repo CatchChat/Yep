@@ -49,7 +49,7 @@ class FeedView: UIView {
     var tapGithubRepoAction: (NSURL -> Void)?
     var tapDribbbleShotAction: (NSURL -> Void)?
     var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
-    var tapURLAction: (NSURL -> Void)?
+    var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
     static let foldHeight: CGFloat = 60
 
@@ -246,8 +246,8 @@ class FeedView: UIView {
         let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
         locationContainerView.addGestureRecognizer(tapLocation)
 
-        let tapURL = UITapGestureRecognizer(target: self, action: "tapURL:")
-        feedURLContainerView.addGestureRecognizer(tapURL)
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
+        feedURLContainerView.addGestureRecognizer(tapURLInfo)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -511,12 +511,12 @@ class FeedView: UIView {
         tapLocationAction?(locationName: locationName, locationCoordinate: locationCoordinate)
     }
 
-    func tapURL(sender: UITapGestureRecognizer) {
+    func tapURLInfo(sender: UITapGestureRecognizer) {
         guard let URL = feed?.URLInfo?.URL else {
             return
         }
 
-        tapURLAction?(URL)
+        tapURLInfoAction?(URL: URL)
     }
 
     @IBAction func playOrPauseAudio(sender: UIButton) {

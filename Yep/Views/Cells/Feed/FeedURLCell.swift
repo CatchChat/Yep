@@ -12,7 +12,7 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedURLCell: FeedBasicCell {
 
-    var tapURLAction: (NSURL -> Void)?
+    var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView()
@@ -65,7 +65,7 @@ class FeedURLCell: FeedBasicCell {
                 feedURLContainerView.configureWithFeedURLInfoType(URLInfo)
 
                 feedURLContainerView.tapAction = { [weak self] in
-                    self?.tapURLAction?(URLInfo.URL)
+                    self?.tapURLInfoAction?(URL: URLInfo.URL)
                 }
             }
         }
