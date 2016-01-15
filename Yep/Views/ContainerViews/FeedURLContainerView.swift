@@ -125,5 +125,19 @@ class FeedURLContainerView: UIView {
     @objc private func tap(sender: UITapGestureRecognizer) {
         tapAction?()
     }
+
+    func configureWithFeedURLInfoType(URLInfo: FeedURLInfoType) {
+
+        siteNameLabel.text = URLInfo.siteName
+        titleLabel.text = URLInfo.title
+        descriptionLabel.text = URLInfo.infoDescription
+
+        if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
+            thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+        } else {
+            thumbnailImageView.image = nil
+            thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
 }
 

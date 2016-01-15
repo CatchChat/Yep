@@ -60,16 +60,8 @@ class FeedURLCell: FeedBasicCell {
 
         if let attachment = feed.attachment {
             if case let .URL(URLInfo) = attachment {
-                feedURLContainerView.siteNameLabel.text = URLInfo.siteName
-                feedURLContainerView.titleLabel.text = URLInfo.title
-                feedURLContainerView.descriptionLabel.text = URLInfo.description
 
-                if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
-                    feedURLContainerView.thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
-                } else {
-                    feedURLContainerView.thumbnailImageView.image = nil
-                    feedURLContainerView.thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
-                }
+                feedURLContainerView.configureWithFeedURLInfoType(URLInfo)
 
                 feedURLContainerView.tapAction = { [weak self] in
                     self?.tapURLAction?(URLInfo.URL)
