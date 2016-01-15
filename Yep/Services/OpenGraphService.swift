@@ -31,6 +31,14 @@ struct OpenGraph {
     var previewVideoURLString: String?
     var previewAudioURLString: String?
 
+    var isValid: Bool {
+        guard (siteName != nil) && (title != nil) && (description != nil) && (previewImageURLString != nil) else {
+            return false
+        }
+
+        return true
+    }
+
     struct AppleMusic {
         var artistName: String?
 

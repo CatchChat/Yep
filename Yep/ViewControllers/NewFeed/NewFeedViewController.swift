@@ -676,7 +676,7 @@ class NewFeedViewController: SegueViewController {
                         ])
                 }
 
-                if let openGraph = openGraph {
+                if let openGraph = openGraph where openGraph.isValid {
 
                     kind = .URL
 
