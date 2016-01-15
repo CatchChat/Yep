@@ -125,7 +125,7 @@ class FeedURLContainerView: UIView {
 
             let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[descriptionLabel]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
 
-            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV1)
