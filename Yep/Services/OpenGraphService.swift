@@ -124,6 +124,10 @@ struct OpenGraph {
                         }
                     }
                 }
+
+                if openGraph.previewImageURLString == nil {
+                    openGraph.previewImageURLString = HTMLString.firstImageURL?.absoluteString
+                }
             }
 
             return openGraph

@@ -108,5 +108,30 @@ extension String {
 
         return URLs
     }
+
+    var firstImageURL: NSURL? {
+
+        let URLs = yep_embeddedURLs
+
+        guard !URLs.isEmpty else {
+            return nil
+        }
+
+        let imageExtentions = [
+            "png",
+            "jpg",
+            "jpeg",
+        ]
+
+        for URL in URLs {
+            if let pathExtension = URL.pathExtension?.lowercaseString {
+                if imageExtentions.contains(pathExtension) {
+                    return URL
+                }
+            }
+        }
+
+        return nil
+    }
 }
 
