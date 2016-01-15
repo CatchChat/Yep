@@ -253,11 +253,12 @@ class ConversationsViewController: SegueViewController {
         cacheInAdvance()
 
         // test open graph
+        /*
         let URLStrings: [String] = [
             //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
             //"https://itun.es/cn/5_268?i=1022063849",
             //"www.douban.com",
-            "http://swiftcn.io/topics/64?f=w",
+            //"http://swiftcn.io/topics/64?f=w",
             //"https://github.com/",
             //"http://www.douban.com/note/431101390/",
             //"https://itunes.apple.com/us/movie/headhunters/id550338059", // 电影
@@ -276,6 +277,7 @@ class ConversationsViewController: SegueViewController {
                 println("openGraph: \(openGraph)")
             })
         })
+        */
 
         /*
         let testEmbeddedURLString = "How are you? www.apple.com yes http://swiftcn.io/topics/64?f=w\nhttps://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en 再见 https://itun.es/cn/5_268?i=1022063849"
