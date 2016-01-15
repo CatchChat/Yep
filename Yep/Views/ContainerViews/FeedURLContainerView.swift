@@ -10,12 +10,18 @@ import UIKit
 
 class FeedURLContainerView: UIView {
 
+    lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "url_container_background")
+        return imageView
+    }()
+
     lazy var siteNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
         label.textColor = UIColor.lightGrayColor()
-        label.text = "iTunes"
-        label.backgroundColor = UIColor.greenColor()
+        //label.text = "iTunes"
+        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
@@ -23,8 +29,8 @@ class FeedURLContainerView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
         label.textColor = UIColor.blackColor()
-        label.text = "NIX on iTunes"
-        label.backgroundColor = UIColor.greenColor()
+        //label.text = "NIX on iTunes"
+        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
@@ -33,14 +39,16 @@ class FeedURLContainerView: UIView {
         label.font = UIFont.systemFontOfSize(10)
         label.textColor = UIColor.lightGrayColor()
         label.numberOfLines = 0
-        label.text = "Preview and download songs and albums by NIX, including \"Love you love\", \"Hate you hate\", \"Go home\", etc."
-        label.backgroundColor = UIColor.greenColor()
+        //label.text = "Preview and download songs and albums by NIX, including \"Love you love\", \"Hate you hate\", \"Go home\", etc."
+        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = UIColor.blueColor()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
+        //imageView.backgroundColor = UIColor.blueColor()
         return imageView
     }()
 
@@ -52,10 +60,13 @@ class FeedURLContainerView: UIView {
 
     private func makeUI() {
 
-        backgroundColor = UIColor.lightGrayColor()
+        addSubview(backgroundImageView)
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(siteNameLabel)
         addSubview(titleLabel)
+        siteNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let bottomContainerView = UIView()
         addSubview(bottomContainerView)
@@ -63,19 +74,26 @@ class FeedURLContainerView: UIView {
 
         bottomContainerView.addSubview(descriptionLabel)
         bottomContainerView.addSubview(thumbnailImageView)
-
-        siteNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
+            "backgroundImageView": backgroundImageView,
             "siteNameLabel": siteNameLabel,
             "titleLabel": titleLabel,
             "bottomContainerView": bottomContainerView,
             "descriptionLabel": descriptionLabel,
             "thumbnailImageView": thumbnailImageView,
         ]
+
+        do {
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
 
         do {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
