@@ -127,6 +127,7 @@ class FeedsViewController: BaseViewController {
     private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
     private let feedVoiceCellID = "FeedVoiceCell"
     private let feedLocationCellID = "FeedLocationCell"
+    private let feedURLCellID = "FeedURLCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
@@ -315,6 +316,7 @@ class FeedsViewController: BaseViewController {
         feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
         feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
         feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
+        feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
 
         feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
 
@@ -949,6 +951,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
                 return cell
 
+            case .URL:
+                let cell = tableView.dequeueReusableCellWithIdentifier(feedURLCellID) as! FeedURLCell
+                return cell
+
             case .Image:
                 if feed.imageAttachmentsCount == 1 {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
@@ -1069,6 +1075,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             case .Text:
 
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+
+            case .URL:
+
+                guard let cell = cell as? FeedURLCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+
+                cell.tapURLInfoAction = { [weak self] URL in
+                    println("tapURLInfoAction URL: \(URL)")
+                    self?.yep_openURL(URL)
+                }
 
             case .Image:
 

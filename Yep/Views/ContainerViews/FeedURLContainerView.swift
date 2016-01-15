@@ -1,0 +1,154 @@
+//
+//  FeedURLContainerView.swift
+//  Yep
+//
+//  Created by nixzhu on 16/1/14.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+
+class FeedURLContainerView: UIView {
+
+    var tapAction: (() -> Void)?
+
+    private var needMakeUI: Bool = true
+    var compressionMode: Bool = false {
+        didSet {
+            if needMakeUI {
+                makeUI()
+
+                needMakeUI = false
+            }
+        }
+    }
+    
+    lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "url_container_background")
+        return imageView
+    }()
+
+    lazy var siteNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.lightGrayColor()
+        return label
+    }()
+
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.blackColor()
+        return label
+    }()
+
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFontOfSize(10)
+        label.textColor = UIColor.lightGrayColor()
+        label.numberOfLines = 0
+        return label
+    }()
+
+    lazy var thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        addGestureRecognizer(tap)
+    }
+
+    private func makeUI() {
+
+        addSubview(backgroundImageView)
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        addSubview(siteNameLabel)
+        addSubview(titleLabel)
+        siteNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let bottomContainerView = UIView()
+        addSubview(bottomContainerView)
+        bottomContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+        bottomContainerView.addSubview(descriptionLabel)
+        bottomContainerView.addSubview(thumbnailImageView)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = [
+            "backgroundImageView": backgroundImageView,
+            "siteNameLabel": siteNameLabel,
+            "titleLabel": titleLabel,
+            "bottomContainerView": bottomContainerView,
+            "descriptionLabel": descriptionLabel,
+            "thumbnailImageView": thumbnailImageView,
+        ]
+
+        do {
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
+
+        do {
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
+
+            let metrics = [
+                "top": compressionMode ? 4 : 8,
+                "gap": compressionMode ? 4 : 8,
+                "bottom": compressionMode ? 4 : 8,
+            ]
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[siteNameLabel(15)]-(gap)-[titleLabel(15)]-(gap)-[bottomContainerView]-(bottom)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
+
+        do {
+            let metrics = [
+                "imageSize": compressionMode ? 35 : 40,
+            ]
+
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.AlignAllTop], metrics: metrics, views: views)
+
+            let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[descriptionLabel]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+
+            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV1)
+            NSLayoutConstraint.activateConstraints(constraintsV2)
+        }
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+        tapAction?()
+    }
+
+    func configureWithFeedURLInfoType(URLInfo: FeedURLInfoType) {
+
+        siteNameLabel.text = URLInfo.siteName
+        titleLabel.text = URLInfo.title
+        descriptionLabel.text = URLInfo.infoDescription
+
+        if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
+            thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+        } else {
+            thumbnailImageView.image = nil
+            thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
+}
+

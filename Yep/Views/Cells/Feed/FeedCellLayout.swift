@@ -111,6 +111,11 @@ struct FeedCellLayout {
     }
     var locationLayout: LocationLayout?
 
+    struct URLLayout {
+        let URLContainerViewFrame: CGRect
+    }
+    var _URLLayout: URLLayout?
+
     // MARK: - Init
 
     init(height: CGFloat, basicLayout: BasicLayout) {
@@ -126,6 +131,9 @@ struct FeedCellLayout {
 
         case .Text:
             height = FeedBasicCell.heightOfFeed(feed)
+
+        case .URL:
+            height = FeedURLCell.heightOfFeed(feed)
 
         case .Image:
             if feed.imageAttachmentsCount == 1 {
@@ -214,6 +222,15 @@ struct FeedCellLayout {
 
         case .Text:
             break
+
+        case .URL:
+
+            let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
+            let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+
+            let _URLLayout = FeedCellLayout.URLLayout(URLContainerViewFrame: URLContainerViewFrame)
+
+            self._URLLayout = _URLLayout
             
         case .Image:
 

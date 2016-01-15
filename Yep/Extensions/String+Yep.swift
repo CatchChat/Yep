@@ -37,6 +37,10 @@ extension String {
             return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
     }
+
+    var yep_removeAllNewLines: String {
+        return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+    }
 }
 
 extension String {
@@ -86,6 +90,52 @@ extension String {
         }
 
         return (_wordString, mentionWordRange)
+    }
+}
+
+extension String {
+
+    var yep_embeddedURLs: [NSURL] {
+
+        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+            return []
+        }
+
+        var URLs = [NSURL]()
+
+        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+
+            if let URL = result?.URL {
+                URLs.append(URL)
+            }
+        }
+
+        return URLs
+    }
+
+    var yep_firstImageURL: NSURL? {
+
+        let URLs = yep_embeddedURLs
+
+        guard !URLs.isEmpty else {
+            return nil
+        }
+
+        let imageExtentions = [
+            "png",
+            "jpg",
+            "jpeg",
+        ]
+
+        for URL in URLs {
+            if let pathExtension = URL.pathExtension?.lowercaseString {
+                if imageExtentions.contains(pathExtension) {
+                    return URL
+                }
+            }
+        }
+
+        return nil
     }
 }
 

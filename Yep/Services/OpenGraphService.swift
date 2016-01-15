@@ -20,6 +20,8 @@ struct OpenGraph {
 
     var kind: Kind = .Default
 
+    var URL: NSURL
+
     var siteName: String?
 
     var title: String?
@@ -28,6 +30,14 @@ struct OpenGraph {
     var previewImageURLString: String?
     var previewVideoURLString: String?
     var previewAudioURLString: String?
+
+    var isValid: Bool {
+        guard (siteName != nil) && (title != nil) && (description != nil) && (previewImageURLString != nil) else {
+            return false
+        }
+
+        return true
+    }
 
     struct AppleMusic {
         var artistName: String?
@@ -76,14 +86,15 @@ struct OpenGraph {
     }
     var appleEBook: AppleEBook?
 
-    init() {
+    init(URL: NSURL) {
+        self.URL = URL.yep_appleAllianceURL
     }
 
-    static func fromHTMLString(HTMLString: String) -> OpenGraph? {
+    static func fromHTMLString(HTMLString: String, forURL URL: NSURL) -> OpenGraph? {
 
         if let doc = Kanna.HTML(html: HTMLString, encoding: NSUTF8StringEncoding) {
 
-            var openGraph = OpenGraph()
+            var openGraph = OpenGraph(URL: URL)
 
             if let metaSet = doc.head?.css("meta") {
 
@@ -105,6 +116,38 @@ struct OpenGraph {
                 openGraph.description = openGraphInfo["og:description"]
 
                 openGraph.previewImageURLString = openGraphInfo["og:image"]
+
+                // 若缺失某些`og:`标签，再做补救
+
+                if openGraph.siteName == nil {
+                    openGraph.siteName = URL.host
+                }
+
+                if openGraph.title == nil {
+                    let title = doc.head?.css("title").first?.text
+                    openGraph.title = title
+                }
+
+                if openGraph.description == nil {
+                    for meta in metaSet {
+                        if let name = meta["name"]?.lowercaseString {
+                            if name == "description" {
+                                openGraph.description = meta["content"]
+                                break
+                            }
+                        }
+                    }
+                }
+
+                if openGraph.previewImageURLString == nil {
+                    openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
+                }
+
+                // 再去除字符串中的换行
+
+                openGraph.siteName = openGraph.siteName?.yep_removeAllNewLines
+                openGraph.title = openGraph.title?.yep_removeAllNewLines
+                openGraph.description = openGraph.description?.yep_removeAllNewLines
             }
 
             return openGraph
@@ -114,9 +157,9 @@ struct OpenGraph {
     }
 }
 
-func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
+func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
 
-    Alamofire.request(.GET, URLString, parameters: nil, encoding: .URL).responseString { response in
+    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString { response in
 
         let error = response.result.error
 
@@ -132,9 +175,9 @@ func openGraphWithURLString(URLString: String, failureHandler: ((Reason, String?
         }
 
         if let HTMLString = response.result.value {
-            println("\n openGraphWithURLString: \(URLString)\n\(HTMLString)")
+            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
-            if let openGraph = OpenGraph.fromHTMLString(HTMLString) {
+            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
 
                 var openGraph = openGraph
 

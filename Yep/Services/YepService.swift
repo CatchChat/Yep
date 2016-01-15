@@ -12,7 +12,7 @@ import CoreLocation
 import Alamofire
 
 #if STAGING
-let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
+let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
 let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
 let yepBaseURL = NSURL(string: "https://api.soyep.com")!
@@ -2959,12 +2959,37 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct URLInfo: FeedURLInfoType {
+
+        let URL: NSURL
+
+        let siteName: String
+        let title: String
+        let infoDescription: String
+        let thumbnailImageURLString: String
+
+        static func fromJSONDictionary(json: JSONDictionary) -> URLInfo? {
+            guard let
+                URLString = json["url"] as? String,
+                URL = NSURL(string: URLString),
+                siteName = json["site_name"] as? String,
+                title = json["title"] as? String,
+                infoDescription = json["description"] as? String,
+                thumbnailImageURLString = json["image_url"] as? String else {
+                    return nil
+            }
+
+            return URLInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
+        }
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
         case Audio(AudioInfo)
         case Location(LocationInfo)
+        case URL(URLInfo)
     }
 
     let attachment: Attachment?
@@ -3041,6 +3066,14 @@ struct DiscoveredFeed: Hashable {
         var attachment: DiscoveredFeed.Attachment?
 
         switch kind {
+
+        case .URL:
+            if let
+                URLsData = feedInfo["attachments"] as? [JSONDictionary],
+                URLInfoDic = URLsData.first,
+                URLInfo = DiscoveredFeed.URLInfo.fromJSONDictionary(URLInfoDic) {
+                    attachment = .URL(URLInfo)
+            }
 
         case .Image:
 
@@ -3220,6 +3253,7 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
 enum FeedKind: String {
     case Text = "text"
+    case URL = "web_page"
     case Image = "image"
     case Video = "video"
     case Audio = "audio"
@@ -3247,6 +3281,15 @@ enum FeedKind: String {
         case .Image:
             return true
         case .Audio:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var needParseOpenGraph: Bool {
+        switch self {
+        case .Text:
             return true
         default:
             return false

@@ -258,6 +258,24 @@ enum ConversationFeed {
 
         return nil
     }
+
+    var URLInfo: FeedURLInfoType? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .URL(URLInfo) = attachment {
+                    return URLInfo
+                }
+            }
+        case .FeedType(let feed):
+            if let URLInfo = feed.URLInfo {
+                return URLInfo
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {
@@ -1733,6 +1751,11 @@ class ConversationViewController: BaseViewController {
             mapItem.name = locationName
 
             mapItem.openInMapsWithLaunchOptions(nil)
+        }
+
+        feedView.tapURLInfoAction = { [weak self] URL in
+            println("tapURLInfoAction URL: \(URL)")
+            self?.yep_openURL(URL)
         }
 
         feedView.translatesAutoresizingMaskIntoConstraints = false

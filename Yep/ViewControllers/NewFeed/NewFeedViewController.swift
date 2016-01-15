@@ -163,10 +163,10 @@ class NewFeedViewController: SegueViewController {
             case .Uploading:
                 postButton.enabled = false
                 messageTextView.resignFirstResponder()
-                //YepHUD.showActivityIndicator()
+                YepHUD.showActivityIndicator()
 
             case .Failed(let message):
-                //YepHUD.hideActivityIndicator()
+                YepHUD.hideActivityIndicator()
                 postButton.enabled = true
 
                 if presentingViewController != nil {
@@ -176,7 +176,7 @@ class NewFeedViewController: SegueViewController {
                 }
 
             case .Success:
-                //YepHUD.hideActivityIndicator()
+                YepHUD.hideActivityIndicator()
                 messageTextView.text = nil
             }
         }
@@ -646,58 +646,111 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
+        uploadState = .Uploading
+
         if !again {
             if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
+                YepHUD.hideActivityIndicator()
                 dismissViewControllerAnimated(true, completion: nil)
             }
         }
 
-        uploadState = .Uploading
-        
         let message = messageTextView.text.trimming(.WhitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
         var attachments: [JSONDictionary]?
 
-        let doCreateFeed: () -> Void = { [weak self] in
+        let tryCreateFeed: () -> Void = { [weak self] in
 
-            if let userID = YepUserDefaults.userID.value, nickname = YepUserDefaults.nickname.value {
-                Answers.logCustomEventWithName("New Feed",
-                    customAttributes: [
-                        "userID": userID,
-                        "nickname": nickname,
-                        "time": NSDate().description
-                    ])
+            var openGraph: OpenGraph?
+
+            let doCreateFeed: () -> Void = { [weak self] in
+
+                if let userID = YepUserDefaults.userID.value, nickname = YepUserDefaults.nickname.value {
+                    Answers.logCustomEventWithName("New Feed",
+                        customAttributes: [
+                            "userID": userID,
+                            "nickname": nickname,
+                            "time": NSDate().description
+                        ])
+                }
+
+                if let openGraph = openGraph where openGraph.isValid {
+
+                    kind = .URL
+
+                    let URLInfo = [
+                        "url": openGraph.URL.absoluteString,
+                        "site_name": openGraph.siteName ?? "",
+                        "title": openGraph.title ?? "",
+                        "description": openGraph.description ?? "",
+                        "image_url": openGraph.previewImageURLString ?? "",
+                    ]
+
+                    attachments = [URLInfo]
+                }
+
+                createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
+                        self?.uploadState = .Failed(message: message)
+                    }
+
+                }, completion: { data in
+                    println("createFeedWithKind: \(data)")
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                        self?.uploadState = .Success
+
+                        if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
+                            self?.afterCreatedFeedAction?(feed: feed)
+                        }
+
+                        if !kind.needBackgroundUpload {
+                            self?.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    }
+                    
+                    syncGroupsAndDoFurtherAction {}
+                })
             }
 
-            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+            guard kind.needParseOpenGraph, let fisrtURL = message.yep_embeddedURLs.first else {
+                doCreateFeed()
+
+                return
+            }
+
+            let parseOpenGraphGroup = dispatch_group_create()
+
+
+            dispatch_group_enter(parseOpenGraphGroup)
+
+            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
-                    self?.uploadState = .Failed(message: message)
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(parseOpenGraphGroup)
                 }
 
-            }, completion: { data in
-                println("createFeedWithKind: \(data)")
+            }, completion: { _openGraph in
+                println("_openGraph: \(_openGraph)")
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                dispatch_async(dispatch_get_main_queue()) {
+                    openGraph = _openGraph
 
-                    self?.uploadState = .Success
-
-                    if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
-                        self?.afterCreatedFeedAction?(feed: feed)
-                    }
-
-                    if !kind.needBackgroundUpload {
-                        self?.dismissViewControllerAnimated(true, completion: nil)
-                    }
+                    dispatch_group_leave(parseOpenGraphGroup)
                 }
-                
-                syncGroupsAndDoFurtherAction {}
             })
+
+            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
+                doCreateFeed()
+            }
         }
 
         switch attachment {
@@ -819,7 +872,7 @@ class NewFeedViewController: SegueViewController {
                     kind = .Image
                 }
 
-                doCreateFeed()
+                tryCreateFeed()
             }
 
         case .SocialWork(let socialWork):
@@ -872,7 +925,7 @@ class NewFeedViewController: SegueViewController {
                 break
             }
 
-            doCreateFeed()
+            tryCreateFeed()
 
         case .Voice(let feedVoice):
 
@@ -958,7 +1011,8 @@ class NewFeedViewController: SegueViewController {
                 }
 
                 kind = .Audio
-                doCreateFeed()
+
+                tryCreateFeed()
 
                 self?.tryDeleteFeedVoice()
             }
@@ -975,7 +1029,7 @@ class NewFeedViewController: SegueViewController {
 
             kind = .Location
 
-            doCreateFeed()
+            tryCreateFeed()
         }
     }
 
