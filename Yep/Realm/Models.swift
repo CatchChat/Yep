@@ -808,6 +808,15 @@ class FeedLocation: Object {
     dynamic var coordinate: Coordinate?
 }
 
+class FeedURLInfo: Object {
+
+    dynamic var URLString: String = ""
+    dynamic var siteName: String = ""
+    dynamic var title: String = ""
+    dynamic var infoDescription: String = ""
+    dynamic var thumbnailImageURLString: String = ""
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -826,6 +835,7 @@ class Feed: Object {
     dynamic var socialWork: MessageSocialWork?
     dynamic var audio: FeedAudio?
     dynamic var location: FeedLocation?
+    dynamic var URLInfo: FeedURLInfo?
 
     dynamic var skill: UserSkill?
 
@@ -1231,7 +1241,18 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             feed.location = feedLocation
 
         case .URL(let URLInfo):
-            break
+
+            guard feed.URLInfo == nil else {
+                break
+            }
+
+            let feedURLInfo = FeedURLInfo()
+            feedURLInfo.URLString = URLInfo.URL.absoluteString
+            feedURLInfo.title = URLInfo.title
+            feedURLInfo.infoDescription = URLInfo.description
+            feedURLInfo.thumbnailImageURLString = URLInfo.thumbnailImageURLString
+
+            feed.URLInfo = feedURLInfo
         }
     }
 }
