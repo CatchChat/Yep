@@ -2968,7 +2968,7 @@ struct DiscoveredFeed: Hashable {
         let description: String
         let thumbnailImageURLString: String
 
-        static func URLInfo(json: JSONDictionary) -> URLInfo? {
+        static func fromJSONDictionary(json: JSONDictionary) -> URLInfo? {
             guard let
                 URLString = json["url"] as? String,
                 URL = NSURL(string: URLString),

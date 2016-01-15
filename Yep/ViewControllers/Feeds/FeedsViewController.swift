@@ -1076,6 +1076,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
+            case .URL:
+
+                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+
             case .Image:
 
                 let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
