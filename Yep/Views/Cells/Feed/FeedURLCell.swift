@@ -42,9 +42,9 @@ class FeedURLCell: FeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
+        //var _newLayout: FeedCellLayout?
         super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
+            //_newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
         if let _URLLayout = layoutCache.layout?._URLLayout {
@@ -54,6 +54,21 @@ class FeedURLCell: FeedBasicCell {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+        }
+
+        if let attachment = feed.attachment {
+            if case let .URL(URLInfo) = attachment {
+                feedURLContainerView.siteNameLabel.text = URLInfo.siteName
+                feedURLContainerView.titleLabel.text = URLInfo.title
+                feedURLContainerView.descriptionLabel.text = URLInfo.description
+
+                if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
+                    feedURLContainerView.thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+                } else {
+                    feedURLContainerView.thumbnailImageView.image = nil
+                    feedURLContainerView.thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
+                }
+            }
         }
     }
 }
