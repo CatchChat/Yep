@@ -20,6 +20,8 @@ struct OpenGraph {
 
     var kind: Kind = .Default
 
+    var URL: NSURL
+
     var siteName: String?
 
     var title: String?
@@ -76,14 +78,15 @@ struct OpenGraph {
     }
     var appleEBook: AppleEBook?
 
-    init() {
+    init(URL: NSURL) {
+        self.URL = URL
     }
 
-    static func fromHTMLString(HTMLString: String) -> OpenGraph? {
+    static func fromHTMLString(HTMLString: String, forURL URL: NSURL) -> OpenGraph? {
 
         if let doc = Kanna.HTML(html: HTMLString, encoding: NSUTF8StringEncoding) {
 
-            var openGraph = OpenGraph()
+            var openGraph = OpenGraph(URL: URL)
 
             if let metaSet = doc.head?.css("meta") {
 
@@ -134,7 +137,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         if let HTMLString = response.result.value {
             println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
-            if let openGraph = OpenGraph.fromHTMLString(HTMLString) {
+            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
 
                 var openGraph = openGraph
 

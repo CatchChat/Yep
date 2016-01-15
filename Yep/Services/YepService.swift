@@ -3231,6 +3231,7 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
 enum FeedKind: String {
     case Text = "text"
+    case URL = "web_page"
     case Image = "image"
     case Video = "video"
     case Audio = "audio"

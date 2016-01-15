@@ -676,6 +676,21 @@ class NewFeedViewController: SegueViewController {
                         ])
                 }
 
+                if let openGraph = openGraph {
+
+                    kind = .URL
+
+                    let URLInfo = [
+                        "url": openGraph.URL.absoluteString,
+                        "site_name": openGraph.siteName ?? "",
+                        "title": openGraph.title ?? "",
+                        "description": openGraph.description ?? "",
+                        "image_url": openGraph.previewImageURLString ?? "",
+                    ]
+
+                    attachments = [URLInfo]
+                }
+
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason, errorMessage: errorMessage)
 
