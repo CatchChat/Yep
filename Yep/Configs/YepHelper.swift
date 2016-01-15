@@ -116,3 +116,68 @@ func cleanDiskCacheFolder() {
         
     }
 }
+
+extension UIImage {
+    class func imageWithColor(color: UIColor) -> UIImage {
+        let rect = CGRectMake(0.0, 0.0, 1.0, 1.0)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextFillRect(context, rect)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+}
+
+extension UINavigationBar {
+    func hideBottomHairline() {
+        let navigationBarImageView = hairlineImageViewInNavigationBar(self)
+        navigationBarImageView?.hidden = true
+    }
+    
+    func showBottomHairline() {
+        let navigationBarImageView = hairlineImageViewInNavigationBar(self)
+        navigationBarImageView?.hidden = false
+    }
+    
+    func changeBottomHairImage() {
+    }
+    
+    private func hairlineImageViewInNavigationBar(view: UIView) -> UIImageView? {
+        if let view = view as? UIImageView where view.bounds.height <= 1.0 {
+            return view
+        }
+        if let subviews = view.subviews as? [UIView] {
+            for subview in subviews {
+                if let imageView = hairlineImageViewInNavigationBar(subview) {
+                    return imageView
+                }
+            }
+        }
+        return nil
+    }
+}
+
+func GoogleAnalyticsTrackView(name: String) {
+    let tracker = GAI.sharedInstance().defaultTracker
+    tracker.set(kGAIScreenName, value: name)
+    
+    let builder = GAIDictionaryBuilder.createScreenView()
+    tracker.send(builder.build() as [NSObject : AnyObject])
+}
+
+func GoogleAnalyticsTrackEvent(action: String, label: String, value: NSNumber) {
+    let tracker = GAI.sharedInstance().defaultTracker
+    let data = GAIDictionaryBuilder.createEventWithCategory("UI Action", action: action, label: label, value: value)
+    tracker.send(data.build() as [NSObject : AnyObject])
+}
+
+func GoogleAnalyticsTrackSocial(network: String, action: String, target: String) {
+    let tracker = GAI.sharedInstance().defaultTracker
+    let data = GAIDictionaryBuilder.createSocialWithNetwork(network, action: action, target: target)
+    tracker.send(data.build() as [NSObject : AnyObject])
+}

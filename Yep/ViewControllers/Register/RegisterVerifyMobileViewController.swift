@@ -52,6 +52,8 @@ class RegisterVerifyMobileViewController: SegueViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Register Verify Mobile"
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 

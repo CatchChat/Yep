@@ -49,11 +49,19 @@ class SettingsViewController: BaseViewController {
 
         println("deinit Settings")
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.screenName = "Settings"
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        animatedOnNavigationBar = false
+        
+        self.screenName = "Settings"
 
         title = NSLocalizedString("Settings", comment: "")
 

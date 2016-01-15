@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+class WelcomeViewController: GAITrackedViewController {
 
     @IBOutlet private weak var logoLabel: UILabel!
     @IBOutlet private weak var sloganLabel: UILabel!
@@ -20,6 +20,8 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Welcome"
 
         logoLabel.text = NSLocalizedString("Yep", comment: "")
         sloganLabel.text = NSLocalizedString("Meet with genius", comment: "")

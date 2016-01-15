@@ -163,6 +163,12 @@ class ContactsViewController: BaseViewController {
             vc.setBackButtonWithTitle()
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.screenName = "Contacts"
+        
+        super.viewWillAppear(animated)
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate

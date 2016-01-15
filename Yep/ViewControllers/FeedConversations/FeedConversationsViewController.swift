@@ -41,6 +41,8 @@ class FeedConversationsViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Joined Feeds"
 
         title = NSLocalizedString("Feeds", comment: "")
 

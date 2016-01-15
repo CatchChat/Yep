@@ -4,3 +4,7 @@
 
 #import <UIKit/UIKit.h>
 #import "APService.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+#import "GAIFields.h"
+#import "GAILogger.h"

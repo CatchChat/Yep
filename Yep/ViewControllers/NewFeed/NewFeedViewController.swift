@@ -12,7 +12,6 @@ import MobileCoreServices
 import Photos
 import Proposer
 import RealmSwift
-import Crashlytics
 import Kingfisher
 import MapKit
 
@@ -216,6 +215,8 @@ class NewFeedViewController: SegueViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "New Feed"
         
         title = NSLocalizedString("New Feed", comment: "")
         view.backgroundColor = UIColor.yepBackgroundColor()

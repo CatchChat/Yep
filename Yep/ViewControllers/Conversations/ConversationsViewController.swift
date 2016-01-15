@@ -87,6 +87,8 @@ class ConversationsViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Conversations"
 
         realm = try! Realm()
 
