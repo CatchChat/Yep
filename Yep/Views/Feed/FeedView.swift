@@ -157,6 +157,8 @@ class FeedView: UIView {
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
+    @IBOutlet weak var feedURLContainerView: FeedURLContainerView!
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
@@ -336,6 +338,19 @@ class FeedView: UIView {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
+            feedURLContainerView.hidden = true
+
+        case .URL:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+            voiceContainerView.hidden = true
+
+            feedURLContainerView.hidden = false
+
+            socialWorkBorderImageView.hidden = true
+
+            socialWorkContainerViewHeightConstraint.constant = 80
 
         case .Image:
 
@@ -355,6 +370,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -376,6 +392,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -395,6 +412,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -421,6 +439,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = false
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
