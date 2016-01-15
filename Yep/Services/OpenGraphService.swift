@@ -179,7 +179,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
 
             if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
 
-                var openGraph = openGraph
+                //var openGraph = openGraph
 
                 guard let URL = response.response?.URL, host = URL.host else {
                     completion(openGraph)
@@ -193,6 +193,8 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
                     return
                 }
 
+                completion(openGraph)
+                /*
                 if let lookupID = URL.yep_iTunesArtworkID {
                     iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
                         //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
@@ -292,6 +294,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
                         completion(openGraph)
                     })
                 }
+                */
 
                 return
             }
