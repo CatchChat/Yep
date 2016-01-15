@@ -110,7 +110,7 @@ class FeedURLContainerView: UIView {
                 "gap": compressionMode ? 4 : 8,
                 "bottom": compressionMode ? 4 : 8,
             ]
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[siteNameLabel]-(gap)-[titleLabel]-(gap)-[bottomContainerView]-(bottom)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[siteNameLabel(15)]-(gap)-[titleLabel(15)]-(gap)-[bottomContainerView]-(bottom)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
@@ -124,8 +124,6 @@ class FeedURLContainerView: UIView {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.AlignAllTop], metrics: metrics, views: views)
 
             let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[descriptionLabel]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
-
-            descriptionLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
 
             let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
 
