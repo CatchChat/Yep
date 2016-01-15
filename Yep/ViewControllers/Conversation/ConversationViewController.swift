@@ -1753,6 +1753,10 @@ class ConversationViewController: BaseViewController {
             mapItem.openInMapsWithLaunchOptions(nil)
         }
 
+        feedView.tapURLAction = { [weak self] URL in
+            self?.yep_openURL(URL)
+        }
+
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(feedView)
