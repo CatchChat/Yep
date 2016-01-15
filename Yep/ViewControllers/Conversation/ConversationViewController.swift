@@ -1754,6 +1754,7 @@ class ConversationViewController: BaseViewController {
         }
 
         feedView.tapURLInfoAction = { [weak self] URL in
+            println("tapURLInfoAction URL: \(URL)")
             self?.yep_openURL(URL)
         }
 

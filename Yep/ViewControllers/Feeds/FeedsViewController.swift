@@ -1085,6 +1085,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
                 cell.tapURLInfoAction = { [weak self] URL in
+                    println("tapURLInfoAction URL: \(URL)")
                     self?.yep_openURL(URL)
                 }
 

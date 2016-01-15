@@ -108,6 +108,10 @@ extension NSURL {
 
     var yep_appleAllianceURL: NSURL {
 
+        guard self.yep_isAppleURL else {
+            return self
+        }
+
         guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
             return self
         }
