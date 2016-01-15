@@ -175,3 +175,9 @@ func GoogleAnalyticsTrackEvent(action: String, label: String, value: NSNumber) {
     let data = GAIDictionaryBuilder.createEventWithCategory("UI Action", action: action, label: label, value: value)
     tracker.send(data.build() as [NSObject : AnyObject])
 }
+
+func GoogleAnalyticsTrackSocial(network: String, action: String, target: String) {
+    let tracker = GAI.sharedInstance().defaultTracker
+    let data = GAIDictionaryBuilder.createSocialWithNetwork(network, action: action, target: target)
+    tracker.send(data.build() as [NSObject : AnyObject])
+}

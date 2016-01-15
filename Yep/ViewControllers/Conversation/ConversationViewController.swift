@@ -2319,6 +2319,7 @@ class ConversationViewController: BaseViewController {
             message: sessionMessage,
             finish: { success in
                 println("share Feed to WeChat Session success: \(success)")
+                GoogleAnalyticsTrackSocial("WeChat Session", action: "Feed", target: groupShareURLString)
             }
         )
         
@@ -2329,12 +2330,15 @@ class ConversationViewController: BaseViewController {
             message: timelineMessage,
             finish: { success in
                 println("share Feed to WeChat Timeline success: \(success)")
+                GoogleAnalyticsTrackSocial("WeChat TimeLine", action: "Feed", target: groupShareURLString)
             }
         )
         
         let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+        
+        GoogleAnalyticsTrackSocial("Share", action: "Feed", target: groupShareURLString)
         
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)

@@ -856,6 +856,7 @@ class ProfileViewController: SegueViewController {
                 message: sessionMessage,
                 finish: { success in
                     println("share Profile to WeChat Session success: \(success)")
+                    GoogleAnalyticsTrackSocial("WeChat Session", action: "Profile", target: profileURL.absoluteString)
                 }
             )
 
@@ -866,8 +867,11 @@ class ProfileViewController: SegueViewController {
                 message: timelineMessage,
                 finish: { success in
                     println("share Profile to WeChat Timeline success: \(success)")
+                    GoogleAnalyticsTrackSocial("WeChat Timeline", action: "Profile", target: profileURL.absoluteString)
                 }
             )
+            
+            GoogleAnalyticsTrackSocial("Share", action: "Profile", target: profileURL.absoluteString)
 
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
