@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class LoginVerifyMobileViewController: UIViewController {
+class LoginVerifyMobileViewController: GAITrackedViewController {
 
     var mobile: String!
     var areaCode: String!
@@ -52,6 +52,8 @@ class LoginVerifyMobileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Login Verify Mobile"
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 

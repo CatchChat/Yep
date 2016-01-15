@@ -21,7 +21,7 @@ enum PreviewMedia {
     case WebImage(imageURL: NSURL, linkURL: NSURL)
 }
 
-class MediaPreviewViewController: UIViewController {
+class MediaPreviewViewController: GAITrackedViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0
@@ -105,6 +105,8 @@ class MediaPreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Media Preview"
 
         mediasCollectionView.backgroundColor = UIColor.clearColor()
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)

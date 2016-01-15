@@ -19,6 +19,8 @@ class AddFriendsViewController: SegueViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Add Friends"
 
         title = NSLocalizedString("Add Friends", comment: "")
 

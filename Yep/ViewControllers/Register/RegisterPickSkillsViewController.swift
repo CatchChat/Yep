@@ -53,6 +53,8 @@ class RegisterPickSkillsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Register Pick Skills"
 
         let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "saveSkills:")
         navigationItem.rightBarButtonItem = doneBarButtonItem

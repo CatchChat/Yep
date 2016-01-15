@@ -67,6 +67,8 @@ class EditProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Edit Profile"
 
         title = NSLocalizedString("Edit Profile", comment: "")
 

@@ -60,6 +60,8 @@ class SettingsViewController: BaseViewController {
         super.viewDidLoad()
         
 //        animatedOnNavigationBar = false
+        
+        self.screenName = "Settings"
 
         title = NSLocalizedString("Settings", comment: "")
 

@@ -41,6 +41,8 @@ class FeedConversationsViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Joined Feeds"
 
         title = NSLocalizedString("Feeds", comment: "")
 
@@ -77,8 +79,6 @@ class FeedConversationsViewController: SegueViewController {
         if !isFirstAppear {
             haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
         }
-        
-        self.screenName = "Joined Feeds"
 
         isFirstAppear = false
     }

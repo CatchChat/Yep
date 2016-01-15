@@ -898,16 +898,17 @@ class ConversationViewController: BaseViewController {
         #endif
 
         needDetectMention = conversation.needDetectMention
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if let feed = conversation.withGroup?.withFeed {
+        
+        
+        if let _ = conversation.withGroup?.withFeed {
             self.screenName =  "Feed Conversation"
         } else {
             self.screenName =  "Conversation"
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         /*
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {

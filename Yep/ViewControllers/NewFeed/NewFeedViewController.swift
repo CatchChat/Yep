@@ -216,6 +216,8 @@ class NewFeedViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.screenName = "New Feed"
+        
         title = NSLocalizedString("New Feed", comment: "")
         view.backgroundColor = UIColor.yepBackgroundColor()
         

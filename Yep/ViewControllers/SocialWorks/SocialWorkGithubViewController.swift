@@ -67,14 +67,13 @@ class SocialWorkGithubViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.screenName =  "Github Works"
         
         super.viewWillAppear(animated)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.screenName =  "Github Works"
 //        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {

@@ -30,6 +30,8 @@ class SearchedUsersViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Search User"
 
         title = NSLocalizedString("Search", comment: "") + " \"\(searchText)\""
 

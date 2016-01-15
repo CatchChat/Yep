@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import MonkeyKing
 
-class MessageMediaViewController: UIViewController {
+class MessageMediaViewController: GAITrackedViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0
@@ -39,6 +39,8 @@ class MessageMediaViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.screenName = "Message Media"
 
         title = NSLocalizedString("Preview", comment: "")
 
