@@ -663,6 +663,8 @@ class NewFeedViewController: SegueViewController {
 
         let tryCreateFeed: () -> Void = { [weak self] in
 
+            var openGraph: OpenGraph?
+
             let doCreateFeed: () -> Void = { [weak self] in
 
                 if let userID = YepUserDefaults.userID.value, nickname = YepUserDefaults.nickname.value {
@@ -710,7 +712,6 @@ class NewFeedViewController: SegueViewController {
 
             let parseOpenGraphGroup = dispatch_group_create()
 
-            var openGraphs = [OpenGraph]()
 
             dispatch_group_enter(parseOpenGraphGroup)
 
@@ -721,11 +722,11 @@ class NewFeedViewController: SegueViewController {
                     dispatch_group_leave(parseOpenGraphGroup)
                 }
 
-            }, completion: { openGraph in
-                println("openGraph: \(openGraph)")
+            }, completion: { _openGraph in
+                println("_openGraph: \(_openGraph)")
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    openGraphs.append(openGraph)
+                    openGraph = _openGraph
 
                     dispatch_group_leave(parseOpenGraphGroup)
                 }
