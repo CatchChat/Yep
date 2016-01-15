@@ -108,6 +108,22 @@ struct OpenGraph {
                 openGraph.description = openGraphInfo["og:description"]
 
                 openGraph.previewImageURLString = openGraphInfo["og:image"]
+
+                if openGraph.title == nil {
+                    let title = doc.head?.css("title").first?.text
+                    openGraph.title = title
+                }
+
+                if openGraph.description == nil {
+                    for meta in metaSet {
+                        if let name = meta["name"]?.lowercaseString {
+                            if name == "description" {
+                                openGraph.description = meta["content"]
+                                break
+                            }
+                        }
+                    }
+                }
             }
 
             return openGraph
