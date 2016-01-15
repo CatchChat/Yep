@@ -157,7 +157,11 @@ class FeedView: UIView {
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
-    @IBOutlet weak var feedURLContainerView: FeedURLContainerView!
+    @IBOutlet weak var feedURLContainerView: FeedURLContainerView! {
+        didSet {
+            feedURLContainerView.compressionMode = true
+        }
+    }
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!

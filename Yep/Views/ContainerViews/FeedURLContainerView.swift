@@ -11,6 +11,17 @@ import UIKit
 class FeedURLContainerView: UIView {
 
     var tapAction: (() -> Void)?
+
+    private var needMakeUI: Bool = true
+    var compressionMode: Bool = false {
+        didSet {
+            if needMakeUI {
+                makeUI()
+
+                needMakeUI = false
+            }
+        }
+    }
     
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -22,8 +33,6 @@ class FeedURLContainerView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
         label.textColor = UIColor.lightGrayColor()
-        //label.text = "iTunes"
-        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
@@ -31,8 +40,6 @@ class FeedURLContainerView: UIView {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
         label.textColor = UIColor.blackColor()
-        //label.text = "NIX on iTunes"
-        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
@@ -41,8 +48,6 @@ class FeedURLContainerView: UIView {
         label.font = UIFont.systemFontOfSize(10)
         label.textColor = UIColor.lightGrayColor()
         label.numberOfLines = 0
-        //label.text = "Preview and download songs and albums by NIX, including \"Love you love\", \"Hate you hate\", \"Go home\", etc."
-        //label.backgroundColor = UIColor.greenColor()
         return label
     }()
 
@@ -50,15 +55,12 @@ class FeedURLContainerView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
         imageView.clipsToBounds = true
-        //imageView.backgroundColor = UIColor.blueColor()
         return imageView
     }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        makeUI()
-        
         let tap = UITapGestureRecognizer(target: self, action: "tap:")
         addGestureRecognizer(tap)
     }
@@ -103,18 +105,29 @@ class FeedURLContainerView: UIView {
         do {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
 
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-[siteNameLabel]-[titleLabel]-[bottomContainerView]-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+            let metrics = [
+                "top": compressionMode ? 4 : 8,
+                "gap": compressionMode ? 4 : 8,
+                "bottom": compressionMode ? 4 : 8,
+            ]
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[siteNameLabel]-(gap)-[titleLabel]-(gap)-[bottomContainerView]-(bottom)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
         }
 
         do {
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[descriptionLabel]-[thumbnailImageView(40)]|", options: [.AlignAllTop], metrics: nil, views: views)
+            let metrics = [
+                "imageSize": compressionMode ? 35 : 40,
+            ]
+
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.AlignAllTop], metrics: metrics, views: views)
 
             let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[descriptionLabel]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
 
-            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(40)]", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+            descriptionLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+
+            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV1)

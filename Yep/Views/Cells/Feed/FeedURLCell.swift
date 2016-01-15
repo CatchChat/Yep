@@ -16,6 +16,7 @@ class FeedURLCell: FeedBasicCell {
 
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView()
+        view.compressionMode = false
         return view
     }()
 
