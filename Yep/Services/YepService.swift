@@ -2961,12 +2961,26 @@ struct DiscoveredFeed: Hashable {
 
     struct URLInfo {
 
-        let URLString: String
+        let URL: NSURL
 
         let siteName: String
         let title: String
         let description: String
         let thumbnailImageURLString: String
+
+        static func URLInfo(json: JSONDictionary) -> URLInfo? {
+            guard let
+                URLString = json["url"] as? String,
+                URL = NSURL(string: URLString),
+                siteName = json["site_name"] as? String,
+                title = json["title"] as? String,
+                description = json["description"] as? String,
+                thumbnailImageURLString = json["image_url"] as? String else {
+                    return nil
+            }
+
+            return URLInfo(URL: URL, siteName: siteName, title: title, description: description, thumbnailImageURLString: thumbnailImageURLString)
+        }
     }
 
     enum Attachment {
@@ -3052,6 +3066,14 @@ struct DiscoveredFeed: Hashable {
         var attachment: DiscoveredFeed.Attachment?
 
         switch kind {
+
+        case .URL:
+            if let
+                URLsData = feedInfo["attachments"] as? [JSONDictionary],
+                URLInfoDic = URLsData.first,
+                URLInfo = DiscoveredFeed.URLInfo.fromJSONDictionary(URLInfoDic) {
+                    attachment = .URL(URLInfo)
+            }
 
         case .Image:
 
