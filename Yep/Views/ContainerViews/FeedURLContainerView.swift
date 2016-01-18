@@ -13,6 +13,15 @@ class FeedURLContainerView: UIView {
     var tapAction: (() -> Void)?
 
     private var needMakeUI: Bool = true
+    var directionLeading = true { // set before compressionMode
+        didSet {
+            if directionLeading {
+                backgroundImageView.image = UIImage(named: "url_container_left_background")
+            } else {
+                backgroundImageView.image = UIImage(named: "url_container_right_background")
+            }
+        }
+    }
     var compressionMode: Bool = false {
         didSet {
             if needMakeUI {
@@ -25,7 +34,7 @@ class FeedURLContainerView: UIView {
     
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "url_container_background")
+        imageView.image = UIImage(named: "url_container_left_background")
         return imageView
     }()
 

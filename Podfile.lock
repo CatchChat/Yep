@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.7)
-  - Alamofire (3.1.4)
+  - Alamofire (3.1.5)
   - APAddressBook/Core (0.2.3)
   - APAddressBook/Swift (0.2.3):
     - APAddressBook/Core
@@ -57,7 +57,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
-  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
   APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2

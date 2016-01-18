@@ -10,11 +10,13 @@ import UIKit
 
 class ProfileFooterCell: UICollectionViewCell {
 
+    @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+
+    @IBOutlet weak var introductionLabel: UILabel!
     @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var introductionLabel: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -25,4 +27,16 @@ class ProfileFooterCell: UICollectionViewCell {
         introductionLabel.textColor = UIColor.yepGrayColor()
     }
 
+    func configureWithNickname(nickname: String, username: String?, introduction: String) {
+
+        nicknameLabel.text = nickname
+
+        if let username = username {
+            usernameLabel.text = "@" + username
+        } else {
+            usernameLabel.text = NSLocalizedString("No username", comment: "")
+        }
+
+        introductionLabel.text = introduction
+    }
 }

@@ -189,6 +189,14 @@ class User: Object {
         return false
     }
 
+    var chatCellCompositedName: String {
+        if username.isEmpty {
+            return nickname
+        } else {
+            return "\(nickname) @\(username)"
+        }
+    }
+
     // 级联删除关联的数据对象
 
     func cascadeDeleteInRealm(realm: Realm) {
@@ -519,6 +527,9 @@ class Message: Object {
         }
     }
 
+    dynamic var openGraphURLDetected: Bool = false
+    dynamic var openGraphURLInfo: FeedURLInfo?
+
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
@@ -583,6 +594,10 @@ class Message: Object {
             realm.delete(mediaMetaData)
         }
 
+        if let openGraphURLInfo = openGraphURLInfo {
+            realm.delete(openGraphURLInfo)
+        }
+
         switch mediaType {
 
         case MessageMediaType.Image.rawValue:
@@ -615,7 +630,7 @@ class Message: Object {
                 
                 realm.delete(socialWork)
             }
-            
+
         default:
             break // TODO: if have other message media need to delete
         }
