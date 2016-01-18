@@ -48,7 +48,6 @@ class ChatLeftTextURLCell: ChatBaseCell {
             self?.tapUsernameAction?(username: username)
         }
 
-
         feedURLContainerView.tapAction = { [weak self] in
             guard let URL = self?.openGraphURL else {
                 return

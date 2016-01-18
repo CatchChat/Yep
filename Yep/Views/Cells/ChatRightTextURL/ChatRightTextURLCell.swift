@@ -25,7 +25,7 @@ class ChatRightTextURLCell: ChatRightBaseCell {
 
     @IBOutlet weak var feedURLContainerView: FeedURLContainerView!  {
         didSet {
-            feedURLContainerView.directionLeading = true
+            feedURLContainerView.directionLeading = false
             feedURLContainerView.compressionMode = false
         }
     }
@@ -52,6 +52,14 @@ class ChatRightTextURLCell: ChatRightBaseCell {
 
         textContentTextView.tapMentionAction = { [weak self] username in
             self?.tapUsernameAction?(username: username)
+        }
+
+        feedURLContainerView.tapAction = { [weak self] in
+            guard let URL = self?.openGraphURL else {
+                return
+            }
+
+            self?.tapOpenGraphURLAction?(URL: URL)
         }
     }
 
@@ -135,7 +143,7 @@ class ChatRightTextURLCell: ChatRightBaseCell {
 
                 strongSelf.makeUI()
 
-                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
+                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2 - 100 - 10)
 
                 strongSelf.textContentTextView.frame = strongSelf.textContainerView.bounds
 
@@ -148,8 +156,9 @@ class ChatRightTextURLCell: ChatRightBaseCell {
                 strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.textContainerView.frame))
 
                 let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
+                let fullWidth = UIScreen.mainScreen().bounds.width
                 let width = max(minWidth, strongSelf.textContainerView.frame.width + 12 * 2 - 1)
-                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
+                let feedURLContainerViewFrame = CGRect(x: fullWidth - 65 - width - 1, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
                 strongSelf.feedURLContainerView.frame = feedURLContainerViewFrame
 
                 if let openGraphURLInfo = message.openGraphURLInfo {
