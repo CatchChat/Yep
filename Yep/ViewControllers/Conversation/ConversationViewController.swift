@@ -3991,6 +3991,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     }
 
                                     markMessageOpenGraphURLDetected()
+
+                                    // update UI
+                                    strongSelf.clearHeightOfMessageWithKey(message.messageID)
+
+                                    if let index = strongSelf.messages.indexOf(message) {
+                                        let indexPath = NSIndexPath(forItem: strongSelf.displayedMessagesRange.location + index, inSection: 0)
+                                        strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+                                    }
                                 }
                             })
                         }
