@@ -3939,6 +3939,53 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
                             }
                         }
+
+                        if !message.openGraphURLDetected {
+
+                            func markMessageOpenGraphURLDetected() {
+                                let _ = try? realm.write {
+                                    message.openGraphURLDetected = true
+                                }
+                            }
+
+                            let text = message.textContent
+                            guard let fisrtURL = text.yep_embeddedURLs.first else {
+                                markMessageOpenGraphURLDetected()
+                                break
+                            }
+
+                            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
+                                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    markMessageOpenGraphURLDetected()
+                                }
+
+                            }, completion: { _openGraph in
+                                println("message_openGraph: \(_openGraph)")
+
+                                guard _openGraph.isValid else {
+                                    return
+                                }
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                                    let openGraphURLInfo = FeedURLInfo()
+
+                                    openGraphURLInfo.URLString = _openGraph.URL.absoluteString
+                                    openGraphURLInfo.siteName = _openGraph.siteName ?? ""
+                                    openGraphURLInfo.title = _openGraph.title ?? ""
+                                    openGraphURLInfo.infoDescription = _openGraph.description ?? ""
+                                    openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
+
+                                    let _ = try? self?.realm.write {
+                                        message.openGraphURLInfo = openGraphURLInfo
+                                    }
+
+                                    markMessageOpenGraphURLDetected()
+                                }
+                            })
+                        }
                     }
                     
                 } else { // from Me
