@@ -1,30 +1,41 @@
 //
-//  ChatLeftTextCell.swift
+//  ChatLeftTextURLCell.swift
 //  Yep
 //
-//  Created by NIX on 15/3/24.
-//  Copyright (c) 2015年 Catch Inc. All rights reserved.
+//  Created by nixzhu on 16/1/18.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import UIKit
+import Ruler
 
-class ChatLeftTextCell: ChatBaseCell {
+class ChatLeftTextURLCell: ChatBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
 
+    var openGraphURL: NSURL?
+    var tapOpenGraphURLAction: ((URL: NSURL) -> Void)?
+
     @IBOutlet weak var bubbleTailImageView: UIImageView!
-    
+
     var bubbleBodyShapeLayer: CAShapeLayer!
 
     @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
+    @IBOutlet weak var feedURLContainerView: FeedURLContainerView!  {
+        didSet {
+            feedURLContainerView.directionLeading = true
+            feedURLContainerView.compressionMode = false
+        }
+    }
+
     func makeUI() {
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
-        
+
         var topOffset: CGFloat = 0
-        
+
         if inGroup {
             topOffset = YepConfig.ChatCell.marginTopForGroup
         } else {
@@ -33,17 +44,16 @@ class ChatLeftTextCell: ChatBaseCell {
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
 
-        /*
-        textContentTextView.chatTextStorage.mentionForegroundColor = UIColor.yepTintColor()
-        textContentTextView.linkTapEnabled = true
-
-        prepareForMenuAction = { [weak self] otherGesturesEnabled in
-            self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
-        }
-        */
-
         textContentTextView.tapMentionAction = { [weak self] username in
             self?.tapUsernameAction?(username: username)
+        }
+
+        feedURLContainerView.tapAction = { [weak self] in
+            guard let URL = self?.openGraphURL else {
+                return
+            }
+
+            self?.tapOpenGraphURLAction?(URL: URL)
         }
     }
 
@@ -53,7 +63,7 @@ class ChatLeftTextCell: ChatBaseCell {
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
-        
+
         bubbleBodyShapeLayer = CAShapeLayer()
         bubbleBodyShapeLayer.backgroundColor = UIColor.leftBubbleTintColor().CGColor
         bubbleBodyShapeLayer.fillColor = UIColor.leftBubbleTintColor().CGColor
@@ -69,7 +79,7 @@ class ChatLeftTextCell: ChatBaseCell {
         ]
 
         bubbleTailImageView.tintColor = UIColor.leftBubbleTintColor()
-        
+
         if let bubblePosition = layer.sublayers {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
         }
@@ -88,13 +98,13 @@ class ChatLeftTextCell: ChatBaseCell {
         }
 
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
-        
+
         //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
-        
+
         // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
         var textContentLabelWidth = textContentLabelWidth
         let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
-        
+
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
@@ -107,15 +117,15 @@ class ChatLeftTextCell: ChatBaseCell {
                 textContentLabelWidth += YepConfig.ChatCell.magicWidth
             }
         }
-        
+
         textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
 
         UIView.performWithoutAnimation { [weak self] in
 
             if let strongSelf = self {
-                
+
                 //strongSelf.makeUI()
-                
+
                 let topOffset: CGFloat
                 if strongSelf.inGroup {
                     topOffset = YepConfig.ChatCell.marginTopForGroup
@@ -123,14 +133,14 @@ class ChatLeftTextCell: ChatBaseCell {
                     topOffset = 0
                 }
 
-                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2)
+                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2 - 100 - 10)
 
                 strongSelf.textContentTextView.frame = strongSelf.textContainerView.bounds
 
                 let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
-                
+
                 strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
-                
+
                 if strongSelf.inGroup {
                     strongSelf.nameLabel.text = strongSelf.user?.chatCellCompositedName
 
@@ -140,8 +150,18 @@ class ChatLeftTextCell: ChatBaseCell {
                     let width = strongSelf.contentView.bounds.width - x - 10
                     strongSelf.nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
                 }
-                
+
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+
+                let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
+                let width = max(minWidth, strongSelf.textContainerView.frame.width + 12 * 2 - 1)
+                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
+                strongSelf.feedURLContainerView.frame = feedURLContainerViewFrame
+
+                if let openGraphURLInfo = message.openGraphURLInfo {
+                    strongSelf.feedURLContainerView.configureWithFeedURLInfoType(openGraphURLInfo)
+                    strongSelf.openGraphURL = openGraphURLInfo.URL
+                }
             }
         }
 
@@ -151,4 +171,3 @@ class ChatLeftTextCell: ChatBaseCell {
         }
     }
 }
-
