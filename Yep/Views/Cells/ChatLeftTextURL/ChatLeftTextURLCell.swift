@@ -154,8 +154,9 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
 
-                let width: CGFloat = Ruler.iPhoneHorizontal(200, 220, 220).value
-                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
+                let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
+                let width = max(minWidth, strongSelf.textContainerView.frame.width + 12 * 2 - 1)
+                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
                 strongSelf.feedURLContainerView.frame = feedURLContainerViewFrame
 
                 if let openGraphURLInfo = message.openGraphURLInfo {
