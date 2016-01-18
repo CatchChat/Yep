@@ -22,7 +22,7 @@ class ChatBaseCell: UICollectionViewCell {
         label.font = UIFont.systemFontOfSize(10)
         label.textColor = UIColor.yepGrayColor()
         label.numberOfLines = 1
-        self.addSubview(label)
+        self.contentView.addSubview(label)
         return label
     }()
 

@@ -35,6 +35,12 @@ private class MentionUserCell: UITableViewCell {
         return label
     }()
 
+    private override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+    }
+
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
