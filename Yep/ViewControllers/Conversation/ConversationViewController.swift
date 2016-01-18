@@ -605,6 +605,7 @@ class ConversationViewController: BaseViewController {
     private let chatStateCellIdentifier = "ChatStateCell"
     private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     private let chatRightTextCellIdentifier = "ChatRightTextCell"
+    private let chatLeftTextURLCellIdentifier = "ChatLeftTextURLCell"
     private let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     private let chatRightImageCellIdentifier = "ChatRightImageCell"
     private let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
@@ -693,6 +694,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
@@ -1848,6 +1850,10 @@ class ConversationViewController: BaseViewController {
             let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+
+            if message.openGraphURLInfo != nil {
+                height += 100 + 10
+            }
 
             if !key.isEmpty {
                 textContentLabelWidths[key] = ceil(rect.width)
@@ -3695,8 +3701,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
-                        return cell
+                        if message.openGraphURLInfo != nil {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                            return cell
+
+                        } else {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                            return cell
+                        }
                     }
 
                 } else { // from Me
@@ -3902,14 +3914,29 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
 
                     default:
-                        
-                        if let cell = cell as? ChatLeftTextCell {
-                            
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
-                            cell.tapUsernameAction = { [weak self] username in
-                                println("left text cell.tapUsernameAction: \(username)")
-                                self?.tryShowProfileWithUsername(username)
+                        if message.openGraphURLInfo != nil {
+
+                            if let cell = cell as? ChatLeftTextURLCell {
+
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("left textURL cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
+                            }
+
+                        } else {
+                        
+                            if let cell = cell as? ChatLeftTextCell {
+                                
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("left text cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
                             }
                         }
                     }
