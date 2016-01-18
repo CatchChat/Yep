@@ -198,7 +198,7 @@ class ChatLeftAudioCell: ChatBaseCell {
     private func configureNameLabel() {
 
         if inGroup {
-            nameLabel.text = user?.nickname
+            nameLabel.text = user?.chatCellCompositedName
 
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()

@@ -189,6 +189,14 @@ class User: Object {
         return false
     }
 
+    var chatCellCompositedName: String {
+        if username.isEmpty {
+            return nickname
+        } else {
+            return "\(nickname) @\(username)"
+        }
+    }
+
     // 级联删除关联的数据对象
 
     func cascadeDeleteInRealm(realm: Realm) {
