@@ -606,6 +606,7 @@ class ConversationViewController: BaseViewController {
     private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     private let chatRightTextCellIdentifier = "ChatRightTextCell"
     private let chatLeftTextURLCellIdentifier = "ChatLeftTextURLCell"
+    private let chatRightTextURLCellIdentifier = "ChatRightTextURLCell"
     private let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     private let chatRightImageCellIdentifier = "ChatRightImageCell"
     private let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
@@ -695,6 +696,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
@@ -3737,8 +3739,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
-                        return cell
+                        if message.openGraphURLInfo != nil {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextURLCellIdentifier, forIndexPath: indexPath) as! ChatRightTextURLCell
+                            return cell
+
+                        } else {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+                            return cell
+                        }
                     }
                 }
             }
@@ -3996,12 +4004,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     strongSelf.clearHeightOfMessageWithKey(message.messageID)
 
                                     if let index = strongSelf.messages.indexOf(message) {
-                                        let realIndex = strongSelf.displayedMessagesRange.location + index
+                                        let realIndex = index - strongSelf.displayedMessagesRange.location
                                         let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
                                         strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
 
                                         // only for latest one need to scroll
-                                        if realIndex == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
+                                        if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
                                             strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
                                         }
                                     }
@@ -4157,7 +4165,123 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                         
                     default:
-                        
+
+                        let mediaTapAction: () -> Void = { [weak self] in
+
+                            guard message.sendState == MessageSendState.Failed.rawValue else {
+                                return
+                            }
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
+                                    defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                                    YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+
+                                    }, completion: { success in
+                                        println("resendText: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
+                        }
+
+                        if message.openGraphURLInfo != nil {
+
+                            if let cell = cell as? ChatRightTextURLCell {
+
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("right textURL cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
+
+                                cell.tapOpenGraphURLAction = { [weak self] URL in
+                                    self?.yep_openURL(URL)
+                                }
+                            }
+
+                        } else {
+
+                            if let cell = cell as? ChatRightTextCell {
+
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("right text cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
+                            }
+                        }
+
+                        if !message.openGraphURLDetected {
+
+                            func markMessageOpenGraphURLDetected() {
+                                let _ = try? realm.write {
+                                    message.openGraphURLDetected = true
+                                }
+                            }
+
+                            let text = message.textContent
+                            guard let fisrtURL = text.yep_embeddedURLs.first else {
+                                markMessageOpenGraphURLDetected()
+                                break
+                            }
+
+                            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
+                                defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    markMessageOpenGraphURLDetected()
+                                }
+
+                            }, completion: { _openGraph in
+                                println("message_openGraph: \(_openGraph)")
+
+                                guard _openGraph.isValid else {
+                                    return
+                                }
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                                    guard let strongSelf = self else {
+                                        return
+                                    }
+
+                                    let openGraphURLInfo = FeedURLInfo()
+
+                                    openGraphURLInfo.URLString = _openGraph.URL.absoluteString
+                                    openGraphURLInfo.siteName = _openGraph.siteName ?? ""
+                                    openGraphURLInfo.title = _openGraph.title ?? ""
+                                    openGraphURLInfo.infoDescription = _openGraph.description ?? ""
+                                    openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
+
+                                    let _ = try? strongSelf.realm.write {
+                                        message.openGraphURLInfo = openGraphURLInfo
+                                    }
+
+                                    markMessageOpenGraphURLDetected()
+
+                                    // update UI
+                                    strongSelf.clearHeightOfMessageWithKey(message.messageID)
+
+                                    if let index = strongSelf.messages.indexOf(message) {
+                                        let realIndex = index - strongSelf.displayedMessagesRange.location
+                                        let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
+                                        strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+                                        
+                                        // only for latest one need to scroll
+                                        if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
+                                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+                                        }
+                                    }
+                                }
+                            })
+                        }
+
+                        /*
                         if let cell = cell as? ChatRightTextCell {
                             
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
@@ -4185,6 +4309,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.tryShowProfileWithUsername(username)
                             }
                         }
+                        */
                     }
                 }
             }
