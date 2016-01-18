@@ -852,77 +852,19 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        if let group = conversation.withGroup where !group.includeMe {
+        tryShowSubscribeView()
 
-            let groupID = group.groupID
+        needDetectMention = conversation.needDetectMention
 
-            meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
-
-                println("meIsMember: \(meIsMember)")
-
-                guard !meIsMember else {
-                    return
-                }
-
-                delay(3) { [weak self] in
-
-                    self?.subscribeView.subscribeAction = { [weak self] in
-                        joinGroup(groupID: groupID, failureHandler: nil, completion: {
-                            println("subscribe OK")
-
-                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                if let strongSelf = self {
-                                    let _ = try? strongSelf.realm.write {
-                                        strongSelf.conversation.withGroup?.includeMe = true
-                                    }
-                                }
-                            }
-                        })
-                    }
-
-                    self?.subscribeView.showWithChangeAction = { [weak self] in
-                        if let strongSelf = self {
-
-                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                            self?.isSubscribeViewShowing = true
-                        }
-                    }
-
-                    self?.subscribeView.hideWithChangeAction = { [weak self] in
-                        if let strongSelf = self {
-
-                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
-
-                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
-                            
-                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-                            
-                            self?.isSubscribeViewShowing = false
-                        }
-                    }
-                    
-                    self?.subscribeView.show()
-                }
-            })
+        if let _ = conversation.withGroup?.withFeed {
+            self.screenName = "Feed Conversation"
+        } else {
+            self.screenName = "Conversation"
         }
 
         #if DEBUG
-//            view.addSubview(conversationFPSLabel)
+            //view.addSubview(conversationFPSLabel)
         #endif
-
-        needDetectMention = conversation.needDetectMention
-        
-        
-        if let _ = conversation.withGroup?.withFeed {
-            self.screenName =  "Feed Conversation"
-        } else {
-            self.screenName =  "Conversation"
-        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -2143,6 +2085,69 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    private func tryShowSubscribeView() {
+
+        guard let group = conversation.withGroup where !group.includeMe else {
+            return
+        }
+
+        let groupID = group.groupID
+
+        meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
+
+            println("meIsMember: \(meIsMember)")
+
+            guard !meIsMember else {
+                return
+            }
+
+            delay(3) { [weak self] in
+
+                self?.subscribeView.subscribeAction = { [weak self] in
+                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                        println("subscribe OK")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                let _ = try? strongSelf.realm.write {
+                                    strongSelf.conversation.withGroup?.includeMe = true
+                                }
+                            }
+                        }
+                    })
+                }
+
+                self?.subscribeView.showWithChangeAction = { [weak self] in
+                    if let strongSelf = self {
+
+                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                        self?.isSubscribeViewShowing = true
+                    }
+                }
+
+                self?.subscribeView.hideWithChangeAction = { [weak self] in
+                    if let strongSelf = self {
+
+                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+
+                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+
+                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+                        
+                        self?.isSubscribeViewShowing = false
+                    }
+                }
+                
+                self?.subscribeView.show()
+            }
+        })
     }
 
     // MARK: Actions
