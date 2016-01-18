@@ -864,7 +864,7 @@ class ConversationViewController: BaseViewController {
                     return
                 }
 
-                delay(1) { [weak self] in
+                delay(3) { [weak self] in
 
                     self?.subscribeView.subscribeAction = { [weak self] in
                         joinGroup(groupID: groupID, failureHandler: nil, completion: {
