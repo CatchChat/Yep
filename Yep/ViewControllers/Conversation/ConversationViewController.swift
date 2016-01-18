@@ -3996,8 +3996,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     strongSelf.clearHeightOfMessageWithKey(message.messageID)
 
                                     if let index = strongSelf.messages.indexOf(message) {
-                                        let indexPath = NSIndexPath(forItem: strongSelf.displayedMessagesRange.location + index, inSection: 0)
+                                        let realIndex = strongSelf.displayedMessagesRange.location + index
+                                        let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
                                         strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+
+                                        // only for latest one need to scroll
+                                        if realIndex == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
+                                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+                                        }
                                     }
                                 }
                             })
