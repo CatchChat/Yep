@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class ChatLeftTextURLCell: ChatBaseCell {
 
@@ -141,7 +142,8 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
 
-                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: 220, height: 100)
+                let width: CGFloat = Ruler.iPhoneHorizontal(200, 220, 220).value
+                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: width, height: 100)
                 strongSelf.feedURLContainerView.frame = feedURLContainerViewFrame
 
                 if let openGraphURLInfo = message.openGraphURLInfo {
