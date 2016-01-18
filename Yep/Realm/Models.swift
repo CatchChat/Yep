@@ -527,6 +527,9 @@ class Message: Object {
         }
     }
 
+    dynamic var openGraphURLDetected: Bool = false
+    dynamic var openGraphURLInfo: FeedURLInfo?
+
     dynamic var coordinate: Coordinate?
 
     dynamic var attachmentURLString: String = ""
