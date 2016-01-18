@@ -34,7 +34,7 @@ class ProfileFooterCell: UICollectionViewCell {
         if let username = username {
             usernameLabel.text = "@" + username
         } else {
-            usernameLabel.text = nil
+            usernameLabel.text = NSLocalizedString("No username", comment: "")
         }
 
         introductionLabel.text = introduction
