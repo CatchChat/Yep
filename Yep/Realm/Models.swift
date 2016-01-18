@@ -594,6 +594,10 @@ class Message: Object {
             realm.delete(mediaMetaData)
         }
 
+        if let openGraphURLInfo = openGraphURLInfo {
+            realm.delete(openGraphURLInfo)
+        }
+
         switch mediaType {
 
         case MessageMediaType.Image.rawValue:
@@ -626,7 +630,7 @@ class Message: Object {
                 
                 realm.delete(socialWork)
             }
-            
+
         default:
             break // TODO: if have other message media need to delete
         }
