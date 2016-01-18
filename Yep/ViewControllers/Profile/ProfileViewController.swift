@@ -488,7 +488,7 @@ class ProfileViewController: SegueViewController {
         let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
         let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
-        return 10 + 20 + 10 + 20 + 10 + ceil(rect.height) + 4
+        return 10 + 24 + 10 + 18 + 10 + ceil(rect.height) + 4
     }
 
     private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
