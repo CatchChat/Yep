@@ -488,7 +488,7 @@ class ProfileViewController: SegueViewController {
         let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
         let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
-        return 20 + 10 + 20 + 10 + ceil(rect.height) + 4
+        return 10 + 20 + 10 + 20 + 10 + ceil(rect.height) + 4
     }
 
     private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
@@ -1426,7 +1426,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Footer.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
 
-            cell.introductionLabel.text = introductionText
+            cell.configureWithNickname(profileUser?.nickname ?? "", username: profileUser?.username, introduction: introductionText)
 
             return cell
 

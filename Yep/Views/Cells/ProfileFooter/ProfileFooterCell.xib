@@ -14,19 +14,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yw-Z7-Wv4" userLabel="Introduction Label">
-                        <rect key="frame" x="38" y="61" width="244" height="29"/>
+                        <rect key="frame" x="38" y="70" width="244" height="29"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxA-Mj-WGn">
-                        <rect key="frame" x="38" y="1" width="28" height="20.5"/>
+                        <rect key="frame" x="38" y="10" width="28" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@nixzhu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnP-ym-ZBH">
-                        <rect key="frame" x="38" y="31" width="65.5" height="20.5"/>
+                        <rect key="frame" x="38" y="40" width="65.5" height="20.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -41,13 +41,15 @@
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="5Yw-Z7-Wv4" secondAttribute="leading" id="HjV-WR-RVa"/>
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="NxA-Mj-WGn" secondAttribute="leading" id="cPb-4n-LbM"/>
                 <constraint firstItem="5Yw-Z7-Wv4" firstAttribute="top" secondItem="jnP-ym-ZBH" secondAttribute="bottom" constant="10" id="hD9-Ye-HHX"/>
-                <constraint firstItem="NxA-Mj-WGn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="1" id="uPe-lC-dCc"/>
+                <constraint firstItem="NxA-Mj-WGn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="uPe-lC-dCc"/>
             </constraints>
             <size key="customSize" width="320" height="180"/>
             <connections>
                 <outlet property="instroductionLabelLeftConstraint" destination="HPJ-WR-pZU" id="jFC-zO-l0X"/>
                 <outlet property="instroductionLabelRightConstraint" destination="Grg-4P-8QR" id="UCI-Hb-Phd"/>
                 <outlet property="introductionLabel" destination="5Yw-Z7-Wv4" id="2To-TB-hWM"/>
+                <outlet property="nicknameLabel" destination="NxA-Mj-WGn" id="KJe-zP-OW6"/>
+                <outlet property="usernameLabel" destination="jnP-ym-ZBH" id="e49-HD-LL1"/>
             </connections>
             <point key="canvasLocation" x="237" y="350"/>
         </collectionViewCell>
