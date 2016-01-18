@@ -114,7 +114,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
             if let strongSelf = self {
                 
-                strongSelf.makeUI()
+                //strongSelf.makeUI()
                 
                 let topOffset: CGFloat
                 if strongSelf.inGroup {
