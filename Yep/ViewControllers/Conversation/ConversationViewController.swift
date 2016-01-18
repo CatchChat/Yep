@@ -3952,70 +3952,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }
 
-                        if !message.openGraphURLDetected {
-
-                            func markMessageOpenGraphURLDetected() {
-                                let _ = try? realm.write {
-                                    message.openGraphURLDetected = true
-                                }
-                            }
-
-                            let text = message.textContent
-                            guard let fisrtURL = text.yep_embeddedURLs.first else {
-                                markMessageOpenGraphURLDetected()
-                                break
-                            }
-
-                            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    markMessageOpenGraphURLDetected()
-                                }
-
-                            }, completion: { _openGraph in
-                                println("message_openGraph: \(_openGraph)")
-
-                                guard _openGraph.isValid else {
-                                    return
-                                }
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    guard let strongSelf = self else {
-                                        return
-                                    }
-
-                                    let openGraphURLInfo = FeedURLInfo()
-
-                                    openGraphURLInfo.URLString = _openGraph.URL.absoluteString
-                                    openGraphURLInfo.siteName = _openGraph.siteName ?? ""
-                                    openGraphURLInfo.title = _openGraph.title ?? ""
-                                    openGraphURLInfo.infoDescription = _openGraph.description ?? ""
-                                    openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
-
-                                    let _ = try? strongSelf.realm.write {
-                                        message.openGraphURLInfo = openGraphURLInfo
-                                    }
-
-                                    markMessageOpenGraphURLDetected()
-
-                                    // update UI
-                                    strongSelf.clearHeightOfMessageWithKey(message.messageID)
-
-                                    if let index = strongSelf.messages.indexOf(message) {
-                                        let realIndex = index - strongSelf.displayedMessagesRange.location
-                                        let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
-                                        strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
-
-                                        // only for latest one need to scroll
-                                        if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
-                                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
-                                        }
-                                    }
-                                }
-                            })
-                        }
+                        tryDetectOpenGraphForMessage(message)
                     }
                     
                 } else { // from Me
@@ -4216,112 +4153,88 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }
 
-                        if !message.openGraphURLDetected {
-
-                            func markMessageOpenGraphURLDetected() {
-                                let _ = try? realm.write {
-                                    message.openGraphURLDetected = true
-                                }
-                            }
-
-                            let text = message.textContent
-                            guard let fisrtURL = text.yep_embeddedURLs.first else {
-                                markMessageOpenGraphURLDetected()
-                                break
-                            }
-
-                            openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    markMessageOpenGraphURLDetected()
-                                }
-
-                            }, completion: { _openGraph in
-                                println("message_openGraph: \(_openGraph)")
-
-                                guard _openGraph.isValid else {
-                                    return
-                                }
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                                    guard let strongSelf = self else {
-                                        return
-                                    }
-
-                                    let openGraphURLInfo = FeedURLInfo()
-
-                                    openGraphURLInfo.URLString = _openGraph.URL.absoluteString
-                                    openGraphURLInfo.siteName = _openGraph.siteName ?? ""
-                                    openGraphURLInfo.title = _openGraph.title ?? ""
-                                    openGraphURLInfo.infoDescription = _openGraph.description ?? ""
-                                    openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
-
-                                    let _ = try? strongSelf.realm.write {
-                                        message.openGraphURLInfo = openGraphURLInfo
-                                    }
-
-                                    markMessageOpenGraphURLDetected()
-
-                                    // update UI
-                                    strongSelf.clearHeightOfMessageWithKey(message.messageID)
-
-                                    if let index = strongSelf.messages.indexOf(message) {
-                                        let realIndex = index - strongSelf.displayedMessagesRange.location
-                                        let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
-                                        strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
-                                        
-                                        // only for latest one need to scroll
-                                        if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
-                                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
-                                        }
-                                    }
-                                }
-                            })
-                        }
-
-                        /*
-                        if let cell = cell as? ChatRightTextCell {
-                            
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
-                                
-                                if message.sendState == MessageSendState.Failed.rawValue {
-                                    
-                                    YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
-                                        
-                                        resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage: errorMessage)
-                                            
-                                            YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
-                                            
-                                        }, completion: { success in
-                                            println("resendText: \(success)")
-                                        })
-                                        
-                                    }, cancelAction: {
-                                    })
-                                }
-                            }, collectionView: collectionView, indexPath: indexPath)
-
-                            cell.tapUsernameAction = { [weak self] username in
-                                println("right text cell.tapUsernameAction: \(username)")
-                                self?.tryShowProfileWithUsername(username)
-                            }
-                        }
-                        */
+                        tryDetectOpenGraphForMessage(message)
                     }
                 }
             }
         }
     }
 
+    private func tryDetectOpenGraphForMessage(message: Message) {
+
+        guard !message.openGraphURLDetected else {
+            return
+        }
+
+        func markMessageOpenGraphURLDetected() {
+            let _ = try? realm.write {
+                message.openGraphURLDetected = true
+            }
+        }
+
+        let text = message.textContent
+        guard let fisrtURL = text.yep_embeddedURLs.first else {
+            markMessageOpenGraphURLDetected()
+            return
+        }
+
+        openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                markMessageOpenGraphURLDetected()
+            }
+
+        }, completion: { _openGraph in
+            println("message_openGraph: \(_openGraph)")
+
+            guard _openGraph.isValid else {
+                return
+            }
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                let openGraphURLInfo = FeedURLInfo()
+
+                openGraphURLInfo.URLString = _openGraph.URL.absoluteString
+                openGraphURLInfo.siteName = _openGraph.siteName ?? ""
+                openGraphURLInfo.title = _openGraph.title ?? ""
+                openGraphURLInfo.infoDescription = _openGraph.description ?? ""
+                openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
+
+                let _ = try? strongSelf.realm.write {
+                    message.openGraphURLInfo = openGraphURLInfo
+                }
+
+                markMessageOpenGraphURLDetected()
+
+                // update UI
+                strongSelf.clearHeightOfMessageWithKey(message.messageID)
+
+                if let index = strongSelf.messages.indexOf(message) {
+                    let realIndex = index - strongSelf.displayedMessagesRange.location
+                    let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
+                    strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+
+                    // only for latest one need to scroll
+                    if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
+                        strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+                    }
+                }
+            }
+        })
+    }
+
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            
+
             let height = heightOfMessage(message)
-            
+
             return CGSize(width: collectionViewWidth, height: height)
 
         } else {
