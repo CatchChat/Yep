@@ -3970,6 +3970,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
+                                    guard let strongSelf = self else {
+                                        return
+                                    }
+
                                     let openGraphURLInfo = FeedURLInfo()
 
                                     openGraphURLInfo.URLString = _openGraph.URL.absoluteString
@@ -3978,7 +3982,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     openGraphURLInfo.infoDescription = _openGraph.description ?? ""
                                     openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
 
-                                    let _ = try? self?.realm.write {
+                                    let _ = try? strongSelf.realm.write {
                                         message.openGraphURLInfo = openGraphURLInfo
                                     }
 

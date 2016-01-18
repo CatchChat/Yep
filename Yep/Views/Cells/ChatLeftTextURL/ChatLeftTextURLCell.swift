@@ -19,7 +19,11 @@ class ChatLeftTextURLCell: ChatBaseCell {
     @IBOutlet weak var textContainerView: UIView!
     @IBOutlet weak var textContentTextView: ChatTextView!
 
-    @IBOutlet weak var feedURLContainerView: FeedURLContainerView!
+    @IBOutlet weak var feedURLContainerView: FeedURLContainerView!  {
+        didSet {
+            feedURLContainerView.compressionMode = false
+        }
+    }
 
     func makeUI() {
 
@@ -141,7 +145,6 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
                 if let openGraphURLInfo = message.openGraphURLInfo {
                     strongSelf.feedURLContainerView.configureWithFeedURLInfoType(openGraphURLInfo)
-                    strongSelf.feedURLContainerView.backgroundColor = UIColor.redColor()
                 }
             }
         }
