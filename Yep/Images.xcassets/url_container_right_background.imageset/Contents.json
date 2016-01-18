@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "url_container_background.pdf",
+      "filename" : "url_container_right_background.pdf",
       "resizing" : {
         "mode" : "9-part",
         "center" : {
@@ -13,8 +13,8 @@
         "cap-insets" : {
           "bottom" : 5,
           "top" : 5,
-          "right" : 5,
-          "left" : 2
+          "right" : 10,
+          "left" : 9
         }
       }
     }

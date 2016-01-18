@@ -25,7 +25,7 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
     @IBOutlet weak var feedURLContainerView: FeedURLContainerView!  {
         didSet {
-            feedURLContainerView.needFullBorder = false
+            feedURLContainerView.directionLeading = true
             feedURLContainerView.compressionMode = false
         }
     }
