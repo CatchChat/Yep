@@ -13,6 +13,9 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
 
+    var openGraphURL: NSURL?
+    var tapOpenGraphURLAction: ((URL: NSURL) -> Void)?
+
     @IBOutlet weak var bubbleTailImageView: UIImageView!
 
     var bubbleBodyShapeLayer: CAShapeLayer!
@@ -43,6 +46,15 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
         textContentTextView.tapMentionAction = { [weak self] username in
             self?.tapUsernameAction?(username: username)
+        }
+
+
+        feedURLContainerView.tapAction = { [weak self] in
+            guard let URL = self?.openGraphURL else {
+                return
+            }
+
+            self?.tapOpenGraphURLAction?(URL: URL)
         }
     }
 
@@ -148,6 +160,7 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
                 if let openGraphURLInfo = message.openGraphURLInfo {
                     strongSelf.feedURLContainerView.configureWithFeedURLInfoType(openGraphURLInfo)
+                    strongSelf.openGraphURL = openGraphURLInfo.URL
                 }
             }
         }

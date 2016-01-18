@@ -3925,6 +3925,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     println("left textURL cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
                                 }
+
+                                cell.tapOpenGraphURLAction = { [weak self] URL in
+                                    self?.yep_openURL(URL)
+                                }
                             }
 
                         } else {
