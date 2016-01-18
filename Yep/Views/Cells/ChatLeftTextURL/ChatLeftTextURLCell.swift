@@ -21,6 +21,7 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
     @IBOutlet weak var feedURLContainerView: FeedURLContainerView!  {
         didSet {
+            feedURLContainerView.needFullBorder = false
             feedURLContainerView.compressionMode = false
         }
     }
@@ -140,7 +141,7 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
                 strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
 
-                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 10, width: 220, height: 100)
+                let feedURLContainerViewFrame = CGRect(x: strongSelf.textContainerView.frame.origin.x, y: CGRectGetMaxY(strongSelf.textContainerView.frame) + 8, width: 220, height: 100)
                 strongSelf.feedURLContainerView.frame = feedURLContainerViewFrame
 
                 if let openGraphURLInfo = message.openGraphURLInfo {

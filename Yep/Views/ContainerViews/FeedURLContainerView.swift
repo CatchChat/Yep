@@ -13,6 +13,7 @@ class FeedURLContainerView: UIView {
     var tapAction: (() -> Void)?
 
     private var needMakeUI: Bool = true
+    var needFullBorder = true // set before compressionMode
     var compressionMode: Bool = false {
         didSet {
             if needMakeUI {
@@ -26,6 +27,12 @@ class FeedURLContainerView: UIView {
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "url_container_background")
+        return imageView
+    }()
+
+    lazy var leftBorderImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "url_container_left_border")
         return imageView
     }()
 
@@ -67,8 +74,14 @@ class FeedURLContainerView: UIView {
 
     private func makeUI() {
 
-        addSubview(backgroundImageView)
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        if needFullBorder {
+            addSubview(backgroundImageView)
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        } else {
+            addSubview(leftBorderImageView)
+            leftBorderImageView.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         addSubview(siteNameLabel)
         addSubview(titleLabel)
@@ -86,6 +99,7 @@ class FeedURLContainerView: UIView {
 
         let views = [
             "backgroundImageView": backgroundImageView,
+            "leftBorderImageView": leftBorderImageView,
             "siteNameLabel": siteNameLabel,
             "titleLabel": titleLabel,
             "bottomContainerView": bottomContainerView,
@@ -93,10 +107,18 @@ class FeedURLContainerView: UIView {
             "thumbnailImageView": thumbnailImageView,
         ]
 
-        do {
+        if needFullBorder {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
 
             let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+
+        } else {
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[leftBorderImageView]", options: [], metrics: nil, views: views)
+
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[leftBorderImageView]|", options: [], metrics: nil, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
