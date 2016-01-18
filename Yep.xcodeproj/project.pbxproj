@@ -271,6 +271,8 @@
 		50DBDEF11C48C2240044E21B /* FeedURLInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* FeedURLInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDEFE1C4CCB030044E21B /* ChatLeftTextURLCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DBDEFC1C4CCB030044E21B /* ChatLeftTextURLCell.xib */; };
+		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
+		50DBDF021C4CE75E0044E21B /* ChatRightTextURLCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DBDF001C4CE75E0044E21B /* ChatRightTextURLCell.xib */; };
 		50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */; };
 		50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */; };
 		50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */; };
@@ -653,6 +655,8 @@
 		50DBDEF01C48C2240044E21B /* FeedURLInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLInfoType.swift; path = Protocols/FeedURLInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFC1C4CCB030044E21B /* ChatLeftTextURLCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextURLCell.xib; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.xib; sourceTree = "<group>"; };
+		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
+		50DBDF001C4CE75E0044E21B /* ChatRightTextURLCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightTextURLCell.xib; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.xib; sourceTree = "<group>"; };
 		50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletedFeedConversationCell.swift; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.swift; sourceTree = "<group>"; };
 		50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeletedFeedConversationCell.xib; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.xib; sourceTree = "<group>"; };
 		50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadMoreTableViewCell.swift; path = Views/Cells/LoadMore/LoadMoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -1256,6 +1260,7 @@
 				503315991AC101830008A209 /* ChatLeftText */,
 				5033159E1AC101CB0008A209 /* ChatRightText */,
 				50DBDEFA1C4CBB0F0044E21B /* ChatLeftTextURL */,
+				50DBDF031C4CE7640044E21B /* ChatRightTextURL */,
 				50CDBE4B1ACBAD3700459CE0 /* ChatLeftImage */,
 				50CDBE441ACA9B4600459CE0 /* ChatRightImage */,
 				50EB8CC11AE89EDE001AC1EE /* ChatLeftVideo */,
@@ -2109,6 +2114,15 @@
 			name = ChatLeftTextURL;
 			sourceTree = "<group>";
 		};
+		50DBDF031C4CE7640044E21B /* ChatRightTextURL */ = {
+			isa = PBXGroup;
+			children = (
+				50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */,
+				50DBDF001C4CE75E0044E21B /* ChatRightTextURLCell.xib */,
+			);
+			name = ChatRightTextURL;
+			sourceTree = "<group>";
+		};
 		50DEE02E1BE20A0400015741 /* DeletedFeedConversation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2570,6 +2584,7 @@
 				50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */,
+				50DBDF021C4CE75E0044E21B /* ChatRightTextURLCell.xib in Resources */,
 				50DEE0451BEA025100015741 /* About.storyboard in Resources */,
 				50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
@@ -2801,6 +2816,7 @@
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
+				50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */,
 				50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
