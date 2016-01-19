@@ -179,22 +179,16 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
 
             if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
 
-                //var openGraph = openGraph
-
-                guard let URL = response.response?.URL, host = URL.host else {
-                    completion(openGraph)
-
-                    return
-                }
-
-                guard let _ = NSURL.AppleiTunesHost(rawValue: host) else {
-                    completion(openGraph)
-
-                    return
-                }
-
                 completion(openGraph)
                 /*
+                var openGraph = openGraph
+
+                guard let URL = response.response?.URL, host = URL.host, _ = NSURL.AppleiTunesHost(rawValue: host) else {
+                    completion(openGraph)
+
+                    return
+                }
+
                 if let lookupID = URL.yep_iTunesArtworkID {
                     iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
                         //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
