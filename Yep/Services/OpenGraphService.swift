@@ -158,41 +158,52 @@ struct OpenGraph {
 }
 
 private enum WeirdCharset: String {
-    case GB2312 = "gb2312"
-    case GBK = "gbk"
-    case GB18030 = "gb18030"
+    // China
+    case GB2312 = "GB2312"
+    case GBK = "GBK"
+    case GB18030 = "GB18030"
+
+    // Taiwan, HongKong ...
+    case BIG5 = "BIG5"
+    case BIG5HKSCS = "BIG5-HKSCS"
 }
 
-private func getUTF8StringFromString(string: String, data: NSData) -> String {
+private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
 
     let pattern = "charset=([A-Za-z0-9\\-]+)"
 
     guard let
         charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
-        result = charsetRegex.firstMatchInString(string, options: [.ReportCompletion], range: NSMakeRange(0, (string as NSString).length))
+        result = charsetRegex.firstMatchInString(HTMLString, options: [.ReportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
     else {
-        return string
+        return HTMLString
     }
 
     let charsetStringRange = result.rangeAtIndex(1)
-    let charsetString = (string as NSString).substringWithRange(charsetStringRange).lowercaseString
+    let charsetString = (HTMLString as NSString).substringWithRange(charsetStringRange).uppercaseString
 
     guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
-        return string
+        return HTMLString
     }
+
+    let encoding: NSStringEncoding
 
     switch weirdCharset {
 
     case .GB2312, .GBK, .GB18030:
         let china = CFStringEncodings.GB_18030_2000
-        let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
 
-        if let newHTMLString = String(data: data, encoding: encoding) {
-            return newHTMLString
-        }
+    case .BIG5, .BIG5HKSCS:
+        let taiwan = CFStringEncodings.Big5_HKSCS_1999
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
     }
 
-    return string
+    guard let newHTMLString = String(data: data, encoding: encoding) else {
+        return HTMLString
+    }
+
+    return newHTMLString
 }
 
 func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
@@ -213,7 +224,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         }
 
         if let HTMLString = response.result.value, data = response.data {
-            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
+            //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
             var finalURL = URL
@@ -222,8 +233,8 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
             }
 
             // 编码转换
-            let newHTMLString = getUTF8StringFromString(HTMLString, data: data)
-            println("newHTMLString: \(newHTMLString)")
+            let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
+            //println("newHTMLString: \(newHTMLString)")
 
             if let openGraph = OpenGraph.fromHTMLString(newHTMLString, forURL: finalURL) {
 
