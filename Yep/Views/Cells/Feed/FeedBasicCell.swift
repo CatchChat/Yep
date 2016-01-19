@@ -129,12 +129,18 @@ class FeedBasicCell: UITableViewCell {
         let view = FeedUploadingErrorContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
         return view
     }()
+
+    var messagesCountEqualsZero = false {
+        didSet {
+            messageCountLabel.hidden = messagesCountEqualsZero
+        }
+    }
     var hasUploadingErrorMessage = false {
         didSet {
             uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
 
             leftBottomLabel.hidden = hasUploadingErrorMessage
-            messageCountLabel.hidden = hasUploadingErrorMessage
+            messageCountLabel.hidden = hasUploadingErrorMessage || (self.messagesCountEqualsZero)
             discussionImageView.hidden = hasUploadingErrorMessage
         }
     }
@@ -261,7 +267,7 @@ class FeedBasicCell: UITableViewCell {
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
         messageCountLabel.text = messagesCountString
-        messageCountLabel.hidden = (feed.messagesCount == 0)
+        messagesCountEqualsZero = (feed.messagesCount == 0)
 
         if let basicLayout = layout?.basicLayout {
             leftBottomLabel.frame = basicLayout.leftBottomLabelFrame
