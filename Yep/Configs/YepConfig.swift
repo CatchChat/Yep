@@ -193,7 +193,7 @@ class YepConfig {
         static let mediaPreferredHeight: CGFloat = Ruler.iPhoneHorizontal(208, 244, 270).value
 
         static let mediaMinWidth: CGFloat = 60
-        static let mediaMinHeight: CGFloat = 44
+        static let mediaMinHeight: CGFloat = 45
 
         static let centerXOffset: CGFloat = 4
         
