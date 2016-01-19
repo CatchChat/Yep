@@ -177,7 +177,13 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         if let HTMLString = response.result.value {
             //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
-            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
+            // 尽量使用长链接
+            var finalURL = URL
+            if let _finalURL = response.response?.URL {
+                finalURL = _finalURL
+            }
+
+            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: finalURL) {
 
                 completion(openGraph)
                 /*
