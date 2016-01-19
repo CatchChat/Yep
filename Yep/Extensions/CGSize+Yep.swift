@@ -15,13 +15,13 @@ extension CGSize {
 
             if height < value {
                 let ratio = height / value
-                return CGSize(width: width / ratio, height: value)
+                return CGSize(width: floor(width / ratio), height: value)
             }
 
         } else {
             if width < value {
                 let ratio = width / value
-                return CGSize(width: value, height: height / ratio)
+                return CGSize(width: value, height: floor(height / ratio))
             }
         }
 
