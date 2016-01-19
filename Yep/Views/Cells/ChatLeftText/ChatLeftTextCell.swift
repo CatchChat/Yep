@@ -41,10 +41,6 @@ class ChatLeftTextCell: ChatBaseCell {
             self?.textContentTextView.linkTapGestureRecognizer?.enabled = otherGesturesEnabled
         }
         */
-
-        textContentTextView.tapMentionAction = { [weak self] username in
-            self?.tapUsernameAction?(username: username)
-        }
     }
 
     override func awakeFromNib() {
@@ -72,6 +68,10 @@ class ChatLeftTextCell: ChatBaseCell {
         
         if let bubblePosition = layer.sublayers {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+        }
+
+        textContentTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
         }
     }
 
@@ -114,7 +114,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
             if let strongSelf = self {
                 
-                //strongSelf.makeUI()
+                strongSelf.makeUI()
                 
                 let topOffset: CGFloat
                 if strongSelf.inGroup {

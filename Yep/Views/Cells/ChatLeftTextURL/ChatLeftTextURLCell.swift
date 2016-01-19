@@ -43,18 +43,6 @@ class ChatLeftTextURLCell: ChatBaseCell {
         }
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
-
-        textContentTextView.tapMentionAction = { [weak self] username in
-            self?.tapUsernameAction?(username: username)
-        }
-
-        feedURLContainerView.tapAction = { [weak self] in
-            guard let URL = self?.openGraphURL else {
-                return
-            }
-
-            self?.tapOpenGraphURLAction?(URL: URL)
-        }
     }
 
     override func awakeFromNib() {
@@ -82,6 +70,19 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
         if let bubblePosition = layer.sublayers {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+        }
+
+
+        textContentTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
+        }
+
+        feedURLContainerView.tapAction = { [weak self] in
+            guard let URL = self?.openGraphURL else {
+                return
+            }
+
+            self?.tapOpenGraphURLAction?(URL: URL)
         }
     }
 
@@ -124,7 +125,7 @@ class ChatLeftTextURLCell: ChatBaseCell {
 
             if let strongSelf = self {
 
-                //strongSelf.makeUI()
+                strongSelf.makeUI()
 
                 let topOffset: CGFloat
                 if strongSelf.inGroup {
