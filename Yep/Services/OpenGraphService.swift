@@ -157,9 +157,66 @@ struct OpenGraph {
     }
 }
 
+// ref http://a4esl.org/c/charset.html
+private enum WeirdCharset: String {
+    // China
+    case GB2312 = "GB2312"
+    case GBK = "GBK"
+    case GB18030 = "GB18030"
+
+    // Taiwan, HongKong ...
+    case BIG5 = "BIG5"
+    case BIG5HKSCS = "BIG5-HKSCS"
+
+    // Korean
+    case EUCKR = "EUC-KR"
+}
+
+private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
+
+    let pattern = "charset=([A-Za-z0-9\\-]+)"
+
+    guard let
+        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
+        result = charsetRegex.firstMatchInString(HTMLString, options: [.ReportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
+    else {
+        return HTMLString
+    }
+
+    let charsetStringRange = result.rangeAtIndex(1)
+    let charsetString = (HTMLString as NSString).substringWithRange(charsetStringRange).uppercaseString
+
+    guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
+        return HTMLString
+    }
+
+    let encoding: NSStringEncoding
+
+    switch weirdCharset {
+
+    case .GB2312, .GBK, .GB18030:
+        let china = CFStringEncodings.GB_18030_2000
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+
+    case .BIG5, .BIG5HKSCS:
+        let taiwan = CFStringEncodings.Big5_HKSCS_1999
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
+
+    case .EUCKR:
+        let korean = CFStringEncodings.EUC_KR
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue))
+    }
+
+    guard let newHTMLString = String(data: data, encoding: encoding) else {
+        return HTMLString
+    }
+
+    return newHTMLString
+}
+
 func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString { response in
+    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
         let error = response.result.error
 
@@ -174,27 +231,31 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
             return
         }
 
-        if let HTMLString = response.result.value {
+        if let HTMLString = response.result.value, data = response.data {
             //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
-            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: URL) {
+            // 尽量使用长链接
+            var finalURL = URL
+            if let _finalURL = response.response?.URL {
+                finalURL = _finalURL
+            }
 
-                //var openGraph = openGraph
+            // 编码转换
+            let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
+            //println("newHTMLString: \(newHTMLString)")
 
-                guard let URL = response.response?.URL, host = URL.host else {
-                    completion(openGraph)
-
-                    return
-                }
-
-                guard let _ = NSURL.AppleiTunesHost(rawValue: host) else {
-                    completion(openGraph)
-
-                    return
-                }
+            if let openGraph = OpenGraph.fromHTMLString(newHTMLString, forURL: finalURL) {
 
                 completion(openGraph)
                 /*
+                var openGraph = openGraph
+
+                guard let URL = response.response?.URL, host = URL.host, _ = NSURL.AppleOnlineStoreHost(rawValue: host) else {
+                    completion(openGraph)
+
+                    return
+                }
+
                 if let lookupID = URL.yep_iTunesArtworkID {
                     iTunesLookupWithID(lookupID, failureHandler: nil, completion: { artworkInfo in
                         //println("iTunesLookupWithID: \(lookupID), \(artworkInfo)")
@@ -305,7 +366,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         } else {
             defaultFailureHandler(.CouldNotParseJSON, errorMessage: nil)
         }
-    }
+    })
 }
 
 private enum iTunesCountry: String {

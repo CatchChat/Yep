@@ -273,6 +273,7 @@
 		50DBDEFE1C4CCB030044E21B /* ChatLeftTextURLCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DBDEFC1C4CCB030044E21B /* ChatLeftTextURLCell.xib */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF021C4CE75E0044E21B /* ChatRightTextURLCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DBDF001C4CE75E0044E21B /* ChatRightTextURLCell.xib */; };
+		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
 		50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */; };
 		50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */; };
 		50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */; };
@@ -657,6 +658,7 @@
 		50DBDEFC1C4CCB030044E21B /* ChatLeftTextURLCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftTextURLCell.xib; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.xib; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF001C4CE75E0044E21B /* ChatRightTextURLCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatRightTextURLCell.xib; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.xib; sourceTree = "<group>"; };
+		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
 		50DEE02A1BE209FF00015741 /* DeletedFeedConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeletedFeedConversationCell.swift; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.swift; sourceTree = "<group>"; };
 		50DEE02B1BE209FF00015741 /* DeletedFeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DeletedFeedConversationCell.xib; path = Views/Cells/DeletedFeedConversation/DeletedFeedConversationCell.xib; sourceTree = "<group>"; };
 		50DEE02F1BE339B000015741 /* LoadMoreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadMoreTableViewCell.swift; path = Views/Cells/LoadMore/LoadMoreTableViewCell.swift; sourceTree = "<group>"; };
@@ -1174,6 +1176,7 @@
 			children = (
 				0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */,
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
+				50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
 				5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
@@ -2887,6 +2890,7 @@
 				6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */,
 				50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */,
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
+				50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,

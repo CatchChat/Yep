@@ -931,6 +931,16 @@ class ConversationViewController: BaseViewController {
                     if self?.needDetectMention ?? false {
                         self?.mentionView.hide()
                     }
+
+                    if let
+                        draft = self?.conversation.draft,
+                        state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                            messageToolbar.messageTextView.text = draft.text
+                    }
+                }
+
+                if previousState != currentState {
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
                 }
             }
 
@@ -1389,6 +1399,7 @@ class ConversationViewController: BaseViewController {
         if let checkTypingStatusTimer = checkTypingStatusTimer {
             checkTypingStatusTimer.invalidate()
         }
+
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
