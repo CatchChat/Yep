@@ -116,7 +116,7 @@ class ChatRightImageCell: ChatRightBaseCell {
                 }
 
                 var size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
-                size = size.yep_ensureMinWidthOrHeight(40)
+                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
                 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
@@ -141,7 +141,7 @@ class ChatRightImageCell: ChatRightBaseCell {
                 }
 
                 var size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
-                size = size.yep_ensureMinWidthOrHeight(40)
+                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
