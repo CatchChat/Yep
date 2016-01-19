@@ -114,8 +114,11 @@ class ChatRightImageCell: ChatRightBaseCell {
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                     }
                 }
+
+                var size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
+                size = size.yep_ensureMinWidthOrHeight(40)
                 
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
+                ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
@@ -137,7 +140,10 @@ class ChatRightImageCell: ChatRightBaseCell {
                     }
                 }
 
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
+                var size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
+                size = size.yep_ensureMinWidthOrHeight(40)
+
+                ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
@@ -160,7 +166,9 @@ class ChatRightImageCell: ChatRightBaseCell {
                 }
             }
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
+            let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
+
+            ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
