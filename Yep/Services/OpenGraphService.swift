@@ -157,6 +157,7 @@ struct OpenGraph {
     }
 }
 
+// ref http://a4esl.org/c/charset.html
 private enum WeirdCharset: String {
     // China
     case GB2312 = "GB2312"
@@ -166,6 +167,9 @@ private enum WeirdCharset: String {
     // Taiwan, HongKong ...
     case BIG5 = "BIG5"
     case BIG5HKSCS = "BIG5-HKSCS"
+
+    // Korean
+    case EUCKR = "EUC-KR"
 }
 
 private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
@@ -197,6 +201,10 @@ private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: 
     case .BIG5, .BIG5HKSCS:
         let taiwan = CFStringEncodings.Big5_HKSCS_1999
         encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
+
+    case .EUCKR:
+        let korean = CFStringEncodings.EUC_KR
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue))
     }
 
     guard let newHTMLString = String(data: data, encoding: encoding) else {
