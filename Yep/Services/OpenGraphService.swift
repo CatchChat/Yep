@@ -157,8 +157,10 @@ struct OpenGraph {
     }
 }
 
-private enum ChinaCharset: String {
+private enum WeirdCharset: String {
     case GB2312 = "gb2312"
+    case GBK = "gbk"
+    case GB18030 = "gb18030"
 }
 
 private func getUTF8StringFromString(string: String, data: NSData) -> String {
@@ -175,13 +177,13 @@ private func getUTF8StringFromString(string: String, data: NSData) -> String {
     let charsetStringRange = result.rangeAtIndex(1)
     let charsetString = (string as NSString).substringWithRange(charsetStringRange).lowercaseString
 
-    guard let chinaCharset = ChinaCharset(rawValue: charsetString) else {
+    guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
         return string
     }
 
-    switch chinaCharset {
+    switch weirdCharset {
 
-    case .GB2312:
+    case .GB2312, .GBK, .GB18030:
         let china = CFStringEncodings.GB_18030_2000
         let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
 
