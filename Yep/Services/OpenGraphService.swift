@@ -157,14 +157,37 @@ struct OpenGraph {
     }
 }
 
+private enum ChinaCharset: String {
+    case GB2312 = "gb2312"
+}
+
 private func getUTF8StringFromString(string: String, data: NSData) -> String {
 
-    let china = CFStringEncodings.GB_18030_2000
-    let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+    let pattern = "charset=([A-Za-z0-9\\-]+)"
 
-    if let newHTMLString = String(data: data, encoding: encoding) {
-        println("newHTMLString: \(newHTMLString)")
-        return newHTMLString
+    guard let
+        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
+        result = charsetRegex.firstMatchInString(string, options: [.ReportCompletion], range: NSMakeRange(0, (string as NSString).length))
+    else {
+        return string
+    }
+
+    let charsetStringRange = result.rangeAtIndex(1)
+    let charsetString = (string as NSString).substringWithRange(charsetStringRange).lowercaseString
+
+    guard let chinaCharset = ChinaCharset(rawValue: charsetString) else {
+        return string
+    }
+
+    switch chinaCharset {
+
+    case .GB2312:
+        let china = CFStringEncodings.GB_18030_2000
+        let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+
+        if let newHTMLString = String(data: data, encoding: encoding) {
+            return newHTMLString
+        }
     }
 
     return string
