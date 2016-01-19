@@ -157,6 +157,19 @@ struct OpenGraph {
     }
 }
 
+private func getUTF8StringFromString(string: String, data: NSData) -> String {
+
+    let china = CFStringEncodings.GB_18030_2000
+    let encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+
+    if let newHTMLString = String(data: data, encoding: encoding) {
+        println("newHTMLString: \(newHTMLString)")
+        return newHTMLString
+    }
+
+    return string
+}
+
 func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString { response in
@@ -174,8 +187,8 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
             return
         }
 
-        if let HTMLString = response.result.value {
-            //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
+        if let HTMLString = response.result.value, data = response.data {
+            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
             var finalURL = URL
@@ -183,7 +196,11 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
                 finalURL = _finalURL
             }
 
-            if let openGraph = OpenGraph.fromHTMLString(HTMLString, forURL: finalURL) {
+            // 编码转换
+            let newHTMLString = getUTF8StringFromString(HTMLString, data: data)
+            println("newHTMLString: \(newHTMLString)")
+
+            if let openGraph = OpenGraph.fromHTMLString(newHTMLString, forURL: finalURL) {
 
                 completion(openGraph)
                 /*
