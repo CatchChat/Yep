@@ -386,27 +386,28 @@ class MessageToolbar: UIToolbar {
 
     func updateDraft(notification: NSNotification) {
 
-        if let conversation = conversation, realm = conversation.realm {
+        guard let conversation = conversation where !conversation.invalidated, let realm = conversation.realm else {
+            return
+        }
 
-            if let draft = conversation.draft {
+        if let draft = conversation.draft {
 
-                let _ = try? realm.write { [weak self] in
-                    if let strongSelf = self {
-                        draft.messageToolbarState = strongSelf.state.rawValue
+            let _ = try? realm.write { [weak self] in
+                if let strongSelf = self {
+                    draft.messageToolbarState = strongSelf.state.rawValue
 
-                        if strongSelf.state == .BeginTextInput || strongSelf.state == .TextInputing {
-                            draft.text = strongSelf.messageTextView.text
-                        }
+                    if strongSelf.state == .BeginTextInput || strongSelf.state == .TextInputing {
+                        draft.text = strongSelf.messageTextView.text
                     }
                 }
+            }
 
-            } else {
-                let draft = Draft()
-                draft.messageToolbarState = state.rawValue
-                
-                let _ = try? realm.write {
-                    conversation.draft = draft
-                }
+        } else {
+            let draft = Draft()
+            draft.messageToolbarState = state.rawValue
+            
+            let _ = try? realm.write {
+                conversation.draft = draft
             }
         }
     }
