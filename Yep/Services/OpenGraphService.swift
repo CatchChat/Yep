@@ -183,7 +183,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
                 /*
                 var openGraph = openGraph
 
-                guard let URL = response.response?.URL, host = URL.host, _ = NSURL.AppleiTunesHost(rawValue: host) else {
+                guard let URL = response.response?.URL, host = URL.host, _ = NSURL.AppleOnlineStoreHost(rawValue: host) else {
                     completion(openGraph)
 
                     return
