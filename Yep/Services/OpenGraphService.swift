@@ -216,7 +216,7 @@ private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: 
 
 func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString { response in
+    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
         let error = response.result.error
 
@@ -366,7 +366,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         } else {
             defaultFailureHandler(.CouldNotParseJSON, errorMessage: nil)
         }
-    }
+    })
 }
 
 private enum iTunesCountry: String {
