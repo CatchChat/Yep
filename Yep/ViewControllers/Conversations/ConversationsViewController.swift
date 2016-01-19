@@ -63,7 +63,7 @@ class ConversationsViewController: SegueViewController {
     private lazy var conversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
-        }()
+    }()
 
     private struct Listener {
         static let Nickname = "ConversationsViewController.Nickname"
@@ -157,7 +157,7 @@ class ConversationsViewController: SegueViewController {
 
     private func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
             // 聊天界面的小头像
 
