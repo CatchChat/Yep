@@ -240,19 +240,21 @@ class ConversationsViewController: SegueViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+    var isFirstAppear = true
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        delay(0.5) { [weak self] in
-            self?.askForNotification()
+
+        if isFirstAppear {
+            delay(0.5) { [weak self] in
+                self?.askForNotification()
+            }
+
+            // 预先生成小头像
+            cacheInAdvance()
         }
 
-        // 预先生成小头像
-        cacheInAdvance()
+        isFirstAppear = false
     }
     
     private func askForNotification() {
