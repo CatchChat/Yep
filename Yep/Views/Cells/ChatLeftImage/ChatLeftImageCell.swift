@@ -164,6 +164,7 @@ class ChatLeftImageCell: ChatBaseCell {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
                         strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
 
+
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
@@ -189,6 +190,8 @@ class ChatLeftImageCell: ChatBaseCell {
 
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
+                        strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
+
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
@@ -215,6 +218,8 @@ class ChatLeftImageCell: ChatBaseCell {
 
                 if let strongSelf = self {
                     strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
+                    strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
+
                     strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                     strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
