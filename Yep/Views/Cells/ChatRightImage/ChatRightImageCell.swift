@@ -16,6 +16,11 @@ class ChatRightImageCell: ChatRightBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
+    lazy var messageImageMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble"))
+        return imageView
+    }()
+
     func makeUI() {
 
         let fullWidth = UIScreen.mainScreen().bounds.width
@@ -33,6 +38,7 @@ class ChatRightImageCell: ChatRightBaseCell {
         }
 
         messageImageView.tintColor = UIColor.rightBubbleTintColor()
+        messageImageView.maskView = messageImageMaskImageView
         
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -103,12 +109,14 @@ class ChatRightImageCell: ChatRightBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                let width = messageImagePreferredWidth
+                let width = min(messageImagePreferredWidth, 200)
                 
                 UIView.performWithoutAnimation { [weak self] in
 
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: strongSelf.bounds.height)
+                        strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
+
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
