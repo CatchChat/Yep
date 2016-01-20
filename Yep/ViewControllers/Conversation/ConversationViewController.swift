@@ -2147,7 +2147,8 @@ class ConversationViewController: BaseViewController {
 
                         let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
-                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+                        //let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+                        let newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
 
                         self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
 
