@@ -594,6 +594,21 @@ class ProfileViewController: SegueViewController {
 
             // 为空的话就要显示自己
             syncMyInfoAndDoFurtherAction {
+
+                // 提示没有 Skills
+                guard let
+                    myUserID = YepUserDefaults.userID.value,
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) else {
+                        return
+                }
+
+                if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
+
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        self?.pickSkills()
+                    }, cancelAction: {})
+                }
             }
 
             if let
@@ -757,21 +772,6 @@ class ProfileViewController: SegueViewController {
             }
 
             if profileUserIsMe {
-
-                // 提示没有 Skills
-
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-
-                        if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
-
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                                self?.pickSkills()
-                            }, cancelAction: {})
-                        }
-                }
 
                 // share my profile button
 
