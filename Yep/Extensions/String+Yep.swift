@@ -72,17 +72,12 @@ extension String {
 
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
-        println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
+        //println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
 
         guard index > 0 else {
             return nil
         }
 
-//        guard self.characters.count > index else {
-//            return nil
-//        }
-
-        //let index = startIndex.advancedBy(index)
         let nsRange = NSMakeRange(index, 0)
         guard let range = self.yep_rangeFromNSRange(nsRange) else {
             return nil
