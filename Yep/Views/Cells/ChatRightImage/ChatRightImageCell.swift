@@ -109,7 +109,7 @@ class ChatRightImageCell: ChatRightBaseCell {
             let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-                let width = min(messageImagePreferredWidth, 200)
+                let width = min(messageImagePreferredWidth, YepConfig.ChatCell.imageMaxWidth)
                 
                 UIView.performWithoutAnimation { [weak self] in
 
