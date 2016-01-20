@@ -18,6 +18,11 @@ class ChatLeftImageCell: ChatBaseCell {
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
+    lazy var messageImageMaskImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "left_tail_image_bubble"))
+        return imageView
+    }()
+
     func makeUI() {
 
         //let fullWidth = UIScreen.mainScreen().bounds.width
@@ -43,6 +48,7 @@ class ChatLeftImageCell: ChatBaseCell {
         }
 
         messageImageView.tintColor = UIColor.leftBubbleTintColor()
+        messageImageView.maskView = messageImageMaskImageView
 
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -156,6 +162,8 @@ class ChatLeftImageCell: ChatBaseCell {
 
                     if let strongSelf = self {
                         strongSelf.messageImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
+                        strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
+
                         strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
