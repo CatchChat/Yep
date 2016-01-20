@@ -47,11 +47,13 @@ extension String {
 
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
+        println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
+
         guard index > 0 else {
             return nil
         }
 
-        guard (self as NSString).length > index else {
+        guard self.characters.count > index else {
             return nil
         }
 
