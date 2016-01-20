@@ -396,9 +396,10 @@ class MessageToolbar: UIToolbar {
                 if let strongSelf = self {
                     draft.messageToolbarState = strongSelf.state.rawValue
 
-                    if strongSelf.state == .BeginTextInput || strongSelf.state == .TextInputing {
+                    //if strongSelf.state == .BeginTextInput || strongSelf.state == .TextInputing {
+                        println("strongSelf.messageTextView.text: \(strongSelf.messageTextView.text)")
                         draft.text = strongSelf.messageTextView.text
-                    }
+                    //}
                 }
             }
 
