@@ -506,6 +506,7 @@ extension MessageToolbar: UITextViewDelegate {
             if needDetectMention {
 
                 let currentLetterIndex = textView.selectedRange.location - 1
+                println("currentLetterIndex: \(currentLetterIndex)")
 
                 if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
                     //println("mentionWord: \(wordString), \(mentionWordRange)")
