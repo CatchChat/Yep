@@ -150,7 +150,7 @@ class ChatLeftImageCell: ChatBaseCell {
 
             if aspectRatio >= 1 {
 
-                let width = messageImagePreferredWidth
+                let width = min(messageImagePreferredWidth, 200)
                 
                 UIView.performWithoutAnimation { [weak self] in
 
