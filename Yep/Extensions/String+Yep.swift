@@ -45,17 +45,44 @@ extension String {
 
 extension String {
 
+    func yep_rangeFromNSRange(nsRange: NSRange) -> Range<Index>? {
+
+        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+
+        guard let from = String.Index(from16, within: self),
+            let to = String.Index(to16, within: self) else {
+                return nil
+        }
+
+        return from ..< to
+    }
+
+    func yep_NSRangeFromRange(range: Range<Index>) -> NSRange {
+
+        let utf16view = self.utf16
+        let from = String.UTF16View.Index(range.startIndex, within: utf16view)
+        let to = String.UTF16View.Index(range.endIndex, within: utf16view)
+
+        return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
+    }
+}
+
+extension String {
+
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
+
+        //println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
 
         guard index > 0 else {
             return nil
         }
 
-        guard (self as NSString).length > index else {
+        let nsRange = NSMakeRange(index, 0)
+        guard let range = self.yep_rangeFromNSRange(nsRange) else {
             return nil
         }
-
-        let index = startIndex.advancedBy(index)
+        let index = range.startIndex
 
         var wordString: String?
         var wordRange: Range<Index>?

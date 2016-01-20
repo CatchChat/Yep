@@ -13,6 +13,8 @@ import Navi
 import Crashlytics
 import SafariServices
 import Kingfisher
+import Proposer
+import CoreLocation
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -592,8 +594,22 @@ class ProfileViewController: SegueViewController {
 
             // 为空的话就要显示自己
             syncMyInfoAndDoFurtherAction {
+
+                // 提示没有 Skills
+                guard let
+                    myUserID = YepUserDefaults.userID.value,
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) else {
+                        return
+                }
+
+                if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
+
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        self?.pickSkills()
+                    }, cancelAction: {})
+                }
             }
-            
 
             if let
                 myUserID = YepUserDefaults.userID.value,
@@ -757,21 +773,6 @@ class ProfileViewController: SegueViewController {
 
             if profileUserIsMe {
 
-                // 提示没有 Skills
-
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-
-                        if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
-
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                                self?.pickSkills()
-                            }, cancelAction: {})
-                        }
-                }
-
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
@@ -787,6 +788,23 @@ class ProfileViewController: SegueViewController {
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
+        }
+
+        if profileUserIsMe {
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+                YepLocationService.turnOn()
+
+                YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
+
+                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Footer.rawValue)
+                    if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileFooterCell {
+                        cell.location = newLocation
+                    }
+                }
+
+            }, rejected: {
+                println("Yep can NOT get Location. :[\n")
+            })
         }
 
         #if DEBUG
@@ -1427,6 +1445,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
 
             cell.configureWithNickname(profileUser?.nickname ?? "", username: profileUser?.username, introduction: introductionText)
+
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    cell.location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
+                case .UserType(let user):
+                    cell.location = CLLocation(latitude: user.latitude, longitude: user.longitude)
+                }
+            }
 
             return cell
 

@@ -917,6 +917,7 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
+                //println("messageToolbar.messageTextView.text 1: \(messageToolbar.messageTextView.text)")
                 switch currentState {
 
                 case .BeginTextInput:
@@ -932,14 +933,17 @@ class ConversationViewController: BaseViewController {
                         self?.mentionView.hide()
                     }
 
-                    if let
-                        draft = self?.conversation.draft,
-                        state = MessageToolbarState(rawValue: draft.messageToolbarState) {
-                            messageToolbar.messageTextView.text = draft.text
+                    if previousState != .TextInputing {
+                        if let
+                            draft = self?.conversation.draft,
+                            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                                messageToolbar.messageTextView.text = draft.text
+                        }
                     }
                 }
 
                 if previousState != currentState {
+                    //println("messageToolbar.messageTextView.text 2: \(messageToolbar.messageTextView.text)")
                     NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
                 }
             }
@@ -2143,7 +2147,18 @@ class ConversationViewController: BaseViewController {
 
                         let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
-                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+                        //let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                        let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
+
+                        let newContentOffsetY: CGFloat
+                        if extraPart > 0 {
+                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
+                        } else {
+                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y
+                        }
+
+                        //println("extraPart: \(extraPart), newContentOffsetY: \(newContentOffsetY)")
 
                         self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
 

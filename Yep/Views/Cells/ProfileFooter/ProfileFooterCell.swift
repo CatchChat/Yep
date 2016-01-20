@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ProfileFooterCell: UICollectionViewCell {
 
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+
+    @IBOutlet weak var locationContainerView: UIView!
+    @IBOutlet weak var locationLabel: UILabel!
 
     @IBOutlet weak var introductionLabel: UILabel!
     @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
@@ -25,6 +29,8 @@ class ProfileFooterCell: UICollectionViewCell {
 
         introductionLabel.font = YepConfig.Profile.introductionLabelFont
         introductionLabel.textColor = UIColor.yepGrayColor()
+
+        locationContainerView.hidden = true
     }
 
     func configureWithNickname(nickname: String, username: String?, introduction: String) {
@@ -38,5 +44,39 @@ class ProfileFooterCell: UICollectionViewCell {
         }
 
         introductionLabel.text = introduction
+    }
+
+    var location: CLLocation? {
+        didSet {
+            if let location = location {
+
+                // 优化，减少反向查询
+                if let oldLocation = oldValue {
+                    let distance = location.distanceFromLocation(oldLocation)
+                    if distance < YepConfig.Location.distanceThreshold {
+                        return
+                    }
+                }
+
+                locationLabel.text = ""
+
+                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        if (error != nil) {
+                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
+                            self?.location = nil
+                        }
+
+                        if let placemarks = placemarks {
+                            if let firstPlacemark = placemarks.first {
+                                self?.locationContainerView.hidden = false
+                                self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                            }
+                        }
+                    }
+                })
+            }
+        }
     }
 }
