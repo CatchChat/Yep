@@ -28,6 +28,8 @@ class ProfileHeaderCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        locationLabel.hidden = true
     }
 
     var blurredAvatarImage: UIImage? {
