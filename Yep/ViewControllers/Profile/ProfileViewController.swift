@@ -13,6 +13,7 @@ import Navi
 import Crashlytics
 import SafariServices
 import Kingfisher
+import Proposer
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -593,7 +594,6 @@ class ProfileViewController: SegueViewController {
             // 为空的话就要显示自己
             syncMyInfoAndDoFurtherAction {
             }
-            
 
             if let
                 myUserID = YepUserDefaults.userID.value,
@@ -787,6 +787,23 @@ class ProfileViewController: SegueViewController {
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
+        }
+
+        if profileUserIsMe {
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+                YepLocationService.turnOn()
+
+                YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
+
+                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Footer.rawValue)
+                    if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileFooterCell {
+                        cell.location = newLocation
+                    }
+                }
+
+            }, rejected: {
+                println("Yep can NOT get Location. :[\n")
+            })
         }
 
         #if DEBUG

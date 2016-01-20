@@ -36,6 +36,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
+    /*
     var location: CLLocation? {
         didSet {
             if let location = location {
@@ -68,17 +69,19 @@ class ProfileHeaderCell: UICollectionViewCell {
             }
         }
     }
+    */
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
-        location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
+        //location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
     }
 
     func configureWithUser(user: User) {
 
         updateAvatarWithAvatarURLString(user.avatarURLString)
 
+        /*
         if user.friendState == UserFriendState.Me.rawValue {
 
             if !askedForPermission {
@@ -101,6 +104,7 @@ class ProfileHeaderCell: UICollectionViewCell {
         }
 
         location = CLLocation(latitude: user.latitude, longitude: user.longitude)
+        */
     }
 
     func blurImage(image: UIImage, completion: UIImage -> Void) {

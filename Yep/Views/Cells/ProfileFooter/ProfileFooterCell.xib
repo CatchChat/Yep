@@ -74,6 +74,8 @@
                 <outlet property="instroductionLabelLeftConstraint" destination="HPJ-WR-pZU" id="jFC-zO-l0X"/>
                 <outlet property="instroductionLabelRightConstraint" destination="Grg-4P-8QR" id="UCI-Hb-Phd"/>
                 <outlet property="introductionLabel" destination="5Yw-Z7-Wv4" id="2To-TB-hWM"/>
+                <outlet property="locationContainerView" destination="q7V-Cn-Anl" id="gd6-24-ezX"/>
+                <outlet property="locationLabel" destination="azE-9R-4mk" id="ei5-vp-90U"/>
                 <outlet property="nicknameLabel" destination="NxA-Mj-WGn" id="KJe-zP-OW6"/>
                 <outlet property="usernameLabel" destination="jnP-ym-ZBH" id="e49-HD-LL1"/>
             </connections>
