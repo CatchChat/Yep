@@ -14,6 +14,7 @@ import Crashlytics
 import SafariServices
 import Kingfisher
 import Proposer
+import CoreLocation
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -1444,6 +1445,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
 
             cell.configureWithNickname(profileUser?.nickname ?? "", username: profileUser?.username, introduction: introductionText)
+
+            if let profileUser = profileUser {
+                switch profileUser {
+                case .DiscoveredUserType(let discoveredUser):
+                    cell.location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
+                case .UserType(let user):
+                    cell.location = CLLocation(latitude: user.latitude, longitude: user.longitude)
+                }
+            }
 
             return cell
 
