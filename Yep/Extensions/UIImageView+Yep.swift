@@ -62,6 +62,27 @@ extension UIImageView {
     }
 }
 
+/*
+// MARK: - Message
+
+private var messageImageURLKey: Void?
+
+extension UIImageView {
+
+    private var yep_messageImageURL: NSURL? {
+        return objc_getAssociatedObject(self, &messageImageURLKey) as? NSURL
+    }
+
+    private func yep_setMessageImageURL(URL: NSURL) {
+        objc_setAssociatedObject(self, &messageImageURLKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    func yep_setImageOfMessage(message: Message, withSize size: CGSize) {
+
+    }
+}
+*/
+
 // MARK: - AttachmentURL
 
 private var attachmentURLKey: Void?

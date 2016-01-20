@@ -67,12 +67,20 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                    self?.messageImageView.image = image
+//                    self?.messageImageView.image = image
+//
+//                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+//                        self?.messageImageView.alpha = 1.0
+//                    }, completion: { (finished) -> Void in
+//                    })
 
-                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
-                        self?.messageImageView.alpha = 1.0
-                    }, completion: { (finished) -> Void in
-                    })
+                    guard let strongSelf = self else {
+                        return
+                    }
+
+                    UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
+                        strongSelf.messageImageView.image = image
+                    }, completion: nil)
                 }
             }
         }
@@ -96,10 +104,9 @@ class ChatRightImageCell: ChatRightBaseCell {
 
         loadingProgress = 0
         
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.messageImageView.alpha = 0.0
-        }
-    
+//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+//            self?.messageImageView.alpha = 0.0
+//        }
 
         if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
 
