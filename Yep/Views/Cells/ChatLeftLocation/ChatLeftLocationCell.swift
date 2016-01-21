@@ -19,6 +19,8 @@ class ChatLeftLocationCell: ChatBaseCell {
     lazy var locationNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.whiteColor()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textAlignment = .Center
         return label
     }()
 
