@@ -3358,7 +3358,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         var bubbleFrame = CGRectZero
 
         if let cell = cell as? ChatLeftTextCell {
-            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+            bubbleFrame = cell.convertRect(cell.textContentTextView.frame, toView: view)
 
         } else if let cell = cell as? ChatRightTextCell {
             bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
