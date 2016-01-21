@@ -29,6 +29,8 @@ class ChatLeftVideoCell: ChatBaseCell {
 
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        view.hidden = true
+        view.backgroundColor = UIColor.clearColor()
         return view
     }()
 
