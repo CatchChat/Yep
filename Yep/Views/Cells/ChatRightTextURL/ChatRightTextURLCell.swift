@@ -42,6 +42,8 @@ class ChatRightTextURLCell: ChatRightTextCell {
 
     override func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
 
+        bottomGap = 100 + 10
+
         super.configureWithMessage(message, textContentLabelWidth: textContentLabelWidth, mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
 
         let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value

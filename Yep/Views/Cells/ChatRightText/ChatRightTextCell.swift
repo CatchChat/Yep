@@ -50,6 +50,8 @@ class ChatRightTextCell: ChatRightBaseCell {
         return view
     }()
 
+    var bottomGap: CGFloat = 0
+
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -133,7 +135,7 @@ class ChatRightTextCell: ChatRightBaseCell {
 
                 strongSelf.makeUI()
                 
-                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2)
+                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2 - strongSelf.bottomGap)
 
                 strongSelf.textContentTextView.frame = strongSelf.textContainerView.bounds
                 

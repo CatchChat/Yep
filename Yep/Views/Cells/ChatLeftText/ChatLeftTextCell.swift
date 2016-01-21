@@ -45,6 +45,8 @@ class ChatLeftTextCell: ChatBaseCell {
         return view
     }()
 
+    var bottomGap: CGFloat = 0
+
     func makeUI() {
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
@@ -127,7 +129,7 @@ class ChatLeftTextCell: ChatBaseCell {
                     topOffset = 0
                 }
 
-                let textContentTextViewFrame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2)
+                let textContentTextViewFrame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2 - strongSelf.bottomGap)
 
                 strongSelf.textContentTextView.frame = textContentTextViewFrame
 
