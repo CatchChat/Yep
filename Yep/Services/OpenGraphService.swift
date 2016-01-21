@@ -32,7 +32,13 @@ struct OpenGraph {
     var previewAudioURLString: String?
 
     var isValid: Bool {
-        guard (siteName != nil) && (title != nil) && (description != nil) && (previewImageURLString != nil) else {
+
+        guard
+            let siteName = siteName?.trimming(.WhitespaceAndNewline) where !siteName.isEmpty,
+            let title = title?.trimming(.WhitespaceAndNewline) where !title.isEmpty,
+            let description = description?.trimming(.WhitespaceAndNewline) where !description.isEmpty,
+            let _ = previewImageURLString
+        else {
             return false
         }
 
