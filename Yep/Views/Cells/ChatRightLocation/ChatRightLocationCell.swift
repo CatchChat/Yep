@@ -11,9 +11,24 @@ import MapKit
 
 class ChatRightLocationCell: ChatRightBaseCell {
 
-    @IBOutlet weak var mapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
-    @IBOutlet weak var borderImageView: UIImageView!
+    lazy var mapImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.tintColor = UIColor.rightBubbleTintColor()
+        return imageView
+    }()
+
+    lazy var locationNameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textAlignment = .Center
+        return label
+    }()
+
+    lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        return imageView
+    }()
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -34,26 +49,30 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
         locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
-        //locationNameLabel.backgroundColor = UIColor.redColor().colorWithAlphaComponent(0.1)
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(mapImageView)
+        contentView.addSubview(locationNameLabel)
+        contentView.addSubview(borderImageView)
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
 
-        mapImageView.tintColor = UIColor.rightBubbleTintColor()
-        locationNameLabel.textColor = UIColor.whiteColor()
-
         mapImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         mapImageView.addGestureRecognizer(tap)
-        
+
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func tapMediaView() {
