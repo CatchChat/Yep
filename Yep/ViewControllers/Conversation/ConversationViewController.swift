@@ -3382,7 +3382,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         } else if let cell = cell as? ChatRightTextCell {
             bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
 
-        }  else if let cell = cell as? ChatLeftImageCell {
+        } else if let cell = cell as? ChatLeftTextURLCell {
+            bubbleFrame = cell.convertRect(cell.textContentTextView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightTextURLCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftImageCell {
             bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
         } else if let cell = cell as? ChatRightImageCell {
