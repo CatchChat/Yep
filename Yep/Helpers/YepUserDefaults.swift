@@ -26,6 +26,8 @@ let feedSortStyleKey = "feedSortStyle"
 let latitudeShiftKey = "latitudeShift"
 let longitudeShiftKey = "longitudeShift"
 
+let userLocationNameKey = "userLocationName"
+
 struct Listener<T>: Hashable {
     let name: String
 
@@ -118,6 +120,7 @@ class YepUserDefaults {
         feedSortStyle.removeAllListeners()
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
+        userLocationName.removeAllListeners()
 
         defaults.removeObjectForKey(v1AccessTokenKey)
         defaults.removeObjectForKey(userIDKey)
@@ -132,6 +135,7 @@ class YepUserDefaults {
         defaults.removeObjectForKey(feedSortStyleKey)
         defaults.removeObjectForKey(latitudeShiftKey)
         defaults.removeObjectForKey(longitudeShiftKey)
+        defaults.removeObjectForKey(userLocationNameKey)
 
         defaults.synchronize()
     }
@@ -337,6 +341,14 @@ class YepUserDefaults {
 
         return Listenable<Double?>(longitudeShift) { longitudeShift in
             defaults.setObject(longitudeShift, forKey: longitudeShiftKey)
+        }
+    }()
+
+    static var userLocationName: Listenable<String?> = {
+        let userLocationName = defaults.stringForKey(userLocationNameKey)
+
+        return Listenable<String?>(userLocationName) { userLocationName in
+            defaults.setObject(userLocationName, forKey: userLocationNameKey)
         }
     }()
 }
