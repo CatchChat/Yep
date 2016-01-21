@@ -22,6 +22,9 @@ class ChatTextView: UITextView {
         super.didMoveToSuperview()
 
         self.delegate = self
+
+        editable = false
+        dataDetectorTypes = [.Link, .PhoneNumber, .CalendarEvent]
     }
 
     override var text: String! {
