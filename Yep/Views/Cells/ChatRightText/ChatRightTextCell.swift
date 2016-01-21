@@ -33,6 +33,8 @@ class ChatRightTextCell: ChatRightBaseCell {
     lazy var textContentTextView: ChatTextView = {
         let view = ChatTextView()
 
+        view.textContainer.lineFragmentPadding = 0
+        view.font = UIFont.chatTextFont()
         view.backgroundColor = UIColor.clearColor()
         view.textColor = UIColor.whiteColor()
         view.tintColor = UIColor.whiteColor()
@@ -66,6 +68,10 @@ class ChatRightTextCell: ChatRightBaseCell {
         contentView.addSubview(bubbleTailImageView)
         contentView.addSubview(textContainerView)
         textContainerView.addSubview(textContentTextView)
+
+        if let bubblePosition = layer.sublayers {
+            contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+        }
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
