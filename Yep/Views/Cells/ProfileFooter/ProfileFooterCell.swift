@@ -58,7 +58,8 @@ class ProfileFooterCell: UICollectionViewCell {
                     }
                 }
 
-                locationLabel.text = ""
+                locationContainerView.hidden = false
+                locationLabel.text = YepUserDefaults.userLocationName.value
 
                 CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
@@ -71,7 +72,9 @@ class ProfileFooterCell: UICollectionViewCell {
                         if let placemarks = placemarks {
                             if let firstPlacemark = placemarks.first {
                                 self?.locationContainerView.hidden = false
-                                self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                                let name = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                                YepUserDefaults.userLocationName.value = name
+                                self?.locationLabel.text = name
                             }
                         }
                     }
