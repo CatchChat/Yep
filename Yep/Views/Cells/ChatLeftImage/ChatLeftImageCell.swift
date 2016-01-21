@@ -10,10 +10,23 @@ import UIKit
 
 class ChatLeftImageCell: ChatBaseCell {
 
-    @IBOutlet weak var messageImageView: UIImageView!
-    @IBOutlet weak var borderImageView: UIImageView!
+    lazy var messageImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.tintColor = UIColor.leftBubbleTintColor()
+        imageView.maskView = self.messageImageMaskImageView
+        return imageView
+    }()
 
-    @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
+    lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "left_tail_image_bubble_border"))
+        return imageView
+    }()
+
+    lazy var loadingProgressView: MessageLoadingProgressView = {
+        let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        return view
+    }()
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -24,8 +37,6 @@ class ChatLeftImageCell: ChatBaseCell {
     }()
 
     func makeUI() {
-
-        //let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
         
@@ -40,23 +51,28 @@ class ChatLeftImageCell: ChatBaseCell {
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(messageImageView)
+        contentView.addSubview(borderImageView)
+        contentView.addSubview(loadingProgressView)
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
 
-        messageImageView.tintColor = UIColor.leftBubbleTintColor()
-        messageImageView.maskView = messageImageMaskImageView
-
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         messageImageView.addGestureRecognizer(tap)
-        
+
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func tapMediaView() {
