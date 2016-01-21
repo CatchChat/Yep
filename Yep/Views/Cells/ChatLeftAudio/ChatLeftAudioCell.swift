@@ -30,18 +30,45 @@ class ChatLeftAudioCell: ChatBaseCell {
         }
     }
 
-    @IBOutlet weak var audioContainerView: UIView!
+    lazy var audioContainerView: UIView = {
+        let view = UIView()
+        return view
+    }()
 
-    @IBOutlet weak var bubbleImageView: UIImageView!
-    
-    @IBOutlet weak var sampleView: SampleView!
+    lazy var bubbleImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "left_tail_bubble"))
+        imageView.tintColor = UIColor.leftBubbleTintColor()
+        return imageView
+    }()
 
-    @IBOutlet weak var audioDurationLabel: UILabel!
+    lazy var sampleView: SampleView = {
+        let view = SampleView()
+        view.sampleColor = UIColor.leftWaveColor()
+        return view
+    }()
 
-    @IBOutlet weak var playButton: UIButton!
-    
-    @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
-    
+    lazy var audioDurationLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.blackColor()
+        return label
+    }()
+
+    lazy var playButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "icon_play"), forState: .Normal)
+
+        button.userInteractionEnabled = false
+        button.tintColor = UIColor.darkGrayColor()
+        button.tintAdjustmentMode = .Normal
+
+        return button
+    }()
+
+    lazy var loadingProgressView: MessageLoadingProgressView = {
+        let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        return view
+    }()
+
     typealias AudioBubbleTapAction = () -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
 
@@ -60,8 +87,6 @@ class ChatLeftAudioCell: ChatBaseCell {
 
     func makeUI() {
 
-        //let fullWidth = UIScreen.mainScreen().bounds.width
-
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
         
         var topOffset: CGFloat = 0
@@ -71,35 +96,35 @@ class ChatLeftAudioCell: ChatBaseCell {
         } else {
             topOffset = 0
         }
-        
 
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(audioContainerView)
+        audioContainerView.addSubview(bubbleImageView)
+        audioContainerView.addSubview(playButton)
+        audioContainerView.addSubview(loadingProgressView)
+        audioContainerView.addSubview(sampleView)
+        audioContainerView.addSubview(audioDurationLabel)
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
 
-        bubbleImageView.tintColor = UIColor.leftBubbleTintColor()
-
-        sampleView.sampleColor = UIColor.leftWaveColor()
-
-        audioDurationLabel.textColor = UIColor.blackColor()
-
-        playButton.userInteractionEnabled = false
-        playButton.tintColor = UIColor.darkGrayColor()
-        playButton.tintAdjustmentMode = .Normal
-
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleImageView.addGestureRecognizer(tap)
-        
+
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func tapMediaView() {
