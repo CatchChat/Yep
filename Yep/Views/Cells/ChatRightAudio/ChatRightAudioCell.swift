@@ -47,7 +47,8 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
     lazy var audioDurationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.blackColor()
+        label.textAlignment = .Center
+        label.textColor = UIColor.whiteColor()
         return label
     }()
 
@@ -164,6 +165,11 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
                 audioDurationLabel.text = ""
             }
+
+            bubbleImageView.frame = audioContainerView.bounds
+            playButton.frame = CGRect(x: 6, y: 5, width: 30, height: 30)
+            sampleView.frame = CGRect(x: 41, y: 0, width: audioContainerView.bounds.width - 60, height: audioContainerView.bounds.height)
+            audioDurationLabel.frame = sampleView.frame
 
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
                 if audioPlayer.playing {

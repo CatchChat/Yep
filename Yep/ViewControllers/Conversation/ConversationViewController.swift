@@ -705,7 +705,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerClass(ChatRightAudioCell.self, forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
 
         conversationCollectionView.registerClass(ChatLeftVideoCell.self, forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightVideoCell.self, forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightVideoCell.self, forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
 
         conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
