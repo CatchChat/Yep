@@ -67,7 +67,7 @@ class ChatBaseCell: UICollectionViewCell {
 
     var inGroup = false
 
-    func tapAvatar() {
+    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
         println("tapAvatar")
 
         if let user = user {
