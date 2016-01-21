@@ -36,6 +36,38 @@ class ProfileFooterCell: UICollectionViewCell {
         YepUserDefaults.userLocationName.removeListenerWithName(listener.userLocationName)
     }
 
+    private func updateUIWithUserLocationName(userLocationName: String?) {
+
+        if let userLocationName = userLocationName {
+            locationContainerView.hidden = false
+            locationLabel.text = userLocationName
+
+        } else {
+            locationContainerView.hidden = true
+        }
+    }
+
+    var profileUserIsMe = false {
+        didSet {
+            if profileUserIsMe {
+                YepUserDefaults.userLocationName.bindAndFireListener(listener.userLocationName, action: { [weak self] userLocationName in
+                    self?.updateUIWithUserLocationName(userLocationName)
+                })
+            }
+        }
+    }
+
+    var newUserLocationName: String? {
+        didSet {
+            if profileUserIsMe {
+                YepUserDefaults.userLocationName.value = newUserLocationName
+
+            } else {
+                updateUIWithUserLocationName(newUserLocationName)
+            }
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -45,19 +77,24 @@ class ProfileFooterCell: UICollectionViewCell {
         introductionLabel.font = YepConfig.Profile.introductionLabelFont
         introductionLabel.textColor = UIColor.yepGrayColor()
 
-        YepUserDefaults.userLocationName.bindAndFireListener(listener.userLocationName, action: { [weak self] userLocationName in
-
-            if let userLocationName = userLocationName {
-                self?.locationContainerView.hidden = false
-                self?.locationLabel.text = userLocationName
-
-            } else {
-                self?.locationContainerView.hidden = true
-            }
-        })
+        newUserLocationName = nil
     }
 
-    func configureWithNickname(nickname: String, username: String?, introduction: String) {
+    func configureWithProfileUser(profileUser: ProfileUser, introduction: String) {
+
+        profileUserIsMe = profileUser.isMe
+
+        configureWithNickname(profileUser.nickname ?? "", username: profileUser.username, introduction: introduction)
+
+        switch profileUser {
+        case .DiscoveredUserType(let discoveredUser):
+            location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
+        case .UserType(let user):
+            location = CLLocation(latitude: user.latitude, longitude: user.longitude)
+        }
+    }
+
+    private func configureWithNickname(nickname: String, username: String?, introduction: String) {
 
         nicknameLabel.text = nickname
 
@@ -92,8 +129,7 @@ class ProfileFooterCell: UICollectionViewCell {
 
                         if let placemarks = placemarks {
                             if let firstPlacemark = placemarks.first {
-                                let name = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-                                YepUserDefaults.userLocationName.value = name
+                                self?.newUserLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
                             }
                         }
                     }
