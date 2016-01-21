@@ -48,7 +48,14 @@ class ProfileFooterCell: UICollectionViewCell {
         }
     }
 
-    var userID: String?
+    var userID: String? {
+        didSet {
+            if let userID = userID, realm = try? Realm(), userLocationName = UserLocationName.withUserID(userID, inRealm: realm) {
+                newLocationName = userLocationName.locationName
+            }
+        }
+    }
+
     var profileUserIsMe = false {
         didSet {
             if profileUserIsMe {
