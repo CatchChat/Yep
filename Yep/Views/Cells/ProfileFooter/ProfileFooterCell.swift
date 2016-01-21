@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import RealmSwift
 
 class ProfileFooterCell: UICollectionViewCell {
 
@@ -36,7 +37,7 @@ class ProfileFooterCell: UICollectionViewCell {
         YepUserDefaults.userLocationName.removeListenerWithName(listener.userLocationName)
     }
 
-    private func updateUIWithUserLocationName(userLocationName: String?) {
+    private func updateUIWithLocationName(userLocationName: String?) {
 
         if let userLocationName = userLocationName {
             locationContainerView.hidden = false
@@ -47,23 +48,33 @@ class ProfileFooterCell: UICollectionViewCell {
         }
     }
 
+    var userID: String?
     var profileUserIsMe = false {
         didSet {
             if profileUserIsMe {
                 YepUserDefaults.userLocationName.bindAndFireListener(listener.userLocationName, action: { [weak self] userLocationName in
-                    self?.updateUIWithUserLocationName(userLocationName)
+                    self?.updateUIWithLocationName(userLocationName)
                 })
             }
         }
     }
 
-    var newUserLocationName: String? {
+    var newLocationName: String? {
         didSet {
             if profileUserIsMe {
-                YepUserDefaults.userLocationName.value = newUserLocationName
+                YepUserDefaults.userLocationName.value = newLocationName
 
             } else {
-                updateUIWithUserLocationName(newUserLocationName)
+                updateUIWithLocationName(newLocationName)
+            }
+
+            // save it
+            if let realm = try? Realm(), userID = userID, locationName = newLocationName {
+                let userLocationName = UserLocationName(userID: userID, locationName: locationName)
+
+                let _ = try? realm.write {
+                    realm.add(userLocationName, update: true)
+                }
             }
         }
     }
@@ -77,11 +88,12 @@ class ProfileFooterCell: UICollectionViewCell {
         introductionLabel.font = YepConfig.Profile.introductionLabelFont
         introductionLabel.textColor = UIColor.yepGrayColor()
 
-        newUserLocationName = nil
+        newLocationName = nil
     }
 
     func configureWithProfileUser(profileUser: ProfileUser, introduction: String) {
 
+        userID = profileUser.userID
         profileUserIsMe = profileUser.isMe
 
         configureWithNickname(profileUser.nickname ?? "", username: profileUser.username, introduction: introduction)
@@ -129,7 +141,7 @@ class ProfileFooterCell: UICollectionViewCell {
 
                         if let placemarks = placemarks {
                             if let firstPlacemark = placemarks.first {
-                                self?.newUserLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                                self?.newLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
                             }
                         }
                     }
