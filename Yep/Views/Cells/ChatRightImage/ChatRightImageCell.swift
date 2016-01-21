@@ -10,8 +10,18 @@ import UIKit
 
 class ChatRightImageCell: ChatRightBaseCell {
 
-    @IBOutlet weak var messageImageView: UIImageView!
-    @IBOutlet weak var borderImageView: UIImageView!
+    lazy var messageImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.tintColor = UIColor.rightBubbleTintColor()
+        imageView.maskView = self.messageImageMaskImageView
+        return imageView
+    }()
+
+    lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        return imageView
+    }()
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -30,16 +40,16 @@ class ChatRightImageCell: ChatRightBaseCell {
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(messageImageView)
+        contentView.addSubview(borderImageView)
+
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
 
-        messageImageView.tintColor = UIColor.rightBubbleTintColor()
-        messageImageView.maskView = messageImageMaskImageView
-        
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         messageImageView.addGestureRecognizer(tap)
@@ -47,6 +57,10 @@ class ChatRightImageCell: ChatRightBaseCell {
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func tapMediaView() {

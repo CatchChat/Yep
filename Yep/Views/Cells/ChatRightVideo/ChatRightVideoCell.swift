@@ -10,10 +10,22 @@ import UIKit
 
 class ChatRightVideoCell: ChatRightBaseCell {
 
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var borderImageView: UIImageView!
+    lazy var thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.tintColor = UIColor.rightBubbleTintColor()
+        return imageView
+    }()
 
-    @IBOutlet weak var playImageView: UIImageView!
+    lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        return imageView
+    }()
+
+    lazy var playImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_playvideo"))
+        return imageView
+    }()
 
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
@@ -27,14 +39,16 @@ class ChatRightVideoCell: ChatRightBaseCell {
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(thumbnailImageView)
+        contentView.addSubview(borderImageView)
+        contentView.addSubview(playImageView)
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
-
-        thumbnailImageView.tintColor = UIColor.rightBubbleTintColor()
 
         thumbnailImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -43,6 +57,10 @@ class ChatRightVideoCell: ChatRightBaseCell {
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func tapMediaView() {
