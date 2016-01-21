@@ -49,6 +49,7 @@ class ChatLeftAudioCell: ChatBaseCell {
 
     lazy var audioDurationLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .Center
         label.textColor = UIColor.blackColor()
         return label
     }()
@@ -66,6 +67,8 @@ class ChatLeftAudioCell: ChatBaseCell {
 
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        view.hidden = true
+        view.backgroundColor = UIColor.clearColor()
         return view
     }()
 
@@ -199,6 +202,12 @@ class ChatLeftAudioCell: ChatBaseCell {
 
                 audioDurationLabel.text = ""
             }
+
+            bubbleImageView.frame = audioContainerView.bounds
+            playButton.frame = CGRect(x: 13, y: 5, width: 30, height: 30)
+            loadingProgressView.frame = playButton.frame
+            sampleView.frame = CGRect(x: 48, y: 0, width: audioContainerView.bounds.width - 60, height: audioContainerView.bounds.height)
+            audioDurationLabel.frame = sampleView.frame
             
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
                 if audioPlayer.playing {
