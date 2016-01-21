@@ -130,16 +130,19 @@ struct OpenGraph {
                 }
 
                 if openGraph.title == nil {
-                    let title = doc.head?.css("title").first?.text
-                    openGraph.title = title
+                    if let title = doc.head?.css("title").first?.text where !title.isEmpty {
+                        openGraph.title = title
+                    }
                 }
 
                 if openGraph.description == nil {
                     for meta in metaSet {
                         if let name = meta["name"]?.lowercaseString {
                             if name == "description" {
-                                openGraph.description = meta["content"]
-                                break
+                                if let description = meta["content"] where !description.isEmpty {
+                                    openGraph.description = description
+                                    break
+                                }
                             }
                         }
                     }
@@ -147,6 +150,13 @@ struct OpenGraph {
 
                 if openGraph.previewImageURLString == nil {
                     openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
+                }
+
+                // 特别再补救一次 description
+
+                if openGraph.description == nil {
+                    let firstParagraph = doc.body?.css("p").first?.text
+                    openGraph.description = firstParagraph
                 }
 
                 // 再去除字符串中的换行
@@ -238,7 +248,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         }
 
         if let HTMLString = response.result.value, data = response.data {
-            //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
+            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
             var finalURL = URL
