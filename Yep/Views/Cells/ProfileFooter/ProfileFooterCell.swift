@@ -21,6 +21,21 @@ class ProfileFooterCell: UICollectionViewCell {
     @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
 
+    private struct Listener {
+        let userLocationName: String
+    }
+
+    private lazy var listener: Listener = {
+
+        let suffix = NSUUID().UUIDString
+
+        return Listener(userLocationName: "ProfileFooterCell.userLocationName" + suffix)
+    }()
+
+    deinit {
+        YepUserDefaults.userLocationName.removeListenerWithName(listener.userLocationName)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -30,7 +45,16 @@ class ProfileFooterCell: UICollectionViewCell {
         introductionLabel.font = YepConfig.Profile.introductionLabelFont
         introductionLabel.textColor = UIColor.yepGrayColor()
 
-        locationContainerView.hidden = true
+        YepUserDefaults.userLocationName.bindAndFireListener(listener.userLocationName, action: { [weak self] userLocationName in
+
+            if let userLocationName = userLocationName {
+                self?.locationContainerView.hidden = false
+                self?.locationLabel.text = userLocationName
+
+            } else {
+                self?.locationContainerView.hidden = true
+            }
+        })
     }
 
     func configureWithNickname(nickname: String, username: String?, introduction: String) {
@@ -58,9 +82,6 @@ class ProfileFooterCell: UICollectionViewCell {
                     }
                 }
 
-                locationContainerView.hidden = false
-                locationLabel.text = YepUserDefaults.userLocationName.value
-
                 CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -71,10 +92,8 @@ class ProfileFooterCell: UICollectionViewCell {
 
                         if let placemarks = placemarks {
                             if let firstPlacemark = placemarks.first {
-                                self?.locationContainerView.hidden = false
                                 let name = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
                                 YepUserDefaults.userLocationName.value = name
-                                self?.locationLabel.text = name
                             }
                         }
                     }
