@@ -12,7 +12,6 @@ class ChatLeftLocationCell: ChatBaseCell {
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
         imageView.tintColor = UIColor.leftBubbleTintColor()
         return imageView
     }()
@@ -102,18 +101,6 @@ class ChatLeftLocationCell: ChatBaseCell {
         let locationName = message.textContent
 
         locationNameLabel.text = locationName
-        
-        var shouldAdd = false
-        for view in subviews {
-            if view.isKindOfClass(UILabel) {
-                shouldAdd = true
-                break
-            }
-        }
-        
-        if shouldAdd {
-            addSubview(locationNameLabel)
-        }
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
             dispatch_async(dispatch_get_main_queue()) {

@@ -13,7 +13,6 @@ class ChatRightLocationCell: ChatRightBaseCell {
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
         imageView.tintColor = UIColor.rightBubbleTintColor()
         return imageView
     }()
