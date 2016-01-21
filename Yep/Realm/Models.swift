@@ -943,6 +943,31 @@ class OfflineJSON: Object {
     }
 }
 
+class UserLocationName: Object {
+
+    dynamic var userID: String = ""
+    dynamic var locationName: String = ""
+
+    override class func primaryKey() -> String? {
+        return "userID"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["userID"]
+    }
+
+    convenience init(userID: String, locationName: String) {
+        self.init()
+
+        self.userID = userID
+        self.locationName = locationName
+    }
+
+    class func withUserID(userID: String, inRealm realm: Realm) -> UserLocationName? {
+        return realm.objects(UserLocationName).filter("userID = %@", userID).first
+    }
+}
+
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
