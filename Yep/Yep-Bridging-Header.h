@@ -3,7 +3,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "APService.h"
+#import "JPUSHService.h"
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
 #import "GAIFields.h"
