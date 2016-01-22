@@ -135,6 +135,7 @@
 		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
 		5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E321C47A8FE0024FC63 /* libz.tbd */; };
+		505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5052620F1C52050700292C6A /* ConcurrentOperation.swift */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; };
 		50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */; };
 		50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */; };
@@ -505,6 +506,7 @@
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
+		5052620F1C52050700292C6A /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcurrentOperation.swift; path = Operations/ConcurrentOperation.swift; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
 		50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickPhotosViewController.swift; path = ViewControllers/PickPhotos/PickPhotosViewController.swift; sourceTree = "<group>"; };
 		50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCacheController.swift; path = ViewControllers/PickPhotos/ImageCacheController.swift; sourceTree = "<group>"; };
@@ -853,6 +855,7 @@
 				5023DE571AB6CA1400B3EE96 /* Caches */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				50DBDEF21C48C2290044E21B /* Protocols */,
+				5052620E1C5202C700292C6A /* Operations */,
 				504F5E721BA034BB006CE418 /* Activities */,
 				5023DE391AB6979C00B3EE96 /* Views */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
@@ -1564,6 +1567,14 @@
 				504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */,
 			);
 			name = DiscoverFilter;
+			sourceTree = "<group>";
+		};
+		5052620E1C5202C700292C6A /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				5052620F1C52050700292C6A /* ConcurrentOperation.swift */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 		50535D1B1BCD19B4002FE1A4 /* TouchClosures */ = {
@@ -2686,6 +2697,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
