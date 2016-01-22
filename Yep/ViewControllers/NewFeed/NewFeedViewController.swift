@@ -647,9 +647,9 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
-        uploadState = .Uploading
-
         if !again {
+            uploadState = .Uploading
+
             if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
