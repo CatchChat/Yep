@@ -755,10 +755,8 @@ class NewFeedViewController: SegueViewController {
 
             let uploadImagesQueue = NSOperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
-            //let uploadImagesGroup = dispatch_group_create()
 
             var uploadAttachmentIDs = [String]()
-
             let mediaImagesCount = mediaImages.count
             var uploadErrorMessage: String?
 
@@ -784,12 +782,8 @@ class NewFeedViewController: SegueViewController {
 
                 if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
 
-                    //dispatch_group_enter(uploadImagesGroup)
-
                     let source: UploadAttachment.Source = .Data(imageData)
-
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment)
@@ -802,25 +796,6 @@ class NewFeedViewController: SegueViewController {
                         }
                     }
                     uploadAttachmentOperations.append(operation)
-                    /*
-                    tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadErrorMessage = errorMessage
-                            dispatch_group_leave(uploadImagesGroup)
-                        }
-                        
-                    }, completion: { uploadAttachmentID in
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadAttachmentIDs.append(uploadAttachmentID)
-
-                            dispatch_group_leave(uploadImagesGroup)
-                        }
-                    })
-                    */
                 }
             })
 
@@ -860,31 +835,6 @@ class NewFeedViewController: SegueViewController {
 
             uploadImagesQueue.addOperations(uploadAttachmentOperations, waitUntilFinished: false)
             uploadImagesQueue.addOperation(uploadFinishOperation)
-
-            /*
-            dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) { [weak self] in
-
-                guard uploadAttachmentIDs.count == mediaImagesCount else {
-                    let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
-                    self?.uploadState = .Failed(message: message)
-
-                    return
-                }
-
-                if !uploadAttachmentIDs.isEmpty {
-
-                    let imageInfos: [JSONDictionary] = uploadAttachmentIDs.map({
-                        ["id": $0]
-                    })
-
-                    attachments = imageInfos
-
-                    kind = .Image
-                }
-
-                tryCreateFeed()
-            }
-            */
 
         case .SocialWork(let socialWork):
 
