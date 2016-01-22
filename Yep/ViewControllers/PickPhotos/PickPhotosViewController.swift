@@ -17,6 +17,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     var imageCacheController: ImageCacheController!
 
     var pickedImageSet = Set<PHAsset>()
+    var pickedImages = [PHAsset]()
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
     var imageLimit = 0
 
@@ -64,7 +65,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         let options = PHImageRequestOptions.yep_sharedOptions
 
-        let pickedImageAssets = Array(pickedImageSet)
+        let pickedImageAssets = pickedImages
 
         for imageAsset in pickedImageAssets {
 
@@ -137,11 +138,15 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         if let imageAsset = images[indexPath.item] as? PHAsset {
             if pickedImageSet.contains(imageAsset) {
                 pickedImageSet.remove(imageAsset)
+                if let index = pickedImages.indexOf(imageAsset) {
+                    pickedImages.removeAtIndex(index)
+                }
             } else {
                 if pickedImageSet.count + imageLimit == 4 {
                     return
                 }
                 pickedImageSet.insert(imageAsset)
+                pickedImages.append(imageAsset)
             }
             title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(pickedImageSet.count + imageLimit)/4)"
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
