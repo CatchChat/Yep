@@ -647,9 +647,9 @@ class NewFeedViewController: SegueViewController {
             return
         }
 
-        uploadState = .Uploading
-
         if !again {
+            uploadState = .Uploading
+
             if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
@@ -753,11 +753,10 @@ class NewFeedViewController: SegueViewController {
 
         case .Default:
 
-            let uploadImagesGroup = dispatch_group_create()
+            let uploadImagesQueue = NSOperationQueue()
+            var uploadAttachmentOperations = [UploadAttachmentOperation]()
 
-            //var uploadImageInfos = [UploadImageInfo]()
             var uploadAttachmentIDs = [String]()
-
             let mediaImagesCount = mediaImages.count
             var uploadErrorMessage: String?
 
@@ -783,93 +782,62 @@ class NewFeedViewController: SegueViewController {
 
                 if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
 
-                    dispatch_group_enter(uploadImagesGroup)
-
                     let source: UploadAttachment.Source = .Data(imageData)
-
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
-                    tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadErrorMessage = errorMessage
-                            dispatch_group_leave(uploadImagesGroup)
-                        }
-                        
-                    }, completion: { uploadAttachmentID in
-
-                        dispatch_async(dispatch_get_main_queue()) {
+                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment)
+                    operation.completionBlock = {
+                        if let uploadAttachmentID = operation.uploadAttachmentID {
                             uploadAttachmentIDs.append(uploadAttachmentID)
-
-                            dispatch_group_leave(uploadImagesGroup)
                         }
-                    })
-
-                    /*
-                    let fileExtension: FileExtension = .JPEG
-
-                    s3UploadFileOfKind(.Feed, withFileExtension: fileExtension, inFilePath: nil, orFileData: imageData, mimeType: fileExtension.mimeType, failureHandler: { (reason, errorMessage) in
-
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadErrorMessage = errorMessage
-                            dispatch_group_leave(uploadImagesGroup)
+                        if let _uploadErrorMessage = operation.uploadErrorMessage {
+                            uploadErrorMessage = _uploadErrorMessage
                         }
-
-                    }, completion: { s3UploadParams in
-
-                        // Prepare meta data
-
-                        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-
-                        let uploadImageInfo = UploadImageInfo(s3UploadParams: s3UploadParams, metaDataString: metaDataString)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            uploadImageInfos.append(uploadImageInfo)
-
-                            dispatch_group_leave(uploadImagesGroup)
-                        }
-                    })
-                    */
+                    }
+                    uploadAttachmentOperations.append(operation)
                 }
             })
 
-            dispatch_group_notify(uploadImagesGroup, dispatch_get_main_queue()) { [weak self] in
+            for i in 1..<uploadAttachmentOperations.count {
+                let previousOperation = uploadAttachmentOperations[i-1]
+                let currentOperation = uploadAttachmentOperations[i]
+
+                currentOperation.addDependency(previousOperation)
+            }
+
+            let uploadFinishOperation = NSBlockOperation { [weak self] in
 
                 guard uploadAttachmentIDs.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
-                    self?.uploadState = .Failed(message: message)
+
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        self?.uploadState = .Failed(message: message)
+                    }
 
                     return
                 }
 
                 if !uploadAttachmentIDs.isEmpty {
 
-                    /*
-                    let imageInfosData = uploadImageInfos.map({
-                        [
-                            "file": $0.s3UploadParams.key,
-                            "metadata": $0.metaDataString ?? "",
-                        ]
-                    })
-                    */
-
                     let imageInfos: [JSONDictionary] = uploadAttachmentIDs.map({
                         ["id": $0]
                     })
 
                     attachments = imageInfos
-
+                    
                     kind = .Image
                 }
-
+                
                 tryCreateFeed()
             }
+
+            if let lastUploadAttachmentOperation = uploadAttachmentOperations.last {
+                uploadFinishOperation.addDependency(lastUploadAttachmentOperation)
+            }
+
+            uploadImagesQueue.addOperations(uploadAttachmentOperations, waitUntilFinished: false)
+            uploadImagesQueue.addOperation(uploadFinishOperation)
 
         case .SocialWork(let socialWork):
 

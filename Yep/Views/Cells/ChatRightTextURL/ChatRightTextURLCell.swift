@@ -15,8 +15,8 @@ class ChatRightTextURLCell: ChatRightTextCell {
     var tapOpenGraphURLAction: ((URL: NSURL) -> Void)?
     
     lazy var feedURLContainerView: FeedURLContainerView = {
-        let view = FeedURLContainerView()
-        view.directionLeading = true
+        let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        view.directionLeading = false
         view.compressionMode = false
 
         view.tapAction = { [weak self] in
