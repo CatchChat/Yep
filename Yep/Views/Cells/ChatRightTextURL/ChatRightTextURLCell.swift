@@ -16,7 +16,7 @@ class ChatRightTextURLCell: ChatRightTextCell {
     
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView()
-        view.directionLeading = true
+        view.directionLeading = false
         view.compressionMode = false
 
         view.tapAction = { [weak self] in
