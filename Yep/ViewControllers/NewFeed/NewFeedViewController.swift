@@ -810,7 +810,10 @@ class NewFeedViewController: SegueViewController {
 
                 guard uploadAttachmentIDs.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
-                    self?.uploadState = .Failed(message: message)
+
+                    NSOperationQueue.mainQueue().addOperationWithBlock {
+                        self?.uploadState = .Failed(message: message)
+                    }
 
                     return
                 }

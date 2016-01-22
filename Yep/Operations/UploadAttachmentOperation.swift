@@ -23,15 +23,6 @@ class UploadAttachmentOperation: ConcurrentOperation {
 
     override func main() {
 
-        /*
-        if let previousUploadAttachmentOperation = dependencies.last as? UploadAttachmentOperation {
-            if previousUploadAttachmentOperation.uploadErrorMessage != nil {
-                state = .Finished
-                return
-            }
-        }
-        */
-
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
             defaultFailureHandler(reason, errorMessage: errorMessage)
