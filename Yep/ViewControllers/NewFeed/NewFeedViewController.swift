@@ -797,6 +797,9 @@ class NewFeedViewController: SegueViewController {
                         if let uploadAttachmentID = operation.uploadAttachmentID {
                             uploadAttachmentIDs.append(uploadAttachmentID)
                         }
+                        if let _uploadErrorMessage = operation.uploadErrorMessage {
+                            uploadErrorMessage = _uploadErrorMessage
+                        }
                     }
                     uploadAttachmentOperations.append(operation)
                     /*
