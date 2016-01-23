@@ -73,7 +73,7 @@ class SocialWorkGithubViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.screenName =  "Github Works"
+
 //        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {

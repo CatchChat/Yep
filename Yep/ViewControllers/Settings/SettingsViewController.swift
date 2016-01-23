@@ -51,7 +51,6 @@ class SettingsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.screenName = "Settings"
         
         super.viewWillAppear(animated)
     }
@@ -60,8 +59,6 @@ class SettingsViewController: BaseViewController {
         super.viewDidLoad()
         
 //        animatedOnNavigationBar = false
-        
-        self.screenName = "Settings"
 
         title = NSLocalizedString("Settings", comment: "")
 

@@ -165,8 +165,6 @@ class ContactsViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.screenName = "Contacts"
-        
         super.viewWillAppear(animated)
     }
 }

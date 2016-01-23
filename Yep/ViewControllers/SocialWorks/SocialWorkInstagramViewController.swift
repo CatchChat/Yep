@@ -47,7 +47,6 @@ class SocialWorkInstagramViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.screenName = "Instagram Works"
         
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)

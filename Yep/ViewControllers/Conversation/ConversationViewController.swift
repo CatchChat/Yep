@@ -879,12 +879,6 @@ class ConversationViewController: BaseViewController {
 
         needDetectMention = conversation.needDetectMention
 
-        if let _ = conversation.withGroup?.withFeed {
-            self.screenName = "Feed Conversation"
-        } else {
-            self.screenName = "Conversation"
-        }
-
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif

@@ -10,7 +10,7 @@ import UIKit
 import KeyboardMan
 import DeviceGuru
 
-class FeedbackViewController: GAITrackedViewController {
+class FeedbackViewController: UIViewController {
 
     @IBOutlet private weak var promptLabel: UILabel! {
         didSet {
@@ -55,8 +55,6 @@ class FeedbackViewController: GAITrackedViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Feedback"
 
         title = NSLocalizedString("Feedback", comment: "")
 

@@ -20,8 +20,6 @@ class WelcomeViewController: GAITrackedViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Welcome"
 
         logoLabel.text = NSLocalizedString("Yep", comment: "")
         sloganLabel.text = NSLocalizedString("Meet with genius", comment: "")

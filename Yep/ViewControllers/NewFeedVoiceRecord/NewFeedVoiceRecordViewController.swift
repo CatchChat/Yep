@@ -193,8 +193,6 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "New Voice Feed"
 
         title = NSLocalizedString("New Voice", comment: "")
 

@@ -147,8 +147,6 @@ class PickLocationViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Pick Location"
 
         title = NSLocalizedString("Pick Location", comment: "")
 

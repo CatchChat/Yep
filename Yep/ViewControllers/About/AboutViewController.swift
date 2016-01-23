@@ -35,8 +35,6 @@ class AboutViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "About"
 
         title = NSLocalizedString("About", comment: "")
 

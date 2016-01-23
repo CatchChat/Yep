@@ -110,8 +110,6 @@ class SkillHomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.screenName = "Skill Home"
-        
         if let skillCategory = skill?.category {
             headerView.skillCategory = skillCategory
         }

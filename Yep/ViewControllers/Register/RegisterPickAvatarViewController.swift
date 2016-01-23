@@ -116,8 +116,6 @@ class RegisterPickAvatarViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Register Pick Avatar"
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 

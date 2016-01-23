@@ -821,8 +821,6 @@ class ProfileViewController: SegueViewController {
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
-        
-        self.screenName = "Profile"
 
         if noNeedToChangeStatusBar {
             statusBarShouldLight = true

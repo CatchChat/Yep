@@ -77,7 +77,6 @@ class DiscoverViewController: BaseViewController {
     #endif
     
     override func viewWillAppear(animated: Bool) {
-        self.screenName = "Discover"
         
         super.viewWillAppear(animated)
     }

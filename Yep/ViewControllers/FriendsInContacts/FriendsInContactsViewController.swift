@@ -41,8 +41,6 @@ class FriendsInContactsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Friends In Contacts"
 
         title = NSLocalizedString("Available Friends", comment: "")
 

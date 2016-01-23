@@ -163,21 +163,13 @@ extension UINavigationBar {
 }
 
 func GoogleAnalyticsTrackView(name: String) {
-    let tracker = GAI.sharedInstance().defaultTracker
-    tracker.set(kGAIScreenName, value: name)
-    
-    let builder = GAIDictionaryBuilder.createScreenView()
-    tracker.send(builder.build() as [NSObject : AnyObject])
+
 }
 
 func GoogleAnalyticsTrackEvent(action: String, label: String, value: NSNumber) {
-    let tracker = GAI.sharedInstance().defaultTracker
-    let data = GAIDictionaryBuilder.createEventWithCategory("UI Action", action: action, label: label, value: value)
-    tracker.send(data.build() as [NSObject : AnyObject])
+
 }
 
 func GoogleAnalyticsTrackSocial(network: String, action: String, target: String) {
-    let tracker = GAI.sharedInstance().defaultTracker
-    let data = GAIDictionaryBuilder.createSocialWithNetwork(network, action: action, target: target)
-    tracker.send(data.build() as [NSObject : AnyObject])
+
 }

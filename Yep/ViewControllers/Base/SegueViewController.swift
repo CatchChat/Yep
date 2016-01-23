@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SegueViewController: GAITrackedViewController {
+class SegueViewController: UIViewController {
 
     override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
 

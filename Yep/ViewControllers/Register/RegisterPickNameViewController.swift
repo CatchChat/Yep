@@ -33,8 +33,6 @@ class RegisterPickNameViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Register Pick Name"
 
         animatedOnNavigationBar = false
 

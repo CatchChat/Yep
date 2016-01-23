@@ -27,8 +27,6 @@ class LoginByMobileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Login By Mobile"
 
         animatedOnNavigationBar = false
 

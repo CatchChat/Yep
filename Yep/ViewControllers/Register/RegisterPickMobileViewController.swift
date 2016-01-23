@@ -27,8 +27,6 @@ class RegisterPickMobileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.screenName = "Register Pick Mobile"
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 

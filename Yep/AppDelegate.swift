@@ -111,13 +111,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             startShowStory()
         }
-
-        
-        // Optional: configure GAI options.
-        let gai = GAI.sharedInstance()
-        gai.trackerWithTrackingId("UA-69805568-2")
-        gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
         
         return true
     }

@@ -45,7 +45,6 @@ class SocialWorkDribbbleViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.screenName = "Dribbble Works"
 
 //        animatedOnNavigationBar = false
         
