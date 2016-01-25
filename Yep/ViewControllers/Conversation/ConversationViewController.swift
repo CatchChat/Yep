@@ -1879,6 +1879,11 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Text.rawValue:
 
+            if message.deletedByCreator {
+                height = 30
+                break
+            }
+
             let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
             height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())

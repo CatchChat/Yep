@@ -12,20 +12,20 @@ class ChatLeftRecallCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
+        imageView.tintColor = UIColor(white: 0.95, alpha: 1.0)
+        imageView.tintAdjustmentMode = .Normal
         return imageView
     }()
 
     lazy var recallLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(12)
-        label.textColor = UIColor.grayColor()
+        label.textColor  = UIColor(white: 0.75, alpha: 1.0)
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
 
         contentView.addSubview(bubbleImageView)
         contentView.addSubview(recallLabel)
@@ -37,7 +37,7 @@ class ChatLeftRecallCell: UICollectionViewCell {
                 "recallLabel": recallLabel,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-78-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-78-[recallLabel]-(>=10)-|", options: [], metrics: nil, views: views)
 
             let centerY = NSLayoutConstraint(item: recallLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
