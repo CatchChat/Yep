@@ -122,10 +122,11 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         if case .Feeds = tab {
-
             if let vc = nvc.topViewController as? FeedsViewController {
-                if vc.feedsTableView.yep_isAtTop {
-
+                guard let feedsTableView = vc.feedsTableView else {
+                    return true
+                }
+                if feedsTableView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
                         hasFirstTapOnFeedsWhenItIsAtTop = true
                         return false
