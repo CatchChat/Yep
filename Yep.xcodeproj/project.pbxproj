@@ -122,6 +122,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
+		50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
 		504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41241ACE2D1D00FBB19A /* SampleView.swift */; };
@@ -494,6 +495,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
+		50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftRecallCell.swift; path = Views/Cells/ChatLeftRecall/ChatLeftRecallCell.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
 		504F41241ACE2D1D00FBB19A /* SampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleView.swift; path = Views/AudioWaves/SampleView.swift; sourceTree = "<group>"; };
@@ -1228,6 +1230,7 @@
 				508D174E1ACCF49F0092D666 /* ChatRightAudio */,
 				5053AD5C1AF83B4600B3CBFA /* ChatLeftLocation */,
 				5053AD571AF83B1600B3CBFA /* ChatRightLocation */,
+				50485BCF1C56062900431AC7 /* ChatLeftRecall */,
 				5016901A1BFB18D70096C4F9 /* ChatLeftSocialWork */,
 				508C2AA61AD661B8002B8097 /* UserState */,
 				50553F911ADB8BA600F80B59 /* ChatSectionDate */,
@@ -1521,6 +1524,14 @@
 				50DEE0501BEA09DD00015741 /* BlackList.storyboard */,
 			);
 			name = BlackList;
+			sourceTree = "<group>";
+		};
+		50485BCF1C56062900431AC7 /* ChatLeftRecall */ = {
+			isa = PBXGroup;
+			children = (
+				50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */,
+			);
+			name = ChatLeftRecall;
 			sourceTree = "<group>";
 		};
 		504CBA3B1B3D048900663A90 /* TextViews */ = {
@@ -2707,6 +2718,7 @@
 				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
 				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
+				50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,

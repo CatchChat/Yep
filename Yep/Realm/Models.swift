@@ -519,12 +519,10 @@ class Message: Object {
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
 
     dynamic var textContent: String = ""
-    var textContentToShow: String {
-        if deletedByCreator {
-            return NSLocalizedString("Recalled by creator.", comment: "")
-        } else {
-            return textContent
-        }
+
+    var recalledTextContent: String {
+        let nickname = fromFriend?.nickname ?? ""
+        return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
     }
 
     dynamic var openGraphURLDetected: Bool = false

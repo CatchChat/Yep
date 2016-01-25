@@ -614,6 +614,7 @@ class ConversationViewController: BaseViewController {
     private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
+    private let chatLeftRecallCellIdentifier =  "ChatLeftRecallCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
     
     private struct Listener {
@@ -710,6 +711,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
 
+        conversationCollectionView.registerClass(ChatLeftRecallCell.self, forCellWithReuseIdentifier: chatLeftRecallCellIdentifier)
         /*
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
@@ -1877,16 +1879,21 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Text.rawValue:
 
-            let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+            if message.deletedByCreator {
+                height = 30
 
-            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+            } else {
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
-            if message.openGraphURLInfo != nil {
-                height += 100 + 10
-            }
+                height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
-            if !key.isEmpty {
-                textContentLabelWidths[key] = ceil(rect.width)
+                if message.openGraphURLInfo != nil {
+                    height += 100 + 10
+                }
+
+                if !key.isEmpty {
+                    textContentLabelWidths[key] = ceil(rect.width)
+                }
             }
 
         case MessageMediaType.Image.rawValue:
@@ -3748,13 +3755,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        if message.openGraphURLInfo != nil {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                        if message.deletedByCreator {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
                             return cell
 
                         } else {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
-                            return cell
+                            if message.openGraphURLInfo != nil {
+                                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                                return cell
+
+                            } else {
+                                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                                return cell
+                            }
                         }
                     }
 
@@ -3968,36 +3981,43 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        if message.openGraphURLInfo != nil {
-
-                            if let cell = cell as? ChatLeftTextURLCell {
-
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
-
-                                cell.tapUsernameAction = { [weak self] username in
-                                    println("left textURL cell.tapUsernameAction: \(username)")
-                                    self?.tryShowProfileWithUsername(username)
-                                }
-
-                                cell.tapOpenGraphURLAction = { [weak self] URL in
-                                    self?.yep_openURL(URL)
-                                }
+                        if message.deletedByCreator {
+                            if let cell = cell as? ChatLeftRecallCell {
+                                cell.configureWithMessage(message)
                             }
 
                         } else {
-                        
-                            if let cell = cell as? ChatLeftTextCell {
-                                
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                            if message.openGraphURLInfo != nil {
 
-                                cell.tapUsernameAction = { [weak self] username in
-                                    println("left text cell.tapUsernameAction: \(username)")
-                                    self?.tryShowProfileWithUsername(username)
+                                if let cell = cell as? ChatLeftTextURLCell {
+
+                                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                    cell.tapUsernameAction = { [weak self] username in
+                                        println("left textURL cell.tapUsernameAction: \(username)")
+                                        self?.tryShowProfileWithUsername(username)
+                                    }
+
+                                    cell.tapOpenGraphURLAction = { [weak self] URL in
+                                        self?.yep_openURL(URL)
+                                    }
+                                }
+
+                            } else {
+                            
+                                if let cell = cell as? ChatLeftTextCell {
+                                    
+                                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                    cell.tapUsernameAction = { [weak self] username in
+                                        println("left text cell.tapUsernameAction: \(username)")
+                                        self?.tryShowProfileWithUsername(username)
+                                    }
                                 }
                             }
-                        }
 
-                        tryDetectOpenGraphForMessage(message)
+                            tryDetectOpenGraphForMessage(message)
+                        }
                     }
                     
                 } else { // from Me

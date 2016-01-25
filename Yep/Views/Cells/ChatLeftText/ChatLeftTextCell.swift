@@ -85,13 +85,7 @@ class ChatLeftTextCell: ChatBaseCell {
 
         self.user = message.fromFriend
 
-        textContentTextView.text = message.textContentToShow
-
-        if message.deletedByCreator {
-            textContentTextView.textColor = UIColor.lightGrayColor()
-        } else {
-            textContentTextView.textColor = UIColor.blackColor()
-        }
+        textContentTextView.text = message.textContent
 
         //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
         
