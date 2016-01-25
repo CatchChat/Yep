@@ -248,7 +248,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         }
 
         if let HTMLString = response.result.value, data = response.data {
-            println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
+            //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
             var finalURL = URL

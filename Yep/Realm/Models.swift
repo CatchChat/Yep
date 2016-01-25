@@ -830,6 +830,28 @@ class FeedURLInfo: Object {
     dynamic var title: String = ""
     dynamic var infoDescription: String = ""
     dynamic var thumbnailImageURLString: String = ""
+
+    override class func primaryKey() -> String? {
+        return "URLString"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["URLString"]
+    }
+
+    convenience init(URLString: String, siteName: String, title: String, infoDescription: String, thumbnailImageURLString: String) {
+        self.init()
+
+        self.URLString = URLString
+        self.siteName = siteName
+        self.title = title
+        self.infoDescription = infoDescription
+        self.thumbnailImageURLString = thumbnailImageURLString
+    }
+
+    class func withURLString(URLString: String, inRealm realm: Realm) -> FeedURLInfo? {
+        return realm.objects(FeedURLInfo).filter("URLString = %@", URLString).first
+    }
 }
 
 extension FeedURLInfo: FeedURLInfoType {
@@ -1293,12 +1315,9 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                 break
             }
 
-            let feedURLInfo = FeedURLInfo()
-            feedURLInfo.URLString = URLInfo.URL.absoluteString
-            feedURLInfo.siteName = URLInfo.siteName
-            feedURLInfo.title = URLInfo.title
-            feedURLInfo.infoDescription = URLInfo.infoDescription
-            feedURLInfo.thumbnailImageURLString = URLInfo.thumbnailImageURLString
+            let feedURLInfo = FeedURLInfo(URLString: URLInfo.URL.absoluteString, siteName: URLInfo.siteName, title: URLInfo.title, infoDescription: URLInfo.infoDescription, thumbnailImageURLString: URLInfo.thumbnailImageURLString)
+
+            realm.add(feedURLInfo, update: true)
 
             feed.URLInfo = feedURLInfo
         }
