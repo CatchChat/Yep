@@ -4243,15 +4243,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return
                 }
 
-                let openGraphURLInfo = FeedURLInfo()
-
-                openGraphURLInfo.URLString = _openGraph.URL.absoluteString
-                openGraphURLInfo.siteName = _openGraph.siteName ?? ""
-                openGraphURLInfo.title = _openGraph.title ?? ""
-                openGraphURLInfo.infoDescription = _openGraph.description ?? ""
-                openGraphURLInfo.thumbnailImageURLString = _openGraph.previewImageURLString ?? ""
+                let openGraphURLInfo = FeedURLInfo(URLString: _openGraph.URL.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
 
                 let _ = try? strongSelf.realm.write {
+                    strongSelf.realm.add(openGraphURLInfo, update: true)
                     message.openGraphURLInfo = openGraphURLInfo
                 }
 

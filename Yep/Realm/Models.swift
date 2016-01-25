@@ -1315,12 +1315,9 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
                 break
             }
 
-            let feedURLInfo = FeedURLInfo()
-            feedURLInfo.URLString = URLInfo.URL.absoluteString
-            feedURLInfo.siteName = URLInfo.siteName
-            feedURLInfo.title = URLInfo.title
-            feedURLInfo.infoDescription = URLInfo.infoDescription
-            feedURLInfo.thumbnailImageURLString = URLInfo.thumbnailImageURLString
+            let feedURLInfo = FeedURLInfo(URLString: URLInfo.URL.absoluteString, siteName: URLInfo.siteName, title: URLInfo.title, infoDescription: URLInfo.infoDescription, thumbnailImageURLString: URLInfo.thumbnailImageURLString)
+
+            realm.add(feedURLInfo, update: true)
 
             feed.URLInfo = feedURLInfo
         }
