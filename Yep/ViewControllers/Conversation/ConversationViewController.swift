@@ -1881,19 +1881,19 @@ class ConversationViewController: BaseViewController {
 
             if message.deletedByCreator {
                 height = 30
-                break
-            }
 
-            let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+            } else {
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
-            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+                height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
-            if message.openGraphURLInfo != nil {
-                height += 100 + 10
-            }
+                if message.openGraphURLInfo != nil {
+                    height += 100 + 10
+                }
 
-            if !key.isEmpty {
-                textContentLabelWidths[key] = ceil(rect.width)
+                if !key.isEmpty {
+                    textContentLabelWidths[key] = ceil(rect.width)
+                }
             }
 
         case MessageMediaType.Image.rawValue:
