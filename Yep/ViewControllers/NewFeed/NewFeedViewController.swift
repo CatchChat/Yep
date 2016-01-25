@@ -751,11 +751,11 @@ class NewFeedViewController: SegueViewController {
 
         case .Default:
 
+            let mediaImagesCount = mediaImages.count
+
             let uploadImagesQueue = NSOperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
-
             var uploadAttachmentIDs = [String]()
-            let mediaImagesCount = mediaImages.count
             var uploadErrorMessage: String?
 
             mediaImages.forEach({ image in
@@ -797,11 +797,13 @@ class NewFeedViewController: SegueViewController {
                 }
             })
 
-            for i in 1..<uploadAttachmentOperations.count {
-                let previousOperation = uploadAttachmentOperations[i-1]
-                let currentOperation = uploadAttachmentOperations[i]
+            if uploadAttachmentOperations.count > 1 {
+                for i in 1..<uploadAttachmentOperations.count {
+                    let previousOperation = uploadAttachmentOperations[i-1]
+                    let currentOperation = uploadAttachmentOperations[i]
 
-                currentOperation.addDependency(previousOperation)
+                    currentOperation.addDependency(previousOperation)
+                }
             }
 
             let uploadFinishOperation = NSBlockOperation { [weak self] in
