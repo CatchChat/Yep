@@ -10,27 +10,52 @@ import UIKit
 
 class ChatLeftRecallCell: UICollectionViewCell {
 
+    lazy var bubbleImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
+        return imageView
+    }()
+
     lazy var recallLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.blueColor()
+        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.grayColor()
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
+        contentView.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+
+        contentView.addSubview(bubbleImageView)
         contentView.addSubview(recallLabel)
+        bubbleImageView.translatesAutoresizingMaskIntoConstraints = false
         recallLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
-            "recallLabel": recallLabel,
-        ]
+        do {
+            let views = [
+                "recallLabel": recallLabel,
+            ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-65-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[recallLabel]|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-78-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+            let centerY = NSLayoutConstraint(item: recallLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints([centerY])
+        }
+
+        do {
+            let leading = NSLayoutConstraint(item: bubbleImageView, attribute: .Leading, relatedBy: .Equal, toItem: recallLabel, attribute: .Leading, multiplier: 1.0, constant: -10)
+            let trailing = NSLayoutConstraint(item: bubbleImageView, attribute: .Trailing, relatedBy: .Equal, toItem: recallLabel, attribute: .Trailing, multiplier: 1.0, constant: 10)
+
+            let centerX = NSLayoutConstraint(item: bubbleImageView, attribute: .CenterX, relatedBy: .Equal, toItem: recallLabel, attribute: .CenterX, multiplier: 1.0, constant: 0)
+            let centerY = NSLayoutConstraint(item: bubbleImageView, attribute: .CenterY, relatedBy: .Equal, toItem: recallLabel, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+            let height = NSLayoutConstraint(item: bubbleImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 24)
+
+            NSLayoutConstraint.activateConstraints([leading, trailing, centerX, centerY, height])
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
