@@ -1880,7 +1880,7 @@ class ConversationViewController: BaseViewController {
         case MessageMediaType.Text.rawValue:
 
             if message.deletedByCreator {
-                height = 30
+                height = 26
 
             } else {
                 let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
@@ -1944,11 +1944,13 @@ class ConversationViewController: BaseViewController {
             height = 20
         }
 
-        if message.mediaType != MessageMediaType.SectionDate.rawValue && conversation.withGroup != nil {
-            
-            if let sender = message.fromFriend {
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    height += YepConfig.ChatCell.marginTopForGroup
+        // inGroup, plus height for show name
+        if conversation.withGroup != nil {
+            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.deletedByCreator {
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        height += YepConfig.ChatCell.marginTopForGroup
+                    }
                 }
             }
         }
