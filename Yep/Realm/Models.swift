@@ -526,6 +526,10 @@ class Message: Object {
             return textContent
         }
     }
+    var recalledTextContent: String {
+        let nickname = fromFriend?.nickname ?? ""
+        return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
+    }
 
     dynamic var openGraphURLDetected: Bool = false
     dynamic var openGraphURLInfo: FeedURLInfo?

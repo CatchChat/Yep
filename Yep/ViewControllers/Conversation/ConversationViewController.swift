@@ -3978,6 +3978,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.deletedByCreator {
                             cell.contentView.backgroundColor = UIColor.redColor()
+                            if let cell = cell as? ChatLeftRecallCell {
+                                cell.configureWithMessage(message)
+                            }
 
                         } else {
                             if message.openGraphURLInfo != nil {
