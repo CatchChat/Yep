@@ -52,9 +52,9 @@ class ChatRightTextURLCell: ChatRightTextCell {
         let feedURLContainerViewFrame = CGRect(x: fullWidth - 65 - width - 1, y: CGRectGetMaxY(textContainerView.frame) + 8, width: width, height: 100)
         feedURLContainerView.frame = feedURLContainerViewFrame
 
-        if let openGraphURLInfo = message.openGraphURLInfo {
-            feedURLContainerView.configureWithFeedURLInfoType(openGraphURLInfo)
-            openGraphURL = openGraphURLInfo.URL
+        if let openGraphInfo = message.openGraphInfo {
+            feedURLContainerView.configureWithFeedURLInfoType(openGraphInfo)
+            openGraphURL = openGraphInfo.URL
         }
     }
 }

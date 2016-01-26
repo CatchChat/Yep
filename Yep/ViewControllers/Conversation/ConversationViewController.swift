@@ -269,7 +269,7 @@ enum ConversationFeed {
                 }
             }
         case .FeedType(let feed):
-            if let URLInfo = feed.URLInfo {
+            if let URLInfo = feed.openGraphInfo {
                 return URLInfo
             }
         }
@@ -1887,7 +1887,7 @@ class ConversationViewController: BaseViewController {
 
                 height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
-                if message.openGraphURLInfo != nil {
+                if message.openGraphInfo != nil {
                     height += 100 + 10
                 }
 
@@ -3762,7 +3762,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             return cell
 
                         } else {
-                            if message.openGraphURLInfo != nil {
+                            if message.openGraphInfo != nil {
                                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
                                 return cell
 
@@ -3799,7 +3799,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        if message.openGraphURLInfo != nil {
+                        if message.openGraphInfo != nil {
                             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextURLCellIdentifier, forIndexPath: indexPath) as! ChatRightTextURLCell
                             return cell
 
@@ -3989,7 +3989,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                         } else {
-                            if message.openGraphURLInfo != nil {
+                            if message.openGraphInfo != nil {
 
                                 if let cell = cell as? ChatLeftTextURLCell {
 
@@ -4191,7 +4191,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             })
                         }
 
-                        if message.openGraphURLInfo != nil {
+                        if message.openGraphInfo != nil {
 
                             if let cell = cell as? ChatRightTextURLCell {
 
@@ -4229,19 +4229,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     private func tryDetectOpenGraphForMessage(message: Message) {
 
-        guard !message.openGraphURLDetected else {
+        guard !message.openGraphDetected else {
             return
         }
 
-        func markMessageOpenGraphURLDetected() {
+        func markMessageOpenGraphDetected() {
             let _ = try? realm.write {
-                message.openGraphURLDetected = true
+                message.openGraphDetected = true
             }
         }
 
         let text = message.textContent
         guard let fisrtURL = text.yep_embeddedURLs.first else {
-            markMessageOpenGraphURLDetected()
+            markMessageOpenGraphDetected()
             return
         }
 
@@ -4249,7 +4249,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             defaultFailureHandler(reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
-                markMessageOpenGraphURLDetected()
+                markMessageOpenGraphDetected()
             }
 
         }, completion: { _openGraph in
@@ -4265,14 +4265,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return
                 }
 
-                let openGraphURLInfo = FeedURLInfo(URLString: _openGraph.URL.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
+                let openGraphInfo = OpenGraphInfo(URLString: _openGraph.URL.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
 
                 let _ = try? strongSelf.realm.write {
-                    strongSelf.realm.add(openGraphURLInfo, update: true)
-                    message.openGraphURLInfo = openGraphURLInfo
+                    strongSelf.realm.add(openGraphInfo, update: true)
+                    message.openGraphInfo = openGraphInfo
                 }
 
-                markMessageOpenGraphURLDetected()
+                markMessageOpenGraphDetected()
 
                 // update UI
                 strongSelf.clearHeightOfMessageWithKey(message.messageID)
