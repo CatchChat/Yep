@@ -60,12 +60,12 @@ class FeedURLCell: FeedBasicCell {
         }
 
         if let attachment = feed.attachment {
-            if case let .URL(URLInfo) = attachment {
+            if case let .URL(openGraphInfo) = attachment {
 
-                feedURLContainerView.configureWithOpenGraphInfoType(URLInfo)
+                feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
 
                 feedURLContainerView.tapAction = { [weak self] in
-                    self?.tapURLInfoAction?(URL: URLInfo.URL)
+                    self?.tapURLInfoAction?(URL: openGraphInfo.URL)
                 }
             }
         }

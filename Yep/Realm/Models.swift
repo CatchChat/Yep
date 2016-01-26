@@ -1328,13 +1328,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
             feed.location = feedLocation
 
-        case .URL(let URLInfo):
+        case .URL(let info):
 
             guard feed.openGraphInfo == nil else {
                 break
             }
 
-            let openGraphInfo = OpenGraphInfo(URLString: URLInfo.URL.absoluteString, siteName: URLInfo.siteName, title: URLInfo.title, infoDescription: URLInfo.infoDescription, thumbnailImageURLString: URLInfo.thumbnailImageURLString)
+            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
 
             realm.add(openGraphInfo, update: true)
 
