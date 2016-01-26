@@ -146,13 +146,13 @@ class FeedURLContainerView: UIView {
         tapAction?()
     }
 
-    func configureWithFeedURLInfoType(URLInfo: FeedURLInfoType) {
+    func configureWithOpenGraphInfoType(openGraphInfo: OpenGraphInfoType) {
 
-        siteNameLabel.text = URLInfo.siteName
-        titleLabel.text = URLInfo.title
-        descriptionLabel.text = URLInfo.infoDescription
+        siteNameLabel.text = openGraphInfo.siteName
+        titleLabel.text = openGraphInfo.title
+        descriptionLabel.text = openGraphInfo.infoDescription
 
-        if let thumbnailImageURL = NSURL(string: URLInfo.thumbnailImageURLString) {
+        if let thumbnailImageURL = NSURL(string: openGraphInfo.thumbnailImageURLString) {
             thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
         } else {
             thumbnailImageView.image = nil

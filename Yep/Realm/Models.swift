@@ -525,8 +525,8 @@ class Message: Object {
         return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
     }
 
-    dynamic var openGraphURLDetected: Bool = false
-    dynamic var openGraphURLInfo: FeedURLInfo?
+    dynamic var openGraphDetected: Bool = false
+    dynamic var openGraphInfo: OpenGraphInfo?
 
     dynamic var coordinate: Coordinate?
 
@@ -592,8 +592,13 @@ class Message: Object {
             realm.delete(mediaMetaData)
         }
 
-        if let openGraphURLInfo = openGraphURLInfo {
-            realm.delete(openGraphURLInfo)
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
+        if let openGraphInfo = openGraphInfo {
+            if openGraphInfo.feeds.isEmpty {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
         }
 
         switch mediaType {
@@ -821,13 +826,20 @@ class FeedLocation: Object {
     dynamic var coordinate: Coordinate?
 }
 
-class FeedURLInfo: Object {
+class OpenGraphInfo: Object {
 
     dynamic var URLString: String = ""
     dynamic var siteName: String = ""
     dynamic var title: String = ""
     dynamic var infoDescription: String = ""
     dynamic var thumbnailImageURLString: String = ""
+
+    var messages: [Message] {
+        return linkingObjects(Message.self, forProperty: "openGraphInfo")
+    }
+    var feeds: [Feed] {
+        return linkingObjects(Feed.self, forProperty: "openGraphInfo")
+    }
 
     override class func primaryKey() -> String? {
         return "URLString"
@@ -847,12 +859,12 @@ class FeedURLInfo: Object {
         self.thumbnailImageURLString = thumbnailImageURLString
     }
 
-    class func withURLString(URLString: String, inRealm realm: Realm) -> FeedURLInfo? {
-        return realm.objects(FeedURLInfo).filter("URLString = %@", URLString).first
+    class func withURLString(URLString: String, inRealm realm: Realm) -> OpenGraphInfo? {
+        return realm.objects(OpenGraphInfo).filter("URLString = %@", URLString).first
     }
 }
 
-extension FeedURLInfo: FeedURLInfoType {
+extension OpenGraphInfo: OpenGraphInfoType {
 
     var URL: NSURL {
         return NSURL(string: URLString)!
@@ -877,7 +889,7 @@ class Feed: Object {
     dynamic var socialWork: MessageSocialWork?
     dynamic var audio: FeedAudio?
     dynamic var location: FeedLocation?
-    dynamic var URLInfo: FeedURLInfo?
+    dynamic var openGraphInfo: OpenGraphInfo?
 
     dynamic var skill: UserSkill?
 
@@ -924,6 +936,15 @@ class Feed: Object {
             }
 
             realm.delete(location)
+        }
+
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
+        if let openGraphInfo = openGraphInfo {
+            if openGraphInfo.messages.isEmpty {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
         }
 
         realm.delete(self)
@@ -1307,17 +1328,17 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
             feed.location = feedLocation
 
-        case .URL(let URLInfo):
+        case .URL(let info):
 
-            guard feed.URLInfo == nil else {
+            guard feed.openGraphInfo == nil else {
                 break
             }
 
-            let feedURLInfo = FeedURLInfo(URLString: URLInfo.URL.absoluteString, siteName: URLInfo.siteName, title: URLInfo.title, infoDescription: URLInfo.infoDescription, thumbnailImageURLString: URLInfo.thumbnailImageURLString)
+            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
 
-            realm.add(feedURLInfo, update: true)
+            realm.add(openGraphInfo, update: true)
 
-            feed.URLInfo = feedURLInfo
+            feed.openGraphInfo = openGraphInfo
         }
     }
 }

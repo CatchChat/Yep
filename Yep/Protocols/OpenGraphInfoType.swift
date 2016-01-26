@@ -1,5 +1,5 @@
 //
-//  FeedURLInfoType.swift
+//  OpenGraphInfoType.swift
 //  Yep
 //
 //  Created by nixzhu on 16/1/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol FeedURLInfoType {
+protocol OpenGraphInfoType {
 
     var URL: NSURL { get }
 

@@ -2959,7 +2959,7 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
-    struct URLInfo: FeedURLInfoType {
+    struct OpenGraphInfo: OpenGraphInfoType {
 
         let URL: NSURL
 
@@ -2968,7 +2968,7 @@ struct DiscoveredFeed: Hashable {
         let infoDescription: String
         let thumbnailImageURLString: String
 
-        static func fromJSONDictionary(json: JSONDictionary) -> URLInfo? {
+        static func fromJSONDictionary(json: JSONDictionary) -> OpenGraphInfo? {
             guard let
                 URLString = json["url"] as? String,
                 URL = NSURL(string: URLString),
@@ -2979,7 +2979,7 @@ struct DiscoveredFeed: Hashable {
                     return nil
             }
 
-            return URLInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
+            return OpenGraphInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
         }
     }
 
@@ -2989,7 +2989,7 @@ struct DiscoveredFeed: Hashable {
         case Dribbble(DribbbleShot)
         case Audio(AudioInfo)
         case Location(LocationInfo)
-        case URL(URLInfo)
+        case URL(OpenGraphInfo)
     }
 
     let attachment: Attachment?
@@ -3069,10 +3069,10 @@ struct DiscoveredFeed: Hashable {
 
         case .URL:
             if let
-                URLsData = feedInfo["attachments"] as? [JSONDictionary],
-                URLInfoDic = URLsData.first,
-                URLInfo = DiscoveredFeed.URLInfo.fromJSONDictionary(URLInfoDic) {
-                    attachment = .URL(URLInfo)
+                openGraphInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                openGraphInfoDict = openGraphInfosData.first,
+                openGraphInfo = DiscoveredFeed.OpenGraphInfo.fromJSONDictionary(openGraphInfoDict) {
+                    attachment = .URL(openGraphInfo)
             }
 
         case .Image:
