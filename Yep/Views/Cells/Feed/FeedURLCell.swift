@@ -62,7 +62,7 @@ class FeedURLCell: FeedBasicCell {
         if let attachment = feed.attachment {
             if case let .URL(URLInfo) = attachment {
 
-                feedURLContainerView.configureWithFeedURLInfoType(URLInfo)
+                feedURLContainerView.configureWithOpenGraphInfoType(URLInfo)
 
                 feedURLContainerView.tapAction = { [weak self] in
                     self?.tapURLInfoAction?(URL: URLInfo.URL)

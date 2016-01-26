@@ -864,7 +864,7 @@ class OpenGraphInfo: Object {
     }
 }
 
-extension OpenGraphInfo: FeedURLInfoType {
+extension OpenGraphInfo: OpenGraphInfoType {
 
     var URL: NSURL {
         return NSURL(string: URLString)!

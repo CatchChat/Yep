@@ -2959,7 +2959,7 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
-    struct URLInfo: FeedURLInfoType {
+    struct URLInfo: OpenGraphInfoType {
 
         let URL: NSURL
 

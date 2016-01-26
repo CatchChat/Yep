@@ -52,7 +52,7 @@ class ChatLeftTextURLCell: ChatLeftTextCell {
         feedURLContainerView.frame = feedURLContainerViewFrame
 
         if let openGraphInfo = message.openGraphInfo {
-            feedURLContainerView.configureWithFeedURLInfoType(openGraphInfo)
+            feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
             openGraphURL = openGraphInfo.URL
         }
     }

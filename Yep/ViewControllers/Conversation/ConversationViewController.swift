@@ -259,18 +259,18 @@ enum ConversationFeed {
         return nil
     }
 
-    var URLInfo: FeedURLInfoType? {
+    var openGraphInfo: OpenGraphInfoType? {
 
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .URL(URLInfo) = attachment {
-                    return URLInfo
+                if case let .URL(openGraphInfo) = attachment {
+                    return openGraphInfo
                 }
             }
         case .FeedType(let feed):
-            if let URLInfo = feed.openGraphInfo {
-                return URLInfo
+            if let openGraphInfo = feed.openGraphInfo {
+                return openGraphInfo
             }
         }
 
