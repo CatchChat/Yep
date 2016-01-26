@@ -592,8 +592,13 @@ class Message: Object {
             realm.delete(mediaMetaData)
         }
 
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
-            realm.delete(openGraphInfo)
+            if openGraphInfo.feeds.isEmpty {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
         }
 
         switch mediaType {
@@ -829,6 +834,13 @@ class OpenGraphInfo: Object {
     dynamic var infoDescription: String = ""
     dynamic var thumbnailImageURLString: String = ""
 
+    var messages: [Message] {
+        return linkingObjects(Message.self, forProperty: "openGraphInfo")
+    }
+    var feeds: [Feed] {
+        return linkingObjects(Feed.self, forProperty: "openGraphInfo")
+    }
+
     override class func primaryKey() -> String? {
         return "URLString"
     }
@@ -924,6 +936,15 @@ class Feed: Object {
             }
 
             realm.delete(location)
+        }
+
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
+        if let openGraphInfo = openGraphInfo {
+            if openGraphInfo.messages.isEmpty {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
         }
 
         realm.delete(self)
