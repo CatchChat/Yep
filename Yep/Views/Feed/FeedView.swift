@@ -360,8 +360,8 @@ class FeedView: UIView {
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-            if let URLInfo = feed.URLInfo {
-                feedURLContainerView.configureWithFeedURLInfoType(URLInfo)
+            if let openGraphInfo = feed.openGraphInfo {
+                feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
             }
 
         case .Image:
@@ -512,7 +512,7 @@ class FeedView: UIView {
     }
 
     func tapURLInfo(sender: UITapGestureRecognizer) {
-        guard let URL = feed?.URLInfo?.URL else {
+        guard let URL = feed?.openGraphInfo?.URL else {
             return
         }
 
