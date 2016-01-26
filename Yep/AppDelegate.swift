@@ -13,7 +13,7 @@ import AVFoundation
 import RealmSwift
 import MonkeyKing
 import Navi
-//import Appsee
+import Appsee
 
 
 @UIApplicationMain
@@ -78,8 +78,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cacheInAdvance()
 
         delay(0.5) {
-            Fabric.with([Crashlytics.self])
-            //Fabric.with([Crashlytics.self, Appsee.self])
+//            Fabric.with([Crashlytics.self])
+            Fabric.with([Crashlytics.self, Appsee.self])
 
             #if STAGING
                 let apsForProduction = false

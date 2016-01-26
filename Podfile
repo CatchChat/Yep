@@ -5,7 +5,7 @@ use_frameworks!
 def pods
     pod 'Kanna'
     pod 'Navi'
-#    pod 'Appsee'
+    pod 'Appsee'
     pod 'Alamofire'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
