@@ -47,12 +47,13 @@ class YepDownloader: NSObject {
     struct ProgressReporter {
 
         struct Task {
-            let downloadTask: NSURLSessionDownloadTask
+            let downloadTask: NSURLSessionDataTask
 
             typealias FinishedAction = NSData -> Void
             let finishedAction: FinishedAction
 
             let progress = NSProgress()
+            let tempData = NSMutableData()
         }
         let tasks: [Task]
         var finishedTasksCount = 0
@@ -91,14 +92,17 @@ class YepDownloader: NSObject {
         let messageID = message.messageID
         let mediaType = message.mediaType
 
-        var attachmentDownloadTask: NSURLSessionDownloadTask?
+        var attachmentDownloadTask: NSURLSessionDataTask?
         var attachmentFinishedAction: ProgressReporter.Task.FinishedAction?
 
         let attachmentURLString = message.attachmentURLString
         
         if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
-            attachmentDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+            attachmentDownloadTask = sharedDownloader.session.dataTaskWithURL(URL)
+//            attachmentDownloadTask = sharedDownloader.session.dataTaskWithURL(URL, completionHandler: { (data, response, error) -> Void in
+//                print("YepDownloader final data.lenght: \(data!.length)")
+//            })
 
             attachmentFinishedAction = { data in
 
@@ -152,7 +156,7 @@ class YepDownloader: NSObject {
             }
         }
 
-        var thumbnailDownloadTask: NSURLSessionDownloadTask?
+        var thumbnailDownloadTask: NSURLSessionDataTask?
         var thumbnailFinishedAction: ProgressReporter.Task.FinishedAction?
 
         if mediaType == MessageMediaType.Video.rawValue {
@@ -161,7 +165,7 @@ class YepDownloader: NSObject {
 
             if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let URL = NSURL(string: thumbnailURLString) {
 
-                thumbnailDownloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+                thumbnailDownloadTask = sharedDownloader.session.dataTaskWithURL(URL)
 
                 thumbnailFinishedAction = { data in
 
@@ -218,7 +222,7 @@ class YepDownloader: NSObject {
 
     class func downloadDataFromURL(URL: NSURL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
 
-        let downloadTask = sharedDownloader.session.downloadTaskWithURL(URL)
+        let downloadTask = sharedDownloader.session.dataTaskWithURL(URL)
         let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
@@ -232,6 +236,65 @@ extension YepDownloader: NSURLSessionDelegate {
 
 }
 
+extension YepDownloader: NSURLSessionDataDelegate {
+
+    private func reportProgressAssociatedWithDownloadTask(downloadTask: NSURLSessionDataTask, totalBytes: Int64) {
+
+        for progressReporter in progressReporters {
+
+            for i in 0..<progressReporter.tasks.count {
+
+                if downloadTask == progressReporter.tasks[i].downloadTask {
+
+                    progressReporter.tasks[i].progress.totalUnitCount = totalBytes
+
+                    progressReporter.reportProgress?(progressReporter.totalProgress)
+                    
+                    return
+                }
+            }
+        }
+    }
+
+    private func reportProgressAssociatedWithDownloadTask(downloadTask: NSURLSessionDataTask, didReceiveDataBytes: Int64) -> Bool {
+
+        for progressReporter in progressReporters {
+
+            for i in 0..<progressReporter.tasks.count {
+
+                if downloadTask == progressReporter.tasks[i].downloadTask {
+
+                    progressReporter.tasks[i].progress.completedUnitCount += didReceiveDataBytes
+
+                    progressReporter.reportProgress?(progressReporter.totalProgress)
+
+                    let progress = progressReporter.tasks[i].progress
+                    return progress.completedUnitCount == progress.totalUnitCount
+                }
+            }
+        }
+
+        return false
+    }
+
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
+        print("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
+        reportProgressAssociatedWithDownloadTask(dataTask, totalBytes: response.expectedContentLength)
+        completionHandler(.Allow)
+    }
+
+    func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
+        print("YepDownloader data.length: \(data.length)")
+
+        let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveDataBytes: Int64(data.length))
+
+        if finish {
+            print("finish")
+        }
+    }
+}
+
+/*
 extension YepDownloader: NSURLSessionDownloadDelegate {
 
     private func handleData(data: NSData, ofDownloadTask downloadTask: NSURLSessionDownloadTask) {
@@ -300,4 +363,4 @@ extension YepDownloader: NSURLSessionDownloadDelegate {
         reportProgressAssociatedWithDownloadTask(downloadTask, totalBytesWritten: totalBytesWritten, totalBytesExpectedToWrite: totalBytesExpectedToWrite)
     }
 }
-
+*/
