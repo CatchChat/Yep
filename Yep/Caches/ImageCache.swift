@@ -218,6 +218,9 @@ class ImageCache {
                             completion(loadingProgress: progress, image: nil)
                         }
 
+                    }, imageTransform: { image in
+                        return image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+
                     }, imageFinished: { image in
 
                         let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()

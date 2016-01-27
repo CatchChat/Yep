@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import ImageIO
 
 class YepDownloader: NSObject {
 
@@ -54,6 +55,8 @@ class YepDownloader: NSObject {
 
             let progress = NSProgress()
             let tempData = NSMutableData()
+            let imageSource = CGImageSourceCreateIncremental(nil)
+            let imageTransform: (UIImage -> UIImage)?
         }
         let tasks: [Task]
         var finishedTasksCount = 0
@@ -78,10 +81,10 @@ class YepDownloader: NSObject {
     var progressReporters = [ProgressReporter]()
 
     class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportProgress?) {
-        downloadAttachmentsOfMessage(message, reportProgress: reportProgress, imageFinished: nil)
+        downloadAttachmentsOfMessage(message, reportProgress: reportProgress, imageTransform: nil, imageFinished: nil)
     }
 
-    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportProgress?, imageFinished: (UIImage -> Void)?) {
+    class func downloadAttachmentsOfMessage(message: Message, reportProgress: ProgressReporter.ReportProgress?, imageTransform: (UIImage -> UIImage)?, imageFinished: (UIImage -> Void)?) {
 
         let downloadState = message.downloadState
 
@@ -197,11 +200,11 @@ class YepDownloader: NSObject {
         var tasks: [ProgressReporter.Task] = []
 
         if let attachmentDownloadTask = attachmentDownloadTask, attachmentFinishedAction = attachmentFinishedAction {
-            tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction))
+            tasks.append(ProgressReporter.Task(downloadTask: attachmentDownloadTask, finishedAction: attachmentFinishedAction, imageTransform: imageTransform))
         }
 
         if let thumbnailDownloadTask = thumbnailDownloadTask, thumbnailFinishedAction = thumbnailFinishedAction {
-            tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction))
+            tasks.append(ProgressReporter.Task(downloadTask: thumbnailDownloadTask, finishedAction: thumbnailFinishedAction, imageTransform: imageTransform))
         }
 
         if tasks.count > 0 {
@@ -220,7 +223,7 @@ class YepDownloader: NSObject {
     class func downloadDataFromURL(URL: NSURL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
 
         let downloadTask = sharedDownloader.session.dataTaskWithURL(URL)
-        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction)
+        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
         sharedDownloader.progressReporters.append(progressReporter)
@@ -267,8 +270,24 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     progressReporter.reportProgress?(progressReporter.totalProgress)
 
+                    let imageSource = progressReporter.tasks[i].imageSource
+                    let data = progressReporter.tasks[i].tempData
                     let progress = progressReporter.tasks[i].progress
-                    return progress.completedUnitCount == progress.totalUnitCount
+                    let final = progress.completedUnitCount == progress.totalUnitCount
+
+                    CGImageSourceUpdateData(imageSource, data, final)
+
+                    if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
+                        let image = UIImage(CGImage: cgImage)
+                        if let imageTransform = progressReporter.tasks[i].imageTransform {
+                            let tranformedImage = imageTransform(image)
+                            if (Double(progress.completedUnitCount) / Double(progress.totalUnitCount)) > 0.5 {
+                                print("\(tranformedImage)")
+                            }
+                        }
+                    }
+
+                    return final
                 }
             }
         }
