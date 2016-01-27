@@ -277,9 +277,22 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     var tranformedImage: UIImage?
                     if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
+                        /*
                         let image = UIImage(CGImage: cgImage)
                         if let imageTransform = progressReporter.tasks[i].imageTransform {
                             tranformedImage = imageTransform(image)
+                        }
+                        */
+                        let image = UIImage(CGImage: cgImage.yep_extendedCanvasCGImage)
+                        if let blurredImage = image.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor()) {
+                            if let imageTransform = progressReporter.tasks[i].imageTransform {
+                                tranformedImage = imageTransform(blurredImage)
+                                /*
+                                if progressReporter.totalProgress > 0.3 {
+                                    print("imageTransform")
+                                }
+                                */
+                            }
                         }
                     }
 
