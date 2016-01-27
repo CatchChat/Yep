@@ -284,13 +284,20 @@ extension YepDownloader: NSURLSessionDataDelegate {
                         }
                         */
                         let image = UIImage(CGImage: cgImage.yep_extendedCanvasCGImage)
-                        if let blurredImage = image.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor()) {
-                            if let imageTransform = progressReporter.tasks[i].imageTransform {
-                                tranformedImage = imageTransform(blurredImage)
-                                /*
-                                if progressReporter.totalProgress > 0.3 {
-                                    print("imageTransform")
-                                }*/
+
+                        if progressReporter.totalProgress < 1 {
+                            let blurPercent = CGFloat(1 - progressReporter.totalProgress)
+                            let radius = 5 * blurPercent
+                            let iterations = UInt(10 * blurPercent)
+                            println("radius: \(radius), iterations: \(iterations)")
+                            if let blurredImage = image.blurredImageWithRadius(radius, iterations: iterations, tintColor: UIColor.clearColor()) {
+                                if let imageTransform = progressReporter.tasks[i].imageTransform {
+                                    tranformedImage = imageTransform(blurredImage)
+                                    /*
+                                    if progressReporter.totalProgress > 0.3 {
+                                        print("imageTransform")
+                                    }*/
+                                }
                             }
                         }
                     }
@@ -331,18 +338,18 @@ extension YepDownloader: NSURLSessionDataDelegate {
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        print("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
+        println("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
         reportProgressAssociatedWithDownloadTask(dataTask, totalBytes: response.expectedContentLength)
         completionHandler(.Allow)
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        print("YepDownloader data.length: \(data.length)")
+        println("YepDownloader data.length: \(data.length)")
 
         let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveData: data)
 
         if finish {
-            print("finish")
+            println("YepDownloader finish")
 
             finishDownloadTask(dataTask)
         }
