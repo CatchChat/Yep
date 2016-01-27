@@ -100,9 +100,6 @@ class YepDownloader: NSObject {
         if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let URL = NSURL(string: attachmentURLString) {
 
             attachmentDownloadTask = sharedDownloader.session.dataTaskWithURL(URL)
-//            attachmentDownloadTask = sharedDownloader.session.dataTaskWithURL(URL, completionHandler: { (data, response, error) -> Void in
-//                print("YepDownloader final data.lenght: \(data!.length)")
-//            })
 
             attachmentFinishedAction = { data in
 
@@ -256,7 +253,7 @@ extension YepDownloader: NSURLSessionDataDelegate {
         }
     }
 
-    private func reportProgressAssociatedWithDownloadTask(downloadTask: NSURLSessionDataTask, didReceiveDataBytes: Int64) -> Bool {
+    private func reportProgressAssociatedWithDownloadTask(downloadTask: NSURLSessionDataTask, didReceiveData data: NSData) -> Bool {
 
         for progressReporter in progressReporters {
 
@@ -264,7 +261,9 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                 if downloadTask == progressReporter.tasks[i].downloadTask {
 
+                    let didReceiveDataBytes = Int64(data.length)
                     progressReporter.tasks[i].progress.completedUnitCount += didReceiveDataBytes
+                    progressReporter.tasks[i].tempData.appendData(data)
 
                     progressReporter.reportProgress?(progressReporter.totalProgress)
 
@@ -277,6 +276,31 @@ extension YepDownloader: NSURLSessionDataDelegate {
         return false
     }
 
+    private func finishDownloadTask(downloadTask: NSURLSessionDataTask) {
+
+        for i in 0..<progressReporters.count {
+
+            for j in 0..<progressReporters[i].tasks.count {
+
+                if downloadTask == progressReporters[i].tasks[j].downloadTask {
+
+                    let finishedAction = progressReporters[i].tasks[j].finishedAction
+                    let data = progressReporters[i].tasks[j].tempData
+                    finishedAction(data)
+
+                    progressReporters[i].finishedTasksCount++
+
+                    // 若任务都已完成，移除此 progressReporter
+                    if progressReporters[i].finishedTasksCount == progressReporters[i].tasks.count {
+                        progressReporters.removeAtIndex(i)
+                    }
+                    
+                    return
+                }
+            }
+        }
+    }
+
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
         print("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
         reportProgressAssociatedWithDownloadTask(dataTask, totalBytes: response.expectedContentLength)
@@ -286,10 +310,12 @@ extension YepDownloader: NSURLSessionDataDelegate {
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
         print("YepDownloader data.length: \(data.length)")
 
-        let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveDataBytes: Int64(data.length))
+        let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveData: data)
 
         if finish {
             print("finish")
+
+            finishDownloadTask(dataTask)
         }
     }
 }
