@@ -61,7 +61,7 @@ class YepDownloader: NSObject {
         let tasks: [Task]
         var finishedTasksCount = 0
 
-        typealias ReportProgress = Double -> Void
+        typealias ReportProgress = (progress: Double, image: UIImage?) -> Void
         let reportProgress: ReportProgress?
 
         init(tasks: [Task], reportProgress: ReportProgress?) {
@@ -248,7 +248,7 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     progressReporter.tasks[i].progress.totalUnitCount = totalBytes
 
-                    progressReporter.reportProgress?(progressReporter.totalProgress)
+                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
                     
                     return
                 }
@@ -268,8 +268,6 @@ extension YepDownloader: NSURLSessionDataDelegate {
                     progressReporter.tasks[i].progress.completedUnitCount += didReceiveDataBytes
                     progressReporter.tasks[i].tempData.appendData(data)
 
-                    progressReporter.reportProgress?(progressReporter.totalProgress)
-
                     let imageSource = progressReporter.tasks[i].imageSource
                     let data = progressReporter.tasks[i].tempData
                     let progress = progressReporter.tasks[i].progress
@@ -277,15 +275,15 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     CGImageSourceUpdateData(imageSource, data, final)
 
+                    var tranformedImage: UIImage?
                     if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
                         let image = UIImage(CGImage: cgImage)
                         if let imageTransform = progressReporter.tasks[i].imageTransform {
-                            let tranformedImage = imageTransform(image)
-                            if (Double(progress.completedUnitCount) / Double(progress.totalUnitCount)) > 0.5 {
-                                print("\(tranformedImage)")
-                            }
+                            tranformedImage = imageTransform(image)
                         }
                     }
+
+                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: tranformedImage)
 
                     return final
                 }
