@@ -290,8 +290,7 @@ extension YepDownloader: NSURLSessionDataDelegate {
                                 /*
                                 if progressReporter.totalProgress > 0.3 {
                                     print("imageTransform")
-                                }
-                                */
+                                }*/
                             }
                         }
                     }
