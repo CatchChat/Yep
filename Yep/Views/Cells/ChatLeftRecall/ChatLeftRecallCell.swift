@@ -37,12 +37,13 @@ class ChatLeftRecallCell: UICollectionViewCell {
                 "recallLabel": recallLabel,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-78-[recallLabel]-(>=10)-|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=20)-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
 
+            let centerX = NSLayoutConstraint(item: recallLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
             let centerY = NSLayoutConstraint(item: recallLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints([centerY])
+            NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
 
         do {
