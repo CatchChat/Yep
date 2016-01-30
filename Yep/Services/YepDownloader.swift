@@ -268,21 +268,22 @@ extension YepDownloader: NSURLSessionDataDelegate {
                     progressReporter.tasks[i].progress.completedUnitCount += didReceiveDataBytes
                     progressReporter.tasks[i].tempData.appendData(data)
 
-                    let imageSource = progressReporter.tasks[i].imageSource
-                    let data = progressReporter.tasks[i].tempData
                     let progress = progressReporter.tasks[i].progress
                     let final = progress.completedUnitCount == progress.totalUnitCount
+                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
+                    /*
+                    let imageSource = progressReporter.tasks[i].imageSource
+                    let data = progressReporter.tasks[i].tempData
 
                     CGImageSourceUpdateData(imageSource, data, final)
 
                     var tranformedImage: UIImage?
                     if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
-                        /*
                         let image = UIImage(CGImage: cgImage)
                         if let imageTransform = progressReporter.tasks[i].imageTransform {
                             tranformedImage = imageTransform(image)
                         }
-                        */
+                        /*
                         let image = UIImage(CGImage: cgImage.yep_extendedCanvasCGImage)
 
                         if progressReporter.totalProgress < 1 {
@@ -300,9 +301,11 @@ extension YepDownloader: NSURLSessionDataDelegate {
                                 }
                             }
                         }
+                        */
                     }
 
                     progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: tranformedImage)
+                    */
 
                     return final
                 }
