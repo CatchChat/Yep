@@ -213,10 +213,13 @@ class ImageCache {
 
                     let mediaType = message.mediaType
 
-                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
+                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress, image in
                         dispatch_async(dispatch_get_main_queue()) {
-                            completion(loadingProgress: progress, image: nil)
+                            completion(loadingProgress: progress, image: image)
                         }
+
+                    }, imageTransform: { image in
+                        return image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
 
                     }, imageFinished: { image in
 

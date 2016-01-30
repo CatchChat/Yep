@@ -114,7 +114,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
 
         self.audioPlayedDuration = audioPlayedDuration
 
-        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { _ in })
+        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { _, _ in })
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
