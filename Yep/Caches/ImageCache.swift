@@ -181,20 +181,24 @@ class ImageCache {
                 
                 if imageDownloadState == MessageDownloadState.Downloaded.rawValue {
                 
-                    if !fileName.isEmpty {
-                        if
-                            let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
-                            let image = UIImage(contentsOfFile: imageFileURL.path!) {
-                                
-                                let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
-                                
-                                self.cache.setObject(messageImage, forKey: imageKey)
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    completion(loadingProgress: 1.0, image: messageImage)
-                                }
-                                
-                                return
+                    if !fileName.isEmpty, let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName), image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+                        
+                        self.cache.setObject(messageImage, forKey: imageKey)
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(loadingProgress: 1.0, image: messageImage)
+                        }
+                        
+                        return
+
+                    } else {
+                        // 找不到要再给下面的下载机会
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
+                            let _ = try? realm.write {
+                                message.downloadState = MessageDownloadState.NoDownload.rawValue
+                            }
                         }
                     }
                 }
@@ -211,28 +215,73 @@ class ImageCache {
 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                    let mediaType = message.mediaType
+                    func doDownloadAttachmentsOfMessage(message: Message) {
 
-                    YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            completion(loadingProgress: progress, image: nil)
-                        }
+                        let mediaType = message.mediaType
 
-                    }, imageFinished: { image in
-
-                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
-
-                        self.cache.setObject(messageImage, forKey: imageKey)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            if mediaType == MessageMediaType.Image.rawValue {
-                                completion(loadingProgress: 1.0, image: messageImage)
-
-                            } else { // 视频的封面图片，要保障设置到
-                                completion(loadingProgress: 1.5, image: messageImage)
+                        YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress, image in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                completion(loadingProgress: progress, image: image)
                             }
-                        }
-                    })
+
+                        }, imageTransform: { image in
+                            return image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+
+                        }, imageFinished: { image in
+
+                            let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+
+                            self.cache.setObject(messageImage, forKey: imageKey)
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                if mediaType == MessageMediaType.Image.rawValue {
+                                    completion(loadingProgress: 1.0, image: messageImage)
+                                    
+                                } else { // 视频的封面图片，要保障设置到
+                                    completion(loadingProgress: 1.5, image: messageImage)
+                                }
+                            }
+                        })
+                    }
+
+                    // 若过期了，刷新后再下载。这里减少一天来判断
+                    if message.attachmentExpiresUnixTime < (NSDate().timeIntervalSince1970 + (60 * 60 * 24)) {
+
+                        refreshAttachmentWithID(message.attachmentID, failureHandler: nil, completion: { newAttachmentInfo in
+                            //println("newAttachmentInfo: \(newAttachmentInfo)")
+
+                            guard let realm = try? Realm() else {
+                                return
+                            }
+
+                            if let message = messageWithMessageID(messageID, inRealm: realm) {
+
+                                if let fileInfo = newAttachmentInfo["file"] as? JSONDictionary {
+
+                                    realm.beginWrite()
+
+                                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? NSTimeInterval {
+                                        message.attachmentExpiresUnixTime = attachmentExpiresUnixTime
+                                    }
+
+                                    if let URLString = fileInfo["url"] as? String {
+                                        message.attachmentURLString = URLString
+                                    }
+
+                                    if let URLString = fileInfo["thumb_url"] as? String {
+                                        message.thumbnailURLString = URLString
+                                    }
+
+                                    let _ = try? realm.commitWrite()
+
+                                    doDownloadAttachmentsOfMessage(message)
+                                }
+                            }
+                        })
+
+                    } else {
+                        doDownloadAttachmentsOfMessage(message)
+                    }
 
                 } else {
                     dispatch_async(dispatch_get_main_queue()) {

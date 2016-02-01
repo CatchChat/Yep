@@ -8,6 +8,8 @@
 
 import UIKit
 import Ruler
+import ImageIO
+import MobileCoreServices
 
 extension UIImage {
 
@@ -569,6 +571,52 @@ extension UIImage {
         let multiplier = alpha / 255.0
 
         return UIColor(red: CGFloat(rgba[0]) * multiplier, green: CGFloat(rgba[1]) * multiplier, blue: CGFloat(rgba[2]) * multiplier, alpha: alpha)
+    }
+}
+
+// MARK: Progressive
+
+extension UIImage {
+
+    var yep_progressiveImage: UIImage? {
+
+        guard let cgImage = CGImage else {
+            return nil
+        }
+
+        let data = NSMutableData()
+
+        guard let distination = CGImageDestinationCreateWithData(data, kUTTypeJPEG, 1, nil) else {
+            return nil
+        }
+
+        let jfifProperties = [
+            kCGImagePropertyJFIFIsProgressive as String: kCFBooleanTrue as Bool,
+            kCGImagePropertyJFIFXDensity as String: 72,
+            kCGImagePropertyJFIFYDensity as String: 72,
+            kCGImagePropertyJFIFDensityUnit as String: 1,
+        ]
+
+        let properties = [
+            kCGImageDestinationLossyCompressionQuality as String: 0.9,
+            kCGImagePropertyJFIFDictionary as String: jfifProperties,
+        ]
+
+        CGImageDestinationAddImage(distination, cgImage, properties)
+
+        guard CGImageDestinationFinalize(distination) else {
+            return nil
+        }
+
+        guard data.length > 0 else {
+            return nil
+        }
+
+        guard let progressiveImage = UIImage(data: data) else {
+            return nil
+        }
+
+        return progressiveImage
     }
 }
 

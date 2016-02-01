@@ -2004,6 +2004,8 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
 
+        //println("unreadMessages data: \(data)")
+
         guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
             return nil
         }
@@ -2738,6 +2740,25 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reas
     }
 
     let resource = authJsonResource(path: "/v1/messages/\(messageID)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    let requestParameters = [
+        "ids": [attachmentID],
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return (data["attachments"] as? [JSONDictionary])?.first
+    }
+
+    let resource = authJsonResource(path: "/v1/attachments/refresh_url", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)

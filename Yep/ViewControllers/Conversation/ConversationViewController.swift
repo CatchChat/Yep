@@ -4633,6 +4633,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         // Do send
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
+        /*
+        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
+
+        if let progressiveImage = UIImage(data: imageData)?.yep_progressiveImage {
+
+            imageData = UIImageJPEGRepresentation(progressiveImage, YepConfig.messageImageCompressionQuality())!
+        }
+        */
 
         let messageImageName = NSUUID().UUIDString
 

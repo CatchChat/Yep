@@ -17,6 +17,7 @@ extension PHImageRequestOptions {
         options.version = .Current
         options.deliveryMode = .HighQualityFormat
         options.resizeMode = .Exact
+        options.networkAccessAllowed = true
 
         return options
     }
