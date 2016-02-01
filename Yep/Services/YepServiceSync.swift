@@ -876,7 +876,15 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 //                        }
 //                }
 
+                if let attachmentID = attachmentInfo["id"] as? String {
+                    message.attachmentID = attachmentID
+                }
+
                 if let fileInfo = attachmentInfo["file"] as? JSONDictionary {
+
+                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? NSTimeInterval {
+                        message.attachmentExpiresUnixTime = attachmentExpiresUnixTime
+                    }
 
                     if let URLString = fileInfo["url"] as? String {
                         message.attachmentURLString = URLString

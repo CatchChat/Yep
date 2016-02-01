@@ -534,6 +534,7 @@ class Message: Object {
     dynamic var localAttachmentName: String = ""
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
+    dynamic var attachmentID: String = ""
     dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
     var nicknameWithTextContent: String {
