@@ -864,19 +864,15 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
             for attachmentInfo in attachments {
 
-                // S3: normal file
-//                if let
-//                    normalFileInfo = attachmentInfo["file"] as? JSONDictionary,
-//                    fileURLString = normalFileInfo["url"] as? String,
-//                    kind = attachmentInfo["kind"] as? String {
-//                        if kind == "thumbnail" {
-//                            message.thumbnailURLString = fileURLString
-//                        } else {
-//                            message.attachmentURLString = fileURLString
-//                        }
-//                }
+                if let attachmentID = attachmentInfo["id"] as? String {
+                    message.attachmentID = attachmentID
+                }
 
                 if let fileInfo = attachmentInfo["file"] as? JSONDictionary {
+
+                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? NSTimeInterval {
+                        message.attachmentExpiresUnixTime = attachmentExpiresUnixTime
+                    }
 
                     if let URLString = fileInfo["url"] as? String {
                         message.attachmentURLString = URLString

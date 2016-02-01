@@ -9,36 +9,50 @@
 import UIKit
 
 class ChatBaseCell: UICollectionViewCell {
-    
-    @IBOutlet weak var avatarImageView: UIImageView!
-    
-    var user: User?
-    var tapAvatarAction: ((user: User) -> Void)?
-    
-    var deleteMessageAction: (() -> Void)?
-    
+
     lazy var nameLabel: UILabel = {
         let label = UILabel(frame: CGRectZero)
         label.font = UIFont.systemFontOfSize(10)
         label.textColor = UIColor.yepGrayColor()
         label.numberOfLines = 1
-        self.addSubview(label)
+        self.contentView.addSubview(label)
         return label
     }()
+
+    lazy var avatarImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        imageView.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
+
+        imageView.contentMode = .ScaleAspectFit
+
+        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        imageView.userInteractionEnabled = true
+        imageView.addGestureRecognizer(tapAvatar)
+
+        return imageView
+    }()
+    
+    var user: User?
+    var tapAvatarAction: ((user: User) -> Void)?
+    
+    var deleteMessageAction: (() -> Void)?
 
     deinit {
         NSNotificationCenter.defaultCenter()
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
 
-        avatarImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tapAvatar")
-        avatarImageView.addGestureRecognizer(tap)
+        contentView.addSubview(avatarImageView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     var prepareForMenuAction: ((otherGesturesEnabled: Bool) -> Void)?
@@ -53,7 +67,7 @@ class ChatBaseCell: UICollectionViewCell {
 
     var inGroup = false
 
-    func tapAvatar() {
+    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
         println("tapAvatar")
 
         if let user = user {

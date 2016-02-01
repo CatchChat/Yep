@@ -221,15 +221,21 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="social_work_border" translatesAutoresizingMaskIntoConstraints="NO" id="4I1-rL-pwe">
                             <rect key="frame" x="0.0" y="0.0" width="294" height="80"/>
                         </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hda-NM-a6m" customClass="FeedURLContainerView" customModule="Yep" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="294" height="80"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="5Md-c8-aoz" firstAttribute="trailing" secondItem="hRL-ts-we1" secondAttribute="trailing" constant="15" id="0iM-so-NGq"/>
+                        <constraint firstAttribute="trailing" secondItem="hda-NM-a6m" secondAttribute="trailing" id="1o4-ge-6bb"/>
                         <constraint firstAttribute="bottom" secondItem="5Md-c8-aoz" secondAttribute="bottom" constant="1" id="1rt-eE-fH0"/>
                         <constraint firstAttribute="trailing" secondItem="loB-Af-q0W" secondAttribute="trailing" id="4tB-zm-8AF"/>
                         <constraint firstItem="loB-Af-q0W" firstAttribute="leading" secondItem="PFV-2X-1gy" secondAttribute="leading" id="DyM-BQ-fUc"/>
                         <constraint firstAttribute="trailing" secondItem="4I1-rL-pwe" secondAttribute="trailing" id="Ffz-uu-zWE"/>
                         <constraint firstItem="E4l-Kq-xE7" firstAttribute="centerY" secondItem="PFV-2X-1gy" secondAttribute="centerY" id="Fhu-K7-CHG"/>
+                        <constraint firstAttribute="bottom" secondItem="hda-NM-a6m" secondAttribute="bottom" id="Fn2-4S-rKZ"/>
                         <constraint firstItem="5Md-c8-aoz" firstAttribute="leading" secondItem="PFV-2X-1gy" secondAttribute="leading" constant="1" id="N3W-8D-VA0"/>
                         <constraint firstItem="4I1-rL-pwe" firstAttribute="top" secondItem="PFV-2X-1gy" secondAttribute="top" id="PPc-Cb-hPs"/>
                         <constraint firstItem="hRL-ts-we1" firstAttribute="leading" secondItem="5Md-c8-aoz" secondAttribute="leading" constant="15" id="UJh-UY-LRT"/>
@@ -241,6 +247,8 @@
                         <constraint firstItem="loB-Af-q0W" firstAttribute="top" secondItem="PFV-2X-1gy" secondAttribute="top" id="fqs-kR-PUo"/>
                         <constraint firstItem="4I1-rL-pwe" firstAttribute="leading" secondItem="PFV-2X-1gy" secondAttribute="leading" id="gFu-jo-r4a"/>
                         <constraint firstAttribute="bottom" secondItem="loB-Af-q0W" secondAttribute="bottom" id="kAU-lH-td2"/>
+                        <constraint firstItem="hda-NM-a6m" firstAttribute="top" secondItem="PFV-2X-1gy" secondAttribute="top" id="n3R-zA-U9x"/>
+                        <constraint firstItem="hda-NM-a6m" firstAttribute="leading" secondItem="PFV-2X-1gy" secondAttribute="leading" id="qMT-zg-xEI"/>
                         <constraint firstAttribute="height" constant="80" id="utb-hg-0Rs"/>
                     </constraints>
                 </view>
@@ -282,6 +290,7 @@
                 <outlet property="avatarImageView" destination="0Hb-fw-n9b" id="AAN-W3-uXW"/>
                 <outlet property="distanceLabel" destination="ffh-Mx-17Q" id="rwL-f4-mRt"/>
                 <outlet property="dotLabel" destination="8CD-nd-UWy" id="Ro3-fd-cTh"/>
+                <outlet property="feedURLContainerView" destination="hda-NM-a6m" id="Z23-fK-bTI"/>
                 <outlet property="githubRepoContainerView" destination="hRL-ts-we1" id="ru8-BI-3nb"/>
                 <outlet property="githubRepoDescriptionLabel" destination="put-dx-KAt" id="5TU-Of-nB9"/>
                 <outlet property="githubRepoImageView" destination="Bgr-wb-WD7" id="D1Z-jW-yui"/>

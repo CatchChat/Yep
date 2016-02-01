@@ -5,7 +5,7 @@ use_frameworks!
 def pods
     pod 'Kanna'
     pod 'Navi'
-#    pod 'Appsee'
+    pod 'Appsee'
     pod 'Alamofire'
     pod 'DeviceGuru'
     pod '1PasswordExtension', '~> 1.5'
@@ -22,7 +22,7 @@ def pods
     pod 'SocketRocket'
     pod 'RealmSwift'
     pod 'MonkeyKing', '0.0.2'
-    pod 'JPush-iOS-SDK'
+    pod 'JPush'
     pod 'Fabric'
     pod 'Crashlytics'
 end

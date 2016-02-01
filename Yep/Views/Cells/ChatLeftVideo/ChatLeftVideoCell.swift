@@ -10,19 +10,34 @@ import UIKit
 
 class ChatLeftVideoCell: ChatBaseCell {
 
-    @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var borderImageView: UIImageView!
+    lazy var thumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .ScaleAspectFill
+        imageView.tintColor = UIColor.leftBubbleTintColor()
+        return imageView
+    }()
 
-    @IBOutlet weak var playImageView: UIImageView!
+    lazy var borderImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "left_tail_image_bubble_border"))
+        return imageView
+    }()
 
-    @IBOutlet weak var loadingProgressView: MessageLoadingProgressView!
-    
+    lazy var playImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_playvideo"))
+        return imageView
+    }()
+
+    lazy var loadingProgressView: MessageLoadingProgressView = {
+        let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        view.hidden = true
+        view.backgroundColor = UIColor.clearColor()
+        return view
+    }()
+
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
     func makeUI() {
-
-        //let fullWidth = UIScreen.mainScreen().bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
         
@@ -36,15 +51,18 @@ class ChatLeftVideoCell: ChatBaseCell {
         
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + halfAvatarSize, y: halfAvatarSize + topOffset)
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        contentView.addSubview(thumbnailImageView)
+        contentView.addSubview(borderImageView)
+        contentView.addSubview(playImageView)
+        contentView.addSubview(loadingProgressView)
+
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
         }
-
-        thumbnailImageView.tintColor = UIColor.leftBubbleTintColor()
 
         thumbnailImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
@@ -55,6 +73,10 @@ class ChatLeftVideoCell: ChatBaseCell {
         }
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func tapMediaView() {
         mediaTapAction?()
     }
@@ -229,7 +251,7 @@ class ChatLeftVideoCell: ChatBaseCell {
     private func configureNameLabel() {
 
         if inGroup {
-            nameLabel.text = user?.nickname
+            nameLabel.text = user?.chatCellCompositedName
 
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()

@@ -13,6 +13,8 @@ import Navi
 import Crashlytics
 import SafariServices
 import Kingfisher
+import Proposer
+import CoreLocation
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
@@ -488,7 +490,7 @@ class ProfileViewController: SegueViewController {
         let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
         let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
-        return ceil(rect.height) + 4
+        return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 4
     }
 
     private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
@@ -570,10 +572,7 @@ class ProfileViewController: SegueViewController {
 
                     updateProfileCollectionView()
                     
-                    Answers.logContentViewWithName("\(user.nickname) Profile",
-                        contentType: "Profile",
-                        contentId: "profile-\(user.userID)",
-                        customAttributes: [:])
+                    GoogleAnalyticsTrackEvent("Visit Profile", label: user.nickname, value: 0)
                 }
 
             default:
@@ -595,8 +594,22 @@ class ProfileViewController: SegueViewController {
 
             // 为空的话就要显示自己
             syncMyInfoAndDoFurtherAction {
+
+                // 提示没有 Skills
+                guard let
+                    myUserID = YepUserDefaults.userID.value,
+                    realm = try? Realm(),
+                    me = userWithUserID(myUserID, inRealm: realm) else {
+                        return
+                }
+
+                if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
+
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        self?.pickSkills()
+                    }, cancelAction: {})
+                }
             }
-            
 
             if let
                 myUserID = YepUserDefaults.userID.value,
@@ -760,21 +773,6 @@ class ProfileViewController: SegueViewController {
 
             if profileUserIsMe {
 
-                // 提示没有 Skills
-
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-
-                        if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
-
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                                self?.pickSkills()
-                            }, cancelAction: {})
-                        }
-                }
-
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
@@ -790,6 +788,23 @@ class ProfileViewController: SegueViewController {
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
+        }
+
+        if profileUserIsMe {
+            proposeToAccess(.Location(.WhenInUse), agreed: {
+                YepLocationService.turnOn()
+
+                YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
+
+                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Footer.rawValue)
+                    if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileFooterCell {
+                        cell.location = newLocation
+                    }
+                }
+
+            }, rejected: {
+                println("Yep can NOT get Location. :[\n")
+            })
         }
 
         #if DEBUG
@@ -857,6 +872,7 @@ class ProfileViewController: SegueViewController {
                 message: sessionMessage,
                 finish: { success in
                     println("share Profile to WeChat Session success: \(success)")
+                    GoogleAnalyticsTrackSocial("WeChat Session", action: "Profile", target: profileURL.absoluteString)
                 }
             )
 
@@ -867,8 +883,11 @@ class ProfileViewController: SegueViewController {
                 message: timelineMessage,
                 finish: { success in
                     println("share Profile to WeChat Timeline success: \(success)")
+                    GoogleAnalyticsTrackSocial("WeChat Timeline", action: "Profile", target: profileURL.absoluteString)
                 }
             )
+            
+            GoogleAnalyticsTrackSocial("Share", action: "Profile", target: profileURL.absoluteString)
 
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
@@ -881,11 +900,7 @@ class ProfileViewController: SegueViewController {
         if let _ = profileUser?.username {
             
             if let profileUser = profileUser {
-                Answers.logCustomEventWithName("Share Profile",
-                    customAttributes: [
-                        "userID": profileUser.userID,
-                        "nickname": profileUser.nickname
-                    ])
+                GoogleAnalyticsTrackEvent("Share Profile", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
             }
             
             shareProfile()
@@ -980,18 +995,8 @@ class ProfileViewController: SegueViewController {
     private func sayHi() {
 
         if let profileUser = profileUser {
-        
-            if let userID = YepUserDefaults.userID.value,
-                nickname = YepUserDefaults.nickname.value{
                     
-                Answers.logCustomEventWithName("Say Hi",
-                        customAttributes: [
-                            "userID": profileUser.userID,
-                            "nickname": profileUser.nickname,
-                            "byUserID": userID,
-                            "byNickname": nickname
-                    ])
-            }
+            GoogleAnalyticsTrackEvent("Say Hi", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
 
             guard let realm = try? Realm() else {
                 return
@@ -1437,7 +1442,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.Footer.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
 
-            cell.introductionLabel.text = introductionText
+            if let profileUser = profileUser {
+                cell.configureWithProfileUser(profileUser, introduction: introductionText)
+            }
 
             return cell
 

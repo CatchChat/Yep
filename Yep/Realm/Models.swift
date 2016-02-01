@@ -189,6 +189,14 @@ class User: Object {
         return false
     }
 
+    var chatCellCompositedName: String {
+        if username.isEmpty {
+            return nickname
+        } else {
+            return "\(nickname) @\(username)"
+        }
+    }
+
     // 级联删除关联的数据对象
 
     func cascadeDeleteInRealm(realm: Realm) {
@@ -511,13 +519,14 @@ class Message: Object {
     dynamic var mediaType: Int = MessageMediaType.Text.rawValue
 
     dynamic var textContent: String = ""
-    var textContentToShow: String {
-        if deletedByCreator {
-            return NSLocalizedString("Recalled by creator.", comment: "")
-        } else {
-            return textContent
-        }
+
+    var recalledTextContent: String {
+        let nickname = fromFriend?.nickname ?? ""
+        return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
     }
+
+    dynamic var openGraphDetected: Bool = false
+    dynamic var openGraphInfo: OpenGraphInfo?
 
     dynamic var coordinate: Coordinate?
 
@@ -525,6 +534,8 @@ class Message: Object {
     dynamic var localAttachmentName: String = ""
     dynamic var thumbnailURLString: String = ""
     dynamic var localThumbnailName: String = ""
+    dynamic var attachmentID: String = ""
+    dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
     var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
@@ -583,6 +594,15 @@ class Message: Object {
             realm.delete(mediaMetaData)
         }
 
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
+        if let openGraphInfo = openGraphInfo {
+            if openGraphInfo.feeds.isEmpty {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
+        }
+
         switch mediaType {
 
         case MessageMediaType.Image.rawValue:
@@ -615,7 +635,7 @@ class Message: Object {
                 
                 realm.delete(socialWork)
             }
-            
+
         default:
             break // TODO: if have other message media need to delete
         }
@@ -808,6 +828,51 @@ class FeedLocation: Object {
     dynamic var coordinate: Coordinate?
 }
 
+class OpenGraphInfo: Object {
+
+    dynamic var URLString: String = ""
+    dynamic var siteName: String = ""
+    dynamic var title: String = ""
+    dynamic var infoDescription: String = ""
+    dynamic var thumbnailImageURLString: String = ""
+
+    var messages: [Message] {
+        return linkingObjects(Message.self, forProperty: "openGraphInfo")
+    }
+    var feeds: [Feed] {
+        return linkingObjects(Feed.self, forProperty: "openGraphInfo")
+    }
+
+    override class func primaryKey() -> String? {
+        return "URLString"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["URLString"]
+    }
+
+    convenience init(URLString: String, siteName: String, title: String, infoDescription: String, thumbnailImageURLString: String) {
+        self.init()
+
+        self.URLString = URLString
+        self.siteName = siteName
+        self.title = title
+        self.infoDescription = infoDescription
+        self.thumbnailImageURLString = thumbnailImageURLString
+    }
+
+    class func withURLString(URLString: String, inRealm realm: Realm) -> OpenGraphInfo? {
+        return realm.objects(OpenGraphInfo).filter("URLString = %@", URLString).first
+    }
+}
+
+extension OpenGraphInfo: OpenGraphInfoType {
+
+    var URL: NSURL {
+        return NSURL(string: URLString)!
+    }
+}
+
 class Feed: Object {
 
     dynamic var feedID: String = ""
@@ -826,6 +891,7 @@ class Feed: Object {
     dynamic var socialWork: MessageSocialWork?
     dynamic var audio: FeedAudio?
     dynamic var location: FeedLocation?
+    dynamic var openGraphInfo: OpenGraphInfo?
 
     dynamic var skill: UserSkill?
 
@@ -874,6 +940,15 @@ class Feed: Object {
             realm.delete(location)
         }
 
+        // 除非没有谁指向 openGraphInfo，不然不能删除它
+        if let openGraphInfo = openGraphInfo {
+            if openGraphInfo.messages.isEmpty {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first where first == self {
+                    realm.delete(openGraphInfo)
+                }
+            }
+        }
+
         realm.delete(self)
     }
 }
@@ -908,6 +983,31 @@ class OfflineJSON: Object {
 
     class func withName(name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
         return realm.objects(OfflineJSON).filter("name = %@", name.rawValue).first
+    }
+}
+
+class UserLocationName: Object {
+
+    dynamic var userID: String = ""
+    dynamic var locationName: String = ""
+
+    override class func primaryKey() -> String? {
+        return "userID"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["userID"]
+    }
+
+    convenience init(userID: String, locationName: String) {
+        self.init()
+
+        self.userID = userID
+        self.locationName = locationName
+    }
+
+    class func withUserID(userID: String, inRealm realm: Realm) -> UserLocationName? {
+        return realm.objects(UserLocationName).filter("userID = %@", userID).first
     }
 }
 
@@ -1229,6 +1329,18 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
             feedLocation.coordinate = coordinate
 
             feed.location = feedLocation
+
+        case .URL(let info):
+
+            guard feed.openGraphInfo == nil else {
+                break
+            }
+
+            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
+
+            realm.add(openGraphInfo, update: true)
+
+            feed.openGraphInfo = openGraphInfo
         }
     }
 }

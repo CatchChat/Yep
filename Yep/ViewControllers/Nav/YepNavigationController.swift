@@ -18,6 +18,8 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
             
             delegate = self
         }
+        
+//        self.navigationBar.changeBottomHairImage()
     }
 
     override init(rootViewController: UIViewController) {

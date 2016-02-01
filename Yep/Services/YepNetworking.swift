@@ -162,7 +162,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     }
 
     #if DEBUG
-    println(request.cURLCommandLineWithSession(session))
+    //println(request.cURLCommandLineWithSession(session))
     #endif
 
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in

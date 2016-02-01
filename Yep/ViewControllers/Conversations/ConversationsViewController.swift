@@ -63,7 +63,7 @@ class ConversationsViewController: SegueViewController {
     private lazy var conversations: Results<Conversation> = {
         let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
-        }()
+    }()
 
     private struct Listener {
         static let Nickname = "ConversationsViewController.Nickname"
@@ -155,7 +155,7 @@ class ConversationsViewController: SegueViewController {
 
     private func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
             // 聊天界面的小头像
 
@@ -238,40 +238,21 @@ class ConversationsViewController: SegueViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+    var isFirstAppear = true
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        delay(0.5) { [weak self] in
-            self?.askForNotification()
+
+        if isFirstAppear {
+            delay(0.5) { [weak self] in
+                self?.askForNotification()
+            }
+
+            // 预先生成小头像
+            cacheInAdvance()
         }
 
-        // 预先生成小头像
-        cacheInAdvance()
-
-        // test open graph
-        /*
-        [
-            //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en",
-            //"https://itun.es/cn/5_268?i=1022063849",
-            //"www.douban.com",
-            //"http://swiftcn.io/topics/64?f=w",
-            //"https://github.com/",
-            //"http://www.douban.com/note/431101390/",
-            //"https://itunes.apple.com/us/movie/headhunters/id550338059", // 电影
-            //"https://itunes.apple.com/cn/album/19-standard-edition/id270409624?l=en", // 专辑
-            //"https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en", // 单曲
-            "https://itunes.apple.com/us/book/swift-programming-language/id881256329", // 书
-            //"https://itunes.apple.com/cn/app/evernote/id281796108?l=en&mt=8", // APP
-        ].forEach({
-            openGraphWithURLString($0, failureHandler: nil, completion: { openGraph in
-                println("openGraph: \(openGraph)")
-            })
-        })
-        */
+        isFirstAppear = false
     }
     
     private func askForNotification() {
@@ -296,14 +277,14 @@ class ConversationsViewController: SegueViewController {
             category.identifier = "YepMessageNotification"
             category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
             
-            APService.registerForRemoteNotificationTypes(
+            JPUSHService.registerForRemoteNotificationTypes(
                 UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: [category])
             
         } else {
             // 这里才开始向用户提示推送
-            APService.registerForRemoteNotificationTypes(
+            JPUSHService.registerForRemoteNotificationTypes(
                 UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: nil)

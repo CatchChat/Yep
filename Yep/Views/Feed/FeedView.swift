@@ -49,6 +49,7 @@ class FeedView: UIView {
     var tapGithubRepoAction: (NSURL -> Void)?
     var tapDribbbleShotAction: (NSURL -> Void)?
     var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
+    var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
     static let foldHeight: CGFloat = 60
 
@@ -157,6 +158,12 @@ class FeedView: UIView {
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
+    @IBOutlet weak var feedURLContainerView: FeedURLContainerView! {
+        didSet {
+            feedURLContainerView.compressionMode = true
+        }
+    }
+    
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
@@ -238,6 +245,9 @@ class FeedView: UIView {
 
         let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
         locationContainerView.addGestureRecognizer(tapLocation)
+
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
+        feedURLContainerView.addGestureRecognizer(tapURLInfo)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -336,6 +346,23 @@ class FeedView: UIView {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
+            feedURLContainerView.hidden = true
+
+        case .URL:
+
+            mediaCollectionView.hidden = true
+            socialWorkContainerView.hidden = false
+            voiceContainerView.hidden = true
+
+            feedURLContainerView.hidden = false
+
+            socialWorkBorderImageView.hidden = true
+
+            socialWorkContainerViewHeightConstraint.constant = 80
+
+            if let openGraphInfo = feed.openGraphInfo {
+                feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
+            }
 
         case .Image:
 
@@ -355,6 +382,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -376,6 +404,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -395,6 +424,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
             locationContainerView.hidden = true
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -421,6 +451,7 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = false
+            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -478,6 +509,14 @@ class FeedView: UIView {
         }
 
         tapLocationAction?(locationName: locationName, locationCoordinate: locationCoordinate)
+    }
+
+    func tapURLInfo(sender: UITapGestureRecognizer) {
+        guard let URL = feed?.openGraphInfo?.URL else {
+            return
+        }
+
+        tapURLInfoAction?(URL: URL)
     }
 
     @IBAction func playOrPauseAudio(sender: UIButton) {

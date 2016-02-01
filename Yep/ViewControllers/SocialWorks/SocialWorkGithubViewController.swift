@@ -65,10 +65,15 @@ class SocialWorkGithubViewController: BaseViewController {
             updateGithubTableView()
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
 //        animatedOnNavigationBar = false
 
         if let socialAccount = socialAccount {

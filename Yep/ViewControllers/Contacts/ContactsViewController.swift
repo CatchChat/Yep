@@ -163,6 +163,10 @@ class ContactsViewController: BaseViewController {
             vc.setBackButtonWithTitle()
         }
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate

@@ -75,6 +75,11 @@ class DiscoverViewController: BaseViewController {
         return label
     }()
     #endif
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

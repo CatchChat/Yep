@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Conversation-->
@@ -14,11 +14,11 @@
                         <viewControllerLayoutGuide type="bottom" id="UbN-sl-QUT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="846-Dd-AxI">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Eug-oZ-gjQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="sS6-P1-xbg" customClass="ConversationLayout" customModule="Yep" customModuleProvider="target"/>
                                 <cells/>
@@ -28,16 +28,16 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
-                                <rect key="frame" x="0.0" y="270" width="600" height="100"/>
+                                <rect key="frame" x="0.0" y="337" width="375" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erl-b0-CMQ">
-                                        <rect key="frame" x="234" y="62" width="132.5" height="18"/>
+                                        <rect key="frame" x="121" y="62" width="132.5" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="WVE-v0-1iA">
-                                        <rect key="frame" x="287" y="44" width="25" height="8"/>
+                                        <rect key="frame" x="174" y="44" width="25" height="8"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="Q0N-bH-k2Y"/>
                                             <constraint firstAttribute="width" constant="25" id="gpR-7R-3D5"/>
@@ -54,11 +54,11 @@
                                 </constraints>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="390" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="457" width="375" height="50"/>
                                 <items/>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fP4-ji-yWc">
-                                <rect key="frame" x="290" y="140" width="20" height="20"/>
+                                <rect key="frame" x="177" y="140" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,10 +73,12 @@
                             <constraint firstItem="H35-sK-viT" firstAttribute="width" secondItem="9Uh-E6-Vss" secondAttribute="width" id="Thq-w4-dFj"/>
                             <constraint firstItem="9Uh-E6-Vss" firstAttribute="top" secondItem="H35-sK-viT" secondAttribute="bottom" constant="20" id="XB3-oz-ltH"/>
                             <constraint firstAttribute="trailing" secondItem="9Uh-E6-Vss" secondAttribute="trailing" id="sm6-8A-Lpk"/>
+                            <constraint firstItem="9Uh-E6-Vss" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3yg-SJ-CR8" secondAttribute="bottom" id="twv-t0-rmT"/>
                             <constraint firstAttribute="bottom" secondItem="9Uh-E6-Vss" secondAttribute="bottom" constant="160" id="xp5-FH-KYE"/>
                             <constraint firstAttribute="trailing" secondItem="Eug-oZ-gjQ" secondAttribute="trailing" id="zUR-03-3Fr"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="activityIndicator" destination="fP4-ji-yWc" id="0aI-A0-ptB"/>
                         <outlet property="conversationCollectionView" destination="Eug-oZ-gjQ" id="Cvy-ke-csl"/>
@@ -94,6 +96,7 @@
                         <segue destination="1y0-IN-47w" kind="show" identifier="showProfileFromFeedView" id="eCp-94-guS"/>
                         <segue destination="bhi-Zn-U0N" kind="show" identifier="showProfile" id="HJ6-Sc-tfw"/>
                         <segue destination="9xD-Rm-9US" kind="presentation" identifier="presentNewFeed" id="e4k-KG-exv"/>
+                        <segue destination="8Oq-Nk-eYq" kind="show" identifier="showProfileWithUsername" id="l5Y-gH-p57"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zLf-XS-3py" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -114,7 +117,7 @@
                 <viewControllerPlaceholder storyboardName="PickLocation" id="f8Q-Nw-run" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axC-MU-2PW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-549" y="2288"/>
+            <point key="canvasLocation" x="-629" y="2344"/>
         </scene>
         <!--MessageMediaViewController-->
         <scene sceneID="mD6-JY-R4j">
@@ -130,7 +133,7 @@
                 <viewControllerPlaceholder storyboardName="NewFeed" id="9xD-Rm-9US" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mtb-Uy-ezu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-399.5" y="2288"/>
+            <point key="canvasLocation" x="-455.5" y="2344"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="ZHm-QA-IAa">
@@ -139,6 +142,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gOk-TU-G9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8" y="1699"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="JvR-ag-PtC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="8Oq-Nk-eYq" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kuM-f9-DL1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="54" y="1769"/>
         </scene>
     </scenes>
     <resources>

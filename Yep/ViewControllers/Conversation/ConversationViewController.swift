@@ -258,6 +258,24 @@ enum ConversationFeed {
 
         return nil
     }
+
+    var openGraphInfo: OpenGraphInfoType? {
+
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            if let attachment = discoveredFeed.attachment {
+                if case let .URL(openGraphInfo) = attachment {
+                    return openGraphInfo
+                }
+            }
+        case .FeedType(let feed):
+            if let openGraphInfo = feed.openGraphInfo {
+                return openGraphInfo
+            }
+        }
+
+        return nil
+    }
     
     var attachments: [Attachment] {
         switch self {
@@ -584,9 +602,10 @@ class ConversationViewController: BaseViewController {
     #endif
 
     private let chatSectionDateCellIdentifier = "ChatSectionDateCell"
-    private let chatStateCellIdentifier = "ChatStateCell"
     private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     private let chatRightTextCellIdentifier = "ChatRightTextCell"
+    private let chatLeftTextURLCellIdentifier = "ChatLeftTextURLCell"
+    private let chatRightTextURLCellIdentifier = "ChatRightTextURLCell"
     private let chatLeftImageCellIdentifier = "ChatLeftImageCell"
     private let chatRightImageCellIdentifier = "ChatRightImageCell"
     private let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
@@ -595,6 +614,7 @@ class ConversationViewController: BaseViewController {
     private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
+    private let chatLeftRecallCellIdentifier =  "ChatLeftRecallCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
     
     private struct Listener {
@@ -671,10 +691,32 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView.alwaysBounceVertical = true
 
-        conversationCollectionView.registerNib(UINib(nibName: chatStateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatStateCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftTextCell.self, forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightTextCell.self, forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftTextURLCell.self, forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightTextURLCell.self, forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftImageCell.self, forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightImageCell.self, forCellWithReuseIdentifier: chatRightImageCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftAudioCell.self, forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightAudioCell.self, forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftVideoCell.self, forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightVideoCell.self, forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
+        conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
+
+        conversationCollectionView.registerClass(ChatLeftRecallCell.self, forCellWithReuseIdentifier: chatLeftRecallCellIdentifier)
+        /*
         conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatLeftTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
+        conversationCollectionView.registerNib(UINib(nibName: chatRightTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
@@ -683,6 +725,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatLeftLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
+        */
         conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
         
         conversationCollectionView.bounces = true
@@ -834,75 +877,17 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        if let group = conversation.withGroup where !group.includeMe {
-
-            let groupID = group.groupID
-
-            meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
-
-                println("meIsMember: \(meIsMember)")
-
-                guard !meIsMember else {
-                    return
-                }
-
-                delay(1) { [weak self] in
-
-                    self?.subscribeView.subscribeAction = { [weak self] in
-                        joinGroup(groupID: groupID, failureHandler: nil, completion: {
-                            println("subscribe OK")
-
-                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                if let strongSelf = self {
-                                    let _ = try? strongSelf.realm.write {
-                                        strongSelf.conversation.withGroup?.includeMe = true
-                                    }
-                                }
-                            }
-                        })
-                    }
-
-                    self?.subscribeView.showWithChangeAction = { [weak self] in
-                        if let strongSelf = self {
-
-                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                            self?.isSubscribeViewShowing = true
-                        }
-                    }
-
-                    self?.subscribeView.hideWithChangeAction = { [weak self] in
-                        if let strongSelf = self {
-
-                            let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
-
-                            let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
-                            
-                            self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-                            
-                            self?.isSubscribeViewShowing = false
-                        }
-                    }
-                    
-                    self?.subscribeView.show()
-                }
-            })
-        }
-
-        #if DEBUG
-//            view.addSubview(conversationFPSLabel)
-        #endif
+        tryShowSubscribeView()
 
         needDetectMention = conversation.needDetectMention
+
+        #if DEBUG
+            //view.addSubview(conversationFPSLabel)
+        #endif
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
         /*
         // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
         if let delegate = originalNavigationControllerDelegate {
@@ -947,6 +932,7 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.stateTransitionAction = { [weak self] (messageToolbar, previousState, currentState) in
 
+                //println("messageToolbar.messageTextView.text 1: \(messageToolbar.messageTextView.text)")
                 switch currentState {
 
                 case .BeginTextInput:
@@ -961,6 +947,19 @@ class ConversationViewController: BaseViewController {
                     if self?.needDetectMention ?? false {
                         self?.mentionView.hide()
                     }
+
+                    if previousState != .TextInputing {
+                        if let
+                            draft = self?.conversation.draft,
+                            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                                messageToolbar.messageTextView.text = draft.text
+                        }
+                    }
+                }
+
+                if previousState != currentState {
+                    //println("messageToolbar.messageTextView.text 2: \(messageToolbar.messageTextView.text)")
+                    NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
                 }
             }
 
@@ -1419,6 +1418,7 @@ class ConversationViewController: BaseViewController {
         if let checkTypingStatusTimer = checkTypingStatusTimer {
             checkTypingStatusTimer.invalidate()
         }
+
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
 
@@ -1735,6 +1735,11 @@ class ConversationViewController: BaseViewController {
             mapItem.openInMapsWithLaunchOptions(nil)
         }
 
+        feedView.tapURLInfoAction = { [weak self] URL in
+            println("tapURLInfoAction URL: \(URL)")
+            self?.yep_openURL(URL)
+        }
+
         feedView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(feedView)
@@ -1874,12 +1879,21 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Text.rawValue:
 
-            let rect = message.textContentToShow.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+            if message.deletedByCreator {
+                height = 26
 
-            height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+            } else {
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
-            if !key.isEmpty {
-                textContentLabelWidths[key] = ceil(rect.width)
+                height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
+
+                if message.openGraphInfo != nil {
+                    height += 100 + 10
+                }
+
+                if !key.isEmpty {
+                    textContentLabelWidths[key] = ceil(rect.width)
+                }
             }
 
         case MessageMediaType.Image.rawValue:
@@ -1930,11 +1944,13 @@ class ConversationViewController: BaseViewController {
             height = 20
         }
 
-        if message.mediaType != MessageMediaType.SectionDate.rawValue && conversation.withGroup != nil {
-            
-            if let sender = message.fromFriend {
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    height += YepConfig.ChatCell.marginTopForGroup
+        // inGroup, plus height for show name
+        if conversation.withGroup != nil {
+            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.deletedByCreator {
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        height += YepConfig.ChatCell.marginTopForGroup
+                    }
                 }
             }
         }
@@ -2114,6 +2130,80 @@ class ConversationViewController: BaseViewController {
                 }
             }
         }
+    }
+
+    private func tryShowSubscribeView() {
+
+        guard let group = conversation.withGroup where !group.includeMe else {
+            return
+        }
+
+        let groupID = group.groupID
+
+        meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
+
+            println("meIsMember: \(meIsMember)")
+
+            guard !meIsMember else {
+                return
+            }
+
+            delay(3) { [weak self] in
+
+                self?.subscribeView.subscribeAction = { [weak self] in
+                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                        println("subscribe OK")
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            if let strongSelf = self {
+                                let _ = try? strongSelf.realm.write {
+                                    strongSelf.conversation.withGroup?.includeMe = true
+                                }
+                            }
+                        }
+                    })
+                }
+
+                self?.subscribeView.showWithChangeAction = { [weak self] in
+                    if let strongSelf = self {
+
+                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                        //let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+
+                        let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
+
+                        let newContentOffsetY: CGFloat
+                        if extraPart > 0 {
+                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
+                        } else {
+                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y
+                        }
+
+                        //println("extraPart: \(extraPart), newContentOffsetY: \(newContentOffsetY)")
+
+                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                        self?.isSubscribeViewShowing = true
+                    }
+                }
+
+                self?.subscribeView.hideWithChangeAction = { [weak self] in
+                    if let strongSelf = self {
+
+                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+
+                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+
+                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+                        
+                        self?.isSubscribeViewShowing = false
+                    }
+                }
+                
+                self?.subscribeView.show()
+            }
+        })
     }
 
     // MARK: Actions
@@ -2313,6 +2403,7 @@ class ConversationViewController: BaseViewController {
             message: sessionMessage,
             finish: { success in
                 println("share Feed to WeChat Session success: \(success)")
+                GoogleAnalyticsTrackSocial("WeChat Session", action: "Feed", target: groupShareURLString)
             }
         )
         
@@ -2323,12 +2414,15 @@ class ConversationViewController: BaseViewController {
             message: timelineMessage,
             finish: { success in
                 println("share Feed to WeChat Timeline success: \(success)")
+                GoogleAnalyticsTrackSocial("WeChat TimeLine", action: "Feed", target: groupShareURLString)
             }
         )
         
         let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+        
+        GoogleAnalyticsTrackSocial("Share", action: "Feed", target: groupShareURLString)
         
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
@@ -2899,6 +2993,16 @@ class ConversationViewController: BaseViewController {
 
         switch identifier {
 
+        case "showProfileWithUsername":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let box = sender as! Box<ProfileUser>
+            vc.profileUser = box.value
+
+            vc.fromType = .GroupConversation
+            vc.setBackButtonWithTitle()
+
         case "showProfileFromFeedView":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -3276,12 +3380,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         var bubbleFrame = CGRectZero
 
         if let cell = cell as? ChatLeftTextCell {
-            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+            bubbleFrame = cell.convertRect(cell.textContentTextView.frame, toView: view)
 
         } else if let cell = cell as? ChatRightTextCell {
             bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
 
-        }  else if let cell = cell as? ChatLeftImageCell {
+        } else if let cell = cell as? ChatLeftTextURLCell {
+            bubbleFrame = cell.convertRect(cell.textContentTextView.frame, toView: view)
+
+        } else if let cell = cell as? ChatRightTextURLCell {
+            bubbleFrame = cell.convertRect(cell.textContainerView.frame, toView: view)
+
+        } else if let cell = cell as? ChatLeftImageCell {
             bubbleFrame = cell.convertRect(cell.messageImageView.frame, toView: view)
 
         } else if let cell = cell as? ChatRightImageCell {
@@ -3647,8 +3757,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
-                        return cell
+                        if message.deletedByCreator {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                            return cell
+
+                        } else {
+                            if message.openGraphInfo != nil {
+                                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                                return cell
+
+                            } else {
+                                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                                return cell
+                            }
+                        }
                     }
 
                 } else { // from Me
@@ -3677,8 +3799,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     default:
 
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
-                        return cell
+                        if message.openGraphInfo != nil {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextURLCellIdentifier, forIndexPath: indexPath) as! ChatRightTextURLCell
+                            return cell
+
+                        } else {
+                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+                            return cell
+                        }
                     }
                 }
             }
@@ -3692,15 +3820,37 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         return cell
     }
 
+    private func tryShowProfileWithUsername(username: String) {
+
+        if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
+            let profileUser = ProfileUser.UserType(user)
+
+            delay(0.1) { [weak self] in
+                self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+            }
+
+        } else {
+            discoverUserByUsername(username, failureHandler: { [weak self] reason, errorMessage in
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("User not found.", comment: ""), inViewController: self)
+
+            }, completion: { discoveredUser in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    let profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+                }
+            })
+        }
+    }
+
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            
+
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
-                
+
                 if let cell = cell as? ChatSectionDateCell {
                     let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
-                    
+
                     if createdAt.isInCurrentWeek() {
                         cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
 
@@ -3832,10 +3982,43 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
 
                     default:
-                        
-                        if let cell = cell as? ChatLeftTextCell {
+
+                        if message.deletedByCreator {
+                            if let cell = cell as? ChatLeftRecallCell {
+                                cell.configureWithMessage(message)
+                            }
+
+                        } else {
+                            if message.openGraphInfo != nil {
+
+                                if let cell = cell as? ChatLeftTextURLCell {
+
+                                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                    cell.tapUsernameAction = { [weak self] username in
+                                        println("left textURL cell.tapUsernameAction: \(username)")
+                                        self?.tryShowProfileWithUsername(username)
+                                    }
+
+                                    cell.tapOpenGraphURLAction = { [weak self] URL in
+                                        self?.yep_openURL(URL)
+                                    }
+                                }
+
+                            } else {
                             
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                                if let cell = cell as? ChatLeftTextCell {
+                                    
+                                    cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+
+                                    cell.tapUsernameAction = { [weak self] username in
+                                        println("left text cell.tapUsernameAction: \(username)")
+                                        self?.tryShowProfileWithUsername(username)
+                                    }
+                                }
+                            }
+
+                            tryDetectOpenGraphForMessage(message)
                         }
                     }
                     
@@ -3986,41 +4169,134 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                         
                     default:
-                        
-                        if let cell = cell as? ChatRightTextCell {
-                            
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: { [weak self] in
-                                
-                                if message.sendState == MessageSendState.Failed.rawValue {
-                                    
-                                    YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
-                                        
-                                        resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                            defaultFailureHandler(reason, errorMessage: errorMessage)
-                                            
-                                            YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
-                                            
-                                        }, completion: { success in
-                                            println("resendText: \(success)")
-                                        })
-                                        
-                                    }, cancelAction: {
-                                    })
-                                }
-                            }, collectionView: collectionView, indexPath: indexPath)
+
+                        let mediaTapAction: () -> Void = { [weak self] in
+
+                            guard message.sendState == MessageSendState.Failed.rawValue else {
+                                return
+                            }
+
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                                resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
+                                    defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                                    YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+
+                                    }, completion: { success in
+                                        println("resendText: \(success)")
+                                })
+
+                            }, cancelAction: {
+                            })
                         }
+
+                        if message.openGraphInfo != nil {
+
+                            if let cell = cell as? ChatRightTextURLCell {
+
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("right textURL cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
+
+                                cell.tapOpenGraphURLAction = { [weak self] URL in
+                                    self?.yep_openURL(URL)
+                                }
+                            }
+
+                        } else {
+
+                            if let cell = cell as? ChatRightTextCell {
+
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+
+                                cell.tapUsernameAction = { [weak self] username in
+                                    println("right text cell.tapUsernameAction: \(username)")
+                                    self?.tryShowProfileWithUsername(username)
+                                }
+                            }
+                        }
+
+                        tryDetectOpenGraphForMessage(message)
                     }
                 }
             }
         }
     }
 
+    private func tryDetectOpenGraphForMessage(message: Message) {
+
+        guard !message.openGraphDetected else {
+            return
+        }
+
+        func markMessageOpenGraphDetected() {
+            let _ = try? realm.write {
+                message.openGraphDetected = true
+            }
+        }
+
+        let text = message.textContent
+        guard let fisrtURL = text.yep_embeddedURLs.first else {
+            markMessageOpenGraphDetected()
+            return
+        }
+
+        openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                markMessageOpenGraphDetected()
+            }
+
+        }, completion: { _openGraph in
+            println("message_openGraph: \(_openGraph)")
+
+            guard _openGraph.isValid else {
+                return
+            }
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                let openGraphInfo = OpenGraphInfo(URLString: _openGraph.URL.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
+
+                let _ = try? strongSelf.realm.write {
+                    strongSelf.realm.add(openGraphInfo, update: true)
+                    message.openGraphInfo = openGraphInfo
+                }
+
+                markMessageOpenGraphDetected()
+
+                // update UI
+                strongSelf.clearHeightOfMessageWithKey(message.messageID)
+
+                if let index = strongSelf.messages.indexOf(message) {
+                    let realIndex = index - strongSelf.displayedMessagesRange.location
+                    let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
+                    strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+
+                    // only for latest one need to scroll
+                    if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
+                        strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: true)
+                    }
+                }
+            }
+        })
+    }
+
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            
+
             let height = heightOfMessage(message)
-            
+
             return CGSize(width: collectionViewWidth, height: height)
 
         } else {
@@ -4357,6 +4633,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         // Do send
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
+        /*
+        var imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
+
+        if let progressiveImage = UIImage(data: imageData)?.yep_progressiveImage {
+
+            imageData = UIImageJPEGRepresentation(progressiveImage, YepConfig.messageImageCompressionQuality())!
+        }
+        */
 
         let messageImageName = NSUUID().UUIDString
 

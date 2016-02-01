@@ -37,8 +37,6 @@ class EditSkillsViewController: BaseViewController {
 //        animatedOnNavigationBar = false
 
         title = skillSet?.name
-
-
         // get all skill categories
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in

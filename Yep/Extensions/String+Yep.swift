@@ -37,17 +37,52 @@ extension String {
             return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         }
     }
+
+    var yep_removeAllNewLines: String {
+        return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+    }
+}
+
+extension String {
+
+    func yep_rangeFromNSRange(nsRange: NSRange) -> Range<Index>? {
+
+        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
+        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+
+        guard let from = String.Index(from16, within: self),
+            let to = String.Index(to16, within: self) else {
+                return nil
+        }
+
+        return from ..< to
+    }
+
+    func yep_NSRangeFromRange(range: Range<Index>) -> NSRange {
+
+        let utf16view = self.utf16
+        let from = String.UTF16View.Index(range.startIndex, within: utf16view)
+        let to = String.UTF16View.Index(range.endIndex, within: utf16view)
+
+        return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
+    }
 }
 
 extension String {
 
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
+        //println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
+
         guard index > 0 else {
             return nil
         }
 
-        let index = startIndex.advancedBy(index)
+        let nsRange = NSMakeRange(index, 0)
+        guard let range = self.yep_rangeFromNSRange(nsRange) else {
+            return nil
+        }
+        let index = range.startIndex
 
         var wordString: String?
         var wordRange: Range<Index>?
@@ -82,6 +117,52 @@ extension String {
         }
 
         return (_wordString, mentionWordRange)
+    }
+}
+
+extension String {
+
+    var yep_embeddedURLs: [NSURL] {
+
+        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+            return []
+        }
+
+        var URLs = [NSURL]()
+
+        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+
+            if let URL = result?.URL {
+                URLs.append(URL)
+            }
+        }
+
+        return URLs
+    }
+
+    var yep_firstImageURL: NSURL? {
+
+        let URLs = yep_embeddedURLs
+
+        guard !URLs.isEmpty else {
+            return nil
+        }
+
+        let imageExtentions = [
+            "png",
+            "jpg",
+            "jpeg",
+        ]
+
+        for URL in URLs {
+            if let pathExtension = URL.pathExtension?.lowercaseString {
+                if imageExtentions.contains(pathExtension) {
+                    return URL
+                }
+            }
+        }
+
+        return nil
     }
 }
 

@@ -726,7 +726,11 @@
 
 "Hide" = "隐藏";
 
-"Recalled by creator." = "消息已被撤回。";
+"%@ recalled a message." = "%@ 撤回了一条消息。";
 
 "Retry" = "重试";
+
+"User not found." = "找不到用户。";
+
+"No username" = "没有用户名";
 

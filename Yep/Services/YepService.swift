@@ -12,7 +12,7 @@ import CoreLocation
 import Alamofire
 
 #if STAGING
-let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com")!
+let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
 let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
 let yepBaseURL = NSURL(string: "https://api.soyep.com")!
@@ -2004,6 +2004,8 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
 
+        //println("unreadMessages data: \(data)")
+
         guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
             return nil
         }
@@ -2746,6 +2748,25 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reas
     }
 }
 
+func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    let requestParameters = [
+        "ids": [attachmentID],
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return (data["attachments"] as? [JSONDictionary])?.first
+    }
+
+    let resource = authJsonResource(path: "/v1/attachments/refresh_url", method: .PATCH, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Feeds
 
 enum FeedSortStyle: String {
@@ -2959,12 +2980,37 @@ struct DiscoveredFeed: Hashable {
         }
     }
 
+    struct OpenGraphInfo: OpenGraphInfoType {
+
+        let URL: NSURL
+
+        let siteName: String
+        let title: String
+        let infoDescription: String
+        let thumbnailImageURLString: String
+
+        static func fromJSONDictionary(json: JSONDictionary) -> OpenGraphInfo? {
+            guard let
+                URLString = json["url"] as? String,
+                URL = NSURL(string: URLString),
+                siteName = json["site_name"] as? String,
+                title = json["title"] as? String,
+                infoDescription = json["description"] as? String,
+                thumbnailImageURLString = json["image_url"] as? String else {
+                    return nil
+            }
+
+            return OpenGraphInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
+        }
+    }
+
     enum Attachment {
         case Images([DiscoveredAttachment])
         case Github(GithubRepo)
         case Dribbble(DribbbleShot)
         case Audio(AudioInfo)
         case Location(LocationInfo)
+        case URL(OpenGraphInfo)
     }
 
     let attachment: Attachment?
@@ -3041,6 +3087,14 @@ struct DiscoveredFeed: Hashable {
         var attachment: DiscoveredFeed.Attachment?
 
         switch kind {
+
+        case .URL:
+            if let
+                openGraphInfosData = feedInfo["attachments"] as? [JSONDictionary],
+                openGraphInfoDict = openGraphInfosData.first,
+                openGraphInfo = DiscoveredFeed.OpenGraphInfo.fromJSONDictionary(openGraphInfoDict) {
+                    attachment = .URL(openGraphInfo)
+            }
 
         case .Image:
 
@@ -3220,6 +3274,7 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
 enum FeedKind: String {
     case Text = "text"
+    case URL = "web_page"
     case Image = "image"
     case Video = "video"
     case Audio = "audio"
@@ -3247,6 +3302,15 @@ enum FeedKind: String {
         case .Image:
             return true
         case .Audio:
+            return true
+        default:
+            return false
+        }
+    }
+
+    var needParseOpenGraph: Bool {
+        switch self {
+        case .Text:
             return true
         default:
             return false
