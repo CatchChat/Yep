@@ -2004,6 +2004,8 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
 
+        println("unreadMessages data: \(data)")
+
         guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
             return nil
         }
