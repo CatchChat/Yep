@@ -181,20 +181,24 @@ class ImageCache {
                 
                 if imageDownloadState == MessageDownloadState.Downloaded.rawValue {
                 
-                    if !fileName.isEmpty {
-                        if
-                            let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName),
-                            let image = UIImage(contentsOfFile: imageFileURL.path!) {
-                                
-                                let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
-                                
-                                self.cache.setObject(messageImage, forKey: imageKey)
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    completion(loadingProgress: 1.0, image: messageImage)
-                                }
-                                
-                                return
+                    if !fileName.isEmpty, let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName), image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                        let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
+                        
+                        self.cache.setObject(messageImage, forKey: imageKey)
+                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completion(loadingProgress: 1.0, image: messageImage)
+                        }
+                        
+                        return
+
+                    } else {
+                        // 找不到要再给下面的下载机会
+                        if let message = messageWithMessageID(messageID, inRealm: realm) {
+                            let _ = try? realm.write {
+                                message.downloadState = MessageDownloadState.NoDownload.rawValue
+                            }
                         }
                     }
                 }

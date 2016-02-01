@@ -18,7 +18,7 @@ class YepDownloader: NSObject {
         let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
         let session = NSURLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         return session
-        }()
+    }()
 
     private class func updateAttachmentOfMessage(message: Message, withAttachmentFileName attachmentFileName: String, inRealm realm: Realm) {
 
