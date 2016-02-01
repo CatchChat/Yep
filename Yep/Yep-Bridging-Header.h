@@ -4,3 +4,4 @@
 
 #import <UIKit/UIKit.h>
 #import "APService.h"
+#import "MZFayeClient.h"
