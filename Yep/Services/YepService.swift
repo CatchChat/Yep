@@ -2748,6 +2748,25 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reas
     }
 }
 
+func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    let requestParameters = [
+        "ids": [attachmentID],
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/attachments/refresh_url", method: .PATCH, requestParameters: requestParameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
 // MARK: - Feeds
 
 enum FeedSortStyle: String {

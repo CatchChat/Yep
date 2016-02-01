@@ -864,18 +864,6 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
             for attachmentInfo in attachments {
 
-                // S3: normal file
-//                if let
-//                    normalFileInfo = attachmentInfo["file"] as? JSONDictionary,
-//                    fileURLString = normalFileInfo["url"] as? String,
-//                    kind = attachmentInfo["kind"] as? String {
-//                        if kind == "thumbnail" {
-//                            message.thumbnailURLString = fileURLString
-//                        } else {
-//                            message.attachmentURLString = fileURLString
-//                        }
-//                }
-
                 if let attachmentID = attachmentInfo["id"] as? String {
                     message.attachmentID = attachmentID
                 }

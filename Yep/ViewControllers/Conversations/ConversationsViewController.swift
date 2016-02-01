@@ -253,6 +253,11 @@ class ConversationsViewController: SegueViewController {
         }
 
         isFirstAppear = false
+
+        // test
+        refreshAttachmentWithID("e6b3cc469c7888a0f75d7f45ba35f6e8", failureHandler: nil, completion: { newAttachmentInfo in
+            println("newAttachmentInfo: \(newAttachmentInfo)")
+        })
     }
     
     private func askForNotification() {
