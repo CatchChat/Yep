@@ -2004,7 +2004,7 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
 
-        println("unreadMessages data: \(data)")
+        //println("unreadMessages data: \(data)")
 
         guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
             return nil
@@ -2755,7 +2755,7 @@ func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, Str
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
+        return (data["attachments"] as? [JSONDictionary])?.first
     }
 
     let resource = authJsonResource(path: "/v1/attachments/refresh_url", method: .PATCH, requestParameters: requestParameters, parse: parse)
