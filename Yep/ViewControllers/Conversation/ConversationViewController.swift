@@ -410,11 +410,15 @@ class ConversationViewController: BaseViewController {
         view.takePhotoAction = { [weak self] in
 
             let openCamera: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) {
-                    if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .Camera
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                    }
+
+                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                    self?.alertCanNotOpenCamera()
+                    return
+                }
+
+                if let strongSelf = self {
+                    strongSelf.imagePicker.sourceType = .Camera
+                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
