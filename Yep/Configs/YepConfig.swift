@@ -16,7 +16,7 @@ let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
 let imageFadeTransitionDuration: NSTimeInterval = 0.2
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
-    .Options([.BackgroundDecode, .LowPriority]),
+    .BackgroundDecode,
     .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
 
