@@ -1071,9 +1071,14 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
 
                 proposeToAccess(.Camera, agreed: { [weak self] in
-                    
+
+                    guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                        self?.alertCanNotOpenCamera()
+                        return
+                    }
+
                     if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                        strongSelf.imagePicker.sourceType = .Camera
                         strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                     
