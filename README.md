@@ -48,3 +48,9 @@ Yep 的整个视图跳转基本通过 Storyboard 来组织逻辑。在 `Main.sto
 ## Performance
 
 对于性能调优，Yep 做了对图像信息的缓存处理（`Caches` 文件夹）。更多性能处理可参看[这个 Slide](https://github.com/atConf/atswift-2016-resources/tree/master/keynotes/周楷雯_Faster%20iOS%20App.key)。
+
+## Development
+
+If you like to join us developing Yep, clone this repo and use git flow on `develop` branch to create a new branch for your developing.
+
+Place ensure each commit is minimized for code review.
