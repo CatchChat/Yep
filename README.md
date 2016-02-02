@@ -37,7 +37,7 @@ Yep 的整个视图跳转基本通过 Storyboard 来组织逻辑。在 `Main.sto
 1. 用户基础操作服务（`YepService.swift`）：登录、验证手机
 2. 消息同步操作（`YepServiceSync.swift`）：技能、未读信息
 3. 网络请求（`YepNetworking.swift`）：网络请求、JSON 拆解包
-4. 数据下载（`YepService.swift`）：下载音视频
+4. 数据下载（`YepDownloader.swift`）：下载音视频
 5. 消息订阅（`FayeService.swift`）
 6. 云端存储服务（`YepStorageService.swift`）
 7. 音视处理（`YepAudioService`）：基于 AVFundation 和 AudioToolbox，录音、播放
