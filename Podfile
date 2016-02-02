@@ -22,7 +22,7 @@ def pods
     pod 'SocketRocket'
     pod 'RealmSwift'
     pod 'MonkeyKing', '0.0.2'
-    pod 'JPush'
+    pod 'JPush','~>2.1.0'
     pod 'Fabric'
     pod 'Crashlytics'
 end
