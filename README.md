@@ -53,4 +53,4 @@ Yep 的整个视图跳转基本通过 Storyboard 来组织逻辑。在 `Main.sto
 
 If you like to join us developing Yep, clone this repo and use git flow on `develop` branch to create a new branch for your developing.
 
-Place ensure each commit is minimized for code review.
+Please ensure each commit is minimized for code review.
