@@ -111,11 +111,15 @@ class EditProfileViewController: SegueViewController {
         let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
 
             let openCameraRoll: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-                    if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .PhotoLibrary
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                    }
+
+                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                    self?.alertCanNotAccessCameraRoll()
+                    return
+                }
+
+                if let strongSelf = self {
+                    strongSelf.imagePicker.sourceType = .PhotoLibrary
+                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
@@ -128,11 +132,15 @@ class EditProfileViewController: SegueViewController {
         let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
 
             let openCamera: ProposerAction = { [weak self] in
-                if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-                    if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .Camera
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                    }
+
+                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                    self?.alertCanNotOpenCamera()
+                    return
+                }
+
+                if let strongSelf = self {
+                    strongSelf.imagePicker.sourceType = .Camera
+                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
