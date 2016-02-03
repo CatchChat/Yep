@@ -105,7 +105,6 @@ func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachme
         return newAttachment
         
     }).filter({ $0 != nil }).map({ discoverAttachment in discoverAttachment! })
-
 }
 
 func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
@@ -349,7 +348,6 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                                 }
                             }
                     }
-
 
                     // also save some infomation in YepUserDefaults
 
@@ -782,49 +780,6 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
     }
 }
 
-/*
-func syncMessagesReadStatus() {
-    
-    sentButUnreadMessages(failureHandler: nil, completion: { messagesDictionary in
-
-        dispatch_async(realmQueue) {
-            if let messageIDs = messagesDictionary["message_ids"] as? [String] {
-                guard let realm = try? Realm() else {
-                    return
-                }
-                var messages = messagesUnreadSentByMe(inRealm: realm)
-                
-                var toMarkMessages = [Message]()
-                
-                if messageIDs.count < 1 {
-                    for oldMessage in messages {
-                        if oldMessage.sendState == MessageSendState.Successed.rawValue {
-                            toMarkMessages.append(oldMessage)
-                        }
-                    }
-                } else {
-                    for messageID in messageIDs {
-                        let predicate = NSPredicate(format: "messageID != %@", argumentArray: [messageID])
-                        messages = messages.filter(predicate)
-                    }
-                    
-                    for message in messages {
-                        toMarkMessages.append(message)
-                    }
-                }
-                
-                let _ = try? realm.write {
-                    for message in toMarkMessages {
-                        message.sendState = MessageSendState.Read.rawValue
-                        message.readed = true
-                    }
-                }
-            }
-        }
-    })
-}
-*/
-
 func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
     //println("messageInfo: \(messageInfo)")
@@ -960,17 +915,6 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
         // 开始填充消息
 
         if let message = message {
-
-            // 原本是判断标记失败时再次标记，现已改为 batch 标记，先注释了
-            /*
-            if message.readed == true {
-                markAsReadMessage(message, failureHandler: nil) { success in
-                    if success {
-                        println("Mark message \(messageID) as read")
-                    }
-                }
-            }
-            */
 
             // 纪录消息的发送者
 
