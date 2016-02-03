@@ -720,30 +720,15 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
 
         conversationCollectionView.registerClass(ChatLeftRecallCell.self, forCellWithReuseIdentifier: chatLeftRecallCellIdentifier)
-        /*
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightTextCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightTextURLCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightImageCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightImageCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightAudioCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightVideoCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
-        conversationCollectionView.registerNib(UINib(nibName: chatRightLocationCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
-        */
+
         conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
         
         conversationCollectionView.bounces = true
-
 
         let tap = UITapGestureRecognizer(target: self, action: "tapToCollapseMessageToolBar:")
         conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
-        //moreMessageTypesViewHeightConstraint.constant = moreMessageTypesViewDefaultHeight
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
@@ -759,7 +744,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
+            //println("appear \(keyboardHeight), \(keyboardHeightIncrement)\n")
 
             if let strongSelf = self {
 
@@ -802,7 +787,7 @@ class ConversationViewController: BaseViewController {
                 }
             }
 
-            println("disappear \(keyboardHeight)\n")
+            //println("disappear \(keyboardHeight)\n")
 
             if let strongSelf = self {
                 
@@ -896,13 +881,6 @@ class ConversationViewController: BaseViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
 
         if isFirstAppear {
 
@@ -1716,15 +1694,6 @@ class ConversationViewController: BaseViewController {
             mediaPreviewWindow.rootViewController = vc
             mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
             mediaPreviewWindow.makeKeyAndVisible()
-
-            /*
-            let info = [
-                "transitionView": transitionView,
-                "attachments": Box(value: attachments),
-                "index": index,
-            ]
-            self?.performSegueWithIdentifier("showFeedMedia", sender: info)
-            */
         }
 
         feedView.tapGithubRepoAction = { [weak self] URL in
@@ -1762,7 +1731,6 @@ class ConversationViewController: BaseViewController {
         let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
-        //NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints([top, height])
 
         feedView.heightConstraint = height
@@ -1774,7 +1742,6 @@ class ConversationViewController: BaseViewController {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
             conversationCollectionView.contentInset.bottom = bottom
-
             return
         }
 
@@ -2177,8 +2144,6 @@ class ConversationViewController: BaseViewController {
 
                         let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
-                        //let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
                         let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
 
                         let newContentOffsetY: CGFloat
@@ -2389,7 +2354,6 @@ class ConversationViewController: BaseViewController {
     
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
-        
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
@@ -2659,7 +2623,6 @@ class ConversationViewController: BaseViewController {
                 messageIDs = filteredMessageIDs
             }
         }
-        
         
         // 在前台时才能做插入
         
@@ -3489,24 +3452,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 mediaPreviewWindow.makeKeyAndVisible()
             }
         }
-
-        /*
-        if message.mediaType == MessageMediaType.Video.rawValue {
-            performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": [message], "index": 0])
-
-        } else {
-            let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
-
-            let mediaMessagesResult = messages.filter(predicate)
-
-            let mediaMessages = mediaMessagesResult.map({ $0 })
-
-            if let index = mediaMessagesResult.indexOf(message) {
-
-                performSegueWithIdentifier("showMessageMedia", sender: ["mediaMessages": mediaMessages, "index": index])
-            }
-        }
-        */
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -4144,7 +4089,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         
         dragBeginLocation = nil
     }
-
 }
 
 // MARK: FayeServiceDelegate

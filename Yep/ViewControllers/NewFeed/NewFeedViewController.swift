@@ -442,7 +442,6 @@ class NewFeedViewController: SegueViewController {
                 for image in images {
                     self?.mediaImages.append(image)
                 }
-//                self?.imageAssets = imageAssets
             }
         }
     }
@@ -545,12 +544,6 @@ class NewFeedViewController: SegueViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-//    private struct UploadImageInfo {
-//        
-//        let s3UploadParams: S3UploadParams
-//        let metaDataString: String?
-//    }
-
     func tryMakeUploadingFeed() -> DiscoveredFeed? {
 
         guard let
@@ -932,34 +925,6 @@ class NewFeedViewController: SegueViewController {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
             })
-
-            /*
-            let fileExtension: FileExtension = .M4A
-
-            s3UploadFileOfKind(.Feed, withFileExtension: fileExtension, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: fileExtension.mimeType, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    uploadErrorMessage = errorMessage
-
-                    dispatch_group_leave(uploadVoiceGroup)
-                }
-
-            }, completion: { s3UploadParams in
-
-                let audioInfo: JSONDictionary = [
-                    "file": s3UploadParams.key,
-                    "metadata": metaDataString,
-                ]
-
-                attachments = [audioInfo]
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    dispatch_group_leave(uploadVoiceGroup)
-                }
-            })
-            */
 
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
 

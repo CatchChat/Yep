@@ -36,14 +36,6 @@ class PickLocationViewController: SegueViewController {
 
     private var isFirstShowUserLocation = true
 
-    /*
-    private var locationPin: LocationPin? {
-        didSet {
-            reloadTableView()
-        }
-    }
-    */
-
     private var searchedMapItems = [MKMapItem]() {
         didSet {
             reloadTableView()
@@ -131,17 +123,6 @@ class PickLocationViewController: SegueViewController {
             }
         }
     }
-    /*
-    private var location: Location? {
-        willSet {
-            if let coordinate = newValue?.info.coordinate {
-                updateLocationPinWithCoordinate(coordinate)
-
-                doneButton.enabled = true
-            }
-        }
-    }
-    */
 
     private var selectedLocationIndexPath: NSIndexPath?
 
@@ -195,17 +176,9 @@ class PickLocationViewController: SegueViewController {
             activityIndicator.startAnimating()
         }
 
-        /*
-        let tap = UITapGestureRecognizer(target: self, action: "addAnnotation:")
-        mapView.addGestureRecognizer(tap)
-        */
-
         view.bringSubviewToFront(tableView)
         view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
-
-        //mapView.showsUserLocation = false
-        //mapView.userTrackingMode = .None
 
         let pan = UIPanGestureRecognizer(target: self, action: "pan:")
         mapView.addGestureRecognizer(pan)
@@ -260,18 +233,10 @@ class PickLocationViewController: SegueViewController {
 
                 if let sendLocationAction = self.sendLocationAction {
 
-                    //sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
-
                     if let location = self.location {
                         sendLocationAction(locationInfo: location.info)
 
                     } else {
-                        /*
-                        guard let location = self.mapView.userLocation.location else {
-                            return
-                        }
-                        */
-
                         sendLocationAction(locationInfo: Location.Info(coordinate: self.fixedCenterCoordinate, name: nil))
                     }
                 }
@@ -279,57 +244,16 @@ class PickLocationViewController: SegueViewController {
 
         case .Feed:
 
-            //let location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
-
-            //performSegueWithIdentifier("showNewFeed", sender: Box(location))
-
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
 
             } else {
-                /*
-                guard let location = self.mapView.userLocation.location else {
-                    return
-                }
-                */
-
                 let _location = Location.Default(info: Location.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
                 performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }
         }
     }
-
-    /*
-    private func updateLocationPinWithCoordinate(coordinate: CLLocationCoordinate2D) {
-
-        if let locationPin = locationPin {
-            mapView.removeAnnotation(locationPin)
-        }
-
-        let pin = LocationPin(title: "Pin", subtitle: "User Picked Location", coordinate: coordinate)
-        mapView.addAnnotation(pin)
-
-        locationPin = pin
-    }
-    */
-
-    /*
-    @objc private func addAnnotation(sender: UITapGestureRecognizer) {
-
-        let point = sender.locationInView(mapView)
-        let coordinate = mapView.convertPoint(point, toCoordinateFromView: mapView)
-
-        self.location = .Picked(info: Location.Info(coordinate: coordinate, name: nil))
-
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        placemarksAroundLocation(location) { [weak self] placemarks in
-            self?.pickedLocationPlacemarks = placemarks.filter({ $0.name != nil })
-        }
-
-        selectedLocationIndexPath = NSIndexPath(forRow: 0, inSection: Section.UserPickedLocation.rawValue)
-    }
-    */
 
     @objc private func pan(sender: UIPanGestureRecognizer) {
 
@@ -406,11 +330,13 @@ extension PickLocationViewController: MKMapViewDelegate {
 
         if let realLocation = YepLocationService.sharedManager.locationManager.location {
 
+            /*
             println("reallatitude: \(realLocation.coordinate.latitude)")
             println("fakelatitude: \(location.coordinate.latitude)")
             println("reallongitude: \(realLocation.coordinate.longitude)")
             println("fakelongitude: \(location.coordinate.longitude)")
             println("\n")
+            */
 
             let latitudeShift = location.coordinate.latitude - realLocation.coordinate.latitude
             let longitudeShift = location.coordinate.longitude - realLocation.coordinate.longitude
@@ -572,16 +498,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             return 0
         case Section.UserPickedLocation.rawValue:
-            /*
-            if let isPicked = location?.isPicked {
-                if isPicked {
-                    return 1
-                }
-            }
-            */
             return 0
         case Section.UserLocationPlacemarks.rawValue:
-            //return placemarks.count
             return 0
         case Section.SearchedLocation.rawValue:
             return searchedMapItems.count
@@ -671,7 +589,6 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         selectedLocationIndexPath = indexPath
 
-
         switch indexPath.section {
 
         case Section.CurrentLocation.rawValue:
@@ -680,11 +597,6 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             }
 
         case Section.UserPickedLocation.rawValue:
-            /*
-            if let coordinate = locationPin?.coordinate {
-                location = .Picked(info: Location.Info(coordinate: coordinate, name: pickedLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("Picked Location", comment: "")))
-            }
-            */
             break
 
         case Section.UserLocationPlacemarks.rawValue:
@@ -711,13 +623,6 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         default:
             break
         }
-
-        /*
-        if let locationPin = locationPin {
-            let region = MKCoordinateRegionMakeWithDistance(locationPin.coordinate, 200, 200)
-            mapView.setRegion(region, animated: true)
-        }
-        */
     }
 }
 
