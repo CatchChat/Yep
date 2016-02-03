@@ -56,7 +56,6 @@ class SkillHomeSectionButton: UIButton {
     func updateHightLightBounce() {
         highLight.frame =  CGRectMake(0, self.frame.size.height - skillHeomSectionButtonLineHeight, self.frame.size.width, skillHeomSectionButtonLineHeight)
     }
-    
 }
 
 

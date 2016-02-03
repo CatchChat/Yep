@@ -79,3 +79,4 @@ class TouchZoomButton: UIButton {
         layer.pop_addAnimation(anim, forKey: "scaleNormal")
     }
 }
+

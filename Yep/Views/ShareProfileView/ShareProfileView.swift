@@ -10,14 +10,6 @@ import UIKit
 
 class ShareProfileView: UIView {
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
     var progress: CGFloat = 0
     
     var animating = false
@@ -82,6 +74,5 @@ class ShareProfileView: UIView {
             })
         })
     }
-    
-
 }
+

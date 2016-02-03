@@ -30,3 +30,4 @@ class CameraPreviewView: UIView {
         (self.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
     }
 }
+

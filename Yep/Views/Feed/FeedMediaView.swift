@@ -17,28 +17,28 @@ class FeedMediaView: UIView {
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
         return view
-        }()
+    }()
 
     lazy var imageView2: UIImageView = {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
         return view
-        }()
+    }()
 
     lazy var imageView3: UIImageView = {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
         return view
-        }()
+    }()
 
     lazy var imageView4: UIImageView = {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
         view.clipsToBounds = true
         return view
-        }()
+    }()
     
     func setImagesWithAttachments(attachments: [DiscoveredAttachment]) {
 

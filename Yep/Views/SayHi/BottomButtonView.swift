@@ -28,7 +28,7 @@ class BottomButtonView: UIView {
         button.layer.cornerRadius = 5
         button.addTarget(self, action: "tryTap", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
 
     var tapAction: (() -> Void)?
 
@@ -50,12 +50,14 @@ class BottomButtonView: UIView {
 
         let actionButtonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
 
-        NSLayoutConstraint.activateConstraints([
+        let constraints = [
             actionButtonCenterXConstraint,
             actionButtonCenterYConstraint,
             actionButtonWidthConstraint,
             actionButtonHeightConstraint,
-            ])
+        ]
+
+        NSLayoutConstraint.activateConstraints(constraints)
     }
 
     // MARK: Actions
@@ -79,3 +81,4 @@ class BottomButtonView: UIView {
         CGContextStrokePath(context)
     }
 }
+
