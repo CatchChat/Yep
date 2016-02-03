@@ -667,10 +667,6 @@ class NewFeedViewController: SegueViewController {
 
             let doCreateFeed: () -> Void = { [weak self] in
 
-                if let userID = YepUserDefaults.userID.value {
-                    GoogleAnalyticsTrackEvent("New Feed", label: userID, value: 0)
-                }
-
                 if let openGraph = openGraph where openGraph.isValid {
 
                     kind = .URL

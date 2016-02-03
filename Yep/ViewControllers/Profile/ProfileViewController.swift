@@ -571,8 +571,6 @@ class ProfileViewController: SegueViewController {
                     learningSkills = skillsFromUserSkillList(user.learningSkills)
 
                     updateProfileCollectionView()
-                    
-                    GoogleAnalyticsTrackEvent("Visit Profile", label: user.nickname, value: 0)
                 }
 
             default:
@@ -872,7 +870,6 @@ class ProfileViewController: SegueViewController {
                 message: sessionMessage,
                 finish: { success in
                     println("share Profile to WeChat Session success: \(success)")
-                    GoogleAnalyticsTrackSocial("WeChat Session", action: "Profile", target: profileURL.absoluteString)
                 }
             )
 
@@ -883,12 +880,9 @@ class ProfileViewController: SegueViewController {
                 message: timelineMessage,
                 finish: { success in
                     println("share Profile to WeChat Timeline success: \(success)")
-                    GoogleAnalyticsTrackSocial("WeChat Timeline", action: "Profile", target: profileURL.absoluteString)
                 }
             )
             
-            GoogleAnalyticsTrackSocial("Share", action: "Profile", target: profileURL.absoluteString)
-
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             self.presentViewController(activityViewController, animated: true, completion: nil)
@@ -898,15 +892,9 @@ class ProfileViewController: SegueViewController {
     @objc private func tryShareMyProfile(sender: AnyObject?) {
 
         if let _ = profileUser?.username {
-            
-            if let profileUser = profileUser {
-                GoogleAnalyticsTrackEvent("Share Profile", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
-            }
-            
             shareProfile()
 
         } else {
-
             YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
                 let newUsername = text
@@ -996,8 +984,6 @@ class ProfileViewController: SegueViewController {
 
         if let profileUser = profileUser {
                     
-            GoogleAnalyticsTrackEvent("Say Hi", label: "\(profileUser.nickname) \(profileUser.userID)", value: 0)
-
             guard let realm = try? Realm() else {
                 return
             }
