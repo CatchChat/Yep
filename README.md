@@ -4,7 +4,7 @@ A community where geniuses meet
 
 https://soyep.com
 
-![](http://blog.zhowkev.in/content/images/2016/02/image.png)
+![](https://cloud.githubusercontent.com/assets/1941540/12776320/05da093e-ca90-11e5-8b6f-a50ec826cf9e.jpg)
 
 # Yep: Beginner's Guide
 
