@@ -172,6 +172,12 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidAppear(animated)
 
