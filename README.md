@@ -24,7 +24,7 @@ The project's architecture is easy to understand, following the common software 
 
 We use Storyboard to join different view controllers together. You can take a glance at the `Main.storyboard` file. Thanks to the **Storyboard References** feature, we break up storyboards into a set of smaller storyboards. Easy to maintain and handle `.storyboard` files under source control, right?
 
-At the same time, you should notice that some views are `@IBDesignable`. You can use Interface Builder, dragg the view out and observe changes.
+At the same time, you should notice that some views are `@IBDesignable`. You can use Interface Builder, drag the view out and observe changes.
 
 ## Activity
 
@@ -40,7 +40,7 @@ You can find all Services under `Services` directory. Our services are divided i
 4. Data download service (`YepDownloader.swift`): Audio, video downloading
 5. Feeds (`FayeService.swift`)
 6. Cloud storage service (`YepStorageService.swift`)
-7. Audio and video service (`YepAudioService.swift`): Based on AVFundation and AudioToolbox
+7. Audio and video service (`YepAudioService.swift`): Based on AVFoundation and AudioToolbox
 8. Location service (`YepLocationService.swift`)
 9. Social info service (`SocialWorkService.swift`): Get user's GitHub, Dribbble and Instagram info
 10. Open Graph Service (`OpenGraphService.swift`): Get iBooks, App and Apple Music info
