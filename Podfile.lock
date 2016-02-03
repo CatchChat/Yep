@@ -11,7 +11,7 @@ PODS:
   - DeviceGuru (1.3.3)
   - Fabric (1.6.4)
   - FXBlurView (1.6.4)
-  - JPush (2.1.0)
+  - JPush-iOS-SDK (1.8.8)
   - Kanna (1.0.4)
   - KeyboardMan (0.5.2)
   - Kingfisher (2.0.1)
@@ -38,7 +38,7 @@ DEPENDENCIES:
   - DeviceGuru
   - Fabric
   - FXBlurView
-  - JPush
+  - JPush-iOS-SDK (= 1.8.8)
   - Kanna
   - KeyboardMan
   - Kingfisher
@@ -61,7 +61,7 @@ SPEC CHECKSUMS:
   DeviceGuru: 49c6178d77693f8459ace21cecaf4d1d26297d08
   Fabric: ed41fd62173c6bdea24ab02c9d7707161eabb750
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 92cb879829f0d81ab17b2c9ad009fdb88c6cf6e5
+  JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   Kanna: 537762df5e2203714769f8351340b3c724adb2bd
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
   Kingfisher: 3af2020040453f710507819e6aa5f5721da03d9b
