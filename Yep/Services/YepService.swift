@@ -210,40 +210,6 @@ func ==(lhs: Skill, rhs: Skill) -> Bool {
     return lhs.id == rhs.id
 }
 
-/*
-func skillsInSkillCategory(skillCategoryID: String, #failureHandler: ((Reason, String?) -> Void)?, #completion: [Skill] -> Void) {
-    let parse: JSONDictionary -> [Skill]? = { data in
-        println("skillCategories \(data)")
-
-        if let skillsData = data["skills"] as? [JSONDictionary] {
-
-            var skills = [Skill]()
-
-            for skillInfo in skillsData {
-                if
-                    let skillID = skillInfo["id"] as? String,
-                    let skillName = skillInfo["name"] as? String {
-                        let skill = Skill(id: skillID, name: skillName, localName: skillName) // TODO: Skill localName
-                        skills.append(skill)
-                }
-            }
-
-            return skills
-        }
-
-        return nil
-    }
-
-    let resource = authJsonResource(path: "/v1/skill_categories/\(skillCategoryID)/skills", method: .GET, requestParameters: [:], parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-    } else {
-        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-    }
-}
-*/
-
 func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
     var skills = [Skill]()
 
@@ -747,38 +713,6 @@ func blockedUsersByMe(failureHandler failureHandler: ((Reason, String?) -> Void)
         }
     })
 }
-
-//func blockedUsersByMe(#failureHandler: ((Reason, String?) -> Void)?, #completion: [DiscoveredUser] -> Void) {
-//
-//    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-//
-//        println("blockedUsers: \(data)")
-//
-//        if let blockedUsersData = data["blocked_users"] as? [JSONDictionary] {
-//
-//            var blockedUsers = [DiscoveredUser]()
-//
-//            for blockedUserInfo in blockedUsersData {
-//                if let blockedUser = parseDiscoveredUser(blockedUserInfo) {
-//                    blockedUsers.append(blockedUser)
-//                }
-//            }
-//
-//            return blockedUsers
-//
-//        } else {
-//            return nil
-//        }
-//    }
-//
-//    let resource = authJsonResource(path: "/v1/blocked_users", method: .GET, requestParameters: [:], parse: parse)
-//
-//    if let failureHandler = failureHandler {
-//        apiRequest({_ in}, baseURL, resource, failureHandler, completion)
-//    } else {
-//        apiRequest({_ in}, baseURL, resource, defaultFailureHandler, completion)
-//    }
-//}
 
 func blockUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
 
@@ -1760,6 +1694,7 @@ struct LastMessageRead {
     let unixTime: NSTimeInterval
     let messageID: String
 }
+
 func lastMessageReadByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (LastMessageRead?) -> Void) {
     
     let parse: JSONDictionary -> (LastMessageRead?)? = { data in
@@ -1890,115 +1825,6 @@ func officialMessages(completion completion: Int -> Void) {
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
-
-/*
-func headUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
-        "page": 1,
-        "per_page": 100,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-}
-
-func moreUnreadMessages(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
-        "page": page,
-        "per_page": perPage,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/messages/unread", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
-}
-*/
-/*
-func sentButUnreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-    
-    let resource = authJsonResource(path: "/v1/messages/sent_unread", method: .GET, requestParameters:[:] , parse: parse )
-    
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
-}
-*/
-/*
-func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
-
-    headUnreadMessages(failureHandler: failureHandler) { result in
-
-        var messages = [JSONDictionary]()
-
-        if let page1Messages = result["messages"] as? [JSONDictionary] {
-            messages += page1Messages
-        }
-
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-
-                if count <= currentPage * perPage {
-                    completion(messages)
-
-                } else {
-                    // We have more messages
-
-                    var allGood = true
-                    let downloadGroup = dispatch_group_create()
-
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreUnreadMessages(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            allGood = false
-                            dispatch_group_leave(downloadGroup)
-
-                            failureHandler?(reason, errorMessage)
-
-                        }, completion: { result in
-                            if let currentPageMessages = result["messages"] as? [JSONDictionary] {
-                                messages += currentPageMessages
-                            }
-
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        if allGood {
-                            completion(messages)
-                        }
-                    }
-                }
-
-        } else {
-            // 可能无分页
-            completion(messages)
-        }
-    }
-}
-*/
 
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
@@ -2363,7 +2189,6 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
         }
     }
 
-
     var messageInfo: JSONDictionary = [
         "recipient_id": recipientID,
         "recipient_type": recipientType,
@@ -2373,7 +2198,6 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     if let fillMoreInfo = fillMoreInfo {
         messageInfo = fillMoreInfo(messageInfo)
     }
-
 
     let _ = try? realm.write {
 
@@ -2391,7 +2215,6 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
                 message.coordinate = coordinate
         }
     }
-
 
     // 发出之前就显示 Message
     afterCreatedMessage(message)
@@ -2486,94 +2309,6 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
                 doCreateMessage()
             })
-
-            /*
-            s3UploadFileOfKind(.Message, withFileExtension: mediaType.fileExtension!, inFilePath: filePath, orFileData: fileData, mimeType: mediaType.fileExtension!.mimeType, failureHandler: failureHandler, completion: { s3UploadParams in
-
-                switch mediaType {
-
-                case .Image:
-                    if let metaData = metaData {
-                        let attachments = ["image": [["file": s3UploadParams.key, "metadata": metaData]]]
-                        messageInfo["attachments"] = attachments
-
-                    } else {
-                        let attachments = ["image": [["file": s3UploadParams.key]]]
-                        messageInfo["attachments"] = attachments
-                    }
-
-                case .Audio:
-                    if let metaData = metaData {
-                        let attachments = ["audio": [["file": s3UploadParams.key, "metadata": metaData]]]
-                        messageInfo["attachments"] = attachments
-
-                    } else {
-                        let attachments = ["audio": [["file": s3UploadParams.key]]]
-                        messageInfo["attachments"] = attachments
-                    }
-
-                default:
-                    break // TODO: more kind of attachments
-                }
-
-                let doCreateMessage = {
-                    createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            let realm = message.realm
-                            let _ = try? realm?.write {
-                                message.messageID = messageID
-                                message.sendState = MessageSendState.Successed.rawValue
-                            }
-
-                            completion(success: true)
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                        }
-                    })
-                }
-
-                // 对于 Video 还要再传 thumbnail，……
-                if mediaType == .Video {
-
-                    var thumbnailData: NSData?
-
-                    if
-                        let filePath = filePath,
-                        let image = thumbnailImageOfVideoInVideoURL(NSURL(fileURLWithPath: filePath)) {
-                            thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
-                    }
-
-                    let fileExtension: FileExtension = .JPEG
-
-                    s3UploadFileOfKind(.Message, withFileExtension: fileExtension, inFilePath: nil, orFileData: thumbnailData, mimeType: fileExtension.mimeType, failureHandler: failureHandler, completion: { thumbnailS3UploadParams in
-
-                        if let metaData = metaData {
-                            let attachments = [
-                                "video": [
-                                    ["file": s3UploadParams.key, "metadata": metaData]
-                                ],
-                                "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                            ]
-                            messageInfo["attachments"] = attachments
-
-                        } else {
-                            let attachments = [
-                                "video": [
-                                    ["file": s3UploadParams.key]
-                                ],
-                                "thumbnail": [["file": thumbnailS3UploadParams.key]]
-                            ]
-                            messageInfo["attachments"] = attachments
-                        }
-
-                        doCreateMessage()
-                    })
-
-                } else {
-                    doCreateMessage()
-                }
-            })
-            */
         }
     }
 }
@@ -2674,40 +2409,6 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
             }
     }
 }
-
-/*
-func markAsReadMessage(message: Message ,failureHandler: ((Reason, String?) -> Void)?, completion: (Bool) -> Void) {
-
-    if message.messageID.isEmpty {
-        println("markAsReadMessage ID isEmpty")
-        return
-    }
-
-    // 来自官方账号的消息不用 mark as read
-    if let user = message.fromFriend {
-        if user.friendState == UserFriendState.Yep.rawValue {
-            return
-        }
-    }
-    
-    let state = UIApplication.sharedApplication().applicationState
-    if state != .Active {
-        return
-    }
-
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
-    }
-
-    let resource = authJsonResource(path: "/v1/messages/\(message.messageID)/mark_as_read", method: .PATCH, requestParameters: [:], parse: parse)
-
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
-}
-*/
 
 func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
 
@@ -2837,8 +2538,6 @@ struct DiscoveredAttachment {
         return DiscoveredAttachment(metadata: metadata, URLString: URLString, image: nil)
     }
 }
-
-
 
 func ==(lhs: DiscoveredFeed, rhs: DiscoveredFeed) -> Bool {
     return lhs.id == rhs.id
@@ -3190,7 +2889,6 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
         requestParameters["max_id"] = maxFeedID
     }
 
-    //let parse = parseFeeds
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
 
         // 只离线第一页，且无 skill
@@ -3578,7 +3276,6 @@ func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Stri
     }
 }
 
-
 struct InstagramWork {
 
     struct Media {
@@ -3661,7 +3358,6 @@ enum SocialWork {
     case Dribbble(DribbbleWork)
     case Instagram(InstagramWork)
 }
-
 
 // MARK: - Feedback
 
@@ -3806,3 +3502,4 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reas
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
 }
+
