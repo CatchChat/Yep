@@ -6,15 +6,15 @@ https://soyep.com
 
 ![](https://cloud.githubusercontent.com/assets/1941540/12776320/05da093e-ca90-11e5-8b6f-a50ec826cf9e.jpg)
 
-# Yep: Beginner's Guide
+# Yep: Project Introductory Guide
 
 > Please build with the latest Cocoapods v0.39.0 and Xcode 7.2.
 
 ## Intro
 
-Yep is a very compact and light-weight app, with the theme of "Meet Genius", helping users to find elites and beginners.
+Yep is a nifty and lightweight social networking app, revolving around the theme of "Meeting Genius", enabling users to find experts or other learners of a particular domain.
 
-The structure is clear: we use MVC to build Yep, separating UI and logic operations. Now, let's dive into the Yep project!
+The project's architecture is easy to understand, following the common software pattern MVC, separating UI, business logic and data model. Now, let's dive into the Yep project!
 
 ## Model
 
