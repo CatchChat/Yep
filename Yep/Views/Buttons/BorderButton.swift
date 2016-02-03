@@ -37,7 +37,7 @@ class BorderButton: UIButton {
     lazy var accessoryImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "icon_accessory_mini"))
         return imageView
-        }()
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()

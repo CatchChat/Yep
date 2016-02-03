@@ -26,3 +26,4 @@ class NavigationTitleLabel: UILabel {
         sizeToFit()
     }
 }
+

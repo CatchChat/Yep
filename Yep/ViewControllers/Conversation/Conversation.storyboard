@@ -86,12 +86,6 @@
                         <outlet property="messageToolbarBottomConstraint" destination="xp5-FH-KYE" id="X0A-gY-iUv"/>
                         <outlet property="swipeUpPromptLabel" destination="erl-b0-CMQ" id="p87-LW-YyH"/>
                         <outlet property="swipeUpView" destination="H35-sK-viT" id="Xkk-yV-EwB"/>
-                        <segue destination="31m-d2-36I" kind="show" identifier="showMessageMedia" id="09i-m1-quc">
-                            <nil key="action"/>
-                        </segue>
-                        <segue destination="31m-d2-36I" kind="show" identifier="showFeedMedia" id="Db7-zP-L8v">
-                            <nil key="action"/>
-                        </segue>
                         <segue destination="f8Q-Nw-run" kind="presentation" identifier="presentPickLocation" id="axj-on-nR1"/>
                         <segue destination="1y0-IN-47w" kind="show" identifier="showProfileFromFeedView" id="eCp-94-guS"/>
                         <segue destination="bhi-Zn-U0N" kind="show" identifier="showProfile" id="HJ6-Sc-tfw"/>
@@ -118,14 +112,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="axC-MU-2PW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-629" y="2344"/>
-        </scene>
-        <!--MessageMediaViewController-->
-        <scene sceneID="mD6-JY-R4j">
-            <objects>
-                <viewControllerPlaceholder storyboardName="MessageMedia" referencedIdentifier="MessageMediaViewController" id="31m-d2-36I" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kmm-hY-Ird" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="16" y="2010"/>
         </scene>
         <!--NewFeed-->
         <scene sceneID="nYO-wi-69C">
@@ -155,7 +141,4 @@
     <resources>
         <image name="swipe_up" width="21" height="6"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="09i-m1-quc"/>
-    </inferredMetricsTieBreakers>
 </document>

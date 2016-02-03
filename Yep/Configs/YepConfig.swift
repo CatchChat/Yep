@@ -206,11 +206,6 @@ class YepConfig {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
         ]
-//        static let textAttributes: [String: NSObject] = [
-//            NSFontAttributeName: UIFont.chatTextFont(),
-//            NSKernAttributeName: 0.5,
-//            NSParagraphStyleAttributeName: NSParagraphStyle.chatTextParagraphStyle(),
-//        ]
     }
 
     struct FeedMedia {
@@ -296,6 +291,5 @@ class YepConfig {
             static let timelineImage = UIImage(named: "wechat_timeline")!
         }
     }
-
 }
 

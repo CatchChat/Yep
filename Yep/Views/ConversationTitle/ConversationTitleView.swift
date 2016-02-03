@@ -20,9 +20,8 @@ class ConversationTitleView: UIView {
             label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)!
         }
 
-        //label.textColor = UIColor.yepTintColor()
         return label
-        }()
+    }()
 
     lazy var stateInfoLabel: UILabel = {
         let label = UILabel()
@@ -34,7 +33,7 @@ class ConversationTitleView: UIView {
         }
         label.textColor = UIColor.grayColor()
         return label
-        }()
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -76,3 +75,4 @@ class ConversationTitleView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
     }
 }
+

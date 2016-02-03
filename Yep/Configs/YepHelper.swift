@@ -10,8 +10,6 @@ import Foundation
 import RealmSwift
 import Navi
 
-
-
 typealias CancelableTask = (cancel: Bool) -> Void
 
 extension String {
@@ -134,6 +132,7 @@ extension UIImage {
 }
 
 extension UINavigationBar {
+
     func hideBottomHairline() {
         let navigationBarImageView = hairlineImageViewInNavigationBar(self)
         navigationBarImageView?.hidden = true
@@ -162,14 +161,3 @@ extension UINavigationBar {
     }
 }
 
-func GoogleAnalyticsTrackView(name: String) {
-
-}
-
-func GoogleAnalyticsTrackEvent(action: String, label: String, value: NSNumber) {
-
-}
-
-func GoogleAnalyticsTrackSocial(network: String, action: String, target: String) {
-
-}

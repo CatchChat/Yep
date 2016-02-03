@@ -66,7 +66,7 @@ class FriendRequestView: UIView {
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
-        }()
+    }()
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
@@ -74,7 +74,7 @@ class FriendRequestView: UIView {
         label.text = "NIX"
         label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.9)
         return label
-        }()
+    }()
 
     lazy var stateLabel: UILabel = {
         let label = UILabel()
@@ -82,12 +82,11 @@ class FriendRequestView: UIView {
         label.numberOfLines = 0
         label.textColor = UIColor.grayColor().colorWithAlphaComponent(0.9)
         return label
-        }()
+    }()
 
     func baseButton() -> UIButton {
         let button = UIButton()
         button.setContentHuggingPriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
-        //button.setContentCompressionResistancePriority(300, forAxis: UILayoutConstraintAxis.Horizontal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 15)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitleColor(UIColor.grayColor(), forState: .Highlighted)
@@ -102,7 +101,7 @@ class FriendRequestView: UIView {
         button.backgroundColor = UIColor.yepTintColor()
         button.addTarget(self, action: "tryAddAction", forControlEvents: .TouchUpInside)
         return button
-        }()
+    }()
 
     lazy var acceptButton: UIButton = {
         let button = self.baseButton()
@@ -110,7 +109,7 @@ class FriendRequestView: UIView {
         button.backgroundColor = UIColor.yepTintColor()
         button.addTarget(self, action: "tryAcceptAction", forControlEvents: .TouchUpInside)
         return button
-        }()
+    }()
 
     lazy var rejectButton: UIButton = {
         let button = self.baseButton()
@@ -119,7 +118,7 @@ class FriendRequestView: UIView {
         button.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
         button.addTarget(self, action: "tryRejectAction", forControlEvents: .TouchUpInside)
         return button
-        }()
+    }()
 
     // MARK: Actions
 
@@ -191,7 +190,6 @@ class FriendRequestView: UIView {
 
         stateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(stateLabel)
-
 
         let viewsDictionary = [
             "visualEffectView": visualEffectView,

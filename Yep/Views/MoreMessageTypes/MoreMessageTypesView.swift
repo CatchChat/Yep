@@ -17,7 +17,7 @@ class MoreMessageTypesView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
         return view
-        }()
+    }()
 
     let titleCellID = "TitleCell"
     let quickPickPhotosCellID = "QuickPickPhotosCell"
@@ -32,7 +32,7 @@ class MoreMessageTypesView: UIView {
         view.registerNib(UINib(nibName: self.quickPickPhotosCellID, bundle: nil), forCellReuseIdentifier: self.quickPickPhotosCellID)
         view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
         return view
-        }()
+    }()
 
     var alertCanNotAccessCameraRollAction: (() -> Void)?
     var takePhotoAction: (() -> Void)?
