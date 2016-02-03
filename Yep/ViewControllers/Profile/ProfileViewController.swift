@@ -721,6 +721,7 @@ class ProfileViewController: SegueViewController {
                     YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.customNavigationItem.title = nickname
+                            self?.updateProfileCollectionView()
                         }
                     }
 

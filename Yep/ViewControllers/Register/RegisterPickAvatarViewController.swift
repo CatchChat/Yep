@@ -256,8 +256,16 @@ class RegisterPickAvatarViewController: SegueViewController {
             uploadAvatarAndGotoPickSkills()
 
         } else {
-            dispatch_async(sessionQueue) {
-                self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(self.stillImageOutput.connectionWithMediaType(self.mediaType), completionHandler: { (imageDataSampleBuffer, error) -> Void in
+            dispatch_async(sessionQueue) { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
+
+                guard let captureConnection = strongSelf.stillImageOutput.connectionWithMediaType(strongSelf.mediaType) else {
+                    return
+                }
+
+                strongSelf.stillImageOutput.captureStillImageAsynchronouslyFromConnection(captureConnection, completionHandler: { imageDataSampleBuffer, error in
                     if error == nil {
                         let data = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                         var image = UIImage(data: data)!
@@ -268,9 +276,13 @@ class RegisterPickAvatarViewController: SegueViewController {
 
                         image = image.fixRotation().navi_centerCropWithSize(YepConfig.avatarMaxSize())!
 
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.avatar = image
-                            self.pickAvatarState = .Captured
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            guard let strongSelf = self else {
+                                return
+                            }
+
+                            strongSelf.avatar = image
+                            strongSelf.pickAvatarState = .Captured
                         }
                     }
                 })
