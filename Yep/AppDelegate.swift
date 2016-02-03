@@ -97,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         // 全局的外观自定义
-        customAppearce()
+        customAppearance()
 
         let isLogined = YepUserDefaults.isLogined
 
@@ -525,7 +525,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func customAppearce() {
+    private func customAppearance() {
 
         // Global Tint Color
 
