@@ -26,3 +26,4 @@ class AddSkillsReusableView: UICollectionReusableView {
         skillTypeLabelLeadingConstraint.constant = registerPickSkillsLayoutLeftEdgeInset
     }
 }
+

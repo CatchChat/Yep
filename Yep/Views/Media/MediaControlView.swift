@@ -69,7 +69,7 @@ class MediaControlView: UIView {
         label.textColor = UIColor.whiteColor()
         label.text = "00:42"
         return label
-        }()
+    }()
 
     lazy var playButton: UIButton = {
         let button = UIButton()
@@ -78,7 +78,7 @@ class MediaControlView: UIView {
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         button.addTarget(self, action: "playOrPause", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
+    }()
 
     lazy var shareButton: UIButton = {
         let button = UIButton()
@@ -87,28 +87,12 @@ class MediaControlView: UIView {
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         button.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
         return button
-        }()
-
-    /*
-    lazy var gradientLayer: CAGradientLayer = {
-        let layer = CAGradientLayer()
-        let startColor: UIColor = UIColor.clearColor()
-        let endColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
-        let colors = [startColor.CGColor, endColor.CGColor]
-        layer.colors = colors
-        layer.locations = [0.0, 1.0]
-
-        return layer
-        }()
-    */
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
         backgroundColor = UIColor.clearColor()
-
-        //layer.addSublayer(gradientLayer)
-        //gradientLayer.frame = bounds
 
         makeUI()
     }

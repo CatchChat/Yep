@@ -18,7 +18,7 @@ class EdgeBorderButton: UIButton {
         layer.lineWidth = self.lineWidth
         layer.strokeColor = self.lineColor.CGColor
         return layer
-        }()
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()

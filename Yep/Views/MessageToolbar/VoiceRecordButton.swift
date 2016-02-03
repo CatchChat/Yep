@@ -139,5 +139,5 @@ class VoiceRecordButton: UIView {
         NSLayoutConstraint.activateConstraints([leftVoiceImageViewConstraintCenterY])
         NSLayoutConstraint.activateConstraints(constraintsH)
     }
-
 }
+

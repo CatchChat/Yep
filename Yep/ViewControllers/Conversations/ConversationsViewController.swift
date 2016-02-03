@@ -277,14 +277,16 @@ class ConversationsViewController: SegueViewController {
             category.identifier = "YepMessageNotification"
             category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
             
-            JPUSHService.registerForRemoteNotificationTypes(
+            //JPUSHService.registerForRemoteNotificationTypes(
+            APService.registerForRemoteNotificationTypes(
                 UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: [category])
             
         } else {
             // 这里才开始向用户提示推送
-            JPUSHService.registerForRemoteNotificationTypes(
+            //JPUSHService.registerForRemoteNotificationTypes(
+            APService.registerForRemoteNotificationTypes(
                 UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue, categories: nil)

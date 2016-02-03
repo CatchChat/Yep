@@ -40,13 +40,12 @@ class SkillCategoryButton: UIButton {
 
     var toggleSelectionStateAction: ((inSelectionState: Bool) -> Void)?
 
-
     lazy var categoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .Center
         imageView.tintColor = UIColor.whiteColor()
         return imageView
-        }()
+    }()
 
     lazy var categoryTitleLabel: UILabel = {
         let label = UILabel()
@@ -57,7 +56,7 @@ class SkillCategoryButton: UIButton {
             label.font = UIFont(name: "HelveticaNeue-Thin", size: 24)!
         }
         return label
-        }()
+    }()
 
     lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
@@ -123,3 +122,4 @@ class SkillCategoryButton: UIButton {
         arrowImageView.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
 }
+

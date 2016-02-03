@@ -10,8 +10,6 @@ import Foundation
 import RealmSwift
 import Navi
 
-
-
 typealias CancelableTask = (cancel: Bool) -> Void
 
 extension String {
@@ -51,7 +49,8 @@ func cancel(cancelableTask: CancelableTask?) {
 
 func unregisterThirdPartyPush() {
     dispatch_async(dispatch_get_main_queue()) {
-        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
+        //JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
+        APService.setAlias(nil, callbackSelector: nil, object: nil)
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 }
@@ -134,6 +133,7 @@ extension UIImage {
 }
 
 extension UINavigationBar {
+
     func hideBottomHairline() {
         let navigationBarImageView = hairlineImageViewInNavigationBar(self)
         navigationBarImageView?.hidden = true
@@ -162,14 +162,3 @@ extension UINavigationBar {
     }
 }
 
-func GoogleAnalyticsTrackView(name: String) {
-
-}
-
-func GoogleAnalyticsTrackEvent(action: String, label: String, value: NSNumber) {
-
-}
-
-func GoogleAnalyticsTrackSocial(network: String, action: String, target: String) {
-
-}

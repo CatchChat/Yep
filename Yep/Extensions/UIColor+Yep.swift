@@ -36,7 +36,6 @@ extension UIColor {
 
     class func yepBorderColor() -> UIColor {
         return UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
-//        return UIColor(red: 0.7, green: 0.7, blue: 0.7, alpha: 1)
     }
 
     class func avatarBackgroundColor() -> UIColor {
@@ -56,7 +55,6 @@ extension UIColor {
     }
 
     class func rightWaveColor() -> UIColor {
-        //return UIColor(white: 0.0, alpha: 0.15)
         return UIColor(red:0.176,  green:0.537,  blue:0.878, alpha:1)
     }
 
@@ -69,13 +67,11 @@ extension UIColor {
     }
     
     class func messageToolBarColor() -> UIColor {
-//        return UIColor.yepTintColor()
         return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
     }
 
     class func messageToolBarHighlightColor() -> UIColor {
         return UIColor.yepTintColor()
-//        return UIColor(red:0.557, green:0.557, blue:0.576, alpha:1)
     }
 
     class func messageToolBarNormalColor() -> UIColor {

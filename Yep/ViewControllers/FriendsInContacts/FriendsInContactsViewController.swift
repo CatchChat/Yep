@@ -22,7 +22,7 @@ class FriendsInContactsViewController: BaseViewController {
         let addressBook = APAddressBook()
         addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
         return addressBook
-        }()
+    }()
 
     private var discoveredUsers = [DiscoveredUser]() {
         didSet {

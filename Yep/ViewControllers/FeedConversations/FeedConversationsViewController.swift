@@ -22,10 +22,9 @@ class FeedConversationsViewController: SegueViewController {
     }
 
     lazy var feedConversations: Results<Conversation> = {
-        //let predicate = NSPredicate(format: "type = %d", ConversationType.Group.rawValue)
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
         return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
-        }()
+    }()
 
     let feedConversationCellID = "FeedConversationCell"
     let deletedFeedConversationCellID = "DeletedFeedConversationCell"
@@ -44,8 +43,6 @@ class FeedConversationsViewController: SegueViewController {
 
         title = NSLocalizedString("Feeds", comment: "")
 
-//        navigationItem.backBarButtonItem?.title = NSLocalizedString("Feeds", comment: "")
-        
         realm = try! Realm()
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)

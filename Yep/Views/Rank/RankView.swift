@@ -42,5 +42,5 @@ class RankView: UIView {
             bar.stroke()
         }
     }
-
 }
+

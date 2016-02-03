@@ -102,7 +102,7 @@ class BadgeView: UIView {
     lazy var badgeImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
-        }()
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()

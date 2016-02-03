@@ -31,7 +31,7 @@ class MessageTypeButton: TouchZoomButton {
         let imageView = UIImageView()
         imageView.contentMode = .Center
         return imageView
-        }()
+    }()
 
     lazy var typeTitleLabel: UILabel = {
         let label = UILabel()
@@ -43,7 +43,7 @@ class MessageTypeButton: TouchZoomButton {
         }
         label.textAlignment = .Center
         return label
-        }()
+    }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -54,8 +54,6 @@ class MessageTypeButton: TouchZoomButton {
     }
 
     func makeUI() {
-
-        //backgroundColor = UIColor.magentaColor()
 
         addSubview(typeImageView)
         addSubview(typeTitleLabel)
@@ -81,5 +79,5 @@ class MessageTypeButton: TouchZoomButton {
             action()
         }
     }
-
 }
+
