@@ -736,6 +736,8 @@ class ProfileViewController: SegueViewController {
                             }
                         }
                     }
+
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIForUsername:", name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
             }
 
@@ -971,6 +973,10 @@ class ProfileViewController: SegueViewController {
 
     @objc private func cleanForLogout(sender: NSNotification) {
         profileUser = nil
+    }
+
+    @objc private func updateUIForUsername(sender: NSNotification) {
+        updateProfileCollectionView()
     }
 
     private func updateProfileCollectionView() {

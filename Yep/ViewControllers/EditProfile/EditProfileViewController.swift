@@ -16,6 +16,7 @@ class EditProfileViewController: SegueViewController {
 
     struct Notification {
         static let Logout = "LogoutNotification"
+        static let NewUsername = "NewUsername"
     }
 
     @IBOutlet private weak var avatarImageView: UIImageView!
@@ -383,49 +384,51 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case InfoRow.Username.rawValue:
 
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: try! Realm()) {
-
-                        let username = me.username
-
-                        if username.isEmpty {
-
-                            YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
-
-                                let newUsername = text
-
-                                updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
-
-                                }, completion: { success in
-                                    dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
-                                        guard let realm = try? Realm() else {
-                                            return
-                                        }
-                                        
-                                        if let
-                                            myUserID = YepUserDefaults.userID.value,
-                                            me = userWithUserID(myUserID, inRealm: realm) {
-                                                let _ = try? realm.write {
-                                                    me.username = newUsername
-                                                }
-                                        }
-
-                                        // update UI
-
-                                        if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
-                                            usernameCell.infoLabel.text = newUsername
-                                        }
-                                    }
-                                })
-                                
-                            }, cancelAction: {
-                            })
-                        }
+                guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: try! Realm()) else {
+                    break
                 }
+
+                let username = me.username
+
+                guard username.isEmpty else {
+                    break
+                }
+
+                YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                    let newUsername = text
+
+                    updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
+                        defaultFailureHandler(reason, errorMessage: errorMessage)
+
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
+                            guard let realm = try? Realm() else {
+                                return
+                            }
+                            
+                            if let
+                                myUserID = YepUserDefaults.userID.value,
+                                me = userWithUserID(myUserID, inRealm: realm) {
+                                    let _ = try? realm.write {
+                                        me.username = newUsername
+                                    }
+                            }
+
+                            // update UI
+
+                            if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                                usernameCell.infoLabel.text = newUsername
+                            }
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewUsername, object: nil)
+                        }
+                    })
+                    
+                }, cancelAction: {
+                })
 
             case InfoRow.Nickname.rawValue:
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
