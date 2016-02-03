@@ -1085,13 +1085,6 @@ func countOfConversationsInRealm(realm: Realm, withConversationType conversation
     return realm.objects(Conversation).filter(predicate).count
 }
 
-//func countOfUnreadMessagesInRealm(realm: Realm) -> Int {
-//    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
-//    return realm.objects(Message).filter(predicate).count
-//
-//    //return realm.objects(Conversation).map({ $0.unreadMessagesCount }).reduce(0, combine: +)
-//}
-
 func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
 
     switch conversationType {
@@ -1105,34 +1098,9 @@ func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversatio
 
         return count
     }
-
-    /*
-    let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
-//    let messages = realm.objects(Message).filter(predicate)
-//    messages.forEach {
-//        println("X unread message.textContent: \($0.textContent), \($0.fromFriend?.nickname), \($0.conversation?.withGroup?.withFeed?.body)")
-//    }
-    return realm.objects(Message).filter(predicate).count
-
-    //return realm.objects(Conversation).filter("type = %d", conversationType.rawValue).map({ $0.unreadMessagesCount }).reduce(0, combine: +)
-    */
 }
 
 func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
-//    let messages = conversation.messages.filter({ message in
-//        if let fromFriend = message.fromFriend {
-//            return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
-//        } else {
-//            return false
-//        }
-//    })
-//
-//    messages.forEach({
-//
-//        println("YEP: \($0.textContent), \($0.fromFriend?.nickname)")
-//    })
-//
-//    return messages.count
 
     return conversation.messages.filter({ message in
         if let fromFriend = message.fromFriend {
@@ -1144,9 +1112,6 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
 }
 
 func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
-
-//    let predicate = NSPredicate(format: "fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
-//    return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     switch conversationType {
 
@@ -1434,30 +1399,6 @@ func messagesInConversation(conversation: Conversation) -> Results<Message> {
     }
 }
 
-/*
-func messagesOfConversationByMe(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState = %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
-    return messages
-}
-*/
-
-/*
-func messagesUnreadSentByMe(inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "fromFriend.friendState = %d AND readed = false AND sendState = %d", argumentArray: [ UserFriendState.Me.rawValue, MessageSendState.Successed.rawValue])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
-    return messages
-}
-*/
-
-/*
-func unReadMessagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
-    let predicate = NSPredicate(format: "conversation = %@ AND readed = false", argumentArray: [conversation])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
-    return messages
-}
-*/
-
 func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
     let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
@@ -1469,7 +1410,6 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
     guard let
         realm = try? Realm(),
         message = messageWithMessageID(messageID, inRealm: realm)
-        //conversation = message.conversation
     else {
         return
     }
@@ -1479,30 +1419,6 @@ func handleMessageDeletedFromServer(messageID messageID: String) {
     }
 
     let messageIDs: [String] = [message.messageID]
-
-    /*
-    let messages = messagesOfConversation(conversation, inRealm: realm)
-
-    var sectionDateMessage: Message?
-    if let currentMessageIndex = messages.indexOf(message) {
-        let previousMessageIndex = currentMessageIndex - 1
-        if let previousMessage = messages[safe: previousMessageIndex] {
-            if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                sectionDateMessage = previousMessage
-            }
-        }
-    }
-
-    let _ = try? realm.write {
-
-        if let sectionDateMessage = sectionDateMessage {
-            realm.delete(sectionDateMessage)
-        }
-
-        message.deleteAttachmentInRealm(realm)
-        realm.delete(message)
-    }
-    */
 
     dispatch_async(dispatch_get_main_queue()) {
         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: ["messageIDs": messageIDs])
@@ -1549,6 +1465,7 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 }
 
 func nameOfConversation(conversation: Conversation) -> String? {
+
     if conversation.type == ConversationType.OneToOne.rawValue {
         if let withFriend = conversation.withFriend {
             return withFriend.nickname
@@ -1564,6 +1481,7 @@ func nameOfConversation(conversation: Conversation) -> String? {
 }
 
 func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
+
     let messages = messagesInConversation(conversation)
 
     if let lastMessage = messages.last {
@@ -1574,6 +1492,7 @@ func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
+
     let messages = messagesInConversationFromFriend(conversation)
 
     if let
