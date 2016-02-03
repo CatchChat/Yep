@@ -1,6 +1,6 @@
 # Yep
 
-A community where genius meet
+A community where geniuses meet
 
 https://soyep.com
 
