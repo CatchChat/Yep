@@ -57,6 +57,8 @@ If you like to join us developing Yep, fork this repo and use git flow on `devel
 
 Please ensure each commit is minimized for code review.
 
+Please stop using simulator's waterfall image as your avatar.
+
 ## License
 
 MIT
