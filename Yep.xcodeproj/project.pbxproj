@@ -3095,7 +3095,6 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
-					"$(PROJECT_DIR)/Yep/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -3191,7 +3190,6 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
-					"$(PROJECT_DIR)/Yep/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
