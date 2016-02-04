@@ -107,7 +107,7 @@ class NewFeedViewController: SegueViewController {
         return imageView
     }()
 
-    private let infoAboutThisFeed = NSLocalizedString("Info about this Feed...", comment: "")
+    private let placeholderOfFeed = NSLocalizedString("Introduce a thing, share an idea, describe a problem ...", comment: "")
 
     private var isNeverInputMessage = true
     private var isDirty = false {
@@ -115,7 +115,7 @@ class NewFeedViewController: SegueViewController {
             postButton.enabled = newValue
 
             if !newValue && isNeverInputMessage {
-                messageTextView.text = infoAboutThisFeed
+                messageTextView.text = placeholderOfFeed
             }
 
             messageTextView.textColor = newValue ? UIColor.blackColor() : UIColor.lightGrayColor()
