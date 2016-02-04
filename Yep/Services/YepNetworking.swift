@@ -123,7 +123,6 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     let request = NSMutableURLRequest(URL: url)
     request.HTTPMethod = resource.method.rawValue
 
-
     func needEncodesParametersForMethod(method: Method) -> Bool {
         switch method {
         case .GET, .HEAD, .DELETE:
@@ -143,17 +142,26 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         return (components.map{"\($0)=\($1)"} as [String]).joinWithSeparator("&")
     }
 
-    if needEncodesParametersForMethod(resource.method) {
-        if let requestBody = resource.requestBody {
-            if let URLComponents = NSURLComponents(URL: request.URL!, resolvingAgainstBaseURL: false) {
-                URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
-                request.URL = URLComponents.URL
+    func handleParameters() {
+        if needEncodesParametersForMethod(resource.method) {
+            guard let URL = request.URL else {
+                println("Invalid URL of request: \(request)")
+                return
             }
-        }
 
-    } else {
-        request.HTTPBody = resource.requestBody
+            if let requestBody = resource.requestBody {
+                if let URLComponents = NSURLComponents(URL: URL, resolvingAgainstBaseURL: false) {
+                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
+                    request.URL = URLComponents.URL
+                }
+            }
+
+        } else {
+            request.HTTPBody = resource.requestBody
+        }
     }
+
+    handleParameters()
 
     modifyRequest(request)
 
