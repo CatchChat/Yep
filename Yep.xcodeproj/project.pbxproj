@@ -359,6 +359,12 @@
 		92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E0FFE41C5F38E400226B96 /* MZFayeClient.m */; };
 		92E0FFE81C5F38E400226B96 /* MZFayeMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E0FFE61C5F38E400226B96 /* MZFayeMessage.m */; };
 		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; };
+		D8C13FFC1C65502C001D7947 /* SkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */; };
+		D8C140031C655178001D7947 /* DiscoverHD.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8C140021C655178001D7947 /* DiscoverHD.storyboard */; };
+		D8C140051C6551C0001D7947 /* MeetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C140041C6551C0001D7947 /* MeetupViewController.swift */; };
+		D8C9851E1C64AE470016A14D /* DiscoverHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */; };
+		D8C985241C64B05F0016A14D /* DiscoverHDCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */; };
+		D8F0B4831C632A4800DF2E23 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -736,6 +742,12 @@
 		92E0FFE51C5F38E400226B96 /* MZFayeMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFayeMessage.h; sourceTree = "<group>"; };
 		92E0FFE61C5F38E400226B96 /* MZFayeMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFayeMessage.m; sourceTree = "<group>"; };
 		C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkillsViewController.swift; sourceTree = "<group>"; };
+		D8C140021C655178001D7947 /* DiscoverHD.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DiscoverHD.storyboard; sourceTree = "<group>"; };
+		D8C140041C6551C0001D7947 /* MeetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeetupViewController.swift; sourceTree = "<group>"; };
+		D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDViewController.swift; sourceTree = "<group>"; };
+		D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDCell.swift; sourceTree = "<group>"; };
+		D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -853,6 +865,9 @@
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				505262131C522A1E00292C6A /* Show.storyboard */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
+				D8C140021C655178001D7947 /* DiscoverHD.storyboard */,
+				D8C9851C1C64AE260016A14D /* DiscoverHD */,
+				D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */,
 				6ADDB44F1B848C600012877A /* 1Password.xcassets */,
 				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				504BDC141B4528A500DBD35D /* Badges.xcassets */,
@@ -2393,6 +2408,17 @@
 			path = MZFayeClient;
 			sourceTree = "<group>";
 		};
+		D8C9851C1C64AE260016A14D /* DiscoverHD */ = {
+			isa = PBXGroup;
+			children = (
+				D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */,
+				D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */,
+				D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */,
+				D8C140041C6551C0001D7947 /* MeetupViewController.swift */,
+			);
+			name = DiscoverHD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2448,7 +2474,7 @@
 				TargetAttributes = {
 					0A8F54AA1AB67D11004AD60E = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = TKRALRXCKN;
+						DevelopmentTeam = VP62Y7Q4K9;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -2572,6 +2598,7 @@
 				50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */,
+				D8C140031C655178001D7947 /* DiscoverHD.storyboard in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
@@ -2720,6 +2747,7 @@
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
+				D8C985241C64B05F0016A14D /* DiscoverHDCell.swift in Sources */,
 				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
 				508A084E1C166EBA000A3305 /* CLPlacemark+Yep.swift in Sources */,
 				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
@@ -2739,6 +2767,7 @@
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
+				D8F0B4831C632A4800DF2E23 /* DetailViewController.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
@@ -2831,6 +2860,7 @@
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
+				D8C9851E1C64AE470016A14D /* DiscoverHDViewController.swift in Sources */,
 				50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */,
 				50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
@@ -2845,6 +2875,7 @@
 				50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */,
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */,
+				D8C140051C6551C0001D7947 /* MeetupViewController.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
@@ -2868,6 +2899,7 @@
 				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
+				D8C13FFC1C65502C001D7947 /* SkillsViewController.swift in Sources */,
 				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
 				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
@@ -3095,6 +3127,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
+					"$(PROJECT_DIR)/Yep/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -3158,11 +3191,11 @@
 					"-framework",
 					"\"pop\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -3190,6 +3223,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
+					"$(PROJECT_DIR)/Yep/GoogleAnalytics",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -3253,11 +3287,11 @@
 					"-framework",
 					"\"pop\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

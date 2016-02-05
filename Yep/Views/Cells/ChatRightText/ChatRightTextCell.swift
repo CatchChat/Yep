@@ -57,7 +57,8 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
+        //let fullWidth = UIScreen.mainScreen().bounds.width
+        let fullWidth = contentView.bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 

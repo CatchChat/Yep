@@ -532,7 +532,7 @@ class ProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        displayProfileFeeds()
         Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
             let cacheSize = Double(size)/1000000
             
@@ -721,7 +721,6 @@ class ProfileViewController: SegueViewController {
                     YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.customNavigationItem.title = nickname
-                            self?.updateProfileCollectionView()
                         }
                     }
 
@@ -736,8 +735,6 @@ class ProfileViewController: SegueViewController {
                             }
                         }
                     }
-
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIForUsername:", name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
             }
 
@@ -975,10 +972,6 @@ class ProfileViewController: SegueViewController {
         profileUser = nil
     }
 
-    @objc private func updateUIForUsername(sender: NSNotification) {
-        updateProfileCollectionView()
-    }
-
     private func updateProfileCollectionView() {
         dispatch_async(dispatch_get_main_queue()) {
             self.profileCollectionView.collectionViewLayout.invalidateLayout()
@@ -1069,8 +1062,8 @@ class ProfileViewController: SegueViewController {
                     }
 
                     if let conversation = user.conversation {
-                        performSegueWithIdentifier("showConversation", sender: conversation)
-                        
+                        //performSegueWithIdentifier("showConversation", sender: conversation)
+                        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
@@ -1091,8 +1084,8 @@ class ProfileViewController: SegueViewController {
                     }
 
                     if let conversation = user.conversation {
-                        performSegueWithIdentifier("showConversation", sender: conversation)
-
+                        //performSegueWithIdentifier("showConversation", sender: conversation)
+                        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
@@ -1701,13 +1694,31 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 "feeds": Box(feeds ?? []),
             ]
 
-            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+            //performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+            
+            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+            
 
         default:
             break
         }
     }
+    
+    func displayProfileFeeds(){
+        guard let profileUser = profileUser else {
+            return
+        }
+        
+        let info: [String: AnyObject] = [
+            "profileUser": Box(profileUser),
+            "feeds": Box(feeds ?? []),
+        ]
+        
+        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+    }
 }
+
+
 
 extension ProfileViewController: UIScrollViewDelegate {
     

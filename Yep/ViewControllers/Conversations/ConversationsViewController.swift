@@ -16,7 +16,7 @@ let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
 class ConversationsViewController: SegueViewController {
-
+    
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
     @IBOutlet weak var conversationsTableView: UITableView!
@@ -407,11 +407,22 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         switch indexPath.section {
 
         case Section.FeedConversation.rawValue:
+            
             performSegueWithIdentifier("showFeedConversations", sender: nil)
+            //(UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.FeedConversation)
+            
 
         case Section.Conversation.rawValue:
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+            
+            
+            /*if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
                 performSegueWithIdentifier("showConversation", sender: cell.conversation)
+            }*/
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                
+                //performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                //(UIApplication.sharedApplication().delegate as! AppDelegate).detail.loadControl(cell.conversation,requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(cell.conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
             }
 
         default:

@@ -26,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private var isFirstActive = true
 
+    var detail = DetailViewController()
+    var master = YepTabBarController()
+    
     enum LaunchStyle {
         case Default
         case Message
@@ -73,6 +76,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        master.detailViewController = detail
+                
         Realm.Configuration.defaultConfiguration = realmConfig()
 
         cacheInAdvance()
@@ -97,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         // 全局的外观自定义
-        customAppearce()
+        customAppearance()
 
         let isLogined = YepUserDefaults.isLogined
 
@@ -525,7 +530,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func customAppearce() {
+    private func customAppearance() {
 
         // Global Tint Color
 

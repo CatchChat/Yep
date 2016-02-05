@@ -10,29 +10,32 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
+    var detailViewController:DetailViewController?
+    
     private enum Tab: Int {
 
         case Conversations
         case Contacts
-        case Feeds
+        //case Feeds
         case Discover
         case Profile
 
         var title: String {
-
+            
             switch self {
             case .Conversations:
                 return NSLocalizedString("Chats", comment: "")
             case .Contacts:
                 return NSLocalizedString("Contacts", comment: "")
-            case .Feeds:
-                return NSLocalizedString("Feeds", comment: "")
+            /*case .Feeds:
+                return NSLocalizedString("Feeds", comment: "")*/
             case .Discover:
                 return NSLocalizedString("Discover", comment: "")
             case .Profile:
                 return NSLocalizedString("Profile", comment: "")
             }
         }
+        
     }
 
     private var previousTab = Tab.Conversations
@@ -69,10 +72,12 @@ class YepTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
 
         delegate = self
-
         view.backgroundColor = UIColor.whiteColor()
+        
 
         // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
         /*
@@ -121,7 +126,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
             return true
         }
 
-        if case .Feeds = tab {
+        /*if case .Feeds = tab {
             if let vc = nvc.topViewController as? FeedsViewController {
                 guard let feedsTableView = vc.feedsTableView else {
                     return true
@@ -133,7 +138,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                     }
                 }
             }
-        }
+        }*/
 
         return true
     }
@@ -160,6 +165,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 if !vc.conversationsTableView.yep_isAtTop {
                     vc.conversationsTableView.yep_scrollsToTop()
                 }
+               
             }
 
         case .Contacts:
@@ -169,7 +175,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 }
             }
 
-        case .Feeds:
+        /*case .Feeds:
             if let vc = nvc.topViewController as? FeedsViewController {
                 if !vc.feedsTableView.yep_isAtTop {
                     vc.feedsTableView.yep_scrollsToTop()
@@ -180,7 +186,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                         hasFirstTapOnFeedsWhenItIsAtTop = false
                     }
                 }
-            }
+            }*/
 
         case .Discover:
             if let vc = nvc.topViewController as? DiscoverViewController {

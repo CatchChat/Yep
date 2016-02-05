@@ -59,8 +59,11 @@ class PullToRefreshView: UIView {
             RefreshItem(
                 view: refreshView,
                 centerEnd: CGPoint(
-                    x: CGRectGetMidX(UIScreen.mainScreen().bounds),
+                    //x: CGRectGetMidX(UIScreen.mainScreen().bounds),
+                    //
+                    x: CGRectGetMidX((UIApplication.sharedApplication().delegate as! AppDelegate).detail.view.bounds),
                     y: 200 - sceneHeight * 0.5
+                    
                 ),
                 parallaxRatio: 0,
                 sceneHeight: sceneHeight

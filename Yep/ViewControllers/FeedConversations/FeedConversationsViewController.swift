@@ -166,7 +166,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
 
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
-            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+            //performSegueWithIdentifier("showConversation", sender: cell.conversation)
+            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(cell.conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
         }
     }
 

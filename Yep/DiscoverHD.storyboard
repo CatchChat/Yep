@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--Meetup-->
+        <scene sceneID="Gf6-QE-Nm8">
+            <objects>
+                <viewController storyboardIdentifier="UIViewController-llG-9p-6Ea" id="llG-9p-6Ea" customClass="MeetupViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MKS-M3-YhH"/>
+                        <viewControllerLayoutGuide type="bottom" id="3rg-aT-Vu9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NIH-jr-jFU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Meetup" id="tse-rQ-Xv1"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WvK-RO-Mdt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-307" y="-3260"/>
+        </scene>
+        <!--Skills-->
+        <scene sceneID="Fu6-oH-PbU">
+            <objects>
+                <viewController storyboardIdentifier="UIViewController-R46-i2-4J4" id="R46-i2-4J4" customClass="SkillsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="L1F-Nb-qUf"/>
+                        <viewControllerLayoutGuide type="bottom" id="ccN-pR-Srz"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fsB-YA-Iz0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Skills" id="nEW-5J-k7U"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z3F-nL-zjM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="-3260"/>
+        </scene>
+        <!--People-->
+        <scene sceneID="n5u-x5-QaP">
+            <objects>
+                <viewController storyboardIdentifier="DiscoverViewController" id="5NR-G1-qqW" userLabel="People" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3q-lk-c8x"/>
+                        <viewControllerLayoutGuide type="bottom" id="fou-D4-AiD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F0W-Z6-RS5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qiv-cC-3J3" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="-64" id="7Dp-9c-rpA"/>
+                            <constraint firstItem="fou-D4-AiD" firstAttribute="top" secondItem="qiv-cC-3J3" secondAttribute="bottom" constant="-49" id="CNN-fi-eLn"/>
+                            <constraint firstAttribute="centerX" secondItem="zzD-ES-eHf" secondAttribute="centerX" id="NcD-eS-2bl"/>
+                            <constraint firstAttribute="trailing" secondItem="qiv-cC-3J3" secondAttribute="trailing" id="j8a-KC-uIC"/>
+                            <constraint firstItem="qiv-cC-3J3" firstAttribute="leading" secondItem="F0W-Z6-RS5" secondAttribute="leading" id="kv1-KK-S2H"/>
+                            <constraint firstItem="zzD-ES-eHf" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="120" id="q7Q-WP-er9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="People" id="di2-g9-owW">
+                        <barButtonItem key="leftBarButtonItem" image="icon_list" id="Q6P-X5-laI">
+                            <connections>
+                                <action selector="changeMode:" destination="5NR-G1-qqW" id="rkV-4T-Tpw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title=" " id="mve-O6-ube">
+                            <connections>
+                                <action selector="showFilters:" destination="5NR-G1-qqW" id="IQs-8r-M7C"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="zzD-ES-eHf" id="ysT-DA-Krf"/>
+                        <outlet property="discoveredUsersCollectionView" destination="qiv-cC-3J3" id="Uyg-VP-ENL"/>
+                        <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
+                        <outlet property="modeButtonItem" destination="Q6P-X5-laI" id="AMy-5a-IsW"/>
+                        <segue destination="J6W-3w-f5X" kind="show" identifier="showProfile" id="txu-pp-hSI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="-2569"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="8yj-GZ-bVh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="J6W-3w-f5X" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alm-Y0-IEb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="573" y="-2045"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_list" width="30" height="30"/>
+    </resources>
+</document>
