@@ -10,6 +10,8 @@ import UIKit
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
+// TODO: 根据 Cell 自身的大小来布局
+
 class FeedGithubRepoCell: FeedBasicCell {
 
     var tapGithubRepoLinkAction: (NSURL -> Void)?
