@@ -8,7 +8,7 @@ https://soyep.com
 
 # Yep: Project Introductory Guide
 
-> Please build with the latest Cocoapods v0.39.0 and Xcode 7.2.
+> Please build with the latest CocoaPods v0.39.0 and Xcode 7.2.
 
 ## Intro
 
