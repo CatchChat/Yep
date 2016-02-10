@@ -247,9 +247,6 @@ class ConversationsViewController: SegueViewController {
             delay(0.5) { [weak self] in
                 self?.askForNotification()
             }
-
-            // 预先生成小头像
-            cacheInAdvance()
         }
 
         isFirstAppear = false
