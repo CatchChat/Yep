@@ -36,6 +36,8 @@ class FeedsViewController: BaseViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var feedsToolbar: UIToolbar!
+
 
     private var filterBarItem: UIBarButtonItem?
     
@@ -256,10 +258,11 @@ class FeedsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configToolBar()
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -414,6 +417,7 @@ class FeedsViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
 
         //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
+        
     }
 
     // MARK: - Actions
@@ -850,6 +854,46 @@ class FeedsViewController: BaseViewController {
         default:
             break
         }
+    }
+    
+    func configToolBar() {
+        
+        feedsToolbar.clipsToBounds = true
+        let firstFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
+            target:nil,
+            action:nil)
+        let firstToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_pictxt"),
+            style:.Plain, target:self, action:Selector("pictxtClicked:"))
+        let firstFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+            target:nil,
+            action:nil)
+        firstFixedToolBarSpace.width = 100
+        let secondToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_mic"),
+            style:.Plain, target:self, action:Selector("micClicked:"))
+        let secondFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+            target:nil,
+            action:nil)
+        secondFixedToolBarSpace.width = 100
+        let thirdToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_location"),
+            style:.Plain, target:self, action:Selector("locationClicked:"))
+        let secondFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
+            target:nil,
+            action:nil)
+        
+        feedsToolbar.setItems([firstFlexibleToolBarSpace,firstToolBarItem,firstFixedToolBarSpace,secondToolBarItem,
+            secondFixedToolBarSpace,thirdToolBarItem,secondFlexibleToolBarSpace], animated:true)
+    }
+    
+    func pictxtClicked(sender:UIBarButtonItem) {
+        self.performSegueWithIdentifier("presentNewFeed", sender: nil)
+    }
+    
+    func micClicked(sender:UIBarButtonItem) {
+        self.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+    }
+    
+    func locationClicked(sender:UIBarButtonItem) {
+        self.performSegueWithIdentifier("presentPickLocation", sender: nil)
     }
 }
 

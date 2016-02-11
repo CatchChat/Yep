@@ -267,6 +267,13 @@
                                     <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qmx-Y5-DdP">
+                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="wc1-NA-cep"/>
+                                </constraints>
+                                <items/>
+                            </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sHk-eY-6TD">
                                 <rect key="frame" x="290" y="184" width="20" height="20"/>
                             </activityIndicatorView>
@@ -276,9 +283,12 @@
                             <constraint firstAttribute="trailing" secondItem="D86-dp-qKQ" secondAttribute="trailing" id="0cJ-BC-Zme"/>
                             <constraint firstItem="D86-dp-qKQ" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="7rL-66-51f"/>
                             <constraint firstAttribute="bottom" secondItem="D86-dp-qKQ" secondAttribute="bottom" id="IGV-gd-9fq"/>
+                            <constraint firstItem="Qmx-Y5-DdP" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="TWl-Eq-Uoj"/>
                             <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="WZ4-Nx-qhp"/>
                             <constraint firstItem="sHk-eY-6TD" firstAttribute="centerX" secondItem="aTs-V4-FkM" secondAttribute="centerX" id="ZFA-ds-EiT"/>
+                            <constraint firstAttribute="trailing" secondItem="Qmx-Y5-DdP" secondAttribute="trailing" id="bve-Xi-F79"/>
                             <constraint firstItem="sHk-eY-6TD" firstAttribute="top" secondItem="1v6-QD-r3B" secondAttribute="bottom" constant="120" id="jeQ-RT-k0A"/>
+                            <constraint firstItem="Vr5-XL-uqL" firstAttribute="top" secondItem="Qmx-Y5-DdP" secondAttribute="bottom" id="mkL-tD-FSf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LaU-sr-um0">
@@ -291,6 +301,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="sHk-eY-6TD" id="Xlo-a7-8l6"/>
                         <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
+                        <outlet property="feedsToolbar" destination="Qmx-Y5-DdP" id="A3F-qv-Z3e"/>
                         <segue destination="h8b-7V-qPb" kind="show" identifier="showFeedsWithSkill" id="D1j-0N-VMH"/>
                         <segue destination="dYX-Ms-gWP" kind="show" identifier="showSkillHome" id="TTj-EA-7SS"/>
                         <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
