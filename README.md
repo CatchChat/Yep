@@ -28,7 +28,7 @@ At the same time, you should notice that some views are `@IBDesignable`. You can
 
 ## Activity
 
-Without intergrating WeChat or Weibo SDK, Yep uses [MonkeyKing](https://github.com/nixzhu/MonkeyKing/) with the native `UIActivityViewController`. See `Activities/WeChatActivity.swift`.
+Without integrating WeChat or Weibo SDK, Yep uses [MonkeyKing](https://github.com/nixzhu/MonkeyKing/) with the native `UIActivityViewController`. See `Activities/WeChatActivity.swift`.
 
 ## Service
 
