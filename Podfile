@@ -21,7 +21,7 @@ def pods
     pod 'SocketRocket'
     pod 'RealmSwift'
     pod 'MonkeyKing', '0.0.2'
-    pod 'JPush-iOS-SDK', '1.8.8'
+    pod 'JPush-iOS-SDK'
     pod 'Fabric'
     pod 'Crashlytics'
 end
