@@ -18,10 +18,17 @@ class DetailViewController: UIViewController {
         case People
         case Skills
         case Meetup
+        case SocialWork
     }
+    
     
     private var conversation: Conversation!
     
+    var profileUser: ProfileUser?
+    var dribbbleWork: DribbbleWork?
+    var instagramWork: InstagramWork?
+    var githubWork: GithubWork?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -54,20 +61,25 @@ class DetailViewController: UIViewController {
             performSegueWithIdentifier("showDetailSkills", sender: date)
         case .Meetup:
             performSegueWithIdentifier("showDetailMeetup", sender: date)
+        case .SocialWork:
+            let dic = date as! [String]
+            let segueID = dic[0].substringFromIndex(dic[0].startIndex.advancedBy(4))
+            performSegueWithIdentifier("showDetail\(segueID)", sender: dic[1])
         default:()
         }
     }
 
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         guard let identifier = segue.identifier else {
             return
         }
+        
         switch identifier{
             case "showDetailConversation":
                 let vc = segue.destinationViewController as! ConversationViewController
                 vc.conversation = conversation
+            
             case "showDetailFeedsOfProfileUser":
                 let vc = segue.destinationViewController as! FeedsViewController
                 if let
@@ -80,6 +92,45 @@ class DetailViewController: UIViewController {
                 }
                 vc.hideRightBarItem = true
                 vc.hidesBottomBarWhenPushed = true
+            
+            case "showDetailSocialWorkGithub":
+                if let providerName = sender as? String {
+                    
+                    let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                    vc.socialAccount = SocialAccount(rawValue: providerName)
+                    vc.profileUser = profileUser
+                    vc.githubWork = githubWork
+                    
+                    vc.afterGetGithubWork = {[weak self] githubWork in
+                        self?.githubWork = githubWork
+                    }
+            }
+            
+            case "showDetailSocialWorkDribbble":
+                if let providerName = sender as? String {
+                    
+                    let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                    vc.socialAccount = SocialAccount(rawValue: providerName)
+                    vc.profileUser = profileUser
+                    vc.dribbbleWork = dribbbleWork
+                    
+                    vc.afterGetDribbbleWork = { [weak self] dribbbleWork in
+                        self?.dribbbleWork = dribbbleWork
+                    }
+            }
+            
+            case "showDetailSocialWorkInstagram":
+                if let providerName = sender as? String {
+                    
+                    let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                    vc.socialAccount = SocialAccount(rawValue: providerName)
+                    vc.profileUser = profileUser
+                    vc.instagramWork = instagramWork
+                    
+                    vc.afterGetInstagramWork = { [weak self] instagramWork in
+                        self?.instagramWork = instagramWork
+                    }
+            }
         default:()
             
         }

@@ -532,7 +532,6 @@ class ProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayProfileFeeds()
         Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
             let cacheSize = Double(size)/1000000
             
@@ -1062,8 +1061,11 @@ class ProfileViewController: SegueViewController {
                     }
 
                     if let conversation = user.conversation {
-                        //performSegueWithIdentifier("showConversation", sender: conversation)
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                            performSegueWithIdentifier("showConversation", sender: conversation)
+                        } else {
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                        }
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
@@ -1084,8 +1086,11 @@ class ProfileViewController: SegueViewController {
                     }
 
                     if let conversation = user.conversation {
-                        //performSegueWithIdentifier("showConversation", sender: conversation)
-                        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                            performSegueWithIdentifier("showConversation", sender: conversation)
+                        } else {
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                        }
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
@@ -1603,8 +1608,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 if let providerName = profileUser.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
 
                     if profileUser.enabledSocialAccount(socialAccount) {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
-
+                        if(UIDevice.currentDevice().userInterfaceIdiom == .Phone){
+                            performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                        } else {
+                            let date:[String] = ["showSocialWork\(socialAccount.segue)",providerName]
+                            
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.profileUser = profileUser
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.dribbbleWork = dribbbleWork
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.githubWork = githubWork
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.instagramWork = instagramWork
+                            
+                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(date, requestFrom: DetailViewController.requestDetailFrom.SocialWork)
+                        }
                     } else {
                         if profileUserIsMe {
                             
@@ -1693,11 +1708,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 "profileUser": Box(profileUser),
                 "feeds": Box(feeds ?? []),
             ]
-
-            //performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
-            
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
-            
+            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+            } else {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+            }
 
         default:
             break

@@ -865,7 +865,6 @@
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				505262131C522A1E00292C6A /* Show.storyboard */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
-				D8C140021C655178001D7947 /* DiscoverHD.storyboard */,
 				D8C9851C1C64AE260016A14D /* DiscoverHD */,
 				D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */,
 				6ADDB44F1B848C600012877A /* 1Password.xcassets */,
@@ -2411,6 +2410,7 @@
 		D8C9851C1C64AE260016A14D /* DiscoverHD */ = {
 			isa = PBXGroup;
 			children = (
+				D8C140021C655178001D7947 /* DiscoverHD.storyboard */,
 				D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */,
 				D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */,
 				D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */,

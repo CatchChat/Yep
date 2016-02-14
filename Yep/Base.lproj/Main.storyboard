@@ -11,7 +11,7 @@
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="NdR-3W-W6D" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pZh-wG-lHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="33" y="-2368"/>
+            <point key="canvasLocation" x="8" y="-2578"/>
         </scene>
         <!--FeedConversationsViewController-->
         <scene sceneID="IRz-xo-nL8">
@@ -405,6 +405,9 @@
                         <segue destination="vRd-iH-nrr" kind="show" identifier="showDetailDiscover" id="69P-SE-yfg"/>
                         <segue destination="uiR-dt-962" kind="show" identifier="showDetailSkills" id="w35-n3-AVU"/>
                         <segue destination="TmQ-x8-Gvv" kind="show" identifier="showDetailMeetup" id="4R9-om-dli"/>
+                        <segue destination="rB9-sa-dj4" kind="show" identifier="showDetailSocialWorkGithub" id="lgD-EA-Pdn"/>
+                        <segue destination="Qqq-BU-W0P" kind="show" identifier="showDetailSocialWorkInstagram" id="xyj-UF-7cR"/>
+                        <segue destination="44X-ff-IET" kind="show" identifier="showDetailSocialWorkDribbble" id="xLC-EU-w4x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67u-nc-noo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -586,7 +589,7 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="ZSI-kg-pwt" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2eS-HR-Ffa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11" y="-2461"/>
+            <point key="canvasLocation" x="-14" y="-2640"/>
         </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="4UU-LR-Oke">
@@ -718,7 +721,7 @@
                 <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="DiscoverViewController" id="vRd-iH-nrr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kO9-Dz-TLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="19.5" y="-2545"/>
+            <point key="canvasLocation" x="-5.5" y="-2699"/>
         </scene>
         <!--UIViewController-R46-i2-4J4-->
         <scene sceneID="723-5I-G19">
@@ -726,7 +729,7 @@
                 <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="UIViewController-R46-i2-4J4" id="uiR-dt-962" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="saD-ur-vXM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="38" y="-2642"/>
+            <point key="canvasLocation" x="13" y="-2764"/>
         </scene>
         <!--UIViewController-llG-9p-6Ea-->
         <scene sceneID="mDg-d6-2Og">
@@ -734,7 +737,31 @@
                 <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="UIViewController-llG-9p-6Ea" id="TmQ-x8-Gvv" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="736-69-ecv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="38" y="-2732"/>
+            <point key="canvasLocation" x="11" y="-2826"/>
+        </scene>
+        <!--SocialWorkGithubViewController-->
+        <scene sceneID="zSL-kL-v4U">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="rB9-sa-dj4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xFY-Jf-3Ya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="-2522"/>
+        </scene>
+        <!--SocialWorkDribbbleViewController-->
+        <scene sceneID="STW-KU-Jqs">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="44X-ff-IET" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-0I-Irq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="28" y="-2384"/>
+        </scene>
+        <!--SocialWorkInstagramViewController-->
+        <scene sceneID="CzE-Vv-QQD">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="Qqq-BU-W0P" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="huc-lD-nKb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="32.5" y="-2457"/>
         </scene>
     </scenes>
     <resources>
