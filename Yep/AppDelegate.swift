@@ -514,7 +514,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let conversations = realm.objects(Conversation)
+            let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+            let conversations = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
