@@ -156,6 +156,14 @@ class ConversationMoreView: UIView {
         }
     }
 
+    var isMyFeed: Bool = false {
+        didSet {
+            if isMyFeed != oldValue {
+                tableView.reloadData()
+            }
+        }
+    }
+
     lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
@@ -505,7 +513,12 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                     let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
                     
-                    cell.colorTitleLabel.text = NSLocalizedString("Unsubscribe", comment: "")
+                    if isMyFeed {
+                        cell.colorTitleLabel.text = NSLocalizedString("Delete", comment: "")
+                    } else {
+                        cell.colorTitleLabel.text = NSLocalizedString("Unsubscribe", comment: "")
+                    }
+
                     cell.colorTitleLabelTextColor = UIColor.redColor()
                     cell.colorTitleLabelFontStyle = .Light
                     
