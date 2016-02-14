@@ -2734,6 +2734,11 @@ struct DiscoveredFeed: Hashable {
 
     var uploadingErrorMessage: String? = nil
 
+    var timeString: String {
+        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
+        return timeString
+    }
+
     var timeAndDistanceString: String {
 
         let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"

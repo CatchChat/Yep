@@ -230,8 +230,11 @@ class FeedsViewController: BaseViewController {
     }
     private static var layoutPool = LayoutPool()
 
+    private var needShowDistance: Bool = false
     private var feedSortStyle: FeedSortStyle = .Match {
         didSet {
+            needShowDistance = (feedSortStyle == .Distance)
+
             feeds = []
             feedsTableView.reloadData()
 
@@ -976,6 +979,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             guard let cell = cell as? FeedBasicCell else {
                 return
             }
+
+            cell.needShowDistance = needShowDistance
 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
