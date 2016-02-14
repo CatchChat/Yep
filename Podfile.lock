@@ -1,6 +1,6 @@
 PODS:
   - 1PasswordExtension (1.7)
-  - Alamofire (3.1.5)
+  - Alamofire (3.2.0)
   - APAddressBook/Core (0.2.3)
   - APAddressBook/Swift (0.2.3):
     - APAddressBook/Core
@@ -9,7 +9,7 @@ PODS:
   - Crashlytics (3.6.0):
     - Fabric (~> 1.6.3)
   - DeviceGuru (1.3.3)
-  - Fabric (1.6.4)
+  - Fabric (1.6.5)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - Kanna (1.0.4)
@@ -17,7 +17,7 @@ PODS:
   - Kingfisher (2.0.1)
   - MonkeyKing (0.0.2)
   - Navi (0.4.0)
-  - pop (1.0.8)
+  - pop (1.0.9)
   - Proposer (0.7.1)
   - Realm (0.97.1):
     - Realm/Headers (= 0.97.1)
@@ -53,13 +53,13 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: a22573ad528dd63bd79c1f3b3813b17c2f86b91b
-  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
+  Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
   APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Appsee: 77f144701aa1a53d854d319a46667561849e8cf5
   Base64: 4924bf3ca6fa559a5161ef717291bd450eb7bd1a
   Crashlytics: e4e8d02914f2608fbc7bf42b1a7af838b0db67a2
   DeviceGuru: 49c6178d77693f8459ace21cecaf4d1d26297d08
-  Fabric: ed41fd62173c6bdea24ab02c9d7707161eabb750
+  Fabric: 338ffd3c2afcab120638907b4251189de9ad17b3
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   Kanna: 537762df5e2203714769f8351340b3c724adb2bd
@@ -67,7 +67,7 @@ SPEC CHECKSUMS:
   Kingfisher: 3af2020040453f710507819e6aa5f5721da03d9b
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   Navi: ee7a52045685bda5aeb63c49906372b783112deb
-  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
   Realm: 6854f49cc788171573a0605fe5e55d3224bc39f9
   RealmSwift: 21aa38ae5210a8e7d3ca2fd02a0ce82476672101
