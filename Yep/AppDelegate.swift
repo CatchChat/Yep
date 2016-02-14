@@ -155,6 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startFaye()
         }
 
+        application.applicationIconBadgeNumber = -1
         application.applicationIconBadgeNumber = 0
 
         /*
