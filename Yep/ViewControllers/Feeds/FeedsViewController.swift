@@ -1419,6 +1419,37 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
     }
 
+    // MARK: Copy Message
+
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let _ = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+            return false
+        }
+
+        return true
+    }
+
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+
+        if action == "copy:" {
+            return true
+        }
+
+        return false
+    }
+
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+            return
+        }
+
+        if action == "copy:" {
+            UIPasteboard.generalPasteboard().string = cell.messageTextView.text
+        }
+    }
+
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
