@@ -1448,6 +1448,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         menu.setMenuVisible(true, animated: true)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+        feedsTableView.deselectRowAtIndexPath(selectedIndexPathForMenu, animated: true)
     }
 
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
