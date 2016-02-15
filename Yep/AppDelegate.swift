@@ -147,9 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Did Active")
         
         if !isFirstActive {
-            if YepUserDefaults.isLogined {
-                syncUnreadMessages() {}
-            }
+            syncUnreadMessages() {}
+
         } else {
             sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
             startFaye()
@@ -488,6 +487,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
+
+        guard YepUserDefaults.isLogined else {
+            furtherAction()
+            return
+        }
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
