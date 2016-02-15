@@ -16,7 +16,7 @@ PODS:
   - KeyboardMan (0.5.2)
   - Kingfisher (2.0.1)
   - MonkeyKing (0.0.2)
-  - Navi (0.4.1)
+  - Navi (0.4.2)
   - pop (1.0.9)
   - Proposer (0.7.1)
   - Realm (0.97.1):
@@ -66,7 +66,7 @@ SPEC CHECKSUMS:
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
   Kingfisher: 3af2020040453f710507819e6aa5f5721da03d9b
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
-  Navi: 72f602ef887080c8cbfa86ed23fe1849457dce4e
+  Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
   Realm: 6854f49cc788171573a0605fe5e55d3224bc39f9
