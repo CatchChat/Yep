@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 24, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 25, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -147,9 +147,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Did Active")
         
         if !isFirstActive {
-            if YepUserDefaults.isLogined {
-                syncUnreadMessages() {}
-            }
+            syncUnreadMessages() {}
+
         } else {
             sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
             startFaye()
@@ -489,6 +488,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
+        guard YepUserDefaults.isLogined else {
+            furtherAction()
+            return
+        }
+
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
 
@@ -520,7 +524,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
-                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
                     AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
                 }
             }

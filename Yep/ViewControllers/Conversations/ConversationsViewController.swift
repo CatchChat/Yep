@@ -148,8 +148,10 @@ class ConversationsViewController: SegueViewController {
             YepLocationService.turnOn()
         }
 
+        cacheInAdvance()
+
         #if DEBUG
-//            view.addSubview(conversationsFPSLabel)
+            //view.addSubview(conversationsFPSLabel)
         #endif
     }
 
@@ -157,12 +159,19 @@ class ConversationsViewController: SegueViewController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
-            // 聊天界面的小头像
+            // 最近一天活跃的好友
 
-            for user in normalUsers() {
+            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*24) {
 
-                let userAvatar = UserAvatar(userID: user.userID, avatarStyle: nanoAvatarStyle)
-                AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
+                do {
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
+                }
+
+                do {
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
+                }
             }
 
             /*
@@ -357,6 +366,26 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.FeedConversation.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            return cell
+
+        case Section.Conversation.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+            return cell
+            
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+
+            guard let cell = cell as? FeedConversationDockCell else {
+                break
+            }
 
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
@@ -376,10 +405,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
             }
 
-            return cell
-
         case Section.Conversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+
+            guard let cell = cell as? ConversationCell else {
+                break
+            }
 
             if let conversation = conversations[safe: indexPath.row] {
 
@@ -388,10 +418,28 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
             }
             
-            return cell
-            
         default:
-            return UITableViewCell()
+            break
+        }
+    }
+
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+            break
+
+        case Section.Conversation.rawValue:
+
+            guard let cell = cell as? ConversationCell else {
+                return
+            }
+
+            cell.avatarImageView.image = nil
+
+        default:
+            break
         }
     }
 
