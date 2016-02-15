@@ -215,6 +215,15 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let cell = cell as? ContactsCell else {
+            return
+        }
+
+        cell.avatarImageView.image = nil
+    }
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         defer {
