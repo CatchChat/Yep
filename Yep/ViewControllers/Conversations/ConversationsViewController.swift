@@ -161,7 +161,7 @@ class ConversationsViewController: SegueViewController {
 
             for user in normalUsers() {
 
-                let userAvatar = UserAvatar(userID: user.userID, avatarStyle: nanoAvatarStyle)
+                let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
                 AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
             }
 

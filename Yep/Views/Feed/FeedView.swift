@@ -314,7 +314,7 @@ class FeedView: UIView {
         messageLabelTrailingConstraint.constant = attachments.isEmpty ? 15 : 60
 
         if let creator = feed.creator {
-            let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
+            let userAvatar = UserAvatar(userID: creator.userID, avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
