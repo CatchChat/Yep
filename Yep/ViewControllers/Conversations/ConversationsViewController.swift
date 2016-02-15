@@ -357,6 +357,26 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.FeedConversation.rawValue:
             let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            return cell
+
+        case Section.Conversation.rawValue:
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+            return cell
+            
+        default:
+            return UITableViewCell()
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+
+            guard let cell = cell as? FeedConversationDockCell else {
+                break
+            }
 
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
@@ -376,10 +396,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
             }
 
-            return cell
-
         case Section.Conversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+
+            guard let cell = cell as? ConversationCell else {
+                break
+            }
 
             if let conversation = conversations[safe: indexPath.row] {
 
@@ -388,10 +409,28 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
             }
             
-            return cell
-            
         default:
-            return UITableViewCell()
+            break
+        }
+    }
+
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        switch indexPath.section {
+
+        case Section.FeedConversation.rawValue:
+            break
+
+        case Section.Conversation.rawValue:
+
+            guard let cell = cell as? ConversationCell else {
+                return
+            }
+
+            cell.avatarImageView.image = nil
+
+        default:
+            break
         }
     }
 
