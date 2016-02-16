@@ -99,6 +99,8 @@ var yepNetworkActivityCount = 0 {
     }
 }
 
+private let yepSuccessStatusCodeRange = Range<Int>(start: 200, end: 300)
+
 #if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
 
@@ -177,7 +179,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 
         if let httpResponse = response as? NSHTTPURLResponse {
 
-            if httpResponse.statusCode == 200 {
+            if yepSuccessStatusCodeRange.contains(httpResponse.statusCode) {
 
                 if let responseData = data {
 
