@@ -691,6 +691,8 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesCountChanged:", name: YepConfig.Notification.unreadMessagesCount, object: nil)
+
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self?.reloadConversationCollectionView()
@@ -882,9 +884,69 @@ class ConversationViewController: BaseViewController {
             //view.addSubview(conversationFPSLabel)
         #endif
     }
-    
+
+    /*
+    lazy var badgeView: AlwaysOnTopView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+
+        let view = AlwaysOnTopView(frame: imageView.bounds)
+        view.addSubview(imageView)
+
+        view.center = CGPoint(x: 18, y: 13)
+
+        return view
+    }()
+    */
+
+    lazy var badgeView: UIView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+        imageView.frame = CGRect(x: 0, y: 0, width: 6, height: 6)
+        imageView.center = CGPoint(x: 22, y: 22)
+
+        return imageView
+    }()
+
+    var getUnreadMessagesCountAction: (() -> Int)?
+
+    @objc private func unreadMessagesCountChanged(notification: NSNotification) {
+
+        guard let unreadMessagesCount = notification.object as? Int else {
+            return
+        }
+
+        if unreadMessagesCount > 0 {
+            self.navigationController?.navigationBar.addSubview(badgeView)
+            showBadgeView()
+        } else {
+            hideBadgeView()
+        }
+    }
+
+    private func showBadgeView() {
+
+        badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+
+        UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
+            if let strongSelf = self {
+                strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            }
+        }, completion: { finished in
+        })
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        if let action = getUnreadMessagesCountAction where action() > 0 {
+            self.navigationController?.navigationBar.addSubview(badgeView)
+
+            if isFirstAppear {
+                showBadgeView()
+
+            } else {
+                badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            }
+        }
 
         if isFirstAppear {
 
@@ -1398,8 +1460,19 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    private func hideBadgeView() {
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+        }, completion: { [weak self] finished in
+            self?.badgeView.removeFromSuperview()
+        })
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        hideBadgeView()
 
         if conversationIsDirty {
             conversationDirtyAction?()
