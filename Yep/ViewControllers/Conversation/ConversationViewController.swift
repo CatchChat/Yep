@@ -882,9 +882,35 @@ class ConversationViewController: BaseViewController {
             //view.addSubview(conversationFPSLabel)
         #endif
     }
+
+    lazy var badgeView: AlwaysOnTopView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+
+        let view = AlwaysOnTopView(frame: imageView.bounds)
+        view.addSubview(imageView)
+
+        view.center = CGPoint(x: 18, y: 13)
+
+        return view
+    }()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        self.navigationController?.navigationBar.addSubview(badgeView)
+
+        //UIApplication.sharedApplication().keyWindow?.addSubview(badgeView)
+        //self.view.window?.addSubview(badgeView)
+
+        badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+
+        UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
+            if let strongSelf = self {
+                strongSelf.navigationController?.navigationBar.bringSubviewToFront(strongSelf.badgeView)
+                strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            }
+        }, completion: { finished in
+        })
 
         if isFirstAppear {
 
@@ -1400,6 +1426,12 @@ class ConversationViewController: BaseViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+        }, completion: { [weak self] finished in
+            self?.badgeView.removeFromSuperview()
+        })
 
         if conversationIsDirty {
             conversationDirtyAction?()

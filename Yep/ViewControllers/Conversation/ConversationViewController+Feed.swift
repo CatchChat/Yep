@@ -61,3 +61,41 @@ extension ConversationViewController {
     }
 }
 
+private let subviewsCountKeyPath = "subviews.@count"
+
+class AlwaysOnTopView: UIView {
+
+    override func willMoveToSuperview(newSuperview: UIView?) {
+
+        if let superview = superview {
+            superview.removeObserver(self, forKeyPath: subviewsCountKeyPath)
+        }
+
+        super.willMoveToSuperview(newSuperview)
+    }
+
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        if let superview = superview {
+            superview.addObserver(self, forKeyPath: subviewsCountKeyPath, options: [], context: nil)
+        }
+    }
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+
+        if keyPath == subviewsCountKeyPath, let superview = superview, let object = object as? UIView where object == superview {
+            superview.bringSubviewToFront(self)
+        }
+
+        super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+    }
+}
+
+
+
+
+
+
+
+
