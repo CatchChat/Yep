@@ -441,15 +441,23 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
 
-                unregisterThirdPartyPush()
+                logout(failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
-                cleanRealmAndCaches()
+                }, completion: {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        unregisterThirdPartyPush()
 
-                YepUserDefaults.cleanAllUserDefaults()
+                        cleanRealmAndCaches()
 
-                if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                    appDelegate.startShowStory()
-                }
+                        YepUserDefaults.cleanAllUserDefaults()
+
+                        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                            appDelegate.startShowStory()
+                        }
+                    }
+                })
 
             }, cancelAction: { () -> Void in
             })
