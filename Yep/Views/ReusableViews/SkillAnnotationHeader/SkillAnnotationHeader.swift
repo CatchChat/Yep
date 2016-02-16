@@ -11,10 +11,5 @@ import UIKit
 class SkillAnnotationHeader: UICollectionReusableView {
 
     @IBOutlet weak var annotationLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
 }
+

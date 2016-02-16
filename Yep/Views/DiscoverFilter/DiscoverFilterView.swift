@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 class DiscoverFilterCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -24,12 +23,12 @@ class DiscoverFilterCell: UITableViewCell {
     lazy var colorTitleLabel: UILabel = {
         let label = UILabel()
         return label
-        }()
+    }()
 
     lazy var checkImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "icon_location_checkmark"))
         return imageView
-        }()
+    }()
 
     var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
         willSet {
@@ -75,7 +74,6 @@ class DiscoverFilterCell: UITableViewCell {
 
         NSLayoutConstraint.activateConstraints([checkImageViewCenterY, checkImageViewTrailing])
     }
-
 }
 
 class DiscoverFilterView: UIView {
@@ -86,7 +84,7 @@ class DiscoverFilterView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
         return view
-        }()
+    }()
 
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -99,8 +97,7 @@ class DiscoverFilterView: UIView {
         view.registerClass(DiscoverFilterCell.self, forCellReuseIdentifier: "DiscoverFilterCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view
-        }()
-
+    }()
 
     var currentDiscoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {

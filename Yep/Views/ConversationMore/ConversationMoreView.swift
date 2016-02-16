@@ -95,7 +95,7 @@ class ConversationMoreColorTitleCell: UITableViewCell {
     lazy var colorTitleLabel: UILabel = {
         let label = UILabel()
         return label
-        }()
+    }()
 
     var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
         willSet {
@@ -135,13 +135,13 @@ class ConversationMoreColorTitleCell: UITableViewCell {
     }
 
     func updateWithBlocked(blocked: Bool) {
+
         if blocked {
             colorTitleLabel.text = NSLocalizedString("Unblock", comment: "")
         } else {
             colorTitleLabel.text = NSLocalizedString("Block", comment: "")
         }
 
-        //colorTitleLabelTextColor = blocked ? UIColor.redColor() : UIColor.yepTintColor()
         colorTitleLabelTextColor = UIColor.redColor()
     }
 }
@@ -160,7 +160,7 @@ class ConversationMoreView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
         return view
-        }()
+    }()
 
     lazy var tableView: UITableView = {
         let view = UITableView()
@@ -173,7 +173,7 @@ class ConversationMoreView: UIView {
         view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view
-        }()
+    }()
 
     var showProfileAction: (() -> Void)?
 

@@ -78,15 +78,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         cacheInAdvance()
 
         delay(0.5) {
-//            Fabric.with([Crashlytics.self])
+            //Fabric.with([Crashlytics.self])
             Fabric.with([Crashlytics.self, Appsee.self])
 
+            /*
             #if STAGING
                 let apsForProduction = false
             #else
                 let apsForProduction = true
             #endif
             JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
+            */
+            APService.setupWithOption(launchOptions)
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -94,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         // 全局的外观自定义
-        customAppearce()
+        customAppearance()
 
         let isLogined = YepUserDefaults.isLogined
 
@@ -230,7 +233,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
-        JPUSHService.handleRemoteNotification(userInfo)
+        //JPUSHService.handleRemoteNotification(userInfo)
+        APService.handleRemoteNotification(userInfo)
         
         if YepUserDefaults.isLogined {
 
@@ -453,8 +457,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
-        JPUSHService.registerDeviceToken(deviceToken)
-        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+        //JPUSHService.registerDeviceToken(deviceToken)
+        //JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+        APService.registerDeviceToken(deviceToken)
+        APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
     }
 
     func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
@@ -519,7 +525,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func customAppearce() {
+    private func customAppearance() {
 
         // Global Tint Color
 

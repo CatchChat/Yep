@@ -442,7 +442,6 @@ class NewFeedViewController: SegueViewController {
                 for image in images {
                     self?.mediaImages.append(image)
                 }
-//                self?.imageAssets = imageAssets
             }
         }
     }
@@ -545,12 +544,6 @@ class NewFeedViewController: SegueViewController {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-//    private struct UploadImageInfo {
-//        
-//        let s3UploadParams: S3UploadParams
-//        let metaDataString: String?
-//    }
-
     func tryMakeUploadingFeed() -> DiscoveredFeed? {
 
         guard let
@@ -666,10 +659,6 @@ class NewFeedViewController: SegueViewController {
             var openGraph: OpenGraph?
 
             let doCreateFeed: () -> Void = { [weak self] in
-
-                if let userID = YepUserDefaults.userID.value {
-                    GoogleAnalyticsTrackEvent("New Feed", label: userID, value: 0)
-                }
 
                 if let openGraph = openGraph where openGraph.isValid {
 
@@ -937,34 +926,6 @@ class NewFeedViewController: SegueViewController {
                 }
             })
 
-            /*
-            let fileExtension: FileExtension = .M4A
-
-            s3UploadFileOfKind(.Feed, withFileExtension: fileExtension, inFilePath: feedVoice.fileURL.path, orFileData: nil, mimeType: fileExtension.mimeType, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage: errorMessage)
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    uploadErrorMessage = errorMessage
-
-                    dispatch_group_leave(uploadVoiceGroup)
-                }
-
-            }, completion: { s3UploadParams in
-
-                let audioInfo: JSONDictionary = [
-                    "file": s3UploadParams.key,
-                    "metadata": metaDataString,
-                ]
-
-                attachments = [audioInfo]
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    dispatch_group_leave(uploadVoiceGroup)
-                }
-            })
-            */
-
             dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
 
                 guard attachments != nil else {
@@ -1071,9 +1032,14 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
 
                 proposeToAccess(.Camera, agreed: { [weak self] in
-                    
+
+                    guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                        self?.alertCanNotOpenCamera()
+                        return
+                    }
+
                     if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
+                        strongSelf.imagePicker.sourceType = .Camera
                         strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                     

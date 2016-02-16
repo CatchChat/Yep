@@ -33,5 +33,5 @@ class ProfileSectionHeaderReusableView: UICollectionReusableView {
     func tap() {
         tapAction?()
     }
-    
 }
+    

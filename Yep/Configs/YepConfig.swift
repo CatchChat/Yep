@@ -16,7 +16,7 @@ let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
 let imageFadeTransitionDuration: NSTimeInterval = 0.2
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
-    .Options([.BackgroundDecode, .LowPriority]),
+    .BackgroundDecode,
     .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
 
@@ -206,11 +206,6 @@ class YepConfig {
         static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
         ]
-//        static let textAttributes: [String: NSObject] = [
-//            NSFontAttributeName: UIFont.chatTextFont(),
-//            NSKernAttributeName: 0.5,
-//            NSParagraphStyleAttributeName: NSParagraphStyle.chatTextParagraphStyle(),
-//        ]
     }
 
     struct FeedMedia {
@@ -296,6 +291,5 @@ class YepConfig {
             static let timelineImage = UIImage(named: "wechat_timeline")!
         }
     }
-
 }
 

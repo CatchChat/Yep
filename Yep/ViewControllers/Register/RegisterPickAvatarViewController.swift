@@ -203,14 +203,18 @@ class RegisterPickAvatarViewController: SegueViewController {
     @IBAction private func tryOpenCameraRoll(sender: UIButton) {
 
         let openCameraRoll: ProposerAction = { [weak self] in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-                imagePicker.allowsEditing = true
 
-                self?.presentViewController(imagePicker, animated: true, completion: nil)
+            guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                self?.alertCanNotAccessCameraRoll()
+                return
             }
+
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.allowsEditing = true
+
+            self?.presentViewController(imagePicker, animated: true, completion: nil)
         }
 
         proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {

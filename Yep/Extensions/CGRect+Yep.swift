@@ -9,7 +9,9 @@
 import UIKit
 
 extension CGRect {
+
     func largestCenteredSquare() -> CGRect {
+
         let width = self.size.width
         let height = self.size.height
         let widthBigger = width / height > 1.0
@@ -20,3 +22,4 @@ extension CGRect {
         return square
     }
 }
+
