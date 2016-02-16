@@ -900,6 +900,7 @@ class ConversationViewController: BaseViewController {
 
     lazy var badgeView: UIView = {
         let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+        imageView.frame = CGRect(x: 0, y: 0, width: 6, height: 6)
         imageView.center = CGPoint(x: 22, y: 22)
 
         return imageView
