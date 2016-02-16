@@ -39,6 +39,8 @@ class ConversationsViewController: SegueViewController {
                     navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
+
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.unreadMessagesCount, object: haveUnreadMessages ? 1 : 0)
             }
         }
     }
@@ -322,6 +324,10 @@ class ConversationsViewController: SegueViewController {
                         cell.updateInfoLabels()
                     }
                 }
+            }
+
+            vc.getUnreadMessagesCountAction = { [weak self] in
+                return (self?.haveUnreadMessages ?? false) ? 1 : 0
             }
         }
     }

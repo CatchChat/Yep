@@ -691,6 +691,8 @@ class ConversationViewController: BaseViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesCountChanged:", name: YepConfig.Notification.unreadMessagesCount, object: nil)
+
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
                 self?.reloadConversationCollectionView()
@@ -902,24 +904,47 @@ class ConversationViewController: BaseViewController {
 
         return imageView
     }()
-    
+
+    var getUnreadMessagesCountAction: (() -> Int)?
+
+    @objc private func unreadMessagesCountChanged(notification: NSNotification) {
+
+        guard let unreadMessagesCount = notification.object as? Int else {
+            return
+        }
+
+        if unreadMessagesCount > 0 {
+            self.navigationController?.navigationBar.addSubview(badgeView)
+            showBadgeView()
+        } else {
+            hideBadgeView()
+        }
+    }
+
+    private func showBadgeView() {
+
+        badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+
+        UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
+            if let strongSelf = self {
+                strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            }
+        }, completion: { finished in
+        })
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.navigationBar.addSubview(badgeView)
+        if let action = getUnreadMessagesCountAction where action() > 0 {
+            self.navigationController?.navigationBar.addSubview(badgeView)
 
-        if isFirstAppear {
-            badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+            if isFirstAppear {
+                showBadgeView()
 
-            UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
-                if let strongSelf = self {
-                    strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
-                }
-            }, completion: { finished in
-            })
-
-        } else {
-            badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            } else {
+                badgeView.transform = CGAffineTransformMakeScale(1, 1)
+            }
         }
 
         if isFirstAppear {
@@ -1434,14 +1459,19 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+    private func hideBadgeView() {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
         }, completion: { [weak self] finished in
             self?.badgeView.removeFromSuperview()
         })
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        hideBadgeView()
 
         if conversationIsDirty {
             conversationDirtyAction?()
