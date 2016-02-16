@@ -514,7 +514,7 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
                     
                     if isMyFeed {
-                        cell.colorTitleLabel.text = NSLocalizedString("Unsubscribe (& Delete)", comment: "")
+                        cell.colorTitleLabel.text = NSLocalizedString("Delete", comment: "")
                     } else {
                         cell.colorTitleLabel.text = NSLocalizedString("Unsubscribe", comment: "")
                     }
