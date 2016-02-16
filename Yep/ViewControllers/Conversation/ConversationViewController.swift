@@ -883,6 +883,7 @@ class ConversationViewController: BaseViewController {
         #endif
     }
 
+    /*
     lazy var badgeView: AlwaysOnTopView = {
         let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
 
@@ -893,24 +894,33 @@ class ConversationViewController: BaseViewController {
 
         return view
     }()
+    */
+
+    lazy var badgeView: UIView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+        imageView.center = CGPoint(x: 22, y: 22)
+
+        return imageView
+    }()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.navigationBar.addSubview(badgeView)
 
-        //UIApplication.sharedApplication().keyWindow?.addSubview(badgeView)
-        //self.view.window?.addSubview(badgeView)
+        if isFirstAppear {
+            badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
 
-        badgeView.transform = CGAffineTransformMakeScale(0.001, 0.001)
+            UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
+                if let strongSelf = self {
+                    strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
+                }
+            }, completion: { finished in
+            })
 
-        UIView.animateWithDuration(0.25, delay: 0.25, options: .CurveEaseInOut, animations: { [weak self] _ in
-            if let strongSelf = self {
-                strongSelf.navigationController?.navigationBar.bringSubviewToFront(strongSelf.badgeView)
-                strongSelf.badgeView.transform = CGAffineTransformMakeScale(1, 1)
-            }
-        }, completion: { finished in
-        })
+        } else {
+            badgeView.transform = CGAffineTransformMakeScale(1, 1)
+        }
 
         if isFirstAppear {
 

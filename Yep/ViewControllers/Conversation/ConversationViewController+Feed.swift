@@ -61,6 +61,7 @@ extension ConversationViewController {
     }
 }
 
+/*
 private let subviewsCountKeyPath = "subviews.@count"
 
 class AlwaysOnTopView: UIView {
@@ -91,11 +92,5 @@ class AlwaysOnTopView: UIView {
         super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
     }
 }
-
-
-
-
-
-
-
+*/
 
