@@ -893,7 +893,7 @@ enum ReportReason {
     }
 }
 
-func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
 
     let userID: String
 
@@ -915,8 +915,8 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
         break
     }
 
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
@@ -928,7 +928,7 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     }
 }
 
-func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
     
     var requestParameters: JSONDictionary = [
         "report_type": reason.type
@@ -941,8 +941,8 @@ func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: 
         break
     }
     
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
     
     let resource = authJsonResource(path: "/v1/topics/\(feedID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)

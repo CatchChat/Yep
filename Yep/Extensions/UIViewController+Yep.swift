@@ -62,8 +62,7 @@ extension UIViewController {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
 
-                }, completion: { [weak self] success in
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                }, completion: {
                 })
 
             case .Feed(let discoveredFeed):
@@ -75,8 +74,7 @@ extension UIViewController {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
 
-                }, completion: { [weak self] success in
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                }, completion: {
                 })
             }
         }
