@@ -1545,7 +1545,8 @@ extension FeedsViewController: AVAudioPlayerDelegate {
             setAudioPlayedDuration(0, ofFeedAudio: playingFeedAudio)
             println("setAudioPlayedDuration to 0")
         }
+
+        YepAudioService.sharedManager.resetToDefault()
     }
 }
-
 
