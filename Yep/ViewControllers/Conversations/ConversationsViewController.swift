@@ -39,9 +39,23 @@ class ConversationsViewController: SegueViewController {
                     navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
                     navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
                 }
-
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.unreadMessagesCount, object: haveUnreadMessages ? 1 : 0)
             }
+        }
+    }
+
+    private var unreadMessagesCount: Int = 0 {
+        willSet {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.unreadMessagesCount, object: newValue)
+
+                if newValue > 0 {
+                    self?.title = "Yep(\(newValue))"
+                } else {
+                    self?.title = "Yep"
+                }
+            }
+
+            println("\(unreadMessagesCount)")
         }
     }
 
@@ -138,7 +152,9 @@ class ConversationsViewController: SegueViewController {
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
 
-                let haveOneToOneUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: .OneToOne) > 0
+                strongSelf.unreadMessagesCount = countOfUnreadMessagesInRealm(realm, withConversationType: .OneToOne)
+
+                let haveOneToOneUnreadMessages = strongSelf.unreadMessagesCount > 0
 
                 strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm, withConversationType: .Group) > 0)
 
