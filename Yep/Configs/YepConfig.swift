@@ -57,7 +57,6 @@ class YepConfig {
         static let newMessages = "YepConfig.Notification.newMessages"
         static let deletedMessages = "YepConfig.Notification.deletedMessages"
         static let OAuthResult = "YepConfig.Notification.OAuthResult"
-        static let unreadMessagesCount = "YepConfig.Notification.unreadMessagesCount"
     }
 
     struct Message {

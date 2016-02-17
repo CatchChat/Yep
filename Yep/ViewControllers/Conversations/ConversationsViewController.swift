@@ -46,8 +46,6 @@ class ConversationsViewController: SegueViewController {
     private var unreadMessagesCount: Int = 0 {
         willSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.unreadMessagesCount, object: newValue)
-
                 if newValue > 0 {
                     self?.title = "Yep(\(newValue))"
                 } else {
@@ -340,10 +338,6 @@ class ConversationsViewController: SegueViewController {
                         cell.updateInfoLabels()
                     }
                 }
-            }
-
-            vc.getUnreadMessagesCountAction = { [weak self] in
-                return (self?.haveUnreadMessages ?? false) ? 1 : 0
             }
         }
     }
