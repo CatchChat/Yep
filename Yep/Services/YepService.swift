@@ -1845,6 +1845,29 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
 
+        guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
+            return nil
+        }
+
+        println("unreadMessagesData: \(unreadMessagesData)")
+
+        return unreadMessagesData
+    }
+
+    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: [:], parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+/*
+func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+
+    let parse: JSONDictionary -> [JSONDictionary]? = { data in
+
         //println("unreadMessages data: \(data)")
 
         guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
@@ -1893,6 +1916,7 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
+*/
 
 struct Recipient {
 
