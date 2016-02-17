@@ -47,9 +47,9 @@ class ConversationsViewController: SegueViewController {
         willSet {
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 if newValue > 0 {
-                    self?.title = "Yep(\(newValue))"
+                    self?.navigationItem.title = "Yep(\(newValue))"
                 } else {
-                    self?.title = "Yep"
+                    self?.navigationItem.title = "Yep"
                 }
             }
 
