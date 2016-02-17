@@ -666,9 +666,9 @@ class NewFeedViewController: SegueViewController {
 
                     let URLInfo = [
                         "url": openGraph.URL.absoluteString,
-                        "site_name": openGraph.siteName ?? "",
-                        "title": openGraph.title ?? "",
-                        "description": openGraph.description ?? "",
+                        "site_name": (openGraph.siteName ?? "").yep_truncatedForFeed,
+                        "title": (openGraph.title ?? "").yep_truncatedForFeed,
+                        "description": (openGraph.description ?? "").yep_truncatedForFeed,
                         "image_url": openGraph.previewImageURLString ?? "",
                     ]
 
