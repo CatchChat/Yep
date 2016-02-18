@@ -1850,23 +1850,22 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
     unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
 
-func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
 
-    var parameters = [String: String]()
+    var parameters: [String: AnyObject] = [
+        "page": 1,
+        "per_page": 30,
+    ]
 
     if let messageID = messageID {
         parameters["min_id"] = messageID
     }
 
-    let parse: JSONDictionary -> [JSONDictionary]? = { data in
+    let parse: JSONDictionary -> JSONDictionary? = { data in
 
-        println("unreadMessages data: \(data)");
+        println("headUnreadMessagesAfterMessageWithID data: \(data)");
 
-        guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
-            return nil
-        }
-
-        return unreadMessagesData
+        return data
     }
 
     let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: parameters, parse: parse)
@@ -1876,6 +1875,94 @@ func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reas
     } else {
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
     }
+}
+
+private func moreUnreadMessagesAfterMessageWithID(messageID: String?, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+
+    var parameters: [String: AnyObject] = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    if let messageID = messageID {
+        parameters["min_id"] = messageID
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: parameters, parse: parse)
+
+    if let failureHandler = failureHandler {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+    } else {
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    }
+}
+
+func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+
+    guard let realm = try? Realm() else { return }
+
+    let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+
+    let latestMessageID = latestMessage?.messageID
+
+    headUnreadMessagesAfterMessageWithID(latestMessageID, failureHandler: failureHandler, completion: { result in
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("unreadMessages not paging info.")
+
+            if let unreadMessagesData = result["messages"] as? [JSONDictionary] {
+                completion(unreadMessagesData)
+            } else {
+                completion([])
+            }
+
+            return
+        }
+
+        guard let page1UnreadMessagesData = result["messages"] as? [JSONDictionary] else {
+            completion([])
+
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1UnreadMessagesData)
+
+        } else {
+            var unreadMessagesData = [JSONDictionary]()
+
+            unreadMessagesData += page1UnreadMessagesData
+
+            // We have more unreadMessages
+
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreUnreadMessagesAfterMessageWithID(latestMessageID, inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason, errorMessage)
+
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageUnreadMessagesData = result["messages"] as? [JSONDictionary] {
+                        unreadMessagesData += currentPageUnreadMessagesData
+                    }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                completion(unreadMessagesData)
+            }
+        }
+    })
 }
 
 /*
