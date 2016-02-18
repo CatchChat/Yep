@@ -246,17 +246,19 @@ class FayeService: NSObject, MZFayeClientDelegate {
     }
 
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
-        //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
+
+        println("faye received messageInfo: \(messageInfo)")
+
+        // 先防止收到自己发送的信息
+
+        guard let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value where senderID != currentUserID else {
+            return
+        }
+
         dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
-            }
-            
-            if let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value {
-                if senderID == currentUserID {
-                    return
-                }
             }
 
             realm.beginWrite()
@@ -290,7 +292,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
         if let error = error {
             println("fayeClient didDisconnectWithError \(error.description)")
         }
-        
     }
     
     func fayeClient(client: MZFayeClient!, didFailDeserializeMessage message: [NSObject : AnyObject]!, withError error: NSError!) {
