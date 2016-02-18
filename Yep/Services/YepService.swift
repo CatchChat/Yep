@@ -1843,18 +1843,29 @@ func officialMessages(completion completion: Int -> Void) {
 
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
+    unreadMessagesAfterMessageWithID(nil, failureHandler: failureHandler, completion: completion)
+}
+
+func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+
+    var parameters = [String: String]()
+
+    if let messageID = messageID {
+        parameters["min_id"] = messageID
+    }
+
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
+
+        println("unreadMessages data: \(data)");
 
         guard let unreadMessagesData = data["messages"] as? [JSONDictionary] else {
             return nil
         }
 
-        println("unreadMessagesData: \(unreadMessagesData)")
-
         return unreadMessagesData
     }
 
-    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: parameters, parse: parse)
 
     if let failureHandler = failureHandler {
         apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
