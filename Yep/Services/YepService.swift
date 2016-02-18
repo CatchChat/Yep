@@ -1843,7 +1843,11 @@ func officialMessages(completion completion: Int -> Void) {
 
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
-    unreadMessagesAfterMessageWithID(nil, failureHandler: failureHandler, completion: completion)
+    guard let realm = try? Realm() else { return }
+
+    let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+
+    unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
 
 func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
