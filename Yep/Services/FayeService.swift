@@ -251,7 +251,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
 
-        println("faye received messageInfo: \(messageInfo)")
+        //println("faye received messageInfo: \(messageInfo)")
 
         func isMessageSendFromMe() -> Bool {
 

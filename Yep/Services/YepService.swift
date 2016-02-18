@@ -2396,7 +2396,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                         message.sendState = MessageSendState.Successed.rawValue
                     }
 
-                    println("new messageID: \(messageID)")
+                    //println("new messageID: \(messageID)")
 
                     completion(success: true)
 
