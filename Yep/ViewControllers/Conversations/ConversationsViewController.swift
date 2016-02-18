@@ -53,7 +53,7 @@ class ConversationsViewController: SegueViewController {
                 }
             }
 
-            println("\(unreadMessagesCount)")
+            println("unreadMessagesCount: \(unreadMessagesCount)")
         }
     }
 
