@@ -249,16 +249,27 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
         println("faye received messageInfo: \(messageInfo)")
 
-        // 先防止收到自己发送的信息
+        func isMessageSendFromMe() -> Bool {
 
-        guard let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value where senderID != currentUserID else {
-            return
+            guard let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value else {
+                return false
+            }
+
+            return senderID == currentUserID
         }
 
         dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
+            }
+
+            // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
+
+            if isMessageSendFromMe() {
+                if let messageID = messageInfo["id"] as? String, _ = messageWithMessageID(messageID, inRealm: realm) {
+                    return
+                }
             }
 
             realm.beginWrite()
