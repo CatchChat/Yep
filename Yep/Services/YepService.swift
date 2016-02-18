@@ -2396,6 +2396,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                         message.sendState = MessageSendState.Successed.rawValue
                     }
 
+                    //println("new messageID: \(messageID)")
+
                     completion(success: true)
 
                     NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
