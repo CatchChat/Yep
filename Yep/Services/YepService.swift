@@ -1862,9 +1862,6 @@ private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHan
     }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
-
-        println("headUnreadMessagesAfterMessageWithID data: \(data)");
-
         return data
     }
 
@@ -1903,34 +1900,23 @@ private func moreUnreadMessagesAfterMessageWithID(messageID: String?, inPage pag
 
 func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
-    guard let realm = try? Realm() else { return }
-
-    let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
-
-    let latestMessageID = latestMessage?.messageID
-
-    headUnreadMessagesAfterMessageWithID(latestMessageID, failureHandler: failureHandler, completion: { result in
-
-        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
-
-            println("unreadMessages not paging info.")
-
-            if let unreadMessagesData = result["messages"] as? [JSONDictionary] {
-                completion(unreadMessagesData)
-            } else {
-                completion([])
-            }
-
-            return
-        }
+    headUnreadMessagesAfterMessageWithID(messageID, failureHandler: failureHandler, completion: { result in
 
         guard let page1UnreadMessagesData = result["messages"] as? [JSONDictionary] else {
             completion([])
+            return
+        }
 
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("unreadMessagesAfterMessageWithID not paging info.")
+
+            completion(page1UnreadMessagesData)
             return
         }
 
         if count <= currentPage * perPage {
+            //println("page1UnreadMessagesData: \(page1UnreadMessagesData)")
             completion(page1UnreadMessagesData)
 
         } else {
@@ -1945,7 +1931,7 @@ func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: ((Reas
             for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
                 dispatch_group_enter(downloadGroup)
 
-                moreUnreadMessagesAfterMessageWithID(latestMessageID, inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                moreUnreadMessagesAfterMessageWithID(messageID, inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                     failureHandler?(reason, errorMessage)
 
                     dispatch_group_leave(downloadGroup)
