@@ -245,6 +245,10 @@ class FayeService: NSObject, MZFayeClientDelegate {
         return "/v1/circles/\(circleID)/messages"
     }
 
+    private lazy var realm: Realm = {
+        return try! Realm()
+    }()
+
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
 
         println("faye received messageInfo: \(messageInfo)")
@@ -258,18 +262,18 @@ class FayeService: NSObject, MZFayeClientDelegate {
             return senderID == currentUserID
         }
 
+        // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
+
+        if isMessageSendFromMe() {
+            if let messageID = messageInfo["id"] as? String, _ = messageWithMessageID(messageID, inRealm: realm) {
+                return
+            }
+        }
+
         dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
-            }
-
-            // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
-
-            if isMessageSendFromMe() {
-                if let messageID = messageInfo["id"] as? String, _ = messageWithMessageID(messageID, inRealm: realm) {
-                    return
-                }
             }
 
             realm.beginWrite()
