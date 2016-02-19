@@ -262,6 +262,10 @@ class FayeService: NSObject, MZFayeClientDelegate {
             return senderID == currentUserID
         }
 
+        if isMessageSendFromMe() {
+            return
+        }
+        /*
         // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
 
         if isMessageSendFromMe() {
@@ -269,6 +273,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 return
             }
         }
+        */
 
         dispatch_async(realmQueue) {
             
