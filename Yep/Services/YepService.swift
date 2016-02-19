@@ -1391,50 +1391,55 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: Fail
 func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
     return headGroups(failureHandler: failureHandler, completion: { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let groups = result["circles"] as? [JSONDictionary] {
-                        completion(groups)
+
+        guard let page1Groups = result["circles"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("groups not paging info.")
+
+            completion(page1Groups)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Groups)
+
+        } else {
+            var groups = [JSONDictionary]()
+
+            groups += page1Groups
+
+            // We have more groups
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+
+                    allGood = false
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageGroups = result["circles"] as? [JSONDictionary] {
+                        groups += currentPageGroups
                     }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
 
-                } else {
-                    var groups = [JSONDictionary]()
-
-                    if let page1Groups = result["circles"] as? [JSONDictionary] {
-                        groups += page1Groups
-                    }
-
-                    // We have more groups
-
-                    var allGood = true
-                    let downloadGroup = dispatch_group_create()
-
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            failureHandler?(reason: reason, errorMessage: errorMessage)
-
-                            allGood = false
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageGroups = result["circles"] as? [JSONDictionary] {
-                                groups += currentPageGroups
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        if allGood {
-                            completion(groups)
-                        }
-                    }
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(groups)
                 }
+            }
         }
     })
 }
