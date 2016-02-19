@@ -81,7 +81,7 @@ extension OAuthViewController: UIWebViewDelegate {
         
             socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
                 
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.dismissViewControllerAnimated(true, completion: nil)

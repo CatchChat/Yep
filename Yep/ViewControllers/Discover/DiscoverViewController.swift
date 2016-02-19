@@ -173,7 +173,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()

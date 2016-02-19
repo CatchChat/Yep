@@ -157,7 +157,7 @@ class NotificationsViewController: SegueViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
 
@@ -203,7 +203,7 @@ class NotificationsViewController: SegueViewController {
                     ]
 
                     updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
 

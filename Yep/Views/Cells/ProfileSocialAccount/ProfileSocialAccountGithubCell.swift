@@ -117,7 +117,7 @@ class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 if let userID = userID {
 
                     githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     }, completion: { githubWork in
                         //println("githubWork: \(githubWork)")

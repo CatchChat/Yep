@@ -143,7 +143,7 @@ class RegisterVerifyMobileViewController: SegueViewController {
         }
 
         sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -184,7 +184,7 @@ class RegisterVerifyMobileViewController: SegueViewController {
         YepHUD.showActivityIndicator()
 
         verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 

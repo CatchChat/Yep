@@ -903,7 +903,7 @@ class ProfileViewController: SegueViewController {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
 
@@ -1735,7 +1735,7 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
                 
                 socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 }, completion: { provider in
 
