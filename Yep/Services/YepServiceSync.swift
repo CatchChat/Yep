@@ -1029,16 +1029,22 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                     conversationWithUser = newUser
                                     
                                     userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
-                                        guard let realm = try? Realm() else { return }
-                                        realm.beginWrite()
-                                        updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
-                                        let _ = try? realm.commitWrite()
+
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            guard let realm = try? Realm() else { return }
+
+                                            realm.beginWrite()
+                                            updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
+                                            let _ = try? realm.commitWrite()
+
+                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.updatedUser, object: nil)
+                                        }
                                     })
                                 }
                             }
                         }
 
-                        println("conversationWithUser: \(conversationWithUser)")
+                        //println("conversationWithUser: \(conversationWithUser)")
 
                         // 没有 Conversation 就尝试建立它
 
