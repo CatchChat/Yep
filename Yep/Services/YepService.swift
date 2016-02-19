@@ -1672,6 +1672,7 @@ func officialMessages(completion completion: Int -> Void) {
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
+/*
 func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
     guard let realm = try? Realm() else { return }
@@ -1773,8 +1774,8 @@ func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: Failur
         }
     })
 }
+*/
 
-/*
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
@@ -1827,7 +1828,6 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
-*/
 
 struct Recipient {
 
