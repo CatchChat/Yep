@@ -377,7 +377,7 @@ class FeedsViewController: BaseViewController {
             let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
                 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                     
                 }, completion: { [weak self] _ in
                     
@@ -480,7 +480,7 @@ class FeedsViewController: BaseViewController {
             break
         }
 
-        let failureHandler: (Reason, String?) -> Void = { reason, errorMessage in
+        let failureHandler: FailureHandler = { reason, errorMessage in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -491,7 +491,7 @@ class FeedsViewController: BaseViewController {
                 finish?()
             }
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
         let completion: [DiscoveredFeed] -> Void = { feeds in

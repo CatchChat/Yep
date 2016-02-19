@@ -127,7 +127,7 @@ class RegisterSelectSkillsViewController: UIViewController {
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
             allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             }, completion: { skillCategories in
                 self.skillCategories = skillCategories

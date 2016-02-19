@@ -235,7 +235,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
 func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage: errorMessage)
+        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
         furtherAction()
 
@@ -735,7 +735,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 isFetchingUnreadMessages.value = false

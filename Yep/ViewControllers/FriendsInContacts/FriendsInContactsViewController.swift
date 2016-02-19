@@ -79,7 +79,7 @@ class FriendsInContactsViewController: BaseViewController {
                 }
 
                 friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.activityIndicator.stopAnimating()

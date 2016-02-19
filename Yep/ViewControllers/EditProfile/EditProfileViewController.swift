@@ -301,7 +301,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         YepHUD.hideActivityIndicator()
 
@@ -399,7 +399,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     let newUsername = text
 
                     updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
@@ -442,7 +442,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                     YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
                 }, completion: {
@@ -487,7 +487,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.activityIndicator.stopAnimating()

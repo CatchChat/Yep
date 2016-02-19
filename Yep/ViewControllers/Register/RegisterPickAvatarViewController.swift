@@ -234,7 +234,7 @@ class RegisterPickAvatarViewController: SegueViewController {
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 

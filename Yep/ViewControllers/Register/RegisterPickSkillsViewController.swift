@@ -73,7 +73,7 @@ class RegisterPickSkillsViewController: BaseViewController {
         skillsCollectionView.registerNib(UINib(nibName: skillAddCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillAddCellIdentifier)
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories
@@ -108,7 +108,7 @@ class RegisterPickSkillsViewController: BaseViewController {
             dispatch_group_enter(addSkillsGroup)
 
             addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
@@ -123,7 +123,7 @@ class RegisterPickSkillsViewController: BaseViewController {
             dispatch_group_enter(addSkillsGroup)
 
             addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
@@ -333,7 +333,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         }, completion: { skillCategories -> Void in
                             self?.skillCategories = skillCategories
@@ -366,7 +366,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
                     } else {
                         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         }, completion: { skillCategories -> Void in
                             self?.skillCategories = skillCategories
