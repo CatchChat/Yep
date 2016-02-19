@@ -600,56 +600,50 @@ func blockedUsersByMe(failureHandler failureHandler: FailureHandler?, completion
     }
 
     headBlockedUsers(failureHandler: failureHandler, completion: { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                        completion(parse(blockedUsers))
-                    } else {
-                        completion([])
-                    }
 
-                } else {
-                    var blockedUsers = [JSONDictionary]()
+        guard let page1BlockedUsers = result["blocked_users"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
 
-                    if let page1BlockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                        blockedUsers += page1BlockedUsers
-                    }
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
 
-                    // We have more blockedUsers
+            println("blockedUsersByMe not paging info.")
 
-                    let downloadGroup = dispatch_group_create()
+            completion(parse(page1BlockedUsers))
+            return
+        }
 
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            failureHandler?(reason: reason, errorMessage: errorMessage)
-
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageBlockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                                blockedUsers += currentPageBlockedUsers
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        completion(parse(blockedUsers))
-                    }
-                }
-
+        if count <= currentPage * perPage {
+            completion(parse(page1BlockedUsers))
+            
         } else {
-            // 没有分页信息才会到此处
-            println("headBlockedUsers not paging info.")
-            if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
+            var blockedUsers = [JSONDictionary]()
+
+            blockedUsers += page1BlockedUsers
+
+            // We have more blockedUsers
+
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_group_leave(downloadGroup)
+
+                    }, completion: { result in
+                        if let currentPageBlockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                            blockedUsers += currentPageBlockedUsers
+                        }
+                        dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
                 completion(parse(blockedUsers))
-            } else {
-                completion([])
             }
         }
     })
