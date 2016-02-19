@@ -1011,12 +1011,34 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                 conversationWithUser = sender
 
                             } else {
-                                if let userID = messageInfo["recipient_id"] as? String, user = userWithUserID(userID, inRealm: realm) {
+                                guard let userID = messageInfo["recipient_id"] as? String else {
+                                    message.deleteInRealm(realm)
+                                    return
+                                }
+
+                                if let user = userWithUserID(userID, inRealm: realm) {
                                     conversation = user.conversation
                                     conversationWithUser = user
+
+                                } else {
+                                    let newUser = User()
+                                    newUser.userID = userID
+
+                                    realm.add(newUser)
+
+                                    conversationWithUser = newUser
+                                    
+                                    userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
+                                        guard let realm = try? Realm() else { return }
+                                        realm.beginWrite()
+                                        updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
+                                        let _ = try? realm.commitWrite()
+                                    })
                                 }
                             }
                         }
+
+                        println("conversationWithUser: \(conversationWithUser)")
 
                         // 没有 Conversation 就尝试建立它
 
