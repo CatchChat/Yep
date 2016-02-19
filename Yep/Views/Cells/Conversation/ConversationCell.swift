@@ -59,6 +59,10 @@ class ConversationCell: UITableViewCell {
 
         avatarImageView.image = nil
         nameLabel.text = nil
+        chatLabel.text = nil
+        timeAgoLabel.text = nil
+
+        countOfUnreadMessages = 0
     }
 
 //    func updateUIButAvatar(sender: NSNotification) {
