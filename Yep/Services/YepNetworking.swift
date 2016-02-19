@@ -73,14 +73,6 @@ let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     }
 }
 
-//func defaultFailureHandler(reason: Reason, errorMessage: String?) {
-//    println("\n***************************** YepNetworking Failure *****************************")
-//    println("Reason: \(reason)")
-//    if let errorMessage = errorMessage {
-//        println("errorMessage: >>>\(errorMessage)<<<\n")
-//    }
-//}
-
 func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
     func escape(string: String) -> String {
         let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
@@ -123,7 +115,7 @@ class SessionDelegate: NSObject, NSURLSessionDelegate {
 let _sessionDelegate = SessionDelegate()
 #endif
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: FailureHandler, completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: FailureHandler?, completion: A -> Void) {
 #if STAGING
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
@@ -185,6 +177,14 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     //println(request.cURLCommandLineWithSession(session))
     #endif
 
+    let _failure: FailureHandler
+
+    if let failure = failure {
+        _failure = failure
+    } else {
+        _failure = defaultFailureHandler
+    }
+
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 
         if let httpResponse = response as? NSHTTPURLResponse {
@@ -200,19 +200,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
                         println(dataString)
                         
-                        failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
+                        _failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
                         println("\(resource)\n")
                         println(request.cURLCommandLine)
                     }
 
                 } else {
-                    failure(reason: .NoData, errorMessage: errorMessageInData(data))
+                    _failure(reason: .NoData, errorMessage: errorMessageInData(data))
                     println("\(resource)\n")
                     println(request.cURLCommandLine)
                 }
 
             } else {
-                failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
+                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLCommandLine)
 
@@ -231,7 +231,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
             }
 
         } else {
-            failure(reason: .Other(error), errorMessage: errorMessageInData(data))
+            _failure(reason: .Other(error), errorMessage: errorMessageInData(data))
             println("\(resource)")
             println(request.cURLCommandLine)
         }
