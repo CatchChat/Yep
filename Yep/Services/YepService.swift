@@ -1239,52 +1239,54 @@ func searchUsersByQ(q: String, failureHandler: FailureHandler?, completion: [Dis
 func friendships(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
     headFriendships(failureHandler: failureHandler) { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let friendships = result["friendships"] as? [JSONDictionary] {
-                        completion(friendships)
-                    } else {
-                        completion([])
+
+        guard let page1Friendships = result["friendships"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("friendships not paging info.")
+
+            completion(page1Friendships)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Friendships)
+
+        } else {
+            var friendships = [JSONDictionary]()
+
+            friendships += page1Friendships
+
+            // We have more friends
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    allGood = false
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
+                        friendships += currentPageFriendships
                     }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
 
-                } else {
-                    var friendships = [JSONDictionary]()
-
-                    if let page1Friendships = result["friendships"] as? [JSONDictionary] {
-                        friendships += page1Friendships
-                    }
-
-                    // We have more friends
-
-                    var allGood = true
-                    let downloadGroup = dispatch_group_create()
-
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            allGood = false
-                            failureHandler?(reason: reason, errorMessage: errorMessage)
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
-                                friendships += currentPageFriendships
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-
-                        if allGood {
-                            completion(friendships)
-                        }
-                    }
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(friendships)
                 }
+            }
         }
     }
 }
