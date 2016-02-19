@@ -54,6 +54,13 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+        nameLabel.text = nil
+    }
+
 //    func updateUIButAvatar(sender: NSNotification) {
 //
 //        updateCountOfUnreadMessages()
