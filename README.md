@@ -59,6 +59,8 @@ Please ensure each commit is minimized for code review.
 
 Please stop using simulator's waterfall image as your avatar.
 
+You can track our progress at [Trello](https://trello.com/b/gxmPfiAd/yep-ios).
+
 ## License
 
 MIT
