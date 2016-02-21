@@ -26,6 +26,8 @@ class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
@@ -36,11 +38,16 @@ class DiscoverViewController: BaseViewController {
 
             case .Card:
                 view.backgroundColor = UIColor.yepBackgroundColor()
-                modeButtonItem.image = UIImage(named: "icon_list")
+                if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                    modeButtonItem.image = UIImage(named: "icon_list")
+                }
 
             case .Normal:
                 view.backgroundColor = UIColor.whiteColor()
-                modeButtonItem.image = UIImage(named: "icon_minicard")
+                if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                    modeButtonItem.image = UIImage(named: "icon_minicard")
+                }
+                
             }
 
             layout.userMode = userMode
@@ -83,7 +90,14 @@ class DiscoverViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            segmentedControl.hidden = true
+        } else {
+            navigationItem.leftBarButtonItem = nil
+            navigationItem.hidesBackButton = true
+        }
+        
         title = NSLocalizedString("Discover", comment: "")
 
         view.backgroundColor = UIColor.whiteColor()
@@ -125,6 +139,18 @@ class DiscoverViewController: BaseViewController {
 
     // MARK: Actions
 
+    @IBAction func segmentedIndexChanged(sender: UISegmentedControl) {
+        
+        switch sender.selectedSegmentIndex{
+        case 0:
+            userMode = .Card
+        case 1:
+            userMode = .Normal
+        default:
+            break;
+        }
+    }
+    
     @IBAction private func changeMode(sender: AnyObject) {
 
         switch userMode {

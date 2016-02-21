@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Meetup-->
@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WvK-RO-Mdt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-307" y="-3260"/>
+            <point key="canvasLocation" x="-141" y="-3260"/>
         </scene>
         <!--Skills-->
         <scene sceneID="Fu6-oH-PbU">
@@ -57,8 +57,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="649"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -81,12 +81,24 @@
                             <constraint firstItem="zzD-ES-eHf" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="120" id="q7Q-WP-er9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="People" id="di2-g9-owW">
+                    <navigationItem key="navigationItem" id="di2-g9-owW">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" image="icon_list" id="Q6P-X5-laI">
                             <connections>
                                 <action selector="changeMode:" destination="5NR-G1-qqW" id="rkV-4T-Tpw"/>
                             </connections>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="gSx-XN-y22">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Grid"/>
+                                <segment title="List"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentedIndexChanged:" destination="5NR-G1-qqW" eventType="valueChanged" id="Gey-rt-dNe"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" title=" " id="mve-O6-ube">
                             <connections>
                                 <action selector="showFilters:" destination="5NR-G1-qqW" id="IQs-8r-M7C"/>
@@ -99,6 +111,7 @@
                         <outlet property="discoveredUsersCollectionView" destination="qiv-cC-3J3" id="Uyg-VP-ENL"/>
                         <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
                         <outlet property="modeButtonItem" destination="Q6P-X5-laI" id="AMy-5a-IsW"/>
+                        <outlet property="segmentedControl" destination="gSx-XN-y22" id="aZz-XW-hSo"/>
                         <segue destination="J6W-3w-f5X" kind="show" identifier="showProfile" id="txu-pp-hSI"/>
                     </connections>
                 </viewController>
