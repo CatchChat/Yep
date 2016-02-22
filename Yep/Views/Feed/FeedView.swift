@@ -442,6 +442,12 @@ class FeedView: UIView {
                 voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
             }
 
+            if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
+                    audioPlaying = true
+                }
+            }
+
         case .Location:
 
             mediaCollectionView.hidden = true
