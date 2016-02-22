@@ -314,6 +314,7 @@ class ConversationViewController: BaseViewController {
     var afterDeletedFeedAction: ((feedID: String) -> Void)?
     var conversationDirtyAction: (() -> Void)?
     var conversationIsDirty = false
+    var syncPlayFeedAudioAction: (() -> Void)?
 
     private var needDetectMention = false {
         didSet {
@@ -1661,6 +1662,10 @@ class ConversationViewController: BaseViewController {
         let feedView = FeedView.instanceFromNib()
 
         feedView.feed = feed
+
+        feedView.syncPlayAudioAction = { [weak self] in
+            self?.syncPlayFeedAudioAction?()
+        }
 
         feedView.tapAvatarAction = { [weak self] in
             self?.performSegueWithIdentifier("showProfileFromFeedView", sender: nil)

@@ -136,6 +136,8 @@ class FeedsViewController: BaseViewController {
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
 
+    private weak var feedAudioPlaybackTimer: NSTimer?
+
     private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
         let key = feedAudio.feedID
 
@@ -813,6 +815,11 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds(mode: .Static)
             }
 
+            vc.syncPlayFeedAudioAction = { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+            }
+
         case "presentNewFeed":
 
             guard let
@@ -1188,6 +1195,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playAudioWithFeedAudio success!")
+
+                                strongSelf.feedAudioPlaybackTimer?.invalidate()
 
                                 let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                                 YepAudioService.sharedManager.playbackTimer = playbackTimer

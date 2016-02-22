@@ -529,6 +529,8 @@ class FeedView: UIView {
         tapURLInfoAction?(URL: URL)
     }
 
+    var syncPlayAudioAction: (() -> Void)?
+
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
@@ -557,6 +559,8 @@ class FeedView: UIView {
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
                     strongSelf.audioPlaying = true
+
+                    strongSelf.syncPlayAudioAction?()
                 }
             })
         }
