@@ -40,7 +40,7 @@ class EditSkillsViewController: BaseViewController {
         // get all skill categories
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
         }, completion: { skillCategories -> Void in
             self.skillCategories = skillCategories

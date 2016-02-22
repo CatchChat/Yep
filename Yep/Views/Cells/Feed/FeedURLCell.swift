@@ -15,7 +15,7 @@ class FeedURLCell: FeedBasicCell {
     var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
     lazy var feedURLContainerView: FeedURLContainerView = {
-        let view = FeedURLContainerView()
+        let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
         view.compressionMode = false
         return view
     }()

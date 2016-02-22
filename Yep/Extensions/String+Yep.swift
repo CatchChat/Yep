@@ -41,6 +41,18 @@ extension String {
     var yep_removeAllNewLines: String {
         return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
     }
+
+    func yep_truncate(length: Int, trailing: String? = nil) -> String {
+        if self.characters.count > length {
+            return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
+        } else {
+            return self
+        }
+    }
+
+    var yep_truncatedForFeed: String {
+        return yep_truncate(120, trailing: "...")
+    }
 }
 
 extension String {

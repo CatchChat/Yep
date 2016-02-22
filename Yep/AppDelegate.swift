@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 24, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 25, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -147,14 +147,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Did Active")
         
         if !isFirstActive {
-            if YepUserDefaults.isLogined {
-                syncUnreadMessages() {}
-            }
+            syncUnreadMessages() {}
+
         } else {
             sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
             startFaye()
         }
 
+        application.applicationIconBadgeNumber = -1
         application.applicationIconBadgeNumber = 0
 
         /*
@@ -488,6 +488,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
+        guard YepUserDefaults.isLogined else {
+            furtherAction()
+            return
+        }
+
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
 
@@ -506,7 +511,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
             guard let realm = try? Realm() else {
                 return
@@ -514,11 +519,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let conversations = realm.objects(Conversation)
+            let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+            let conversations = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
-                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
                     AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
                 }
             }

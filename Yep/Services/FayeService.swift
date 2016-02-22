@@ -245,18 +245,40 @@ class FayeService: NSObject, MZFayeClientDelegate {
         return "/v1/circles/\(circleID)/messages"
     }
 
+    private lazy var realm: Realm = {
+        return try! Realm()
+    }()
+
     private func saveMessageWithMessageInfo(messageInfo: JSONDictionary) {
-        //这里不用 realmQueue 是为了下面的通知同步，用了 realmQueue 可能导致数据更新慢于通知
+
+        //println("faye received messageInfo: \(messageInfo)")
+
+        func isMessageSendFromMe() -> Bool {
+
+            guard let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value else {
+                return false
+            }
+
+            return senderID == currentUserID
+        }
+
+        if isMessageSendFromMe() {
+            return
+        }
+        /*
+        // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
+
+        if isMessageSendFromMe() {
+            if let messageID = messageInfo["id"] as? String, _ = messageWithMessageID(messageID, inRealm: realm) {
+                return
+            }
+        }
+        */
+
         dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
-            }
-            
-            if let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String, currentUserID = YepUserDefaults.userID.value {
-                if senderID == currentUserID {
-                    return
-                }
             }
 
             realm.beginWrite()
@@ -290,7 +312,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
         if let error = error {
             println("fayeClient didDisconnectWithError \(error.description)")
         }
-        
     }
     
     func fayeClient(client: MZFayeClient!, didFailDeserializeMessage message: [NSObject : AnyObject]!, withError error: NSError!) {

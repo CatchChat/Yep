@@ -721,6 +721,7 @@ class ProfileViewController: SegueViewController {
                     YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         dispatch_async(dispatch_get_main_queue()) {
                             self?.customNavigationItem.title = nickname
+                            self?.updateProfileCollectionView()
                         }
                     }
 
@@ -735,6 +736,8 @@ class ProfileViewController: SegueViewController {
                             }
                         }
                     }
+
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIForUsername:", name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
             }
 
@@ -900,7 +903,7 @@ class ProfileViewController: SegueViewController {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
 
@@ -970,6 +973,10 @@ class ProfileViewController: SegueViewController {
 
     @objc private func cleanForLogout(sender: NSNotification) {
         profileUser = nil
+    }
+
+    @objc private func updateUIForUsername(sender: NSNotification) {
+        updateProfileCollectionView()
     }
 
     private func updateProfileCollectionView() {
@@ -1728,7 +1735,7 @@ extension ProfileViewController: NSURLConnectionDataDelegate {
                 
                 socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 }, completion: { provider in
 

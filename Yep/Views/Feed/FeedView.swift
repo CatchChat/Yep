@@ -295,6 +295,8 @@ class FeedView: UIView {
         messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
+    private weak var audioPlaybackTimer: NSTimer?
+
     private func configureWithFeed(feed: ConversationFeed) {
 
         let message = feed.body
@@ -314,7 +316,7 @@ class FeedView: UIView {
         messageLabelTrailingConstraint.constant = attachments.isEmpty ? 15 : 60
 
         if let creator = feed.creator {
-            let userAvatar = UserAvatar(userID: creator.userID, avatarStyle: nanoAvatarStyle)
+            let userAvatar = UserAvatar(userID: creator.userID, avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
@@ -442,6 +444,14 @@ class FeedView: UIView {
                 voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
             }
 
+            if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
+                    audioPlaying = true
+
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                }
+            }
+
         case .Location:
 
             mediaCollectionView.hidden = true
@@ -519,6 +529,8 @@ class FeedView: UIView {
         tapURLInfoAction?(URL: URL)
     }
 
+    var syncPlayAudioAction: (() -> Void)?
+
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
@@ -541,10 +553,14 @@ class FeedView: UIView {
 
                 if let strongSelf = self {
 
-                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-                    YepAudioService.sharedManager.playbackTimer = playbackTimer
+                    strongSelf.audioPlaybackTimer?.invalidate()
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+
+                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
                     strongSelf.audioPlaying = true
+
+                    strongSelf.syncPlayAudioAction?()
                 }
             })
         }
@@ -654,7 +670,8 @@ extension FeedView: AVAudioPlayerDelegate {
 
         audioPlayedDuration = 0
         audioPlaying = false
-        YepAudioService.sharedManager.playingFeedAudio = nil
+        
+        YepAudioService.sharedManager.resetToDefault()
     }
 }
 

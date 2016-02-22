@@ -25,7 +25,7 @@ class UploadAttachmentOperation: ConcurrentOperation {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             self?.uploadErrorMessage = errorMessage
 
             self?.state = .Finished

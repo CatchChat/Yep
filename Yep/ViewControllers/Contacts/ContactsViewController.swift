@@ -199,7 +199,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        let userAvatar = UserAvatar(userID: friend.userID, avatarStyle: miniAvatarStyle)
+        let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
         cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         cell.nameLabel.text = friend.nickname
@@ -213,6 +213,15 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.joinedDateLabel.text = friend.introduction
         cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+
+    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let cell = cell as? ContactsCell else {
+            return
+        }
+
+        cell.avatarImageView.image = nil
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

@@ -280,7 +280,7 @@ class SkillHomeViewController: BaseViewController {
             let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 }, completion: { [weak self] _ in
 
@@ -342,7 +342,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
@@ -387,7 +387,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
@@ -522,7 +522,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                 YepHUD.hideActivityIndicator()
 
-                                defaultFailureHandler(reason, errorMessage: errorMessage)
+                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                                 YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
 
                             }, completion: { s3UploadParams in
@@ -533,7 +533,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                     YepHUD.hideActivityIndicator()
 
-                                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                                     YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
                                     
                                 }, completion: { [weak self] success in

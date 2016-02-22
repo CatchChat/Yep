@@ -134,8 +134,30 @@ class YepAudioService: NSObject {
 
     // MARK: Audio Player
 
-    var playingMessage: Message?
-    var playingFeedAudio: FeedAudio?
+    enum PlayingItem {
+        case MessageType(Message)
+        case FeedAudioType(FeedAudio)
+    }
+    var playingItem: PlayingItem?
+
+    var playingMessage: Message? {
+        guard let playingItem = playingItem else { return nil }
+
+        if case .MessageType(let message) = playingItem {
+            return message
+        }
+
+        return nil
+    }
+    var playingFeedAudio: FeedAudio? {
+        guard let playingItem = playingItem else { return nil }
+
+        if case .FeedAudioType(let feedAUdio) = playingItem {
+            return feedAUdio
+        }
+
+        return nil
+    }
 
     var playbackTimer: NSTimer? {
         didSet {
@@ -172,7 +194,7 @@ class YepAudioService: NSObject {
                     if audioPlayer.play() {
                         println("do play audio")
 
-                        playingMessage = message
+                        playingItem = .MessageType(message)
 
                         UIDevice.currentDevice().proximityMonitoringEnabled = true
 
@@ -224,7 +246,7 @@ class YepAudioService: NSObject {
                     if audioPlayer.play() {
                         println("do play audio")
 
-                        playingFeedAudio = feedAudio
+                        playingItem = .FeedAudioType(feedAudio)
 
                         success()
                     }
@@ -245,6 +267,8 @@ class YepAudioService: NSObject {
         dispatch_async(queue) {
             let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
         }
+
+        playingItem = nil
     }
 
     // MARK: Proximity

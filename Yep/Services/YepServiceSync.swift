@@ -235,7 +235,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
 func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage: errorMessage)
+        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
         furtherAction()
 
@@ -735,10 +735,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 isFetchingUnreadMessages.value = false
+
+                furtherAction(messageIDs: [])
             }
 
         }, completion: { allUnreadMessages in
@@ -1009,12 +1011,40 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                 conversationWithUser = sender
 
                             } else {
-                                if let userID = messageInfo["recipient_id"] as? String, user = userWithUserID(userID, inRealm: realm) {
+                                guard let userID = messageInfo["recipient_id"] as? String else {
+                                    message.deleteInRealm(realm)
+                                    return
+                                }
+
+                                if let user = userWithUserID(userID, inRealm: realm) {
                                     conversation = user.conversation
                                     conversationWithUser = user
+
+                                } else {
+                                    let newUser = User()
+                                    newUser.userID = userID
+
+                                    realm.add(newUser)
+
+                                    conversationWithUser = newUser
+                                    
+                                    userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
+
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            guard let realm = try? Realm() else { return }
+
+                                            realm.beginWrite()
+                                            updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
+                                            let _ = try? realm.commitWrite()
+
+                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.updatedUser, object: nil)
+                                        }
+                                    })
                                 }
                             }
                         }
+
+                        //println("conversationWithUser: \(conversationWithUser)")
 
                         // 没有 Conversation 就尝试建立它
 

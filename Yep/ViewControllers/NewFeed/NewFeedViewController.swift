@@ -107,7 +107,7 @@ class NewFeedViewController: SegueViewController {
         return imageView
     }()
 
-    private let infoAboutThisFeed = NSLocalizedString("Info about this Feed...", comment: "")
+    private let placeholderOfFeed = NSLocalizedString("Introduce a thing, share an idea, describe a problem ...", comment: "")
 
     private var isNeverInputMessage = true
     private var isDirty = false {
@@ -115,7 +115,7 @@ class NewFeedViewController: SegueViewController {
             postButton.enabled = newValue
 
             if !newValue && isNeverInputMessage {
-                messageTextView.text = infoAboutThisFeed
+                messageTextView.text = placeholderOfFeed
             }
 
             messageTextView.textColor = newValue ? UIColor.blackColor() : UIColor.lightGrayColor()
@@ -666,9 +666,9 @@ class NewFeedViewController: SegueViewController {
 
                     let URLInfo = [
                         "url": openGraph.URL.absoluteString,
-                        "site_name": openGraph.siteName ?? "",
-                        "title": openGraph.title ?? "",
-                        "description": openGraph.description ?? "",
+                        "site_name": (openGraph.siteName ?? "").yep_truncatedForFeed,
+                        "title": (openGraph.title ?? "").yep_truncatedForFeed,
+                        "description": (openGraph.description ?? "").yep_truncatedForFeed,
                         "image_url": openGraph.previewImageURLString ?? "",
                     ]
 
@@ -676,7 +676,7 @@ class NewFeedViewController: SegueViewController {
                 }
 
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
@@ -715,7 +715,7 @@ class NewFeedViewController: SegueViewController {
             dispatch_group_enter(parseOpenGraphGroup)
 
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
                     dispatch_group_leave(parseOpenGraphGroup)
@@ -906,7 +906,7 @@ class NewFeedViewController: SegueViewController {
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
                     uploadErrorMessage = errorMessage

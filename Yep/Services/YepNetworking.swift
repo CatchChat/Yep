@@ -63,7 +63,9 @@ public enum Reason: CustomStringConvertible {
     }
 }
 
-func defaultFailureHandler(reason: Reason, errorMessage: String?) {
+public typealias FailureHandler = (reason: Reason, errorMessage: String?) -> Void
+
+let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     println("\n***************************** YepNetworking Failure *****************************")
     println("Reason: \(reason)")
     if let errorMessage = errorMessage {
@@ -99,6 +101,8 @@ var yepNetworkActivityCount = 0 {
     }
 }
 
+private let yepSuccessStatusCodeRange = Range<Int>(start: 200, end: 300)
+
 #if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
 
@@ -111,7 +115,7 @@ class SessionDelegate: NSObject, NSURLSessionDelegate {
 let _sessionDelegate = SessionDelegate()
 #endif
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> Void, completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: FailureHandler?, completion: A -> Void) {
 #if STAGING
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
@@ -122,7 +126,6 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
     request.HTTPMethod = resource.method.rawValue
-
 
     func needEncodesParametersForMethod(method: Method) -> Bool {
         switch method {
@@ -143,17 +146,26 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         return (components.map{"\($0)=\($1)"} as [String]).joinWithSeparator("&")
     }
 
-    if needEncodesParametersForMethod(resource.method) {
-        if let requestBody = resource.requestBody {
-            if let URLComponents = NSURLComponents(URL: request.URL!, resolvingAgainstBaseURL: false) {
-                URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
-                request.URL = URLComponents.URL
+    func handleParameters() {
+        if needEncodesParametersForMethod(resource.method) {
+            guard let URL = request.URL else {
+                println("Invalid URL of request: \(request)")
+                return
             }
-        }
 
-    } else {
-        request.HTTPBody = resource.requestBody
+            if let requestBody = resource.requestBody {
+                if let URLComponents = NSURLComponents(URL: URL, resolvingAgainstBaseURL: false) {
+                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
+                    request.URL = URLComponents.URL
+                }
+            }
+
+        } else {
+            request.HTTPBody = resource.requestBody
+        }
     }
+
+    handleParameters()
 
     modifyRequest(request)
 
@@ -165,11 +177,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     //println(request.cURLCommandLineWithSession(session))
     #endif
 
+    let _failure: FailureHandler
+
+    if let failure = failure {
+        _failure = failure
+    } else {
+        _failure = defaultFailureHandler
+    }
+
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 
         if let httpResponse = response as? NSHTTPURLResponse {
 
-            if httpResponse.statusCode == 200 {
+            if yepSuccessStatusCodeRange.contains(httpResponse.statusCode) {
 
                 if let responseData = data {
 
@@ -180,19 +200,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
                         println(dataString)
                         
-                        failure(Reason.CouldNotParseJSON, errorMessageInData(data))
+                        _failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
                         println("\(resource)\n")
                         println(request.cURLCommandLine)
                     }
 
                 } else {
-                    failure(Reason.NoData, errorMessageInData(data))
+                    _failure(reason: .NoData, errorMessage: errorMessageInData(data))
                     println("\(resource)\n")
                     println(request.cURLCommandLine)
                 }
 
             } else {
-                failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
+                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLCommandLine)
 
@@ -211,7 +231,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
             }
 
         } else {
-            failure(Reason.Other(error), errorMessageInData(data))
+            _failure(reason: .Other(error), errorMessage: errorMessageInData(data))
             println("\(resource)")
             println(request.cURLCommandLine)
         }

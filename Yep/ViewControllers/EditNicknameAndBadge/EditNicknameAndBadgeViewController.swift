@@ -126,7 +126,7 @@ class EditNicknameAndBadgeViewController: UITableViewController {
                 let newBadgeName = badgeView.badge.rawValue
 
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
                         badgeView.enabled = false
@@ -172,6 +172,12 @@ class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
     override func viewDidDisappear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -213,7 +219,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
                 if newNickname != YepUserDefaults.nickname.value {
 
                     updateMyselfWithInfo(["nickname": newNickname], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                         YepAlert.alertSorry(message: NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
 
