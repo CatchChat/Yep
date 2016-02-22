@@ -654,7 +654,8 @@ extension FeedView: AVAudioPlayerDelegate {
 
         audioPlayedDuration = 0
         audioPlaying = false
-        YepAudioService.sharedManager.playingFeedAudio = nil
+        
+        YepAudioService.sharedManager.resetToDefault()
     }
 }
 

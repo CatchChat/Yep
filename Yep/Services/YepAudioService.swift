@@ -267,6 +267,8 @@ class YepAudioService: NSObject {
         dispatch_async(queue) {
             let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
         }
+
+        playingItem = nil
     }
 
     // MARK: Proximity

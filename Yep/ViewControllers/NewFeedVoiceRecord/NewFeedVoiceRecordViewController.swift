@@ -472,11 +472,15 @@ extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
         state = .FinishRecord
 
         println("audioPlayerDidFinishPlaying: \(flag)")
+
+        YepAudioService.sharedManager.resetToDefault()
     }
 
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
 
         println("audioPlayerDecodeErrorDidOccur: \(error)")
+
+        YepAudioService.sharedManager.resetToDefault()
     }
 }
 
