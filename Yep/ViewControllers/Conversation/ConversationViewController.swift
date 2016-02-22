@@ -1437,10 +1437,10 @@ class ConversationViewController: BaseViewController {
 
         waverView.removeFromSuperview()
 
-        // stop audio playing
+        // stop audio playing if need
         
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            if audioPlayer.playing {
+            if audioPlayer.playing, let delegate = audioPlayer.delegate as? ConversationViewController where delegate == self {
                 audioPlayer.stop()
 
                 UIDevice.currentDevice().proximityMonitoringEnabled = false
