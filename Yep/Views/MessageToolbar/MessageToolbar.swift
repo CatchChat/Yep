@@ -502,6 +502,7 @@ extension MessageToolbar: UITextViewDelegate {
         if needDetectMention {
 
             if text.hasSuffix("@") {
+                mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
                 initMentionUserAction?()
                 return
             }
