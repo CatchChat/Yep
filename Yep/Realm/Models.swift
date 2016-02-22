@@ -758,6 +758,15 @@ class Conversation: Object {
         return nil
     }
 
+    var mentionInitUsers: [UsernamePrefixMatchedUser] {
+
+        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty }) ?? [])
+
+        let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+
+        return users
+    }
+
     dynamic var type: Int = ConversationType.OneToOne.rawValue
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 

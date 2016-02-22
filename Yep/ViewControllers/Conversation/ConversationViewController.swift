@@ -959,13 +959,7 @@ class ConversationViewController: BaseViewController {
 
                 messageToolbar.initMentionUserAction = { [weak self] in
 
-                    //let users = self?.conversation.withGroup?.members.sorted("lastSignInUnixTime", ascending: false).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) }) ?? []
-
-                    //let users = self?.conversation.messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty }).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) }) ?? []
-
-                    let userSet = Set<User>(self?.conversation.messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty }) ?? [])
-
-                    let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+                    let users = self?.conversation.mentionInitUsers ?? []
 
                     self?.mentionView.users = users
 
