@@ -226,6 +226,17 @@ class User: Object {
     }
 }
 
+func ==(lhs: User, rhs: User) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+extension User: Hashable {
+
+    override var hashValue: Int {
+        return userID.hashValue
+    }
+}
+
 // MARK: Group
 
 // Group 类型，注意：上线后若要调整，只能增加新状态
@@ -745,6 +756,15 @@ class Conversation: Object {
         }
 
         return nil
+    }
+
+    var mentionInitUsers: [UsernamePrefixMatchedUser] {
+
+        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty }) ?? [])
+
+        let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+
+        return users
     }
 
     dynamic var type: Int = ConversationType.OneToOne.rawValue

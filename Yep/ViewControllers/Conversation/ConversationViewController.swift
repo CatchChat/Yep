@@ -956,6 +956,22 @@ class ConversationViewController: BaseViewController {
             // MARK: Mention
 
             if needDetectMention {
+
+                messageToolbar.initMentionUserAction = { [weak self] in
+
+                    let users = self?.conversation.mentionInitUsers ?? []
+
+                    self?.mentionView.users = users
+
+                    guard !users.isEmpty else {
+                        self?.mentionView.hide()
+                        return
+                    }
+
+                    self?.view.layoutIfNeeded()
+                    self?.mentionView.show()
+                }
+
                 messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
                     usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in

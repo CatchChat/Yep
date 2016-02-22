@@ -144,6 +144,7 @@ class MessageToolbar: UIToolbar {
     var notifyTypingAction: (() -> Void)?
 
     var needDetectMention = false
+    var initMentionUserAction: (() -> Void)?
     var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
     var giveUpMentionUserAction: (() -> Void)?
 
@@ -487,33 +488,39 @@ extension MessageToolbar: UITextViewDelegate {
 
     func textViewDidBeginEditing(textView: UITextView) {
 
-        if let text = textView.text {
-            state = text.isEmpty ? .BeginTextInput : .TextInputing
-        }
+        guard let text = textView.text else { return }
+
+        state = text.isEmpty ? .BeginTextInput : .TextInputing
     }
 
     func textViewDidChange(textView: UITextView) {
 
-        if let text = textView.text {
-            state = text.isEmpty ? .BeginTextInput : .TextInputing
+        guard let text = textView.text else { return }
 
-            if needDetectMention {
+        state = text.isEmpty ? .BeginTextInput : .TextInputing
 
-                let currentLetterIndex = textView.selectedRange.location - 1
+        if needDetectMention {
 
-                if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
-                    //println("mentionWord: \(wordString), \(mentionWordRange)")
-
-                    mentionUsernameRange = mentionWordRange
-
-                    let wordString = wordString.trimming(.Whitespace)
-                    tryMentionUserAction?(usernamePrefix: wordString)
-
-                    return
-                }
-
-                giveUpMentionUserAction?()
+            if text.hasSuffix("@") {
+                mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
+                initMentionUserAction?()
+                return
             }
+
+            let currentLetterIndex = textView.selectedRange.location - 1
+
+            if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
+                //println("mentionWord: \(wordString), \(mentionWordRange)")
+
+                mentionUsernameRange = mentionWordRange
+
+                let wordString = wordString.trimming(.Whitespace)
+                tryMentionUserAction?(usernamePrefix: wordString)
+
+                return
+            }
+
+            giveUpMentionUserAction?()
         }
     }
 }
