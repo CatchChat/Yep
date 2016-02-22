@@ -295,6 +295,8 @@ class FeedView: UIView {
         messageTextViewHeightConstraint.constant = ceil(rect.height)
     }
 
+    private weak var audioPlaybackTimer: NSTimer?
+
     private func configureWithFeed(feed: ConversationFeed) {
 
         let message = feed.body
@@ -445,6 +447,8 @@ class FeedView: UIView {
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
+
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 }
             }
 
@@ -547,8 +551,10 @@ class FeedView: UIView {
 
                 if let strongSelf = self {
 
-                    let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-                    YepAudioService.sharedManager.playbackTimer = playbackTimer
+                    strongSelf.audioPlaybackTimer?.invalidate()
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+
+                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
                     strongSelf.audioPlaying = true
                 }
