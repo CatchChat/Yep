@@ -64,7 +64,7 @@ class FeedBasicCell: UITableViewCell {
         textView.scrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
         textView.showsVerticalScrollIndicator = false
-        textView.dataDetectorTypes = [.Link, .CalendarEvent]
+        textView.dataDetectorTypes = [.Link]
 
         textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
         textView.opaque = true
