@@ -806,16 +806,18 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
 
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let username = me.username
+            if let conversation = message.conversation where !conversation.mentionedMe {
+                if let
+                    myUserID = YepUserDefaults.userID.value,
+                    me = userWithUserID(myUserID, inRealm: realm) {
+                        let username = me.username
 
-                    if !username.isEmpty {
-                        if textContent.containsString("@\(username)") {
-                            message.conversation?.mentionedMe = true
+                        if !username.isEmpty {
+                            if textContent.containsString("@\(username)") {
+                                conversation.mentionedMe = true
+                            }
                         }
-                    }
+                }
             }
         }
 
