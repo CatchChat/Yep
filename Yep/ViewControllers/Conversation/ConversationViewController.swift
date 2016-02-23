@@ -974,6 +974,13 @@ class ConversationViewController: BaseViewController {
                 }
 
                 messageToolbar.tryMentionUserAction = { [weak self] usernamePrefix in
+
+                    let usernamePrefix = usernamePrefix.yep_removeAllWhitespaces
+
+                    guard !usernamePrefix.isEmpty else {
+                        return
+                    }
+
                     usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
 

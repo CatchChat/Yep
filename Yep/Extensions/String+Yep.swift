@@ -38,6 +38,10 @@ extension String {
         }
     }
 
+    var yep_removeAllWhitespaces: String {
+        return self.stringByReplacingOccurrencesOfString(" ", withString: "")
+    }
+
     var yep_removeAllNewLines: String {
         return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
     }
