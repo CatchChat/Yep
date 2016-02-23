@@ -48,20 +48,6 @@ class FeedTextView: UITextView {
         super.addGestureRecognizer(gestureRecognizer)
     }
 
-    enum DetectionType: String {
-        case Mention
-    }
-
-    var tapMentionAction: ((username: String) -> Void)?
-
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-
-        self.delegate = self
-
-        editable = false
-    }
-
     override var text: String! {
         didSet {
             let attributedString = NSMutableAttributedString(string: text)
@@ -71,7 +57,7 @@ class FeedTextView: UITextView {
             attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
             attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
 
-            // mention link
+            // mention highlight
 
             let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
 
@@ -80,11 +66,9 @@ class FeedTextView: UITextView {
             mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
 
                 if let result = result {
-                    let textValue = (self.text as NSString).substringWithRange(result.range)
 
                     let textAttributes: [String: AnyObject] = [
-                        NSLinkAttributeName: textValue,
-                        ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
+                        NSForegroundColorAttributeName: UIColor.redColor(),
                     ]
 
                     attributedString.addAttributes(textAttributes, range: result.range )
@@ -96,29 +80,3 @@ class FeedTextView: UITextView {
     }
 }
 
-extension FeedTextView: UITextViewDelegate {
-
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
-
-        guard let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) else {
-            return true
-        }
-
-        let text = (self.text as NSString).substringWithRange(characterRange)
-
-        self.hangleTapText(text, withDetectionType: detectionType)
-
-        return true
-    }
-
-    private func hangleTapText(text: String, withDetectionType detectionType: DetectionType) {
-
-        println("hangleTapText: \(text), \(detectionType)")
-
-        let username = text.substringFromIndex(text.startIndex.advancedBy(1))
-
-        if !username.isEmpty {
-            tapMentionAction?(username: username)
-        }
-    }
-}
