@@ -22,8 +22,7 @@ class FeedConversationsViewController: SegueViewController {
     }
 
     lazy var feedConversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return feedConversationsInRealm(self.realm)
     }()
 
     let feedConversationCellID = "FeedConversationCell"
