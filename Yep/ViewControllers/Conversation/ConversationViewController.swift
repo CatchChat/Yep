@@ -1045,6 +1045,11 @@ class ConversationViewController: BaseViewController {
 
         delay(0.1) { [weak self] in
             self?.batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
+
+            guard let realm = self?.conversation.realm else { return }
+            let _ = try? realm.write {
+                self?.conversation.mentionedMe = false
+            }
         }
 
         // MARK: Notify Typing

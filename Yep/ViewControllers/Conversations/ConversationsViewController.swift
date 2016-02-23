@@ -416,7 +416,19 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                     cell.chatLabel.text = placeholder
 
                 } else {
-                    cell.chatLabel.text = latestMessage.nicknameWithTextContent
+                    if mentionedMeInFeedConversationsInRealm(realm) {
+                        let mentionedYouString = NSLocalizedString("[Mentioned you]", comment: "")
+                        let string = mentionedYouString + " " + latestMessage.nicknameWithTextContent
+
+                        let attributedString = NSMutableAttributedString(string: string)
+                        let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
+                        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+
+                        cell.chatLabel.attributedText = attributedString
+
+                    } else {
+                        cell.chatLabel.text = latestMessage.nicknameWithTextContent
+                    }
                 }
 
             } else {
