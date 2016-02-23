@@ -115,7 +115,13 @@ class SessionDelegate: NSObject, NSURLSessionDelegate {
 let _sessionDelegate = SessionDelegate()
 #endif
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: FailureHandler?, completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>?, failure: FailureHandler?, completion: A -> Void) {
+
+    guard let resource = resource else {
+        failure?(reason: .Other(nil), errorMessage: "No resource")
+        return
+    }
+
 #if STAGING
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
@@ -292,8 +298,11 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
     return jsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
-    let token = YepUserDefaults.v1AccessToken.value
+public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A>? {
+    guard let token = YepUserDefaults.v1AccessToken.value else {
+        println("No token for auth")
+        return nil
+    }
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
