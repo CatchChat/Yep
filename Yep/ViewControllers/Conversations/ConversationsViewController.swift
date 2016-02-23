@@ -417,7 +417,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 } else {
                     if mentionedMeInFeedConversationsInRealm(realm) {
-                        let mentionedYouString = "[Mentioned you]"
+                        let mentionedYouString = NSLocalizedString("[Mentioned you]", comment: "")
                         let string = mentionedYouString + " " + latestMessage.nicknameWithTextContent
 
                         let attributedString = NSMutableAttributedString(string: string)

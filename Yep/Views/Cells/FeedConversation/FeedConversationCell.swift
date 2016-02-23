@@ -75,7 +75,7 @@ class FeedConversationCell: UITableViewCell {
 
             } else {
                 if conversation.mentionedMe {
-                    let mentionedYouString = "[Mentioned you]"
+                    let mentionedYouString = NSLocalizedString("[Mentioned you]", comment: "")
                     let string = mentionedYouString + " " + latestValidMessage.nicknameWithTextContent
 
                     let attributedString = NSMutableAttributedString(string: string)
