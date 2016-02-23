@@ -47,36 +47,5 @@ class FeedTextView: UITextView {
         
         super.addGestureRecognizer(gestureRecognizer)
     }
-
-    override var text: String! {
-        didSet {
-            let attributedString = NSMutableAttributedString(string: text)
-
-            let textRange = NSMakeRange(0, (text as NSString).length)
-
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
-            attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
-
-            // mention highlight
-
-            let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
-
-            let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
-
-            mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
-
-                if let result = result {
-
-                    let textAttributes: [String: AnyObject] = [
-                        NSForegroundColorAttributeName: UIColor.redColor(),
-                    ]
-
-                    attributedString.addAttributes(textAttributes, range: result.range )
-                }
-            })
-            
-            self.attributedText = attributedString
-        }
-    }
 }
 
