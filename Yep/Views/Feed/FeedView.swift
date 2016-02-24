@@ -531,6 +531,7 @@ class FeedView: UIView {
 
     var syncPlayAudioAction: (() -> Void)?
 
+    /*
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
@@ -548,7 +549,6 @@ class FeedView: UIView {
 
         func play() {
 
-            /*
             YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
                 println("playAudioWithFeedAudio success!")
 
@@ -556,23 +556,6 @@ class FeedView: UIView {
 
                     strongSelf.audioPlaybackTimer?.invalidate()
                     strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-
-                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
-
-                    strongSelf.audioPlaying = true
-
-                    strongSelf.syncPlayAudioAction?()
-                }
-            })
-            */
-
-            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
-                println("playOnlineAudioWithFeedAudio success!")
-
-                if let strongSelf = self {
-
-                    strongSelf.audioPlaybackTimer?.invalidate()
-                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
 
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
@@ -609,6 +592,64 @@ class FeedView: UIView {
     func updateAudioPlaybackProgress(timer: NSTimer) {
 
         audioPlayedDuration = YepAudioService.sharedManager.audioPlayCurrentTime
+    }
+    */
+
+    @IBAction func playOrPauseAudio(sender: UIButton) {
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playVoice setCategory failed: \(error)")
+                return
+            }
+        }
+
+        guard let realm = try? Realm(), feed = feed, feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+            return
+        }
+
+        func play() {
+
+            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
+                println("playOnlineAudioWithFeedAudio success!")
+
+                if let strongSelf = self {
+
+                    strongSelf.audioPlaybackTimer?.invalidate()
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+
+                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
+
+                    strongSelf.audioPlaying = true
+
+                    strongSelf.syncPlayAudioAction?()
+                }
+            })
+        }
+
+        // 如果在播放，就暂停
+        if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+
+            onlineAudioPlayer.pause()
+
+            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                playbackTimer.invalidate()
+            }
+
+            audioPlaying = false
+
+            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.feedID {
+            } else {
+                // 暂停的是别人，咱开始播放
+                play()
+            }
+            
+        } else {
+            // 直接播放
+            play()
+        }
     }
 
     func updateOnlineAudioPlaybackProgress(timer: NSTimer) {

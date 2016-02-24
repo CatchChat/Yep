@@ -11,6 +11,16 @@ import AVFoundation
 import AudioToolbox
 import Proposer
 
+extension AVPlayer {
+
+    var yep_playing: Bool {
+        if (rate != 0 && error == nil) {
+            return true
+        }
+        return false
+    }
+}
+
 class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
@@ -278,9 +288,11 @@ class YepAudioService: NSObject {
     }
 
     func playOnlineAudioWithFeedAudio(feedAudio: FeedAudio, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+
         guard let URL = NSURL(string: feedAudio.URLString) else {
             return
         }
+
         let playerItem = AVPlayerItem(URL: URL)
         let player = AVPlayer(playerItem: playerItem)
         player.rate = 1.0
@@ -288,6 +300,9 @@ class YepAudioService: NSObject {
         let time = CMTime(seconds: time, preferredTimescale: 1)
         playerItem.seekToTime(time)
         player.play()
+
+        playingItem = .FeedAudioType(feedAudio)
+
         success()
 
         println("playOnlineAudioWithFeedAudio")
