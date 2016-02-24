@@ -444,11 +444,21 @@ class FeedView: UIView {
                 voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
             }
 
+            /*
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
 
                     audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                }
+            }
+            */
+
+            if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
+                    audioPlaying = true
+
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 }
             }
 

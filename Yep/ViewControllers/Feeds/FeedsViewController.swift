@@ -858,9 +858,16 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds(mode: .Static)
             }
 
+            /*
             vc.syncPlayFeedAudioAction = { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+            }
+            */
+
+            vc.syncPlayFeedAudioAction = { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
             }
 
         case "presentNewFeed":
