@@ -230,7 +230,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     // 确保是自家服务
                     if let requestHost = request.URL?.host where requestHost == yepBaseURL.host {
                         dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.userNeedRelogin()
+                            YepUserDefaults.maybeUserNeedRelogin()
                         }
                     }
                 }

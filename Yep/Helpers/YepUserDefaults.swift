@@ -140,21 +140,22 @@ class YepUserDefaults {
         defaults.synchronize()
     }
 
-    class func userNeedRelogin() {
+    class func maybeUserNeedRelogin() {
 
-        if let _ = v1AccessToken.value {
+        guard v1AccessToken.value != nil else {
+            return
+        }
 
-            cleanRealmAndCaches()
+        cleanAllUserDefaults()
 
-            cleanAllUserDefaults()
+        cleanRealmAndCaches()
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if let rootViewController = appDelegate.window?.rootViewController {
-                    YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let rootViewController = appDelegate.window?.rootViewController {
+                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
 
-                        appDelegate.startShowStory()
-                    })
-                }
+                    appDelegate.startShowStory()
+                })
             }
         }
     }
