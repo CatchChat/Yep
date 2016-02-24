@@ -28,6 +28,7 @@ class FeedVoiceCell: FeedBasicCell {
             updateVoiceContainerView()
         }
     }
+    /*
     private func updateVoiceContainerView() {
 
         guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
@@ -41,6 +42,25 @@ class FeedVoiceCell: FeedBasicCell {
         }
 
         if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+            audioPlaying = true
+        } else {
+            audioPlaying = false
+        }
+    }
+    */
+    private func updateVoiceContainerView() {
+
+        guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+            return
+        }
+
+        if let (audioDuration, audioSamples) = feedAudio.audioMetaInfo {
+
+            voiceContainerView.voiceSampleView.samples = audioSamples
+            voiceContainerView.voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
+        }
+
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
             audioPlaying = true
         } else {
             audioPlaying = false
@@ -103,10 +123,21 @@ class FeedVoiceCell: FeedBasicCell {
 
                     if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer {
                         audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+
                     } else {
+                        let newFeedAudio = FeedAudio()
+                        newFeedAudio.feedID = audioInfo.feedID
+                        newFeedAudio.URLString = audioInfo.URLString
+                        newFeedAudio.metadata = audioInfo.metaData
+
+                        let _ = try? realm.write {
+                            realm.add(newFeedAudio)
+                        }
+
                         audioPlaying = false
                     }
 
+                    /*
                     let needDownload = (feedAudio == nil) || (feedAudio?.fileName ?? "").isEmpty
 
                     if needDownload {
@@ -149,6 +180,7 @@ class FeedVoiceCell: FeedBasicCell {
                             })
                         }
                     }
+                    */
                     
                     voiceContainerView.playOrPauseAudioAction = { [weak self] in
                         if let strongSelf = self {

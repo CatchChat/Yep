@@ -254,12 +254,10 @@ class FeedsViewController: BaseViewController {
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     
     deinit {
-
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
         feedsTableView?.delegate = nil
 
-        print("Deinit FeedsViewControler")
+        print("deinit FeedsViewControler")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -612,6 +610,7 @@ class FeedsViewController: BaseViewController {
         }
     }
 
+    /*
     @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
         func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
@@ -644,6 +643,48 @@ class FeedsViewController: BaseViewController {
                 updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
             }
         }
+    }
+    */
+
+    private func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+
+        let feedID = feedAudio.feedID
+
+        for index in 0..<feeds.count {
+            let feed = feeds[index]
+            if feed.id == feedID {
+
+                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                    cell.audioPlayedDuration = currentTime
+                }
+
+                break
+            }
+        }
+    }
+
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.audioPlayCurrentTime
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
     // MARK: - Navigation
@@ -815,9 +856,16 @@ class FeedsViewController: BaseViewController {
                 self?.updateFeeds(mode: .Static)
             }
 
+            /*
             vc.syncPlayFeedAudioAction = { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+            }
+            */
+
+            vc.syncPlayFeedAudioAction = { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
             }
 
         case "presentNewFeed":
@@ -1182,6 +1230,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
+                /*
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
                     guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
@@ -1233,6 +1282,74 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                             }
 
                             if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            } else {
+                                // 暂停的是别人，咱开始播放
+                                play()
+                            }
+                            
+                        } else {
+                            // 直接播放
+                            play()
+                        }
+                    }
+                }
+                */
+
+                cell.playOrPauseAudioAction = { [weak self] cell in
+
+                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                        return
+                    }
+
+                    let play: () -> Void = { [weak self] in
+
+                        if let strongSelf = self {
+
+                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+
+                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
+                                println("playOnlineAudioWithFeedAudio success!")
+
+                                strongSelf.feedAudioPlaybackTimer?.invalidate()
+
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                                cell.audioPlaying = true
+                            })
+                        }
+                    }
+
+                    if let strongSelf = self {
+
+                        // 如果在播放，就暂停
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+
+                            onlineAudioPlayer.pause()
+
+                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                                playbackTimer.invalidate()
+                            }
+
+                            let feedID = playingFeedAudio.feedID
+                            for index in 0..<strongSelf.feeds.count {
+                                let feed = strongSelf.feeds[index]
+                                if feed.id == feedID {
+
+                                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                                        cell.audioPlaying = false
+                                    }
+
+                                    break
+                                }
+                            }
+
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                                YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
+
                             } else {
                                 // 暂停的是别人，咱开始播放
                                 play()
@@ -1538,13 +1655,11 @@ extension FeedsViewController: PullToRefreshViewDelegate {
     }
 }
 
-// MARK: AVAudioPlayerDelegate
+// MARK: Audio Finish Playing
 
-extension FeedsViewController: AVAudioPlayerDelegate {
+extension FeedsViewController {
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-
-        println("audioPlayerDidFinishPlaying \(flag)")
+    private func feedAudioDidFinishPlaying() {
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
             playbackTimer.invalidate()
@@ -1556,6 +1671,22 @@ extension FeedsViewController: AVAudioPlayerDelegate {
         }
 
         YepAudioService.sharedManager.resetToDefault()
+    }
+
+    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+        feedAudioDidFinishPlaying()
+    }
+}
+
+// MARK: AVAudioPlayerDelegate
+
+extension FeedsViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+
+        feedAudioDidFinishPlaying()
     }
 }
 
