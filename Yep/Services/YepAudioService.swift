@@ -25,7 +25,21 @@ class YepAudioService: NSObject {
     
     var audioPlayer: AVAudioPlayer?
 
-    var player: AVPlayer?
+    var onlineAudioPlayer: AVPlayer?
+
+    var audioPlayCurrentTime: NSTimeInterval {
+        if let audioPlayer = audioPlayer {
+            return audioPlayer.currentTime
+        }
+        return 0
+    }
+
+    var aduioOnlinePlayCurrentTime: CMTime {
+        if let onlineAudioPlayerItem = onlineAudioPlayer?.currentItem {
+            return onlineAudioPlayerItem.currentTime()
+        }
+        return CMTime()
+    }
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
@@ -271,14 +285,14 @@ class YepAudioService: NSObject {
         let player = AVPlayer(playerItem: playerItem)
         player.rate = 1.0
 
-        let time = CMTime(seconds: 15, preferredTimescale: 1)
+        let time = CMTime(seconds: time, preferredTimescale: 1)
         playerItem.seekToTime(time)
         player.play()
         success()
 
         println("playOnlineAudioWithFeedAudio")
 
-        self.player = player
+        self.onlineAudioPlayer = player
     }
 
     func resetToDefault() {

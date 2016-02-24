@@ -548,6 +548,7 @@ class FeedView: UIView {
 
         func play() {
 
+            /*
             YepAudioService.sharedManager.playAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
                 println("playAudioWithFeedAudio success!")
 
@@ -555,6 +556,23 @@ class FeedView: UIView {
 
                     strongSelf.audioPlaybackTimer?.invalidate()
                     strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+
+                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
+
+                    strongSelf.audioPlaying = true
+
+                    strongSelf.syncPlayAudioAction?()
+                }
+            })
+            */
+
+            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
+                println("playOnlineAudioWithFeedAudio success!")
+
+                if let strongSelf = self {
+
+                    strongSelf.audioPlaybackTimer?.invalidate()
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
 
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
@@ -590,10 +608,12 @@ class FeedView: UIView {
 
     func updateAudioPlaybackProgress(timer: NSTimer) {
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            let currentTime = audioPlayer.currentTime
-            audioPlayedDuration = currentTime
-        }
+        audioPlayedDuration = YepAudioService.sharedManager.audioPlayCurrentTime
+    }
+
+    func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+
+        audioPlayedDuration = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
     }
 }
 
