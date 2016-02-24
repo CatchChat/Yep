@@ -612,6 +612,7 @@ class FeedsViewController: BaseViewController {
         }
     }
 
+    /*
     @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
         func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
@@ -644,6 +645,48 @@ class FeedsViewController: BaseViewController {
                 updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
             }
         }
+    }
+    */
+
+    private func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+
+        let feedID = feedAudio.feedID
+
+        for index in 0..<feeds.count {
+            let feed = feeds[index]
+            if feed.id == feedID {
+
+                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                    cell.audioPlayedDuration = currentTime
+                }
+
+                break
+            }
+        }
+    }
+
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.audioPlayCurrentTime
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
     // MARK: - Navigation
@@ -1259,11 +1302,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
-                                println("playAudioWithFeedAudio success!")
+                                println("playOnlineAudioWithFeedAudio success!")
 
                                 strongSelf.feedAudioPlaybackTimer?.invalidate()
 
-                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
                                 YepAudioService.sharedManager.playbackTimer = playbackTimer
 
                                 cell.audioPlaying = true
