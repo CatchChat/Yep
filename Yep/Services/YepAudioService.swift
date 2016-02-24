@@ -25,6 +25,8 @@ class YepAudioService: NSObject {
     
     var audioPlayer: AVAudioPlayer?
 
+    var player: AVPlayer?
+
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
         audioFileURL = fileURL
@@ -259,6 +261,24 @@ class YepAudioService: NSObject {
         } else {
             println("please wait for download") // TODO: Download feed audio, check first
         }
+    }
+
+    func playOnlineAudioWithFeedAudio(feedAudio: FeedAudio, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+        guard let URL = NSURL(string: feedAudio.URLString) else {
+            return
+        }
+        let playerItem = AVPlayerItem(URL: URL)
+        let player = AVPlayer(playerItem: playerItem)
+        player.rate = 1.0
+
+        let time = CMTime(seconds: 15, preferredTimescale: 1)
+        playerItem.seekToTime(time)
+        player.play()
+        success()
+
+        println("playOnlineAudioWithFeedAudio")
+
+        self.player = player
     }
 
     func resetToDefault() {
