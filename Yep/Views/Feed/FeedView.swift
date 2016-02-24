@@ -204,8 +204,8 @@ class FeedView: UIView {
     }
 
     deinit {
-        println("deinit FeedView")
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        println("deinit FeedView")
     }
 
     override func awakeFromNib() {

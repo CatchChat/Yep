@@ -254,12 +254,10 @@ class FeedsViewController: BaseViewController {
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     
     deinit {
-
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
         feedsTableView?.delegate = nil
 
-        print("Deinit FeedsViewControler")
+        print("deinit FeedsViewControler")
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -1307,6 +1305,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                         if let strongSelf = self {
 
+                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playOnlineAudioWithFeedAudio success!")
@@ -1653,13 +1653,11 @@ extension FeedsViewController: PullToRefreshViewDelegate {
     }
 }
 
-// MARK: AVAudioPlayerDelegate
+// MARK: Audio Finish Playing
 
-extension FeedsViewController: AVAudioPlayerDelegate {
+extension FeedsViewController {
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-
-        println("audioPlayerDidFinishPlaying \(flag)")
+    private func feedAudioDidFinishPlaying() {
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
             playbackTimer.invalidate()
@@ -1671,6 +1669,22 @@ extension FeedsViewController: AVAudioPlayerDelegate {
         }
 
         YepAudioService.sharedManager.resetToDefault()
+    }
+
+    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+        feedAudioDidFinishPlaying()
+    }
+}
+
+// MARK: AVAudioPlayerDelegate
+
+extension FeedsViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+
+        feedAudioDidFinishPlaying()
     }
 }
 
