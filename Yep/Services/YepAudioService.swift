@@ -293,6 +293,14 @@ class YepAudioService: NSObject {
             return
         }
 
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playAudioWithMessage setCategory failed: \(error)")
+            }
+        }
+
         let playerItem = AVPlayerItem(URL: URL)
         let player = AVPlayer(playerItem: playerItem)
         player.rate = 1.0
