@@ -1182,6 +1182,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
 
+                /*
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
                     guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
@@ -1212,6 +1213,70 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
 
                             audioPlayer.pause()
+
+                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                                playbackTimer.invalidate()
+                            }
+
+                            let feedID = playingFeedAudio.feedID
+                            for index in 0..<strongSelf.feeds.count {
+                                let feed = strongSelf.feeds[index]
+                                if feed.id == feedID {
+
+                                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                                        cell.audioPlaying = false
+                                    }
+
+                                    break
+                                }
+                            }
+
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            } else {
+                                // 暂停的是别人，咱开始播放
+                                play()
+                            }
+                            
+                        } else {
+                            // 直接播放
+                            play()
+                        }
+                    }
+                }
+                */
+
+                cell.playOrPauseAudioAction = { [weak self] cell in
+
+                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                        return
+                    }
+
+                    let play: () -> Void = { [weak self] in
+
+                        if let strongSelf = self {
+
+                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
+                                println("playAudioWithFeedAudio success!")
+
+                                strongSelf.feedAudioPlaybackTimer?.invalidate()
+
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                                cell.audioPlaying = true
+                            })
+                        }
+                    }
+
+                    if let strongSelf = self {
+
+                        // 如果在播放，就暂停
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+
+                            onlineAudioPlayer.pause()
 
                             if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
                                 playbackTimer.invalidate()
