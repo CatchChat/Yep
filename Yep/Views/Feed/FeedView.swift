@@ -203,6 +203,11 @@ class FeedView: UIView {
         }
     }
 
+    deinit {
+        println("deinit FeedView")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -627,6 +632,8 @@ class FeedView: UIView {
 
                 if let strongSelf = self {
 
+                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+
                     strongSelf.audioPlaybackTimer?.invalidate()
                     strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
 
@@ -662,7 +669,7 @@ class FeedView: UIView {
         }
     }
 
-    func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
 
         audioPlayedDuration = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
     }
@@ -727,6 +734,27 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
+// MARK: Audio Finish Playing
+
+extension FeedView {
+
+    private func feedAudioDidFinishPlaying() {
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        audioPlayedDuration = 0
+        audioPlaying = false
+
+        YepAudioService.sharedManager.resetToDefault()
+    }
+
+    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+        feedAudioDidFinishPlaying()
+    }
+}
+
 // MARK: AVAudioPlayerDelegate
 
 extension FeedView: AVAudioPlayerDelegate {
@@ -735,14 +763,7 @@ extension FeedView: AVAudioPlayerDelegate {
 
         println("audioPlayerDidFinishPlaying \(flag)")
 
-        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
-            playbackTimer.invalidate()
-        }
-
-        audioPlayedDuration = 0
-        audioPlaying = false
-        
-        YepAudioService.sharedManager.resetToDefault()
+        feedAudioDidFinishPlaying()
     }
 }
 
