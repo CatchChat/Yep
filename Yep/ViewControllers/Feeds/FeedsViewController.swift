@@ -1348,6 +1348,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                             }
 
                             if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                                YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
+
                             } else {
                                 // 暂停的是别人，咱开始播放
                                 play()

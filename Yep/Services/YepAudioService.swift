@@ -310,12 +310,17 @@ class YepAudioService: NSObject {
         self.onlineAudioPlayer = player
     }
 
-    func resetToDefault() {
+    func tryNotifyOthersOnDeactivation() {
         // playback 会导致从音乐 App 进来的时候停止音乐，所以需要重置回去
-        
+
         dispatch_async(queue) {
             let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
         }
+    }
+
+    func resetToDefault() {
+
+        tryNotifyOthersOnDeactivation()
 
         playingItem = nil
     }

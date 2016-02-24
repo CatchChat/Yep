@@ -658,6 +658,8 @@ class FeedView: UIView {
             audioPlaying = false
 
             if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.feedID {
+                YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
+
             } else {
                 // 暂停的是别人，咱开始播放
                 play()
