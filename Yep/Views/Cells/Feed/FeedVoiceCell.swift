@@ -103,10 +103,21 @@ class FeedVoiceCell: FeedBasicCell {
 
                     if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer {
                         audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+
                     } else {
+                        let newFeedAudio = FeedAudio()
+                        newFeedAudio.feedID = audioInfo.feedID
+                        newFeedAudio.URLString = audioInfo.URLString
+                        newFeedAudio.metadata = audioInfo.metaData
+
+                        let _ = try? realm.write {
+                            realm.add(newFeedAudio)
+                        }
+
                         audioPlaying = false
                     }
 
+                    /*
                     let needDownload = (feedAudio == nil) || (feedAudio?.fileName ?? "").isEmpty
 
                     if needDownload {
@@ -149,6 +160,7 @@ class FeedVoiceCell: FeedBasicCell {
                             })
                         }
                     }
+                    */
                     
                     voiceContainerView.playOrPauseAudioAction = { [weak self] in
                         if let strongSelf = self {
