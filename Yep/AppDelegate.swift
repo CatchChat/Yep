@@ -237,76 +237,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //JPUSHService.handleRemoteNotification(userInfo)
         APService.handleRemoteNotification(userInfo)
         
-        if YepUserDefaults.isLogined {
+        guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
+            completionHandler(UIBackgroundFetchResult.NoData)
+            return
+        }
 
-            if let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) {
+        defer {
+            // 非前台才记录启动通知类型
+            if application.applicationState != .Active {
+                self.remoteNotificationType = remoteNotificationType
+            }
+        }
 
-                switch remoteNotificationType {
+        switch remoteNotificationType {
 
-                case .Message:
+        case .Message:
 
-                    syncUnreadMessages() {
+            syncUnreadMessages() {
+                completionHandler(UIBackgroundFetchResult.NewData)
+            }
+
+        case .OfficialMessage:
+
+            officialMessages { messagesCount in
+                completionHandler(UIBackgroundFetchResult.NewData)
+                println("new officialMessages count: \(messagesCount)")
+            }
+
+        case .FriendRequest:
+
+            if let subType = userInfo["subtype"] as? String {
+                if subType == "accepted" {
+                    syncFriendshipsAndDoFurtherAction {
                         completionHandler(UIBackgroundFetchResult.NewData)
                     }
-
-                case .OfficialMessage:
-
-                    officialMessages { messagesCount in
-                        completionHandler(UIBackgroundFetchResult.NewData)
-                        println("new officialMessages count: \(messagesCount)")
-                    }
-
-                case .FriendRequest:
-
-                    if let subType = userInfo["subtype"] as? String {
-                        if subType == "accepted" {
-                            syncFriendshipsAndDoFurtherAction {
-                                completionHandler(UIBackgroundFetchResult.NewData)
-                            }
-                        } else {
-                            completionHandler(UIBackgroundFetchResult.NoData)
-                        }
-                    } else {
-                        completionHandler(UIBackgroundFetchResult.NoData)
-                    }
-
-                case .MessageDeleted:
-
-                    defer {
-                        completionHandler(UIBackgroundFetchResult.NoData)
-                    }
-
-                    guard let
-                        messageInfo = userInfo["message"] as? JSONDictionary,
-                        messageID = messageInfo["id"] as? String
-                    else {
-                        break
-                    }
-
-                    handleMessageDeletedFromServer(messageID: messageID)
-
-                case .Mentioned:
-
-                    syncUnreadMessagesAndDoFurtherAction({ _ in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                        }
-
-                        completionHandler(UIBackgroundFetchResult.NewData)
-                    })
+                } else {
+                    completionHandler(UIBackgroundFetchResult.NoData)
                 }
-
-                // 非前台才记录启动通知类型
-                if application.applicationState != .Active {
-                    self.remoteNotificationType = remoteNotificationType
-                }
-                
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
             }
-            
-        } else {
-            completionHandler(UIBackgroundFetchResult.NoData)
+
+        case .MessageDeleted:
+
+            defer {
+                completionHandler(UIBackgroundFetchResult.NoData)
+            }
+
+            guard let
+                messageInfo = userInfo["message"] as? JSONDictionary,
+                messageID = messageInfo["id"] as? String
+                else {
+                    break
+            }
+
+            handleMessageDeletedFromServer(messageID: messageID)
+
+        case .Mentioned:
+
+            syncUnreadMessagesAndDoFurtherAction({ _ in
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
+
+                completionHandler(UIBackgroundFetchResult.NewData)
+            })
         }
     }
 
