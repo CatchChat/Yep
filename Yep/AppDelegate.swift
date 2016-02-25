@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case OfficialMessage = "official_message"
         case FriendRequest = "friend_request"
         case MessageDeleted = "message_deleted"
+        case Mentioned = "mentioned"
     }
 
     private var remoteNotificationType: RemoteNotificationType? {
@@ -283,6 +284,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
 
                     handleMessageDeletedFromServer(messageID: messageID)
+
+                case .Mentioned:
+
+                    //syncGroupsAndDoFurtherAction {
+                        syncUnreadMessagesAndDoFurtherAction({ (messageIDs) -> Void in
+                            println("xxxx: <\(messageIDs)>")
+                            dispatch_async(dispatch_get_main_queue()) {
+                                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                            }
+                        })
+                        completionHandler(UIBackgroundFetchResult.NewData)
+                    //}
                 }
 
                 // 非前台才记录启动通知类型
