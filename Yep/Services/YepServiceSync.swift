@@ -531,12 +531,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         feed.deleted = true
 
-                        // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
+                        // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe, includeMe
                         group.conversation?.messages.forEach { $0.readed = true }
                         group.conversation?.mentionedMe = false
-                        dispatch_async(dispatch_get_main_queue()) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                        }
+                        group.includeMe = false
                     }
 
                 } else {
@@ -566,7 +564,11 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             }
 
             let _ = try? realm.commitWrite()
-            
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+
             // do further action
             
             furtherAction()
