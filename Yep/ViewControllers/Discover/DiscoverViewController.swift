@@ -186,7 +186,7 @@ class DiscoverViewController: BaseViewController {
 
             for user in discoveredUsers {
 
-                for skill in  user.masterSkills {
+                for skill in user.masterSkills {
 
                     let skillLocalName = skill.localName ?? ""
 

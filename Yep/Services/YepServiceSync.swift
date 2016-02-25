@@ -531,8 +531,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         feed.deleted = true
 
-                        // 确保被删除的 Feed 的所有消息都被标记已读
+                        // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
                         group.conversation?.messages.forEach { $0.readed = true }
+                        group.conversation?.mentionedMe = false
                     }
 
                 } else {
@@ -562,7 +563,11 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             }
 
             let _ = try? realm.commitWrite()
-            
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+
             // do further action
             
             furtherAction()
@@ -807,16 +812,8 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             message.textContent = textContent
 
             if let conversation = message.conversation where !conversation.mentionedMe {
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    me = userWithUserID(myUserID, inRealm: realm) {
-                        let username = me.username
-
-                        if !username.isEmpty {
-                            if textContent.containsString("@\(username)") {
-                                conversation.mentionedMe = true
-                            }
-                        }
+                if textContent.yep_mentionedMeInRealm(realm) {
+                    conversation.mentionedMe = true
                 }
             }
         }
@@ -972,39 +969,40 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                         
                                         let newGroup = Group()
                                         newGroup.groupID = groupID
+                                        newGroup.includeMe = true
                                         // TODO: 此处还无法确定 group 类型，下面会请求 group 信息再确认
-
-                                        if let groupInfo = messageInfo["circle"] as? JSONDictionary {
-                                            if let groupName = groupInfo["name"] as? String {
-                                                newGroup.groupName = groupName
-                                            }
-                                        }
 
                                         realm.add(newGroup)
 
                                         sendFromGroup = newGroup
                                         
-                                        // TODO 存在多次网络查询这个 Group 的可能性
-                                        /*
-                                        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
-                                            dispatch_async(realmQueue) {
-                                                guard let realmForGroup = try? Realm() else {
-                                                    return
-                                                }
-                                                
-                                                if let group = groupWithGroupID(groupID, inRealm: realmForGroup) {
-                                                    if let
-                                                        feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                            //saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
-                                                            let _ = try? realm.write {
+                                        // 若提及我，才同步group进而得到feed
+                                        if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
+                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
+                                                dispatch_async(realmQueue) {
+
+                                                    guard let realm = try? Realm() else {
+                                                        return
+                                                    }
+
+                                                    realm.beginWrite()
+
+                                                    if let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm) {
+                                                        if let
+                                                            feedInfo = groupInfo["topic"] as? JSONDictionary,
+                                                            feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
                                                                 saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                                                            }
+                                                        }
+                                                    }
+
+                                                    let _ = try? realm.commitWrite()
+
+                                                    dispatch_async(dispatch_get_main_queue()) {
+                                                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                                                     }
                                                 }
-                                            }
-                                        })
-                                        */
+                                            })
+                                        }
                                     }
                                 }
                             }
