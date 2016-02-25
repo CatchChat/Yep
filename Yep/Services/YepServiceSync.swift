@@ -534,6 +534,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
                         group.conversation?.messages.forEach { $0.readed = true }
                         group.conversation?.mentionedMe = false
+                        dispatch_async(dispatch_get_main_queue()) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        }
                     }
 
                 } else {
