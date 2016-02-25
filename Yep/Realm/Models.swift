@@ -760,7 +760,7 @@ class Conversation: Object {
 
     var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty }) ?? [])
+        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe }) ?? [])
 
         let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
 
