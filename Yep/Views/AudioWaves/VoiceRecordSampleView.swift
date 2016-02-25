@@ -71,6 +71,11 @@ class VoiceRecordSampleView: UIView {
         return view
     }()
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        println("deinit VoiceRecordSampleView")
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -103,6 +108,12 @@ class VoiceRecordSampleView: UIView {
 
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintH)
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintV)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadSampleCollectionView:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+    }
+
+    @objc private func reloadSampleCollectionView(notification: NSNotification) {
+        sampleCollectionView.reloadData()
     }
 
     func appendSampleValue(value: CGFloat) {
