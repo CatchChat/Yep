@@ -89,6 +89,7 @@ class ChatLeftImageCell: ChatBaseCell {
 
     var loadingProgress: Double = 0 {
         willSet {
+            /*
             if newValue == 1.0 {
                 loadingProgressView.hidden = true
 
@@ -96,6 +97,7 @@ class ChatLeftImageCell: ChatBaseCell {
                 loadingProgressView.progress = newValue
                 loadingProgressView.hidden = false
             }
+            */
         }
     }
 
