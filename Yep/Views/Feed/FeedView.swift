@@ -173,6 +173,7 @@ class FeedView: UIView {
     lazy var locationContainerView: FeedLocationContainerView = {
         let view = FeedLocationContainerView()
         view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.needCompressNameLabel = true
 
         view.translatesAutoresizingMaskIntoConstraints = false
         self.socialWorkContainerView.addSubview(view)
