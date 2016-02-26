@@ -139,10 +139,28 @@ class FeedView: UIView {
 
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
-    @IBOutlet weak var githubRepoContainerView: UIView!
-    @IBOutlet weak var githubRepoImageView: UIImageView!
-    @IBOutlet weak var githubRepoNameLabel: UILabel!
-    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+    lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
+        let view = FeedGithubRepoContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.accessoryImageView.hidden = true
+
+        view.userInteractionEnabled = false
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        
+        return view
+    }()
 
     @IBOutlet weak var voiceContainerView: UIView!
     @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
@@ -397,7 +415,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
 
@@ -405,12 +422,11 @@ class FeedView: UIView {
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
-            githubRepoNameLabel.text = feed.githubRepoName
-            githubRepoDescriptionLabel.text = feed.githubRepoDescription
+            githubRepoContainerView.nameLabel.text = feed.githubRepoName
+            githubRepoContainerView.descriptionLabel.text = feed.githubRepoDescription
 
             socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         case .DribbbleShot:
 
@@ -418,7 +434,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
 
@@ -437,7 +452,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
             locationContainerView.hidden = true
 
@@ -484,7 +498,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = false
 
