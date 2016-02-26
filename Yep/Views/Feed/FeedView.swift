@@ -467,6 +467,9 @@ class FeedView: UIView {
                 }
             }
 
+            let tap = UITapGestureRecognizer(target: self, action: "playOrPauseAudio:")
+            self.voiceContainerView.addGestureRecognizer(tap)
+
         case .Location:
 
             mediaCollectionView.hidden = true
@@ -610,7 +613,7 @@ class FeedView: UIView {
     }
     */
 
-    @IBAction func playOrPauseAudio(sender: UIButton) {
+    @IBAction func playOrPauseAudio(sender: AnyObject) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
             do {

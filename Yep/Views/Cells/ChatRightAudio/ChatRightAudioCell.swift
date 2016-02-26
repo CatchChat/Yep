@@ -42,6 +42,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
     lazy var sampleView: SampleView = {
         let view = SampleView()
         view.sampleColor = UIColor.rightWaveColor()
+        view.userInteractionEnabled = false
         return view
     }()
 
