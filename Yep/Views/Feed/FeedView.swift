@@ -170,9 +170,28 @@ class FeedView: UIView {
 
     @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var locationContainerView: UIView!
-    @IBOutlet weak var locationMapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
+    lazy var locationContainerView: FeedLocationContainerView = {
+        let view = FeedLocationContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
+        view.addGestureRecognizer(tapLocation)
+
+        return view
+    }()
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
@@ -282,9 +301,6 @@ class FeedView: UIView {
 
         let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
-
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
-        locationContainerView.addGestureRecognizer(tapLocation)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -416,7 +432,6 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = true
             voiceContainerView.hidden = true
-            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -435,7 +450,6 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = false
             voiceContainerView.hidden = true
-            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -453,7 +467,6 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = true
             voiceContainerView.hidden = false
-            locationContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -499,21 +512,23 @@ class FeedView: UIView {
 
             socialWorkImageView.hidden = true
             voiceContainerView.hidden = true
-            locationContainerView.hidden = false
-
-            socialWorkBorderImageView.hidden = false
 
             if let locationCoordinate = feed.locationCoordinate {
 
-                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationNameLabel.bounds.height)
+                locationContainerView.layoutIfNeeded()
+
+                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationContainerView.nameLabel.bounds.height)
+
                 ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
-                    self?.locationMapImageView.image = image
+                    self?.locationContainerView.mapImageView.image = image
                 })
             }
 
-            locationNameLabel.text = feed.locationName
+            locationContainerView.nameLabel.text = feed.locationName
+            locationContainerView.mapImageView.maskView = socialWorkHalfMaskImageView
 
-            locationMapImageView.maskView = socialWorkHalfMaskImageView
+            socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         default:
             break
