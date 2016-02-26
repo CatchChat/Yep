@@ -77,12 +77,19 @@ class ChatLeftImageCell: ChatBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageImageView.image = nil
+    }
+
     func tapMediaView() {
         mediaTapAction?()
     }
 
     var loadingProgress: Double = 0 {
         willSet {
+            /*
             if newValue == 1.0 {
                 loadingProgressView.hidden = true
 
@@ -90,6 +97,7 @@ class ChatLeftImageCell: ChatBaseCell {
                 loadingProgressView.progress = newValue
                 loadingProgressView.hidden = false
             }
+            */
         }
     }
 

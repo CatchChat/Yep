@@ -140,7 +140,7 @@ class ImageCache {
 
             let preloadingPropgress: Double = fileName.isEmpty ? 0.01 : 0.5
 
-            // 若可以，先显示 blurredThumbnailImage
+            // 若可以，先显示 blurredThumbnailImage, Video 仍然需要
 
             let thumbnailKey = "thumbnail" + imageKey
 
@@ -166,12 +166,14 @@ class ImageCache {
                             }
 
                         } else {
+                            /*
                             // 或放个默认的图片
                             let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
 
                             dispatch_async(dispatch_get_main_queue()) {
                                 completion(loadingProgress: preloadingPropgress, image: defaultImage)
                             }
+                            */
                         }
                     }
                 }
