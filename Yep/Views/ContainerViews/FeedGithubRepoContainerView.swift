@@ -40,6 +40,7 @@ class FeedGithubRepoContainerView: UIView {
         return label
     }()
 
+    var needShowAccessoryImageView: Bool = true
     lazy var accessoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_accessory_mini")
@@ -86,7 +87,13 @@ class FeedGithubRepoContainerView: UIView {
         NSLayoutConstraint.activateConstraints(backgroundH)
         NSLayoutConstraint.activateConstraints(backgroundV)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
+        let constraintsH: [NSLayoutConstraint]
+        if needShowAccessoryImageView {
+            constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
+        } else {
+            accessoryImageView.hidden = true
+            constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
+        }
 
         iconImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         accessoryImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
