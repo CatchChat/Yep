@@ -280,13 +280,13 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     var tranformedImage: UIImage?
                     if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
+                        /*
                         let image = UIImage(CGImage: cgImage)
                         if let imageTransform = progressReporter.tasks[i].imageTransform {
                             tranformedImage = imageTransform(image)
                         }
-                        /*
+                        */
                         let image = UIImage(CGImage: cgImage.yep_extendedCanvasCGImage)
-
                         if progressReporter.totalProgress < 1 {
                             let blurPercent = CGFloat(1 - progressReporter.totalProgress)
                             let radius = 5 * blurPercent
@@ -302,7 +302,6 @@ extension YepDownloader: NSURLSessionDataDelegate {
                                 }
                             }
                         }
-                        */
                     }
 
                     progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: tranformedImage)
