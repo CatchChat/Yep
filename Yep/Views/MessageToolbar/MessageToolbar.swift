@@ -274,10 +274,11 @@ class MessageToolbar: UIToolbar {
         let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["bottom": buttonBottom], views: viewsDictionary)
         let constraintsV3 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["bottom": buttonBottom], views: viewsDictionary)
 
-        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[messageTextView]-7-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let textContainerInset = messageTextView.textContainerInset
         let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
+        //println("messageTextViewHeight: \(constant)")
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
