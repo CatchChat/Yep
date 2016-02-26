@@ -158,11 +158,28 @@ class FeedView: UIView {
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
-    @IBOutlet weak var feedURLContainerView: FeedURLContainerView! {
-        didSet {
-            feedURLContainerView.compressionMode = true
-        }
-    }
+    lazy var feedURLContainerView: FeedURLContainerView = {
+        let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
+        view.compressionMode = true
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
+        view.addGestureRecognizer(tapURLInfo)
+
+        return view
+    }()
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
@@ -250,9 +267,6 @@ class FeedView: UIView {
 
         let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
         locationContainerView.addGestureRecognizer(tapLocation)
-
-        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
-        feedURLContainerView.addGestureRecognizer(tapURLInfo)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -353,15 +367,12 @@ class FeedView: UIView {
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
             voiceContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
         case .URL:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
             voiceContainerView.hidden = true
-
-            feedURLContainerView.hidden = false
 
             socialWorkBorderImageView.hidden = true
 
@@ -389,7 +400,6 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = false
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -411,7 +421,6 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -431,7 +440,6 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = false
             locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -479,7 +487,6 @@ class FeedView: UIView {
             githubRepoContainerView.hidden = true
             voiceContainerView.hidden = true
             locationContainerView.hidden = false
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
