@@ -270,8 +270,9 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     let progress = progressReporter.tasks[i].progress
                     let final = progress.completedUnitCount == progress.totalUnitCount
-                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
                     /*
+                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
+                    */
                     let imageSource = progressReporter.tasks[i].imageSource
                     let data = progressReporter.tasks[i].tempData
 
@@ -305,7 +306,6 @@ extension YepDownloader: NSURLSessionDataDelegate {
                     }
 
                     progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: tranformedImage)
-                    */
 
                     return final
                 }

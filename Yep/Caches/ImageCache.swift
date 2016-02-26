@@ -140,6 +140,7 @@ class ImageCache {
 
             let preloadingPropgress: Double = fileName.isEmpty ? 0.01 : 0.5
 
+            /*
             // 若可以，先显示 blurredThumbnailImage
 
             let thumbnailKey = "thumbnail" + imageKey
@@ -176,6 +177,7 @@ class ImageCache {
                     }
                 }
             }
+            */
 
             dispatch_async(self.cacheQueue) {
 
