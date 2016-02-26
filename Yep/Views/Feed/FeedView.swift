@@ -156,14 +156,6 @@ class FeedView: UIView {
         return view
     }()
 
-//    @IBOutlet weak var voiceContainerView: UIView!
-//    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-//    @IBOutlet weak var voicePlayButton: UIButton!
-//    @IBOutlet weak var voiceSampleView: SampleView!
-//    @IBOutlet weak var voiceTimeLabel: UILabel!
-//
-//    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
-
     weak var voiceContainerViewWidthConstraint: NSLayoutConstraint?
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
