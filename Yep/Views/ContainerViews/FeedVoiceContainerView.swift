@@ -57,6 +57,9 @@ class FeedVoiceContainerView: UIView {
         super.didMoveToSuperview()
 
         makeUI()
+
+        let tap = UITapGestureRecognizer(target: self, action: "playOrPauseAudio:")
+        self.addGestureRecognizer(tap)
     }
 
     private func makeUI() {
@@ -100,7 +103,7 @@ class FeedVoiceContainerView: UIView {
         NSLayoutConstraint.activateConstraints([playButtonCenterY])
     }
 
-    @objc private func playOrPauseAudio(sender: UIButton) {
+    @objc private func playOrPauseAudio(sender: AnyObject) {
         playOrPauseAudioAction?()
     }
 }
