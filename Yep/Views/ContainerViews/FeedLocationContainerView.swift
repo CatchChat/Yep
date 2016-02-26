@@ -37,6 +37,7 @@ class FeedLocationContainerView: UIView {
         return view
     }()
 
+    var needCompressNameLabel: Bool = false
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.lightGrayColor()
@@ -83,7 +84,12 @@ class FeedLocationContainerView: UIView {
         let constraintsH2 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
         let constraintsH3 = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(30)]|", options: [], metrics: nil, views: views)
+        let constraintsV: [NSLayoutConstraint]
+        if needCompressNameLabel {
+            constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(20)]|", options: [], metrics: nil, views: views)
+        } else {
+            constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(30)]|", options: [], metrics: nil, views: views)
+        }
 
         let horizontalLineViewH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
         let horizontalLineViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)

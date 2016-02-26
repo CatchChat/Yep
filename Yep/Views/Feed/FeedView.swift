@@ -24,13 +24,7 @@ class FeedView: UIView {
 
     var audioPlaying: Bool = false {
         willSet {
-            if newValue != audioPlaying {
-                if newValue {
-                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
-                } else {
-                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
-                }
-            }
+            self.voiceContainerView.audioPlaying = newValue
         }
     }
     var audioPlayedDuration: NSTimeInterval = 0 {
@@ -40,7 +34,7 @@ class FeedView: UIView {
             }
 
             if let (audioDuration, _) = feedAudio.audioMetaInfo {
-                voiceSampleView.progress = CGFloat(newValue / audioDuration)
+                self.voiceContainerView.voiceSampleView.progress = CGFloat(newValue / audioDuration)
             }
         }
     }
@@ -139,30 +133,112 @@ class FeedView: UIView {
 
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
-    @IBOutlet weak var githubRepoContainerView: UIView!
-    @IBOutlet weak var githubRepoImageView: UIImageView!
-    @IBOutlet weak var githubRepoNameLabel: UILabel!
-    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+    lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
+        let view = FeedGithubRepoContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.needShowAccessoryImageView = false
 
-    @IBOutlet weak var voiceContainerView: UIView!
-    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet weak var voicePlayButton: UIButton!
-    @IBOutlet weak var voiceSampleView: SampleView!
-    @IBOutlet weak var voiceTimeLabel: UILabel!
+        view.userInteractionEnabled = false
 
-    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
 
-    @IBOutlet weak var locationContainerView: UIView!
-    @IBOutlet weak var locationMapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        
+        return view
+    }()
+
+//    @IBOutlet weak var voiceContainerView: UIView!
+//    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
+//    @IBOutlet weak var voicePlayButton: UIButton!
+//    @IBOutlet weak var voiceSampleView: SampleView!
+//    @IBOutlet weak var voiceTimeLabel: UILabel!
+//
+//    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+
+    weak var voiceContainerViewWidthConstraint: NSLayoutConstraint?
+    lazy var voiceContainerView: FeedVoiceContainerView = {
+        let view = FeedVoiceContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let centerY = NSLayoutConstraint(item: view, attribute: .CenterY, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .Leading, multiplier: 1.0, constant: 0)
+
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .LessThanOrEqual, toItem: self.socialWorkContainerView, attribute: .Trailing, multiplier: 1.0, constant: 0)
+
+        let width = NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 160)
+
+        self.voiceContainerViewWidthConstraint = width
+
+        NSLayoutConstraint.activateConstraints([centerY, leading, trailing, width])
+
+        view.playOrPauseAudioAction = { [weak self] in
+            self?.playOrPauseAudio()
+        }
+
+        return view
+    }()
+
+    lazy var locationContainerView: FeedLocationContainerView = {
+        let view = FeedLocationContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.needCompressNameLabel = true
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
+        view.addGestureRecognizer(tapLocation)
+
+        return view
+    }()
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
-    @IBOutlet weak var feedURLContainerView: FeedURLContainerView! {
-        didSet {
-            feedURLContainerView.compressionMode = true
-        }
-    }
+    lazy var feedURLContainerView: FeedURLContainerView = {
+        let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
+        view.compressionMode = true
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
+        view.addGestureRecognizer(tapURLInfo)
+
+        return view
+    }()
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
@@ -247,12 +323,6 @@ class FeedView: UIView {
 
         let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
-
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
-        locationContainerView.addGestureRecognizer(tapLocation)
-
-        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
-        feedURLContainerView.addGestureRecognizer(tapURLInfo)
     }
 
     func switchFold(sender: UITapGestureRecognizer) {
@@ -352,16 +422,11 @@ class FeedView: UIView {
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
         case .URL:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
-            voiceContainerView.hidden = true
-
-            feedURLContainerView.hidden = false
 
             socialWorkBorderImageView.hidden = true
 
@@ -386,21 +451,16 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = false
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
-            githubRepoNameLabel.text = feed.githubRepoName
-            githubRepoDescriptionLabel.text = feed.githubRepoDescription
+            githubRepoContainerView.nameLabel.text = feed.githubRepoName
+            githubRepoContainerView.descriptionLabel.text = feed.githubRepoDescription
 
             socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         case .DribbbleShot:
 
@@ -408,10 +468,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -428,25 +484,20 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = false
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
             socialWorkContainerViewHeightConstraint.constant = 44
 
-            voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-            voicePlayButton.tintColor = UIColor.lightGrayColor()
-            voicePlayButton.tintAdjustmentMode = .Normal
-            voiceTimeLabel.textColor = UIColor.lightGrayColor()
-
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
-                voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                voiceTimeLabel.text = String(format: "%.1f\"", audioDuration)
-                voiceSampleView.samples = audioSampleValues
-                voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
+                voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                let timeLengthString = String(format: "%.1f\"", audioDuration)
+                voiceContainerView.timeLengthLabel.text = timeLengthString
+                voiceContainerView.voiceSampleView.samples = audioSampleValues
+
+                let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+                let width = 7 + 30 + 5 + CGFloat(audioSampleValues.count) * 3 + 5 + rect.width + 5
+                voiceContainerViewWidthConstraint?.constant = width
             }
 
             /*
@@ -467,33 +518,29 @@ class FeedView: UIView {
                 }
             }
 
-            let tap = UITapGestureRecognizer(target: self, action: "playOrPauseAudio:")
-            self.voiceContainerView.addGestureRecognizer(tap)
-
         case .Location:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = false
-            feedURLContainerView.hidden = true
-
-            socialWorkBorderImageView.hidden = false
 
             if let locationCoordinate = feed.locationCoordinate {
 
-                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationNameLabel.bounds.height)
+                locationContainerView.layoutIfNeeded()
+
+                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationContainerView.nameLabel.bounds.height)
+
                 ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
-                    self?.locationMapImageView.image = image
+                    self?.locationContainerView.mapImageView.image = image
                 })
             }
 
-            locationNameLabel.text = feed.locationName
+            locationContainerView.nameLabel.text = feed.locationName
+            locationContainerView.mapImageView.maskView = socialWorkHalfMaskImageView
 
-            locationMapImageView.maskView = socialWorkHalfMaskImageView
+            socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         default:
             break
@@ -613,7 +660,7 @@ class FeedView: UIView {
     }
     */
 
-    @IBAction func playOrPauseAudio(sender: AnyObject) {
+    private func playOrPauseAudio() {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
             do {
