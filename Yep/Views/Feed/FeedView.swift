@@ -164,6 +164,7 @@ class FeedView: UIView {
 //
 //    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
+    weak var voiceContainerViewWidthConstraint: NSLayoutConstraint?
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
         view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
@@ -177,7 +178,11 @@ class FeedView: UIView {
 
         let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .LessThanOrEqual, toItem: self.socialWorkContainerView, attribute: .Trailing, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([centerY, leading, trailing])
+        let width = NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 160)
+
+        self.voiceContainerViewWidthConstraint = width
+
+        NSLayoutConstraint.activateConstraints([centerY, leading, trailing, width])
 
         view.playOrPauseAudioAction = { [weak self] in
             self?.playOrPauseAudio()
@@ -486,9 +491,13 @@ class FeedView: UIView {
 
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                voiceContainerView.timeLengthLabel.text = String(format: "%.1f\"", audioDuration)
+                let timeLengthString = String(format: "%.1f\"", audioDuration)
+                voiceContainerView.timeLengthLabel.text = timeLengthString
                 voiceContainerView.voiceSampleView.samples = audioSampleValues
-                //voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
+
+                let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+                let width = 7 + 30 + 5 + CGFloat(audioSampleValues.count) * 3 + 5 + rect.width + 5
+                voiceContainerViewWidthConstraint?.constant = width
             }
 
             /*

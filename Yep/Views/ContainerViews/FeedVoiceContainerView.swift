@@ -41,6 +41,7 @@ class FeedVoiceContainerView: UIView {
         return button
     }()
 
+    weak var voiceSampleViewWidthConstraint: NSLayoutConstraint?
     lazy var voiceSampleView: SampleView = {
         let view = SampleView()
         return view
