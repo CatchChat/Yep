@@ -291,14 +291,10 @@ extension YepDownloader: NSURLSessionDataDelegate {
                             let blurPercent = CGFloat(1 - progressReporter.totalProgress)
                             let radius = 5 * blurPercent
                             let iterations = UInt(10 * blurPercent)
-                            println("radius: \(radius), iterations: \(iterations)")
+                            //println("radius: \(radius), iterations: \(iterations)")
                             if let blurredImage = image.blurredImageWithRadius(radius, iterations: iterations, tintColor: UIColor.clearColor()) {
                                 if let imageTransform = progressReporter.tasks[i].imageTransform {
                                     tranformedImage = imageTransform(blurredImage)
-                                    /*
-                                    if progressReporter.totalProgress > 0.3 {
-                                        print("imageTransform")
-                                    }*/
                                 }
                             }
                         }
