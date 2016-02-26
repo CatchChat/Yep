@@ -77,6 +77,12 @@ class ChatLeftImageCell: ChatBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageImageView.image = nil
+    }
+
     func tapMediaView() {
         mediaTapAction?()
     }
