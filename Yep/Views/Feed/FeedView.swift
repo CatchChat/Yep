@@ -24,13 +24,7 @@ class FeedView: UIView {
 
     var audioPlaying: Bool = false {
         willSet {
-            if newValue != audioPlaying {
-                if newValue {
-                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
-                } else {
-                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
-                }
-            }
+            self.voiceContainerView.audioPlaying = newValue
         }
     }
     var audioPlayedDuration: NSTimeInterval = 0 {
@@ -40,7 +34,7 @@ class FeedView: UIView {
             }
 
             if let (audioDuration, _) = feedAudio.audioMetaInfo {
-                voiceSampleView.progress = CGFloat(newValue / audioDuration)
+                self.voiceContainerView.voiceSampleView.progress = CGFloat(newValue / audioDuration)
             }
         }
     }
@@ -162,13 +156,35 @@ class FeedView: UIView {
         return view
     }()
 
-    @IBOutlet weak var voiceContainerView: UIView!
-    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet weak var voicePlayButton: UIButton!
-    @IBOutlet weak var voiceSampleView: SampleView!
-    @IBOutlet weak var voiceTimeLabel: UILabel!
+//    @IBOutlet weak var voiceContainerView: UIView!
+//    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
+//    @IBOutlet weak var voicePlayButton: UIButton!
+//    @IBOutlet weak var voiceSampleView: SampleView!
+//    @IBOutlet weak var voiceTimeLabel: UILabel!
+//
+//    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+    lazy var voiceContainerView: FeedVoiceContainerView = {
+        let view = FeedVoiceContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let centerY = NSLayoutConstraint(item: view, attribute: .CenterY, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .Leading, multiplier: 1.0, constant: 0)
+
+        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .LessThanOrEqual, toItem: self.socialWorkContainerView, attribute: .Trailing, multiplier: 1.0, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([centerY, leading, trailing])
+
+        view.playOrPauseAudioAction = { [weak self] in
+            self?.playOrPauseAudio()
+        }
+
+        return view
+    }()
 
     lazy var locationContainerView: FeedLocationContainerView = {
         let view = FeedLocationContainerView()
@@ -401,13 +417,11 @@ class FeedView: UIView {
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = true
 
         case .URL:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
-            voiceContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
@@ -432,7 +446,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            voiceContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -450,7 +463,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = false
-            voiceContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -467,22 +479,16 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            voiceContainerView.hidden = false
 
             socialWorkBorderImageView.hidden = true
 
             socialWorkContainerViewHeightConstraint.constant = 44
 
-            voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-            voicePlayButton.tintColor = UIColor.lightGrayColor()
-            voicePlayButton.tintAdjustmentMode = .Normal
-            voiceTimeLabel.textColor = UIColor.lightGrayColor()
-
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
-                voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                voiceTimeLabel.text = String(format: "%.1f\"", audioDuration)
-                voiceSampleView.samples = audioSampleValues
-                voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
+                voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                voiceContainerView.timeLengthLabel.text = String(format: "%.1f\"", audioDuration)
+                voiceContainerView.voiceSampleView.samples = audioSampleValues
+                //voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
             }
 
             /*
@@ -503,16 +509,12 @@ class FeedView: UIView {
                 }
             }
 
-            let tap = UITapGestureRecognizer(target: self, action: "playOrPauseAudio:")
-            self.voiceContainerView.addGestureRecognizer(tap)
-
         case .Location:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            voiceContainerView.hidden = true
 
             if let locationCoordinate = feed.locationCoordinate {
 
@@ -649,7 +651,7 @@ class FeedView: UIView {
     }
     */
 
-    @IBAction func playOrPauseAudio(sender: AnyObject) {
+    private func playOrPauseAudio() {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
             do {
