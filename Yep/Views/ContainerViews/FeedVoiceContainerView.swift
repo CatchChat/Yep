@@ -10,6 +10,11 @@ import UIKit
 
 class FeedVoiceContainerView: UIView {
 
+    class func fullWidthWithSampleValuesCount(count: Int, timeLengthString: String) -> CGFloat {
+        let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+        return 10 + 30 + 5 + CGFloat(count) * 3 + 5 + rect.width + 10
+    }
+
     var playOrPauseAudioAction: (() -> Void)?
 
     var audioPlaying: Bool = false {
@@ -26,7 +31,7 @@ class FeedVoiceContainerView: UIView {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "bubble_body")
+        imageView.image = UIImage(named: "feed_audio_bubble")
         imageView.tintColor = UIColor.leftBubbleTintColor()
         return imageView
     }()
@@ -88,14 +93,14 @@ class FeedVoiceContainerView: UIView {
         NSLayoutConstraint.activateConstraints(bubbleImageViewH)
         NSLayoutConstraint.activateConstraints(bubbleImageViewV)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-7-[playButton]-5-[voiceSampleView]-5-[timeLengthLabel]-5-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[playButton]-5-[voiceSampleView]-5-[timeLengthLabel]-10-|", options: [.AlignAllCenterY], metrics: nil, views: views)
 
         playButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
         timeLengthLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
 
-        let voiceSampleViewHeight = NSLayoutConstraint(item: voiceSampleView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 40)
+        let voiceSampleViewHeight = NSLayoutConstraint(item: voiceSampleView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 50)
 
         NSLayoutConstraint.activateConstraints([voiceSampleViewHeight])
 

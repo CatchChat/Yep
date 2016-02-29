@@ -85,7 +85,7 @@ class FeedVoiceCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let height = super.heightOfFeed(feed) + (44 + 15)
+        let height = super.heightOfFeed(feed) + (50 + 15)
 
         return ceil(height)
     }
@@ -110,11 +110,9 @@ class FeedVoiceCell: FeedBasicCell {
                     voiceContainerView.frame = audioLayout.voiceContainerViewFrame
 
                 } else {
-                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
-
-                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
-                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 40)
+                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 50)
                 }
 
                 if let realm = try? Realm() {

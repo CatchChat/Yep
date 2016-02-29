@@ -487,8 +487,7 @@ class FeedView: UIView {
                 voiceContainerView.timeLengthLabel.text = timeLengthString
                 voiceContainerView.voiceSampleView.samples = audioSampleValues
 
-                let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
-                let width = 7 + 30 + 5 + CGFloat(audioSampleValues.count) * 3 + 5 + rect.width + 5
+                let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioSampleValues.count, timeLengthString: timeLengthString)
                 voiceContainerViewWidthConstraint?.constant = width
             }
 
