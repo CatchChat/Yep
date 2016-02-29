@@ -997,8 +997,10 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                                                     let _ = try? realm.commitWrite()
 
+                                                    realm.refresh()
+
                                                     dispatch_async(dispatch_get_main_queue()) {
-                                                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                                                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
                                                     }
                                                 }
                                             })
