@@ -288,7 +288,7 @@ struct FeedCellLayout {
 
             if let attachment = feed.attachment {
                 if case let .Audio(audioInfo) = attachment {
-                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
+                    let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                     let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = beginY + 2
                     let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 50)

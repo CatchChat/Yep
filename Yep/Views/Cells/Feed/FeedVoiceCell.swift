@@ -103,7 +103,7 @@ class FeedVoiceCell: FeedBasicCell {
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
                 voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
 
-                let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
+                let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                 voiceContainerView.timeLengthLabel.text = timeLengthString
 
                 if let audioLayout = layoutCache.layout?.audioLayout {

@@ -481,7 +481,7 @@ class FeedView: UIView {
 
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                let timeLengthString = String(format: "%.1f\"", audioDuration)
+                let timeLengthString = audioDuration.yep_feedAudioTimeLengthString
                 voiceContainerView.timeLengthLabel.text = timeLengthString
                 voiceContainerView.voiceSampleView.samples = audioSampleValues
 
