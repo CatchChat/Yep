@@ -110,6 +110,8 @@ class ConversationsViewController: SegueViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.changedConversation, object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsDock", name: YepConfig.Notification.changedFeedConversation, object: nil)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.markAsReaded, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.updatedUser, object: nil)
@@ -352,7 +354,6 @@ class ConversationsViewController: SegueViewController {
         }
     }
 
-    /*
     @objc private func reloadFeedConversationsDock() {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             let sectionIndex = Section.FeedConversation.rawValue
@@ -363,7 +364,6 @@ class ConversationsViewController: SegueViewController {
             self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
         }
     }
-    */
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegat
