@@ -1215,7 +1215,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
     // update feed
 
-    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+    //println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
 
     feed.kind = feedData.kind.rawValue
     feed.deleted = false
