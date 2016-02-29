@@ -168,13 +168,11 @@ class FeedView: UIView {
 
         let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .Leading, multiplier: 1.0, constant: 0)
 
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .LessThanOrEqual, toItem: self.socialWorkContainerView, attribute: .Trailing, multiplier: 1.0, constant: 0)
-
         let width = NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 160)
 
         self.voiceContainerViewWidthConstraint = width
 
-        NSLayoutConstraint.activateConstraints([centerY, leading, trailing, width])
+        NSLayoutConstraint.activateConstraints([centerY, leading, width])
 
         view.playOrPauseAudioAction = { [weak self] in
             self?.playOrPauseAudio()
@@ -483,12 +481,11 @@ class FeedView: UIView {
 
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                let timeLengthString = String(format: "%.1f\"", audioDuration)
+                let timeLengthString = audioDuration.yep_feedAudioTimeLengthString
                 voiceContainerView.timeLengthLabel.text = timeLengthString
                 voiceContainerView.voiceSampleView.samples = audioSampleValues
 
-                let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
-                let width = 7 + 30 + 5 + CGFloat(audioSampleValues.count) * 3 + 5 + rect.width + 5
+                let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioSampleValues.count, timeLengthString: timeLengthString)
                 voiceContainerViewWidthConstraint?.constant = width
             }
 
