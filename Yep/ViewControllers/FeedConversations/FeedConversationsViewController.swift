@@ -206,13 +206,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     let _ = try? realm.commitWrite()
 
                     realm.refresh()
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    
-                    delay(0.1, work: { () -> Void in
+
+                    delay(0.1) {
                         tableView.setEditing(false, animated: true)
                         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    })
+
+                        // 延迟一些再发通知，避免影响 tableView 的删除
+                        delay(0.5) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        }
+                    }
                 }
             }
             
