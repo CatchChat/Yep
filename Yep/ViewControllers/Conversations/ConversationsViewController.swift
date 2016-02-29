@@ -347,10 +347,23 @@ class ConversationsViewController: SegueViewController {
     // MARK: Actions
 
     @objc private func reloadConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.conversationsTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.conversationsTableView.reloadData()
         }
     }
+
+    /*
+    @objc private func reloadFeedConversationsDock() {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            let sectionIndex = Section.FeedConversation.rawValue
+            guard self?.conversationsTableView.numberOfSections ?? 0 > sectionIndex else {
+                return
+            }
+
+            self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
+        }
+    }
+    */
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegat
