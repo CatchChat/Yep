@@ -168,13 +168,11 @@ class FeedView: UIView {
 
         let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .Leading, multiplier: 1.0, constant: 0)
 
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .LessThanOrEqual, toItem: self.socialWorkContainerView, attribute: .Trailing, multiplier: 1.0, constant: 0)
-
         let width = NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 160)
 
         self.voiceContainerViewWidthConstraint = width
 
-        NSLayoutConstraint.activateConstraints([centerY, leading, trailing, width])
+        NSLayoutConstraint.activateConstraints([centerY, leading, width])
 
         view.playOrPauseAudioAction = { [weak self] in
             self?.playOrPauseAudio()
