@@ -18,7 +18,7 @@ class FeedVoiceContainerView: UIView {
                 if newValue {
                     playButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
                 } else {
-                    playButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                    playButton.setImage(UIImage(named: "icon_playvideo"), forState: .Normal)
                 }
             }
         }
@@ -33,7 +33,7 @@ class FeedVoiceContainerView: UIView {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_play"), forState: .Normal)
+        button.setImage(UIImage(named: "icon_playvideo"), forState: .Normal)
         button.tintColor = UIColor.lightGrayColor()
         button.tintAdjustmentMode = .Normal
 
