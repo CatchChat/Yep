@@ -156,7 +156,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         application.applicationIconBadgeNumber = -1
-        application.applicationIconBadgeNumber = 0
 
         /*
         if YepUserDefaults.isLogined {
