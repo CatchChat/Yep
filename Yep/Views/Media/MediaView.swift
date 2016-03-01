@@ -11,6 +11,8 @@ import AVFoundation
 
 class MediaView: UIView {
 
+    var tapToDismissAction: (() -> Void)?
+
     func updateImageViewWithImage(image: UIImage) {
 
         scrollView.frame = UIScreen.mainScreen().bounds
@@ -95,6 +97,22 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
+
+        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapToZoom:")
+        doubleTap.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTap)
+
+        let tap = UITapGestureRecognizer(target: self, action: "tapToDismiss:")
+        tap.requireGestureRecognizerToFail(doubleTap)
+        addGestureRecognizer(tap)
+    }
+
+    @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
+        println("doubleTap")
+    }
+
+    @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
+        tapToDismissAction?()
     }
 
     override func layoutSubviews() {
