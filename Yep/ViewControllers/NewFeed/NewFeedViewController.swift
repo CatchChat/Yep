@@ -783,15 +783,7 @@ class NewFeedViewController: SegueViewController {
                             uploadedAttachments.append(uploadedAttachment)
                         }
                     }
-//                    operation.completionBlock = {
-//                        if let uploadedAttachment = operation.uploadedAttachment {
-//                            println("uploadedAttachment: \(uploadedAttachment)")
-//                            uploadedAttachments.append(uploadedAttachment)
-//                        }
-//                        if let _uploadErrorMessage = operation.uploadErrorMessage {
-//                            uploadErrorMessage = _uploadErrorMessage
-//                        }
-//                    }
+
                     uploadAttachmentOperations.append(operation)
                 }
             })

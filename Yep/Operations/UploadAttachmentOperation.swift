@@ -19,10 +19,6 @@ class UploadAttachmentOperation: ConcurrentOperation {
     typealias Completion = (result: Result) -> Void
     private let completion: Completion
 
-    //var uploadErrorMessage: String?
-    //var uploadedAttachment: UploadedAttachment?
-
-
     init(uploadAttachment: UploadAttachment, completion: Completion) {
 
         self.uploadAttachment = uploadAttachment
@@ -36,13 +32,12 @@ class UploadAttachmentOperation: ConcurrentOperation {
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-            //self?.uploadErrorMessage = errorMessage
+
             self?.completion(result: .Failed(errorMessage: errorMessage))
 
             self?.state = .Finished
 
         }, completion: { [weak self] uploadedAttachment in
-            //self?.uploadedAttachment = uploadedAttachment
             self?.completion(result: .Success(uploadedAttachment: uploadedAttachment))
 
             self?.state = .Finished
