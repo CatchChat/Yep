@@ -11,12 +11,22 @@ import Foundation
 class UploadAttachmentOperation: ConcurrentOperation {
 
     private let uploadAttachment: UploadAttachment
-    var uploadErrorMessage: String?
-    var uploadedAttachment: UploadedAttachment?
 
-    init(uploadAttachment: UploadAttachment) {
+    enum Result {
+        case Failed(errorMessage: String?)
+        case Success(uploadedAttachment: UploadedAttachment)
+    }
+    typealias Completion = (result: Result) -> Void
+    private let completion: Completion
+
+    //var uploadErrorMessage: String?
+    //var uploadedAttachment: UploadedAttachment?
+
+
+    init(uploadAttachment: UploadAttachment, completion: Completion) {
 
         self.uploadAttachment = uploadAttachment
+        self.completion = completion
 
         super.init()
     }
@@ -26,12 +36,14 @@ class UploadAttachmentOperation: ConcurrentOperation {
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-            self?.uploadErrorMessage = errorMessage
+            //self?.uploadErrorMessage = errorMessage
+            self?.completion(result: .Failed(errorMessage: errorMessage))
 
             self?.state = .Finished
 
         }, completion: { [weak self] uploadedAttachment in
-            self?.uploadedAttachment = uploadedAttachment
+            //self?.uploadedAttachment = uploadedAttachment
+            self?.completion(result: .Success(uploadedAttachment: uploadedAttachment))
 
             self?.state = .Finished
         })

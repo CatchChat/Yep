@@ -773,16 +773,25 @@ class NewFeedViewController: SegueViewController {
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
-                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment)
-                    operation.completionBlock = {
-                        if let uploadedAttachment = operation.uploadedAttachment {
-                            println("uploadedAttachment: \(uploadedAttachment)")
+                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
+                        switch result {
+                        case .Failed(let errorMessage):
+                            if let errorMessage = errorMessage {
+                                uploadErrorMessage = errorMessage
+                            }
+                        case .Success(let uploadedAttachment):
                             uploadedAttachments.append(uploadedAttachment)
                         }
-                        if let _uploadErrorMessage = operation.uploadErrorMessage {
-                            uploadErrorMessage = _uploadErrorMessage
-                        }
                     }
+//                    operation.completionBlock = {
+//                        if let uploadedAttachment = operation.uploadedAttachment {
+//                            println("uploadedAttachment: \(uploadedAttachment)")
+//                            uploadedAttachments.append(uploadedAttachment)
+//                        }
+//                        if let _uploadErrorMessage = operation.uploadErrorMessage {
+//                            uploadErrorMessage = _uploadErrorMessage
+//                        }
+//                    }
                     uploadAttachmentOperations.append(operation)
                 }
             })
