@@ -107,10 +107,13 @@ class MediaView: UIView {
         addGestureRecognizer(tap)
     }
 
+    var inTapZoom: Bool = false
+
     @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
         println("doubleTap")
+        inTapZoom = true
         let zoomPoint = sender.locationInView(scrollView)
-        scrollView.yep_zoomToPoint(zoomPoint, withScale: 1.5, animated: true)
+        scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
     }
 
     @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
@@ -210,6 +213,11 @@ extension MediaView: UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(scrollView: UIScrollView) {
+        if inTapZoom {
+            inTapZoom = false
+            return
+        }
+
         if let image = image {
             recenterImage(image)
         }

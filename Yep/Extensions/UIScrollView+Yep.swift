@@ -21,9 +21,14 @@ extension UIScrollView {
         setContentOffset(topPoint, animated: true)
     }
 
+    /*
     func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
 
         println("-zoomPoint: \(zoomPoint)")
+        println("-self.contentSize: \(self.contentSize)")
+        println("-self.contentOffset: \(self.contentOffset)")
+        println("-self.contentInset: \(self.contentInset)")
+        println("-self.zoomScale: \(self.zoomScale)")
 
         let contentSize = CGSize(
             width: self.contentSize.width / self.zoomScale,
@@ -53,5 +58,46 @@ extension UIScrollView {
 
         self.zoomToRect(zoomRect, animated: animated)
     }
+    */
+
+    ///*
+    func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
+
+        var scale = min(scale, maximumZoomScale)
+        scale = max(scale, minimumZoomScale)
+
+        let zoomFactor = 1.0 / self.zoomScale
+
+        let translatedZoomPoint = CGPoint(
+            x: (zoomPoint.x + self.contentOffset.x) * zoomFactor,
+            y: (zoomPoint.y + self.contentOffset.y) * zoomFactor
+        )
+
+        let destinationRectWidth = self.bounds.width / scale
+        let destinationRectHeight = self.bounds.height / scale
+        let destinationRect = CGRect(
+            x: translatedZoomPoint.x - destinationRectWidth * 0.5,
+            y: translatedZoomPoint.y - destinationRectHeight * 0.5,
+            width: destinationRectWidth,
+            height: destinationRectHeight
+        )
+
+        self.zoomToRect(destinationRect, animated: animated)
+
+        /*
+        if animated {
+            UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 01.0, initialSpringVelocity: 0.6, options: [.AllowUserInteraction], animations: { _ in
+                self.zoomToRect(destinationRect, animated: animated)
+            }, completion: { finished in
+                if let delegate = self.delegate where delegate.respondsToSelector("scrollViewDidEndZooming:withView:atScale:") {
+                    delegate.scrollViewDidEndZooming!(self, withView: delegate.viewForZoomingInScrollView!(self), atScale: scale)
+                }
+            })
+        } else {
+            self.zoomToRect(destinationRect, animated: false)
+        }
+        */
+    }
+    //*/
 }
 
