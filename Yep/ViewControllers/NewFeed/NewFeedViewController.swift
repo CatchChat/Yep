@@ -744,7 +744,7 @@ class NewFeedViewController: SegueViewController {
 
             let uploadImagesQueue = NSOperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
-            var uploadAttachmentIDs = [String]()
+            var uploadedAttachments = [UploadedAttachment]()
             var uploadErrorMessage: String?
 
             mediaImages.forEach({ image in
@@ -775,8 +775,9 @@ class NewFeedViewController: SegueViewController {
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment)
                     operation.completionBlock = {
-                        if let uploadAttachmentID = operation.uploadAttachmentID {
-                            uploadAttachmentIDs.append(uploadAttachmentID)
+                        if let uploadedAttachment = operation.uploadedAttachment {
+                            println("uploadedAttachment: \(uploadedAttachment)")
+                            uploadedAttachments.append(uploadedAttachment)
                         }
                         if let _uploadErrorMessage = operation.uploadErrorMessage {
                             uploadErrorMessage = _uploadErrorMessage
@@ -797,9 +798,10 @@ class NewFeedViewController: SegueViewController {
 
             let uploadFinishOperation = NSBlockOperation { [weak self] in
 
-                guard uploadAttachmentIDs.count == mediaImagesCount else {
+                guard uploadedAttachments.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
 
+                    println("uploadedAttachments.count == mediaImagesCount: \(uploadedAttachments.count), \(mediaImagesCount)")
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         self?.uploadState = .Failed(message: message)
                     }
@@ -807,10 +809,10 @@ class NewFeedViewController: SegueViewController {
                     return
                 }
 
-                if !uploadAttachmentIDs.isEmpty {
+                if !uploadedAttachments.isEmpty {
 
-                    let imageInfos: [JSONDictionary] = uploadAttachmentIDs.map({
-                        ["id": $0]
+                    let imageInfos: [JSONDictionary] = uploadedAttachments.map({
+                        ["id": $0.ID]
                     })
 
                     attachments = imageInfos
@@ -913,10 +915,10 @@ class NewFeedViewController: SegueViewController {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
 
-            }, completion: { uploadAttachmentID in
+            }, completion: { uploadedAttachment in
 
                 let audioInfo: JSONDictionary = [
-                    "id": uploadAttachmentID
+                    "id": uploadedAttachment.ID
                 ]
 
                 attachments = [audioInfo]

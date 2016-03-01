@@ -12,7 +12,7 @@ class UploadAttachmentOperation: ConcurrentOperation {
 
     private let uploadAttachment: UploadAttachment
     var uploadErrorMessage: String?
-    var uploadAttachmentID: String?
+    var uploadedAttachment: UploadedAttachment?
 
     init(uploadAttachment: UploadAttachment) {
 
@@ -30,8 +30,8 @@ class UploadAttachmentOperation: ConcurrentOperation {
 
             self?.state = .Finished
 
-        }, completion: { [weak self] uploadAttachmentID in
-            self?.uploadAttachmentID = uploadAttachmentID
+        }, completion: { [weak self] uploadedAttachment in
+            self?.uploadedAttachment = uploadedAttachment
 
             self?.state = .Finished
         })
