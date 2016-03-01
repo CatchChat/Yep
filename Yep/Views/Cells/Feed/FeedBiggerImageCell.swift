@@ -71,6 +71,7 @@ class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let onlyAttachment = feed.imageAttachments?.first {
+
             if onlyAttachment.isTemporary {
                 biggerImageView.image = onlyAttachment.image
 

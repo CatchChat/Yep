@@ -822,6 +822,38 @@ class NewFeedViewController: SegueViewController {
                 }
                 
                 tryCreateFeed()
+
+                // pre cache mediaImages
+
+                if let strongSelf = self {
+
+                    let bigger = (strongSelf.mediaImages.count == 1)
+
+                    for i in 0..<strongSelf.mediaImages.count {
+
+                        let image = strongSelf.mediaImages[i]
+                        let URLString = uploadedAttachments[i].URLString
+
+                        do {
+                            let sideLength: CGFloat
+                            if bigger {
+                               sideLength = YepConfig.FeedBiggerImageCell.imageSize.width
+                            } else {
+                               sideLength = YepConfig.FeedNormalImagesCell.imageSize.width
+                            }
+                            let scaledKey = ImageCache.attachmentSideLengthKeyWithURLString(URLString, sideLength: sideLength)
+                            let scaledImage = image.scaleToMinSideLength(sideLength)
+                            let scaledData = UIImageJPEGRepresentation(image, 1.0)
+                            Kingfisher.ImageCache.defaultCache.storeImage(scaledImage, originalData: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
+                        }
+
+                        do {
+                            let originalKey = ImageCache.attachmentOriginKeyWithURLString(URLString)
+                            let originalData = UIImageJPEGRepresentation(image, 1.0)
+                            Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
+                        }
+                    }
+                }
             }
 
             if let lastUploadAttachmentOperation = uploadAttachmentOperations.last {
