@@ -1465,7 +1465,12 @@ struct UploadAttachment {
     let metaDataString: String?
 }
 
-func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: FailureHandler?, completion: String -> Void) {
+struct UploadedAttachment {
+    let ID: String
+    let URLString: String
+}
+
+func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: FailureHandler?, completion: UploadedAttachment -> Void) {
 
     guard let token = YepUserDefaults.v1AccessToken.value else {
         println("uploadAttachment no token")
@@ -1523,13 +1528,17 @@ func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: Fai
                 println("tryUploadAttachment json: \(json)")
 
                 guard let
-                    uploadAttachmentID = json["id"] as? String
+                    attachmentID = json["id"] as? String,
+                    fileInfo = json["file"] as? JSONDictionary,
+                    attachmentURLString = fileInfo["url"] as? String
                 else {
                     failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
                     return
                 }
 
-                completion(uploadAttachmentID)
+                let uploadedAttachment = UploadedAttachment(ID: attachmentID, URLString: attachmentURLString)
+
+                completion(uploadedAttachment)
             })
             
         case .Failure(let encodingError):
@@ -2234,9 +2243,9 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
             let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
 
-            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadAttachmentID in
+            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadedAttachment in
 
-                messageInfo["attachment_id"] = uploadAttachmentID
+                messageInfo["attachment_id"] = uploadedAttachment.ID
 
                 let doCreateMessage = {
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in

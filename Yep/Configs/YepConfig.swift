@@ -259,7 +259,7 @@ class YepConfig {
         static let thumbnailString = "thumbnail_string"
         static let blurredThumbnailString = "blurred_thumbnail_string"
 
-        static let thumbnailMaxSize: CGFloat = 100
+        static let thumbnailMaxSize: CGFloat = 60
     }
 
     struct Media {

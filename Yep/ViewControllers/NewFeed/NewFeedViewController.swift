@@ -620,7 +620,7 @@ class NewFeedViewController: SegueViewController {
             break
         }
 
-        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: feedAttachment, distance: 0, skill: nil, groupID: "", messagesCount: 0, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, attachment: feedAttachment, distance: 0, skill: pickedSkill, groupID: "", messagesCount: 0, uploadingErrorMessage: nil)
     }
 
     @objc private func post(sender: UIBarButtonItem) {
@@ -744,7 +744,7 @@ class NewFeedViewController: SegueViewController {
 
             let uploadImagesQueue = NSOperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
-            var uploadAttachmentIDs = [String]()
+            var uploadedAttachments = [UploadedAttachment]()
             var uploadErrorMessage: String?
 
             mediaImages.forEach({ image in
@@ -773,15 +773,17 @@ class NewFeedViewController: SegueViewController {
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
-                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment)
-                    operation.completionBlock = {
-                        if let uploadAttachmentID = operation.uploadAttachmentID {
-                            uploadAttachmentIDs.append(uploadAttachmentID)
-                        }
-                        if let _uploadErrorMessage = operation.uploadErrorMessage {
-                            uploadErrorMessage = _uploadErrorMessage
+                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
+                        switch result {
+                        case .Failed(let errorMessage):
+                            if let errorMessage = errorMessage {
+                                uploadErrorMessage = errorMessage
+                            }
+                        case .Success(let uploadedAttachment):
+                            uploadedAttachments.append(uploadedAttachment)
                         }
                     }
+
                     uploadAttachmentOperations.append(operation)
                 }
             })
@@ -797,9 +799,10 @@ class NewFeedViewController: SegueViewController {
 
             let uploadFinishOperation = NSBlockOperation { [weak self] in
 
-                guard uploadAttachmentIDs.count == mediaImagesCount else {
+                guard uploadedAttachments.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
 
+                    println("uploadedAttachments.count == mediaImagesCount: \(uploadedAttachments.count), \(mediaImagesCount)")
                     NSOperationQueue.mainQueue().addOperationWithBlock {
                         self?.uploadState = .Failed(message: message)
                     }
@@ -807,10 +810,10 @@ class NewFeedViewController: SegueViewController {
                     return
                 }
 
-                if !uploadAttachmentIDs.isEmpty {
+                if !uploadedAttachments.isEmpty {
 
-                    let imageInfos: [JSONDictionary] = uploadAttachmentIDs.map({
-                        ["id": $0]
+                    let imageInfos: [JSONDictionary] = uploadedAttachments.map({
+                        ["id": $0.ID]
                     })
 
                     attachments = imageInfos
@@ -819,6 +822,38 @@ class NewFeedViewController: SegueViewController {
                 }
                 
                 tryCreateFeed()
+
+                // pre cache mediaImages
+
+                if let strongSelf = self {
+
+                    let bigger = (strongSelf.mediaImages.count == 1)
+
+                    for i in 0..<strongSelf.mediaImages.count {
+
+                        let image = strongSelf.mediaImages[i]
+                        let URLString = uploadedAttachments[i].URLString
+
+                        do {
+                            let sideLength: CGFloat
+                            if bigger {
+                               sideLength = YepConfig.FeedBiggerImageCell.imageSize.width
+                            } else {
+                               sideLength = YepConfig.FeedNormalImagesCell.imageSize.width
+                            }
+                            let scaledKey = ImageCache.attachmentSideLengthKeyWithURLString(URLString, sideLength: sideLength)
+                            let scaledImage = image.scaleToMinSideLength(sideLength)
+                            let scaledData = UIImageJPEGRepresentation(image, 1.0)
+                            Kingfisher.ImageCache.defaultCache.storeImage(scaledImage, originalData: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
+                        }
+
+                        do {
+                            let originalKey = ImageCache.attachmentOriginKeyWithURLString(URLString)
+                            let originalData = UIImageJPEGRepresentation(image, 1.0)
+                            Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
+                        }
+                    }
+                }
             }
 
             if let lastUploadAttachmentOperation = uploadAttachmentOperations.last {
@@ -913,10 +948,10 @@ class NewFeedViewController: SegueViewController {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
 
-            }, completion: { uploadAttachmentID in
+            }, completion: { uploadedAttachment in
 
                 let audioInfo: JSONDictionary = [
-                    "id": uploadAttachmentID
+                    "id": uploadedAttachment.ID
                 ]
 
                 attachments = [audioInfo]
