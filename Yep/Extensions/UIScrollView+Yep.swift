@@ -63,8 +63,15 @@ extension UIScrollView {
     ///*
     func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
 
+        println("-zoomPoint: \(zoomPoint)")
+        println("-self.contentSize: \(self.contentSize)")
+        println("-self.contentOffset: \(self.contentOffset)")
+        println("-self.contentInset: \(self.contentInset)")
+        println("-self.zoomScale: \(self.zoomScale)")
+
         var scale = min(scale, maximumZoomScale)
         scale = max(scale, minimumZoomScale)
+        println("scale: \(scale)")
 
         let zoomFactor = 1.0 / self.zoomScale
 
@@ -72,6 +79,7 @@ extension UIScrollView {
             x: (zoomPoint.x + self.contentOffset.x) * zoomFactor,
             y: (zoomPoint.y + self.contentOffset.y) * zoomFactor
         )
+        println("translatedZoomPoint: \(translatedZoomPoint)")
 
         let destinationRectWidth = self.bounds.width / scale
         let destinationRectHeight = self.bounds.height / scale
@@ -81,8 +89,14 @@ extension UIScrollView {
             width: destinationRectWidth,
             height: destinationRectHeight
         )
+        println("destinationRect: \(destinationRect)")
 
         self.zoomToRect(destinationRect, animated: animated)
+
+        println("-self.contentSize: \(self.contentSize)")
+        println("-self.contentOffset: \(self.contentOffset)")
+        println("-self.contentInset: \(self.contentInset)")
+        println("-self.zoomScale: \(self.zoomScale)")
 
         /*
         if animated {
