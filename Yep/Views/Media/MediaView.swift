@@ -11,6 +11,8 @@ import AVFoundation
 
 class MediaView: UIView {
 
+    var tapToDismissAction: (() -> Void)?
+
     func updateImageViewWithImage(image: UIImage) {
 
         scrollView.frame = UIScreen.mainScreen().bounds
@@ -95,6 +97,26 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
+
+        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapToZoom:")
+        doubleTap.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTap)
+
+        let tap = UITapGestureRecognizer(target: self, action: "tapToDismiss:")
+        tap.requireGestureRecognizerToFail(doubleTap)
+        addGestureRecognizer(tap)
+    }
+
+    var inTapZoom: Bool = false
+
+    @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
+        inTapZoom = true
+        let zoomPoint = sender.locationInView(self)
+        scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
+    }
+
+    @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
+        tapToDismissAction?()
     }
 
     override func layoutSubviews() {
@@ -190,6 +212,11 @@ extension MediaView: UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(scrollView: UIScrollView) {
+        if inTapZoom {
+            inTapZoom = false
+            return
+        }
+
         if let image = image {
             recenterImage(image)
         }

@@ -181,9 +181,6 @@ class MediaPreviewViewController: UIViewController {
             })
         })
 
-        let tap = UITapGestureRecognizer(target: self, action: "dismiss")
-        view.addGestureRecognizer(tap)
-
         let swipeUp = UISwipeGestureRecognizer(target: self, action: "dismiss")
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
@@ -476,6 +473,10 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
         if let cell = cell as? MediaViewCell {
             let previewMedia = previewMedias[indexPath.item]
             configureCell(cell, withPreviewMedia: previewMedia)
+
+            cell.mediaView.tapToDismissAction = { [weak self] in
+                self?.dismiss()
+            }
         }
     }
 
