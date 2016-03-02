@@ -203,7 +203,9 @@ class ActionSheetView: UIView {
     }
 
     func refreshItems() {
-        tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 
     private var tableViewBottomConstraint: NSLayoutConstraint?

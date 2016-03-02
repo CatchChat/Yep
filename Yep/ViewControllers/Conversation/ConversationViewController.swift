@@ -433,6 +433,9 @@ class ConversationViewController: BaseViewController {
         )
     }
 
+    private var moreViewUpdateDoNotDisturbAction: ((notificationEnabled: Bool) -> Void)?
+    private var moreViewUpdateBlockAction: ((blocked: Bool) -> Void)?
+    private var moreViewUpdatePushNotificationsAction: ((notificationEnabled: Bool) -> Void)?
     private lazy var moreView: ActionSheetView = {
 
         let cancelItem = ActionSheetView.Item.Cancel
@@ -466,12 +469,26 @@ class ConversationViewController: BaseViewController {
                 ]
             )
 
-            let userID = user.userID
+            do {
+                self.moreViewUpdateDoNotDisturbAction = { [weak self] notificationEnabled in
+                    guard let strongSelf = self else { return }
+                    strongSelf.moreView.items[1] = strongSelf.makeDoNotDisturbItem(notificationEnabled: notificationEnabled)
+                    strongSelf.moreView.refreshItems()
+                }
 
-            settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-                self?.updateBlocked(blocked, forUserWithUserID: userID)
-            })
+                self.moreViewUpdateBlockAction = { [weak self] blocked in
+                    guard let strongSelf = self else { return }
+                    strongSelf.moreView.items[3] = strongSelf.makeBlockItem(blocked: blocked)
+                    strongSelf.moreView.refreshItems()
+                }
+
+                let userID = user.userID
+
+                settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
+                    self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+                    self?.updateBlocked(blocked, forUserWithUserID: userID)
+                })
+            }
 
         } else if let group = self.conversation.withGroup {
 
@@ -518,11 +535,19 @@ class ConversationViewController: BaseViewController {
                 ]
             )
 
-            let groupID = group.groupID
+            do {
+                self.moreViewUpdatePushNotificationsAction = { [weak self] notificationEnabled in
+                    guard let strongSelf = self else { return }
+                    strongSelf.moreView.items[0] = strongSelf.makePushNotificationsItem(notificationEnabled: notificationEnabled)
+                    strongSelf.moreView.refreshItems()
+                }
 
-            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
-            })
+                let groupID = group.groupID
+
+                settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+                    self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
+                })
+            }
 
         } else {
             view = ActionSheetView(items: [])
@@ -2638,8 +2663,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            moreView.items[1] = makeDoNotDisturbItem(notificationEnabled: enabled)
-            moreView.refreshItems()
+            moreViewUpdateDoNotDisturbAction?(notificationEnabled: enabled)
         }
     }
     
@@ -2653,9 +2677,8 @@ class ConversationViewController: BaseViewController {
             let _ = try? realm.write {
                 group.notificationEnabled = enabled
             }
-            
-            moreView.items[0] = makePushNotificationsItem(notificationEnabled: enabled)
-            moreView.refreshItems()
+
+            moreViewUpdatePushNotificationsAction?(notificationEnabled: enabled)
         }
     }
 
@@ -2725,8 +2748,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreView.items[3] = makeBlockItem(blocked: blocked)
-                moreView.refreshItems()
+                moreViewUpdateBlockAction?(blocked: blocked)
             }
         }
     }
