@@ -444,9 +444,6 @@ class ConversationViewController: BaseViewController {
 
         if let user = self.conversation?.withFriend {
 
-            println("user.notificationEnabled: \(user.notificationEnabled)")
-            println("user.blocked: \(user.blocked)")
-
             view = ActionSheetView(items: [
                 .Detail(
                     title: NSLocalizedString("View profile", comment: ""),
@@ -2430,127 +2427,11 @@ class ConversationViewController: BaseViewController {
     @objc private func moreAction(sender: AnyObject) {
 
         messageToolbar.state = .Default
-        
-//        if let _ = conversation?.withFriend {
-//            moreView.type = .OneToOne
-//
-//            oneToOneMoreAction()
-//
-//        } else {
-//            moreView.type = .Topic
-//
-//            topicMoreAction()
-//        }
 
         if let window = view.window {
             moreView.showInView(window)
         }
     }
-
-    /*
-    private func topicMoreAction() {
-        
-        let descriotion = conversation.withGroup?.withFeed?.body
-        guard let groupID = conversation.withGroup?.groupID else {
-            return
-        }
-        
-        if let group = conversation.withGroup {
-            moreView.notificationEnabled = group.notificationEnabled
-            
-            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
-            })
-        }
-        
-        moreView.toggleDoNotDisturbAction = { [weak self] in
-            self?.toggleDoNotDisturb()
-        }
-        
-        moreView.unsubscribeAction = { [weak self] in
-            
-            func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
-                        checkTypingStatusTimer.invalidate()
-                    }
-
-                    guard let conversation = self?.conversation, realm = conversation.realm else {
-                        return
-                    }
-
-                    realm.beginWrite()
-
-                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
-                        afterLeaveGroup?()
-                    })
-
-                    let _ = try? realm.commitWrite()
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-                    self?.navigationController?.popViewControllerAnimated(true)
-                }
-            }
-
-            guard let group = self?.conversation.withGroup where group.includeMe, let feed = group.withFeed, feedCreator = feed.creator else {
-                return
-            }
-
-            let feedID = feed.feedID
-            let feedCreatorID = feedCreator.userID
-
-            // 若是创建者，再询问是否删除 Feed
-
-            if feedCreatorID == YepUserDefaults.userID.value {
-
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
-
-                    doDeleteConversation(afterLeaveGroup: {
-                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
-                            println("deleted feed: \(feedID)")
-                            self?.afterDeletedFeedAction?(feedID: feedID)
-                        })
-                    })
-
-                }, cancelAction: {
-                    doDeleteConversation()
-                })
-
-            } else {
-                doDeleteConversation()
-            }
-        }
-
-        moreView.shareAction = { [weak self] in
-            
-            guard let descriotion = descriotion else {
-                return
-            }
-            
-            guard let groupShareURLString = self?.groupShareURLString else {
-                
-                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
-
-                    self?.groupShareURLString = groupShareURLString
-
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
-                    }
-                })
-                
-                return
-            }
-            
-            self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
-        }
-        
-        if let window = view.window {
-            moreView.showInView(window)
-        }
-    }
-    */
 
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
@@ -2596,61 +2477,6 @@ class ConversationViewController: BaseViewController {
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
-
-    /*
-    private func oneToOneMoreAction() {
-        
-        moreView.showProfileAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: nil)
-        }
-        
-        if let user = conversation.withFriend {
-            moreView.notificationEnabled = user.notificationEnabled
-            moreView.blocked = user.blocked
-            
-            let userID = user.userID
-            
-            /*
-            userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
-            //println("userInfoOfUserWithUserID \(userInfo)")
-            
-            if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
-            self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-            }
-            
-            if let blocked = userInfo["blocked"] as? Bool {
-            self.updateBlocked(blocked, forUserWithUserID: userID)
-            }
-            
-            // 对非好友来说，必要
-            
-            updateUserWithUserID(userID, useUserInfo: userInfo)
-            })
-            */
-            
-            settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-                self?.updateBlocked(blocked, forUserWithUserID: userID)
-            })
-        }
-        
-        moreView.toggleDoNotDisturbAction = { [weak self] in
-            self?.toggleDoNotDisturb()
-        }
-        
-        moreView.toggleBlockAction = { [weak self] in
-            self?.toggleBlock()
-        }
-        
-        moreView.reportAction = { [weak self] in
-            self?.tryReport()
-        }
-        
-        if let window = view.window {
-            moreView.showInView(window)
-        }
-    }
-    */
 
     private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
 
