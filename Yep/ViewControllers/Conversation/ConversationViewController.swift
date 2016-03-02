@@ -394,9 +394,154 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private lazy var moreView: ConversationMoreView = {
-        let view = ConversationMoreView()
-        view.isMyFeed = self.conversation.withGroup?.withFeed?.creator?.isMe ?? false
+//    private lazy var moreView: ConversationMoreView = {
+//        let view = ConversationMoreView()
+//        view.isMyFeed = self.conversation.withGroup?.withFeed?.creator?.isMe ?? false
+//        return view
+//    }()
+
+    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
+        return .Switch(
+            title: NSLocalizedString("Do not disturb", comment: ""),
+            titleColor: UIColor.darkGrayColor(),
+            switchOn: !notificationEnabled,
+            action: { [weak self] switchOn in
+                self?.toggleDoNotDisturb()
+            }
+        )
+    }
+
+    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
+        return .Switch(
+            title: NSLocalizedString("Push notifications", comment: ""),
+            titleColor: UIColor.darkGrayColor(),
+            switchOn: notificationEnabled,
+            action: { [weak self] switchOn in
+                self?.toggleDoNotDisturb()
+            }
+        )
+    }
+
+    private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
+        return .Default(
+            title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),
+            titleColor: UIColor.redColor(),
+            action: { [weak self] in
+                self?.toggleBlock()
+                return false
+            }
+        )
+    }
+
+    private lazy var moreView: ActionSheetView = {
+
+        let cancelItem = ActionSheetView.Item.Cancel
+
+        let view: ActionSheetView
+
+        if let user = self.conversation?.withFriend {
+
+            println("user.notificationEnabled: \(user.notificationEnabled)")
+            println("user.blocked: \(user.blocked)")
+
+            view = ActionSheetView(items: [
+                .Detail(
+                    title: NSLocalizedString("View profile", comment: ""),
+                    titleColor: UIColor.darkGrayColor(),
+                    action: { [weak self] in
+                        self?.performSegueWithIdentifier("showProfile", sender: nil)
+                    }
+                ),
+                self.makeDoNotDisturbItem(notificationEnabled: user.notificationEnabled), // 1
+                .Default(
+                    title: NSLocalizedString("Report", comment: ""),
+                    titleColor: UIColor.yepTintColor(),
+                    action: { [weak self] in
+                        self?.tryReport()
+                        return true
+                    }
+                ),
+                self.makeBlockItem(blocked: user.blocked), // 3
+                cancelItem,
+                ]
+            )
+
+            let userID = user.userID
+
+            settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
+                self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+                self?.updateBlocked(blocked, forUserWithUserID: userID)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    guard let strongSelf = self else { return }
+                    view.items[1] = strongSelf.makeDoNotDisturbItem(notificationEnabled: !doNotDisturb)
+                    view.items[3] = strongSelf.makeBlockItem(blocked: blocked)
+                    view.refreshItems()
+                }
+            })
+
+        } else if let group = self.conversation.withGroup {
+
+            view = ActionSheetView(items: [
+                self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
+                .Default(
+                    title: NSLocalizedString("Share this feed", comment: ""),
+                    titleColor: UIColor.yepTintColor(),
+                    action: { [weak self] in
+                        guard let
+                            description = self?.conversation.withGroup?.withFeed?.body,
+                            groupID = self?.conversation.withGroup?.groupID else {
+                                return false
+                        }
+
+                        guard let groupShareURLString = self?.groupShareURLString else {
+
+                            shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                                self?.groupShareURLString = groupShareURLString
+
+                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                                    self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+                                }
+                            })
+                            
+                            return true
+                        }
+                        
+                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+
+                        return true
+                    }
+                ),
+                .Default(
+                    title: NSLocalizedString("Unsubscribe", comment: ""),
+                    titleColor: UIColor.redColor(),
+                    action: { [weak self] in
+                        self?.unsubscribe()
+                        return true
+                    }
+                ),
+                cancelItem,
+                ]
+            )
+
+            let groupID = group.groupID
+
+            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    guard let strongSelf = self else { return }
+                    view.items[0] = strongSelf.makePushNotificationsItem(notificationEnabled: !doNotDisturb)
+                    view.refreshItems()
+                }
+            })
+
+        } else {
+            view = ActionSheetView(items: [])
+            println("lazy ActionSheetView: should NOT be there!")
+        }
+
         return view
     }()
 
@@ -2274,18 +2419,23 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.state = .Default
         
-        if let _ = conversation?.withFriend {
-            moreView.type = .OneToOne
+//        if let _ = conversation?.withFriend {
+//            moreView.type = .OneToOne
+//
+//            oneToOneMoreAction()
+//
+//        } else {
+//            moreView.type = .Topic
+//
+//            topicMoreAction()
+//        }
 
-            oneToOneMoreAction()
-
-        } else {
-            moreView.type = .Topic
-
-            topicMoreAction()
+        if let window = view.window {
+            moreView.showInView(window)
         }
     }
-    
+
+    /*
     private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
@@ -2388,7 +2538,8 @@ class ConversationViewController: BaseViewController {
             moreView.showInView(window)
         }
     }
-    
+    */
+
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
         let info = MonkeyKing.Info(
@@ -2433,7 +2584,8 @@ class ConversationViewController: BaseViewController {
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
-    
+
+    /*
     private func oneToOneMoreAction() {
         
         moreView.showProfileAction = { [weak self] in
@@ -2486,6 +2638,7 @@ class ConversationViewController: BaseViewController {
             moreView.showInView(window)
         }
     }
+    */
 
     private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
 
@@ -2498,7 +2651,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            moreView.notificationEnabled = enabled
+            //moreView.notificationEnabled = enabled
         }
     }
     
@@ -2513,7 +2666,7 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
             
-            moreView.notificationEnabled = enabled
+            //moreView.notificationEnabled = enabled
         }
     }
 
@@ -2583,7 +2736,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreView.blocked = blocked
+                //moreView.blocked = blocked
             }
         }
     }
@@ -2608,6 +2761,62 @@ class ConversationViewController: BaseViewController {
                     self.updateBlocked(true, forUserWithUserID: userID)
                 })
             }
+        }
+    }
+
+    private func unsubscribe() {
+
+        func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                    checkTypingStatusTimer.invalidate()
+                }
+
+                guard let conversation = self?.conversation, realm = conversation.realm else {
+                    return
+                }
+
+                realm.beginWrite()
+
+                deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
+                    afterLeaveGroup?()
+                })
+
+                let _ = try? realm.commitWrite()
+
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                self?.navigationController?.popViewControllerAnimated(true)
+            }
+        }
+
+        guard let group = conversation.withGroup where group.includeMe, let feed = group.withFeed, feedCreator = feed.creator else {
+            return
+        }
+
+        let feedID = feed.feedID
+        let feedCreatorID = feedCreator.userID
+
+        // 若是创建者，再询问是否删除 Feed
+
+        if feedCreatorID == YepUserDefaults.userID.value {
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+
+                doDeleteConversation(afterLeaveGroup: {
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: { [weak self] in
+                        println("deleted feed: \(feedID)")
+                        self?.afterDeletedFeedAction?(feedID: feedID)
+                    })
+                })
+
+            }, cancelAction: {
+                doDeleteConversation()
+            })
+
+        } else {
+            doDeleteConversation()
         }
     }
 

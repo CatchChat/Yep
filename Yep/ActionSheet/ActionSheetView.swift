@@ -16,8 +16,6 @@ private class ActionSheetDefaultCell: UITableViewCell {
         return "\(self)"
     }
 
-    var action: (() -> Void)?
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -66,8 +64,6 @@ private class ActionSheetDetailCell: UITableViewCell {
         return "\(self)"
     }
 
-    var action: (() -> Void)?
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -89,9 +85,9 @@ private class ActionSheetDetailCell: UITableViewCell {
     }
 }
 
-// MARK: - ActionSheetCheckCell
+// MARK: - ActionSheetSwitchCell
 
-private class ActionSheetCheckCell: UITableViewCell {
+private class ActionSheetSwitchCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -121,8 +117,13 @@ private class ActionSheetCheckCell: UITableViewCell {
 
     lazy var checkedSwitch: UISwitch = {
         let s = UISwitch()
+        s.addTarget(self, action: "toggleSwitch:", forControlEvents: .ValueChanged)
         return s
     }()
+
+    @objc private func toggleSwitch(sender: UISwitch) {
+        action?(sender.on)
+    }
 
     func makeUI() {
         contentView.addSubview(checkedSwitch)
@@ -140,13 +141,13 @@ private class ActionSheetCheckCell: UITableViewCell {
 class ActionSheetView: UIView {
 
     enum Item {
-        case Default(title: String, titleColor: UIColor, action: () -> Void)
+        case Default(title: String, titleColor: UIColor, action: () -> Bool)
         case Detail(title: String, titleColor: UIColor, action: () -> Void)
         case Switch(title: String, titleColor: UIColor, switchOn: Bool, action: (switchOn: Bool) -> Void)
         case Cancel
     }
 
-    let items: [Item]
+    var items: [Item]
 
     private let rowHeight: CGFloat = 60
 
@@ -179,7 +180,7 @@ class ActionSheetView: UIView {
 
         view.registerClass(ActionSheetDefaultCell.self, forCellReuseIdentifier: ActionSheetDefaultCell.reuseIdentifier)
         view.registerClass(ActionSheetDetailCell.self, forCellReuseIdentifier: ActionSheetDetailCell.reuseIdentifier)
-        view.registerClass(ActionSheetCheckCell.self, forCellReuseIdentifier: ActionSheetCheckCell.reuseIdentifier)
+        view.registerClass(ActionSheetSwitchCell.self, forCellReuseIdentifier: ActionSheetSwitchCell.reuseIdentifier)
 
         return view
     }()
@@ -199,6 +200,10 @@ class ActionSheetView: UIView {
             tap.cancelsTouchesInView = true
             tap.delegate = self
         }
+    }
+
+    func refreshItems() {
+        tableView.reloadData()
     }
 
     private var tableViewBottomConstraint: NSLayoutConstraint?
@@ -336,7 +341,6 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
-            cell.action = action
 
             return cell
 
@@ -345,13 +349,12 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDetailCell.reuseIdentifier) as! ActionSheetDetailCell
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
-            cell.action = action
 
             return cell
 
         case let .Switch(title, titleColor, switchOn, action):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetCheckCell.reuseIdentifier) as! ActionSheetCheckCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSwitchCell.reuseIdentifier) as! ActionSheetSwitchCell
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
             cell.checkedSwitch.on = switchOn
@@ -381,8 +384,9 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case .Default(_, _, let action):
 
-            action()
-            hide()
+            if action() {
+                hide()
+            }
 
         case .Detail(_, _, let action):
 
