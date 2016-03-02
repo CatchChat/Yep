@@ -67,7 +67,6 @@ class DiscoverViewController: BaseViewController {
 
     private var discoveredUsers = [DiscoveredUser]()
 
-    //private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
     private lazy var filterStyles: [DiscoveredUserSortStyle] = [
         .Distance,
         .LastSignIn,
@@ -151,7 +150,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         #if DEBUG
-//            view.addSubview(discoverFPSLabel)
+            //view.addSubview(discoverFPSLabel)
         #endif
     }
 
@@ -170,14 +169,6 @@ class DiscoverViewController: BaseViewController {
     }
 
     @IBAction private func showFilters(sender: UIBarButtonItem) {
-
-//        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
-//        
-//        filterView.filterAction = { discoveredUserSortStyle in
-//            self.discoveredUserSortStyle = discoveredUserSortStyle
-//        }
-
-//        filterView.items = filterItemsWithCurrentSortStyle(discoveredUserSortStyle)
 
         if let window = view.window {
             filterView.showInView(window)
