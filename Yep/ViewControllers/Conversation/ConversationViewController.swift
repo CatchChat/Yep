@@ -471,13 +471,6 @@ class ConversationViewController: BaseViewController {
             settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
                 self?.updateBlocked(blocked, forUserWithUserID: userID)
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    guard let strongSelf = self else { return }
-                    view.items[1] = strongSelf.makeDoNotDisturbItem(notificationEnabled: !doNotDisturb)
-                    view.items[3] = strongSelf.makeBlockItem(blocked: blocked)
-                    view.refreshItems()
-                }
             })
 
         } else if let group = self.conversation.withGroup {
@@ -529,12 +522,6 @@ class ConversationViewController: BaseViewController {
 
             settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    guard let strongSelf = self else { return }
-                    view.items[0] = strongSelf.makePushNotificationsItem(notificationEnabled: !doNotDisturb)
-                    view.refreshItems()
-                }
             })
 
         } else {
@@ -2651,7 +2638,8 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            //moreView.notificationEnabled = enabled
+            moreView.items[1] = makeDoNotDisturbItem(notificationEnabled: enabled)
+            moreView.refreshItems()
         }
     }
     
@@ -2666,7 +2654,8 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
             
-            //moreView.notificationEnabled = enabled
+            moreView.items[0] = makePushNotificationsItem(notificationEnabled: enabled)
+            moreView.refreshItems()
         }
     }
 
@@ -2736,7 +2725,8 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                //moreView.blocked = blocked
+                moreView.items[3] = makeBlockItem(blocked: blocked)
+                moreView.refreshItems()
             }
         }
     }
