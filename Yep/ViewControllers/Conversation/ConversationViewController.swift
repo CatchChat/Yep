@@ -394,12 +394,6 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-//    private lazy var moreView: ConversationMoreView = {
-//        let view = ConversationMoreView()
-//        view.isMyFeed = self.conversation.withGroup?.withFeed?.creator?.isMe ?? false
-//        return view
-//    }()
-
     private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
             title: NSLocalizedString("Do not disturb", comment: ""),
@@ -489,6 +483,8 @@ class ConversationViewController: BaseViewController {
 
         } else if let group = self.conversation.withGroup {
 
+            let isMyFeed = group.withFeed?.creator?.isMe ?? false
+
             view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
                 .Default(
@@ -521,7 +517,7 @@ class ConversationViewController: BaseViewController {
                     }
                 ),
                 .Default(
-                    title: NSLocalizedString("Unsubscribe", comment: ""),
+                    title: isMyFeed ? NSLocalizedString("Delete", comment: "") : NSLocalizedString("Unsubscribe", comment: ""),
                     titleColor: UIColor.redColor(),
                     action: { [weak self] in
                         self?.unsubscribe()
