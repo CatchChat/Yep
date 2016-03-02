@@ -74,27 +74,59 @@ class FeedsViewController: BaseViewController {
         return view
     }()
     
-    private lazy var newFeedTypesView: NewFeedTypesView = {
-        let view = NewFeedTypesView()
+//    private lazy var newFeedTypesView: NewFeedTypesView = {
+//        let view = NewFeedTypesView()
+//
+//        view.createTextAndPhotosFeedAction = { [weak self] in
+//            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+//        }
+//
+//        view.createVoiceFeedAction = { [weak self] in
+//            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+//        }
+//
+//        view.createShortMovieFeedAction = { [weak self] in
+//        }
+//
+//        view.createLocationFeedAction = { [weak self] in
+//            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+//        }
+//
+//        return view
+//    }()
 
-        view.createTextAndPhotosFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
-        }
-
-        view.createVoiceFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
-        }
-
-        view.createShortMovieFeedAction = { [weak self] in
-        }
-
-        view.createLocationFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-        }
-
+    private lazy var newFeedTypesView: ActionSheetView = {
+        let view = ActionSheetView(items: [
+            .Default(
+                title: NSLocalizedString("Text & Photos", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+                    return true
+                }
+            ),
+            .Default(
+                title: NSLocalizedString("Voice", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+                    return true
+                }
+            ),
+            .Default(
+                title: NSLocalizedString("Location", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+                    return true
+                }
+            ),
+            .Cancel,
+            ]
+        )
         return view
     }()
-    
+
     private lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
