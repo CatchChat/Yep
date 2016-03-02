@@ -41,8 +41,6 @@ class FeedsViewController: BaseViewController {
 
     private var filterBarItem: UIBarButtonItem?
     
-    //private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
-
     private lazy var filterStyles: [FeedSortStyle] = [
         .Distance,
         .Time,
@@ -464,21 +462,6 @@ class FeedsViewController: BaseViewController {
 
     @IBAction private func showFilter(sender: AnyObject) {
         
-//        if feedSortStyle != .Time {
-//            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
-//        } else {
-//            filterView.currentDiscoveredUserSortStyle = .LastSignIn
-//        }
-//        
-//        filterView.filterAction = { [weak self] discoveredUserSortStyle in
-//            
-//            if discoveredUserSortStyle != .LastSignIn {
-//                self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
-//            } else {
-//                self?.feedSortStyle = .Time
-//            }
-//        }
-
         if let window = view.window {
             filterView.showInView(window)
         }
