@@ -184,6 +184,23 @@ class ActionSheetView: UIView {
         return view
     }()
 
+    private var isFirstTimeBeenAddedAsSubview = true
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        if isFirstTimeBeenAddedAsSubview {
+            isFirstTimeBeenAddedAsSubview = false
+
+            makeUI()
+
+            let tap = UITapGestureRecognizer(target: self, action: "hide")
+            containerView.addGestureRecognizer(tap)
+
+            tap.cancelsTouchesInView = true
+            tap.delegate = self
+        }
+    }
+
     private var tableViewBottomConstraint: NSLayoutConstraint?
 
     private func makeUI() {
@@ -282,6 +299,22 @@ class ActionSheetView: UIView {
         }
     }
 }
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ActionSheetView: UIGestureRecognizerDelegate {
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+
+        if touch.view != containerView {
+            return false
+        }
+
+        return true
+    }
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
