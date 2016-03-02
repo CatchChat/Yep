@@ -67,7 +67,38 @@ class DiscoverViewController: BaseViewController {
 
     private var discoveredUsers = [DiscoveredUser]()
 
-    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    private lazy var filterStyles: [DiscoveredUserSortStyle] = [
+        .Distance,
+        .LastSignIn,
+        .Default,
+    ]
+
+    private func filterItemWithSortStyle(sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
+        return .Check(
+            title: sortStyle.name,
+            titleColor: UIColor.yepTintColor(),
+            checked: sortStyle == currentSortStyle,
+            action: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.discoveredUserSortStyle = sortStyle
+                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.discoveredUserSortStyle)
+                strongSelf.filterView.refreshItems()
+            }
+        )
+    }
+
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: DiscoveredUserSortStyle) -> [ActionSheetView.Item] {
+        var items = filterStyles.map({
+           filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
+        })
+        items.append(.Cancel)
+        return items
+    }
+
+    private lazy var filterView: ActionSheetView = {
+        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.discoveredUserSortStyle))
+        return view
+    }()
 
     #if DEBUG
     private lazy var discoverFPSLabel: FPSLabel = {
@@ -119,7 +150,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         #if DEBUG
-//            view.addSubview(discoverFPSLabel)
+            //view.addSubview(discoverFPSLabel)
         #endif
     }
 
@@ -138,12 +169,6 @@ class DiscoverViewController: BaseViewController {
     }
 
     @IBAction private func showFilters(sender: UIBarButtonItem) {
-
-        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
-        
-        filterView.filterAction = { discoveredUserSortStyle in
-            self.discoveredUserSortStyle = discoveredUserSortStyle
-        }
 
         if let window = view.window {
             filterView.showInView(window)

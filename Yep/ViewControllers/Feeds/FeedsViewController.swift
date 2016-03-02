@@ -41,29 +41,71 @@ class FeedsViewController: BaseViewController {
 
     private var filterBarItem: UIBarButtonItem?
     
-    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
-    
-    private lazy var newFeedTypesView: NewFeedTypesView = {
-        let view = NewFeedTypesView()
+    private lazy var filterStyles: [FeedSortStyle] = [
+        .Distance,
+        .Time,
+        .Match,
+    ]
 
-        view.createTextAndPhotosFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
-        }
+    private func filterItemWithSortStyle(sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
+        return .Check(
+            title: sortStyle.name,
+            titleColor: UIColor.yepTintColor(),
+            checked: sortStyle == currentSortStyle,
+            action: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedSortStyle = sortStyle
+                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.feedSortStyle)
+                strongSelf.filterView.refreshItems()
+            }
+        )
+    }
 
-        view.createVoiceFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
-        }
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: FeedSortStyle) -> [ActionSheetView.Item] {
+        var items = filterStyles.map({
+            filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
+        })
+        items.append(.Cancel)
+        return items
+    }
 
-        view.createShortMovieFeedAction = { [weak self] in
-        }
-
-        view.createLocationFeedAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-        }
-
+    private lazy var filterView: ActionSheetView = {
+        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
         return view
     }()
-    
+
+    private lazy var newFeedTypesView: ActionSheetView = {
+        let view = ActionSheetView(items: [
+            .Default(
+                title: NSLocalizedString("Text & Photos", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+                    return true
+                }
+            ),
+            .Default(
+                title: NSLocalizedString("Voice", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+                    return true
+                }
+            ),
+            .Default(
+                title: NSLocalizedString("Location", comment: ""),
+                titleColor: UIColor.yepTintColor(),
+                action: { [weak self] in
+                    self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+                    return true
+                }
+            ),
+            .Cancel,
+            ]
+        )
+        return view
+    }()
+
     private lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
@@ -430,21 +472,6 @@ class FeedsViewController: BaseViewController {
     // MARK: - Actions
 
     @IBAction private func showFilter(sender: AnyObject) {
-        
-        if feedSortStyle != .Time {
-            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
-        } else {
-            filterView.currentDiscoveredUserSortStyle = .LastSignIn
-        }
-        
-        filterView.filterAction = { [weak self] discoveredUserSortStyle in
-            
-            if discoveredUserSortStyle != .LastSignIn {
-                self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
-            } else {
-                self?.feedSortStyle = .Time
-            }
-        }
         
         if let window = view.window {
             filterView.showInView(window)
