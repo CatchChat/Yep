@@ -73,27 +73,6 @@ class FeedsViewController: BaseViewController {
         let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
         return view
     }()
-    
-//    private lazy var newFeedTypesView: NewFeedTypesView = {
-//        let view = NewFeedTypesView()
-//
-//        view.createTextAndPhotosFeedAction = { [weak self] in
-//            self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
-//        }
-//
-//        view.createVoiceFeedAction = { [weak self] in
-//            self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
-//        }
-//
-//        view.createShortMovieFeedAction = { [weak self] in
-//        }
-//
-//        view.createLocationFeedAction = { [weak self] in
-//            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-//        }
-//
-//        return view
-//    }()
 
     private lazy var newFeedTypesView: ActionSheetView = {
         let view = ActionSheetView(items: [
