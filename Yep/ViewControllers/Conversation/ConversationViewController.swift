@@ -2787,7 +2787,7 @@ class ConversationViewController: BaseViewController {
                         message = messageWithMessageID(messageID, inRealm: realm),
                         index = messages.indexOf(message) {
                             let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
-                            println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
+                            //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
 
                             indexPaths.append(indexPath)
 

@@ -336,19 +336,18 @@ extension YepDownloader: NSURLSessionDataDelegate {
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        println("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
+        //println("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
         reportProgressAssociatedWithDownloadTask(dataTask, totalBytes: response.expectedContentLength)
         completionHandler(.Allow)
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        println("YepDownloader data.length: \(data.length)")
+        //println("YepDownloader data.length: \(data.length)")
 
         let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveData: data)
 
         if finish {
-            println("YepDownloader finish")
-
+            //println("YepDownloader finish")
             finishDownloadTask(dataTask)
         }
     }
