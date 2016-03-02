@@ -11,7 +11,17 @@ import AVFoundation
 
 class MediaView: UIView {
 
-    var tapToDismissAction: (() -> Void)?
+    var inTapZoom: Bool = false
+    var isRoomIn: Bool = false
+    var zoomScaleBeforeZoomIn: CGFloat?
+
+    var tapToDismissAction: (() -> Void)? {
+        didSet {
+            inTapZoom = false
+            isRoomIn = false
+            zoomScaleBeforeZoomIn = nil
+        }
+    }
 
     func updateImageViewWithImage(image: UIImage) {
 
@@ -106,10 +116,6 @@ class MediaView: UIView {
         tap.requireGestureRecognizerToFail(doubleTap)
         addGestureRecognizer(tap)
     }
-
-    var inTapZoom: Bool = false
-    var isRoomIn: Bool = false
-    var zoomScaleBeforeZoomIn: CGFloat?
 
     @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
         inTapZoom = true
