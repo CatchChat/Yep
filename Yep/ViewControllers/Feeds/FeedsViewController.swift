@@ -41,7 +41,40 @@ class FeedsViewController: BaseViewController {
 
     private var filterBarItem: UIBarButtonItem?
     
-    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    //private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+
+    private lazy var filterStyles: [FeedSortStyle] = [
+        .Distance,
+        .Time,
+        .Match,
+    ]
+
+    private func filterItemWithSortStyle(sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
+        return .Check(
+            title: sortStyle.name,
+            titleColor: UIColor.yepTintColor(),
+            checked: sortStyle == currentSortStyle,
+            action: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedSortStyle = sortStyle
+                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.feedSortStyle)
+                strongSelf.filterView.refreshItems()
+            }
+        )
+    }
+
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: FeedSortStyle) -> [ActionSheetView.Item] {
+        var items = filterStyles.map({
+            filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
+        })
+        items.append(.Cancel)
+        return items
+    }
+
+    private lazy var filterView: ActionSheetView = {
+        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
+        return view
+    }()
     
     private lazy var newFeedTypesView: NewFeedTypesView = {
         let view = NewFeedTypesView()
@@ -431,21 +464,21 @@ class FeedsViewController: BaseViewController {
 
     @IBAction private func showFilter(sender: AnyObject) {
         
-        if feedSortStyle != .Time {
-            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
-        } else {
-            filterView.currentDiscoveredUserSortStyle = .LastSignIn
-        }
-        
-        filterView.filterAction = { [weak self] discoveredUserSortStyle in
-            
-            if discoveredUserSortStyle != .LastSignIn {
-                self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
-            } else {
-                self?.feedSortStyle = .Time
-            }
-        }
-        
+//        if feedSortStyle != .Time {
+//            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
+//        } else {
+//            filterView.currentDiscoveredUserSortStyle = .LastSignIn
+//        }
+//        
+//        filterView.filterAction = { [weak self] discoveredUserSortStyle in
+//            
+//            if discoveredUserSortStyle != .LastSignIn {
+//                self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
+//            } else {
+//                self?.feedSortStyle = .Time
+//            }
+//        }
+
         if let window = view.window {
             filterView.showInView(window)
         }
