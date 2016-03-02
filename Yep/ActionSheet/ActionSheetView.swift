@@ -136,6 +136,63 @@ private class ActionSheetSwitchCell: UITableViewCell {
     }
 }
 
+private class ActionSheetCheckCell: UITableViewCell {
+
+    class var reuseIdentifier: String {
+        return "\(self)"
+    }
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        makeUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    lazy var colorTitleLabel: UILabel = {
+        let label = UILabel()
+        if #available(iOS 8.2, *) {
+            label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+        } else {
+            label.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
+        }
+        return label
+    }()
+
+    lazy var checkImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "icon_location_checkmark"))
+        return imageView
+    }()
+
+    var colorTitleLabelTextColor: UIColor = UIColor.yepTintColor() {
+        willSet {
+            colorTitleLabel.textColor = newValue
+        }
+    }
+
+    func makeUI() {
+
+        contentView.addSubview(colorTitleLabel)
+        contentView.addSubview(checkImageView)
+        colorTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        checkImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        let centerY = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let centerX = NSLayoutConstraint(item: colorTitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([centerY, centerX])
+
+
+        let checkImageViewCenterY = NSLayoutConstraint(item: checkImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
+        let checkImageViewTrailing = NSLayoutConstraint(item: checkImageView, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: -20)
+
+        NSLayoutConstraint.activateConstraints([checkImageViewCenterY, checkImageViewTrailing])
+    }
+}
+
 // MARK: - ActionSheetView
 
 class ActionSheetView: UIView {
@@ -144,6 +201,7 @@ class ActionSheetView: UIView {
         case Default(title: String, titleColor: UIColor, action: () -> Bool)
         case Detail(title: String, titleColor: UIColor, action: () -> Void)
         case Switch(title: String, titleColor: UIColor, switchOn: Bool, action: (switchOn: Bool) -> Void)
+        case Check(title: String, titleColor: UIColor, checked: Bool, action: () -> Void)
         case Cancel
     }
 
@@ -181,6 +239,7 @@ class ActionSheetView: UIView {
         view.registerClass(ActionSheetDefaultCell.self, forCellReuseIdentifier: ActionSheetDefaultCell.reuseIdentifier)
         view.registerClass(ActionSheetDetailCell.self, forCellReuseIdentifier: ActionSheetDetailCell.reuseIdentifier)
         view.registerClass(ActionSheetSwitchCell.self, forCellReuseIdentifier: ActionSheetSwitchCell.reuseIdentifier)
+        view.registerClass(ActionSheetCheckCell.self, forCellReuseIdentifier: ActionSheetCheckCell.reuseIdentifier)
 
         return view
     }()
@@ -338,7 +397,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         switch item {
 
-        case let .Default(title, titleColor, action):
+        case let .Default(title, titleColor, _):
 
             let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
             cell.colorTitleLabel.text = title
@@ -346,7 +405,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
             return cell
 
-        case let .Detail(title, titleColor, action):
+        case let .Detail(title, titleColor, _):
 
             let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDetailCell.reuseIdentifier) as! ActionSheetDetailCell
             cell.textLabel?.text = title
@@ -361,6 +420,15 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.textColor = titleColor
             cell.checkedSwitch.on = switchOn
             cell.action = action
+
+            return cell
+
+        case let .Check(title, titleColor, checked, _):
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetCheckCell.reuseIdentifier) as! ActionSheetCheckCell
+            cell.colorTitleLabel.text = title
+            cell.colorTitleLabelTextColor = titleColor
+            cell.checkImageView.hidden = !checked
 
             return cell
 
@@ -399,6 +467,11 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
         case .Switch:
 
            break
+
+        case .Check(_, _, _, let action):
+
+            action()
+            hide()
 
         case .Cancel:
 
