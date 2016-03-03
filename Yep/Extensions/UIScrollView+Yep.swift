@@ -51,14 +51,14 @@ extension UIScrollView {
         self.zoomToRect(zoomRect, animated: animated)
     }
 
-    func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, duration: NSTimeInterval) {
+    func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animationDuration: NSTimeInterval, animationCurve: UIViewAnimationCurve) {
 
         let zoomRect = yep_zoomRectWithZoomPoint(zoomPoint, scale: scale)
 
         UIView.beginAnimations(nil, context: nil)
-        UIView.setAnimationDuration(duration)
+        UIView.setAnimationDuration(animationDuration)
         UIView.setAnimationBeginsFromCurrentState(true)
-        UIView.setAnimationCurve(.EaseInOut)
+        UIView.setAnimationCurve(animationCurve)
 
         self.zoomToRect(zoomRect, animated: false)
 
