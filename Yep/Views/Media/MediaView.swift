@@ -118,6 +118,7 @@ class MediaView: UIView {
     }
 
     @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
+
         inTapZoom = true
         let zoomPoint = sender.locationInView(self)
 
@@ -125,6 +126,7 @@ class MediaView: UIView {
             isRoomIn = true
             zoomScaleBeforeZoomIn = scrollView.zoomScale
             scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
+
         } else {
             if let zoomScale = zoomScaleBeforeZoomIn {
                 zoomScaleBeforeZoomIn = nil
@@ -135,11 +137,14 @@ class MediaView: UIView {
     }
 
     @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
+
         if let zoomScale = zoomScaleBeforeZoomIn {
-            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animated: true)
-            delay(0.25) { [weak self] in
+            let quickZoomDuration: NSTimeInterval = 0.35
+            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animationDuration: quickZoomDuration, animationCurve: .EaseInOut)
+            delay(quickZoomDuration) { [weak self] in
                 self?.tapToDismissAction?()
             }
+            
         } else {
             tapToDismissAction?()
         }
