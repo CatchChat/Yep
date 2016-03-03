@@ -152,6 +152,10 @@ class User: Object {
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
 
+    var canShowProfile: Bool {
+        return friendState != UserFriendState.Yep.rawValue
+    }
+
     dynamic var longitude: Double = 0
     dynamic var latitude: Double = 0
 
