@@ -479,6 +479,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
 
                 cell.tapAvatarAction = { [weak self] user in
+                    guard user.canShowProfile else { return }
                     self?.performSegueWithIdentifier("showProfile", sender: user)
                 }
             }
