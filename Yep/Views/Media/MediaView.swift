@@ -126,15 +126,23 @@ class MediaView: UIView {
             zoomScaleBeforeZoomIn = scrollView.zoomScale
             scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
         } else {
-            if let zoomScaleBeforeZoomIn = zoomScaleBeforeZoomIn {
+            if let zoomScale = zoomScaleBeforeZoomIn {
+                zoomScaleBeforeZoomIn = nil
                 isRoomIn = false
-                scrollView.yep_zoomToPoint(zoomPoint, withScale: zoomScaleBeforeZoomIn, animated: true)
+                scrollView.yep_zoomToPoint(zoomPoint, withScale: zoomScale, animated: true)
             }
         }
     }
 
     @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
-        tapToDismissAction?()
+        if let zoomScale = zoomScaleBeforeZoomIn {
+            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animated: true)
+            delay(0.25) { [weak self] in
+                self?.tapToDismissAction?()
+            }
+        } else {
+            tapToDismissAction?()
+        }
     }
 
     override func layoutSubviews() {
