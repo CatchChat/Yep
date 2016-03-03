@@ -322,7 +322,13 @@ class ConversationsViewController: SegueViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showConversation" {
+
+        guard let identifier = segue.identifier else { return }
+
+        switch identifier {
+
+        case "showConversation":
+
             let vc = segue.destinationViewController as! ConversationViewController
 
             let conversation = sender as! Conversation
@@ -343,6 +349,18 @@ class ConversationsViewController: SegueViewController {
                     }
                 }
             }
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let user = sender as! User
+            vc.profileUser = ProfileUser.UserType(user)
+
+            vc.setBackButtonWithTitle()
+            
+        default:
+            break
         }
     }
 
@@ -459,6 +477,10 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 let radius = YepConfig.ConversationCell.avatarSize * 0.5
 
                 cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+
+                cell.tapAvatarAction = { [weak self] user in
+                    self?.performSegueWithIdentifier("showProfile", sender: user)
+                }
             }
             
         default:

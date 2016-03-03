@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--FeedConversationsViewController-->
@@ -57,6 +57,7 @@
                         <outlet property="conversationsTableView" destination="ECY-qd-LcH" id="UNW-oM-y6R"/>
                         <segue destination="4LZ-EL-DIC" kind="show" identifier="showFeedConversations" id="k6i-To-sje"/>
                         <segue destination="QZL-WJ-zdV" kind="show" identifier="showConversation" id="I5f-gX-4nB"/>
+                        <segue destination="UCf-rZ-VVt" kind="show" identifier="showProfile" id="RDj-or-85C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -181,6 +182,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559" y="1077"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="UKd-3u-mzY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="UCf-rZ-VVt" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UN6-Pd-Kne" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4" y="-1357"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="8yj-GZ-bVh">
