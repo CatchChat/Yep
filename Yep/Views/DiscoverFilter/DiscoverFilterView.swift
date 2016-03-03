@@ -109,6 +109,8 @@ class DiscoverFilterView: UIView {
 
     var tableViewBottomConstraint: NSLayoutConstraint?
 
+    // MARK: CHANGE UI 
+    
     func showInView(view: UIView) {
 
         frame = view.bounds

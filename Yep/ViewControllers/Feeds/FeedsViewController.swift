@@ -301,7 +301,9 @@ class FeedsViewController: BaseViewController {
 
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
-            navigationItem.leftBarButtonItem = filterBarItem
+//            navigationItem.leftBarButtonItem = filterBarItem
+            navigationItem.rightBarButtonItem = filterBarItem
+
         }
 
         feedsTableView.backgroundColor = UIColor.whiteColor()
@@ -643,6 +645,8 @@ class FeedsViewController: BaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
+        // TODO: POP UP VIEW
+
         guard let identifier = segue.identifier else {
             return
         }
@@ -857,31 +861,34 @@ class FeedsViewController: BaseViewController {
     }
     
     func configToolBar() {
-        
+        // TODO: TOOLBAR gapwidth + need new iconImage
         feedsToolbar.clipsToBounds = true
-        let firstFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
+        let sideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
             target:nil,
             action:nil)
-        let firstToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_pictxt"),
+        sideToolBarSpace.width = (detailViewColumnWidth - 335)/2
+        let firstToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_pictxt"),
             style:.Plain, target:self, action:Selector("pictxtClicked:"))
-        let firstFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-            target:nil,
-            action:nil)
-        firstFixedToolBarSpace.width = 100
-        let secondToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_mic"),
+//        let firstFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+//            target:nil,
+//            action:nil)
+//        firstFixedToolBarSpace.width = 0
+        let secondToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_mic"),
             style:.Plain, target:self, action:Selector("micClicked:"))
-        let secondFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-            target:nil,
-            action:nil)
-        secondFixedToolBarSpace.width = 100
-        let thirdToolBarItem = UIBarButtonItem(image:UIImage(named:"icon_location"),
+//        let secondFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+//            target:nil,
+//            action:nil)
+//        secondFixedToolBarSpace.width = 0
+        let thirdToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_location"),
             style:.Plain, target:self, action:Selector("locationClicked:"))
-        let secondFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
-            target:nil,
-            action:nil)
-        
-        feedsToolbar.setItems([firstFlexibleToolBarSpace,firstToolBarItem,firstFixedToolBarSpace,secondToolBarItem,
-            secondFixedToolBarSpace,thirdToolBarItem,secondFlexibleToolBarSpace], animated:true)
+//        let secondFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
+//            target:nil,
+//            action:nil)
+        feedsToolbar.setItems([sideToolBarSpace,firstToolBarItem,secondToolBarItem,
+            thirdToolBarItem,sideToolBarSpace], animated:true)
+        print(sideToolBarSpace.width,"__space___",detailViewColumnWidth)
+//        feedsToolbar.setItems([sideToolBarSpace,firstToolBarItem,firstFixedToolBarSpace,secondToolBarItem,
+//            secondFixedToolBarSpace,thirdToolBarItem,secondFlexibleToolBarSpace], animated:true)
     }
     
     func pictxtClicked(sender:UIBarButtonItem) {

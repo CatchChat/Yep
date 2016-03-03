@@ -94,7 +94,7 @@ class FeedVoiceCell: FeedBasicCell {
 
                     let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
                     let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
-                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 40)
+                    voiceContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: width, height: 40)
                 }
 
                 if let realm = try? Realm() {

@@ -85,7 +85,7 @@ class FeedDribbbleShotCell: FeedBasicCell {
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
 
         } else {
-            logoImageView.frame.origin.x = screenWidth - 18 - 15
+            logoImageView.frame.origin.x = feedTextFixedSpace
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
         }
         nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
@@ -134,7 +134,7 @@ class FeedDribbbleShotCell: FeedBasicCell {
         } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            mediaContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            mediaContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: height)
             socialWorkBorderImageView.frame = mediaContainerView.frame
         }
         mediaContainerView.layoutIfNeeded()

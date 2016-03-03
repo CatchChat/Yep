@@ -26,7 +26,7 @@ class FeedAnyImagesCell: FeedBasicCell {
 
         let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         collectionView.scrollsToTop = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: feedTextFixedSpace, bottom: 0, right: 15)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
@@ -102,7 +102,7 @@ class FeedAnyImagesCell: FeedBasicCell {
         } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height = feedAttachmentImageSize.height
-            mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
+            mediaCollectionView.frame = CGRect(x: 0, y: y, width: feedTextMaxWidth, height: height)
         }
 
         if let attachment = feed.attachment, case let .Images(attachments) = attachment {

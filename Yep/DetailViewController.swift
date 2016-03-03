@@ -90,7 +90,7 @@ class DetailViewController: UIViewController {
                         vc.feeds = feeds
                         vc.preparedFeedsCount = feeds.count
                 }
-                vc.hideRightBarItem = true
+//                vc.hideRightBarItem = true
                 vc.hidesBottomBarWhenPushed = true
             
             case "showDetailSocialWorkGithub":

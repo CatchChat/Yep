@@ -641,7 +641,9 @@ class ConversationViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(self.view.frame,"___frame",conversationCollectionView.frame)
+        // TODO: CELL SIZE
+//        self.view.clipsToBounds = true
         realm = try! Realm()
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动

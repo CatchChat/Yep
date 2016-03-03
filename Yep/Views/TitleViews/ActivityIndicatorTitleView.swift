@@ -53,7 +53,8 @@ class ActivityIndicatorTitleView: UIView {
         do {
             let label = UILabel()
             label.text = NSLocalizedString("Yep", comment: "")
-            label.textColor = UIColor.yepNavgationBarTitleColor()
+//            label.textColor = UIColor.yepNavgationBarTitleColor()
+            label.textColor = UIColor.yepTintColor()
             label.font = UIFont.navigationBarTitleFont()
             label.textAlignment = .Center
 

@@ -56,7 +56,7 @@ class FeedURLCell: FeedBasicCell {
         } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            feedURLContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth - 60, height: height)
         }
 
         if let attachment = feed.attachment {

@@ -8,6 +8,8 @@
 
 import UIKit
 
+var detailViewColumnWidth: CGFloat = 0
+
 class YepTabBarController: UITabBarController {
 
     var detailViewController:DetailViewController?
@@ -75,6 +77,12 @@ class YepTabBarController: UITabBarController {
         
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
 
+
+        if let columnWidth = self.splitViewController?.primaryColumnWidth {
+            detailViewColumnWidth = UIScreen.mainScreen().bounds.width - columnWidth
+        }
+        
+        print(self.splitViewController?.primaryColumnWidth,"primaryColumnWidth____")
         delegate = self
         view.backgroundColor = UIColor.whiteColor()
         

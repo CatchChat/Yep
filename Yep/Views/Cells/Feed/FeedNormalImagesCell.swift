@@ -16,7 +16,7 @@ class FeedNormalImagesCell: FeedBasicCell {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
         imageView.clipsToBounds = true
-        imageView.frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
+        imageView.frame = CGRect(origin: CGPoint(x: feedTextFixedSpace, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         imageView.frame = frame
         imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
         imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
@@ -29,7 +29,7 @@ class FeedNormalImagesCell: FeedBasicCell {
     }
 
     lazy var imageView1: UIImageView = {
-        let x = 65
+        let x = feedTextFixedSpace
         let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         let imageView = self.createImageViewWithFrame(frame)
 
@@ -37,7 +37,7 @@ class FeedNormalImagesCell: FeedBasicCell {
     }()
 
     lazy var imageView2: UIImageView = {
-        let x = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5)
+        let x = feedTextFixedSpace + (YepConfig.FeedNormalImagesCell.imageSize.width + 5)
         let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         let imageView = self.createImageViewWithFrame(frame)
 
@@ -45,7 +45,7 @@ class FeedNormalImagesCell: FeedBasicCell {
     }()
 
     lazy var imageView3: UIImageView = {
-        let x = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
+        let x = feedTextFixedSpace + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
         let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
         let imageView = self.createImageViewWithFrame(frame)
 
@@ -96,16 +96,16 @@ class FeedNormalImagesCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
-        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
-            imageView1.frame = normalImagesLayout.imageView1Frame
-            imageView2.frame = normalImagesLayout.imageView2Frame
-            imageView3.frame = normalImagesLayout.imageView3Frame
-
-        } else {
+//        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
+//            imageView1.frame = normalImagesLayout.imageView1Frame
+//            imageView2.frame = normalImagesLayout.imageView2Frame
+//            imageView3.frame = normalImagesLayout.imageView3Frame
+//
+//        } else {
             imageViews.forEach({
                 $0.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             })
-        }
+//        }
 
         if let attachments = feed.imageAttachments {
 

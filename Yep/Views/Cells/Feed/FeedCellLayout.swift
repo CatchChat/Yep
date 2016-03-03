@@ -175,24 +175,24 @@ struct FeedCellLayout {
 
             let skillButtonWidth = ceil(rect.width) + 20
 
-            skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
+            skillButtonFrame = CGRect(x: detailViewColumnWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
 
-            let nicknameLabelWidth = screenWidth - 65 - 15
+            let nicknameLabelWidth = detailViewColumnWidth - 65 - 15
             nicknameLabelFrame = CGRect(x: 65, y: 21, width: nicknameLabelWidth, height: 18)
 
         } else {
-            let nicknameLabelWidth = screenWidth - 65 - 15
-            nicknameLabelFrame = CGRect(x: 65, y: 21, width: nicknameLabelWidth, height: 18)
+            let nicknameLabelWidth = feedTextMaxWidth - 65 - 15
+            nicknameLabelFrame = CGRect(x: feedTextFixedSpace, y: 21, width: nicknameLabelWidth, height: 18)
             skillButtonFrame = CGRectZero
         }
 
         let _rect1 = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let messageTextViewHeight = ceil(_rect1.height)
-        let messageTextViewFrame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: messageTextViewHeight)
+        let messageTextViewFrame = CGRect(x: feedTextFixedSpace, y: 54, width: detailViewColumnWidth - 65 - 15, height: messageTextViewHeight)
 
         let leftBottomLabelOriginY = height - 17 - 15
-        let leftBottomLabelFrame = CGRect(x: 65, y: leftBottomLabelOriginY, width: screenWidth - 65 - 85, height: 17)
+        let leftBottomLabelFrame = CGRect(x: feedTextFixedSpace, y: leftBottomLabelOriginY, width: detailViewColumnWidth - 65 - 85, height: 17)
 
         //let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
@@ -200,9 +200,9 @@ struct FeedCellLayout {
 
         //let _width = ceil(_rect2.width)
         let _width: CGFloat = 30
-        let messageCountLabelFrame = CGRect(x: screenWidth - _width - 45 - 8, y: leftBottomLabelOriginY, width: _width, height: 19)
+        let messageCountLabelFrame = CGRect(x: detailViewColumnWidth - _width - 45 - 8, y: leftBottomLabelOriginY, width: _width, height: 19)
 
-        let discussionImageViewFrame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabelOriginY - 1, width: 30, height: 19)
+        let discussionImageViewFrame = CGRect(x: detailViewColumnWidth - 30 - 15, y: leftBottomLabelOriginY - 1, width: 30, height: 19)
 
         let basicLayout = FeedCellLayout.BasicLayout(
             avatarImageViewFrame: avatarImageViewFrame,
@@ -226,7 +226,7 @@ struct FeedCellLayout {
         case .URL:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
-            let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: detailViewColumnWidth - 65 - 60, height: height)
 
             let _URLLayout = FeedCellLayout.URLLayout(URLContainerViewFrame: URLContainerViewFrame)
 
@@ -259,7 +259,7 @@ struct FeedCellLayout {
 
             } else {
                 let height = feedAttachmentImageSize.height
-                let mediaCollectionViewFrame = CGRect(x: 0, y: beginY, width: screenWidth, height: height)
+                let mediaCollectionViewFrame = CGRect(x: 0, y: beginY, width: detailViewColumnWidth, height: height)
 
                 let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionViewFrame)
 
@@ -269,7 +269,7 @@ struct FeedCellLayout {
         case .GithubRepo:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
-            let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: detailViewColumnWidth - 65 - 60, height: height)
 
             let githubRepoLayout = FeedCellLayout.GithubRepoLayout(githubRepoContainerViewFrame: githubRepoContainerViewFrame)
 
@@ -278,7 +278,7 @@ struct FeedCellLayout {
         case .DribbbleShot:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
-            let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: detailViewColumnWidth - 65 - 60, height: height)
 
             let dribbbleShotLayout = FeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: dribbbleShotContainerViewFrame)
 
@@ -305,7 +305,7 @@ struct FeedCellLayout {
         case .Location:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
-            let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: detailViewColumnWidth - 65 - 60, height: height)
 
             let locationLayout = FeedCellLayout.LocationLayout(locationContainerViewFrame: locationContainerViewFrame)
 

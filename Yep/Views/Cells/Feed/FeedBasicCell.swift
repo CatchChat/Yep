@@ -10,12 +10,16 @@ import UIKit
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
+let feedTextMaxWidth: CGFloat = 335
+let feedTextFixedSpace: CGFloat = (detailViewColumnWidth - feedTextMaxWidth)/2
+
 class FeedBasicCell: UITableViewCell {
+
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
-        imageView.frame = CGRect(x: 15, y: 10, width: 40, height: 40)
+        imageView.frame = CGRect(x: feedTextFixedSpace - 10 - 40, y: 10, width: 40, height: 40)
 
         imageView.contentMode = .ScaleAspectFit
 
@@ -31,7 +35,7 @@ class FeedBasicCell: UITableViewCell {
         label.textColor = UIColor.yepTintColor()
         label.font = UIFont.systemFontOfSize(15)
 
-        label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
+        label.frame = CGRect(x: feedTextFixedSpace, y: 21, width: 100, height: 18)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -44,8 +48,9 @@ class FeedBasicCell: UITableViewCell {
         button.setBackgroundImage(UIImage(named: "skill_bubble_empty"), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
-
+        // TODO: cellWidth??
         let cellWidth = self.bounds.width
+        print(cellWidth,"___cellWidth")
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 
@@ -66,7 +71,7 @@ class FeedBasicCell: UITableViewCell {
         textView.showsVerticalScrollIndicator = false
         textView.dataDetectorTypes = [.Link, .CalendarEvent]
 
-        textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
+        textView.frame = CGRect(x: feedTextFixedSpace, y: 54, width: 335, height: 26)
         textView.opaque = true
         textView.backgroundColor = UIColor.whiteColor()
 
@@ -97,7 +102,7 @@ class FeedBasicCell: UITableViewCell {
         label.textColor = UIColor.grayColor()
         label.font = UIFont.feedBottomLabelsFont()
 
-        label.frame = CGRect(x: 65, y: 0, width: screenWidth - 65 - 85, height: 17)
+        label.frame = CGRect(x: feedTextFixedSpace, y: 0, width: feedTextMaxWidth, height: 17)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -111,7 +116,7 @@ class FeedBasicCell: UITableViewCell {
         label.font = UIFont.feedBottomLabelsFont()
         label.textAlignment = .Right
 
-        label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
+        label.frame = CGRect(x: feedTextFixedSpace, y: 0, width: 200, height: 17)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -178,7 +183,8 @@ class FeedBasicCell: UITableViewCell {
     }
 
     static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+//        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        let maxWidth: CGFloat = 335.0
         return maxWidth
     }()
 
@@ -217,7 +223,10 @@ class FeedBasicCell: UITableViewCell {
 
         self.feed = feed
 
-        let layout = layoutCache.layout
+        // MARK: 
+//        let layout = layoutCache.layout
+        var layout = layoutCache.layout
+        layout = nil
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
@@ -242,9 +251,8 @@ class FeedBasicCell: UITableViewCell {
 
                 let skillButtonWidth = ceil(rect.width) + 20
 
-                skillButton.frame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
-
-                nicknameLabel.frame.size.width = screenWidth - 65 - skillButtonWidth - 20 - 10 - 15
+                skillButton.frame = CGRect(x: detailViewColumnWidth - skillButtonWidth - feedTextFixedSpace, y: 19, width: skillButtonWidth, height: 22)
+                nicknameLabel.frame.size.width = detailViewColumnWidth - 65 - skillButtonWidth - 20 - 10 - 15
             }
 
         } else {
@@ -253,7 +261,7 @@ class FeedBasicCell: UITableViewCell {
             if let basicLayout = layout?.basicLayout {
                 nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
             } else {
-                nicknameLabel.frame.size.width = screenWidth - 65 - 15
+                nicknameLabel.frame.size.width = feedTextMaxWidth
             }
         }
 
@@ -281,15 +289,15 @@ class FeedBasicCell: UITableViewCell {
 
             //let width = ceil(rect.width)
             let width: CGFloat = 30
-            messageCountLabel.frame = CGRect(x: screenWidth - width - 45 - 8, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
+            messageCountLabel.frame = CGRect(x: detailViewColumnWidth - width - feedTextFixedSpace, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
 
-            discussionImageView.frame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)
+            discussionImageView.frame = CGRect(x: detailViewColumnWidth - 30 - 15 - feedTextFixedSpace, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)
         }
 
         if layoutCache.layout == nil {
 
             var nicknameLabelFrame = nicknameLabel.frame
-            nicknameLabelFrame.size.width = screenWidth - 65 - 15
+            nicknameLabelFrame.size.width = feedTextMaxWidth
 
             let basicLayout = FeedCellLayout.BasicLayout(avatarImageViewFrame: avatarImageView.frame, nicknameLabelFrame: nicknameLabelFrame, skillButtonFrame: skillButton.frame, messageTextViewFrame: messageTextView.frame, leftBottomLabelFrame: leftBottomLabel.frame, messageCountLabelFrame: messageCountLabel.frame, discussionImageViewFrame: discussionImageView.frame)
 
@@ -303,7 +311,7 @@ class FeedBasicCell: UITableViewCell {
                 hasUploadingErrorMessage = true
 
                 let y = leftBottomLabel.frame.origin.y - (30 - leftBottomLabel.frame.height) * 0.5
-                uploadingErrorContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65, height: 30)
+                uploadingErrorContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: 30)
                 uploadingErrorContainerView.errorMessageLabel.text = message
 
                 uploadingErrorContainerView.retryAction = { [weak self] in

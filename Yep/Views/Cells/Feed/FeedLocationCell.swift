@@ -74,7 +74,7 @@ class FeedLocationCell: FeedBasicCell {
             if case let .Location(locationInfo) = attachment {
 
                 let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
-                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
+                let size = CGSize(width: feedTextMaxWidth, height: 110 - locationContainerView.nameLabel.bounds.height)
                 locationContainerView.mapImageView.yep_showActivityIndicatorWhenLoading = true
                 locationContainerView.mapImageView.yep_setImageOfLocation(location, withSize: size)
 
@@ -108,7 +108,7 @@ class FeedLocationCell: FeedBasicCell {
         } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            locationContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
+            locationContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: height)
             socialWorkBorderImageView.frame = locationContainerView.frame
         }
         locationContainerView.layoutIfNeeded()
