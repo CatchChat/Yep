@@ -23,7 +23,7 @@ class ProfileFeedsCell: UICollectionViewCell {
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
 
-    var feedAttachments: [DiscoveredAttachment]? {
+    var feedAttachments: [DiscoveredAttachment?]? {
         willSet {
             guard let _attachments = newValue else {
                 return
@@ -83,7 +83,7 @@ class ProfileFeedsCell: UICollectionViewCell {
         imageView4.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment]) -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
 
         if let feedAttachments = feedAttachments {
             self.feedAttachments = feedAttachments
@@ -93,7 +93,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                 return
             }
 
-            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 4, failureHandler: nil, completion: { feeds in
                 println("user's feeds: \(feeds.count)")
 
                 let feedAttachments = feeds.map({ feed -> DiscoveredAttachment? in
@@ -104,8 +104,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                     }
 
                     return nil
-
-                }).flatMap({ $0 })
+                })
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.feedAttachments = feedAttachments

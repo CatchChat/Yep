@@ -482,7 +482,7 @@ class ProfileViewController: SegueViewController {
     private var instagramWork: InstagramWork?
     private var githubWork: GithubWork?
     private var feeds: [DiscoveredFeed]?
-    private var feedAttachments: [DiscoveredAttachment]?
+    private var feedAttachments: [DiscoveredAttachment?]?
 
     private let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
