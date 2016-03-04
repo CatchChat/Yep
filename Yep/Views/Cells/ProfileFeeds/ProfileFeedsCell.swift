@@ -31,7 +31,7 @@ class ProfileFeedsCell: UICollectionViewCell {
 
             // 对于从左到右排列，且左边的最新，要处理数量不足的情况
 
-            var attachments: [DiscoveredAttachment?] = _attachments.map({ $0 })
+            var attachments = _attachments
 
             let imageViews = [
                 imageView4,
@@ -40,21 +40,23 @@ class ProfileFeedsCell: UICollectionViewCell {
                 imageView1,
             ]
 
+            let shortagesCount = max(imageViews.count - attachments.count, 0)
+
             // 不足补空
-            if attachments.count < imageViews.count {
-
-                let empty: [DiscoveredAttachment?] = Array(0..<(imageViews.count - attachments.count)).map({ _ in
-                    return nil
-                })
-
-                attachments.insertContentsOf(empty, at: 0)
+            if shortagesCount > 0 {
+                let shortages = Array<DiscoveredAttachment?>(count: shortagesCount, repeatedValue: nil)
+                attachments.insertContentsOf(shortages, at: 0)
             }
 
             for i in 0..<imageViews.count {
-                if let thumbnailImage = attachments[i]?.thumbnailImage {
-                    imageViews[i].image = thumbnailImage
+                if i < shortagesCount {
+                    imageViews[i].image = nil
                 } else {
-                    imageViews[i].image = UIImage(named: "icon_feed_text")
+                    if let thumbnailImage = attachments[i]?.thumbnailImage {
+                        imageViews[i].image = thumbnailImage
+                    } else {
+                        imageViews[i].image = UIImage(named: "icon_feed_text")
+                    }
                 }
             }
         }
