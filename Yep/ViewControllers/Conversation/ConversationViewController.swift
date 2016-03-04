@@ -484,6 +484,18 @@ class ConversationViewController: BaseViewController {
         } else if let group = self.conversation.withGroup {
 
             let isMyFeed = group.withFeed?.creator?.isMe ?? false
+            let includeMe = group.includeMe
+
+            let unsubscribeTitle: String
+            if isMyFeed {
+                unsubscribeTitle = NSLocalizedString("Delete", comment: "")
+            } else {
+                if includeMe {
+                    unsubscribeTitle = NSLocalizedString("Subscribe", comment: "")
+                } else {
+                    unsubscribeTitle = NSLocalizedString("Unsubscribe", comment: "")
+                }
+            }
 
             view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
@@ -517,7 +529,7 @@ class ConversationViewController: BaseViewController {
                     }
                 ),
                 .Default(
-                    title: isMyFeed ? NSLocalizedString("Delete", comment: "") : NSLocalizedString("Unsubscribe", comment: ""),
+                    title: unsubscribeTitle,
                     titleColor: UIColor.redColor(),
                     action: { [weak self] in
                         self?.unsubscribe()
@@ -2630,12 +2642,13 @@ class ConversationViewController: BaseViewController {
         }
 
         let feedID = feed.feedID
-        let feedCreatorID = feedCreator.userID
+        let groupID = group.groupID
+
+        let isMyFeed = feedCreator.isMe
+        let includeMe = group.includeMe
 
         // 若是创建者，再询问是否删除 Feed
-
-        if feedCreatorID == YepUserDefaults.userID.value {
-
+        if isMyFeed {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
                 doDeleteConversation(afterLeaveGroup: {
@@ -2650,7 +2663,22 @@ class ConversationViewController: BaseViewController {
             })
 
         } else {
-            doDeleteConversation()
+            if includeMe {
+                doDeleteConversation()
+
+            } else {
+                joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                    println("subscribe OK")
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        if let strongSelf = self {
+                            let _ = try? strongSelf.realm.write {
+                                strongSelf.conversation.withGroup?.includeMe = true
+                            }
+                        }
+                    }
+                })
+            }
         }
     }
 
