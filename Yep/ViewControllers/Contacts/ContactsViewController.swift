@@ -157,8 +157,11 @@ class ContactsViewController: BaseViewController {
 
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.UserType(user)
+                    vc.profileUser = .UserType(user)
                 }
+
+            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
             }
 
             vc.hidesBottomBarWhenPushed = true
@@ -265,6 +268,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
+        searchController?.active = false
+
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
@@ -274,14 +279,13 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .Local:
 
             if let friend = friendAtIndexPath(indexPath) {
-
-                searchController?.active = false
-
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
 
         case .Online:
-            break
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
 }
