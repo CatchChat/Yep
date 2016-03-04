@@ -128,7 +128,6 @@ class ContactsViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            println("self?.contactsTableView.contentInset.bottom: \(self?.contactsTableView.contentInset.bottom)")
             self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
             self?.contactsTableView.contentInset.bottom = keyboardHeight
         }
