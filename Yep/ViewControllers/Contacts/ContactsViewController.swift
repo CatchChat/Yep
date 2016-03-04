@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Ruler
+import KeyboardMan
 
 class ContactsViewController: BaseViewController {
 
@@ -28,10 +29,15 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
+    private let keyboardMan = KeyboardMan()
+    private var normalContactsTableViewContentInsetBottom: CGFloat?
+
     private let cellIdentifier = "ContactsCell"
 
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
+
+    private var searchedUsers = [DiscoveredUser]()
 
     private var realmNotificationToken: NotificationToken?
 
@@ -70,7 +76,8 @@ class ContactsViewController: BaseViewController {
 
         // 超过一定人数才显示搜索框
 
-        if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
+        //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
+        if friends.count > 0 {
 
             let searchController = UISearchController(searchResultsController: nil)
             searchController.delegate = self
@@ -120,8 +127,19 @@ class ContactsViewController: BaseViewController {
             }
         }
 
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
+            self?.contactsTableView.contentInset.bottom = keyboardHeight
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+            if let bottom = self?.normalContactsTableViewContentInsetBottom {
+                self?.contactsTableView.contentInset.bottom = bottom
+            }
+        }
+
         #if DEBUG
-//            view.addSubview(contactsFPSLabel)
+            //view.addSubview(contactsFPSLabel)
         #endif
     }
 
@@ -154,8 +172,11 @@ class ContactsViewController: BaseViewController {
 
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.UserType(user)
+                    vc.profileUser = .UserType(user)
                 }
+
+            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
             }
 
             vc.hidesBottomBarWhenPushed = true
@@ -173,8 +194,26 @@ class ContactsViewController: BaseViewController {
 
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+        case Local
+        case Online
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
+        guard let section = Section(rawValue: section) else {
+            return 0
+        }
+
+        switch section {
+        case .Local:
+            return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
+        case .Online:
+            return searchControllerIsActive ? searchedUsers.count : 0
+        }
     }
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
@@ -195,24 +234,38 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        guard let friend = friendAtIndexPath(indexPath) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
-        let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
-        cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        switch section {
 
-        cell.nameLabel.text = friend.nickname
+        case .Local:
 
-        if let badge = BadgeView.Badge(rawValue: friend.badge) {
-            cell.badgeImageView.image = badge.image
-            cell.badgeImageView.tintColor = badge.color
-        } else {
-            cell.badgeImageView.image = nil
+            guard let friend = friendAtIndexPath(indexPath) else {
+                return
+            }
+
+            let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
+            cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+            cell.nameLabel.text = friend.nickname
+
+            if let badge = BadgeView.Badge(rawValue: friend.badge) {
+                cell.badgeImageView.image = badge.image
+                cell.badgeImageView.tintColor = badge.color
+            } else {
+                cell.badgeImageView.image = nil
+            }
+
+            cell.joinedDateLabel.text = friend.introduction
+            cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
+
+        case .Online:
+            
+            let discoveredUser = searchedUsers[indexPath.row]
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
         }
-
-        cell.joinedDateLabel.text = friend.introduction
-        cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -230,11 +283,24 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        if let friend = friendAtIndexPath(indexPath) {
+        searchController?.active = false
 
-            searchController?.active = false
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
 
-            performSegueWithIdentifier("showProfile", sender: friend)
+        switch section {
+
+        case .Local:
+
+            if let friend = friendAtIndexPath(indexPath) {
+                performSegueWithIdentifier("showProfile", sender: friend)
+            }
+
+        case .Online:
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
 }
@@ -249,10 +315,38 @@ extension ContactsViewController: UISearchResultsUpdating {
             return
         }
         
-        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@", searchText)
+        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
         filteredFriends = friends.filter(predicate)
 
         updateContactsTableView()
+
+        searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
+
+            //println("searchUsersByQ users: \(users)")
+            
+            dispatch_async(dispatch_get_main_queue()) {
+
+                guard let filteredFriends = self?.filteredFriends else {
+                    return
+                }
+
+                // 剔除 filteredFriends 里已有的
+
+                var searchedUsers = [DiscoveredUser]()
+
+                let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
+
+                for user in users {
+                    if !filteredFriendUserIDSet.contains(user.id) {
+                        searchedUsers.append(user)
+                    }
+                }
+
+                self?.searchedUsers = searchedUsers
+
+                self?.updateContactsTableView()
+            }
+        })
     }
 }
 
