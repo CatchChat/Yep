@@ -315,20 +315,14 @@ extension ContactsViewController: UISearchResultsUpdating {
                     return
                 }
 
+                // 剔除 filteredFriends 里已有的
+
                 var searchedUsers = [DiscoveredUser]()
 
+                let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
+
                 for user in users {
-
-                    var atLocal = false
-
-                    for friend in filteredFriends {
-                        if user.id == friend.userID {
-                            atLocal = true
-                            break
-                        }
-                    }
-
-                    if !atLocal {
+                    if !filteredFriendUserIDSet.contains(user.id) {
                         searchedUsers.append(user)
                     }
                 }
