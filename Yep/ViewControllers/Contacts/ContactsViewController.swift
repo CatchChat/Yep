@@ -194,7 +194,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .Local:
             return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
         case .Online:
-            return 0
+            return searchControllerIsActive ? searchedUsers.count : 0
         }
     }
 
@@ -244,7 +244,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
 
         case .Online:
-            break
+            
+            let discoveredUser = searchedUsers[indexPath.row]
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
         }
     }
 
@@ -301,7 +303,7 @@ extension ContactsViewController: UISearchResultsUpdating {
 
         searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
 
-            println("searchUsersByQ users: \(users)")
+            //println("searchUsersByQ users: \(users)")
             
             dispatch_async(dispatch_get_main_queue()) {
                 self?.searchedUsers = users
