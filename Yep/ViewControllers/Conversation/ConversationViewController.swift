@@ -507,6 +507,10 @@ class ConversationViewController: BaseViewController {
                             guard let strongSelf = self else { return }
                             strongSelf.moreView.items[2] = updateGroupItem()
                             strongSelf.moreView.refreshItems()
+
+                            if strongSelf.isSubscribeViewShowing {
+                                strongSelf.subscribeView.hide()
+                            }
                         })
                         return true
                     }
@@ -2332,6 +2336,10 @@ class ConversationViewController: BaseViewController {
             }
 
             delay(3) { [weak self] in
+
+                guard let realm = try? Realm(), group = groupWithGroupID(groupID, inRealm: realm) where !group.includeMe else {
+                    return
+                }
 
                 self?.subscribeView.subscribeAction = { [weak self] in
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
