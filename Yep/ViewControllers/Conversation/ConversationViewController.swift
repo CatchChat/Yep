@@ -483,18 +483,34 @@ class ConversationViewController: BaseViewController {
 
         } else if let group = self.conversation.withGroup {
 
-            let isMyFeed = group.withFeed?.creator?.isMe ?? false
-            let includeMe = group.includeMe
+            func updateGroupItem() -> ActionSheetView.Item {
 
-            let groupActionTitle: String
-            if isMyFeed {
-                groupActionTitle = NSLocalizedString("Delete", comment: "")
-            } else {
-                if includeMe {
-                    groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
+                let isMyFeed = group.withFeed?.creator?.isMe ?? false
+                let includeMe = group.includeMe
+
+                let groupActionTitle: String
+                if isMyFeed {
+                    groupActionTitle = NSLocalizedString("Delete", comment: "")
                 } else {
-                    groupActionTitle = NSLocalizedString("Subscribe", comment: "")
+                    if includeMe {
+                        groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
+                    } else {
+                        groupActionTitle = NSLocalizedString("Subscribe", comment: "")
+                    }
                 }
+
+                return .Default(
+                    title: groupActionTitle,
+                    titleColor: UIColor.redColor(),
+                    action: { [weak self] in
+                        self?.tryUpdateGroup(afterSubscribed: { [weak self] in
+                            guard let strongSelf = self else { return }
+                            strongSelf.moreView.items[2] = updateGroupItem()
+                            strongSelf.moreView.refreshItems()
+                        })
+                        return true
+                    }
+                )
             }
 
             view = ActionSheetView(items: [
@@ -528,14 +544,7 @@ class ConversationViewController: BaseViewController {
                         return true
                     }
                 ),
-                .Default(
-                    title: groupActionTitle,
-                    titleColor: UIColor.redColor(),
-                    action: { [weak self] in
-                        self?.tryUpdateGroup()
-                        return true
-                    }
-                ),
+                updateGroupItem(), // 2
                 cancelItem,
                 ]
             )
@@ -2610,7 +2619,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryUpdateGroup() {
+    private func tryUpdateGroup(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
 
         guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
             return
@@ -2675,6 +2684,8 @@ class ConversationViewController: BaseViewController {
                             let _ = try? strongSelf.realm.write {
                                 strongSelf.conversation.withGroup?.includeMe = true
                             }
+
+                            afterSubscribed?()
                         }
                     }
                 })
