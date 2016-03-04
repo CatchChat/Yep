@@ -29,6 +29,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                 iconImageView.tintColor = UIColor.yepTintColor()
                 nameLabel.textColor = UIColor.yepTintColor()
                 accessoryImageView.hidden = false
+                accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
             } else {
                 iconImageView.tintColor = SocialAccount.disabledColor
                 nameLabel.textColor = SocialAccount.disabledColor
