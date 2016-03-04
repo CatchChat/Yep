@@ -692,6 +692,8 @@ class NewFeedViewController: SegueViewController {
 
                         if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
                             self?.afterCreatedFeedAction?(feed: feed)
+
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.createdFeed, object: Box<DiscoveredFeed>(feed))
                         }
 
                         if !kind.needBackgroundUpload {

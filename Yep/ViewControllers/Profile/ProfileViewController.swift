@@ -349,6 +349,8 @@ class ProfileViewController: SegueViewController {
                 let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
+
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "createdFeed:", name: YepConfig.Notification.createdFeed, object: nil)
             }
         }
     }
@@ -976,6 +978,29 @@ class ProfileViewController: SegueViewController {
     }
 
     @objc private func updateUIForUsername(sender: NSNotification) {
+        updateProfileCollectionView()
+    }
+
+    @objc private func createdFeed(sender: NSNotification) {
+
+        guard self.feeds != nil else {
+            return
+        }
+
+        let feed = (sender.object as! Box<DiscoveredFeed>).value
+        self.feeds!.insert(feed, atIndex: 0)
+
+        let feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
+            if let attachment = feed.attachment {
+                if case let .Images(attachments) = attachment {
+                    return attachments.first
+                }
+            }
+
+            return nil
+        })
+        self.feedAttachments = feedAttachments
+
         updateProfileCollectionView()
     }
 
