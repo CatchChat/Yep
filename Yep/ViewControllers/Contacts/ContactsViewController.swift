@@ -33,6 +33,8 @@ class ContactsViewController: BaseViewController {
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
+    private var searchedUsers = [DiscoveredUser]()
+
     private var realmNotificationToken: NotificationToken?
 
     private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
@@ -296,6 +298,17 @@ extension ContactsViewController: UISearchResultsUpdating {
         filteredFriends = friends.filter(predicate)
 
         updateContactsTableView()
+
+        searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
+
+            println("searchUsersByQ users: \(users)")
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.searchedUsers = users
+
+                self?.updateContactsTableView()
+            }
+        })
     }
 }
 
