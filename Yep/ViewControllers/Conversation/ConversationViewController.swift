@@ -486,14 +486,14 @@ class ConversationViewController: BaseViewController {
             let isMyFeed = group.withFeed?.creator?.isMe ?? false
             let includeMe = group.includeMe
 
-            let unsubscribeTitle: String
+            let groupActionTitle: String
             if isMyFeed {
-                unsubscribeTitle = NSLocalizedString("Delete", comment: "")
+                groupActionTitle = NSLocalizedString("Delete", comment: "")
             } else {
                 if includeMe {
-                    unsubscribeTitle = NSLocalizedString("Unsubscribe", comment: "")
+                    groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
                 } else {
-                    unsubscribeTitle = NSLocalizedString("Subscribe", comment: "")
+                    groupActionTitle = NSLocalizedString("Subscribe", comment: "")
                 }
             }
 
@@ -529,10 +529,10 @@ class ConversationViewController: BaseViewController {
                     }
                 ),
                 .Default(
-                    title: unsubscribeTitle,
+                    title: groupActionTitle,
                     titleColor: UIColor.redColor(),
                     action: { [weak self] in
-                        self?.unsubscribe()
+                        self?.tryUpdateGroup()
                         return true
                     }
                 ),
@@ -2610,7 +2610,11 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func unsubscribe() {
+    private func tryUpdateGroup() {
+
+        guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
+            return
+        }
 
         func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
@@ -2635,10 +2639,6 @@ class ConversationViewController: BaseViewController {
 
                 self?.navigationController?.popViewControllerAnimated(true)
             }
-        }
-
-        guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
-            return
         }
 
         let isMyFeed = feedCreator.isMe
