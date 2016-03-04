@@ -2331,13 +2331,21 @@ class ConversationViewController: BaseViewController {
 
             println("meIsMember: \(meIsMember)")
 
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    let _ = try? strongSelf.realm.write {
+                        group.includeMe = meIsMember
+                    }
+                }
+            }
+
             guard !meIsMember else {
                 return
             }
 
             delay(3) { [weak self] in
 
-                guard let realm = try? Realm(), group = groupWithGroupID(groupID, inRealm: realm) where !group.includeMe else {
+                guard !group.includeMe else {
                     return
                 }
 
@@ -2348,7 +2356,7 @@ class ConversationViewController: BaseViewController {
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             if let strongSelf = self {
                                 let _ = try? strongSelf.realm.write {
-                                    strongSelf.conversation.withGroup?.includeMe = true
+                                    group.includeMe = true
                                 }
                             }
                         }
@@ -2690,7 +2698,7 @@ class ConversationViewController: BaseViewController {
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         if let strongSelf = self {
                             let _ = try? strongSelf.realm.write {
-                                strongSelf.conversation.withGroup?.includeMe = true
+                                group.includeMe = true
                             }
 
                             afterSubscribed?()
