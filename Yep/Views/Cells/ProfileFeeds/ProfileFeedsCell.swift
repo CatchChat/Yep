@@ -51,7 +51,11 @@ class ProfileFeedsCell: UICollectionViewCell {
             }
 
             for i in 0..<imageViews.count {
-                imageViews[i].image = attachments[i]?.thumbnailImage
+                if let thumbnailImage = attachments[i]?.thumbnailImage {
+                    imageViews[i].image = thumbnailImage
+                } else {
+                    imageViews[i].image = UIImage(named: "icon_feed_text")
+                }
             }
         }
     }
@@ -93,7 +97,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                 return
             }
 
-            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 4, failureHandler: nil, completion: { feeds in
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
                 println("user's feeds: \(feeds.count)")
 
                 let feedAttachments = feeds.map({ feed -> DiscoveredAttachment? in
