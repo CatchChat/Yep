@@ -310,7 +310,30 @@ extension ContactsViewController: UISearchResultsUpdating {
             //println("searchUsersByQ users: \(users)")
             
             dispatch_async(dispatch_get_main_queue()) {
-                self?.searchedUsers = users
+
+                guard let filteredFriends = self?.filteredFriends else {
+                    return
+                }
+
+                var searchedUsers = [DiscoveredUser]()
+
+                for user in users {
+
+                    var atLocal = false
+
+                    for friend in filteredFriends {
+                        if user.id == friend.userID {
+                            atLocal = true
+                            break
+                        }
+                    }
+
+                    if !atLocal {
+                        searchedUsers.append(user)
+                    }
+                }
+
+                self?.searchedUsers = searchedUsers
 
                 self?.updateContactsTableView()
             }
