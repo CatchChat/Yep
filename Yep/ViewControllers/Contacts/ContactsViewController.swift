@@ -315,7 +315,7 @@ extension ContactsViewController: UISearchResultsUpdating {
             return
         }
         
-        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@", searchText)
+        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
         filteredFriends = friends.filter(predicate)
 
         updateContactsTableView()
