@@ -23,11 +23,27 @@ class ProfileFeedsCell: UICollectionViewCell {
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
 
+    private var enabled: Bool = false {
+        willSet {
+            if newValue {
+                iconImageView.tintColor = UIColor.yepTintColor()
+                nameLabel.textColor = UIColor.yepTintColor()
+                accessoryImageView.hidden = false
+            } else {
+                iconImageView.tintColor = SocialAccount.disabledColor
+                nameLabel.textColor = SocialAccount.disabledColor
+                accessoryImageView.hidden = true
+            }
+        }
+    }
+
     var feedAttachments: [DiscoveredAttachment?]? {
         willSet {
             guard let _attachments = newValue else {
                 return
             }
+
+            enabled = !_attachments.isEmpty
 
             // 对于从左到右排列，且左边的最新，要处理数量不足的情况
 
@@ -65,10 +81,10 @@ class ProfileFeedsCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nameLabel.text = NSLocalizedString("Feeds", comment: "")
-        nameLabel.textColor = UIColor.yepTintColor()
+        enabled = false
 
-        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        nameLabel.text = NSLocalizedString("Feeds", comment: "")
+
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
