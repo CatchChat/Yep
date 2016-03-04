@@ -1312,6 +1312,7 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
                     let offlineJSON = OfflineJSON(name: OfflineJSONName.DiscoveredUsers.rawValue, data: offlineData)
 
                     let _ = try? realm.write {
+                        // MARK: Test
                         realm.add(offlineJSON, update: true)
                     }
                 }
@@ -1747,6 +1748,7 @@ func officialMessages(completion completion: Int -> Void) {
                 newUser.friendState = UserFriendState.Yep.rawValue
 
                 let _ = try? realm.write {
+                    // MARK: Test
                     realm.add(newUser)
                 }
 
@@ -2899,6 +2901,8 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
                     let offlineJSON = OfflineJSON(name: OfflineJSONName.Feeds.rawValue, data: offlineData)
 
                     let _ = try? realm.write {
+                        // MARK: Test
+
                         realm.add(offlineJSON, update: true)
                     }
                 }

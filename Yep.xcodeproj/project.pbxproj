@@ -18,7 +18,6 @@
 		0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A7D551AF5E00600A7F5F5 /* YepHelper.swift */; };
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
 		0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B41AB67D11004AD60E /* Main.storyboard */; };
-		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54C61AB67D11004AD60E /* YepTests.swift */; };
 		0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */; };
@@ -365,6 +364,8 @@
 		D8C9851E1C64AE470016A14D /* DiscoverHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */; };
 		D8C985241C64B05F0016A14D /* DiscoverHDCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */; };
 		D8F0B4831C632A4800DF2E23 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */; };
+		E4783E421C8937E400324D9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4783E411C8937E400324D9A /* Images.xcassets */; };
+		E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4783E431C89646900324D9A /* PopoverContentViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -391,7 +392,6 @@
 		0A8F54AF1AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54B01AB67D11004AD60E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0A8F54B51AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0A8F54B71AB67D11004AD60E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0A8F54BA1AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0A8F54C01AB67D11004AD60E /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54C51AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -748,6 +748,8 @@
 		D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDViewController.swift; sourceTree = "<group>"; };
 		D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDCell.swift; sourceTree = "<group>"; };
 		D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E4783E411C8937E400324D9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E4783E431C89646900324D9A /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -868,10 +870,10 @@
 				D8C9851C1C64AE260016A14D /* DiscoverHD */,
 				D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */,
 				6ADDB44F1B848C600012877A /* 1Password.xcassets */,
-				0A8F54B71AB67D11004AD60E /* Images.xcassets */,
 				504BDC141B4528A500DBD35D /* Badges.xcassets */,
 				84385C451B8594E80071130D /* Show.xcassets */,
 				501813251BA07CED0025873C /* Activities.xcassets */,
+				E4783E411C8937E400324D9A /* Images.xcassets */,
 				0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */,
 				0A8F54AE1AB67D11004AD60E /* Supporting Files */,
 				5008A1951B8DB8B500E94274 /* Localizable.strings */,
@@ -1526,6 +1528,7 @@
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
+				E4783E431C89646900324D9A /* PopoverContentViewController.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -2596,13 +2599,13 @@
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
 				50E1CE891BDA3CED0025B933 /* SkillHome.storyboard in Resources */,
 				50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */,
-				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
 				50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */,
 				D8C140031C655178001D7947 /* DiscoverHD.storyboard in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
 				50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */,
+				E4783E421C8937E400324D9A /* Images.xcassets in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */,
 				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
@@ -2692,6 +2695,7 @@
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
+				E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */,
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
@@ -3195,7 +3199,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -3291,7 +3295,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

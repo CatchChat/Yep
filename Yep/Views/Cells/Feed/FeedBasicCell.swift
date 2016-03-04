@@ -223,10 +223,10 @@ class FeedBasicCell: UITableViewCell {
 
         self.feed = feed
 
-        // MARK: 
-//        let layout = layoutCache.layout
-        var layout = layoutCache.layout
-        layout = nil
+        // MARK: Test
+        let layout = layoutCache.layout
+//        var layout = layoutCache.layout
+//        layout = nil
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 

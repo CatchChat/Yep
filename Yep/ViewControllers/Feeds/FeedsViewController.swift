@@ -254,15 +254,14 @@ class FeedsViewController: BaseViewController {
 
         print("Deinit FeedsViewControler")
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configToolBar()
+        print("qweqwe__",self.view.frame.width,feedsTableView.frame.width,
+            feedsToolbar.frame.width,detailViewColumnWidth)
+
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -861,34 +860,38 @@ class FeedsViewController: BaseViewController {
     }
     
     func configToolBar() {
+
         // TODO: TOOLBAR gapwidth + need new iconImage
+
         feedsToolbar.clipsToBounds = true
-        let sideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-            target:nil,
-            action:nil)
-        sideToolBarSpace.width = (detailViewColumnWidth - 335)/2
+        let firstGapSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        firstGapSpace.width = 0
+        let secondGapSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+        secondGapSpace.width = 0
+
+
         let firstToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_pictxt"),
             style:.Plain, target:self, action:Selector("pictxtClicked:"))
-//        let firstFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-//            target:nil,
-//            action:nil)
-//        firstFixedToolBarSpace.width = 0
         let secondToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_mic"),
             style:.Plain, target:self, action:Selector("micClicked:"))
-//        let secondFixedToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-//            target:nil,
-//            action:nil)
-//        secondFixedToolBarSpace.width = 0
         let thirdToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_location"),
             style:.Plain, target:self, action:Selector("locationClicked:"))
-//        let secondFlexibleToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FlexibleSpace,
-//            target:nil,
-//            action:nil)
-        feedsToolbar.setItems([sideToolBarSpace,firstToolBarItem,secondToolBarItem,
-            thirdToolBarItem,sideToolBarSpace], animated:true)
-        print(sideToolBarSpace.width,"__space___",detailViewColumnWidth)
-//        feedsToolbar.setItems([sideToolBarSpace,firstToolBarItem,firstFixedToolBarSpace,secondToolBarItem,
-//            secondFixedToolBarSpace,thirdToolBarItem,secondFlexibleToolBarSpace], animated:true)
+        let leftSideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+            target:nil,
+            action:nil)
+        leftSideToolBarSpace.width = (detailViewColumnWidth - 335)/2
+
+        let rightSideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
+            target:nil,
+            action:nil)
+        rightSideToolBarSpace.width = leftSideToolBarSpace.width
+
+        feedsToolbar.setItems([leftSideToolBarSpace, firstToolBarItem,firstGapSpace,secondToolBarItem,secondGapSpace,thirdToolBarItem,rightSideToolBarSpace], animated: true)
+
+        let topSeparatorView = UIView(frame: CGRect(x: 0, y: 0.5, width: detailViewColumnWidth, height: 0.5))
+        topSeparatorView.backgroundColor = UIColor.yepCellSeparatorColor()
+        feedsToolbar.addSubview(topSeparatorView)
+        feedsToolbar.bringSubviewToFront(topSeparatorView)
     }
     
     func pictxtClicked(sender:UIBarButtonItem) {
@@ -1065,10 +1068,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
-            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+            // MARK: Test
+//            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+            var layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+            layout = nil
             let update: FeedCellLayout.Update = { newLayout in
                 FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
             }
+
             let layoutCache = (layout: layout, update: update)
 
             switch feed.kind {

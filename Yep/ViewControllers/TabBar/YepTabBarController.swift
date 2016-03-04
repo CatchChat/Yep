@@ -77,12 +77,6 @@ class YepTabBarController: UITabBarController {
         
         self.splitViewController?.preferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible
 
-
-        if let columnWidth = self.splitViewController?.primaryColumnWidth {
-            detailViewColumnWidth = UIScreen.mainScreen().bounds.width - columnWidth
-        }
-        
-        print(self.splitViewController?.primaryColumnWidth,"primaryColumnWidth____")
         delegate = self
         view.backgroundColor = UIColor.whiteColor()
         
@@ -115,6 +109,15 @@ class YepTabBarController: UITabBarController {
                 }
             }
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if let columnWidth = self.splitViewController?.primaryColumnWidth {
+            detailViewColumnWidth = UIScreen.mainScreen().bounds.width - columnWidth
+        }
+
+        print(self.splitViewController?.primaryColumnWidth,"primaryColumnWidth____")
     }
 }
 

@@ -59,7 +59,7 @@ class FeedView: UIView {
         return UINib(nibName: "FeedView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! FeedView
     }
 
-    var foldProgress: CGFloat = 0 {
+    var foldProgress: CGFloat = 0 { 
         willSet {
             if newValue >= 0 && newValue <= 1 {
 

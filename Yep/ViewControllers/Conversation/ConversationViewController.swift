@@ -641,9 +641,7 @@ class ConversationViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.view.frame,"___frame",conversationCollectionView.frame)
         // TODO: CELL SIZE
-//        self.view.clipsToBounds = true
         realm = try! Realm()
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
@@ -670,8 +668,6 @@ class ConversationViewController: BaseViewController {
         lastTimeMessagesCount = messages.count
 
         navigationItem.titleView = titleView
-
-
         let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction:")
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
@@ -880,7 +876,7 @@ class ConversationViewController: BaseViewController {
             //view.addSubview(conversationFPSLabel)
         #endif
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -899,22 +895,7 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.conversation = conversation
 
-            // MARK: MessageToolbar MoreMessageTypes
 
-            messageToolbar.moreMessageTypesAction = { [weak self] in
-
-                if let window = self?.view.window {
-                    self?.moreMessageTypesView.showInView(window)
-
-                    if let state = self?.messageToolbar.state where !state.isAtBottom {
-                        self?.messageToolbar.state = .Default
-                    }
-                    
-                    delay(0.2) {
-                        self?.imagePicker.hidesBarsOnTap = false
-                    }
-                }
-            }
 
             // MARK: MessageToolbar State Transitions
 
@@ -1007,6 +988,36 @@ class ConversationViewController: BaseViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
+        // MARK: MessageToolbar MoreMessageTypes
+
+        messageToolbar.moreMessageTypesAction = { [weak self] in
+
+            if let sSelf = self {
+
+                //                    self?.moreMessageTypesView.showInView(window)
+
+                // MARK: Popover
+
+                let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
+                popoverContent.modalPresentationStyle = .Popover
+                popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+                sSelf.presentViewController(popoverContent, animated: true, completion: nil)
+
+                let popoverPresentationController = popoverContent.popoverPresentationController
+                popoverPresentationController?.sourceView = sSelf.messageToolbar.moreButton
+                popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
+//                popoverPresentationController?.permittedArrowDirections = .Down
+
+                if let state = self?.messageToolbar.state where !state.isAtBottom {
+                    self?.messageToolbar.state = .Default
+                }
+
+                delay(0.2) {
+                    self?.imagePicker.hidesBarsOnTap = false
+                }
+            }
+        }
 
         navigationController?.setNavigationBarHidden(false, animated: true)
         setNeedsStatusBarAppearanceUpdate()
@@ -2235,20 +2246,30 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    @objc private func moreAction(sender: AnyObject) {
+    @objc private func moreAction(sender: UIBarButtonItem) {
+
+        // MARK: Popover
+
+        let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
+        popoverContent.modalPresentationStyle = .Popover
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        self.presentViewController(popoverContent, animated: true, completion: nil)
+
+        let popoverPresentationController = popoverContent.popoverPresentationController
+        popoverPresentationController?.barButtonItem = sender
 
         messageToolbar.state = .Default
-        
-        if let _ = conversation?.withFriend {
-            moreView.type = .OneToOne
 
-            oneToOneMoreAction()
-
-        } else {
-            moreView.type = .Topic
-
-            topicMoreAction()
-        }
+//        if let _ = conversation?.withFriend {
+//            moreView.type = .OneToOne
+//
+//            oneToOneMoreAction()
+//
+//        } else {
+//            moreView.type = .Topic
+//
+//            topicMoreAction()
+//        }
     }
     
     private func topicMoreAction() {
@@ -4565,3 +4586,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     }
 }
 
+// MARK: UIPopoverControllerDelegate
+
+extension ConversationViewController: UIPopoverControllerDelegate, UISplitViewControllerDelegate {
+
+}

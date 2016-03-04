@@ -12,7 +12,6 @@ import Photos
 class MoreMessageTypesView: UIView {
 
     let totalHeight: CGFloat = 100 + 60 * 3
-
     lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clearColor()
@@ -28,7 +27,7 @@ class MoreMessageTypesView: UIView {
         view.delegate = self
         view.rowHeight = 60
         view.scrollEnabled = false
-
+        view.separatorColor = UIColor.clearColor()
         view.registerNib(UINib(nibName: self.quickPickPhotosCellID, bundle: nil), forCellReuseIdentifier: self.quickPickPhotosCellID)
         view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
         return view
@@ -64,9 +63,9 @@ class MoreMessageTypesView: UIView {
         }, completion: { _ in
         })
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
+        UIView.animateWithDuration(0.7, delay: 0.1, options: .CurveEaseOut, animations: { _ in
             self.tableViewBottomConstraint?.constant = 0
-
+            self.alpha = 1
             self.layoutIfNeeded()
 
         }, completion: { _ in
@@ -128,7 +127,7 @@ class MoreMessageTypesView: UIView {
     }
 
     func makeUI() {
-
+        self.alpha = 0
         addSubview(containerView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
 

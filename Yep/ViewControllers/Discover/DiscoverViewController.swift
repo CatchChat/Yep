@@ -386,7 +386,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return CGSize(width: view.bounds.width, height: 80)
 
             case .Card:
-                return CGSize(width: (view.bounds.width - (10 + 10 + 10)) * 0.5, height: 280)
+                return CGSize(width: (view.bounds.width - (10 + 10 + 10 + 10)) * 1/3, height: 280)
             }
 
         case Section.LoadMore.rawValue:
