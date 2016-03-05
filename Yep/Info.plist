@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>247</string>
+	<string>248</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -81,7 +81,6 @@
 	<string>Meeting with near genius</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
