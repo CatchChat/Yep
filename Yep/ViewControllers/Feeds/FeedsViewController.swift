@@ -132,6 +132,8 @@ class FeedsViewController: BaseViewController {
     private let feedURLCellID = "FeedURLCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
+    private var didConfigToolbar: Bool = false
+
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
@@ -257,10 +259,6 @@ class FeedsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configToolBar()
-        print("qweqwe__",self.view.frame.width,feedsTableView.frame.width,
-            feedsToolbar.frame.width,detailViewColumnWidth)
 
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -405,6 +403,14 @@ class FeedsViewController: BaseViewController {
         }
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !didConfigToolbar {
+            configToolBar()
+
+        }
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         /*
@@ -423,7 +429,7 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction private func showFilter(sender: AnyObject) {
+    @IBAction private func showFilter(sender: UIBarButtonItem) {
         
         if feedSortStyle != .Time {
             filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
@@ -439,10 +445,21 @@ class FeedsViewController: BaseViewController {
                 self?.feedSortStyle = .Time
             }
         }
-        
-        if let window = view.window {
-            filterView.showInView(window)
-        }
+
+        // MARK: Popover
+
+        let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
+        popoverContent.modalPresentationStyle = .Popover
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        presentViewController(popoverContent, animated: true, completion: nil)
+
+        let popoverPresentationController = popoverContent.popoverPresentationController
+        popoverPresentationController?.barButtonItem = sender
+        popoverPresentationController?.permittedArrowDirections = .Up
+
+//        if let window = view.window {
+//            filterView.showInView(window)
+//        }
     }
 
     private var currentPageIndex = 1
@@ -862,38 +879,42 @@ class FeedsViewController: BaseViewController {
     func configToolBar() {
 
         // TODO: TOOLBAR gapwidth + need new iconImage
+        let leftGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+        let rightGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 
-        feedsToolbar.clipsToBounds = true
-        let firstGapSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        firstGapSpace.width = 0
-        let secondGapSpace = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-        secondGapSpace.width = 0
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 335, height: feedsToolbar.frame.height))
 
+        let firstToolBarItem  = configToolBarButton(buttonImageName: "btn_pictxt", actionName: "pictxtClicked:", buttonWidth: 111)
+        let secondToolBarItem = configToolBarButton(buttonImageName: "btn_mic", actionName: "micClicked:", buttonWidth: 113)
+        let thirdToolBarItem  = configToolBarButton(buttonImageName: "btn_location", actionName: "locationClicked:", buttonWidth: 111)
 
-        let firstToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_pictxt"),
-            style:.Plain, target:self, action:Selector("pictxtClicked:"))
-        let secondToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_mic"),
-            style:.Plain, target:self, action:Selector("micClicked:"))
-        let thirdToolBarItem = UIBarButtonItem(image:UIImage(named:"btn_location"),
-            style:.Plain, target:self, action:Selector("locationClicked:"))
-        let leftSideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-            target:nil,
-            action:nil)
-        leftSideToolBarSpace.width = (detailViewColumnWidth - 335)/2
+        containerView.addSubview(firstToolBarItem)
+        containerView.addSubview(secondToolBarItem)
+        containerView.addSubview(thirdToolBarItem)
 
-        let rightSideToolBarSpace =  UIBarButtonItem(barButtonSystemItem:.FixedSpace,
-            target:nil,
-            action:nil)
-        rightSideToolBarSpace.width = leftSideToolBarSpace.width
+        firstToolBarItem.frame.origin.x  = 0
+        secondToolBarItem.frame.origin.x = firstToolBarItem.frame.origin.x + firstToolBarItem.frame.width
+        thirdToolBarItem.frame.origin.x  = secondToolBarItem.frame.origin.x + secondToolBarItem.frame.width
 
-        feedsToolbar.setItems([leftSideToolBarSpace, firstToolBarItem,firstGapSpace,secondToolBarItem,secondGapSpace,thirdToolBarItem,rightSideToolBarSpace], animated: true)
+        let containerItem = UIBarButtonItem(customView: containerView)
+
+        feedsToolbar.setItems([leftGapSpace, containerItem, rightGapSpace], animated: true)
 
         let topSeparatorView = UIView(frame: CGRect(x: 0, y: 0.5, width: detailViewColumnWidth, height: 0.5))
         topSeparatorView.backgroundColor = UIColor.yepCellSeparatorColor()
         feedsToolbar.addSubview(topSeparatorView)
         feedsToolbar.bringSubviewToFront(topSeparatorView)
+
+        didConfigToolbar = true
     }
-    
+
+    private func configToolBarButton(buttonImageName buttonImageName: String, actionName: String, buttonWidth: CGFloat) -> UIButton {
+
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: feedsToolbar.frame.height))
+        button.setImage(UIImage(named: buttonImageName), forState: .Normal)
+        button.addTarget(self, action: Selector(actionName), forControlEvents: .TouchUpInside)
+        return button
+    }
     func pictxtClicked(sender:UIBarButtonItem) {
         self.performSegueWithIdentifier("presentNewFeed", sender: nil)
     }

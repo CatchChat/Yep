@@ -47,7 +47,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="SyV-BM-H5v">
-                        <rect key="frame" x="10" y="222" width="150" height="50"/>
+                        <rect key="frame" x="4" y="222" width="156" height="50"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="uKX-bA-VDb"/>
@@ -66,7 +66,7 @@
                 <constraint firstAttribute="bottom" secondItem="SyV-BM-H5v" secondAttribute="bottom" constant="8" id="aDT-lj-qyJ"/>
                 <constraint firstAttribute="trailing" secondItem="Op8-Yi-D8v" secondAttribute="trailing" id="hrl-xf-lkN"/>
                 <constraint firstItem="tzq-8A-E7A" firstAttribute="leading" secondItem="UY0-zc-CIG" secondAttribute="leading" id="hu3-wr-2wi"/>
-                <constraint firstItem="SyV-BM-H5v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="j9z-NJ-Nfg"/>
+                <constraint firstItem="SyV-BM-H5v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="4" id="j9z-NJ-Nfg"/>
                 <constraint firstItem="Op8-Yi-D8v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jK1-SF-GFu"/>
                 <constraint firstItem="tzq-8A-E7A" firstAttribute="top" secondItem="UY0-zc-CIG" secondAttribute="bottom" constant="5" id="oPV-q8-LQQ"/>
                 <constraint firstItem="06E-GR-zHe" firstAttribute="leading" secondItem="UY0-zc-CIG" secondAttribute="trailing" constant="10" id="of0-on-dvR"/>

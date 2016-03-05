@@ -171,9 +171,20 @@ class DiscoverViewController: BaseViewController {
             self.discoveredUserSortStyle = discoveredUserSortStyle
         }
 
-        if let window = view.window {
-            filterView.showInView(window)
-        }
+        // MARK: Popover
+
+        let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
+        popoverContent.modalPresentationStyle = .Popover
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        self.presentViewController(popoverContent, animated: true, completion: nil)
+
+        let popoverPresentationController = popoverContent.popoverPresentationController
+        popoverPresentationController?.barButtonItem = sender
+        popoverPresentationController?.permittedArrowDirections = .Up
+
+//        if let window = view.window {
+//            filterView.showInView(window)
+//        }
     }
 
     private var currentPageIndex = 1

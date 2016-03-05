@@ -1007,7 +1007,7 @@ class ConversationViewController: BaseViewController {
                 let popoverPresentationController = popoverContent.popoverPresentationController
                 popoverPresentationController?.sourceView = sSelf.messageToolbar.moreButton
                 popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
-//                popoverPresentationController?.permittedArrowDirections = .Down
+                popoverPresentationController?.permittedArrowDirections = .Down
 
                 if let state = self?.messageToolbar.state where !state.isAtBottom {
                     self?.messageToolbar.state = .Default

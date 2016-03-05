@@ -364,6 +364,7 @@
 		D8C9851E1C64AE470016A14D /* DiscoverHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */; };
 		D8C985241C64B05F0016A14D /* DiscoverHDCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */; };
 		D8F0B4831C632A4800DF2E23 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */; };
+		E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */; };
 		E4783E421C8937E400324D9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4783E411C8937E400324D9A /* Images.xcassets */; };
 		E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4783E431C89646900324D9A /* PopoverContentViewController.swift */; };
 /* End PBXBuildFile section */
@@ -748,6 +749,7 @@
 		D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDViewController.swift; sourceTree = "<group>"; };
 		D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDCell.swift; sourceTree = "<group>"; };
 		D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchPopoverViewController.swift; sourceTree = "<group>"; };
 		E4783E411C8937E400324D9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E4783E431C89646900324D9A /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2415,6 +2417,7 @@
 			children = (
 				D8C140021C655178001D7947 /* DiscoverHD.storyboard */,
 				D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */,
+				E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */,
 				D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */,
 				D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */,
 				D8C140041C6551C0001D7947 /* MeetupViewController.swift */,
@@ -2728,6 +2731,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
