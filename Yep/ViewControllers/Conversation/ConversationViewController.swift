@@ -333,7 +333,19 @@ class ConversationViewController: BaseViewController {
     }()
 
     private let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
-    private var displayedMessagesRange = NSRange()
+    private var displayedMessagesRange = NSRange() {
+        didSet {
+            needShowLoadPreviousSection = displayedMessagesRange.length >= messagesBunchCount
+        }
+    }
+    private var needShowLoadPreviousSection: Bool = false {
+        didSet {
+            if needShowLoadPreviousSection != oldValue {
+                needReloadLoadPreviousSection = true
+            }
+        }
+    }
+    private var needReloadLoadPreviousSection: Bool = false
 
     // 上一次更新 UI 时的消息数
     private var lastTimeMessagesCount: Int = 0
@@ -2955,6 +2967,8 @@ class ConversationViewController: BaseViewController {
 
         displayedMessagesRange.length += newMessagesCount
 
+        let needReloadLoadPreviousSection = self.needReloadLoadPreviousSection
+
         // 异常：两种计数不相等，治标：reload，避免插入
         if let messageIDs = messageIDs {
             if newMessagesCount != messageIDs.count {
@@ -2997,7 +3011,14 @@ class ConversationViewController: BaseViewController {
                 switch messageAge {
 
                 case .New:
-                    conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                    conversationCollectionView.performBatchUpdates({ [weak self] in
+                        if needReloadLoadPreviousSection {
+                            self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            self?.needReloadLoadPreviousSection = false
+                        }
+                        self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                    }, completion: { _ in
+                    })
 
                 case .Old:
                     let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
@@ -3005,6 +3026,10 @@ class ConversationViewController: BaseViewController {
                     CATransaction.setDisableActions(true)
 
                     conversationCollectionView.performBatchUpdates({ [weak self] in
+                        if needReloadLoadPreviousSection {
+                            self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            self?.needReloadLoadPreviousSection = false
+                        }
                         self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
                     }, completion: { [weak self] finished in
@@ -3040,7 +3065,14 @@ class ConversationViewController: BaseViewController {
                     indexPaths.append(indexPath)
                 }
 
-                conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                conversationCollectionView.performBatchUpdates({ [weak self] in
+                    if needReloadLoadPreviousSection {
+                        self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                        self?.needReloadLoadPreviousSection = false
+                    }
+                    self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                }, completion: { _ in
+                })
 
                 println("insert messages B")
             }
@@ -3597,7 +3629,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return displayedMessagesRange.length < messagesBunchCount ? 0 : 1
+            return needShowLoadPreviousSection ? 1 : 0
 
         case .Message:
             return displayedMessagesRange.length
@@ -3859,12 +3891,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 break
             }
 
-            println("try load previous messages")
+            println("A try load previous messages")
 
             guard !isLoadingPreviousMessages else {
                 cell.loadingActivityIndicator.stopAnimating()
                 break
             }
+
+            println("B try load previous messages")
 
             cell.loadingActivityIndicator.startAnimating()
 
