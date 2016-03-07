@@ -3017,9 +3017,11 @@ class ConversationViewController: BaseViewController {
                             CATransaction.commit()
 
                             // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                            /*
                             // 此时再做个 scroll 动画比较自然
                             let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
                             strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                            */
                         }
                     })
                 }
