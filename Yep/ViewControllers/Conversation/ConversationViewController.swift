@@ -3597,7 +3597,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return 1
+            return displayedMessagesRange.length < messagesBunchCount ? 0 : 1
 
         case .Message:
             return displayedMessagesRange.length
@@ -4328,7 +4328,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         guard let section = Section(rawValue: indexPath.section) else {
-            return CGSize(width: collectionViewWidth, height: 0)
+            fatalError("Invalid section!")
         }
 
         switch section {
@@ -4348,7 +4348,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .LoadPrevious:
+            return UIEdgeInsetsZero
+
+        case .Message:
+            return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
+        }
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
