@@ -3890,6 +3890,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             guard let cell = cell as? LoadMoreCollectionViewCell else {
                 break
             }
+
             cell.loadingActivityIndicator.startAnimating()
 
         case .Message:
@@ -4343,6 +4344,26 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         })
     }
 
+    func collectionView(collectionView: UICollectionView, didEndDisplayingCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .LoadPrevious:
+            guard let cell = cell as? LoadMoreCollectionViewCell else {
+                break
+            }
+
+            cell.loadingActivityIndicator.stopAnimating()
+            
+        case .Message:
+            break
+        }
+    }
+
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -4431,7 +4452,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             cell.loadingActivityIndicator.startAnimating()
 
-            delay(1) { [weak self] in
+            delay(0.5) { [weak self] in
                 self?.tryLoadPreviousMessages { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
                 }
