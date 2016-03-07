@@ -634,6 +634,7 @@ class ConversationViewController: BaseViewController {
         return view
     }()
 
+    /*
     private lazy var pullToRefreshView: PullToRefreshView = {
 
         let pullToRefreshView = PullToRefreshView()
@@ -658,6 +659,7 @@ class ConversationViewController: BaseViewController {
 
         return pullToRefreshView
     }()
+    */
 
     private lazy var waverView: YepWaverView = {
         let frame = self.view.bounds
@@ -4206,7 +4208,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        pullToRefreshView.scrollViewDidScroll(scrollView)
+        //pullToRefreshView.scrollViewDidScroll(scrollView)
 
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
@@ -4220,7 +4222,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
-        pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+        //pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
 
         dragBeginLocation = nil
     }
@@ -4274,8 +4276,8 @@ extension ConversationViewController: FayeServiceDelegate {
     */
 }
 
+/*
 // MARK: PullToRefreshViewDelegate
-
 extension ConversationViewController: PullToRefreshViewDelegate {
 
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
@@ -4366,6 +4368,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
         return conversationCollectionView
     }
 }
+*/
 
 // MARK: AVAudioRecorderDelegate
 
