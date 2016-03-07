@@ -791,6 +791,7 @@ class ConversationViewController: BaseViewController {
     }()
     #endif
 
+    private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
     private let chatSectionDateCellIdentifier = "ChatSectionDateCell"
     private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
     private let chatRightTextCellIdentifier = "ChatRightTextCell"
@@ -880,6 +881,8 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.keyboardDismissMode = .OnDrag
 
         conversationCollectionView.alwaysBounceVertical = true
+
+        conversationCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
 
         conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
 
@@ -2201,7 +2204,7 @@ class ConversationViewController: BaseViewController {
 
             if let sender = message.fromFriend, index = messages.indexOf(message) {
 
-                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
+                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
                 if sender.friendState != UserFriendState.Me.rawValue { // from Friend
                     if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
@@ -2223,7 +2226,7 @@ class ConversationViewController: BaseViewController {
 
             if let messageIndex = messages.indexOf(message) {
 
-                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: 0)
+                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
                 if let sender = message.fromFriend {
                     if sender.friendState != UserFriendState.Me.rawValue {
@@ -2886,7 +2889,7 @@ class ConversationViewController: BaseViewController {
                     if let
                         message = messageWithMessageID(messageID, inRealm: realm),
                         index = messages.indexOf(message) {
-                            let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: 0)
+                            let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
                             //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
 
                             indexPaths.append(indexPath)
@@ -2927,7 +2930,7 @@ class ConversationViewController: BaseViewController {
 
                             // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
                             // 此时再做个 scroll 动画比较自然
-                            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
                             strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
                         }
                     })
@@ -2943,7 +2946,7 @@ class ConversationViewController: BaseViewController {
                 var indexPaths = [NSIndexPath]()
 
                 for i in 0..<newMessagesCount {
-                    let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: 0)
+                    let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: Section.Message.rawValue)
                     indexPaths.append(indexPath)
                 }
 
@@ -3046,7 +3049,7 @@ class ConversationViewController: BaseViewController {
 
                     if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
 
-                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: 0)
+                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
                         if sender.friendState != UserFriendState.Me.rawValue {
                             if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
@@ -3515,7 +3518,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         if let messageIndex = messages.indexOf(message) {
 
-            let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: 0)
+            let indexPath = NSIndexPath(forRow: messageIndex - displayedMessagesRange.location , inSection: Section.Message.rawValue)
 
             if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) {
 
@@ -3616,9 +3619,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
-            cell.sectionDateLabel.text = "Load Previous"
-
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
             return cell
 
         case .Message:
@@ -3764,7 +3765,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            cell.backgroundColor = UIColor.redColor()
+            if let cell = cell as? LoadMoreCollectionViewCell {
+
+                println("try load previous messages")
+
+                if !cell.loadingActivityIndicator.isAnimating() {
+                    cell.loadingActivityIndicator.startAnimating()
+                }
+            }
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
@@ -3968,8 +3976,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                         YepAlert.alertSorry(message: NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
-                                        }, completion: { success in
-                                            println("resendImage: \(success)")
+                                    }, completion: { success in
+                                        println("resendImage: \(success)")
                                     })
 
                                 }, cancelAction: {
@@ -4205,7 +4213,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 if let index = strongSelf.messages.indexOf(message) {
                     let realIndex = index - strongSelf.displayedMessagesRange.location
-                    let indexPath = NSIndexPath(forItem: realIndex, inSection: 0)
+                    let indexPath = NSIndexPath(forItem: realIndex, inSection: Section.Message.rawValue)
                     strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
 
                     // only for latest one need to scroll
@@ -4387,7 +4395,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
                             var indexPaths = [NSIndexPath]()
                             for i in 0..<newMessagesCount {
-                                let indexPath = NSIndexPath(forItem: Int(i), inSection: 0)
+                                let indexPath = NSIndexPath(forItem: Int(i), inSection: Section.Message.rawValue)
                                 indexPaths.append(indexPath)
                             }
 
@@ -4410,7 +4418,7 @@ extension ConversationViewController: PullToRefreshViewDelegate {
 
                                     // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
                                     // 此时再做个 scroll 动画比较自然
-                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: 0)
+                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
                                     strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
                                 }
                             })
