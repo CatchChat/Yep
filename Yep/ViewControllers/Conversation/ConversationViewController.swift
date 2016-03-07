@@ -3767,10 +3767,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         case .LoadPrevious:
             if let cell = cell as? LoadMoreCollectionViewCell {
 
-                println("try load previous messages")
+                if conversationCollectionViewHasBeenMovedToBottomOnce {
+                    println("try load previous messages")
 
-                if !cell.loadingActivityIndicator.isAnimating() {
-                    cell.loadingActivityIndicator.startAnimating()
+                    if !cell.loadingActivityIndicator.isAnimating() {
+                        cell.loadingActivityIndicator.startAnimating()
+                    }
                 }
             }
 
