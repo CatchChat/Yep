@@ -878,7 +878,6 @@ class FeedsViewController: BaseViewController {
     
     func configToolBar() {
 
-        // TODO: TOOLBAR gapwidth + need new iconImage
         let leftGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
         let rightGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 
@@ -900,7 +899,7 @@ class FeedsViewController: BaseViewController {
 
         feedsToolbar.setItems([leftGapSpace, containerItem, rightGapSpace], animated: true)
 
-        let topSeparatorView = UIView(frame: CGRect(x: 0, y: 0.5, width: detailViewColumnWidth, height: 0.5))
+        let topSeparatorView = UIView(frame: CGRect(x: 0, y: 1, width: detailViewColumnWidth, height: 0.5))
         topSeparatorView.backgroundColor = UIColor.yepCellSeparatorColor()
         feedsToolbar.addSubview(topSeparatorView)
         feedsToolbar.bringSubviewToFront(topSeparatorView)

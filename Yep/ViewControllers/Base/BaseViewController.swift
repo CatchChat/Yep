@@ -16,6 +16,13 @@ class BaseViewController: SegueViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor.whiteColor()
+
+
+        let sideSeparatorView = UIView(frame: CGRect(x:50, y: 50, width: 50, height:50))
+        sideSeparatorView.backgroundColor = UIColor.yepCellSeparatorColor()
+        view.addSubview(sideSeparatorView)
+        view.bringSubviewToFront(sideSeparatorView)
+
     }
     
     override func viewWillAppear(animated: Bool) {

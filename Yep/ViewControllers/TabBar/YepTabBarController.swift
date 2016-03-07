@@ -79,7 +79,7 @@ class YepTabBarController: UITabBarController {
 
         delegate = self
         view.backgroundColor = UIColor.whiteColor()
-        
+
 
         // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
         /*
@@ -116,8 +116,6 @@ class YepTabBarController: UITabBarController {
         if let columnWidth = self.splitViewController?.primaryColumnWidth {
             detailViewColumnWidth = UIScreen.mainScreen().bounds.width - columnWidth
         }
-
-        print(self.splitViewController?.primaryColumnWidth,"primaryColumnWidth____")
     }
 }
 

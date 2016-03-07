@@ -408,7 +408,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Public
 
     func startShowStory() {
-
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
@@ -426,7 +425,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func startMainStory() {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
+        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("SplitViewController") as! UISplitViewController
+
         window?.rootViewController = rootViewController
     }
 

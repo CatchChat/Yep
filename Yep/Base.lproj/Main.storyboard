@@ -418,7 +418,7 @@
         <!--Split View Controller-->
         <scene sceneID="0DJ-sm-Kjm">
             <objects>
-                <splitViewController id="R0X-gg-jEB" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="SplitViewController" id="R0X-gg-jEB" sceneMemberID="viewController">
                     <connections>
                         <segue destination="fpz-7Q-M1t" kind="relationship" relationship="detailViewController" id="xvh-Ny-zUr"/>
                         <segue destination="Ha4-ol-D2e" kind="relationship" relationship="masterViewController" id="gOg-jo-BYe"/>
