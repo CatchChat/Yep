@@ -3887,26 +3887,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = cell as? LoadMoreCollectionViewCell else {
+            guard let cell = cell as? LoadMoreCollectionViewCell else {
                 break
             }
-
-            println("A try load previous messages")
-
-            guard !isLoadingPreviousMessages else {
-                cell.loadingActivityIndicator.stopAnimating()
-                break
-            }
-
-            println("B try load previous messages")
-
             cell.loadingActivityIndicator.startAnimating()
-
-            delay(1) { [weak self] in
-                self?.tryLoadPreviousMessages { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
-                }
-            }
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
@@ -4426,6 +4410,31 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if deltaY < -30 {
                 tryFoldFeedView()
+            }
+        }
+
+        if scrollView.yep_isAtTop {
+
+            let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
+            guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {
+                return
+            }
+
+            println("A try load previous messages")
+
+            guard !isLoadingPreviousMessages else {
+                cell.loadingActivityIndicator.stopAnimating()
+                return
+            }
+
+            println("B try load previous messages")
+
+            cell.loadingActivityIndicator.startAnimating()
+
+            delay(1) { [weak self] in
+                self?.tryLoadPreviousMessages { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
+                }
             }
         }
     }
