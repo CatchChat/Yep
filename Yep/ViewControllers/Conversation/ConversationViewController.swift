@@ -956,14 +956,18 @@ class ConversationViewController: BaseViewController {
                         strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
                     }
 
-                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    let bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
 
                     strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
                     strongSelf.view.layoutIfNeeded()
 
                 } else {
                     strongSelf.conversationCollectionView.contentOffset.y += keyboardHeightIncrement
-                    strongSelf.conversationCollectionView.contentInset.bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    let bottom = keyboardHeight + strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
 
                     strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
                     strongSelf.view.layoutIfNeeded()
@@ -993,7 +997,9 @@ class ConversationViewController: BaseViewController {
                     strongSelf.conversationCollectionView.contentOffset.y -= keyboardHeight
 
                     let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
-                    strongSelf.conversationCollectionView.contentInset.bottom = strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    let bottom = strongSelf.messageToolbar.frame.height + subscribeViewHeight
+                    strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
 
                     strongSelf.messageToolbarBottomConstraint.constant = 0
                     strongSelf.view.layoutIfNeeded()
@@ -1971,6 +1977,7 @@ class ConversationViewController: BaseViewController {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
             conversationCollectionView.contentInset.bottom = bottom
+            conversationCollectionView.scrollIndicatorInsets.bottom = bottom
             return
         }
 
@@ -1991,6 +1998,7 @@ class ConversationViewController: BaseViewController {
         }
 
         conversationCollectionView.contentInset.bottom = bottom
+        conversationCollectionView.scrollIndicatorInsets.bottom = bottom
         conversationCollectionView.contentOffset.y = newContentOffsetY
     }
 
@@ -2020,6 +2028,7 @@ class ConversationViewController: BaseViewController {
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                    strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
                 }
             }, completion: { _ in })
 
@@ -2045,6 +2054,7 @@ class ConversationViewController: BaseViewController {
         UIView.animateWithDuration(forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.conversationCollectionView.contentInset.bottom = bottom
+                strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
                 strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
             }
         }, completion: { _ in })
@@ -2052,18 +2062,14 @@ class ConversationViewController: BaseViewController {
 
     // MARK: Private
 
-    private func setConversaitonCollectionViewContentInsetBottom(bottom: CGFloat) {
-        var contentInset = conversationCollectionView.contentInset
-        contentInset.bottom = bottom
-        conversationCollectionView.contentInset = contentInset
-    }
-
     private func setConversaitonCollectionViewOriginalContentInset() {
 
         let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
-        setConversaitonCollectionViewContentInsetBottom(CGRectGetHeight(messageToolbar.bounds) + sectionInsetBottom)
+        let messageToolbarHeight = messageToolbar.bounds.height
+        conversationCollectionView.contentInset.bottom = messageToolbarHeight + sectionInsetBottom
+        conversationCollectionView.scrollIndicatorInsets.bottom = messageToolbarHeight
     }
 
     private var messageHeights = [String: CGFloat]()
@@ -2558,6 +2564,7 @@ class ConversationViewController: BaseViewController {
             if canScroll {
                 conversationCollectionView.contentOffset.y = conversationCollectionView.contentSize.height - conversationCollectionView.frame.size.height + messageToolBarTop
                 conversationCollectionView.contentInset.bottom = messageToolBarTop
+                conversationCollectionView.scrollIndicatorInsets.bottom = messageToolBarTop
             }
         }
     }
@@ -4442,6 +4449,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             println("A try load previous messages")
+            println("\(conversationCollectionView.scrollIndicatorInsets)")
 
             guard !isLoadingPreviousMessages else {
                 cell.loadingActivityIndicator.stopAnimating()
