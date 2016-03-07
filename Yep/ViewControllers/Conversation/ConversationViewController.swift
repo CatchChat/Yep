@@ -2408,6 +2408,94 @@ class ConversationViewController: BaseViewController {
         })
     }
 
+    private var isLoadingPreviousMessages = false
+    private func tryLoadPreviousMessages(completion: () -> Void) {
+
+        if isLoadingPreviousMessages {
+            completion()
+            return
+        }
+
+        isLoadingPreviousMessages = true
+
+        if displayedMessagesRange.location == 0 {
+
+            if let recipient = conversation.recipient {
+
+                let timeDirection: TimeDirection
+                if let maxMessageID = messages.first?.messageID {
+                    timeDirection = .Past(maxMessageID: maxMessageID)
+                } else {
+                    timeDirection = .None
+                }
+
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion()
+                    }
+
+                }, completion: { messageIDs in
+                    println("messagesFromRecipient: \(messageIDs.count)")
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                        //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+
+                        self?.isLoadingPreviousMessages = false
+                        completion()
+                    }
+                })
+            }
+
+        } else {
+
+            var newMessagesCount = self.messagesBunchCount
+
+            if (self.displayedMessagesRange.location - newMessagesCount) < 0 {
+                newMessagesCount = self.displayedMessagesRange.location
+            }
+
+            if newMessagesCount > 0 {
+                self.displayedMessagesRange.location -= newMessagesCount
+                self.displayedMessagesRange.length += newMessagesCount
+
+                self.lastTimeMessagesCount = self.messages.count // 同样需要纪录它
+
+                var indexPaths = [NSIndexPath]()
+                for i in 0..<newMessagesCount {
+                    let indexPath = NSIndexPath(forItem: Int(i), inSection: Section.Message.rawValue)
+                    indexPaths.append(indexPath)
+                }
+
+                let bottomOffset = self.conversationCollectionView.contentSize.height - self.conversationCollectionView.contentOffset.y
+
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+
+                self.conversationCollectionView.performBatchUpdates({ [weak self] in
+                    self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                }, completion: { [weak self] finished in
+                    if let strongSelf = self {
+                        var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                        contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                        strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+                        
+                        CATransaction.commit()
+                        
+                        // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+
+                        self?.isLoadingPreviousMessages = false
+                        completion()
+                    }
+                })
+            }
+        }
+    }
+
     // MARK: Actions
 
     @objc private func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
@@ -3765,13 +3853,18 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            if let cell = cell as? LoadMoreCollectionViewCell {
+            guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = cell as? LoadMoreCollectionViewCell else {
+                return
+            }
 
-                if conversationCollectionViewHasBeenMovedToBottomOnce {
-                    println("try load previous messages")
+            println("try load previous messages")
 
-                    if !cell.loadingActivityIndicator.isAnimating() {
-                        cell.loadingActivityIndicator.startAnimating()
+            if !cell.loadingActivityIndicator.isAnimating() {
+                cell.loadingActivityIndicator.startAnimating()
+
+                delay(0.5) { [weak self] in
+                    self?.tryLoadPreviousMessages { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
                     }
                 }
             }
