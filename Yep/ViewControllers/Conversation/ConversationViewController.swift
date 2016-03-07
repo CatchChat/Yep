@@ -3856,18 +3856,21 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         case .LoadPrevious:
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = cell as? LoadMoreCollectionViewCell else {
-                return
+                break
             }
 
             println("try load previous messages")
 
-            if !cell.loadingActivityIndicator.isAnimating() {
-                cell.loadingActivityIndicator.startAnimating()
+            guard !isLoadingPreviousMessages else {
+                cell.loadingActivityIndicator.stopAnimating()
+                break
+            }
 
-                delay(0.5) { [weak self] in
-                    self?.tryLoadPreviousMessages { [weak cell] in
-                        cell?.loadingActivityIndicator.stopAnimating()
-                    }
+            cell.loadingActivityIndicator.startAnimating()
+
+            delay(1) { [weak self] in
+                self?.tryLoadPreviousMessages { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
                 }
             }
 
