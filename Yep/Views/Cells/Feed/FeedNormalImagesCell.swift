@@ -96,16 +96,16 @@ class FeedNormalImagesCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
-        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
-            imageView1.frame = normalImagesLayout.imageView1Frame
-            imageView2.frame = normalImagesLayout.imageView2Frame
-            imageView3.frame = normalImagesLayout.imageView3Frame
-
-        } else {
+//        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
+//            imageView1.frame = normalImagesLayout.imageView1Frame
+//            imageView2.frame = normalImagesLayout.imageView2Frame
+//            imageView3.frame = normalImagesLayout.imageView3Frame
+//
+//        } else {
             imageViews.forEach({
                 $0.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             })
-        }
+//        }
 
         if let attachments = feed.imageAttachments {
 

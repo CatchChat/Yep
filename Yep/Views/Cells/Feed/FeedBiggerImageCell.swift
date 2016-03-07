@@ -63,12 +63,12 @@ class FeedBiggerImageCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
-        if let biggerImageLayout = layoutCache.layout?.biggerImageLayout {
-            biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
-
-        } else {
+//        if let biggerImageLayout = layoutCache.layout?.biggerImageLayout {
+//            biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
+//
+//        } else {
             biggerImageView.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-        }
+//        }
 
         if let onlyAttachment = feed.imageAttachments?.first {
             if onlyAttachment.isTemporary {

@@ -33,6 +33,7 @@ class FeedGithubRepoCell: FeedBasicCell {
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "social_work_border")
+//        imageView.backgroundColor = UIColor.greenColor()
         return imageView
     }()
 
@@ -59,7 +60,7 @@ class FeedGithubRepoCell: FeedBasicCell {
         let height = super.heightOfFeed(feed) + (80 + 15)
 
         return ceil(height)
-    }
+    } 
 
     override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
 
@@ -97,17 +98,18 @@ class FeedGithubRepoCell: FeedBasicCell {
             }
         }
 
-        if let githubRepoLayout = layoutCache.layout?.githubRepoLayout {
-            githubRepoContainerView.frame = githubRepoLayout.githubRepoContainerViewFrame
-            socialWorkBorderImageView.frame = githubRepoContainerView.frame
-
-        } else {
+//        if let githubRepoLayout = layoutCache.layout?.githubRepoLayout {
+//            githubRepoContainerView.frame = githubRepoLayout.githubRepoContainerViewFrame
+//            socialWorkBorderImageView.frame = githubRepoContainerView.frame
+//
+//        } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             githubRepoContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: height)
 
             socialWorkBorderImageView.frame = githubRepoContainerView.frame
-        }
+        socialWorkBorderImageView.clipsToBounds = true
+//        }
 
         if layoutCache.layout == nil {
 

@@ -451,6 +451,7 @@ class FeedsViewController: BaseViewController {
         let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
         popoverContent.modalPresentationStyle = .Popover
         popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        popoverContent.filterView = filterView
         presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController
@@ -1089,9 +1090,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             // MARK: Test
-//            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-            var layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-            layout = nil
+            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+//            var layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+//            layout = nil
             let update: FeedCellLayout.Update = { newLayout in
                 FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
             }

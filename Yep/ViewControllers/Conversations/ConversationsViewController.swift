@@ -410,7 +410,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             
             performSegueWithIdentifier("showFeedConversations", sender: nil)
             //(UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.FeedConversation)
-            
+
 
         case Section.Conversation.rawValue:
             

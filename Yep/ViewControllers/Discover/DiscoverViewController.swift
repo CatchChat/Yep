@@ -181,7 +181,6 @@ class DiscoverViewController: BaseViewController {
         let popoverPresentationController = popoverContent.popoverPresentationController
         popoverPresentationController?.barButtonItem = sender
         popoverPresentationController?.permittedArrowDirections = .Up
-
 //        if let window = view.window {
 //            filterView.showInView(window)
 //        }

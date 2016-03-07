@@ -76,6 +76,7 @@ class DiscoverFilterCell: UITableViewCell {
     }
 }
 
+@IBDesignable
 class DiscoverFilterView: UIView {
 
     let totalHeight: CGFloat = 240
@@ -93,7 +94,7 @@ class DiscoverFilterView: UIView {
         view.delegate = self
         view.rowHeight = 60
         view.scrollEnabled = false
-
+        view.separatorColor = UIColor.clearColor()
         view.registerClass(DiscoverFilterCell.self, forCellReuseIdentifier: "DiscoverFilterCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view

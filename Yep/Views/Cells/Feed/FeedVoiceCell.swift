@@ -86,16 +86,16 @@ class FeedVoiceCell: FeedBasicCell {
                 let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
                 voiceContainerView.timeLengthLabel.text = timeLengthString
 
-                if let audioLayout = layoutCache.layout?.audioLayout {
-                    voiceContainerView.frame = audioLayout.voiceContainerViewFrame
-
-                } else {
+//                if let audioLayout = layoutCache.layout?.audioLayout {
+//                    voiceContainerView.frame = audioLayout.voiceContainerViewFrame
+//
+//                } else {
                     let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
 
                     let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
                     let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
                     voiceContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: width, height: 40)
-                }
+//                }
 
                 if let realm = try? Realm() {
 

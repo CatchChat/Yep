@@ -34,10 +34,27 @@
                         <viewControllerLayoutGuide type="bottom" id="byw-YL-cxU"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="k1I-yd-MzP">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="280" height="240"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0f-KN-E6y" customClass="DiscoverFilterView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="280" height="240"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="0.65098039220000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="byw-YL-cxU" firstAttribute="top" secondItem="c0f-KN-E6y" secondAttribute="bottom" id="Dnx-XI-z3k"/>
+                            <constraint firstItem="c0f-KN-E6y" firstAttribute="leading" secondItem="k1I-yd-MzP" secondAttribute="leading" id="FVf-9R-RlJ"/>
+                            <constraint firstAttribute="trailing" secondItem="c0f-KN-E6y" secondAttribute="trailing" id="xyU-Ss-YBb"/>
+                            <constraint firstItem="c0f-KN-E6y" firstAttribute="top" secondItem="k1I-yd-MzP" secondAttribute="top" id="zUB-HY-bfm"/>
+                        </constraints>
                     </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="280" height="240"/>
+                    <connections>
+                        <outlet property="filterView" destination="c0f-KN-E6y" id="bsW-gd-dt5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gTl-lK-VTr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

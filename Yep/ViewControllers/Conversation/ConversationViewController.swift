@@ -581,7 +581,8 @@ class ConversationViewController: BaseViewController {
     }()
 
     private lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.conversationCollectionView.bounds)
+        return detailViewColumnWidth
+//        return CGRectGetWidth(self.conversationCollectionView.bounds)
     }()
 
     private lazy var messageImagePreferredWidth: CGFloat = {
@@ -643,7 +644,6 @@ class ConversationViewController: BaseViewController {
         super.viewDidLoad()
         // TODO: CELL SIZE
         realm = try! Realm()
-
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -879,7 +879,6 @@ class ConversationViewController: BaseViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
         if isFirstAppear {
 
             if let feed = conversation.withGroup?.withFeed {
@@ -997,11 +996,15 @@ class ConversationViewController: BaseViewController {
 
                 //                    self?.moreMessageTypesView.showInView(window)
 
-                // MARK: Popover
+                // MARK: Popover 选发图片还是语音
 
                 let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
                 popoverContent.modalPresentationStyle = .Popover
-                popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+                popoverContent.preferredContentSize = CGSize(width: 975, height: 888)
+                
+                popoverContent.moreMessageTypeView = sSelf.moreMessageTypesView
+//                popoverContent.setupMoreMessageTypeView()
+
                 sSelf.presentViewController(popoverContent, animated: true, completion: nil)
 
                 let popoverPresentationController = popoverContent.popoverPresentationController
@@ -1441,9 +1444,13 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+    }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
+        self.conversationCollectionView.layoutIfNeeded()
         // 初始时移动一次到底部
         if !conversationCollectionViewHasBeenMovedToBottomOnce {
 
@@ -1959,10 +1966,11 @@ class ConversationViewController: BaseViewController {
 
         if !key.isEmpty {
             if let textContentLabelWidth = textContentLabelWidths[key] {
+//        print(messageTextLabelMaxWidth,"____messageTextLabelMaxWidth",textContentLabelWidths[key])
+
                 return textContentLabelWidth
             }
         }
-
         let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
@@ -2248,11 +2256,13 @@ class ConversationViewController: BaseViewController {
 
     @objc private func moreAction(sender: UIBarButtonItem) {
 
-        // MARK: Popover
+        // MARK: Popover 屏蔽 & unsubscribe
 
         let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        popoverContent.preferredContentSize = CGSize(width: 1024, height: 600)
+        popoverContent.conversationMoreView = moreView
+//        popoverContent.setupConversationMoreView()
         self.presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController
@@ -3531,6 +3541,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             } else {
                                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+
                                 return cell
                             }
                         }
@@ -3608,6 +3619,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
         if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
+
 
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 

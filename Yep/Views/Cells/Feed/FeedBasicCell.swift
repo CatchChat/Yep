@@ -224,9 +224,9 @@ class FeedBasicCell: UITableViewCell {
         self.feed = feed
 
         // MARK: Test
-        let layout = layoutCache.layout
-//        var layout = layoutCache.layout
-//        layout = nil
+//        let layout = layoutCache.layout
+        var layout = layoutCache.layout
+        layout = nil
 
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
@@ -289,9 +289,10 @@ class FeedBasicCell: UITableViewCell {
 
             //let width = ceil(rect.width)
             let width: CGFloat = 30
-            messageCountLabel.frame = CGRect(x: detailViewColumnWidth - width - feedTextFixedSpace, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
 
-            discussionImageView.frame = CGRect(x: detailViewColumnWidth - 30 - 15 - feedTextFixedSpace, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)
+            discussionImageView.frame = CGRect(x: detailViewColumnWidth - width - feedTextFixedSpace, y: leftBottomLabel.frame.origin.y - 1, width: width, height: 19)
+
+            messageCountLabel.frame = CGRect(x: detailViewColumnWidth - feedTextFixedSpace - discussionImageView.frame.width - width - 10, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
         }
 
         if layoutCache.layout == nil {

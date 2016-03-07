@@ -19,7 +19,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Eug-oZ-gjQ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" red="1" green="0.15686274510000001" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="sS6-P1-xbg" customClass="ConversationLayout" customModule="Yep" customModuleProvider="target"/>
                                 <cells/>
                                 <connections>
@@ -132,7 +132,19 @@
                     <view key="view" contentMode="scaleToFill" id="ApA-en-sCg">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0J-rP-g6b" customClass="ConversationMoreView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="0.33725490200000002" green="0.75686274509999996" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="QmV-mb-dk2" firstAttribute="top" secondItem="c0J-rP-g6b" secondAttribute="bottom" id="DhQ-yg-ZlG"/>
+                            <constraint firstAttribute="trailing" secondItem="c0J-rP-g6b" secondAttribute="trailing" id="EAt-1C-6aA"/>
+                            <constraint firstItem="c0J-rP-g6b" firstAttribute="top" secondItem="ApA-en-sCg" secondAttribute="top" id="nDS-CZ-cJd"/>
+                            <constraint firstItem="c0J-rP-g6b" firstAttribute="leading" secondItem="ApA-en-sCg" secondAttribute="leading" id="typ-X2-niA"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="250"/>

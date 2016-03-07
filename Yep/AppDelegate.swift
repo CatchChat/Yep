@@ -116,6 +116,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
 
+            return true
+
+
         } else {
             startShowStory()
         }

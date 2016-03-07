@@ -70,4 +70,3 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
         return true
     }
 }
-

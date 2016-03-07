@@ -96,14 +96,14 @@ class FeedAnyImagesCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
-        if let anyImagesLayout = layoutCache.layout?.anyImagesLayout {
-            mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
-
-        } else {
+//        if let anyImagesLayout = layoutCache.layout?.anyImagesLayout {
+//            mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+//
+//        } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height = feedAttachmentImageSize.height
             mediaCollectionView.frame = CGRect(x: 0, y: y, width: feedTextMaxWidth, height: height)
-        }
+//        }
 
         if let attachment = feed.attachment, case let .Images(attachments) = attachment {
             self.attachments = attachments

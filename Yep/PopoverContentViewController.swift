@@ -10,10 +10,29 @@ import UIKit
 
 class PopoverContentViewController: UIViewController {
 
+    var conversationMoreView = ConversationMoreView() {
+        didSet {
+            setupConversationMoreView()
+        }
+    }
+    var moreMessageTypeView = MoreMessageTypesView() {
+        didSet {
+            setupMoreMessageTypeView()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+    }
+
+    func setupConversationMoreView() {
+        conversationMoreView.showInView(view)
+    }
+
+    func setupMoreMessageTypeView() {
+        moreMessageTypeView.showInView(view)
     }
 
     override func didReceiveMemoryWarning() {

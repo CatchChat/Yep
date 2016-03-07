@@ -101,16 +101,16 @@ class FeedLocationCell: FeedBasicCell {
             }
         }
 
-        if let locationLayout = layoutCache.layout?.locationLayout {
-            locationContainerView.frame = locationLayout.locationContainerViewFrame
-            socialWorkBorderImageView.frame = locationContainerView.frame
-
-        } else {
+//        if let locationLayout = layoutCache.layout?.locationLayout {
+//            locationContainerView.frame = locationLayout.locationContainerViewFrame
+//            socialWorkBorderImageView.frame = locationContainerView.frame
+//
+//        } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             locationContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: height)
             socialWorkBorderImageView.frame = locationContainerView.frame
-        }
+//        }
         locationContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = locationContainerView.mapImageView.bounds

@@ -1148,7 +1148,8 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
     // save feed
     
     var _feed = feedWithFeedID(feedData.id, inRealm: realm)
-
+    // MARK: Test
+//    _feed = nil
     if _feed == nil {
         let newFeed = Feed()
         newFeed.feedID = feedData.id

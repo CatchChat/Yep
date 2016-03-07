@@ -168,7 +168,7 @@ class ConversationMoreView: UIView {
         view.delegate = self
         view.rowHeight = 60
         view.scrollEnabled = false
-
+        view.separatorColor = UIColor.clearColor()
         view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
         view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")

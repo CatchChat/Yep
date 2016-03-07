@@ -10,9 +10,13 @@ import UIKit
 
 class MatchPopoverViewController: UIViewController {
 
+    @IBOutlet weak var filterView: DiscoverFilterView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("filterView___\(filterView),view.frame_____\(view.frame)")
+        filterView.showInView(view)
         // Do any additional setup after loading the view.
     }
 

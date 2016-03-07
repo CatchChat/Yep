@@ -34,6 +34,7 @@ class FeedDribbbleShotCell: FeedBasicCell {
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "social_work_border")
+//        imageView.backgroundColor = UIColor.redColor()
         return imageView
     }()
 
@@ -127,16 +128,16 @@ class FeedDribbbleShotCell: FeedBasicCell {
             }
         }
 
-        if let dribbbleShotLayout = layoutCache.layout?.dribbbleShotLayout {
-            mediaContainerView.frame = dribbbleShotLayout.dribbbleShotContainerViewFrame
-            socialWorkBorderImageView.frame = mediaContainerView.frame
-
-        } else {
+//        if let dribbbleShotLayout = layoutCache.layout?.dribbbleShotLayout {
+//            mediaContainerView.frame = dribbbleShotLayout.dribbbleShotContainerViewFrame
+//            socialWorkBorderImageView.frame = mediaContainerView.frame
+//
+//        } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
             let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
             mediaContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: feedTextMaxWidth, height: height)
             socialWorkBorderImageView.frame = mediaContainerView.frame
-        }
+//        }
         mediaContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds

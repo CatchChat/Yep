@@ -52,7 +52,6 @@ extension ConversationViewController {
             saveFeedWithFeedDataWithoutFullGroup(feed, group: group, inRealm: realm)
         }
         */
-
         if let group = group {
             saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
         }
