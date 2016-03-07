@@ -24,16 +24,7 @@ class ConversationCell: UITableViewCell {
         }
     }
 
-    private var user: User?
-    var tapAvatarAction: ((user: User) -> Void)?
-
-    @IBOutlet weak var avatarImageView: UIImageView! {
-        didSet {
-            avatarImageView.userInteractionEnabled = true
-            let tap = UITapGestureRecognizer(target: self, action: "tapAvatar:")
-            avatarImageView.addGestureRecognizer(tap)
-        }
-    }
+    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var redDotImageView: UIImageView!
@@ -72,12 +63,6 @@ class ConversationCell: UITableViewCell {
         timeAgoLabel.text = nil
 
         countOfUnreadMessages = 0
-    }
-
-    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
-        println("tapAvatar")
-        guard let user = user else { return }
-        tapAvatarAction?(user: user)
     }
 
 //    func updateUIButAvatar(sender: NSNotification) {
@@ -121,8 +106,6 @@ class ConversationCell: UITableViewCell {
         if conversation.type == ConversationType.OneToOne.rawValue {
 
             if let conversationWithFriend = conversation.withFriend {
-
-                user = conversationWithFriend
 
                 self.nameLabel.text = conversationWithFriend.nickname
 
