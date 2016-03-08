@@ -813,7 +813,10 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
 
             if let conversation = message.conversation where !conversation.mentionedMe {
                 if textContent.yep_mentionedMeInRealm(realm) {
-                    conversation.mentionedMe = true
+                    if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
+                        conversation.mentionedMe = true
+                        conversation.lastMentionedMeUnixTime = NSDate().timeIntervalSince1970
+                    }
                 }
             }
         }
