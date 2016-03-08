@@ -1122,7 +1122,11 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
 
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-    return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+    //return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+    let a = SortDescriptor(property: "hasUnreadMessages", ascending: false)
+    let b = SortDescriptor(property: "updatedUnixTime", ascending: false)
+    let results = realm.objects(Conversation).filter(predicate).sorted([a, b])
+    return results
 }
 
 func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
