@@ -439,6 +439,40 @@ class ConversationViewController: BaseViewController {
         )
     }
 
+    private func updateGroupItem(group group: Group) -> ActionSheetView.Item {
+
+        let isMyFeed = group.withFeed?.creator?.isMe ?? false
+        let includeMe = group.includeMe
+
+        let groupActionTitle: String
+        if isMyFeed {
+            groupActionTitle = NSLocalizedString("Delete", comment: "")
+        } else {
+            if includeMe {
+                groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
+            } else {
+                groupActionTitle = NSLocalizedString("Subscribe", comment: "")
+            }
+        }
+
+        return .Default(
+            title: groupActionTitle,
+            titleColor: UIColor.redColor(),
+            action: { [weak self] in
+                self?.tryUpdateGroup(afterSubscribed: { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.moreView.items[2] = strongSelf.updateGroupItem(group: group)
+                    strongSelf.moreView.refreshItems()
+
+                    if strongSelf.isSubscribeViewShowing {
+                        strongSelf.subscribeView.hide()
+                    }
+                })
+                return true
+            }
+        )
+    }
+
     private var moreViewUpdateDoNotDisturbAction: ((notificationEnabled: Bool) -> Void)?
     private var moreViewUpdateBlockAction: ((blocked: Bool) -> Void)?
     private var moreViewUpdatePushNotificationsAction: ((notificationEnabled: Bool) -> Void)?
@@ -495,40 +529,6 @@ class ConversationViewController: BaseViewController {
 
         } else if let group = self.conversation.withGroup {
 
-            func updateGroupItem() -> ActionSheetView.Item {
-
-                let isMyFeed = group.withFeed?.creator?.isMe ?? false
-                let includeMe = group.includeMe
-
-                let groupActionTitle: String
-                if isMyFeed {
-                    groupActionTitle = NSLocalizedString("Delete", comment: "")
-                } else {
-                    if includeMe {
-                        groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
-                    } else {
-                        groupActionTitle = NSLocalizedString("Subscribe", comment: "")
-                    }
-                }
-
-                return .Default(
-                    title: groupActionTitle,
-                    titleColor: UIColor.redColor(),
-                    action: { [weak self] in
-                        self?.tryUpdateGroup(afterSubscribed: { [weak self] in
-                            guard let strongSelf = self else { return }
-                            strongSelf.moreView.items[2] = updateGroupItem()
-                            strongSelf.moreView.refreshItems()
-
-                            if strongSelf.isSubscribeViewShowing {
-                                strongSelf.subscribeView.hide()
-                            }
-                        })
-                        return true
-                    }
-                )
-            }
-
             view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
                 .Default(
@@ -560,7 +560,7 @@ class ConversationViewController: BaseViewController {
                         return true
                     }
                 ),
-                updateGroupItem(), // 2
+                self.updateGroupItem(group: group), // 2
                 cancelItem,
                 ]
             )
@@ -2380,6 +2380,11 @@ class ConversationViewController: BaseViewController {
                             if let strongSelf = self {
                                 let _ = try? strongSelf.realm.write {
                                     group.includeMe = true
+
+                                    if let _ = strongSelf.moreView.items[safe: 2] {
+                                        strongSelf.moreView.items[2] = strongSelf.updateGroupItem(group: group)
+                                        strongSelf.moreView.refreshItems()
+                                    }
                                 }
                             }
                         }
