@@ -594,11 +594,14 @@ class Message: Object {
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation? {
         willSet {
+
+            // 往大了更新 conversation.updatedUnixTime
             if let conversation = newValue where createdUnixTime > conversation.updatedUnixTime {
                 conversation.updatedUnixTime = createdUnixTime
             }
 
-            if conversation == nil, let _conversation = newValue {
+            // 新消息且未读，才考虑设置 hasUnreadMessages
+            if conversation == nil && readed == false, let _conversation = newValue {
                 _conversation.hasUnreadMessages = true
             }
         }
