@@ -1662,7 +1662,6 @@ func officialMessages(completion completion: Int -> Void) {
                                 message.conversation = conversation
 
                                 // 纪录消息的 detail 信息
-
                                 recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
                             }
 
@@ -2134,7 +2133,6 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
         }
 
         if let conversation = conversation {
-            conversation.updatedUnixTime = message.createdUnixTime // 关键哦
             message.conversation = conversation
 
             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
