@@ -2796,7 +2796,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreViewManager.blocked = blocked
+                moreViewManager.userBlocked = blocked
             }
         }
     }

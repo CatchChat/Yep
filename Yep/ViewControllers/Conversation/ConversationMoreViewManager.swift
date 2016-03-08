@@ -33,10 +33,10 @@ class ConversationMoreViewManager {
         }
     }
 
-    var blocked: Bool = false {
+    var userBlocked: Bool = false {
         didSet {
             if moreViewCreated {
-                moreView.items[3] = makeBlockItem(blocked: blocked)
+                moreView.items[3] = makeBlockItem(blocked: userBlocked)
                 moreView.refreshItems()
             }
         }
