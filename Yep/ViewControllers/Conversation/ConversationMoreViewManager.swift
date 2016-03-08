@@ -19,15 +19,15 @@ class ConversationMoreViewManager {
     var shareFeedAction: (() -> Void)?
     var updateGroupAction: (() -> Void)?
 
-    var afterGotSettingsForUserAction: ((blocked: Bool, doNotDisturb: Bool) -> Void)?
-    var afterGotSettingsForGroupAction: ((notificationEnabled: Bool) -> Void)?
+    var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
+    var afterGotSettingsForGroupAction: ((groupID: String, notificationEnabled: Bool) -> Void)?
 
     private var moreViewUpdatePushNotificationsAction: ((notificationEnabled: Bool) -> Void)?
 
-    var notificationEnabled: Bool = true {
+    var userNotificationEnabled: Bool = true {
         didSet {
             if moreViewCreated {
-                moreView.items[1] = makeDoNotDisturbItem(notificationEnabled: notificationEnabled)
+                moreView.items[1] = makeDoNotDisturbItem(notificationEnabled: userNotificationEnabled)
                 moreView.refreshItems()
             }
         }
@@ -37,6 +37,15 @@ class ConversationMoreViewManager {
         didSet {
             if moreViewCreated {
                 moreView.items[3] = makeBlockItem(blocked: blocked)
+                moreView.refreshItems()
+            }
+        }
+    }
+
+    var groupNotificationEnabled: Bool = true {
+        didSet {
+            if moreViewCreated {
+                moreView.items[0] = makePushNotificationsItem(notificationEnabled: groupNotificationEnabled)
                 moreView.refreshItems()
             }
         }
@@ -78,7 +87,7 @@ class ConversationMoreViewManager {
                 let userID = user.userID
 
                 settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                    self?.afterGotSettingsForUserAction?(blocked: blocked, doNotDisturb: doNotDisturb)
+                    self?.afterGotSettingsForUserAction?(userID: userID, blocked: blocked, doNotDisturb: doNotDisturb)
                 })
             }
 
@@ -109,7 +118,7 @@ class ConversationMoreViewManager {
                 let groupID = group.groupID
 
                 settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                    self?.afterGotSettingsForGroupAction?(notificationEnabled: !doNotDisturb)
+                    self?.afterGotSettingsForGroupAction?(groupID: groupID, notificationEnabled: !doNotDisturb)
                 })
             }
             
@@ -122,6 +131,15 @@ class ConversationMoreViewManager {
         
         return view
     }()
+
+    // MARK: Public
+
+    func updateForGroupAffair() {
+        if moreViewCreated, let group = self.conversation?.withGroup {
+            moreView.items[2] = updateGroupItem(group: group)
+            moreView.refreshItems()
+        }
+    }
 
     // MARK: Private
 

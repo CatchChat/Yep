@@ -406,6 +406,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
+    /*
     private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
             title: NSLocalizedString("Do not disturb", comment: ""),
@@ -585,6 +586,76 @@ class ConversationViewController: BaseViewController {
         }
 
         return view
+    }()
+    */
+
+    private lazy var moreViewManager: ConversationMoreViewManager = {
+
+        let manager = ConversationMoreViewManager()
+
+        manager.conversation = self.conversation
+
+        manager.showProfileAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfile", sender: nil)
+        }
+
+        manager.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
+        }
+
+        manager.reportAction = { [weak self] in
+            self?.tryReport()
+        }
+
+        manager.toggleBlockAction = { [weak self] in
+            self?.toggleBlock()
+        }
+
+        manager.shareFeedAction = { [weak self] in
+            guard let
+                description = self?.conversation.withGroup?.withFeed?.body,
+                groupID = self?.conversation.withGroup?.groupID else {
+                    return
+            }
+
+            guard let groupShareURLString = self?.groupShareURLString else {
+
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                    self?.groupShareURLString = groupShareURLString
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+                    }
+                })
+
+                return
+            }
+
+            self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+        }
+
+        manager.updateGroupAction = { [weak self, weak manager] in
+            self?.tryUpdateGroup(afterSubscribed: { [weak self] in
+                guard let strongSelf = self else { return }
+                manager?.updateForGroupAffair()
+
+                if strongSelf.isSubscribeViewShowing {
+                    strongSelf.subscribeView.hide()
+                }
+            })
+        }
+
+        manager.afterGotSettingsForUserAction = { [weak self] userID, blocked, doNotDisturb in
+            self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+            self?.updateBlocked(blocked, forUserWithUserID: userID)
+        }
+
+        manager.afterGotSettingsForGroupAction = { [weak self] groupID, notificationEnabled in
+            self?.updateNotificationEnabled(notificationEnabled, forGroupWithGroupID: groupID)
+        }
+
+        return manager
     }()
 
     private lazy var moreMessageTypesView: MoreMessageTypesView = {
@@ -2381,10 +2452,11 @@ class ConversationViewController: BaseViewController {
                                 let _ = try? strongSelf.realm.write {
                                     group.includeMe = true
 
-                                    if let _ = strongSelf.moreView.items[safe: 2] {
-                                        strongSelf.moreView.items[2] = strongSelf.updateGroupItem(group: group)
-                                        strongSelf.moreView.refreshItems()
-                                    }
+//                                    if let _ = strongSelf.moreView.items[safe: 2] {
+//                                        strongSelf.moreView.items[2] = strongSelf.updateGroupItem(group: group)
+//                                        strongSelf.moreView.refreshItems()
+//                                    }
+                                    strongSelf.moreViewManager.updateForGroupAffair()
                                 }
                             }
                         }
@@ -2579,7 +2651,7 @@ class ConversationViewController: BaseViewController {
         messageToolbar.state = .Default
 
         if let window = view.window {
-            moreView.showInView(window)
+            moreViewManager.moreView.showInView(window)
         }
     }
 
@@ -2639,7 +2711,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            moreViewUpdateDoNotDisturbAction?(notificationEnabled: enabled)
+            moreViewManager.userNotificationEnabled = enabled
         }
     }
 
@@ -2654,7 +2726,7 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
 
-            moreViewUpdatePushNotificationsAction?(notificationEnabled: enabled)
+            moreViewManager.groupNotificationEnabled = enabled
         }
     }
 
@@ -2724,7 +2796,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreViewUpdateBlockAction?(blocked: blocked)
+                moreViewManager.blocked = blocked
             }
         }
     }
