@@ -596,8 +596,8 @@ class Message: Object {
         willSet {
 
             // 往大了更新 conversation.updatedUnixTime
-            if let conversation = newValue where createdUnixTime > conversation.updatedUnixTime {
-                conversation.updatedUnixTime = createdUnixTime
+            if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
+                _conversation.updatedUnixTime = createdUnixTime
             }
 
             // 新消息且未读，才考虑设置 hasUnreadMessages
@@ -1122,11 +1122,9 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
 
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-    //return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
     let a = SortDescriptor(property: "hasUnreadMessages", ascending: false)
     let b = SortDescriptor(property: "updatedUnixTime", ascending: false)
-    let results = realm.objects(Conversation).filter(predicate).sorted([a, b])
-    return results
+    return realm.objects(Conversation).filter(predicate).sorted([a, b])
 }
 
 func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
