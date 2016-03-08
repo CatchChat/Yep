@@ -40,7 +40,7 @@ class MoreMessageTypesView: UIView {
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
     var sendImageAction: (UIImage -> Void)?
-
+    var hide: (() -> Void)?
     var quickPickedImageSet = Set<PHAsset>() {
         didSet {
             tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: Row.PickPhotos.rawValue, inSection: 0)], withRowAnimation: .None)
@@ -74,39 +74,10 @@ class MoreMessageTypesView: UIView {
         })
     }
 
-    func hide() {
-
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.tableViewBottomConstraint?.constant = self.totalHeight
-
-            self.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.containerView.backgroundColor = UIColor.clearColor()
-
-        }, completion: { _ in
-            self.removeFromSuperview()
-        })
-    }
-
-    func hideAndDo(afterHideAction: (() -> Void)?) {
-
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
-            self.containerView.alpha = 0
-
-            self.tableViewBottomConstraint?.constant = self.totalHeight
-
-            self.layoutIfNeeded()
-
-        }, completion: { finished in
-            self.removeFromSuperview()
-        })
+    func delayAndDo(afterDelayAction: (() -> Void)?) {
 
         delay(0.1) {
-            afterHideAction?()
+            afterDelayAction?()
         }
     }
 
@@ -222,7 +193,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 cell.takePhotoAction = { [weak self] in
-                    self?.hideAndDo {
+                    self?.delayAndDo {
                         self?.takePhotoAction?()
                     }
                 }
@@ -270,6 +241,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            hide?()
         }
 
         if let row = Row(rawValue: indexPath.row) {
@@ -327,7 +299,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     
                     quickPickedImageSet.removeAll()
 
-                    hideAndDo {
+                    delayAndDo {
                         if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.PhotoGallery.rawValue, inSection: 0)) as? QuickPickPhotosCell {
                             cell.pickedImageSet.removeAll()
                             cell.photosCollectionView.reloadData()
@@ -335,18 +307,18 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     }
 
                 } else {
-                    hideAndDo { [weak self] in
+                    delayAndDo { [weak self] in
                         self?.choosePhotoAction?()
                     }
                 }
 
             case .Location:
-                hideAndDo { [weak self] in
+                delayAndDo { [weak self] in
                     self?.pickLocationAction?()
                 }
 
             case .Cancel:
-                hide()
+                hide?()
 
             default:
                 break

@@ -128,7 +128,6 @@
 		504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F41581AD5028200FBB19A /* SkillCell.swift */; };
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */; };
-		504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */; };
 		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
 		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
@@ -367,6 +366,7 @@
 		E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */; };
 		E4783E421C8937E400324D9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4783E411C8937E400324D9A /* Images.xcassets */; };
 		E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4783E431C89646900324D9A /* PopoverContentViewController.swift */; };
+		E4C701731C8E6982007596B4 /* PopoverMoreTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -508,7 +508,6 @@
 		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F5E6E1B9F1F13006CE418 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
-		504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFilterView.swift; path = Views/DiscoverFilter/DiscoverFilterView.swift; sourceTree = "<group>"; };
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
@@ -752,6 +751,7 @@
 		E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchPopoverViewController.swift; sourceTree = "<group>"; };
 		E4783E411C8937E400324D9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E4783E431C89646900324D9A /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
+		E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMoreTypesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1531,6 +1531,7 @@
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
 				E4783E431C89646900324D9A /* PopoverContentViewController.swift */,
+				E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1581,7 +1582,6 @@
 		504F85AD1B4D21E400F909BE /* DiscoverFilter */ = {
 			isa = PBXGroup;
 			children = (
-				504F85AB1B4D21DD00F909BE /* DiscoverFilterView.swift */,
 			);
 			name = DiscoverFilter;
 			sourceTree = "<group>";
@@ -2853,6 +2853,7 @@
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */,
+				E4C701731C8E6982007596B4 /* PopoverMoreTypesViewController.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
 				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
@@ -2904,7 +2905,6 @@
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
-				504F85AC1B4D21DD00F909BE /* DiscoverFilterView.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
 				D8C13FFC1C65502C001D7947 /* SkillsViewController.swift in Sources */,

@@ -407,7 +407,6 @@ class FeedsViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         if !didConfigToolbar {
             configToolBar()
-
         }
     }
 
@@ -430,15 +429,26 @@ class FeedsViewController: BaseViewController {
     // MARK: - Actions
 
     @IBAction private func showFilter(sender: UIBarButtonItem) {
-        
+
+        // MARK: Popover
+
+        let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
+        popoverContent.modalPresentationStyle = .Popover
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        presentViewController(popoverContent, animated: true, completion: nil)
+
+        let popoverPresentationController = popoverContent.popoverPresentationController
+        popoverPresentationController?.barButtonItem = sender
+        popoverPresentationController?.permittedArrowDirections = .Up
+
         if feedSortStyle != .Time {
-            filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
+            popoverContent.filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
         } else {
-            filterView.currentDiscoveredUserSortStyle = .LastSignIn
+            popoverContent.filterView.currentDiscoveredUserSortStyle = .LastSignIn
         }
-        
-        filterView.filterAction = { [weak self] discoveredUserSortStyle in
-            
+
+        popoverContent.filterView.filterAction = { [weak self] discoveredUserSortStyle in
+
             if discoveredUserSortStyle != .LastSignIn {
                 self?.feedSortStyle = FeedSortStyle(rawValue: discoveredUserSortStyle.rawValue)!
             } else {
@@ -446,21 +456,9 @@ class FeedsViewController: BaseViewController {
             }
         }
 
-        // MARK: Popover
-
-        let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
-        popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
-        popoverContent.filterView = filterView
-        presentViewController(popoverContent, animated: true, completion: nil)
-
-        let popoverPresentationController = popoverContent.popoverPresentationController
-        popoverPresentationController?.barButtonItem = sender
-        popoverPresentationController?.permittedArrowDirections = .Up
-
-//        if let window = view.window {
-//            filterView.showInView(window)
-//        }
+        popoverContent.filterView.hide = {
+            popoverContent.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
 
     private var currentPageIndex = 1
@@ -879,6 +877,8 @@ class FeedsViewController: BaseViewController {
     
     func configToolBar() {
 
+        didConfigToolbar = true
+
         let leftGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
         let rightGapSpace = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 
@@ -899,13 +899,6 @@ class FeedsViewController: BaseViewController {
         let containerItem = UIBarButtonItem(customView: containerView)
 
         feedsToolbar.setItems([leftGapSpace, containerItem, rightGapSpace], animated: true)
-
-        let topSeparatorView = UIView(frame: CGRect(x: 0, y: 1, width: detailViewColumnWidth, height: 0.5))
-        topSeparatorView.backgroundColor = UIColor.yepCellSeparatorColor()
-        feedsToolbar.addSubview(topSeparatorView)
-        feedsToolbar.bringSubviewToFront(topSeparatorView)
-
-        didConfigToolbar = true
     }
 
     private func configToolBarButton(buttonImageName buttonImageName: String, actionName: String, buttonWidth: CGFloat) -> UIButton {

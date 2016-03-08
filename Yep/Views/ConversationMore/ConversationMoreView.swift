@@ -179,8 +179,8 @@ class ConversationMoreView: UIView {
 
     var notificationEnabled: Bool = true {
         didSet {
+
             if notificationEnabled != oldValue {
-                
                 switch type {
                 case .OneToOne:
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -193,7 +193,6 @@ class ConversationMoreView: UIView {
                                 strongSelf.tableView.reloadData()
                             }
                         }
-                        
                     }
                 case .Topic:
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -236,6 +235,8 @@ class ConversationMoreView: UIView {
     }
     var toggleBlockAction: (() -> Void)?
 
+    var hide: (() -> Void)?
+
     var tableViewBottomConstraint: NSLayoutConstraint?
 
     func showInView(view: UIView) {
@@ -248,51 +249,12 @@ class ConversationMoreView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-
-        }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = self.bottomConstraint()
-
-            self.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
+        self.tableViewBottomConstraint?.constant = self.bottomConstraint()
+        self.tableView.separatorStyle = .None
+        self.layoutIfNeeded()
     }
 
-    func hide() {
-
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.tableViewBottomConstraint?.constant = self.totalHeight
-
-            self.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.containerView.backgroundColor = UIColor.clearColor()
-
-        }, completion: { _ in
-            self.removeFromSuperview()
-        })
-    }
-
-    func hideAndDo(afterHideAction: (() -> Void)?) {
-
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
-            self.containerView.alpha = 0
-
-            self.tableViewBottomConstraint?.constant = self.totalHeight
-
-            self.layoutIfNeeded()
-
-        }, completion: { finished in
-            self.removeFromSuperview()
-        })
+    func delayAndDo(afterHideAction: (() -> Void)?) {
 
         delay(0.1) {
             afterHideAction?()
@@ -382,6 +344,7 @@ extension ConversationMoreView {
 
     func toggleDoNotDisturb() {
         toggleDoNotDisturbAction?() //TODO Topic Disturb
+        hide?()
     }
 }
 
@@ -531,16 +494,18 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
 
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            hide?()
         }
         
         switch type {
+
         case .OneToOne:
             if let row = Row(rawValue: indexPath.row) {
                 
                 switch row {
                     
                 case .ShowProfile:
-                    hideAndDo { [weak self] in
+                    delayAndDo { [weak self] in
                         self?.showProfileAction?()
                     }
                     
@@ -549,33 +514,29 @@ extension ConversationMoreView: UITableViewDataSource, UITableViewDelegate {
                     
                 case .Report:
                     reportAction?()
-                    hide()
-                    
                 case .Block:
                     toggleBlockAction?()
                     
                 case .Cancel:
-                    hide()
+                    break
                 }
             }
         case .Topic:
             if let row = TopicRow(rawValue: indexPath.row) {
-                
+
                 switch row {
                     
                 case .PushNotifications:
                     break
-                    
+
                 case .Share:
                     shareAction?()
-                    hide()
-                    
+
                 case .Unsubscribe:
                     unsubscribeAction?()
-                    hide()
-                    
+
                 case .Cancel:
-                    hide()
+                    break
                 }
             }
         }

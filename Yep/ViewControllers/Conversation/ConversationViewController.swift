@@ -395,65 +395,6 @@ class ConversationViewController: BaseViewController {
 
     private lazy var moreView: ConversationMoreView = ConversationMoreView()
 
-    private lazy var moreMessageTypesView: MoreMessageTypesView = {
-
-        let view =  MoreMessageTypesView()
-
-        view.alertCanNotAccessCameraRollAction = { [weak self] in
-            self?.alertCanNotAccessCameraRoll()
-        }
-
-        view.sendImageAction = { [weak self] image in
-            self?.sendImage(image)
-        }
-
-        view.takePhotoAction = { [weak self] in
-
-            let openCamera: ProposerAction = { [weak self] in
-
-                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
-                    self?.alertCanNotOpenCamera()
-                    return
-                }
-
-                if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .Camera
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                }
-            }
-
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                self?.alertCanNotOpenCamera()
-            })
-        }
-
-        view.choosePhotoAction = { [weak self] in
-
-            let openCameraRoll: ProposerAction = { [weak self] in
-
-                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
-                    self?.alertCanNotAccessCameraRoll()
-                    return
-                }
-
-                if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .PhotoLibrary
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                }
-            }
-
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self?.alertCanNotAccessCameraRoll()
-            })
-        }
-
-        view.pickLocationAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-        }
-
-        return view
-    }()
-
     private lazy var pullToRefreshView: PullToRefreshView = {
 
         let pullToRefreshView = PullToRefreshView()
@@ -991,20 +932,15 @@ class ConversationViewController: BaseViewController {
         // MARK: MessageToolbar MoreMessageTypes
 
         messageToolbar.moreMessageTypesAction = { [weak self] in
-
             if let sSelf = self {
-
-                //                    self?.moreMessageTypesView.showInView(window)
 
                 // MARK: Popover 选发图片还是语音
 
-                let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
-                popoverContent.modalPresentationStyle = .Popover
-                popoverContent.preferredContentSize = CGSize(width: 975, height: 888)
-                
-                popoverContent.moreMessageTypeView = sSelf.moreMessageTypesView
-//                popoverContent.setupMoreMessageTypeView()
+                // TODO: 内存咔咔的 取照片有bug
 
+                let popoverContent: PopoverMoreTypesViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreTypesController") as! PopoverMoreTypesViewController
+                popoverContent.modalPresentationStyle = .Popover
+                popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
                 sSelf.presentViewController(popoverContent, animated: true, completion: nil)
 
                 let popoverPresentationController = popoverContent.popoverPresentationController
@@ -1012,12 +948,76 @@ class ConversationViewController: BaseViewController {
                 popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
                 popoverPresentationController?.permittedArrowDirections = .Down
 
-                if let state = self?.messageToolbar.state where !state.isAtBottom {
-                    self?.messageToolbar.state = .Default
+                defer {
+                    popoverContent.moreTypesView.hide = {
+                        popoverContent.dismissViewControllerAnimated(true , completion: nil)
+                    }
+                }
+                // MARK: MoreMessageTypesView actions
+
+                popoverContent.moreTypesView.alertCanNotAccessCameraRollAction = {
+                    sSelf.alertCanNotAccessCameraRoll()
                 }
 
+                popoverContent.moreTypesView.sendImageAction = { image in
+                    sSelf.sendImage(image)
+                }
+
+                popoverContent.moreTypesView.takePhotoAction = {
+
+                    let openCamera: ProposerAction = {
+
+                        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                            sSelf.alertCanNotOpenCamera()
+                            return
+                        }
+
+                        sSelf.imagePicker.sourceType = .Camera
+                        sSelf.presentViewController(sSelf.imagePicker, animated: true, completion: nil)
+                    }
+
+                    proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                        sSelf.alertCanNotOpenCamera()
+                    })
+                }
+
+                popoverContent.moreTypesView.choosePhotoAction = {
+
+                    let openCameraRoll: ProposerAction = {
+
+                        guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                            sSelf.alertCanNotAccessCameraRoll()
+                            return
+                        }
+                        sSelf.imagePicker.sourceType = .PhotoLibrary
+                        sSelf.presentViewController(sSelf.imagePicker, animated: true, completion: nil)
+                    }
+
+                    proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                        sSelf.alertCanNotAccessCameraRoll()
+                    })
+                }
+
+                popoverContent.moreTypesView.pickLocationAction = {
+                    sSelf.performSegueWithIdentifier("presentPickLocation", sender: nil)
+                }
+                //        if let _ = conversation?.withFriend {
+                //            moreView.type = .OneToOne
+                //
+                //            oneToOneMoreAction()
+                //
+                //        } else {
+                //            moreView.type = .Topic
+                //
+                //            topicMoreAction()
+                //        }
+                
+                if let state = self?.messageToolbar.state where !state.isAtBottom {
+                    sSelf.messageToolbar.state = .Default
+                }
+                
                 delay(0.2) {
-                    self?.imagePicker.hidesBarsOnTap = false
+                    sSelf.imagePicker.hidesBarsOnTap = false
                 }
             }
         }
@@ -1241,7 +1241,7 @@ class ConversationViewController: BaseViewController {
                     strongSelf.swipeUpView.hidden = false
                     strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
                     strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+//                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
                     let audioFileName = NSUUID().UUIDString
 
@@ -2258,11 +2258,9 @@ class ConversationViewController: BaseViewController {
 
         // MARK: Popover 屏蔽 & unsubscribe
 
-        let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverContentController") as! PopoverContentViewController
+        let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreContentController") as! PopoverContentViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 1024, height: 600)
-        popoverContent.conversationMoreView = moreView
-//        popoverContent.setupConversationMoreView()
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
         self.presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController
@@ -2270,18 +2268,106 @@ class ConversationViewController: BaseViewController {
 
         messageToolbar.state = .Default
 
-//        if let _ = conversation?.withFriend {
-//            moreView.type = .OneToOne
-//
-//            oneToOneMoreAction()
-//
-//        } else {
-//            moreView.type = .Topic
-//
-//            topicMoreAction()
-//        }
+        popoverContent.moreView.hide = {
+            popoverContent.dismissViewControllerAnimated(true, completion: nil)
+        }
+        let descriotion = conversation.withGroup?.withFeed?.body
+        guard let groupID = conversation.withGroup?.groupID else {
+            return
+        }
+
+        if let group = conversation.withGroup {
+            popoverContent.moreView.notificationEnabled = group.notificationEnabled
+
+            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
+                })
+        }
+
+        popoverContent.moreView.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
+        }
+
+        popoverContent.moreView.unsubscribeAction = { [weak self] in
+
+            func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
+                        checkTypingStatusTimer.invalidate()
+                    }
+
+                    guard let conversation = self?.conversation, realm = conversation.realm else {
+                        return
+                    }
+
+                    realm.beginWrite()
+
+                    deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
+                        afterLeaveGroup?()
+                    })
+
+                    let _ = try? realm.commitWrite()
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+
+            guard let group = self?.conversation.withGroup where group.includeMe, let feed = group.withFeed, feedCreator = feed.creator else {
+                return
+            }
+
+            let feedID = feed.feedID
+            let feedCreatorID = feedCreator.userID
+
+            // 若是创建者，再询问是否删除 Feed
+
+            if feedCreatorID == YepUserDefaults.userID.value {
+
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+
+                    doDeleteConversation(afterLeaveGroup: {
+                        deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
+                            println("deleted feed: \(feedID)")
+                            self?.afterDeletedFeedAction?(feedID: feedID)
+                        })
+                    })
+
+                    }, cancelAction: {
+                        doDeleteConversation()
+                })
+
+            } else {
+                doDeleteConversation()
+            }
+        }
+
+        popoverContent.moreView.shareAction = { [weak self] in
+
+            guard let descriotion = descriotion else {
+                return
+            }
+
+            guard let groupShareURLString = self?.groupShareURLString else {
+
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                    self?.groupShareURLString = groupShareURLString
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
+                    }
+                    })
+                
+                return
+            }
+            
+            self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
+        }
     }
-    
+/*
     private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
@@ -2290,18 +2376,18 @@ class ConversationViewController: BaseViewController {
         }
         
         if let group = conversation.withGroup {
-            moreView.notificationEnabled = group.notificationEnabled
+            popoverContent.moreView.notificationEnabled = group.notificationEnabled
             
             settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
                 self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
             })
         }
         
-        moreView.toggleDoNotDisturbAction = { [weak self] in
+        popoverContent.moreView.toggleDoNotDisturbAction = { [weak self] in
             self?.toggleDoNotDisturb()
         }
         
-        moreView.unsubscribeAction = { [weak self] in
+        popoverContent.moreView.unsubscribeAction = { [weak self] in
             
             func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
@@ -2357,7 +2443,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        moreView.shareAction = { [weak self] in
+        popoverContent.moreView.shareAction = { [weak self] in
             
             guard let descriotion = descriotion else {
                 return
@@ -2379,12 +2465,8 @@ class ConversationViewController: BaseViewController {
             
             self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
         }
-        
-        if let window = view.window {
-            moreView.showInView(window)
-        }
     }
-    
+    */
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
         let info = MonkeyKing.Info(
@@ -2429,16 +2511,16 @@ class ConversationViewController: BaseViewController {
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
-    
+    /*
     private func oneToOneMoreAction() {
         
-        moreView.showProfileAction = { [weak self] in
+        popoverContent.moreView.showProfileAction = { [weak self] in
             self?.performSegueWithIdentifier("showProfile", sender: nil)
         }
         
         if let user = conversation.withFriend {
-            moreView.notificationEnabled = user.notificationEnabled
-            moreView.blocked = user.blocked
+            popoverContent.moreView.notificationEnabled = user.notificationEnabled
+            popoverContent.moreView.blocked = user.blocked
             
             let userID = user.userID
             
@@ -2466,23 +2548,23 @@ class ConversationViewController: BaseViewController {
             })
         }
         
-        moreView.toggleDoNotDisturbAction = { [weak self] in
+        popoverContent.moreView.toggleDoNotDisturbAction = { [weak self] in
             self?.toggleDoNotDisturb()
         }
         
-        moreView.toggleBlockAction = { [weak self] in
+        popoverContent.moreView.toggleBlockAction = { [weak self] in
             self?.toggleBlock()
         }
         
-        moreView.reportAction = { [weak self] in
+        popoverContent.moreView.reportAction = { [weak self] in
             self?.tryReport()
         }
         
         if let window = view.window {
-            moreView.showInView(window)
+            popoverContent.moreView.showInView(window)
         }
     }
-
+*/
     private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
 
         guard let realm = try? Realm() else {

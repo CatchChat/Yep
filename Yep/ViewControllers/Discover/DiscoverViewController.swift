@@ -165,12 +165,6 @@ class DiscoverViewController: BaseViewController {
 
     @IBAction private func showFilters(sender: UIBarButtonItem) {
 
-        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
-        
-        filterView.filterAction = { discoveredUserSortStyle in
-            self.discoveredUserSortStyle = discoveredUserSortStyle
-        }
-
         // MARK: Popover
 
         let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
@@ -181,11 +175,18 @@ class DiscoverViewController: BaseViewController {
         let popoverPresentationController = popoverContent.popoverPresentationController
         popoverPresentationController?.barButtonItem = sender
         popoverPresentationController?.permittedArrowDirections = .Up
-//        if let window = view.window {
-//            filterView.showInView(window)
-//        }
-    }
 
+        popoverContent.filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
+
+        popoverContent.filterView.filterAction = { discoveredUserSortStyle in
+            self.discoveredUserSortStyle = discoveredUserSortStyle
+        }
+
+        popoverContent.filterView.hide = {
+            popoverContent.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
     private var currentPageIndex = 1
     private var isFetching = false
     private func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {

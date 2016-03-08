@@ -1,27 +1,21 @@
 //
-//  PopoverContentViewController.swift
+//  PopoverMoreTypesViewController.swift
 //  Yep
 //
-//  Created by Bigbig Chai on 3/4/16.
+//  Created by Bigbig Chai on 3/8/16.
 //  Copyright © 2016 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class PopoverContentViewController: UIViewController {
+class PopoverMoreTypesViewController: UIViewController {
 
-    @IBOutlet var moreView: ConversationMoreView!
-
+    @IBOutlet var moreTypesView: MoreMessageTypesView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        moreView.showInView(view)
-
+        moreTypesView.showInView(view)
         // Do any additional setup after loading the view.
-    }
-
-    func setupConversationMoreView() {
-
-        moreView.showInView(view)
     }
 
     override func didReceiveMemoryWarning() {
