@@ -406,185 +406,73 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
-        return .Switch(
-            title: NSLocalizedString("Do not disturb", comment: ""),
-            titleColor: UIColor.darkGrayColor(),
-            switchOn: !notificationEnabled,
-            action: { [weak self] switchOn in
-                self?.toggleDoNotDisturb()
-            }
-        )
-    }
+    private lazy var moreViewManager: ConversationMoreViewManager = {
 
-    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
-        return .Switch(
-            title: NSLocalizedString("Push notifications", comment: ""),
-            titleColor: UIColor.darkGrayColor(),
-            switchOn: notificationEnabled,
-            action: { [weak self] switchOn in
-                self?.toggleDoNotDisturb()
-            }
-        )
-    }
+        let manager = ConversationMoreViewManager()
 
-    private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
-        return .Default(
-            title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),
-            titleColor: UIColor.redColor(),
-            action: { [weak self] in
-                self?.toggleBlock()
-                return false
-            }
-        )
-    }
+        manager.conversation = self.conversation
 
-    private var moreViewUpdateDoNotDisturbAction: ((notificationEnabled: Bool) -> Void)?
-    private var moreViewUpdateBlockAction: ((blocked: Bool) -> Void)?
-    private var moreViewUpdatePushNotificationsAction: ((notificationEnabled: Bool) -> Void)?
-    private lazy var moreView: ActionSheetView = {
-
-        let cancelItem = ActionSheetView.Item.Cancel
-
-        let view: ActionSheetView
-
-        if let user = self.conversation?.withFriend {
-
-            view = ActionSheetView(items: [
-                .Detail(
-                    title: NSLocalizedString("View profile", comment: ""),
-                    titleColor: UIColor.darkGrayColor(),
-                    action: { [weak self] in
-                        self?.performSegueWithIdentifier("showProfile", sender: nil)
-                    }
-                ),
-                self.makeDoNotDisturbItem(notificationEnabled: user.notificationEnabled), // 1
-                .Default(
-                    title: NSLocalizedString("Report", comment: ""),
-                    titleColor: UIColor.yepTintColor(),
-                    action: { [weak self] in
-                        self?.tryReport()
-                        return true
-                    }
-                ),
-                self.makeBlockItem(blocked: user.blocked), // 3
-                cancelItem,
-                ]
-            )
-
-            do {
-                self.moreViewUpdateDoNotDisturbAction = { [weak self] notificationEnabled in
-                    guard let strongSelf = self else { return }
-                    strongSelf.moreView.items[1] = strongSelf.makeDoNotDisturbItem(notificationEnabled: notificationEnabled)
-                    strongSelf.moreView.refreshItems()
-                }
-
-                self.moreViewUpdateBlockAction = { [weak self] blocked in
-                    guard let strongSelf = self else { return }
-                    strongSelf.moreView.items[3] = strongSelf.makeBlockItem(blocked: blocked)
-                    strongSelf.moreView.refreshItems()
-                }
-
-                let userID = user.userID
-
-                settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                    self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-                    self?.updateBlocked(blocked, forUserWithUserID: userID)
-                })
-            }
-
-        } else if let group = self.conversation.withGroup {
-
-            func updateGroupItem() -> ActionSheetView.Item {
-
-                let isMyFeed = group.withFeed?.creator?.isMe ?? false
-                let includeMe = group.includeMe
-
-                let groupActionTitle: String
-                if isMyFeed {
-                    groupActionTitle = NSLocalizedString("Delete", comment: "")
-                } else {
-                    if includeMe {
-                        groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
-                    } else {
-                        groupActionTitle = NSLocalizedString("Subscribe", comment: "")
-                    }
-                }
-
-                return .Default(
-                    title: groupActionTitle,
-                    titleColor: UIColor.redColor(),
-                    action: { [weak self] in
-                        self?.tryUpdateGroup(afterSubscribed: { [weak self] in
-                            guard let strongSelf = self else { return }
-                            strongSelf.moreView.items[2] = updateGroupItem()
-                            strongSelf.moreView.refreshItems()
-
-                            if strongSelf.isSubscribeViewShowing {
-                                strongSelf.subscribeView.hide()
-                            }
-                        })
-                        return true
-                    }
-                )
-            }
-
-            view = ActionSheetView(items: [
-                self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
-                .Default(
-                    title: NSLocalizedString("Share this feed", comment: ""),
-                    titleColor: UIColor.yepTintColor(),
-                    action: { [weak self] in
-                        guard let
-                            description = self?.conversation.withGroup?.withFeed?.body,
-                            groupID = self?.conversation.withGroup?.groupID else {
-                                return false
-                        }
-
-                        guard let groupShareURLString = self?.groupShareURLString else {
-
-                            shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
-
-                                self?.groupShareURLString = groupShareURLString
-
-                                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                    self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
-                                }
-                            })
-
-                            return true
-                        }
-
-                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
-
-                        return true
-                    }
-                ),
-                updateGroupItem(), // 2
-                cancelItem,
-                ]
-            )
-
-            do {
-                self.moreViewUpdatePushNotificationsAction = { [weak self] notificationEnabled in
-                    guard let strongSelf = self else { return }
-                    strongSelf.moreView.items[0] = strongSelf.makePushNotificationsItem(notificationEnabled: notificationEnabled)
-                    strongSelf.moreView.refreshItems()
-                }
-
-                let groupID = group.groupID
-
-                settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                    self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
-                })
-            }
-
-        } else {
-            view = ActionSheetView(items: [])
-            println("lazy ActionSheetView: should NOT be there!")
+        manager.showProfileAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfile", sender: nil)
         }
 
-        return view
+        manager.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
+        }
+
+        manager.reportAction = { [weak self] in
+            self?.tryReport()
+        }
+
+        manager.toggleBlockAction = { [weak self] in
+            self?.toggleBlock()
+        }
+
+        manager.shareFeedAction = { [weak self] in
+            guard let
+                description = self?.conversation.withGroup?.withFeed?.body,
+                groupID = self?.conversation.withGroup?.groupID else {
+                    return
+            }
+
+            guard let groupShareURLString = self?.groupShareURLString else {
+
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                    self?.groupShareURLString = groupShareURLString
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+                    }
+                })
+
+                return
+            }
+
+            self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+        }
+
+        manager.updateGroupAffairAction = { [weak self, weak manager] in
+            self?.tryUpdateGroupAffair(afterSubscribed: { [weak self] in
+                guard let strongSelf = self else { return }
+                manager?.updateForGroupAffair()
+
+                if strongSelf.isSubscribeViewShowing {
+                    strongSelf.subscribeView.hide()
+                }
+            })
+        }
+
+        manager.afterGotSettingsForUserAction = { [weak self] userID, blocked, doNotDisturb in
+            self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+            self?.updateBlocked(blocked, forUserWithUserID: userID)
+        }
+
+        manager.afterGotSettingsForGroupAction = { [weak self] groupID, notificationEnabled in
+            self?.updateNotificationEnabled(notificationEnabled, forGroupWithGroupID: groupID)
+        }
+
+        return manager
     }()
 
     private lazy var moreMessageTypesView: MoreMessageTypesView = {
@@ -2380,6 +2268,7 @@ class ConversationViewController: BaseViewController {
                             if let strongSelf = self {
                                 let _ = try? strongSelf.realm.write {
                                     group.includeMe = true
+                                    strongSelf.moreViewManager.updateForGroupAffair()
                                 }
                             }
                         }
@@ -2574,7 +2463,7 @@ class ConversationViewController: BaseViewController {
         messageToolbar.state = .Default
 
         if let window = view.window {
-            moreView.showInView(window)
+            moreViewManager.moreView.showInView(window)
         }
     }
 
@@ -2634,7 +2523,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            moreViewUpdateDoNotDisturbAction?(notificationEnabled: enabled)
+            moreViewManager.userNotificationEnabled = enabled
         }
     }
 
@@ -2649,7 +2538,7 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
 
-            moreViewUpdatePushNotificationsAction?(notificationEnabled: enabled)
+            moreViewManager.groupNotificationEnabled = enabled
         }
     }
 
@@ -2719,7 +2608,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreViewUpdateBlockAction?(blocked: blocked)
+                moreViewManager.userBlocked = blocked
             }
         }
     }
@@ -2747,7 +2636,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryUpdateGroup(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
+    private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
 
         guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
             return
