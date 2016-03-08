@@ -785,6 +785,7 @@ class Conversation: Object {
 
     dynamic var unreadMessagesCount: Int = 0
     dynamic var mentionedMe: Bool = false
+    dynamic var mentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
