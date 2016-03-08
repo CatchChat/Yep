@@ -597,11 +597,13 @@ class Message: Object {
 
             // 往大了更新 conversation.updatedUnixTime
             if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
+                //println("set _conversation.updatedUnixTime")
                 _conversation.updatedUnixTime = createdUnixTime
             }
 
             // 新消息且未读，才考虑设置 hasUnreadMessages
             if conversation == nil && readed == false, let _conversation = newValue {
+                //println("set _conversation.hasUnreadMessages")
                 _conversation.hasUnreadMessages = true
             }
         }
