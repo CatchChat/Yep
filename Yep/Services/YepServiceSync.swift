@@ -1091,8 +1091,6 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                             var sectionDateMessageID: String?
 
-                            conversation.updatedUnixTime = message.createdUnixTime
-
                             message.conversation = conversation
 
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
