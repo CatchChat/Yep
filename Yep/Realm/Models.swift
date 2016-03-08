@@ -597,6 +597,10 @@ class Message: Object {
             if let conversation = newValue where createdUnixTime > conversation.updatedUnixTime {
                 conversation.updatedUnixTime = createdUnixTime
             }
+
+            if conversation == nil, let _conversation = newValue {
+                _conversation.hasUnreadMessages = true
+            }
         }
     }
 
@@ -790,6 +794,7 @@ class Conversation: Object {
     }
 
     dynamic var unreadMessagesCount: Int = 0
+    dynamic var hasUnreadMessages: Bool = false
     dynamic var mentionedMe: Bool = false
     dynamic var lastMentionedMeUnixTime: NSTimeInterval = 1 // 默认为很早的时间
 
