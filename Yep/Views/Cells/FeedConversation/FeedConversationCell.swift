@@ -18,11 +18,9 @@ class FeedConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 
-    var countOfUnreadMessages = 0 {
+    private var hasUnreadMessages: Bool = false {
         didSet {
-            let hidden = countOfUnreadMessages == 0
-
-            redDotImageView.hidden = hidden
+            redDotImageView.hidden = !hasUnreadMessages
         }
     }
 
@@ -57,7 +55,8 @@ class FeedConversationCell: UITableViewCell {
             return
         }
 
-        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        hasUnreadMessages = conversation.hasUnreadMessages
+        //countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
         //countOfUnreadMessages = conversation.unreadMessagesCount
 
         nameLabel.text = feed.body
