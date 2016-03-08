@@ -17,7 +17,7 @@ class ConversationMoreViewManager {
     var reportAction: (() -> Void)?
     var toggleBlockAction: (() -> Void)?
     var shareFeedAction: (() -> Void)?
-    var updateGroupAction: (() -> Void)?
+    var updateGroupAffairAction: (() -> Void)?
 
     var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
     var afterGotSettingsForGroupAction: ((groupID: String, notificationEnabled: Bool) -> Void)?
@@ -86,7 +86,7 @@ class ConversationMoreViewManager {
             do {
                 let userID = user.userID
 
-                settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
+                settingsForUser(userID: userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
                     self?.afterGotSettingsForUserAction?(userID: userID, blocked: blocked, doNotDisturb: doNotDisturb)
                 })
             }
@@ -117,7 +117,7 @@ class ConversationMoreViewManager {
 
                 let groupID = group.groupID
 
-                settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+                settingsForGroup(groupID: groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
                     self?.afterGotSettingsForGroupAction?(groupID: groupID, notificationEnabled: !doNotDisturb)
                 })
             }
@@ -196,7 +196,7 @@ class ConversationMoreViewManager {
             title: groupActionTitle,
             titleColor: UIColor.redColor(),
             action: { [weak self] in
-                self?.updateGroupAction?()
+                self?.updateGroupAffairAction?()
                 return true
             }
         )

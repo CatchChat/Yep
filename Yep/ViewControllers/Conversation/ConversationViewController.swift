@@ -452,8 +452,8 @@ class ConversationViewController: BaseViewController {
             self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
         }
 
-        manager.updateGroupAction = { [weak self, weak manager] in
-            self?.tryUpdateGroup(afterSubscribed: { [weak self] in
+        manager.updateGroupAffairAction = { [weak self, weak manager] in
+            self?.tryUpdateGroupAffair(afterSubscribed: { [weak self] in
                 guard let strongSelf = self else { return }
                 manager?.updateForGroupAffair()
 
@@ -2636,7 +2636,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryUpdateGroup(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
+    private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
 
         guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
             return

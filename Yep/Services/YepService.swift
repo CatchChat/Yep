@@ -675,7 +675,7 @@ func unblockUserWithUserID(userID: String, failureHandler: FailureHandler?, comp
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func settingsForUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: (blocked: Bool, doNotDisturb: Bool) -> Void) {
+func settingsForUser(userID userID: String, failureHandler: FailureHandler?, completion: (blocked: Bool, doNotDisturb: Bool) -> Void) {
 
     let parse: JSONDictionary -> (Bool, Bool)? = { data in
 
@@ -693,7 +693,7 @@ func settingsForUserWithUserID(userID: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func settingsForCircleWithCircleID(cirleID: String, failureHandler: FailureHandler?, completion: (doNotDisturb: Bool) -> Void) {
+func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, completion: (doNotDisturb: Bool) -> Void) {
     
     let parse: JSONDictionary -> (Bool)? = { data in
         
@@ -705,7 +705,7 @@ func settingsForCircleWithCircleID(cirleID: String, failureHandler: FailureHandl
         return nil
     }
     
-    let resource = authJsonResource(path: "/v1/circles/\(cirleID)/dnd", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/circles/\(groupID)/dnd", method: .GET, requestParameters: [:], parse: parse)
     
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
