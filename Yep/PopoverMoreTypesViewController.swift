@@ -10,7 +10,7 @@ import UIKit
 
 class PopoverMoreTypesViewController: UIViewController {
 
-    @IBOutlet var moreTypesView: MoreMessageTypesView!
+    @IBOutlet weak var moreTypesView: MoreMessageTypesView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

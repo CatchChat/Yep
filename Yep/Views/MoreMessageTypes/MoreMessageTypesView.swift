@@ -26,10 +26,8 @@ class MoreMessageTypesView: UIView {
         view.dataSource = self
         view.delegate = self
         view.rowHeight = 60
-
-        view.backgroundColor = UIColor.redColor()
+        view.backgroundColor = UIColor.whiteColor()
         view.scrollEnabled = false
-        view.separatorColor = UIColor.clearColor()
         view.registerNib(UINib(nibName: self.quickPickPhotosCellID, bundle: nil), forCellReuseIdentifier: self.quickPickPhotosCellID)
         view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
         return view

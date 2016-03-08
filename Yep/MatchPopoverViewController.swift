@@ -112,8 +112,8 @@ class DiscoverFilterView: UIView {
         view.rowHeight = 60
         view.scrollEnabled = false
         // MARK: 不知道为啥在这里设置separator不管用
-        view.separatorStyle = .None
-        view.separatorColor = UIColor.clearColor()
+//        view.separatorStyle = .None
+//        view.separatorColor = UIColor.clearColor()
         view.registerClass(DiscoverFilterCell.self, forCellReuseIdentifier: "DiscoverFilterCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view
@@ -143,7 +143,8 @@ class DiscoverFilterView: UIView {
 
         containerView.alpha = 1
 
-        tableView.separatorStyle = .None
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
         UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: {[weak self]  _ in
             self?.tableViewBottomConstraint?.constant = 0
 

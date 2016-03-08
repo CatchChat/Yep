@@ -936,8 +936,6 @@ class ConversationViewController: BaseViewController {
 
                 // MARK: Popover 选发图片还是语音
 
-                // TODO: 内存咔咔的 取照片有bug
-
                 let popoverContent: PopoverMoreTypesViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreTypesController") as! PopoverMoreTypesViewController
                 popoverContent.modalPresentationStyle = .Popover
                 popoverContent.preferredContentSize = CGSize(width: 375, height: 288)

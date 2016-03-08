@@ -259,14 +259,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D86-dp-qKQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.21960784310000001" green="0.65098039220000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="W3w-jm-aNI" id="Ld3-tu-vGC"/>
-                                    <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
-                                </connections>
-                            </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qmx-Y5-DdP">
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
                                 <color key="backgroundColor" red="1" green="0.15686274510000001" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -278,6 +270,14 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sHk-eY-6TD">
                                 <rect key="frame" x="290" y="184" width="20" height="20"/>
                             </activityIndicatorView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D86-dp-qKQ">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.21960784310000001" green="0.65098039220000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="W3w-jm-aNI" id="Ld3-tu-vGC"/>
+                                    <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>

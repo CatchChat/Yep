@@ -10,7 +10,7 @@ import UIKit
 
 class PopoverContentViewController: UIViewController {
 
-    @IBOutlet var moreView: ConversationMoreView!
+    @IBOutlet weak var moreView: ConversationMoreView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
