@@ -1659,6 +1659,7 @@ func officialMessages(completion completion: Int -> Void) {
 
                         if let conversation = sender?.conversation {
                             let _ = try? realm.write {
+                                conversation.updatedUnixTime = message.createdUnixTime
                                 message.conversation = conversation
 
                                 // 纪录消息的 detail 信息
