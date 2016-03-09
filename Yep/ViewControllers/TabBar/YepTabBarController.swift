@@ -8,7 +8,8 @@
 
 import UIKit
 
-var detailViewColumnWidth: CGFloat = 0
+var detailViewColumnWidth: CGFloat  = 0
+var primaryViewColumnWidth: CGFloat = 0
 
 class YepTabBarController: UITabBarController {
 
@@ -114,7 +115,8 @@ class YepTabBarController: UITabBarController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if let columnWidth = self.splitViewController?.primaryColumnWidth {
-            detailViewColumnWidth = UIScreen.mainScreen().bounds.width - columnWidth
+            primaryViewColumnWidth = columnWidth
+            detailViewColumnWidth  = UIScreen.mainScreen().bounds.width - columnWidth
         }
     }
 }

@@ -14,6 +14,7 @@ class MatchPopoverViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.whiteColor()
 
         filterView.showInView(view)
         // Do any additional setup after loading the view.

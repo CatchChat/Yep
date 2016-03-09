@@ -138,7 +138,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.33725490200000002" green="0.75686274509999996" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="QmV-mb-dk2" firstAttribute="top" secondItem="Rhq-Gr-AA2" secondAttribute="bottom" id="IND-Bb-zkp"/>
                             <constraint firstItem="Rhq-Gr-AA2" firstAttribute="leading" secondItem="ApA-en-sCg" secondAttribute="leading" id="Pge-as-9qk"/>
@@ -173,7 +172,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.65098039220000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="FdH-Ol-NN1" secondAttribute="trailing" id="4KP-dR-xqh"/>
                             <constraint firstItem="FdH-Ol-NN1" firstAttribute="top" secondItem="gdD-xI-QwC" secondAttribute="top" id="Ecz-02-GRa"/>

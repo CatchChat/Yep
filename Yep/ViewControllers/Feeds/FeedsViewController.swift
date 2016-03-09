@@ -11,6 +11,9 @@ import RealmSwift
 import AVFoundation
 import MapKit
 
+private let screenWidth: CGFloat  = UIScreen.mainScreen().bounds.width
+private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
+
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
@@ -431,16 +434,22 @@ class FeedsViewController: BaseViewController {
     @IBAction private func showFilter(sender: UIBarButtonItem) {
 
         // MARK: Popover
-
         let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
         popoverContent.modalPresentationStyle = .Popover
         popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
-        presentViewController(popoverContent, animated: true, completion: nil)
 
+//        let dimView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
+//        dimView.backgroundColor = UIColor.blackColor()
+//        dimView.alpha = 0.3
+//        view.window?.addSubview(dimView)
+
+        presentViewController(popoverContent, animated: true, completion: nil)
+        view.bringSubviewToFront(popoverContent.view)
         let popoverPresentationController = popoverContent.popoverPresentationController
         popoverPresentationController?.barButtonItem = sender
         popoverPresentationController?.permittedArrowDirections = .Up
-
+        popoverPresentationController?.backgroundColor = UIColor.whiteColor()
+    
         if feedSortStyle != .Time {
             popoverContent.filterView.currentDiscoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: feedSortStyle.rawValue)!
         } else {

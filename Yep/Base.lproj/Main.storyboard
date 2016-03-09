@@ -271,7 +271,7 @@
                                 <rect key="frame" x="290" y="184" width="20" height="20"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D86-dp-qKQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.21960784310000001" green="0.65098039220000004" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="W3w-jm-aNI" id="Ld3-tu-vGC"/>
@@ -285,7 +285,7 @@
                             <constraint firstItem="D86-dp-qKQ" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="7rL-66-51f"/>
                             <constraint firstAttribute="bottom" secondItem="D86-dp-qKQ" secondAttribute="bottom" id="IGV-gd-9fq"/>
                             <constraint firstItem="Qmx-Y5-DdP" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="TWl-Eq-Uoj"/>
-                            <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="WZ4-Nx-qhp"/>
+                            <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" constant="64" id="WZ4-Nx-qhp"/>
                             <constraint firstItem="sHk-eY-6TD" firstAttribute="centerX" secondItem="aTs-V4-FkM" secondAttribute="centerX" id="ZFA-ds-EiT"/>
                             <constraint firstAttribute="trailing" secondItem="Qmx-Y5-DdP" secondAttribute="trailing" id="bve-Xi-F79"/>
                             <constraint firstItem="sHk-eY-6TD" firstAttribute="top" secondItem="1v6-QD-r3B" secondAttribute="bottom" constant="120" id="jeQ-RT-k0A"/>

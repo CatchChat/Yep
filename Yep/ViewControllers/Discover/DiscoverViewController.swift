@@ -175,6 +175,7 @@ class DiscoverViewController: BaseViewController {
         let popoverPresentationController = popoverContent.popoverPresentationController
         popoverPresentationController?.barButtonItem = sender
         popoverPresentationController?.permittedArrowDirections = .Up
+        popoverPresentationController?.backgroundColor = UIColor.whiteColor()
 
         popoverContent.filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
 

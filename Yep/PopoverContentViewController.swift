@@ -14,14 +14,10 @@ class PopoverContentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.whiteColor()
         moreView.showInView(view)
 
         // Do any additional setup after loading the view.
-    }
-
-    func setupConversationMoreView() {
-
-        moreView.showInView(view)
     }
 
     override func didReceiveMemoryWarning() {

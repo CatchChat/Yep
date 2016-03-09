@@ -50,7 +50,6 @@ class FeedBasicCell: UITableViewCell {
         button.titleLabel?.font = UIFont.feedSkillFont()
         // TODO: cellWidth??
         let cellWidth = self.bounds.width
-        print(cellWidth,"___cellWidth")
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 

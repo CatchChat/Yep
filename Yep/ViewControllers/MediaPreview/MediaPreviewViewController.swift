@@ -105,7 +105,6 @@ class MediaPreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         mediasCollectionView.backgroundColor = UIColor.clearColor()
         mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
 
@@ -114,7 +113,11 @@ class MediaPreviewViewController: UIViewController {
         }
 
         topPreviewImageView.frame = previewImageViewInitalFrame
+        topPreviewImageView.frame.origin.x += primaryViewColumnWidth
+
         bottomPreviewImageView.frame = previewImageViewInitalFrame
+        bottomPreviewImageView.frame.origin.x += primaryViewColumnWidth
+
         view.addSubview(bottomPreviewImageView)
         view.addSubview(topPreviewImageView)
 
@@ -143,7 +146,6 @@ class MediaPreviewViewController: UIViewController {
 
         topPreviewImageView.alpha = 0
         bottomPreviewImageView.alpha = 1
-
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.blackColor()
@@ -154,8 +156,10 @@ class MediaPreviewViewController: UIViewController {
             }
 
             let frame = CGRect(x: 0, y: (viewHeight - previewImageViewHeight) * 0.5, width: previewImageViewWidth, height: previewImageViewHeight)
+
             self?.topPreviewImageView.frame = frame
             self?.bottomPreviewImageView.frame = frame
+
 
         }, completion: { [weak self] _ in
             self?.mediasCollectionView.alpha = 1
@@ -300,6 +304,7 @@ class MediaPreviewViewController: UIViewController {
 
 
         var frame = self.previewImageViewInitalFrame ?? CGRectZero
+        frame.origin.x += primaryViewColumnWidth
 
         if case .AttachmentType = previewMedias[0] {
             let offsetIndex = currentIndex - startIndex

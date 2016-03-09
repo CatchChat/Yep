@@ -14,7 +14,7 @@ class MoreMessageTypesView: UIView {
     let totalHeight: CGFloat = 100 + 60 * 3
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.whiteColor()
         return view
     }()
 
@@ -57,11 +57,13 @@ class MoreMessageTypesView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        tableView.separatorStyle = .None
 
-        }, completion: { _ in
-        })
+//        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
+//            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+//
+//        }, completion: { _ in
+//        })
 
         UIView.animateWithDuration(0.7, delay: 0.1, options: .CurveEaseOut, animations: { _ in
             self.tableViewBottomConstraint?.constant = 0

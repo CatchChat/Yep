@@ -939,11 +939,20 @@ class ConversationViewController: BaseViewController {
                 let popoverContent: PopoverMoreTypesViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreTypesController") as! PopoverMoreTypesViewController
                 popoverContent.modalPresentationStyle = .Popover
                 popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+                popoverContent.view.backgroundColor = UIColor.whiteColor()
                 sSelf.presentViewController(popoverContent, animated: true, completion: nil)
 
                 let popoverPresentationController = popoverContent.popoverPresentationController
+
+//                let frame = sSelf.messageToolbar.moreButton.frame
+//                let sourceView = UIView(frame: CGRect(x: frame.origin.x + frame.width * 0.9, y: frame.origin.y, width: frame.width * 0.1, height: frame.height))
+//                sourceView.backgroundColor = UIColor.redColor()
+//                sSelf.messageToolbar.addSubview(sourceView)
+
                 popoverPresentationController?.sourceView = sSelf.messageToolbar.moreButton
                 popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
+                // Arrow color
+                popoverPresentationController?.backgroundColor = UIColor.whiteColor()
                 popoverPresentationController?.permittedArrowDirections = .Down
 
                 defer {
@@ -2262,6 +2271,7 @@ class ConversationViewController: BaseViewController {
         self.presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController
+        popoverPresentationController?.backgroundColor = UIColor.whiteColor()
         popoverPresentationController?.barButtonItem = sender
 
         messageToolbar.state = .Default
