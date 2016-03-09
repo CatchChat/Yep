@@ -1152,7 +1152,7 @@ func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversatio
         return realm.objects(Message).filter(predicate).count
 
     case .Group:
-        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ countOfUnreadMessagesInConversation($0) }).reduce(0, combine: +)
+        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
