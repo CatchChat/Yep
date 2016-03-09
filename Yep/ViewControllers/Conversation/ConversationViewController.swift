@@ -2845,6 +2845,8 @@ class ConversationViewController: BaseViewController {
                 delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
                 }
+
+                moreViewManager.updateForGroupAffair()
             }
         }
     }
