@@ -2080,8 +2080,8 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }
 
     message.mediaType = mediaType.rawValue
-    
     message.downloadState = MessageDownloadState.Downloaded.rawValue
+    message.readed = true // 自己的消息，天然已读
 
     let _ = try? realm.write {
         realm.add(message)
