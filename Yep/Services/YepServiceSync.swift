@@ -534,6 +534,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
                         group.conversation?.messages.forEach { $0.readed = true }
                         group.conversation?.mentionedMe = false
+                        group.conversation?.hasUnreadMessages = false
                     }
 
                 } else {
@@ -1089,18 +1090,18 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                         if let conversation = conversation {
 
-                            var sectionDateMessageID: String?
+                            // 纪录消息的 detail 信息
+
+                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             message.conversation = conversation
+
+                            var sectionDateMessageID: String?
 
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                 realm.add(sectionDateMessage)
                                 sectionDateMessageID = sectionDateMessage.messageID
                             }
-
-                            // 纪录消息的 detail 信息
-
-                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             if createdNewConversation {
 
