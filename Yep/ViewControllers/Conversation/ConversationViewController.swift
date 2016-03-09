@@ -1511,6 +1511,7 @@ class ConversationViewController: BaseViewController {
         let _ = try? realm.write { [weak self] in
             self?.conversation.unreadMessagesCount = 0
             self?.conversation.hasUnreadMessages = false
+            self?.conversation.mentionedMe = false
         }
     }
 
