@@ -640,7 +640,7 @@ class ConversationViewController: BaseViewController {
     }()
 
     @IBOutlet private weak var conversationCollectionView: UICollectionView!
-    private let conversationCollectionViewContentInsetYOffset: CGFloat = 10
+    private let conversationCollectionViewContentInsetYOffset: CGFloat = 5
 
     @IBOutlet private weak var messageToolbar: MessageToolbar!
     @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint!
@@ -4304,7 +4304,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             return UIEdgeInsetsZero
 
         case .Message:
-            return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
+            return UIEdgeInsets(top: 5, left: 0, bottom: sectionInsetBottom, right: 0)
         }
     }
 
