@@ -341,7 +341,7 @@ class ConversationViewController: BaseViewController {
     private var needShowLoadPreviousSection: Bool = false {
         didSet {
             if needShowLoadPreviousSection != oldValue {
-                needReloadLoadPreviousSection = true
+                //needReloadLoadPreviousSection = true
             }
         }
     }
@@ -640,7 +640,7 @@ class ConversationViewController: BaseViewController {
     }()
 
     @IBOutlet private weak var conversationCollectionView: UICollectionView!
-    private let conversationCollectionViewContentInsetYOffset: CGFloat = 10
+    private let conversationCollectionViewContentInsetYOffset: CGFloat = 5
 
     @IBOutlet private weak var messageToolbar: MessageToolbar!
     @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint!
@@ -3529,7 +3529,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return needShowLoadPreviousSection ? 1 : 0
+            return 1
 
         case .Message:
             return displayedMessagesRange.length
@@ -3787,11 +3787,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
+            /*
             guard let cell = cell as? LoadMoreCollectionViewCell else {
                 break
             }
 
             cell.loadingActivityIndicator.startAnimating()
+            */
+            break
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
@@ -4187,6 +4190,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func markMessageOpenGraphDetected() {
+            guard !message.invalidated else {
+                return
+            }
+
             let _ = try? realm.write {
                 message.openGraphDetected = true
             }
@@ -4273,7 +4280,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return CGSize(width: collectionViewWidth, height: 44)
+            return CGSize(width: collectionViewWidth, height: 20)
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
@@ -4297,7 +4304,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             return UIEdgeInsetsZero
 
         case .Message:
-            return UIEdgeInsets(top: sectionInsetTop, left: 0, bottom: sectionInsetBottom, right: 0)
+            return UIEdgeInsets(top: 5, left: 0, bottom: sectionInsetBottom, right: 0)
         }
     }
 
