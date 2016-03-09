@@ -341,7 +341,7 @@ class ConversationViewController: BaseViewController {
     private var needShowLoadPreviousSection: Bool = false {
         didSet {
             if needShowLoadPreviousSection != oldValue {
-                needReloadLoadPreviousSection = true
+                //needReloadLoadPreviousSection = true
             }
         }
     }
@@ -3529,7 +3529,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return needShowLoadPreviousSection ? 1 : 0
+            return 1
 
         case .Message:
             return displayedMessagesRange.length
@@ -4273,7 +4273,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            return CGSize(width: collectionViewWidth, height: 44)
+            return CGSize(width: collectionViewWidth, height: 20)
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
