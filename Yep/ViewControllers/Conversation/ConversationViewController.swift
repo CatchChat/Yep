@@ -3787,11 +3787,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
+            /*
             guard let cell = cell as? LoadMoreCollectionViewCell else {
                 break
             }
 
             cell.loadingActivityIndicator.startAnimating()
+            */
+            break
 
         case .Message:
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
