@@ -4187,6 +4187,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func markMessageOpenGraphDetected() {
+            guard !message.invalidated else {
+                return
+            }
+
             let _ = try? realm.write {
                 message.openGraphDetected = true
             }
