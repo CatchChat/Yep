@@ -805,7 +805,10 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             message.sendState = MessageSendState.Read.rawValue
         }
 
-        if let state = messageInfo["state"] as? String where state == "read" {
+        if let sender = message.fromFriend where sender.isMe {
+            message.readed = true
+
+        } else if let state = messageInfo["state"] as? String where state == "read" {
             message.readed = true
         }
 
@@ -917,9 +920,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
                 if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
-                        println("before newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                         newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
-                        println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                     }
                 }
             }
