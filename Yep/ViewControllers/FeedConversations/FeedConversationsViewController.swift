@@ -179,6 +179,20 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            fatalError("Invalid index of feedConversations!")
+        }
+
+        if let feed = conversation.withGroup?.withFeed {
+            if feed.deleted {
+                return NSLocalizedString("Delete", comment: "")
+            }
+            if let creator = feed.creator where creator.isMe {
+                return NSLocalizedString("Delete", comment: "")
+            }
+        }
+
         return NSLocalizedString("Unsubscribe", comment: "")
     }
 
