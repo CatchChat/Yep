@@ -342,14 +342,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if !handleUniversalLink(webpageURL) {
                 UIApplication.sharedApplication().openURL(webpageURL)
             }
-
-//            if let webpageURL = userActivity.webpageURL {
-//                if !handleUniversalLink(webpageURL) {
-//                    UIApplication.sharedApplication().openURL(webpageURL)
-//                }
-//            } else {
-//                return false
-//            }
         }
 
         return true
@@ -407,27 +399,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Public
 
+    var inMainStory: Bool = true
+
     func startShowStory() {
 
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
-    }
 
-    /*
-    func startIntroStory() {
-
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
-        window?.rootViewController = rootViewController
+        inMainStory = false
     }
-    */
 
     func startMainStory() {
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
         window?.rootViewController = rootViewController
+
+        inMainStory = true
     }
 
     func sync() {
