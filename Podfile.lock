@@ -8,8 +8,8 @@ PODS:
   - Base64 (1.1.2)
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
-  - DeviceGuru (1.3.3)
-  - Fabric (1.6.6)
+  - DeviceGuru (1.3.4)
+  - Fabric (1.6.7)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - Kanna (1.0.5)
@@ -58,8 +58,8 @@ SPEC CHECKSUMS:
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
-  DeviceGuru: 49c6178d77693f8459ace21cecaf4d1d26297d08
-  Fabric: 1abc1e59f11fa39ede6f690ef7309d8563e3ec59
+  DeviceGuru: 9659f3d7c3903eca2084f4801dcbbc6ebde19709
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   Kanna: 1df5cd995dc1f3a282e3dcf7521cfef2f069ac4d
