@@ -9,24 +9,24 @@
 import UIKit
 import RealmSwift
 
-let v1AccessTokenKey = "v1AccessToken"
-let userIDKey = "userID"
-let nicknameKey = "nickname"
-let introductionKey = "introduction"
-let avatarURLStringKey = "avatarURLString"
-let badgeKey = "badge"
-let pusherIDKey = "pusherID"
+private let v1AccessTokenKey = "v1AccessToken"
+private let userIDKey = "userID"
+private let nicknameKey = "nickname"
+private let introductionKey = "introduction"
+private let avatarURLStringKey = "avatarURLString"
+private let badgeKey = "badge"
+private let pusherIDKey = "pusherID"
 
-let areaCodeKey = "areaCode"
-let mobileKey = "mobile"
+private let areaCodeKey = "areaCode"
+private let mobileKey = "mobile"
 
-let discoveredUserSortStyleKey = "discoveredUserSortStyle"
-let feedSortStyleKey = "feedSortStyle"
+private let discoveredUserSortStyleKey = "discoveredUserSortStyle"
+private let feedSortStyleKey = "feedSortStyle"
 
-let latitudeShiftKey = "latitudeShift"
-let longitudeShiftKey = "longitudeShift"
+private let latitudeShiftKey = "latitudeShift"
+private let longitudeShiftKey = "longitudeShift"
 
-let userLocationNameKey = "userLocationName"
+private let userLocationNameKey = "userLocationName"
 
 struct Listener<T>: Hashable {
     let name: String
