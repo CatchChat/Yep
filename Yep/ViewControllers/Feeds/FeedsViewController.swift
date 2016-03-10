@@ -536,7 +536,7 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
-                    let newFeeds = feeds
+                    var newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
                     var wayToUpdate: UITableView.WayToUpdate = .None
@@ -546,18 +546,30 @@ class FeedsViewController: BaseViewController {
                     }
 
                     switch mode {
+
                     case .Top:
                         strongSelf.feeds = newFeeds
 
                     case .LoadMore:
                         let oldFeedsCount = strongSelf.feeds.count
-                        strongSelf.feeds += newFeeds
+
+                        let oldFeedIDSet = Set<String>(strongSelf.feeds.map({ $0.id }))
+                        var realNewFeeds = [DiscoveredFeed]()
+                        for feed in newFeeds {
+                            if !oldFeedIDSet.contains(feed.id) {
+                                realNewFeeds.append(feed)
+                            }
+                        }
+                        strongSelf.feeds += realNewFeeds
+
                         let newFeedsCount = strongSelf.feeds.count
 
                         let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
                         if !indexPaths.isEmpty {
                             wayToUpdate = .Insert(indexPaths)
                         }
+
+                        newFeeds = realNewFeeds // 后面还要使用 newFeeds
 
                     case .Static:
                         var indexesOfMessagesCountUpdated = [Int]()
@@ -618,13 +630,12 @@ class FeedsViewController: BaseViewController {
             feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
 
         } else {
-
             var feedSortStyle = self.feedSortStyle
             if skill != nil {
                 feedSortStyle = .Time
             }
 
-            let maxFeedID = (mode == .LoadMore && (feedSortStyle == FeedSortStyle.Time)) ? feeds.last?.id : nil
+            let maxFeedID = (mode == .LoadMore && (feedSortStyle == .Time)) ? feeds.last?.id : nil
 
             discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
         }
