@@ -122,20 +122,24 @@ class YepUserDefaults {
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
 
-        defaults.removeObjectForKey(v1AccessTokenKey)
-        defaults.removeObjectForKey(userIDKey)
-        defaults.removeObjectForKey(nicknameKey)
-        defaults.removeObjectForKey(introductionKey)
-        defaults.removeObjectForKey(avatarURLStringKey)
-        defaults.removeObjectForKey(badgeKey)
-        defaults.removeObjectForKey(pusherIDKey)
-        defaults.removeObjectForKey(areaCodeKey)
-        defaults.removeObjectForKey(mobileKey)
-        defaults.removeObjectForKey(discoveredUserSortStyleKey)
-        defaults.removeObjectForKey(feedSortStyleKey)
-        defaults.removeObjectForKey(latitudeShiftKey)
-        defaults.removeObjectForKey(longitudeShiftKey)
-        defaults.removeObjectForKey(userLocationNameKey)
+        [
+            v1AccessTokenKey,
+            userIDKey,
+            nicknameKey,
+            introductionKey,
+            avatarURLStringKey,
+            badgeKey,
+            pusherIDKey,
+            areaCodeKey,
+            mobileKey,
+            discoveredUserSortStyleKey,
+            feedSortStyleKey,
+            latitudeShiftKey,
+            longitudeShiftKey,
+            userLocationNameKey,
+        ].forEach({
+            defaults.removeObjectForKey($0)
+        })
 
         defaults.synchronize()
     }
