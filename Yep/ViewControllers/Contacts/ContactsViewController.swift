@@ -28,6 +28,7 @@ class ContactsViewController: BaseViewController {
     private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
+    private var searchControllerWasActive: Bool = false
 
     private let keyboardMan = KeyboardMan()
     private var normalContactsTableViewContentInsetBottom: CGFloat?
@@ -141,6 +142,8 @@ class ContactsViewController: BaseViewController {
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
+
+        self.definesPresentationContext = true
     }
 
     // MARK: Actions
@@ -185,9 +188,21 @@ class ContactsViewController: BaseViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        if searchControllerWasActive {
+//            searchController?.active = true
+//        }
+//    }
+//
+//    override func viewWillDisappear(animated: Bool) {
+//        super.viewWillDisappear(animated)
+//
+//        searchControllerWasActive = searchControllerIsActive
+//
+//        searchController?.active = false
+//    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -283,7 +298,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        searchController?.active = false
+        //searchController?.active = false
+        //searchController?.resignFirstResponder()
 
         guard let section = Section(rawValue: indexPath.section) else {
             return
