@@ -536,7 +536,7 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
-                    let newFeeds = feeds
+                    var newFeeds = feeds
                     let oldFeeds = strongSelf.feeds
 
                     var wayToUpdate: UITableView.WayToUpdate = .None
@@ -568,6 +568,8 @@ class FeedsViewController: BaseViewController {
                         if !indexPaths.isEmpty {
                             wayToUpdate = .Insert(indexPaths)
                         }
+
+                        newFeeds = realNewFeeds // 后面还要使用 newFeeds
 
                     case .Static:
                         var indexesOfMessagesCountUpdated = [Int]()
