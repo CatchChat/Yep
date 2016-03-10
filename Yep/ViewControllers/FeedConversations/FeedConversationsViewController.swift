@@ -184,11 +184,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             fatalError("Invalid index of feedConversations!")
         }
 
-        if let feed = conversation.withGroup?.withFeed, let creator = feed.creator where creator.isMe {
-            return NSLocalizedString("Delete", comment: "")
-        } else {
-            return NSLocalizedString("Unsubscribe", comment: "")
+        if let feed = conversation.withGroup?.withFeed {
+            if feed.deleted {
+                return NSLocalizedString("Delete", comment: "")
+            }
+            if let creator = feed.creator where creator.isMe {
+                return NSLocalizedString("Delete", comment: "")
+            }
         }
+
+        return NSLocalizedString("Unsubscribe", comment: "")
     }
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
