@@ -34,8 +34,8 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
             interactivePopGestureRecognizer?.enabled = false
         }
-        
         super.pushViewController(viewController, animated: animated)
+        
     }
     
     override func popToRootViewControllerAnimated(animated: Bool) -> [UIViewController]? {

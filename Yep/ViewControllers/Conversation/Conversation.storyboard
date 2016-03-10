@@ -88,7 +88,6 @@
                         <outlet property="swipeUpView" destination="H35-sK-viT" id="Xkk-yV-EwB"/>
                         <segue destination="f8Q-Nw-run" kind="presentation" identifier="presentPickLocation" id="axj-on-nR1"/>
                         <segue destination="1y0-IN-47w" kind="show" identifier="showProfileFromFeedView" id="eCp-94-guS"/>
-                        <segue destination="bhi-Zn-U0N" kind="show" identifier="showProfile" id="HJ6-Sc-tfw"/>
                         <segue destination="9xD-Rm-9US" kind="presentation" identifier="presentNewFeed" id="e4k-KG-exv"/>
                         <segue destination="8Oq-Nk-eYq" kind="show" identifier="showProfileWithUsername" id="l5Y-gH-p57"/>
                     </connections>

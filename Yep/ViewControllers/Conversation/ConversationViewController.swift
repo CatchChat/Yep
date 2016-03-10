@@ -953,7 +953,7 @@ class ConversationViewController: BaseViewController {
                 popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
                 // Arrow color
                 popoverPresentationController?.backgroundColor = UIColor.whiteColor()
-                popoverPresentationController?.permittedArrowDirections = .Down
+                popoverPresentationController?.permittedArrowDirections = .Any
 
                 defer {
                     popoverContent.moreTypesView.hide = {

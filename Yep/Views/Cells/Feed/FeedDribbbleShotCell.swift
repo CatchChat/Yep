@@ -80,13 +80,14 @@ class FeedDribbbleShotCell: FeedBasicCell {
         super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
-
+        // MARK: Test
+        _newLayout = nil
         if needShowSkill, let _ = feed.skill {
             logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
 
         } else {
-            logoImageView.frame.origin.x = feedTextFixedSpace
+            logoImageView.frame.origin.x = detailViewColumnWidth - feedTextFixedSpace - logoImageView.frame.width
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
         }
         nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10

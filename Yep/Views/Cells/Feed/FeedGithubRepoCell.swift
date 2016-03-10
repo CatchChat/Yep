@@ -33,7 +33,6 @@ class FeedGithubRepoCell: FeedBasicCell {
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "social_work_border")
-//        imageView.backgroundColor = UIColor.greenColor()
         return imageView
     }()
 
@@ -68,7 +67,9 @@ class FeedGithubRepoCell: FeedBasicCell {
         super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
-
+        // MARK: Test
+        _newLayout = nil
+        
         if needShowSkill, let _ = feed.skill {
             logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y

@@ -119,6 +119,41 @@ class YepTabBarController: UITabBarController {
             detailViewColumnWidth  = UIScreen.mainScreen().bounds.width - columnWidth
         }
     }
+    
+    func showProfile() {
+
+        performSegueWithIdentifier("showProfile", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+        if segue.identifier == "showProfile" {
+            let vc = segue.destinationViewController as! ProfileViewController
+//            
+//            if let user = sender as? User {
+//                vc.profileUser = ProfileUser.UserType(user)
+//                
+//            } else {
+//                if let withFriend = conversation?.withFriend {
+//                    if withFriend.userID != YepUserDefaults.userID.value {
+//                        vc.profileUser = ProfileUser.UserType(withFriend)
+//                    }
+//                }
+//            }
+//            
+//            switch conversation.type {
+//            case ConversationType.OneToOne.rawValue:
+//                vc.fromType = .OneToOneConversation
+//            case ConversationType.Group.rawValue:
+//                vc.fromType = .GroupConversation
+//            default:
+//                break
+//            }
+            
+            vc.setBackButtonWithTitle()
+
+        }
+    }
 }
 
 // MARK: - UITabBarControllerDelegate

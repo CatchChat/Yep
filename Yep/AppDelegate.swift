@@ -581,6 +581,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
         UITabBar.appearance().barTintColor = UIColor.whiteColor()
         //UITabBar.appearance().translucent = false
+        
     }
+    
+    // MARK: iPad device rotate
+    
+    func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask {
+        return .All
+    }
+    
+//    func shouldAutorotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation) -> Bool {
+//        return (toInterfaceOrientation == .LandscapeLeft || toInterfaceOrientation == .LandscapeRight)
+//    }
+    
 }
+
+
 
