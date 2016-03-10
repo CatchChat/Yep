@@ -96,6 +96,9 @@ class ContactsViewController: BaseViewController {
             contactsTableView.tableHeaderView = searchController.searchBar
 
             self.searchController = searchController
+
+            // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
+            self.definesPresentationContext = true
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -130,16 +133,15 @@ class ContactsViewController: BaseViewController {
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
             self?.contactsTableView.contentInset.bottom = keyboardHeight
+            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
             if let bottom = self?.normalContactsTableViewContentInsetBottom {
                 self?.contactsTableView.contentInset.bottom = bottom
+                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
             }
         }
-
-        // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-        self.definesPresentationContext = true
 
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
