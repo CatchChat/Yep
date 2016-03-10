@@ -288,13 +288,10 @@ struct FeedCellLayout {
 
             if let attachment = feed.attachment {
                 if case let .Audio(audioInfo) = attachment {
-                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
-                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
-
-                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
+                    let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = beginY + 2
-
-                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 40)
+                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 50)
 
                     let audioLayout = FeedCellLayout.AudioLayout(voiceContainerViewFrame: voiceContainerViewFrame)
 

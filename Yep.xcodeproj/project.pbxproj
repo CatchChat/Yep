@@ -63,9 +63,7 @@
 		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
-		5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5019F6301B39BFE00000D993 /* ConversationMoreView.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
-		5020B89D1C0576A0006CE8EA /* NewFeedTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89C1C0576A0006CE8EA /* NewFeedTypesView.swift */; };
 		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
 		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
 		5020B8A51C059662006CE8EA /* VoiceRecordSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B8A41C059662006CE8EA /* VoiceRecordSampleView.swift */; };
@@ -123,6 +121,7 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
+		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
 		504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504CBA3C1B3D04B800663A90 /* ChatTextView.swift */; };
@@ -168,6 +167,7 @@
 		5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */; };
 		5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */; };
 		5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */; };
+		5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5066C0281C86D48C00495278 /* ActionSheetView.swift */; };
 		506923121ADE025200D27574 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923111ADE025200D27574 /* Waver.swift */; };
 		506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923131ADE025F00D27574 /* YepRefreshView.swift */; };
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
@@ -446,9 +446,7 @@
 		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
-		5019F6301B39BFE00000D993 /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreView.swift; path = Views/ConversationMore/ConversationMoreView.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
-		5020B89C1C0576A0006CE8EA /* NewFeedTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedTypesView.swift; path = Views/NewFeedTypes/NewFeedTypesView.swift; sourceTree = "<group>"; };
 		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
 		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
 		5020B8A41C059662006CE8EA /* VoiceRecordSampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VoiceRecordSampleView.swift; path = Views/AudioWaves/VoiceRecordSampleView.swift; sourceTree = "<group>"; };
@@ -506,6 +504,7 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
+		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftRecallCell.swift; path = Views/Cells/ChatLeftRecall/ChatLeftRecallCell.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
 		504CBA3C1B3D04B800663A90 /* ChatTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextView.swift; path = Views/TextViews/ChatTextView.swift; sourceTree = "<group>"; };
@@ -551,6 +550,7 @@
 		5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendSearchCell.xib; path = Views/Cells/AddFriendSearch/AddFriendSearchCell.xib; sourceTree = "<group>"; };
 		5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriendMoreCell.swift; path = Views/Cells/AddFriendMore/AddFriendMoreCell.swift; sourceTree = "<group>"; };
 		5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendMoreCell.xib; path = Views/Cells/AddFriendMore/AddFriendMoreCell.xib; sourceTree = "<group>"; };
+		5066C0281C86D48C00495278 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionSheetView.swift; path = ActionSheet/ActionSheetView.swift; sourceTree = "<group>"; };
 		506923111ADE025200D27574 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
 		506923131ADE025F00D27574 /* YepRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepRefreshView.swift; path = Views/PullToRefresh/YepRefreshView.swift; sourceTree = "<group>"; };
 		506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAnnotationHeader.swift; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.swift; sourceTree = "<group>"; };
@@ -1044,14 +1044,6 @@
 			name = ChatLeftSocialWork;
 			sourceTree = "<group>";
 		};
-		5019F62F1B39BFCB0000D993 /* ConversationMore */ = {
-			isa = PBXGroup;
-			children = (
-				5019F6301B39BFE00000D993 /* ConversationMoreView.swift */,
-			);
-			name = ConversationMore;
-			sourceTree = "<group>";
-		};
 		502048251B0F1BB8002EBFC7 /* SearchedUsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1059,14 +1051,6 @@
 				50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */,
 			);
 			name = SearchedUsers;
-			sourceTree = "<group>";
-		};
-		5020B89E1C0576A5006CE8EA /* NewFeedTypes */ = {
-			isa = PBXGroup;
-			children = (
-				5020B89C1C0576A0006CE8EA /* NewFeedTypesView.swift */,
-			);
-			name = NewFeedTypes;
 			sourceTree = "<group>";
 		};
 		5020B8A11C05811B006CE8EA /* NewFeedVoiceRecord */ = {
@@ -1201,6 +1185,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5066C0271C86D41900495278 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
 				50F2B9791B2EEAE300F840CC /* Labels */,
@@ -1221,10 +1206,8 @@
 				0A1CAC741AFA526400826B45 /* SkillHomeSectionButton */,
 				0AC25F041B1100F3009E6E13 /* ScrollView */,
 				50E18BB81B180F8E0076C3C6 /* SayHi */,
-				5019F62F1B39BFCB0000D993 /* ConversationMore */,
 				50B2CA951BD0EF8A00668AC6 /* MoreMessageTypes */,
 				500A0B201B451A7400D49358 /* Badge */,
-				504F85AD1B4D21E400F909BE /* DiscoverFilter */,
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
 				50AFBF471BB25F81007D19DA /* TitleViews */,
 				50AFBF4C1BB2A453007D19DA /* InfoView */,
@@ -1233,7 +1216,6 @@
 				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
 				50A93A9E1BD8C51D007005DB /* PickerItems */,
 				6AB0DF5B1BE169030052BED1 /* ShareProfileView */,
-				5020B89E1C0576A5006CE8EA /* NewFeedTypes */,
 				509B12101C436E830000BE71 /* Mention */,
 			);
 			name = Views;
@@ -1549,6 +1531,7 @@
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
 				E4783E431C89646900324D9A /* PopoverContentViewController.swift */,
 				E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */,
+				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -1726,6 +1709,14 @@
 				5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */,
 			);
 			name = AddFriendMore;
+			sourceTree = "<group>";
+		};
+		5066C0271C86D41900495278 /* ActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				5066C0281C86D48C00495278 /* ActionSheetView.swift */,
+			);
+			name = ActionSheet;
 			sourceTree = "<group>";
 		};
 		506BB7F71AE4E0AA00C1A2A0 /* SkillAnnotationHeader */ = {
@@ -2838,7 +2829,6 @@
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
 				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
-				5020B89D1C0576A0006CE8EA /* NewFeedTypesView.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
@@ -2856,7 +2846,6 @@
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
 				50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
-				5019F6311B39BFE00000D993 /* ConversationMoreView.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
@@ -2895,6 +2884,8 @@
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
 				332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */,
+
+				5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
@@ -2964,6 +2955,7 @@
 				50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */,
 				50E392C21C22B9E400C0CECB /* FeedDribbbleShotCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
+				50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */,
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
@@ -3087,7 +3079,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

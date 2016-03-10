@@ -34,6 +34,7 @@ struct LoginUser: CustomStringConvertible {
     }
 }
 
+/*
 struct QiniuProvider: CustomStringConvertible {
     let token: String
     let key: String
@@ -43,6 +44,7 @@ struct QiniuProvider: CustomStringConvertible {
         return "QiniuProvider(token: \(token), key: \(key), downloadURLString: \(downloadURLString))"
     }
 }
+*/
 
 func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
     YepUserDefaults.userID.value = loginUser.userID
@@ -56,7 +58,7 @@ func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
 
 // MARK: - Register
 
-func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: ((Reason, String?) -> Void)?, completion: ((Bool, String)) -> Void) {
+func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
     let requestParameters = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -79,14 +81,10 @@ func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandle
 
     let resource = jsonResource(path: "/v1/users/mobile_validate", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func registerMobile(mobile: String, withAreaCode areaCode: String, nickname: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func registerMobile(mobile: String, withAreaCode areaCode: String, nickname: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -107,14 +105,10 @@ func registerMobile(mobile: String, withAreaCode areaCode: String, nickname: Str
 
     let resource = jsonResource(path: "/v1/registration/create", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: ((Reason, String?) -> Void)?, completion: LoginUser -> Void) {
+func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
@@ -143,11 +137,7 @@ func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCode: Str
 
     let resource = jsonResource(path: "/v1/registration/update", method: .PUT, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Skills
@@ -223,7 +213,7 @@ func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
     return skills
 }
 
-func allSkillCategories(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [SkillCategory] -> Void) {
+func allSkillCategories(failureHandler failureHandler: FailureHandler?, completion: [SkillCategory] -> Void) {
 
     let parse: JSONDictionary -> [SkillCategory]? = { data in
         //println("skillCategories \(data)")
@@ -255,11 +245,7 @@ func allSkillCategories(failureHandler failureHandler: ((Reason, String?) -> Voi
 
     let resource = authJsonResource(path: "/v1/skill_categories", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 enum SkillSet: Int {
@@ -302,7 +288,7 @@ enum SkillSet: Int {
     }
 }
 
-func addSkillWithSkillID(skillID: String, toSkillSet skillSet: SkillSet, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func addSkillWithSkillID(skillID: String, toSkillSet skillSet: SkillSet, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters: JSONDictionary = [
         "skill_id": skillID,
@@ -315,19 +301,15 @@ func addSkillWithSkillID(skillID: String, toSkillSet skillSet: SkillSet, failure
 
     let resource = authJsonResource(path: "/v1/\(skillSet.serverPath)", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func addSkill(skill: Skill, toSkillSet skillSet: SkillSet, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     addSkillWithSkillID(skill.id, toSkillSet: skillSet, failureHandler: failureHandler, completion: completion)
 }
 
-func deleteSkillWithID(skillID: String, fromSkillSet skillSet: SkillSet, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func deleteSkillWithID(skillID: String, fromSkillSet skillSet: SkillSet, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -335,19 +317,15 @@ func deleteSkillWithID(skillID: String, fromSkillSet skillSet: SkillSet, failure
 
     let resource = authJsonResource(path: "/v1/\(skillSet.serverPath)/\(skillID)", method: .DELETE, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func deleteSkill(skill: Skill, fromSkillSet skillSet: SkillSet, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     deleteSkillWithID(skill.id, fromSkillSet: skillSet, failureHandler: failureHandler, completion: completion)
 }
 
-func updateCoverOfSkillWithSkillID(skillID: String, coverURLString: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func updateCoverOfSkillWithSkillID(skillID: String, coverURLString: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters: JSONDictionary = [
         "cover_url": coverURLString,
@@ -359,30 +337,22 @@ func updateCoverOfSkillWithSkillID(skillID: String, coverURLString: String, fail
 
     let resource = authJsonResource(path: "/v1/skills/\(skillID)", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - User
 
-func userInfoOfUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func userInfoOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
 
     let resource = authJsonResource(path: "/v1/users/\(userID)", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func discoverUserByUsername(username: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredUser -> Void) {
+func discoverUserByUsername(username: String, failureHandler: FailureHandler?, completion: DiscoveredUser -> Void) {
 
     let parse: JSONDictionary -> DiscoveredUser? = { data in
 
@@ -392,29 +362,21 @@ func discoverUserByUsername(username: String, failureHandler: ((Reason, String?)
 
     let resource = authJsonResource(path: "/v1/users/\(username)/profile", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // 自己的信息
-func userInfo(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func userInfo(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
     }
 
     let resource = authJsonResource(path: "/v1/user", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func updateMyselfWithInfo(info: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func updateMyselfWithInfo(info: JSONDictionary, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     // nickname
     // avatar_url
@@ -429,14 +391,10 @@ func updateMyselfWithInfo(info: JSONDictionary, failureHandler: ((Reason, String
     
     let resource = authJsonResource(path: "/v1/user", method: .PATCH, requestParameters: info, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+func updateAvatarWithImageData(imageData: NSData, failureHandler: FailureHandler?, completion: String -> Void) {
 
     guard let token = YepUserDefaults.v1AccessToken.value else {
         println("updateAvatarWithImageData no token")
@@ -468,7 +426,7 @@ func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, Stri
                     avatarInfo = json["avatar"] as? JSONDictionary,
                     avatarURLString = avatarInfo["url"] as? String
                 else {
-                    failureHandler?(.CouldNotParseJSON, nil)
+                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
                     return
                 }
 
@@ -477,7 +435,7 @@ func updateAvatarWithImageData(imageData: NSData, failureHandler: ((Reason, Stri
 
         case .Failure(let encodingError):
 
-            failureHandler?(.Other(nil), "\(encodingError)")
+            failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
         }
     })
 }
@@ -487,7 +445,7 @@ enum VerifyCodeMethod: String {
     case Call = "call"
 }
 
-func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters = [
         "mobile": mobile,
@@ -501,14 +459,10 @@ func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMe
 
     let resource = jsonResource(path: "/v1/sms_verification_codes", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: ((Reason, String?) -> Void)?, completion: LoginUser -> Void) {
+func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
     println("User login type is \(YepConfig.clientType())")
     
@@ -542,14 +496,21 @@ func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: St
 
     let resource = jsonResource(path: "/v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func disableNotificationFromUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func logout(failureHandler failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/auth/logout", method: .DELETE, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func disableNotificationFromUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -557,14 +518,10 @@ func disableNotificationFromUserWithUserID(userID: String, failureHandler: ((Rea
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/dnd", method: .POST, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func enableNotificationFromUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func enableNotificationFromUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -572,14 +529,10 @@ func enableNotificationFromUserWithUserID(userID: String, failureHandler: ((Reas
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/dnd", method: .DELETE, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func disableNotificationFromCircleWithCircleID(circleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func disableNotificationFromCircleWithCircleID(circleID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
     
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -587,14 +540,10 @@ func disableNotificationFromCircleWithCircleID(circleID: String, failureHandler:
     
     let resource = authJsonResource(path: "/v1/circles/\(circleID)/dnd", method: .POST, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
     
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -602,14 +551,10 @@ func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: 
     
     let resource = authJsonResource(path: "/v1/circles/\(circleID)/dnd", method: .DELETE, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func headBlockedUsers(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func headBlockedUsers(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -624,7 +569,7 @@ private func headBlockedUsers(failureHandler failureHandler: ((Reason, String?) 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
-private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -636,14 +581,10 @@ private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failur
 
     let resource = authJsonResource(path: "/v1/blocked_users", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func blockedUsersByMe(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func blockedUsersByMe(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     let parse: [JSONDictionary] -> [DiscoveredUser] = { blockedUsersData in
 
@@ -659,62 +600,56 @@ func blockedUsersByMe(failureHandler failureHandler: ((Reason, String?) -> Void)
     }
 
     headBlockedUsers(failureHandler: failureHandler, completion: { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                        completion(parse(blockedUsers))
-                    } else {
-                        completion([])
-                    }
 
-                } else {
-                    var blockedUsers = [JSONDictionary]()
+        guard let page1BlockedUsers = result["blocked_users"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
 
-                    if let page1BlockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                        blockedUsers += page1BlockedUsers
-                    }
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
 
-                    // We have more blockedUsers
+            println("blockedUsersByMe not paging info.")
 
-                    let downloadGroup = dispatch_group_create()
+            completion(parse(page1BlockedUsers))
+            return
+        }
 
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            failureHandler?(reason, errorMessage)
-
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageBlockedUsers = result["blocked_users"] as? [JSONDictionary] {
-                                blockedUsers += currentPageBlockedUsers
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        completion(parse(blockedUsers))
-                    }
-                }
-
+        if count <= currentPage * perPage {
+            completion(parse(page1BlockedUsers))
+            
         } else {
-            // 没有分页信息才会到此处
-            println("headBlockedUsers not paging info.")
-            if let blockedUsers = result["blocked_users"] as? [JSONDictionary] {
+            var blockedUsers = [JSONDictionary]()
+
+            blockedUsers += page1BlockedUsers
+
+            // We have more blockedUsers
+
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_group_leave(downloadGroup)
+
+                    }, completion: { result in
+                        if let currentPageBlockedUsers = result["blocked_users"] as? [JSONDictionary] {
+                            blockedUsers += currentPageBlockedUsers
+                        }
+                        dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
                 completion(parse(blockedUsers))
-            } else {
-                completion([])
             }
         }
     })
 }
 
-func blockUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func blockUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters = [
         "user_id": userID
@@ -726,14 +661,10 @@ func blockUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> V
 
     let resource = authJsonResource(path: "/v1/blocked_users", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func unblockUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func unblockUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
         return true
@@ -741,14 +672,10 @@ func unblockUserWithUserID(userID: String, failureHandler: ((Reason, String?) ->
 
     let resource = authJsonResource(path: "/v1/blocked_users/\(userID)", method: .DELETE, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func settingsForUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (blocked: Bool, doNotDisturb: Bool) -> Void) {
+func settingsForUser(userID userID: String, failureHandler: FailureHandler?, completion: (blocked: Bool, doNotDisturb: Bool) -> Void) {
 
     let parse: JSONDictionary -> (Bool, Bool)? = { data in
 
@@ -763,14 +690,10 @@ func settingsForUserWithUserID(userID: String, failureHandler: ((Reason, String?
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/settings_with_current_user", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func settingsForCircleWithCircleID(cirleID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (doNotDisturb: Bool) -> Void) {
+func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, completion: (doNotDisturb: Bool) -> Void) {
     
     let parse: JSONDictionary -> (Bool)? = { data in
         
@@ -782,18 +705,14 @@ func settingsForCircleWithCircleID(cirleID: String, failureHandler: ((Reason, St
         return nil
     }
     
-    let resource = authJsonResource(path: "/v1/circles/\(cirleID)/dnd", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/circles/\(groupID)/dnd", method: .GET, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Contacts
 
-func searchUsersByMobile(mobile: String, failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+func searchUsersByMobile(mobile: String, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
     
     let requestParameters = [
         "q": mobile
@@ -808,16 +727,12 @@ func searchUsersByMobile(mobile: String, failureHandler: ((Reason, String?) -> V
     
     let resource = authJsonResource(path: "/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 typealias UploadContact = [String: String]
 
-func friendsInContacts(contacts: [UploadContact], failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func friendsInContacts(contacts: [UploadContact], failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     if let
         contactsData = try? NSJSONSerialization.dataWithJSONObject(contacts, options: .PrettyPrinted),
@@ -893,7 +808,7 @@ enum ReportReason {
     }
 }
 
-func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let userID: String
 
@@ -915,20 +830,16 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
         break
     }
 
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
     
     var requestParameters: JSONDictionary = [
         "report_type": reason.type
@@ -941,17 +852,13 @@ func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: 
         break
     }
     
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
     
     let resource = authJsonResource(path: "/v1/topics/\(feedID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Friend Requests
@@ -966,7 +873,7 @@ struct FriendRequest {
     }
 }
 
-func sendFriendRequestToUser(user: User, failureHandler: ((Reason, String?) -> Void)?, completion: FriendRequest.State -> Void) {
+func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?, completion: FriendRequest.State -> Void) {
 
     let requestParameters = [
         "friend_id": user.userID,
@@ -984,14 +891,10 @@ func sendFriendRequestToUser(user: User, failureHandler: ((Reason, String?) -> V
 
     let resource = authJsonResource(path: "/v1/friend_requests", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func stateOfFriendRequestWithUser(user: User, failureHandler: ((Reason, String?) -> Void)?, completion: (isFriend: Bool,receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
+func stateOfFriendRequestWithUser(user: User, failureHandler: FailureHandler?, completion: (isFriend: Bool,receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
 
     let requestParameters = [
         "user_id": user.userID,
@@ -1045,14 +948,10 @@ func stateOfFriendRequestWithUser(user: User, failureHandler: ((Reason, String?)
 
     let resource = authJsonResource(path: "/v1/friend_requests/with_user/\(user.userID)", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func acceptFriendRequestWithID(friendRequestID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func acceptFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters = [
         "id": friendRequestID,
@@ -1074,14 +973,10 @@ func acceptFriendRequestWithID(friendRequestID: String, failureHandler: ((Reason
 
     let resource = authJsonResource(path: "/v1/friend_requests/received/\(friendRequestID)/accept", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func rejectFriendRequestWithID(friendRequestID: String, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func rejectFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters = [
         "id": friendRequestID,
@@ -1103,16 +998,12 @@ func rejectFriendRequestWithID(friendRequestID: String, failureHandler: ((Reason
 
     let resource = authJsonResource(path: "/v1/friend_requests/received/\(friendRequestID)/reject", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Friendships
 
-private func headFriendships(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func headFriendships(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 100,
@@ -1124,14 +1015,10 @@ private func headFriendships(failureHandler failureHandler: ((Reason, String?) -
 
     let resource = authJsonResource(path: "/v1/friendships", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -1143,11 +1030,7 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failure
 
     let resource = authJsonResource(path: "/v1/friendships", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 enum DiscoveredUserSortStyle: String {
@@ -1291,7 +1174,7 @@ let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
     return nil
 }
 
-func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
     
     let requestParameters: [String: AnyObject] = [
         "master_skills": masterSkillIDs,
@@ -1324,14 +1207,10 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
     
     let resource = authJsonResource(path: "/v1/user/discover", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     let requestParameters: [String: AnyObject] = [
         "page": page,
@@ -1342,14 +1221,10 @@ func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPa
 
     let resource = authJsonResource(path: "/v1/\(skillSet.serverPath)/\(skillID)/users", method: .GET, requestParameters: requestParameters as JSONDictionary, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func searchUsersByQ(q: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredUser] -> Void) {
+func searchUsersByQ(q: String, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     let requestParameters = [
         "q": q
@@ -1359,69 +1234,67 @@ func searchUsersByQ(q: String, failureHandler: ((Reason, String?) -> Void)?, com
 
     let resource = authJsonResource(path: "/v1/users/search", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func friendships(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+func friendships(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
     headFriendships(failureHandler: failureHandler) { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let friendships = result["friendships"] as? [JSONDictionary] {
-                        completion(friendships)
-                    } else {
-                        completion([])
+
+        guard let page1Friendships = result["friendships"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("friendships not paging info.")
+
+            completion(page1Friendships)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Friendships)
+
+        } else {
+            var friendships = [JSONDictionary]()
+
+            friendships += page1Friendships
+
+            // We have more friends
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    allGood = false
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
+                        friendships += currentPageFriendships
                     }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
 
-                } else {
-                    var friendships = [JSONDictionary]()
-
-                    if let page1Friendships = result["friendships"] as? [JSONDictionary] {
-                        friendships += page1Friendships
-                    }
-
-                    // We have more friends
-
-                    var allGood = true
-                    let downloadGroup = dispatch_group_create()
-
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            allGood = false
-                            failureHandler?(reason, errorMessage)
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageFriendships = result["friendships"] as? [JSONDictionary] {
-                                friendships += currentPageFriendships
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-
-                        if allGood {
-                            completion(friendships)
-                        }
-                    }
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(friendships)
                 }
+            }
         }
     }
 }
 
 // MARK: - Groups
 
-func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: FailureHandler?, completion: String -> Void) {
 
     let parse: JSONDictionary -> String? = { data in
 
@@ -1434,14 +1307,10 @@ func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: ((Reason,
     
     let resource = authJsonResource(path: "/v1/circles/\(groupID)/share", method: .POST, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func groupWithGroupID(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func groupWithGroupID(groupID groupID: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
        return data
@@ -1449,14 +1318,10 @@ func groupWithGroupID(groupID groupID: String, failureHandler: ((Reason, String?
 
     let resource = authJsonResource(path: "/v1/circles/\(groupID)", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+func joinGroup(groupID groupID: String, failureHandler: FailureHandler?, completion: () -> Void) {
     
     let parse: JSONDictionary -> Void? = { data in
         return
@@ -1464,14 +1329,10 @@ func joinGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Vo
     
     let resource = authJsonResource(path: "/v1/circles/\(groupID)/join", method: .POST, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+func leaveGroup(groupID groupID: String, failureHandler: FailureHandler?, completion: () -> Void) {
     
     let parse: JSONDictionary -> Void? = { data in
         return
@@ -1479,14 +1340,10 @@ func leaveGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> V
     
     let resource = authJsonResource(path: "/v1/circles/\(groupID)/leave", method: .DELETE, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func meIsMemberOfGroup(groupID groupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (Bool) -> Void) {
+func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHandler?, completion: (Bool) -> Void) {
 
     let parse: JSONDictionary -> Bool? = { data in
 
@@ -1499,14 +1356,10 @@ func meIsMemberOfGroup(groupID groupID: String, failureHandler: ((Reason, String
 
     let resource = authJsonResource(path: "/v1/circles/\(groupID)/check_me_exist", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func headGroups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
         "per_page": 30,
@@ -1518,14 +1371,10 @@ func headGroups(failureHandler failureHandler: ((Reason, String?) -> Void)?, com
 
     let resource = authJsonResource(path: "/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": page,
         "per_page": perPage,
@@ -1537,60 +1386,61 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: ((Re
 
     let resource = authJsonResource(path: "/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func groups(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
+func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
     return headGroups(failureHandler: failureHandler, completion: { result in
-        if
-            let count = result["count"] as? Int,
-            let currentPage = result["current_page"] as? Int,
-            let perPage = result["per_page"] as? Int {
-                if count <= currentPage * perPage {
-                    if let groups = result["circles"] as? [JSONDictionary] {
-                        completion(groups)
+
+        guard let page1Groups = result["circles"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("groups not paging info.")
+
+            completion(page1Groups)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Groups)
+
+        } else {
+            var groups = [JSONDictionary]()
+
+            groups += page1Groups
+
+            // We have more groups
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+
+                    allGood = false
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageGroups = result["circles"] as? [JSONDictionary] {
+                        groups += currentPageGroups
                     }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
 
-                } else {
-                    var groups = [JSONDictionary]()
-
-                    if let page1Groups = result["circles"] as? [JSONDictionary] {
-                        groups += page1Groups
-                    }
-
-                    // We have more groups
-
-                    var allGood = true
-                    let downloadGroup = dispatch_group_create()
-
-                    for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                        dispatch_group_enter(downloadGroup)
-
-                        moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                            failureHandler?(reason, errorMessage)
-
-                            allGood = false
-                            dispatch_group_leave(downloadGroup)
-
-                        }, completion: { result in
-                            if let currentPageGroups = result["circles"] as? [JSONDictionary] {
-                                groups += currentPageGroups
-                            }
-                            dispatch_group_leave(downloadGroup)
-                        })
-                    }
-
-                    dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                        if allGood {
-                            completion(groups)
-                        }
-                    }
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(groups)
                 }
+            }
         }
     })
 }
@@ -1616,7 +1466,12 @@ struct UploadAttachment {
     let metaDataString: String?
 }
 
-func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((Reason, String?) -> Void)?, completion: String -> Void) {
+struct UploadedAttachment {
+    let ID: String
+    let URLString: String
+}
+
+func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: FailureHandler?, completion: UploadedAttachment -> Void) {
 
     guard let token = YepUserDefaults.v1AccessToken.value else {
         println("uploadAttachment no token")
@@ -1667,25 +1522,29 @@ func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandler: ((R
                     data = response.data,
                     json = decodeJSON(data)
                 else {
-                    failureHandler?(.CouldNotParseJSON, nil)
+                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
                     return
                 }
 
                 println("tryUploadAttachment json: \(json)")
 
                 guard let
-                    uploadAttachmentID = json["id"] as? String
+                    attachmentID = json["id"] as? String,
+                    fileInfo = json["file"] as? JSONDictionary,
+                    attachmentURLString = fileInfo["url"] as? String
                 else {
-                    failureHandler?(.CouldNotParseJSON, nil)
+                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
                     return
                 }
 
-                completion(uploadAttachmentID)
+                let uploadedAttachment = UploadedAttachment(ID: attachmentID, URLString: attachmentURLString)
+
+                completion(uploadedAttachment)
             })
             
         case .Failure(let encodingError):
             
-            failureHandler?(.Other(nil), "\(encodingError)")
+            failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
         }
     })
 }
@@ -1696,7 +1555,7 @@ struct LastMessageRead {
     let messageID: String
 }
 
-func lastMessageReadByRecipient(recipient: Recipient, failureHandler: ((Reason, String?) -> Void)?,  completion: (LastMessageRead?) -> Void) {
+func lastMessageReadByRecipient(recipient: Recipient, failureHandler: FailureHandler?,  completion: (LastMessageRead?) -> Void) {
     
     let parse: JSONDictionary -> (LastMessageRead?)? = { data in
 
@@ -1711,11 +1570,7 @@ func lastMessageReadByRecipient(recipient: Recipient, failureHandler: ((Reason, 
     
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForBatchMarkAsRead)/\(recipient.ID)/messages/sent_last_read_at", method: .GET, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 func officialMessages(completion completion: Int -> Void) {
@@ -1806,11 +1661,11 @@ func officialMessages(completion completion: Int -> Void) {
 
                         if let conversation = sender?.conversation {
                             let _ = try? realm.write {
-                                message.conversation = conversation
 
                                 // 纪录消息的 detail 信息
-
                                 recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+
+                                message.conversation = conversation
                             }
 
                             messagesCount++
@@ -1828,6 +1683,109 @@ func officialMessages(completion completion: Int -> Void) {
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
+func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
+
+    guard let realm = try? Realm() else { return }
+
+    let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+
+    unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
+}
+
+private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    var parameters: [String: AnyObject] = [
+        "page": 1,
+        "per_page": 30,
+    ]
+
+    if let messageID = messageID {
+        parameters["min_id"] = messageID
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: parameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+private func moreUnreadMessagesAfterMessageWithID(messageID: String?, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    var parameters: [String: AnyObject] = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    if let messageID = messageID {
+        parameters["min_id"] = messageID
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/messages", method: .GET, requestParameters: parameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
+
+    headUnreadMessagesAfterMessageWithID(messageID, failureHandler: failureHandler, completion: { result in
+
+        guard let page1UnreadMessagesData = result["messages"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("unreadMessagesAfterMessageWithID not paging info.")
+
+            completion(page1UnreadMessagesData)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            //println("page1UnreadMessagesData: \(page1UnreadMessagesData)")
+            completion(page1UnreadMessagesData)
+
+        } else {
+            var unreadMessagesData = [JSONDictionary]()
+
+            unreadMessagesData += page1UnreadMessagesData
+
+            // We have more unreadMessages
+
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreUnreadMessagesAfterMessageWithID(messageID, inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentPageUnreadMessagesData = result["messages"] as? [JSONDictionary] {
+                        unreadMessagesData += currentPageUnreadMessagesData
+                    }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                completion(unreadMessagesData)
+            }
+        }
+    })
+}
+
+/*
 func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
 
     let parse: JSONDictionary -> [JSONDictionary]? = { data in
@@ -1880,6 +1838,7 @@ func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?,
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
+*/
 
 struct Recipient {
 
@@ -1921,7 +1880,7 @@ enum TimeDirection {
     }
 }
 
-func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: ((Reason, String?) -> Void)?, completion: (messageIDs: [String]) -> Void) {
+func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String]) -> Void) {
 
     var requestParameters = [
         "recipient_type": recipient.type.nameForServer,
@@ -1966,14 +1925,10 @@ func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection
 
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages", method: .GET, requestParameters: requestParameters, parse: parse )
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: ((Reason, String?) -> Void)?, completion: (messageID: String) -> Void) {
+func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: FailureHandler?, completion: (messageID: String) -> Void) {
 
     println("Message info \(messageInfo)")
 
@@ -2001,7 +1956,6 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
         }
     }
 
-
     if
         FayeService.sharedManager.client.connected && false, // 暂时不用 Faye 发送消息
         let recipientType = messageInfo["recipient_type"] as? String,
@@ -2019,9 +1973,9 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
 
                     } else {
                         if let failureHandler = failureHandler {
-                            failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                            failureHandler(reason: .CouldNotParseJSON, errorMessage: "Faye Created Message Error")
                         } else {
-                            defaultFailureHandler(Reason.CouldNotParseJSON, errorMessage: "Faye Created Message Error")
+                            defaultFailureHandler(reason: Reason.CouldNotParseJSON, errorMessage: "Faye Created Message Error")
                         }
 
                         println("Faye failed, use API to create message")
@@ -2046,9 +2000,9 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
 
                         } else {
                             if let failureHandler = failureHandler {
-                                failureHandler(Reason.CouldNotParseJSON, "Faye Created Message Error")
+                                failureHandler(reason: .CouldNotParseJSON, errorMessage: "Faye Created Message Error")
                             } else {
-                                defaultFailureHandler(Reason.CouldNotParseJSON, errorMessage: "Faye Created Message Error")
+                                defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "Faye Created Message Error")
                             }
 
                             println("Faye failed, use API to create message")
@@ -2066,7 +2020,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: (
     }
 }
 
-func sendText(text: String, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendText(text: String, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
         var moreInfo = info
@@ -2076,22 +2030,22 @@ func sendText(text: String, toRecipient recipientID: String, recipientType: Stri
     createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Location.Info, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Location.Info, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
         var moreInfo = info
@@ -2108,7 +2062,7 @@ func sendLocationWithLocationInfo(locationInfo: PickLocationViewController.Locat
 
 let afterCreatedMessageSoundEffect: YepSoundEffect = YepSoundEffect(soundName: "bub3")
 
-func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     guard let realm = try? Realm() else {
@@ -2128,8 +2082,8 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }
 
     message.mediaType = mediaType.rawValue
-    
     message.downloadState = MessageDownloadState.Downloaded.rawValue
+    message.readed = true // 自己的消息，天然已读
 
     let _ = try? realm.write {
         realm.add(message)
@@ -2182,7 +2136,6 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
         }
 
         if let conversation = conversation {
-            conversation.updatedUnixTime = message.createdUnixTime // 关键哦
             message.conversation = conversation
 
             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
@@ -2227,7 +2180,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     // 下面开始真正的消息发送
     sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in
 
-        failureHandler?(reason, errorMessage)
+        failureHandler?(reason: reason, errorMessage: errorMessage)
 
         dispatch_async(dispatch_get_main_queue()) {
 
@@ -2243,7 +2196,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
     }, completion: completion)
 }
 
-func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     if let mediaType = MessageMediaType(rawValue: message.mediaType) {
 
@@ -2271,6 +2224,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
                         message.sendState = MessageSendState.Successed.rawValue
                     }
 
+                    //println("new messageID: \(messageID)")
+
                     completion(success: true)
 
                     NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
@@ -2289,9 +2244,9 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
             let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
 
-            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadAttachmentID in
+            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadedAttachment in
 
-                messageInfo["attachment_id"] = uploadAttachmentID
+                messageInfo["attachment_id"] = uploadedAttachment.ID
 
                 let doCreateMessage = {
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
@@ -2315,7 +2270,7 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
     }
 }
 
-func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)?, completion: (success: Bool) -> Void) {
+func resendMessage(message: Message, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     var recipientID: String?
     var recipientType: String?
@@ -2351,9 +2306,9 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
 
             // also, if resend failed, we need set MessageSendState
 
-            let resendFailureHandler: (Reason, String?) -> Void = { (reason, errorMessage) in
+            let resendFailureHandler: FailureHandler = { reason, errorMessage in
 
-                failureHandler?(reason, errorMessage)
+                failureHandler?(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
 
@@ -2412,7 +2367,7 @@ func resendMessage(message: Message, failureHandler: ((Reason, String?) -> Void)
     }
 }
 
-func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let state = UIApplication.sharedApplication().applicationState
     if state != .Active {
@@ -2429,14 +2384,10 @@ func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: M
 
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForBatchMarkAsRead)/\(recipient.ID)/messages/batch_mark_as_read", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+func deleteMessageFromServer(messageID messageID: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let parse: JSONDictionary -> Void? = { data in
         return
@@ -2444,14 +2395,10 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: ((Reas
 
     let resource = authJsonResource(path: "/v1/messages/\(messageID)", method: .DELETE, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func refreshAttachmentWithID(attachmentID: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     let requestParameters = [
         "ids": [attachmentID],
@@ -2463,11 +2410,7 @@ func refreshAttachmentWithID(attachmentID: String, failureHandler: ((Reason, Str
 
     let resource = authJsonResource(path: "/v1/attachments/refresh_url", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Feeds
@@ -2736,6 +2679,11 @@ struct DiscoveredFeed: Hashable {
 
     var uploadingErrorMessage: String? = nil
 
+    var timeString: String {
+        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
+        return timeString
+    }
+
     var timeAndDistanceString: String {
 
         let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
@@ -2914,14 +2862,10 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
     let resource = authJsonResource(path: "/v1/topics/discover", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedWithSharedToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: DiscoveredFeed -> Void) {
+func feedWithSharedToken(token: String, failureHandler: FailureHandler?, completion: DiscoveredFeed -> Void) {
 
     let requestParameters: JSONDictionary = [
         "token": token,
@@ -2931,14 +2875,10 @@ func feedWithSharedToken(token: String, failureHandler: ((Reason, String?) -> Vo
     
     let resource = authJsonResource(path: "/v1/circles/shared_messages", method: .GET, requestParameters: requestParameters, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -2949,14 +2889,10 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: ((Reason, 
 
     let resource = authJsonResource(path: "/v1/topics", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: ((Reason, String?) -> Void)?,completion: [DiscoveredFeed] -> Void) {
+func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?,completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -2967,11 +2903,7 @@ func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: (
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/topics", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 enum FeedKind: String {
@@ -3020,7 +2952,7 @@ enum FeedKind: String {
     }
 }
 
-func createFeedWithKind(kind: FeedKind, message: String, attachments: [JSONDictionary]?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func createFeedWithKind(kind: FeedKind, message: String, attachments: [JSONDictionary]?, coordinate: CLLocationCoordinate2D?, skill: Skill?, allowComment: Bool, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
         "kind": kind.rawValue,
@@ -3049,14 +2981,10 @@ func createFeedWithKind(kind: FeedKind, message: String, attachments: [JSONDicti
 
     let resource = authJsonResource(path: "/v1/topics", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> Void)?, completion: () -> Void) {
+func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let parse: JSONDictionary -> ()? = { data in
         return
@@ -3064,11 +2992,7 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: ((Reason, String?) -> 
 
     let resource = authJsonResource(path: "/v1/topics/\(feedID)", method: .DELETE, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: - Social Work
@@ -3094,11 +3018,7 @@ func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, String?) ->
 
     let resource = authJsonResource(path: "/v1/user/provider_tokens", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
@@ -3112,7 +3032,7 @@ func authURLRequestWithURL(url: NSURL) -> NSURLRequest {
     return request
 }
 
-func socialAccountWithProvider(provider: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+func socialAccountWithProvider(provider: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
@@ -3120,11 +3040,7 @@ func socialAccountWithProvider(provider: String, failureHandler: ((Reason, Strin
     
     let resource = authJsonResource(path: "/v1/user/\(provider)", method: .GET, requestParameters: [:], parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 struct GithubWork {
@@ -3150,7 +3066,7 @@ struct GithubWork {
     let user: User
 }
 
-func githubWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: GithubWork -> Void) {
+func githubWorkOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: GithubWork -> Void) {
 
     let parse: JSONDictionary -> GithubWork? = { data in
 
@@ -3197,11 +3113,7 @@ func githubWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, String
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/github", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 struct DribbbleWork {
@@ -3227,7 +3139,7 @@ struct DribbbleWork {
     let userURLString: String
 }
 
-func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: DribbbleWork -> Void) {
+func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: DribbbleWork -> Void) {
 
     let parse: JSONDictionary -> DribbbleWork? = { data in
 
@@ -3273,11 +3185,7 @@ func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Stri
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/dribbble", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 struct InstagramWork {
@@ -3303,7 +3211,7 @@ struct InstagramWork {
     let medias: [Media]
 }
 
-func instagramWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, String?) -> Void)?, completion: InstagramWork -> Void) {
+func instagramWorkOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: InstagramWork -> Void) {
 
     let parse: JSONDictionary -> InstagramWork? = { data in
         //println("instagramData:\(data)")
@@ -3351,11 +3259,7 @@ func instagramWorkOfUserWithUserID(userID: String, failureHandler: ((Reason, Str
 
     let resource = authJsonResource(path: "/v1/users/\(userID)/instagram", method: .GET, requestParameters: [:], parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 enum SocialWork {
@@ -3370,7 +3274,7 @@ struct Feedback {
     let deviceInfo: String
 }
 
-func sendFeedback(feedback: Feedback, failureHandler: ((Reason, String?) -> Void)?, completion: Bool -> Void) {
+func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters = [
         "content": feedback.content,
@@ -3383,11 +3287,7 @@ func sendFeedback(feedback: Feedback, failureHandler: ((Reason, String?) -> Void
 
     let resource = authJsonResource(path: "/v1/feedbacks", method: .POST, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Places
@@ -3403,7 +3303,7 @@ struct FoursquareVenue {
     }
 }
 
-func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failureHandler: ((Reason, String?) -> Void)?, completion: [FoursquareVenue] -> Void) {
+func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failureHandler: FailureHandler?, completion: [FoursquareVenue] -> Void) {
 
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
@@ -3466,7 +3366,7 @@ struct UsernamePrefixMatchedUser {
     }
 }
 
-func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
+func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: FailureHandler?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
 
     let requestParameters = [
         "q": usernamePrefix,
@@ -3500,10 +3400,6 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: ((Reas
 
     let resource = authJsonResource(path: "/v1/users/typeahead", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 

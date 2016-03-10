@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 24, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 28, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case OfficialMessage = "official_message"
         case FriendRequest = "friend_request"
         case MessageDeleted = "message_deleted"
+        case Mentioned = "mentioned"
     }
 
     private var remoteNotificationType: RemoteNotificationType? {
@@ -155,15 +156,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Did Active")
         
         if !isFirstActive {
-            if YepUserDefaults.isLogined {
-                syncUnreadMessages() {}
-            }
+            syncUnreadMessages() {}
+
         } else {
             sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
             startFaye()
         }
 
-        application.applicationIconBadgeNumber = 0
+        application.applicationIconBadgeNumber = -1
 
         /*
         if YepUserDefaults.isLogined {
@@ -244,66 +244,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //JPUSHService.handleRemoteNotification(userInfo)
         APService.handleRemoteNotification(userInfo)
         
-        if YepUserDefaults.isLogined {
+        guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
+            completionHandler(UIBackgroundFetchResult.NoData)
+            return
+        }
 
-            if let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) {
+        defer {
+            // 非前台才记录启动通知类型
+            if application.applicationState != .Active {
+                self.remoteNotificationType = remoteNotificationType
+            }
+        }
 
-                switch remoteNotificationType {
+        switch remoteNotificationType {
 
-                case .Message:
+        case .Message:
 
-                    syncUnreadMessages() {
+            syncUnreadMessages() {
+                completionHandler(UIBackgroundFetchResult.NewData)
+            }
+
+        case .OfficialMessage:
+
+            officialMessages { messagesCount in
+                completionHandler(UIBackgroundFetchResult.NewData)
+                println("new officialMessages count: \(messagesCount)")
+            }
+
+        case .FriendRequest:
+
+            if let subType = userInfo["subtype"] as? String {
+                if subType == "accepted" {
+                    syncFriendshipsAndDoFurtherAction {
                         completionHandler(UIBackgroundFetchResult.NewData)
                     }
-
-                case .OfficialMessage:
-
-                    officialMessages { messagesCount in
-                        completionHandler(UIBackgroundFetchResult.NewData)
-                        println("new officialMessages count: \(messagesCount)")
-                    }
-
-                case .FriendRequest:
-
-                    if let subType = userInfo["subtype"] as? String {
-                        if subType == "accepted" {
-                            syncFriendshipsAndDoFurtherAction {
-                                completionHandler(UIBackgroundFetchResult.NewData)
-                            }
-                        } else {
-                            completionHandler(UIBackgroundFetchResult.NoData)
-                        }
-                    } else {
-                        completionHandler(UIBackgroundFetchResult.NoData)
-                    }
-
-                case .MessageDeleted:
-
-                    defer {
-                        completionHandler(UIBackgroundFetchResult.NoData)
-                    }
-
-                    guard let
-                        messageInfo = userInfo["message"] as? JSONDictionary,
-                        messageID = messageInfo["id"] as? String
-                    else {
-                        break
-                    }
-
-                    handleMessageDeletedFromServer(messageID: messageID)
+                } else {
+                    completionHandler(UIBackgroundFetchResult.NoData)
                 }
-
-                // 非前台才记录启动通知类型
-                if application.applicationState != .Active {
-                    self.remoteNotificationType = remoteNotificationType
-                }
-                
             } else {
                 completionHandler(UIBackgroundFetchResult.NoData)
             }
-            
-        } else {
-            completionHandler(UIBackgroundFetchResult.NoData)
+
+        case .MessageDeleted:
+
+            defer {
+                completionHandler(UIBackgroundFetchResult.NoData)
+            }
+
+            guard let
+                messageInfo = userInfo["message"] as? JSONDictionary,
+                messageID = messageInfo["id"] as? String
+                else {
+                    break
+            }
+
+            handleMessageDeletedFromServer(messageID: messageID)
+
+        case .Mentioned:
+
+            syncUnreadMessagesAndDoFurtherAction({ _ in
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
+
+                completionHandler(UIBackgroundFetchResult.NewData)
+            })
         }
     }
 
@@ -345,14 +350,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if !handleUniversalLink(webpageURL) {
                 UIApplication.sharedApplication().openURL(webpageURL)
             }
-
-//            if let webpageURL = userActivity.webpageURL {
-//                if !handleUniversalLink(webpageURL) {
-//                    UIApplication.sharedApplication().openURL(webpageURL)
-//                }
-//            } else {
-//                return false
-//            }
         }
 
         return true
@@ -410,20 +407,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Public
 
+    var inMainStory: Bool = true
+
     func startShowStory() {
         let storyboard = UIStoryboard(name: "Show", bundle: nil)
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
         window?.rootViewController = rootViewController
-    }
 
-    /*
-    func startIntroStory() {
-
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("IntroNavigationController") as! UINavigationController
-        window?.rootViewController = rootViewController
+        inMainStory = false
     }
-    */
 
     func startMainStory() {
 
@@ -431,6 +423,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootViewController = storyboard.instantiateViewControllerWithIdentifier("SplitViewController") as! UISplitViewController
 
         window?.rootViewController = rootViewController
+
+        inMainStory = true
     }
 
     func sync() {
@@ -496,6 +490,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
 
+        guard YepUserDefaults.isLogined else {
+            furtherAction()
+            return
+        }
+
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
 
@@ -514,7 +513,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
             guard let realm = try? Realm() else {
                 return
@@ -522,11 +521,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let conversations = realm.objects(Conversation)
+            let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+            let conversations = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
-                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
                     AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
                 }
             }

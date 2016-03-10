@@ -23,6 +23,13 @@ class ChatRightImageCell: ChatRightBaseCell {
         return imageView
     }()
 
+    lazy var loadingProgressView: MessageLoadingProgressView = {
+        let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        view.hidden = true
+        view.backgroundColor = UIColor.clearColor()
+        return view
+    }()
+
     typealias MediaTapAction = () -> Void
     var mediaTapAction: MediaTapAction?
 
@@ -45,6 +52,7 @@ class ChatRightImageCell: ChatRightBaseCell {
 
         contentView.addSubview(messageImageView)
         contentView.addSubview(borderImageView)
+        contentView.addSubview(loadingProgressView)
 
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
@@ -63,11 +71,27 @@ class ChatRightImageCell: ChatRightBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageImageView.image = nil
+    }
+
     func tapMediaView() {
         mediaTapAction?()
     }
 
-    var loadingProgress: Double = 0
+    var loadingProgress: Double = 0 {
+        willSet {
+            if newValue == 1.0 {
+                loadingProgressView.hidden = true
+
+            } else {
+                loadingProgressView.progress = newValue
+                loadingProgressView.hidden = false
+            }
+        }
+    }
 
     func loadingWithProgress(progress: Double, image: UIImage?) {
 
@@ -105,7 +129,7 @@ class ChatRightImageCell: ChatRightBaseCell {
         }
 
         if let sender = message.fromFriend {
-            let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
+            let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
 
@@ -128,6 +152,8 @@ class ChatRightImageCell: ChatRightBaseCell {
                         strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
 
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
+                        strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                     }
@@ -156,6 +182,8 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                         strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
+                        strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
                         strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                     }
                 }
@@ -183,6 +211,8 @@ class ChatRightImageCell: ChatRightBaseCell {
                     strongSelf.messageImageMaskImageView.frame = strongSelf.messageImageView.bounds
 
                     strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(strongSelf.messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.messageImageView.frame))
+
+                    strongSelf.loadingProgressView.center = CGPoint(x: CGRectGetMidX(strongSelf.messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.messageImageView.frame))
 
                     strongSelf.borderImageView.frame = strongSelf.messageImageView.frame
                 }

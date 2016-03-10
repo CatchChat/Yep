@@ -77,6 +77,12 @@ class ChatLeftImageCell: ChatBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        messageImageView.image = nil
+    }
+
     func tapMediaView() {
         mediaTapAction?()
     }
@@ -154,7 +160,7 @@ class ChatLeftImageCell: ChatBaseCell {
         }
 
         if let sender = message.fromFriend {
-            let userAvatar = UserAvatar(userID: sender.userID, avatarStyle: nanoAvatarStyle)
+            let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
 

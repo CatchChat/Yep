@@ -367,9 +367,6 @@
 "Report Reason" = "举报原因";
 
 /* No comment provided by engineer. */
-"Report recorded!" = "举报成功！";
-
-/* No comment provided by engineer. */
 "Resend" = "重发";
 
 /* No comment provided by engineer. */
@@ -733,4 +730,8 @@
 "User not found." = "找不到用户。";
 
 "No username" = "没有用户名";
+
+"Create feed failed!" = "创建话题失败！";
+
+"[Mentioned you]" = "[提及了你]";
 

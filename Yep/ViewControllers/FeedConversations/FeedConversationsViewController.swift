@@ -22,8 +22,7 @@ class FeedConversationsViewController: SegueViewController {
     }
 
     lazy var feedConversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return feedConversationsInRealm(self.realm)
     }()
 
     let feedConversationCellID = "FeedConversationCell"
@@ -64,6 +63,8 @@ class FeedConversationsViewController: SegueViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.deletedMessages, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.changedFeedConversation, object: nil)
     }
 
     var isFirstAppear = true
@@ -81,8 +82,8 @@ class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.feedConversationsTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.feedConversationsTableView.reloadData()
         }
     }
 
@@ -179,6 +180,20 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
     }
     
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            fatalError("Invalid index of feedConversations!")
+        }
+
+        if let feed = conversation.withGroup?.withFeed {
+            if feed.deleted {
+                return NSLocalizedString("Delete", comment: "")
+            }
+            if let creator = feed.creator where creator.isMe {
+                return NSLocalizedString("Delete", comment: "")
+            }
+        }
+
         return NSLocalizedString("Unsubscribe", comment: "")
     }
 
@@ -206,13 +221,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     let _ = try? realm.commitWrite()
 
                     realm.refresh()
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    
-                    delay(0.1, work: { () -> Void in
+
+                    delay(0.1) {
                         tableView.setEditing(false, animated: true)
                         tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    })
+
+                        // 延迟一些再发通知，避免影响 tableView 的删除
+                        delay(0.5) {
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        }
+                    }
                 }
             }
             

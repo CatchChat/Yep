@@ -45,7 +45,7 @@ struct S3UploadParams {
     - returns: Bool  upload status
 */
 
-private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: ((Reason, String?) -> ())?, completion: () -> Void) {
+private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let parameters: [String: String] = [
         "key": s3UploadParams.key,
@@ -88,11 +88,11 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
                         if response.statusCode == 204 {
                             completion()
                         } else {
-                            failureHandler?(.Other(nil), nil)
+                            failureHandler?(reason: .Other(nil), errorMessage: nil)
                         }
 
                     } else {
-                        failureHandler?(.Other(nil), nil)
+                        failureHandler?(reason: .Other(nil), errorMessage: nil)
                     }
                     
                 }
@@ -101,7 +101,7 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
                 
                 println("Error \(encodingError)")
                 
-                failureHandler?(.Other(nil), nil)
+                failureHandler?(reason: .Other(nil), errorMessage: nil)
             }
         }
     )
@@ -163,20 +163,16 @@ private func s3UploadParams(url: String, withFileExtension fileExtension: FileEx
     
     let resource = authJsonResource(path: url, method: .GET, requestParameters: requestParameters, parse: parse)
     
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
+private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: (S3UploadParams) -> Void) {
 
     s3UploadParams("/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
-            failureHandler(reason, error)
+            failureHandler(reason: reason, errorMessage: error)
         } else {
-            defaultFailureHandler(reason, errorMessage: error)
+            defaultFailureHandler(reason: reason, errorMessage: error)
         }
 
     }, completion: { S3PrivateUploadParams in

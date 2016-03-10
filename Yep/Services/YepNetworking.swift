@@ -63,7 +63,9 @@ public enum Reason: CustomStringConvertible {
     }
 }
 
-func defaultFailureHandler(reason: Reason, errorMessage: String?) {
+public typealias FailureHandler = (reason: Reason, errorMessage: String?) -> Void
+
+let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     println("\n***************************** YepNetworking Failure *****************************")
     println("Reason: \(reason)")
     if let errorMessage = errorMessage {
@@ -99,6 +101,8 @@ var yepNetworkActivityCount = 0 {
     }
 }
 
+private let yepSuccessStatusCodeRange = Range<Int>(start: 200, end: 300)
+
 #if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
 
@@ -111,7 +115,13 @@ class SessionDelegate: NSObject, NSURLSessionDelegate {
 let _sessionDelegate = SessionDelegate()
 #endif
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>, failure: (Reason, String?) -> Void, completion: A -> Void) {
+public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>?, failure: FailureHandler?, completion: A -> Void) {
+
+    guard let resource = resource else {
+        failure?(reason: .Other(nil), errorMessage: "No resource")
+        return
+    }
+
 #if STAGING
     let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
     let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
@@ -173,11 +183,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     //println(request.cURLCommandLineWithSession(session))
     #endif
 
+    let _failure: FailureHandler
+
+    if let failure = failure {
+        _failure = failure
+    } else {
+        _failure = defaultFailureHandler
+    }
+
     let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
 
         if let httpResponse = response as? NSHTTPURLResponse {
 
-            if httpResponse.statusCode == 200 {
+            if yepSuccessStatusCodeRange.contains(httpResponse.statusCode) {
 
                 if let responseData = data {
 
@@ -188,19 +206,19 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
                         println(dataString)
                         
-                        failure(Reason.CouldNotParseJSON, errorMessageInData(data))
+                        _failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
                         println("\(resource)\n")
                         println(request.cURLCommandLine)
                     }
 
                 } else {
-                    failure(Reason.NoData, errorMessageInData(data))
+                    _failure(reason: .NoData, errorMessage: errorMessageInData(data))
                     println("\(resource)\n")
                     println(request.cURLCommandLine)
                 }
 
             } else {
-                failure(Reason.NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessageInData(data))
+                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLCommandLine)
 
@@ -212,14 +230,14 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                     // 确保是自家服务
                     if let requestHost = request.URL?.host where requestHost == yepBaseURL.host {
                         dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.userNeedRelogin()
+                            YepUserDefaults.maybeUserNeedRelogin()
                         }
                     }
                 }
             }
 
         } else {
-            failure(Reason.Other(error), errorMessageInData(data))
+            _failure(reason: .Other(error), errorMessage: errorMessageInData(data))
             println("\(resource)")
             println(request.cURLCommandLine)
         }
@@ -280,8 +298,11 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
     return jsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
-    let token = YepUserDefaults.v1AccessToken.value
+public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A>? {
+    guard let token = YepUserDefaults.v1AccessToken.value else {
+        println("No token for auth")
+        return nil
+    }
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 

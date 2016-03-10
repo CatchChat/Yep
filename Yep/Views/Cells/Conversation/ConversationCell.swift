@@ -54,6 +54,17 @@ class ConversationCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+        nameLabel.text = nil
+        chatLabel.text = nil
+        timeAgoLabel.text = nil
+
+        countOfUnreadMessages = 0
+    }
+
 //    func updateUIButAvatar(sender: NSNotification) {
 //
 //        updateCountOfUnreadMessages()
@@ -98,7 +109,7 @@ class ConversationCell: UITableViewCell {
 
                 self.nameLabel.text = conversationWithFriend.nickname
 
-                let userAvatar = UserAvatar(userID: conversationWithFriend.userID, avatarStyle: miniAvatarStyle)
+                let userAvatar = UserAvatar(userID: conversationWithFriend.userID, avatarURLString: conversationWithFriend.avatarURLString, avatarStyle: miniAvatarStyle)
                 avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                 updateInfoLabels()
@@ -118,13 +129,13 @@ class ConversationCell: UITableViewCell {
                 }
 
                 if let user = group.owner {
-                    let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                    let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
                     avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                 } else {
 
                     if let user = group.withFeed?.creator {
-                        let userAvatar = UserAvatar(userID: user.userID, avatarStyle: miniAvatarStyle)
+                        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
                         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                     } else {

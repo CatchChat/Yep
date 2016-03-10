@@ -112,7 +112,7 @@ class RegisterPickMobileViewController: SegueViewController {
         YepHUD.showActivityIndicator()
         
         validateMobile(mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
             YepHUD.hideActivityIndicator()
 
@@ -121,7 +121,7 @@ class RegisterPickMobileViewController: SegueViewController {
                 println("ValidateMobile: available")
 
                 registerMobile(mobile, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     YepHUD.hideActivityIndicator()
 

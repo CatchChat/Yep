@@ -140,6 +140,10 @@ class User: Object {
     dynamic var avatar: Avatar?
     dynamic var badge: String = ""
 
+    override class func indexedProperties() -> [String] {
+        return ["userID"]
+    }
+
     dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
     dynamic var lastSignInUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
@@ -147,6 +151,10 @@ class User: Object {
     dynamic var friendshipID: String = ""
     dynamic var isBestfriend: Bool = false
     dynamic var bestfriendIndex: Int = 0
+
+    var canShowProfile: Bool {
+        return friendState != UserFriendState.Yep.rawValue
+    }
 
     dynamic var longitude: Double = 0
     dynamic var latitude: Double = 0
@@ -219,6 +227,17 @@ class User: Object {
         })
 
         realm.delete(self)
+    }
+}
+
+func ==(lhs: User, rhs: User) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
+extension User: Hashable {
+
+    override var hashValue: Int {
+        return userID.hashValue
     }
 }
 
@@ -573,7 +592,24 @@ class Message: Object {
     dynamic var deletedByCreator: Bool = false
 
     dynamic var fromFriend: User?
-    dynamic var conversation: Conversation?
+    dynamic var conversation: Conversation? {
+        willSet {
+
+            // 往大了更新 conversation.updatedUnixTime
+            if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
+                //println("set _conversation.updatedUnixTime")
+                _conversation.updatedUnixTime = createdUnixTime
+            }
+
+            // 新消息且未读，才考虑设置 hasUnreadMessages
+            if conversation == nil && readed == false, let _conversation = newValue {
+                println("set _conversation.hasUnreadMessages")
+                _conversation.hasUnreadMessages = true
+            } else {
+                println("try hasUnreadMessages: \(conversation == nil), \(readed), \(fromFriend?.isMe)")
+            }
+        }
+    }
 
     var isReal: Bool {
 
@@ -743,6 +779,15 @@ class Conversation: Object {
         return nil
     }
 
+    var mentionInitUsers: [UsernamePrefixMatchedUser] {
+
+        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe }) ?? [])
+
+        let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+
+        return users
+    }
+
     dynamic var type: Int = ConversationType.OneToOne.rawValue
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
 
@@ -756,6 +801,9 @@ class Conversation: Object {
     }
 
     dynamic var unreadMessagesCount: Int = 0
+    dynamic var hasUnreadMessages: Bool = false
+    dynamic var mentionedMe: Bool = false
+    dynamic var lastMentionedMeUnixTime: NSTimeInterval = 1 // 默认为很早的时间
 
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
@@ -1076,6 +1124,18 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
+func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
+    let a = SortDescriptor(property: "hasUnreadMessages", ascending: false)
+    let b = SortDescriptor(property: "updatedUnixTime", ascending: false)
+    return realm.objects(Conversation).filter(predicate).sorted([a, b])
+}
+
+func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
+    return realm.objects(Conversation).filter(predicate).count > 0
+}
+
 func countOfConversationsInRealm(realm: Realm) -> Int {
     return realm.objects(Conversation).count
 }
@@ -1094,7 +1154,7 @@ func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversatio
         return realm.objects(Message).filter(predicate).count
 
     case .Group:
-        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ countOfUnreadMessagesInConversation($0) }).reduce(0, combine: +)
+        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
@@ -1181,7 +1241,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
     // update feed
 
-    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+    //println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
 
     feed.kind = feedData.kind.rawValue
     feed.deleted = false

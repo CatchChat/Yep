@@ -270,8 +270,9 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     let progress = progressReporter.tasks[i].progress
                     let final = progress.completedUnitCount == progress.totalUnitCount
-                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
                     /*
+                    progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: nil)
+                    */
                     let imageSource = progressReporter.tasks[i].imageSource
                     let data = progressReporter.tasks[i].tempData
 
@@ -279,33 +280,27 @@ extension YepDownloader: NSURLSessionDataDelegate {
 
                     var tranformedImage: UIImage?
                     if let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) {
+                        /*
                         let image = UIImage(CGImage: cgImage)
                         if let imageTransform = progressReporter.tasks[i].imageTransform {
                             tranformedImage = imageTransform(image)
                         }
-                        /*
+                        */
                         let image = UIImage(CGImage: cgImage.yep_extendedCanvasCGImage)
-
                         if progressReporter.totalProgress < 1 {
                             let blurPercent = CGFloat(1 - progressReporter.totalProgress)
                             let radius = 5 * blurPercent
                             let iterations = UInt(10 * blurPercent)
-                            println("radius: \(radius), iterations: \(iterations)")
+                            //println("radius: \(radius), iterations: \(iterations)")
                             if let blurredImage = image.blurredImageWithRadius(radius, iterations: iterations, tintColor: UIColor.clearColor()) {
                                 if let imageTransform = progressReporter.tasks[i].imageTransform {
                                     tranformedImage = imageTransform(blurredImage)
-                                    /*
-                                    if progressReporter.totalProgress > 0.3 {
-                                        print("imageTransform")
-                                    }*/
                                 }
                             }
                         }
-                        */
                     }
 
                     progressReporter.reportProgress?(progress: progressReporter.totalProgress, image: tranformedImage)
-                    */
 
                     return final
                 }
@@ -341,19 +336,18 @@ extension YepDownloader: NSURLSessionDataDelegate {
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveResponse response: NSURLResponse, completionHandler: (NSURLSessionResponseDisposition) -> Void) {
-        println("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
+        //println("YepDownloader begin, expectedContentLength:\(response.expectedContentLength)")
         reportProgressAssociatedWithDownloadTask(dataTask, totalBytes: response.expectedContentLength)
         completionHandler(.Allow)
     }
 
     func URLSession(session: NSURLSession, dataTask: NSURLSessionDataTask, didReceiveData data: NSData) {
-        println("YepDownloader data.length: \(data.length)")
+        //println("YepDownloader data.length: \(data.length)")
 
         let finish = reportProgressAssociatedWithDownloadTask(dataTask, didReceiveData: data)
 
         if finish {
-            println("YepDownloader finish")
-
+            //println("YepDownloader finish")
             finishDownloadTask(dataTask)
         }
     }

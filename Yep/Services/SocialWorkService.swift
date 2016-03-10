@@ -430,8 +430,6 @@ func syncSocialWorksToMessagesForYepTeam() {
 
                     if let conversation = conversation {
 
-                        conversation.updatedUnixTime = message.createdUnixTime
-
                         message.conversation = conversation
 
                         var sectionDateMessageID: String?

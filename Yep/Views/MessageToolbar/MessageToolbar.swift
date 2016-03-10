@@ -144,6 +144,7 @@ class MessageToolbar: UIToolbar {
     var notifyTypingAction: (() -> Void)?
 
     var needDetectMention = false
+    var initMentionUserAction: (() -> Void)?
     var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
     var giveUpMentionUserAction: (() -> Void)?
 
@@ -273,10 +274,11 @@ class MessageToolbar: UIToolbar {
         let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["bottom": buttonBottom], views: viewsDictionary)
         let constraintsV3 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: ["bottom": buttonBottom], views: viewsDictionary)
 
-        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[messageTextView]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[messageTextView]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let textContainerInset = messageTextView.textContainerInset
         let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
+        //println("messageTextViewHeight: \(constant)")
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
@@ -300,7 +302,7 @@ class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
 
         // void record button
-        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-8-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[voiceRecordButton]-8-|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
         let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
 
@@ -487,33 +489,39 @@ extension MessageToolbar: UITextViewDelegate {
 
     func textViewDidBeginEditing(textView: UITextView) {
 
-        if let text = textView.text {
-            state = text.isEmpty ? .BeginTextInput : .TextInputing
-        }
+        guard let text = textView.text else { return }
+
+        state = text.isEmpty ? .BeginTextInput : .TextInputing
     }
 
     func textViewDidChange(textView: UITextView) {
 
-        if let text = textView.text {
-            state = text.isEmpty ? .BeginTextInput : .TextInputing
+        guard let text = textView.text else { return }
 
-            if needDetectMention {
+        state = text.isEmpty ? .BeginTextInput : .TextInputing
 
-                let currentLetterIndex = textView.selectedRange.location - 1
+        if needDetectMention {
 
-                if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
-                    //println("mentionWord: \(wordString), \(mentionWordRange)")
-
-                    mentionUsernameRange = mentionWordRange
-
-                    let wordString = wordString.trimming(.Whitespace)
-                    tryMentionUserAction?(usernamePrefix: wordString)
-
-                    return
-                }
-
-                giveUpMentionUserAction?()
+            if text.hasSuffix("@") {
+                mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
+                initMentionUserAction?()
+                return
             }
+
+            let currentLetterIndex = textView.selectedRange.location - 1
+
+            if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
+                //println("mentionWord: \(wordString), \(mentionWordRange)")
+
+                mentionUsernameRange = mentionWordRange
+
+                let wordString = wordString.trimming(.Whitespace)
+                tryMentionUserAction?(usernamePrefix: wordString)
+
+                return
+            }
+
+            giveUpMentionUserAction?()
         }
     }
 }

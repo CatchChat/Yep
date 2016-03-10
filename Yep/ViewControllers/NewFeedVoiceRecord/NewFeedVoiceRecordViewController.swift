@@ -82,6 +82,10 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
                 }, completion: { _ in })
 
+                displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue:")
+                displayLink?.frameInterval = 6 // 频率为每秒 10 次
+                displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+
             case .FinishRecord:
 
                 nextButton.enabled = true
@@ -113,13 +117,15 @@ class NewFeedVoiceRecordViewController: SegueViewController {
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
                 })
+
+                displayLink?.invalidate()
             }
         }
     }
 
     private var voiceFileURL: NSURL?
     private var audioPlayer: AVAudioPlayer?
-    private var displayLink: CADisplayLink!
+    private weak var displayLink: CADisplayLink?
 
     private var sampleValues: [CGFloat] = [] {
         didSet {
@@ -191,16 +197,18 @@ class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
+    deinit {
+        displayLink?.invalidate()
+        playbackTimer?.invalidate()
+        println("deinit NewFeedVoiceRecord")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("New Voice", comment: "")
 
         nextButton.title = NSLocalizedString("Next", comment: "")
-
-        displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue:")
-        displayLink.frameInterval = 6 // 频率为每秒 10 次
-        displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
 
         state = .Default
 
@@ -215,6 +223,9 @@ class NewFeedVoiceRecordViewController: SegueViewController {
     @IBAction private func cancel(sender: UIBarButtonItem) {
 
         dismissViewControllerAnimated(true, completion: { [weak self] in
+
+            self?.displayLink?.invalidate()
+            self?.playbackTimer?.invalidate()
 
             YepAudioService.sharedManager.endRecord()
 
@@ -305,6 +316,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
                 sampleValues.append(value)
                 voiceRecordSampleView.appendSampleValue(value)
+                //println("value: \(value)")
             }
         }
     }
@@ -472,11 +484,15 @@ extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
         state = .FinishRecord
 
         println("audioPlayerDidFinishPlaying: \(flag)")
+
+        YepAudioService.sharedManager.resetToDefault()
     }
 
     func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
 
         println("audioPlayerDecodeErrorDidOccur: \(error)")
+
+        YepAudioService.sharedManager.resetToDefault()
     }
 }
 

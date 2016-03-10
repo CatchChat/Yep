@@ -104,7 +104,7 @@ class FeedbackViewController: UIViewController {
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepAlert.alertSorry(message: NSLocalizedString("Network error!", comment: ""), inViewController: self)
 

@@ -11,6 +11,16 @@ import AVFoundation
 import AudioToolbox
 import Proposer
 
+extension AVPlayer {
+
+    var yep_playing: Bool {
+        if (rate != 0 && error == nil) {
+            return true
+        }
+        return false
+    }
+}
+
 class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
@@ -24,6 +34,22 @@ class YepAudioService: NSObject {
     var audioRecorder: AVAudioRecorder?
     
     var audioPlayer: AVAudioPlayer?
+
+    var onlineAudioPlayer: AVPlayer?
+
+    var audioPlayCurrentTime: NSTimeInterval {
+        if let audioPlayer = audioPlayer {
+            return audioPlayer.currentTime
+        }
+        return 0
+    }
+
+    var aduioOnlinePlayCurrentTime: CMTime {
+        if let onlineAudioPlayerItem = onlineAudioPlayer?.currentItem {
+            return onlineAudioPlayerItem.currentTime()
+        }
+        return CMTime()
+    }
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
@@ -134,8 +160,30 @@ class YepAudioService: NSObject {
 
     // MARK: Audio Player
 
-    var playingMessage: Message?
-    var playingFeedAudio: FeedAudio?
+    enum PlayingItem {
+        case MessageType(Message)
+        case FeedAudioType(FeedAudio)
+    }
+    var playingItem: PlayingItem?
+
+    var playingMessage: Message? {
+        guard let playingItem = playingItem else { return nil }
+
+        if case .MessageType(let message) = playingItem {
+            return message
+        }
+
+        return nil
+    }
+    var playingFeedAudio: FeedAudio? {
+        guard let playingItem = playingItem else { return nil }
+
+        if case .FeedAudioType(let feedAUdio) = playingItem {
+            return feedAUdio
+        }
+
+        return nil
+    }
 
     var playbackTimer: NSTimer? {
         didSet {
@@ -172,7 +220,7 @@ class YepAudioService: NSObject {
                     if audioPlayer.play() {
                         println("do play audio")
 
-                        playingMessage = message
+                        playingItem = .MessageType(message)
 
                         UIDevice.currentDevice().proximityMonitoringEnabled = true
 
@@ -224,7 +272,7 @@ class YepAudioService: NSObject {
                     if audioPlayer.play() {
                         println("do play audio")
 
-                        playingFeedAudio = feedAudio
+                        playingItem = .FeedAudioType(feedAudio)
 
                         success()
                     }
@@ -239,12 +287,50 @@ class YepAudioService: NSObject {
         }
     }
 
-    func resetToDefault() {
+    func playOnlineAudioWithFeedAudio(feedAudio: FeedAudio, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+
+        guard let URL = NSURL(string: feedAudio.URLString) else {
+            return
+        }
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playAudioWithMessage setCategory failed: \(error)")
+            }
+        }
+
+        let playerItem = AVPlayerItem(URL: URL)
+        let player = AVPlayer(playerItem: playerItem)
+        player.rate = 1.0
+
+        let time = CMTime(seconds: time, preferredTimescale: 1)
+        playerItem.seekToTime(time)
+        player.play()
+
+        playingItem = .FeedAudioType(feedAudio)
+
+        success()
+
+        println("playOnlineAudioWithFeedAudio")
+
+        self.onlineAudioPlayer = player
+    }
+
+    func tryNotifyOthersOnDeactivation() {
         // playback 会导致从音乐 App 进来的时候停止音乐，所以需要重置回去
-        
+
         dispatch_async(queue) {
             let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
         }
+    }
+
+    func resetToDefault() {
+
+        tryNotifyOthersOnDeactivation()
+
+        playingItem = nil
     }
 
     // MARK: Proximity

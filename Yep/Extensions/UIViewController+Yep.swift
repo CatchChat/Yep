@@ -56,27 +56,25 @@ extension UIViewController {
             case .User(let profileUser):
 
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
 
-                }, completion: { [weak self] success in
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                }, completion: {
                 })
 
             case .Feed(let discoveredFeed):
 
                 reportFeed(discoveredFeed.id, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
 
-                }, completion: { [weak self] success in
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Report recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                }, completion: {
                 })
             }
         }

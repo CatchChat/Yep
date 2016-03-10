@@ -235,7 +235,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
 func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage: errorMessage)
+        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
         furtherAction()
 
@@ -531,8 +531,10 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
                         feed.deleted = true
 
-                        // 确保被删除的 Feed 的所有消息都被标记已读
+                        // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
                         group.conversation?.messages.forEach { $0.readed = true }
+                        group.conversation?.mentionedMe = false
+                        group.conversation?.hasUnreadMessages = false
                     }
 
                 } else {
@@ -562,7 +564,11 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             }
 
             let _ = try? realm.commitWrite()
-            
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+
             // do further action
             
             furtherAction()
@@ -735,10 +741,12 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             dispatch_async(dispatch_get_main_queue()) {
                 isFetchingUnreadMessages.value = false
+
+                furtherAction(messageIDs: [])
             }
 
         }, completion: { allUnreadMessages in
@@ -797,12 +805,24 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             message.sendState = MessageSendState.Read.rawValue
         }
 
-        if let state = messageInfo["state"] as? String where state == "read" {
+        if let sender = message.fromFriend where sender.isMe {
+            message.readed = true
+
+        } else if let state = messageInfo["state"] as? String where state == "read" {
             message.readed = true
         }
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
+
+            if let conversation = message.conversation where !conversation.mentionedMe {
+                if textContent.yep_mentionedMeInRealm(realm) {
+                    if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
+                        conversation.mentionedMe = true
+                        conversation.lastMentionedMeUnixTime = NSDate().timeIntervalSince1970
+                    }
+                }
+            }
         }
 
         if let
@@ -900,9 +920,9 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
                 if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
-                        println("before newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                         newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
-                        println("adjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                     }
                 }
             }
@@ -956,39 +976,42 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                         
                                         let newGroup = Group()
                                         newGroup.groupID = groupID
+                                        newGroup.includeMe = true
                                         // TODO: 此处还无法确定 group 类型，下面会请求 group 信息再确认
-
-                                        if let groupInfo = messageInfo["circle"] as? JSONDictionary {
-                                            if let groupName = groupInfo["name"] as? String {
-                                                newGroup.groupName = groupName
-                                            }
-                                        }
 
                                         realm.add(newGroup)
 
                                         sendFromGroup = newGroup
                                         
-                                        // TODO 存在多次网络查询这个 Group 的可能性
-                                        /*
-                                        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
-                                            dispatch_async(realmQueue) {
-                                                guard let realmForGroup = try? Realm() else {
-                                                    return
-                                                }
-                                                
-                                                if let group = groupWithGroupID(groupID, inRealm: realmForGroup) {
-                                                    if let
-                                                        feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                            //saveFeedWithFeedDataWithFullGroup(feedData, group: savedGroup, inRealm: realmForGroup)
-                                                            let _ = try? realm.write {
+                                        // 若提及我，才同步group进而得到feed
+                                        if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
+                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
+                                                dispatch_async(realmQueue) {
+
+                                                    guard let realm = try? Realm() else {
+                                                        return
+                                                    }
+
+                                                    realm.beginWrite()
+
+                                                    if let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm) {
+                                                        if let
+                                                            feedInfo = groupInfo["topic"] as? JSONDictionary,
+                                                            feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
                                                                 saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                                                            }
+                                                        }
+                                                    }
+
+                                                    let _ = try? realm.commitWrite()
+
+                                                    delay(1) {
+                                                        dispatch_async(dispatch_get_main_queue()) {
+                                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                                                        }
                                                     }
                                                 }
-                                            }
-                                        })
-                                        */
+                                            })
+                                        }
                                     }
                                 }
                             }
@@ -1009,12 +1032,40 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                                 conversationWithUser = sender
 
                             } else {
-                                if let userID = messageInfo["recipient_id"] as? String, user = userWithUserID(userID, inRealm: realm) {
+                                guard let userID = messageInfo["recipient_id"] as? String else {
+                                    message.deleteInRealm(realm)
+                                    return
+                                }
+
+                                if let user = userWithUserID(userID, inRealm: realm) {
                                     conversation = user.conversation
                                     conversationWithUser = user
+
+                                } else {
+                                    let newUser = User()
+                                    newUser.userID = userID
+
+                                    realm.add(newUser)
+
+                                    conversationWithUser = newUser
+                                    
+                                    userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
+
+                                        dispatch_async(dispatch_get_main_queue()) {
+                                            guard let realm = try? Realm() else { return }
+
+                                            realm.beginWrite()
+                                            updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
+                                            let _ = try? realm.commitWrite()
+
+                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.updatedUser, object: nil)
+                                        }
+                                    })
                                 }
                             }
                         }
+
+                        //println("conversationWithUser: \(conversationWithUser)")
 
                         // 没有 Conversation 就尝试建立它
 
@@ -1042,20 +1093,18 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                         if let conversation = conversation {
 
-                            var sectionDateMessageID: String?
+                            // 纪录消息的 detail 信息
 
-                            conversation.updatedUnixTime = message.createdUnixTime
+                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             message.conversation = conversation
+
+                            var sectionDateMessageID: String?
 
                             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                                 realm.add(sectionDateMessage)
                                 sectionDateMessageID = sectionDateMessage.messageID
                             }
-
-                            // 纪录消息的 detail 信息
-
-                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             if createdNewConversation {
 

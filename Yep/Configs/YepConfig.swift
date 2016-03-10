@@ -54,9 +54,12 @@ class YepConfig {
     struct Notification {
         static let markAsReaded = "YepConfig.Notification.markAsReaded"
         static let changedConversation = "YepConfig.Notification.changedConversation"
+        static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
         static let newMessages = "YepConfig.Notification.newMessages"
         static let deletedMessages = "YepConfig.Notification.deletedMessages"
+        static let updatedUser = "YepConfig.Notification.updatedUser"
         static let OAuthResult = "YepConfig.Notification.OAuthResult"
+        static let createdFeed = "YepConfig.Notification.createdFeed"
     }
 
     struct Message {
@@ -257,7 +260,7 @@ class YepConfig {
         static let thumbnailString = "thumbnail_string"
         static let blurredThumbnailString = "blurred_thumbnail_string"
 
-        static let thumbnailMaxSize: CGFloat = 100
+        static let thumbnailMaxSize: CGFloat = 60
     }
 
     struct Media {

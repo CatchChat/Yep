@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 extension String {
     
@@ -38,8 +39,24 @@ extension String {
         }
     }
 
+    var yep_removeAllWhitespaces: String {
+        return self.stringByReplacingOccurrencesOfString(" ", withString: "")
+    }
+
     var yep_removeAllNewLines: String {
         return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+    }
+
+    func yep_truncate(length: Int, trailing: String? = nil) -> String {
+        if self.characters.count > length {
+            return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
+        } else {
+            return self
+        }
+    }
+
+    var yep_truncatedForFeed: String {
+        return yep_truncate(120, trailing: "...")
     }
 }
 
@@ -69,6 +86,23 @@ extension String {
 }
 
 extension String {
+
+    func yep_mentionedMeInRealm(realm: Realm) -> Bool {
+
+        guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: realm) else {
+            return false
+        }
+
+        let username = me.username
+
+        if !username.isEmpty {
+            if self.containsString("@\(username)") {
+                return true
+            }
+        }
+
+        return false
+    }
 
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 

@@ -68,7 +68,7 @@ class FeedBasicCell: UITableViewCell {
         textView.scrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
         textView.showsVerticalScrollIndicator = false
-        textView.dataDetectorTypes = [.Link, .CalendarEvent]
+        textView.dataDetectorTypes = [.Link]
 
         textView.frame = CGRect(x: feedTextFixedSpace, y: 54, width: 335, height: 26)
         textView.opaque = true
@@ -150,6 +150,8 @@ class FeedBasicCell: UITableViewCell {
     }
 
     var feed: DiscoveredFeed?
+
+    var needShowDistance: Bool = false
 
     var tapAvatarAction: (UITableViewCell -> Void)?
     var tapSkillAction: (UITableViewCell -> Void)?
@@ -269,7 +271,11 @@ class FeedBasicCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
-        leftBottomLabel.text = feed.timeAndDistanceString
+        if needShowDistance {
+            leftBottomLabel.text = feed.timeAndDistanceString
+        } else {
+            leftBottomLabel.text = feed.timeString
+        }
 
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 

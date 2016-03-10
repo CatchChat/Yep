@@ -241,7 +241,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
             if let failureHandler = failureHandler {
                 failureHandler(.Other(error), nil)
             } else {
-                defaultFailureHandler(.Other(error), errorMessage: nil)
+                defaultFailureHandler(reason: .Other(error), errorMessage: nil)
             }
 
             return
@@ -380,7 +380,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         if let failureHandler = failureHandler {
             failureHandler(.CouldNotParseJSON, nil)
         } else {
-            defaultFailureHandler(.CouldNotParseJSON, errorMessage: nil)
+            defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: nil)
         }
     })
 }
@@ -426,7 +426,7 @@ private func iTunesLookupWithID(lookupID: String, failureHandler: ((Reason, Stri
                     if let failureHandler = failureHandler {
                         failureHandler(.NoData, nil)
                     } else {
-                        defaultFailureHandler(.NoData, errorMessage: nil)
+                        defaultFailureHandler(reason: .NoData, errorMessage: nil)
                     }
                 }
             })
