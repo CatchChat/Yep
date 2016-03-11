@@ -378,7 +378,31 @@ class ProfileViewController: SegueViewController {
 
     @IBOutlet private weak var sayHiView: BottomButtonView!
 
-    private var customNavigationBar: UINavigationBar!
+    private lazy var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
+    private lazy var customNavigationBar: UINavigationBar = {
+
+        let bar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
+
+        bar.tintColor = UIColor.whiteColor()
+        bar.tintAdjustmentMode = .Normal
+        bar.alpha = 0
+        bar.setItems([self.customNavigationItem], animated: false)
+
+        bar.backgroundColor = UIColor.clearColor()
+        bar.translucent = true
+        bar.shadowImage = UIImage()
+        bar.barStyle = UIBarStyle.BlackTranslucent
+        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.navigationBarTitleFont()
+        ]
+
+        bar.titleTextAttributes = textAttributes
+        
+        return bar
+    }()
 
     private let skillCellIdentifier = "SkillCell"
     private let headerCellIdentifier = "ProfileHeaderCell"
@@ -495,8 +519,6 @@ class ProfileViewController: SegueViewController {
         return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 4
     }
 
-    private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
-
     private struct Listener {
         let nickname: String
         let introduction: String
@@ -546,6 +568,8 @@ class ProfileViewController: SegueViewController {
         })
 
         title = NSLocalizedString("Profile", comment: "")
+
+        view.addSubview(customNavigationBar)
 
         println("init ProfileViewController \(self)")
 
@@ -626,7 +650,6 @@ class ProfileViewController: SegueViewController {
 
         profileUserIsMe = profileUser?.isMe ?? false
 
-
         if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
             profileLayout.scrollUpAction = { [weak self] progress in
@@ -640,8 +663,7 @@ class ProfileViewController: SegueViewController {
                         let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
                         
                         coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
-                        
-                        
+
                         let shadowAlpha = 1 - normalizedProgressForChange
                         
                         if shadowAlpha < 0.2 {
@@ -649,7 +671,6 @@ class ProfileViewController: SegueViewController {
                         } else {
                             strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : shadowAlpha
                         }
-
                         
                         coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
                     }
@@ -671,28 +692,6 @@ class ProfileViewController: SegueViewController {
         profileCollectionView.alwaysBounceVertical = true
         
         automaticallyAdjustsScrollViewInsets = false
-        
-        
-        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
-        customNavigationBar.tintColor = UIColor.whiteColor()
-        customNavigationBar.tintAdjustmentMode = .Normal
-        customNavigationBar.alpha = 0
-        customNavigationBar.setItems([customNavigationItem], animated: false)
-        view.addSubview(customNavigationBar)
-        
-        customNavigationBar.backgroundColor = UIColor.clearColor()
-        customNavigationBar.translucent = true
-        customNavigationBar.shadowImage = UIImage()
-        customNavigationBar.barStyle = UIBarStyle.BlackTranslucent
-        customNavigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.navigationBarTitleFont()
-        ]
-        
-        customNavigationBar.titleTextAttributes = textAttributes
-
         
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -811,16 +810,14 @@ class ProfileViewController: SegueViewController {
         }
 
         #if DEBUG
-//            view.addSubview(profileFPSLabel)
+            //view.addSubview(profileFPSLabel)
         #endif
     }
 
     override func viewWillAppear(animated: Bool) {
-
         super.viewWillAppear(animated)
 
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-
+        self.navigationController?.navigationBarHidden = true
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
@@ -861,7 +858,6 @@ class ProfileViewController: SegueViewController {
             }
 
             let info = MonkeyKing.Info(
-                //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
                 title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
                 thumbnail: thumbnail,
