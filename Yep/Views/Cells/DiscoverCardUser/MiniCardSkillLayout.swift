@@ -69,7 +69,7 @@ let leftEdgeInset: CGFloat = 0
                     }
                     
                     attributes.frame = itemFrame
-
+                print(attributes.frame,"____attribute")
                 
                 previousFrame = itemFrame
             }

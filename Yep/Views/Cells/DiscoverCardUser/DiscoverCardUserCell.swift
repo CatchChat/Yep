@@ -43,7 +43,7 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         avatarImageView.contentMode = UIViewContentMode.ScaleAspectFill
         avatarImageView.clipsToBounds = true
-        skillImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        skillImageView.contentMode = UIViewContentMode.Left
     }
 
     override func prepareForReuse() {
@@ -103,7 +103,15 @@ class DiscoverCardUserCell: UICollectionViewCell {
     
     func genSkillImageWithSkills(skills: [Skill]) -> UIImage {
         
-        let maxWidth:CGFloat = 170
+        let maxWidth:CGFloat = {
+            let viewWidth = (UIApplication.sharedApplication().delegate as! AppDelegate).detail.view.frame.width
+            let cellSpacing: CGFloat = 10.0
+            let cellWidth: CGFloat = (viewWidth - 4 * cellSpacing) / 3.0
+            let sideSpacing: CGFloat = 20.0
+            let maxWidth = cellWidth - 2 * sideSpacing
+            return maxWidth
+            
+        }()
         
         let marginTop:CGFloat = 3.0
         
@@ -171,9 +179,9 @@ class DiscoverCardUserCell: UICollectionViewCell {
             }
             
             rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
-            
             let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
-            
+            print(rect,index,"____rect",CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2))
+//            (6.0, 3.0, 43.529296875, 14.0) _rect____rectanglePathRect_ (0.0, 0.0, 55.529296875, 20.0)
             let fillColor: UIColor = {
                 if index == 4 && skills.count != 5 {
                    return UIColor(red: 234/255.0, green: 246/255.0, blue: 255/255.0, alpha: 1.0)
