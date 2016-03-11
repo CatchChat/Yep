@@ -926,18 +926,15 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.conversation = conversation
 
-
-
-
-                    if let state = self?.messageToolbar.state where !state.isAtBottom {
-                        self?.messageToolbar.state = .Default
-                    }
-
-                    delay(0.2) {
-                        self?.imagePicker.hidesBarsOnTap = false
-                    }
-                }
-            }
+//                    if let state = self?.messageToolbar.state where !state.isAtBottom {
+//                        self?.messageToolbar.state = .Default
+//                    }
+//
+//                    delay(0.2) {
+//                        self?.imagePicker.hidesBarsOnTap = false
+//                    }
+//                }
+//            }
 
             // MARK: MessageToolbar State Transitions
 
@@ -2523,11 +2520,12 @@ class ConversationViewController: BaseViewController {
         }
 
         if let group = conversation.withGroup {
-            popoverContent.moreView.notificationEnabled = group.notificationEnabled
-
-            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
-                })
+//            popoverContent.moreView.notificationEnabled = group.notificationEnabled
+//
+//            settingsForCircleWithCircleID(groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
+//                self?.updateNotificationEnabled(!doNotDisturb, forGroupWithGroupID: groupID)
+//                })
+            
         }
 
         popoverContent.moreView.toggleDoNotDisturbAction = { [weak self] in

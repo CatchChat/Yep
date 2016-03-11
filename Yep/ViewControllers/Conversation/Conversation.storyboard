@@ -27,7 +27,7 @@
                                     <outlet property="delegate" destination="lzL-dF-yCi" id="2Pz-q9-Qk1"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
                                 <rect key="frame" x="0.0" y="337" width="375" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erl-b0-CMQ">
@@ -53,7 +53,7 @@
                                     <constraint firstItem="WVE-v0-1iA" firstAttribute="centerX" secondItem="erl-b0-CMQ" secondAttribute="centerX" id="bT3-2i-iB2"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="457" width="375" height="50"/>
                                 <items/>
                             </toolbar>

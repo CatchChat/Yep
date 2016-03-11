@@ -116,7 +116,7 @@ class DiscoverFilterView: UIView {
 //        view.separatorStyle = .None
 //        view.separatorColor = UIColor.clearColor()
         view.registerClass(DiscoverFilterCell.self, forCellReuseIdentifier: "DiscoverFilterCell")
-        view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
+//        view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
         return view
     }()
 
@@ -307,7 +307,7 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
 
             case .Cancel:
 
-                let cell = tableView.dequeueReusableCellWithIdentifier("ConversationMoreColorTitleCell") as! ConversationMoreColorTitleCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("DiscoverFilterCell") as! DiscoverFilterCell
 
                 cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()

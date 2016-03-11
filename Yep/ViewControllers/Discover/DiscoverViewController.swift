@@ -219,7 +219,7 @@ class DiscoverViewController: BaseViewController {
 
 //      if let window = view.window {
 //          filterView.showInView(window)
-//       }
+       }
     }
     
     private var currentPageIndex = 1
