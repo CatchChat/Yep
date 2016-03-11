@@ -57,7 +57,7 @@ class SimplePullToRefreshView: UIView {
 
     func setupRefreshItems() {
 
-        refreshView = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        refreshView = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         refreshView.hidesWhenStopped = false
 
         refreshItems = [

@@ -26,9 +26,9 @@ class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private lazy var pullToRefreshView: PullToRefreshView = {
+    private lazy var pullToRefreshView: SimplePullToRefreshView = {
 
-        let pullToRefreshView = PullToRefreshView()
+        let pullToRefreshView = SimplePullToRefreshView()
         pullToRefreshView.delegate = self
 
         self.discoveredUsersCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
@@ -314,9 +314,9 @@ class DiscoverViewController: BaseViewController {
 
 // MARK: PullToRefreshViewDelegate
 
-extension DiscoverViewController: PullToRefreshViewDelegate {
+extension DiscoverViewController: SimplePullToRefreshViewDelegate {
 
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+    func pulllToRefreshViewDidRefresh(pulllToRefreshView: SimplePullToRefreshView) {
 
         updateDiscoverUsers(mode: .TopRefresh) {
             dispatch_async(dispatch_get_main_queue()) {
