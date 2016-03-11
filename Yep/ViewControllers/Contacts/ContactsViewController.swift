@@ -79,7 +79,7 @@ class ContactsViewController: BaseViewController {
         //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
         if friends.count > 0 {
 
-            let searchController = ContactsSearchController(searchResultsController: nil)
+            let searchController = UISearchController(searchResultsController: nil)
             searchController.delegate = self
 
             searchController.searchResultsUpdater = self
@@ -146,29 +146,6 @@ class ContactsViewController: BaseViewController {
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-//        if searchControllerIsActive {
-//            self.navigationController?.navigationBar.barStyle = .Default
-//        }
-
-        if searchControllerIsActive {
-            self.navigationController?.setNavigationBarHidden(true, animated: false)
-        }
-    }
-//
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-//        if searchControllerIsActive {
-//            self.navigationController?.navigationBar.barStyle = .BlackTranslucent
-//            self.navigationController?.navigationBar.tintColor = nil
-//        }
-
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
     // MARK: Actions

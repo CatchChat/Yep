@@ -812,18 +812,12 @@ class ProfileViewController: SegueViewController {
         #if DEBUG
             //view.addSubview(profileFPSLabel)
         #endif
-
-        println("yyy1: \(self.navigationController?.navigationBarHidden)")
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        println("yyy2: \(self.navigationController?.navigationBarHidden)")
-
-        delay(0) {
         self.navigationController?.navigationBarHidden = true
-        }
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
@@ -833,24 +827,14 @@ class ProfileViewController: SegueViewController {
         }
 
         self.setNeedsStatusBarAppearanceUpdate()
-
-        println("yyy3: \(self.navigationController?.navigationBarHidden)")
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-
         statusBarShouldLight = true
 
         self.setNeedsStatusBarAppearanceUpdate()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        //self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
     // MARK: Actions
@@ -874,7 +858,6 @@ class ProfileViewController: SegueViewController {
             }
 
             let info = MonkeyKing.Info(
-                //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
                 title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
                 thumbnail: thumbnail,
