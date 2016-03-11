@@ -57,21 +57,10 @@ class MoreMessageTypesView: UIView {
 
         containerView.alpha = 1
 
-        tableView.separatorStyle = .None
-
-//        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-//            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
-//
-//        }, completion: { _ in
-//        })
-
-        UIView.animateWithDuration(0.7, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 0
-            self.alpha = 1
-            self.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
+        tableView.separatorColor = UIColor.yepCellSeparatorColor()
+        tableViewBottomConstraint?.constant = 0
+        alpha = 1
+        layoutIfNeeded()
     }
 
     func delayAndDo(afterDelayAction: (() -> Void)?) {

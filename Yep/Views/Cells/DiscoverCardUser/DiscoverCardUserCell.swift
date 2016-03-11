@@ -180,8 +180,6 @@ class DiscoverCardUserCell: UICollectionViewCell {
             
             rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
             let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
-            print(rect,index,"____rect",CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2))
-//            (6.0, 3.0, 43.529296875, 14.0) _rect____rectanglePathRect_ (0.0, 0.0, 55.529296875, 20.0)
             let fillColor: UIColor = {
                 if index == 4 && skills.count != 5 {
                    return UIColor(red: 234/255.0, green: 246/255.0, blue: 255/255.0, alpha: 1.0)

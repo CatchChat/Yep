@@ -139,37 +139,19 @@ class DiscoverFilterView: UIView {
         frame = view.bounds
 
         view.addSubview(self)
-
+        
         layoutIfNeeded()
-
+        
         containerView.alpha = 1
-
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: {[weak self]  _ in
-            self?.tableViewBottomConstraint?.constant = 0
-
-            self?.layoutIfNeeded()
-
-            }, completion: { _ in
-        })
+        
+        //        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorColor = UIColor.yepCellSeparatorColor()
+        tableViewBottomConstraint?.constant = 0
+        
+        layoutIfNeeded()
     }
-
-    func hideAndDo(afterHideAction: (() -> Void)?) {
-
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: {[weak self]  _ in
-            self?.containerView.alpha = 0
-
-            if let strongSelf = self {
-                strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
-            }
-
-
-            self?.layoutIfNeeded()
-
-            }, completion: {[weak self]  finished in
-                self?.removeFromSuperview()
-            })
+    
+    func delayAndDo(afterHideAction: (() -> Void)?) {
 
         delay(0.1) {
             afterHideAction?()
@@ -308,10 +290,11 @@ extension DiscoverFilterView: UITableViewDataSource, UITableViewDelegate {
             case .Cancel:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier("DiscoverFilterCell") as! DiscoverFilterCell
-
                 cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
                 cell.colorTitleLabelTextColor = UIColor.yepTintColor()
                 cell.colorTitleLabelFontStyle = .Light
+                
+                cell.checkImageView.hidden = true
                 
                 return cell
             }

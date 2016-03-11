@@ -2502,7 +2502,7 @@ class ConversationViewController: BaseViewController {
 
         let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreContentController") as! PopoverContentViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        popoverContent.preferredContentSize = CGSize(width: 375, height: 300)
         self.presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController

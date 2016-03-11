@@ -15,7 +15,7 @@ class PopoverContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.whiteColor()
-//        moreView.showInView(view)
+        moreView.showInView(view)
 
         // Do any additional setup after loading the view.
     }
@@ -186,7 +186,6 @@ class ConversationMoreView: UIView {
         view.delegate = self
         view.rowHeight = 60
         view.scrollEnabled = false
-        view.separatorColor = UIColor.clearColor()
         view.registerClass(ConversationMoreDetailCell.self, forCellReuseIdentifier: "ConversationMoreDetailCell")
         view.registerClass(ConversationMoreCheckCell.self, forCellReuseIdentifier: "ConversationMoreCheckCell")
         view.registerClass(ConversationMoreColorTitleCell.self, forCellReuseIdentifier: "ConversationMoreColorTitleCell")
@@ -267,7 +266,7 @@ class ConversationMoreView: UIView {
         
         containerView.alpha = 1
         
-        self.tableView.separatorInset = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
+        self.tableView.separatorColor = UIColor.yepCellSeparatorColor()
         self.tableViewBottomConstraint?.constant = self.bottomConstraint()
         self.layoutIfNeeded()
     }
@@ -313,7 +312,8 @@ class ConversationMoreView: UIView {
         
         containerView.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
+        tableView.separatorColor = UIColor.yepCellSeparatorColor()
+
         let viewsDictionary = [
             "containerView": containerView,
             "tableView": tableView,

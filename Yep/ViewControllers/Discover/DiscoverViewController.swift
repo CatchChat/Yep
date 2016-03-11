@@ -200,7 +200,7 @@ class DiscoverViewController: BaseViewController {
 
         let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        popoverContent.preferredContentSize = CGSize(width: 280, height: 240)
         self.presentViewController(popoverContent, animated: true, completion: nil)
 
         let popoverPresentationController = popoverContent.popoverPresentationController
@@ -216,9 +216,6 @@ class DiscoverViewController: BaseViewController {
 
         popoverContent.filterView.hide = {
             popoverContent.dismissViewControllerAnimated(true, completion: nil)
-
-//      if let window = view.window {
-//          filterView.showInView(window)
        }
     }
     
@@ -468,8 +465,9 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
-        
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        (UIApplication.sharedApplication().delegate as! AppDelegate).master.showProfile()
+//        performSegueWithIdentifier("showProfile", sender: indexPath)
     }
 }
 

@@ -31,6 +31,7 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
     }
 
     override func pushViewController(viewController: UIViewController, animated: Bool) {
+
         if respondsToSelector("interactivePopGestureRecognizer") && animated {
             interactivePopGestureRecognizer?.enabled = false
         }

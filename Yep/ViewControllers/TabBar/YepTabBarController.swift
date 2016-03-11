@@ -10,12 +10,13 @@ import UIKit
 
 var detailViewColumnWidth: CGFloat  = 0
 var primaryViewColumnWidth: CGFloat = 0
+var masterSelectedTap: Int = 0
 
 class YepTabBarController: UITabBarController {
 
     var detailViewController:DetailViewController?
     
-    private enum Tab: Int {
+    enum Tab: Int {
 
         case Conversations
         case Contacts
@@ -38,7 +39,6 @@ class YepTabBarController: UITabBarController {
                 return NSLocalizedString("Profile", comment: "")
             }
         }
-        
     }
 
     private var previousTab = Tab.Conversations
@@ -122,7 +122,13 @@ class YepTabBarController: UITabBarController {
     
     func showProfile() {
 
-        performSegueWithIdentifier("showProfile", sender: nil)
+        print("\(self.tabBarController)___self.navigationController__\(((UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController as! UISplitViewController).childViewControllers[0].childViewControllers[masterSelectedTap])")
+        
+        if let nav = ((UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController as! UISplitViewController).childViewControllers[0].childViewControllers[masterSelectedTap] as? YepNavigationController {
+            let profile = ProfileViewController()
+            nav.pushViewController(profile, animated: true)
+        }
+
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -203,7 +209,9 @@ extension YepTabBarController: UITabBarControllerDelegate {
             previousTab = tab
             return
         }
-
+        
+        masterSelectedTap = selectedIndex
+        
         switch tab {
 
         case .Conversations:

@@ -489,7 +489,7 @@ class FeedsViewController: BaseViewController {
         // MARK: Popover
         let popoverContent: MatchPopoverViewController = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("MatchPopoverViewController") as! MatchPopoverViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
+        popoverContent.preferredContentSize = CGSize(width: 280, height: 240)
 
 //        let dimView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
 //        dimView.backgroundColor = UIColor.blackColor()
@@ -835,31 +835,33 @@ class FeedsViewController: BaseViewController {
         }
 
         switch identifier {
-
+            
+            // MARK： 要在master view展示profile
+            
         case "showProfile":
-
+//
             let vc = segue.destinationViewController as! ProfileViewController
-
-            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
-
-                switch section {
-                case .SkillUsers:
-                    break
-                case .UploadingFeed:
-                    let discoveredUser = uploadingFeeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                case .Feed:
-                    let discoveredUser = feeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                case .LoadMore:
-                    break
-                }
-            }
-
-            vc.fromType = .None
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
+//
+//            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+//
+//                switch section {
+//                case .SkillUsers:
+//                    break
+//                case .UploadingFeed:
+//                    let discoveredUser = uploadingFeeds[indexPath.row].creator
+//                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+//                case .Feed:
+//                    let discoveredUser = feeds[indexPath.row].creator
+//                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+//                case .LoadMore:
+//                    break
+//                }
+//            }
+//
+//            vc.fromType = .None
+//            vc.setBackButtonWithTitle()
+//
+//            vc.hidesBottomBarWhenPushed = true
 
         case "showSkillHome":
 

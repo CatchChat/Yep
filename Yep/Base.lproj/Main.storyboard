@@ -360,8 +360,8 @@
         <!--ProfileViewController-->
         <scene sceneID="P4W-XO-vZA">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
             </objects>
             <point key="canvasLocation" x="35" y="473"/>
         </scene>

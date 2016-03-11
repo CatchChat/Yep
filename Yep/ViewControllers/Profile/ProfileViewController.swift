@@ -534,6 +534,7 @@ class ProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(self.view.frame,"___frame")
         Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
             let cacheSize = Double(size)/1000000
             
