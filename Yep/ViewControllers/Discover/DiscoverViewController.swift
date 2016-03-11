@@ -313,9 +313,15 @@ extension DiscoverViewController: PullToRefreshViewDelegate {
 
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        println("pulllToRefreshViewDidRefresh")
+        currentPageIndex = 1
+        updateDiscoverUsers {
+            dispatch_async(dispatch_get_main_queue()) {
+                pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+                }
+            }
+        }
     }
-    
+
     func scrollView() -> UIScrollView {
         return discoveredUsersCollectionView
     }
