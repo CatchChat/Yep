@@ -26,31 +26,6 @@ class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private lazy var pullToRefreshView: SimplePullToRefreshView = {
-
-        let pullToRefreshView = SimplePullToRefreshView()
-        pullToRefreshView.delegate = self
-
-        self.discoveredUsersCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
-
-        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
-
-        let viewsDictionary = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": self.view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        
-        return pullToRefreshView
-    }()
-    
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
@@ -186,7 +161,6 @@ class DiscoverViewController: BaseViewController {
     // MARK: Actions
 
     @objc private func refresh(sender: UIRefreshControl) {
-        println("refresh...")
 
         updateDiscoverUsers(mode: .TopRefresh) {
             dispatch_async(dispatch_get_main_queue()) {
@@ -323,40 +297,6 @@ class DiscoverViewController: BaseViewController {
                 vc.hidesBottomBarWhenPushed = true
             }
         }
-    }
-}
-
-// MARK: PullToRefreshViewDelegate
-
-extension DiscoverViewController: SimplePullToRefreshViewDelegate {
-
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: SimplePullToRefreshView) {
-
-        updateDiscoverUsers(mode: .TopRefresh) {
-            dispatch_async(dispatch_get_main_queue()) {
-                pulllToRefreshView.endRefreshingAndDoFurtherAction() {
-                }
-            }
-        }
-    }
-
-    func scrollView() -> UIScrollView {
-        return discoveredUsersCollectionView
-    }
-}
-
-// MARK: UIScrollViewDelegate
-
-extension DiscoverViewController: UIScrollViewDelegate {
-
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-
-        //pullToRefreshView.scrollViewDidScroll(scrollView)
-    }
-
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-
-        //pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
 }
 
