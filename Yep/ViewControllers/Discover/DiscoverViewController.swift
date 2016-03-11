@@ -82,7 +82,7 @@ class DiscoverViewController: BaseViewController {
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
-            updateDiscoverUsers()
+            updateDiscoverUsers(mode: .Static)
 
             // save discoveredUserSortStyle
 
@@ -202,7 +202,12 @@ class DiscoverViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetching = false
-    private func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    private enum UpdateMode {
+        case Static
+        case TopRefresh
+        case LoadMore
+    }
+    private func updateDiscoverUsers(mode mode: UpdateMode, finish: (() -> Void)? = nil) {
 
         if isFetching {
             return
@@ -210,12 +215,12 @@ class DiscoverViewController: BaseViewController {
 
         isFetching = true
         
-        if !isLoadMore {
+        if case .Static = mode {
             activityIndicator.startAnimating()
             view.bringSubviewToFront(activityIndicator)
         }
 
-        if isLoadMore {
+        if case .LoadMore = mode {
             currentPageIndex++
 
         } else {
@@ -260,7 +265,7 @@ class DiscoverViewController: BaseViewController {
 
                 var wayToUpdate: UICollectionView.WayToUpdate = .None
 
-                if isLoadMore {
+                if case .LoadMore = mode {
                     let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
                     strongSelf.discoveredUsers += discoveredUsers
                     let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
@@ -313,8 +318,7 @@ extension DiscoverViewController: PullToRefreshViewDelegate {
 
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
-        currentPageIndex = 1
-        updateDiscoverUsers {
+        updateDiscoverUsers(mode: .TopRefresh) {
             dispatch_async(dispatch_get_main_queue()) {
                 pulllToRefreshView.endRefreshingAndDoFurtherAction() {
                 }
@@ -423,7 +427,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                     cell.loadingActivityIndicator.startAnimating()
                 }
 
-                updateDiscoverUsers(isLoadMore: true, finish: { [weak cell] in
+                updateDiscoverUsers(mode: .LoadMore, finish: { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
                 })
             }
