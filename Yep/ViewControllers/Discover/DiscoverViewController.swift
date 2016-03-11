@@ -150,6 +150,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.lightGrayColor()
         refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
         discoveredUsersCollectionView.addSubview(refreshControl)
 
