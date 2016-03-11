@@ -18,7 +18,7 @@ var skillSizeCache = [String: CGRect]()
 
 class DiscoverViewController: BaseViewController {
 
-    @IBOutlet weak var discoveredUsersCollectionView: UICollectionView!
+    @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
     @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
     
