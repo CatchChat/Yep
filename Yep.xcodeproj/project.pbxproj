@@ -261,6 +261,7 @@
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
+		50D2124A1C92CA3B007F541C /* ContactsSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D212491C92CA3B007F541C /* ContactsSearchController.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
@@ -633,6 +634,7 @@
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
+		50D212491C92CA3B007F541C /* ContactsSearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchController.swift; path = ViewControllers/Contacts/ContactsSearchController.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
@@ -1092,6 +1094,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+				50D212491C92CA3B007F541C /* ContactsSearchController.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -2732,6 +2735,7 @@
 				50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */,
 				500EED9A1BF1B81000C6BABC /* MediaPreviewViewController.swift in Sources */,
 				50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */,
+				50D2124A1C92CA3B007F541C /* ContactsSearchController.swift in Sources */,
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
