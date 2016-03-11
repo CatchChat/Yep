@@ -174,12 +174,26 @@ class DiscoverViewController: BaseViewController {
             }
         }
 
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        discoveredUsersCollectionView.addSubview(refreshControl)
+
         #if DEBUG
             //view.addSubview(discoverFPSLabel)
         #endif
     }
 
     // MARK: Actions
+
+    @objc private func refresh(sender: UIRefreshControl) {
+        println("refresh...")
+
+        updateDiscoverUsers(mode: .TopRefresh) {
+            dispatch_async(dispatch_get_main_queue()) {
+                sender.endRefreshing()
+            }
+        }
+    }
 
     @IBAction private func changeMode(sender: AnyObject) {
 
@@ -337,12 +351,12 @@ extension DiscoverViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        pullToRefreshView.scrollViewDidScroll(scrollView)
+        //pullToRefreshView.scrollViewDidScroll(scrollView)
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
-        pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
+        //pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
 }
 
