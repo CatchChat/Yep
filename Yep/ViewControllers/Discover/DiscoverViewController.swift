@@ -417,6 +417,10 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
         }
     }
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 40.0
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 
         switch indexPath.section {
@@ -429,7 +433,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return CGSize(width: view.bounds.width, height: 80)
 
             case .Card:
-                return CGSize(width: (view.bounds.width - (10 + 10 + 10 + 10)) * 1/3, height: 280)
+                return CGSize(width: (view.bounds.width - (40 + 30 + 30 + 40)) * 1/3, height: 280)
             }
 
         case Section.LoadMore.rawValue:
@@ -452,7 +456,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return UIEdgeInsetsZero
                 
             case .Card:
-                return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+                return UIEdgeInsets(top: 30, left: 20, bottom: 0, right: 20)
             }
 
         case Section.LoadMore.rawValue:
