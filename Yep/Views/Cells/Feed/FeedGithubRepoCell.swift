@@ -75,7 +75,7 @@ class FeedGithubRepoCell: FeedBasicCell {
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
 
         } else {
-            logoImageView.frame.origin.x = feedTextFixedSpace
+            logoImageView.frame.origin.x = detailViewColumnWidth - feedTextFixedSpace - logoImageView.frame.width
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
         }
         nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10

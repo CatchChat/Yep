@@ -97,6 +97,7 @@ class FeedVoiceCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
 
+        
         if let attachment = feed.attachment {
             if case let .Audio(audioInfo) = attachment {
 
@@ -106,14 +107,15 @@ class FeedVoiceCell: FeedBasicCell {
                 let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                 voiceContainerView.timeLengthLabel.text = timeLengthString
 
-                if let audioLayout = layoutCache.layout?.audioLayout {
-                    voiceContainerView.frame = audioLayout.voiceContainerViewFrame
-
-                } else {
+                // MARK: Test
+//                if let audioLayout = layoutCache.layout?.audioLayout {
+//                    voiceContainerView.frame = audioLayout.voiceContainerViewFrame
+//
+//                } else {
                     let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
-                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 50)
-                }
+                    voiceContainerView.frame = CGRect(x: feedTextFixedSpace, y: y, width: width, height: 50)
+//                }
 
                 if let realm = try? Realm() {
 

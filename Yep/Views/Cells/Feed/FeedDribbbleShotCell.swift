@@ -81,7 +81,7 @@ class FeedDribbbleShotCell: FeedBasicCell {
             _newLayout = newLayout
         }), needShowSkill: needShowSkill)
         // MARK: Test
-        _newLayout = nil
+
         if needShowSkill, let _ = feed.skill {
             logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
             logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
