@@ -24,7 +24,6 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: "tap:")
         imageView.addGestureRecognizer(tap)
-
         return imageView
     }
 
@@ -47,6 +46,7 @@ class FeedNormalImagesCell: FeedBasicCell {
     lazy var imageView3: UIImageView = {
         let x = feedTextFixedSpace + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
         let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
+
         let imageView = self.createImageViewWithFrame(frame)
 
         return imageView

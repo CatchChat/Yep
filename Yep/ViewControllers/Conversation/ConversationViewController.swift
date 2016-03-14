@@ -405,7 +405,9 @@ class ConversationViewController: BaseViewController {
             performSegueWithIdentifier("showProfile", sender: user)
         }
     }
+    private lazy var  manager = ConversationMoreViewManager()
 
+    /*
     private lazy var moreViewManager: ConversationMoreViewManager = {
 
         let manager = ConversationMoreViewManager()
@@ -474,34 +476,7 @@ class ConversationViewController: BaseViewController {
 
         return manager
     }()
-
-    /*
-    private lazy var pullToRefreshView: PullToRefreshView = {
-
-        let pullToRefreshView = PullToRefreshView()
-        pullToRefreshView.delegate = self
-
-        self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
-
-        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
-
-        let viewsDictionary = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": self.view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-
-        return pullToRefreshView
-    }()
-    */
-
+*/
     private lazy var waverView: YepWaverView = {
         let frame = self.view.bounds
         let view = YepWaverView(frame: frame)
@@ -900,7 +875,7 @@ class ConversationViewController: BaseViewController {
             break
         }
 
-        tryShowSubscribeView()
+//        tryShowSubscribeView()
 
         needDetectMention = conversation.needDetectMention
 
@@ -1061,7 +1036,7 @@ class ConversationViewController: BaseViewController {
                 let popoverContent: PopoverMoreTypesViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreTypesController") as! PopoverMoreTypesViewController
                 popoverContent.modalPresentationStyle = .Popover
                 popoverContent.preferredContentSize = CGSize(width: 375, height: 288)
-                popoverContent.view.backgroundColor = UIColor.whiteColor()
+                
                 sSelf.presentViewController(popoverContent, animated: true, completion: nil)
 
                 let popoverPresentationController = popoverContent.popoverPresentationController
@@ -2301,7 +2276,7 @@ class ConversationViewController: BaseViewController {
                             if let strongSelf = self {
                                 let _ = try? strongSelf.realm.write {
                                     group.includeMe = true
-                                    strongSelf.moreViewManager.updateForGroupAffair()
+//                                    strongSelf.moreViewManager.updateForGroupAffair()
                                 }
                             }
                         }
@@ -2505,7 +2480,76 @@ class ConversationViewController: BaseViewController {
         popoverPresentationController?.barButtonItem = sender
 
         messageToolbar.state = .Default
-
+        
+//        let manager = ConversationMoreViewManager()
+        
+        popoverContent.moreViewManager?.conversation = self.conversation
+        
+        popoverContent.moreViewManager?.showProfileAction = { [weak self] in
+            self?.performSegueWithIdentifier("showProfile", sender: nil)
+        }
+        
+        popoverContent.moreViewManager?.toggleDoNotDisturbAction = { [weak self] in
+            self?.toggleDoNotDisturb()
+        }
+        
+        popoverContent.moreViewManager?.reportAction = { [weak self] in
+            self?.tryReport()
+        }
+        
+       popoverContent.moreViewManager?.toggleBlockAction = { [weak self] in
+            self?.toggleBlock()
+        }
+        
+        popoverContent.moreViewManager?.shareFeedAction = { [weak self] in
+            guard let
+                description = self?.conversation.withGroup?.withFeed?.body,
+                groupID = self?.conversation.withGroup?.groupID else {
+                    return
+            }
+            
+            guard let groupShareURLString = self?.groupShareURLString else {
+                
+                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+                    
+                    self?.groupShareURLString = groupShareURLString
+                    
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+                    }
+                    })
+                
+                return
+            }
+            
+            self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+        }
+        
+       popoverContent.moreViewManager?.updateGroupAffairAction = { [weak self, weak manager] in
+            self?.tryUpdateGroupAffair(afterSubscribed: { [weak self] in
+                guard let strongSelf = self else { return }
+                manager?.updateForGroupAffair()
+                
+                if strongSelf.isSubscribeViewShowing {
+                    strongSelf.subscribeView.hide()
+                }
+                })
+        }
+        
+        popoverContent.moreViewManager?.afterGotSettingsForUserAction = { [weak self] userID, blocked, doNotDisturb in
+            self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
+            self?.updateBlocked(blocked, forUserWithUserID: userID)
+        }
+        
+        popoverContent.moreViewManager?.afterGotSettingsForGroupAction = { [weak self] groupID, notificationEnabled in
+            self?.updateNotificationEnabled(notificationEnabled, forGroupWithGroupID: groupID)
+        }
+        
+        popoverContent.moreViewManager?.hide = {
+            popoverContent.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+/*
         popoverContent.moreView.hide = {
             popoverContent.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -2605,8 +2649,9 @@ class ConversationViewController: BaseViewController {
             
             self?.shareFeedWithDescripion(descriotion, groupShareURLString: groupShareURLString)
         }
+        */
     }
-/*
+    /*
     private func topicMoreAction() {
         
         let descriotion = conversation.withGroup?.withFeed?.body
@@ -2769,60 +2814,6 @@ class ConversationViewController: BaseViewController {
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
-    /*
-    private func oneToOneMoreAction() {
-        
-        popoverContent.moreView.showProfileAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: nil)
-        }
-        
-        if let user = conversation.withFriend {
-            popoverContent.moreView.notificationEnabled = user.notificationEnabled
-            popoverContent.moreView.blocked = user.blocked
-            
-            let userID = user.userID
-            
-            /*
-            userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
-            //println("userInfoOfUserWithUserID \(userInfo)")
-            
-            if let doNotDisturb = userInfo["do_not_disturb"] as? Bool {
-            self.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-            }
-            
-            if let blocked = userInfo["blocked"] as? Bool {
-            self.updateBlocked(blocked, forUserWithUserID: userID)
-            }
-            
-            // 对非好友来说，必要
-            
-            updateUserWithUserID(userID, useUserInfo: userInfo)
-            })
-            */
-            
-            settingsForUserWithUserID(userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-                self?.updateBlocked(blocked, forUserWithUserID: userID)
-            })
-        }
-        
-        popoverContent.moreView.toggleDoNotDisturbAction = { [weak self] in
-            self?.toggleDoNotDisturb()
-        }
-        
-        popoverContent.moreView.toggleBlockAction = { [weak self] in
-            self?.toggleBlock()
-        }
-        
-        popoverContent.moreView.reportAction = { [weak self] in
-            self?.tryReport()
-        }
-        
-        if let window = view.window {
-            popoverContent.moreView.showInView(window)
-        }
-    }
-*/
 
     private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
 
@@ -2835,7 +2826,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-            moreViewManager.userNotificationEnabled = enabled
+//            moreViewManager.userNotificationEnabled = enabled
         }
     }
 
@@ -2850,7 +2841,7 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
 
-            moreViewManager.groupNotificationEnabled = enabled
+//            moreViewManager.groupNotificationEnabled = enabled
         }
     }
 
@@ -2920,7 +2911,7 @@ class ConversationViewController: BaseViewController {
             }
 
             if needUpdateUI {
-                moreViewManager.userBlocked = blocked
+//                moreViewManager.userBlocked = blocked
             }
         }
     }
@@ -3156,7 +3147,7 @@ class ConversationViewController: BaseViewController {
                     self?.subscribeView.hide()
                 }
 
-                moreViewManager.updateForGroupAffair()
+//                moreViewManager.updateForGroupAffair()
             }
         }
     }

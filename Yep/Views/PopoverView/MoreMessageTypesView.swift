@@ -49,8 +49,6 @@ class MoreMessageTypesView: UIView {
 
         view.addSubview(self)
 
-        layoutIfNeeded()
-
         tableView.separatorColor = UIColor.yepCellSeparatorColor()
         alpha = 1
         layoutIfNeeded()
@@ -83,8 +81,10 @@ class MoreMessageTypesView: UIView {
         
         let tableViewLeading = NSLayoutConstraint(item: tableView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 0)
         let tableViewTop = NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
-        
-        NSLayoutConstraint.activateConstraints([tableViewLeading, tableViewTop])
+        let tableViewTrailing = NSLayoutConstraint(item: tableView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: 0)
+        let tableViewBottom = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
+    
+        NSLayoutConstraint.activateConstraints([tableViewLeading, tableViewTop,tableViewTrailing,tableViewBottom])
     }
 }
 
