@@ -362,17 +362,15 @@ class MessageToolbar: UIToolbar {
         //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
 
         if newHeight != messageTextViewHeightConstraint.constant {
+
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
                 self.messageTextViewHeightConstraint.constant = newHeight
                 self.layoutIfNeeded()
 
             }, completion: { [weak self] finished in
-
                 // hack for scrollEnabled when input lots of text
-
                 if finished, let strongSelf = self {
-                    //println("messageToolbar.frame: \(strongSelf.frame)")
-                    let enabled = strongSelf.frame.origin.y < 100
+                    let enabled = newHeight > strongSelf.messageTextView.bounds.height
                     strongSelf.messageTextView.scrollEnabled = enabled
                 }
             })
