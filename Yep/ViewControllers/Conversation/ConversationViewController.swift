@@ -405,7 +405,7 @@ class ConversationViewController: BaseViewController {
             performSegueWithIdentifier("showProfile", sender: user)
         }
     }
-    private lazy var  moreViewManager: ConversationMoreViewManager()
+    private lazy var  moreViewManager: ConversationMoreViewManager = ConversationMoreViewManager()
 
     /*
     private lazy var moreViewManager: ConversationMoreViewManager = {
