@@ -68,7 +68,7 @@ class MessageTypeButton: TouchZoomButton {
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing] , metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

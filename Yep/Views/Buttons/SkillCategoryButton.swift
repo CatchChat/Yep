@@ -92,7 +92,7 @@ class SkillCategoryButton: UIButton {
             "arrowImageView": arrowImageView,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[categoryImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[categoryImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: [.AlignAllCenterY, .AlignAllTop, .AlignAllBottom], metrics: nil, views: viewsDictionary)
 

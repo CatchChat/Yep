@@ -103,8 +103,8 @@ class VoiceRecordSampleView: UIView {
             "sampleCollectionView": sampleCollectionView,
         ]
 
-        let sampleCollectionViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[sampleCollectionView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        let sampleCollectionViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[sampleCollectionView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        let sampleCollectionViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
+        let sampleCollectionViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintH)
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintV)
