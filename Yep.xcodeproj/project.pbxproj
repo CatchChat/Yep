@@ -38,8 +38,7 @@
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
-		332581CC1C919018007D33B9 /* TransitionManager in Resources */ = {isa = PBXBuildFile; fileRef = 332581CB1C919018007D33B9 /* TransitionManager */; };
-		332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581CE1C9190CE007D33B9 /* ReplaceTronsitionManager.swift */; };
+		33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BC0C061C96581F0084DCDD /* PopoverView.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
@@ -419,8 +418,7 @@
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Yep.swift"; sourceTree = "<group>"; };
-		332581CB1C919018007D33B9 /* TransitionManager */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TransitionManager; sourceTree = "<group>"; };
-		332581CE1C9190CE007D33B9 /* ReplaceTronsitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceTronsitionManager.swift; sourceTree = "<group>"; };
+		33BC0C061C96581F0084DCDD /* PopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		4EEAF88E6C6D61E595249DF5 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		5008A1941B8DB8B500E94274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -856,11 +854,9 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
-				332581CD1C919059007D33B9 /* TransitionManager */,
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
-				332581CB1C919018007D33B9 /* TransitionManager */,
 				92E0FFE11C5F38E400226B96 /* Vendors */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
@@ -965,12 +961,13 @@
 			name = ScrollView;
 			sourceTree = "<group>";
 		};
-		332581CD1C919059007D33B9 /* TransitionManager */ = {
+		33BC0C051C9657FA0084DCDD /* PopoverView */ = {
 			isa = PBXGroup;
 			children = (
-				332581CE1C9190CE007D33B9 /* ReplaceTronsitionManager.swift */,
+				33BC0C061C96581F0084DCDD /* PopoverView.swift */,
 			);
-			name = TransitionManager;
+			name = PopoverView;
+			path = Views/PopoverView;
 			sourceTree = "<group>";
 		};
 		500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */ = {
@@ -1185,6 +1182,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				33BC0C051C9657FA0084DCDD /* PopoverView */,
 				5066C0271C86D41900495278 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
@@ -2595,7 +2593,6 @@
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
 				5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
-				332581CC1C919018007D33B9 /* TransitionManager in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */,
 				502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */,
@@ -2711,6 +2708,7 @@
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
+				33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */,
@@ -2876,7 +2874,6 @@
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
-				332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */,
 				5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
