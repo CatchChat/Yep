@@ -605,8 +605,6 @@ class Message: Object {
             if conversation == nil && readed == false, let _conversation = newValue {
                 println("set _conversation.hasUnreadMessages")
                 _conversation.hasUnreadMessages = true
-            } else {
-                println("try hasUnreadMessages: \(conversation == nil), \(readed), \(fromFriend?.isMe)")
             }
         }
     }

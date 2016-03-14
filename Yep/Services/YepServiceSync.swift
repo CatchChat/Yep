@@ -771,7 +771,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
                 realm.beginWrite()
                 
                 for messageInfo in allUnreadMessages {
-                    syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
+                    syncMessageWithMessageInfo(messageInfo, messageAge: .Old, inRealm: realm) { _messageIDs in
                         messageIDs += _messageIDs
                     }
                 }
