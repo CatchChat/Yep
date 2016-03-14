@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: filterView for Discover & Feeds & ConversationMoreView
+
 // MARK: PopoverDefaultCell
 
 private class PopoverDefaultCell: UITableViewCell {

@@ -38,6 +38,7 @@
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
+		336171A41C968A32003CB9C6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */; };
 		33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BC0C061C96581F0084DCDD /* PopoverView.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
@@ -245,7 +246,6 @@
 		50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */; };
 		50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B22E451C588B6200219625 /* CGImage+Yep.swift */; };
 		50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */; };
-		50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50B6D9F11C61C26100D431E0 /* PushConfig.plist */; };
@@ -418,6 +418,7 @@
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Yep.swift"; sourceTree = "<group>"; };
+		336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreMessageTypesView.swift; sourceTree = "<group>"; };
 		33BC0C061C96581F0084DCDD /* PopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		4EEAF88E6C6D61E595249DF5 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		5008A1941B8DB8B500E94274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -627,7 +628,6 @@
 		50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsViewController.swift; path = ViewControllers/Feeds/FeedsViewController.swift; sourceTree = "<group>"; };
 		50B22E451C588B6200219625 /* CGImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGImage+Yep.swift"; path = "Extensions/CGImage+Yep.swift"; sourceTree = "<group>"; };
 		50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedTextView.swift; path = Views/TextViews/FeedTextView.swift; sourceTree = "<group>"; };
-		50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMessageTypesView.swift; path = Views/MoreMessageTypes/MoreMessageTypesView.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B6D9F11C61C26100D431E0 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
@@ -965,6 +965,7 @@
 			isa = PBXGroup;
 			children = (
 				33BC0C061C96581F0084DCDD /* PopoverView.swift */,
+				336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */,
 			);
 			name = PopoverView;
 			path = Views/PopoverView;
@@ -1204,7 +1205,6 @@
 				0A1CAC741AFA526400826B45 /* SkillHomeSectionButton */,
 				0AC25F041B1100F3009E6E13 /* ScrollView */,
 				50E18BB81B180F8E0076C3C6 /* SayHi */,
-				50B2CA951BD0EF8A00668AC6 /* MoreMessageTypes */,
 				500A0B201B451A7400D49358 /* Badge */,
 				8409137E1B7DB178001C89D6 /* FriendRequest */,
 				50AFBF471BB25F81007D19DA /* TitleViews */,
@@ -2035,14 +2035,6 @@
 			name = Feed;
 			sourceTree = "<group>";
 		};
-		50B2CA951BD0EF8A00668AC6 /* MoreMessageTypes */ = {
-			isa = PBXGroup;
-			children = (
-				50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */,
-			);
-			name = MoreMessageTypes;
-			sourceTree = "<group>";
-		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -2733,7 +2725,6 @@
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
 				E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
-				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
 				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
@@ -2952,6 +2943,7 @@
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,
 				5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */,
+				336171A41C968A32003CB9C6 /* MoreMessageTypesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

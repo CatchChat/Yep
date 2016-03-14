@@ -13,12 +13,6 @@ class MoreMessageTypesView: UIView {
 
     let totalHeight: CGFloat = 100 + 60 * 3
 
-    lazy var containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.whiteColor()
-        return view
-    }()
-
     let titleCellID = "TitleCell"
     let quickPickPhotosCellID = "QuickPickPhotosCell"
 
@@ -57,10 +51,7 @@ class MoreMessageTypesView: UIView {
 
         layoutIfNeeded()
 
-//        containerView.alpha = 1
-
         tableView.separatorColor = UIColor.yepCellSeparatorColor()
-//        tableViewBottomConstraint?.constant = 0
         alpha = 1
         layoutIfNeeded()
     }
@@ -81,64 +72,21 @@ class MoreMessageTypesView: UIView {
             isFirstTimeBeenAddAsSubview = false
 
             makeUI()
-//
-//            let tap = UITapGestureRecognizer(target: self, action: "hide")
-//            containerView.addGestureRecognizer(tap)
-//
-//            tap.cancelsTouchesInView = true
-//            tap.delegate = self
         }
     }
-// MARK: add constraint
     func makeUI() {
-//        self.alpha = 0
-//        addSubview(containerView)
-//        containerView.translatesAutoresizingMaskIntoConstraints = false
 
         addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-
-//        let viewsDictionary = [
-//            "containerView": containerView,
-//            "tableView": tableView,
-//        ]
-//
-//        // layout for containerView
-//
-//        let containerViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-//        let containerViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-//
-//        NSLayoutConstraint.activateConstraints(containerViewConstraintsH)
-//        NSLayoutConstraint.activateConstraints(containerViewConstraintsV)
-//
-//        // layout for tableView
-//
-//        let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-//
-//        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: self.totalHeight)
-//
-//        self.tableViewBottomConstraint = tableViewBottomConstraint
-//        
-//        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: self.totalHeight)
-//        
-//        NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
-//        NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
+        
+        // MARK: add constraint
+        
+        let tableViewLeading = NSLayoutConstraint(item: tableView, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 0)
+        let tableViewTop = NSLayoutConstraint(item: tableView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
+        
+        NSLayoutConstraint.activateConstraints([tableViewLeading, tableViewTop])
     }
 }
-
-//// MARK: - UIGestureRecognizerDelegate
-//
-//extension MoreMessageTypesView: UIGestureRecognizerDelegate {
-//
-//    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-//
-//        if touch.view != containerView {
-//            return false
-//        }
-//
-//        return true
-//    }
-//}
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 

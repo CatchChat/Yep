@@ -11,9 +11,6 @@ import RealmSwift
 import AVFoundation
 import MapKit
 
-private let screenWidth: CGFloat  = UIScreen.mainScreen().bounds.width
-private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
-
 class FeedsViewController: BaseViewController {
 
     var skill: Skill?
@@ -76,38 +73,6 @@ class FeedsViewController: BaseViewController {
 
     private lazy var filterView: ActionSheetView = {
         let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
-        return view
-    }()
-
-    private lazy var newFeedTypesView: ActionSheetView = {
-        let view = ActionSheetView(items: [
-            .Default(
-                title: NSLocalizedString("Text & Photos", comment: ""),
-                titleColor: UIColor.yepTintColor(),
-                action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
-                    return true
-                }
-            ),
-            .Default(
-                title: NSLocalizedString("Voice", comment: ""),
-                titleColor: UIColor.yepTintColor(),
-                action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
-                    return true
-                }
-            ),
-            .Default(
-                title: NSLocalizedString("Location", comment: ""),
-                titleColor: UIColor.yepTintColor(),
-                action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-                    return true
-                }
-            ),
-            .Cancel,
-            ]
-        )
         return view
     }()
 
@@ -491,11 +456,6 @@ class FeedsViewController: BaseViewController {
         popoverContent.modalPresentationStyle = .Popover
         popoverContent.preferredContentSize = CGSize(width: 280, height: 240)
 
-//        let dimView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: screenHeight))
-//        dimView.backgroundColor = UIColor.blackColor()
-//        dimView.alpha = 0.3
-//        view.window?.addSubview(dimView)
-
         presentViewController(popoverContent, animated: true, completion: nil)
         view.bringSubviewToFront(popoverContent.view)
         let popoverPresentationController = popoverContent.popoverPresentationController
@@ -683,13 +643,6 @@ class FeedsViewController: BaseViewController {
             let maxFeedID = (mode == .LoadMore && (feedSortStyle == .Time)) ? feeds.last?.id : nil
 
             discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
-        }
-    }
-
-    @IBAction private func createNewFeed(sender: AnyObject) {
-
-        if let window = view.window {
-            newFeedTypesView.showInView(window)
         }
     }
 

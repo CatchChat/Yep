@@ -1066,11 +1066,6 @@ class ConversationViewController: BaseViewController {
 
                 let popoverPresentationController = popoverContent.popoverPresentationController
 
-//                let frame = sSelf.messageToolbar.moreButton.frame
-//                let sourceView = UIView(frame: CGRect(x: frame.origin.x + frame.width * 0.9, y: frame.origin.y, width: frame.width * 0.1, height: frame.height))
-//                sourceView.backgroundColor = UIColor.redColor()
-//                sSelf.messageToolbar.addSubview(sourceView)
-
                 popoverPresentationController?.sourceView = sSelf.messageToolbar.moreButton
                 popoverPresentationController?.sourceRect = sSelf.messageToolbar.moreButton.bounds
                 // Arrow color

@@ -105,10 +105,12 @@ class DiscoverCardUserCell: UICollectionViewCell {
         
         let maxWidth:CGFloat = {
             let viewWidth = (UIApplication.sharedApplication().delegate as! AppDelegate).detail.view.frame.width
-            let cellSpacing: CGFloat = 10.0
-            let cellWidth: CGFloat = (viewWidth - 4 * cellSpacing) / 3.0
-            let sideSpacing: CGFloat = 20.0
-            let maxWidth = cellWidth - 2 * sideSpacing
+            let cellSpacing: CGFloat = 40.0
+            let sideSpacing: CGFloat = 30
+            let padding: CGFloat = 10
+            let cellWidth: CGFloat = (viewWidth - 2 * cellSpacing  - 2 * sideSpacing) / 3.0
+
+            let maxWidth = cellWidth - 2 * padding
             return maxWidth
             
         }()
