@@ -804,13 +804,14 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
         if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
             message.sendState = MessageSendState.Read.rawValue
         }
-
+        /*
         if let sender = message.fromFriend where sender.isMe {
             message.readed = true
 
         } else if let state = messageInfo["state"] as? String where state == "read" {
             message.readed = true
         }
+        */
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
@@ -820,8 +821,13 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
                     if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
                         conversation.mentionedMe = true
                         conversation.lastMentionedMeUnixTime = NSDate().timeIntervalSince1970
+                        println("new mentionedMe")
+                    } else {
+                        println("old mentionedMe \(message.createdUnixTime), \(conversation.lastMentionedMeUnixTime)")
                     }
                 }
+            } else {
+                println("failed mentionedMe: \(message.conversation?.mentionedMe)")
             }
         }
 
@@ -1093,11 +1099,19 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                         if let conversation = conversation {
 
-                            // 纪录消息的 detail 信息
+                            // 先同步 read 状态
+                            if let sender = message.fromFriend where sender.isMe {
+                                message.readed = true
 
-                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+                            } else if let state = messageInfo["state"] as? String where state == "read" {
+                                message.readed = true
+                            }
 
+                            // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
                             message.conversation = conversation
+
+                            // 最后纪录消息余下的 detail 信息（其中设置 mentionedMe 需要 conversation）
+                            recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
 
                             var sectionDateMessageID: String?
 
