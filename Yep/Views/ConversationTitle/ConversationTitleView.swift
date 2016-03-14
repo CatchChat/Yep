@@ -69,7 +69,7 @@ class ConversationTitleView: UIView {
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel(24)][stateInfoLabel(12)]", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing], metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

@@ -170,17 +170,17 @@ class MediaView: UIView {
             "coverImageView": coverImageView,
         ]
 
-        let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let scrollViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(scrollViewConstraintsV)
         NSLayoutConstraint.activateConstraints(scrollViewConstraintsH)
 
 
-        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsV)
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsH)
@@ -189,9 +189,9 @@ class MediaView: UIView {
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
         NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
