@@ -405,7 +405,7 @@ class ConversationViewController: BaseViewController {
             performSegueWithIdentifier("showProfile", sender: user)
         }
     }
-    private lazy var  manager = ConversationMoreViewManager()
+    private lazy var  moreViewManager: ConversationMoreViewManager()
 
     /*
     private lazy var moreViewManager: ConversationMoreViewManager = {
@@ -2482,6 +2482,9 @@ class ConversationViewController: BaseViewController {
         messageToolbar.state = .Default
         
 //        let manager = ConversationMoreViewManager()
+        if let moreViewManager = popoverContent.moreViewManager {
+           self.moreViewManager = moreViewManager
+        }
         
         popoverContent.moreViewManager?.conversation = self.conversation
         
@@ -2525,10 +2528,10 @@ class ConversationViewController: BaseViewController {
             self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
         }
         
-       popoverContent.moreViewManager?.updateGroupAffairAction = { [weak self, weak manager] in
+       popoverContent.moreViewManager?.updateGroupAffairAction = { [weak self, weak moreViewManager] in
             self?.tryUpdateGroupAffair(afterSubscribed: { [weak self] in
                 guard let strongSelf = self else { return }
-                manager?.updateForGroupAffair()
+                moreViewManager?.updateForGroupAffair()
                 
                 if strongSelf.isSubscribeViewShowing {
                     strongSelf.subscribeView.hide()
@@ -2548,7 +2551,6 @@ class ConversationViewController: BaseViewController {
         popoverContent.moreViewManager?.hide = {
             popoverContent.dismissViewControllerAnimated(true, completion: nil)
         }
-        
 /*
         popoverContent.moreView.hide = {
             popoverContent.dismissViewControllerAnimated(true, completion: nil)
@@ -2826,7 +2828,7 @@ class ConversationViewController: BaseViewController {
                 user.notificationEnabled = enabled
             }
 
-//            moreViewManager.userNotificationEnabled = enabled
+            moreViewManager.userNotificationEnabled = enabled
         }
     }
 
@@ -2841,7 +2843,7 @@ class ConversationViewController: BaseViewController {
                 group.notificationEnabled = enabled
             }
 
-//            moreViewManager.groupNotificationEnabled = enabled
+            moreViewManager.groupNotificationEnabled = enabled
         }
     }
 
