@@ -38,7 +38,6 @@
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
-		332581CC1C919018007D33B9 /* TransitionManager in Resources */ = {isa = PBXBuildFile; fileRef = 332581CB1C919018007D33B9 /* TransitionManager */; };
 		332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581CE1C9190CE007D33B9 /* ReplaceTronsitionManager.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
@@ -1579,13 +1578,6 @@
 			name = Activities;
 			sourceTree = "<group>";
 		};
-		504F85AD1B4D21E400F909BE /* DiscoverFilter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = DiscoverFilter;
-			sourceTree = "<group>";
-		};
 		5052620E1C5202C700292C6A /* Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -2602,7 +2594,6 @@
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
 				5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */,
 				50F5AF9A1BBBD02A0033C9BC /* FeedMediaCell.xib in Resources */,
-				332581CC1C919018007D33B9 /* TransitionManager in Resources */,
 				50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */,
 				50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */,
 				502B60651BD1208E00D9C17E /* CameraCell.xib in Resources */,
@@ -2884,7 +2875,6 @@
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
 				332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */,
-
 				5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
@@ -3079,7 +3069,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
