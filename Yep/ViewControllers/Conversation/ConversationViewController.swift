@@ -4338,6 +4338,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         //pullToRefreshView.scrollViewDidScroll(scrollView)
 
+        println("\(scrollView.contentOffset)")
+        println("\(scrollView.contentInset)")
+
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
             let deltaY = location.y - dragBeginLocation.y
@@ -4347,7 +4350,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
 
-        if scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) {
+        func tryTriggerLoadPrevious() {
+            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
+                return
+            }
 
             let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {
@@ -4369,6 +4375,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 }
             }
         }
+
+        tryTriggerLoadPrevious()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
