@@ -1861,6 +1861,12 @@ class ConversationViewController: BaseViewController {
         feedView.heightConstraint = height
 
         self.feedView = feedView
+
+        // set messageToolbar's top limited to feedView
+        do {
+            let top = NSLayoutConstraint(item: messageToolbar, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: feedView, attribute: .Bottom, multiplier: 1.0, constant: 0)
+            NSLayoutConstraint.activateConstraints([top])
+        }
     }
 
     private func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
