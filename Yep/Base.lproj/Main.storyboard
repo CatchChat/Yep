@@ -360,8 +360,8 @@
         <!--ProfileViewController-->
         <scene sceneID="P4W-XO-vZA">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="35" y="473"/>
         </scene>
@@ -410,14 +410,14 @@
                     <navigationItem key="navigationItem" id="MhC-6u-3MT"/>
                     <connections>
                         <outlet property="PolygonImageView" destination="Ixl-gA-JqO" id="YJ4-iQ-3kr"/>
-                        <segue destination="NdR-3W-W6D" kind="show" identifier="showDetailConversation" id="30j-Al-1vh"/>
-                        <segue destination="ZSI-kg-pwt" kind="show" identifier="showDetailFeedsOfProfileUser" id="cFX-OX-ajg"/>
-                        <segue destination="vRd-iH-nrr" kind="show" identifier="showDetailDiscover" id="69P-SE-yfg"/>
-                        <segue destination="uiR-dt-962" kind="show" identifier="showDetailSkills" id="w35-n3-AVU"/>
-                        <segue destination="TmQ-x8-Gvv" kind="show" identifier="showDetailMeetup" id="4R9-om-dli"/>
-                        <segue destination="rB9-sa-dj4" kind="show" identifier="showDetailSocialWorkGithub" id="lgD-EA-Pdn"/>
-                        <segue destination="Qqq-BU-W0P" kind="show" identifier="showDetailSocialWorkInstagram" id="xyj-UF-7cR"/>
-                        <segue destination="44X-ff-IET" kind="show" identifier="showDetailSocialWorkDribbble" id="xLC-EU-w4x"/>
+                        <segue destination="NdR-3W-W6D" kind="show" identifier="showDetailConversation" animates="NO" id="30j-Al-1vh"/>
+                        <segue destination="ZSI-kg-pwt" kind="show" identifier="showDetailFeedsOfProfileUser" animates="NO" id="cFX-OX-ajg"/>
+                        <segue destination="vRd-iH-nrr" kind="show" identifier="showDetailDiscover" animates="NO" id="69P-SE-yfg"/>
+                        <segue destination="uiR-dt-962" kind="show" identifier="showDetailSkills" animates="NO" id="w35-n3-AVU"/>
+                        <segue destination="TmQ-x8-Gvv" kind="showDetail" identifier="showDetailMeetup" animates="NO" action="showViewController:sender:" id="4R9-om-dli"/>
+                        <segue destination="rB9-sa-dj4" kind="show" identifier="showDetailSocialWorkGithub" animates="NO" id="lgD-EA-Pdn"/>
+                        <segue destination="Qqq-BU-W0P" kind="show" identifier="showDetailSocialWorkInstagram" animates="NO" id="xyj-UF-7cR"/>
+                        <segue destination="44X-ff-IET" kind="show" identifier="showDetailSocialWorkDribbble" animates="NO" id="xLC-EU-w4x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67u-nc-noo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -728,7 +728,9 @@
         <!--DiscoverViewController-->
         <scene sceneID="V40-E6-K7X">
             <objects>
-                <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="DiscoverViewController" id="vRd-iH-nrr" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="DiscoverViewController" id="vRd-iH-nrr" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="U7Z-co-gbF"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kO9-Dz-TLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-5.5" y="-2699"/>

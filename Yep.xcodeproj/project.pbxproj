@@ -1579,13 +1579,6 @@
 			name = Activities;
 			sourceTree = "<group>";
 		};
-		504F85AD1B4D21E400F909BE /* DiscoverFilter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = DiscoverFilter;
-			sourceTree = "<group>";
-		};
 		5052620E1C5202C700292C6A /* Operations */ = {
 			isa = PBXGroup;
 			children = (
@@ -2884,7 +2877,6 @@
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
 				332581CF1C9190CE007D33B9 /* ReplaceTronsitionManager.swift in Sources */,
-
 				5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
