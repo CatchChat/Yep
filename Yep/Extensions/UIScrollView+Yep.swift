@@ -15,6 +15,11 @@ extension UIScrollView {
         return contentOffset.y == -contentInset.top
     }
 
+    var yep_isNearTop: Bool {
+
+        return abs(contentOffset.y + contentInset.top) < 10
+    }
+
     func yep_scrollsToTop() {
 
         let topPoint = CGPoint(x: 0, y: -contentInset.top)

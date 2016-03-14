@@ -2333,6 +2333,8 @@ class ConversationViewController: BaseViewController {
 
         isLoadingPreviousMessages = true
 
+        println("tryLoadPreviousMessages")
+
         if displayedMessagesRange.location == 0 {
 
             if let recipient = conversation.recipient {
@@ -4338,9 +4340,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         //pullToRefreshView.scrollViewDidScroll(scrollView)
 
-        println("\(scrollView.contentOffset)")
-        println("\(scrollView.contentInset)")
-
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
             let deltaY = location.y - dragBeginLocation.y
@@ -4351,7 +4350,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func tryTriggerLoadPrevious() {
-            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
+            guard scrollView.yep_isNearTop && (scrollView.dragging || scrollView.decelerating) else {
                 return
             }
 
@@ -4365,13 +4364,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 return
             }
 
-            println("try load previous messages")
-
             cell.loadingActivityIndicator.startAnimating()
 
-            delay(0.5) { [weak self] in
-                self?.tryLoadPreviousMessages { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
+            if scrollView.yep_isAtTop {
+                delay(0.5) { [weak self] in
+                    self?.tryLoadPreviousMessages { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    }
                 }
             }
         }
