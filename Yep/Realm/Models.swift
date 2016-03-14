@@ -605,8 +605,6 @@ class Message: Object {
             if conversation == nil && readed == false, let _conversation = newValue {
                 println("set _conversation.hasUnreadMessages")
                 _conversation.hasUnreadMessages = true
-            } else {
-                println("try hasUnreadMessages: \(conversation == nil), \(readed), \(fromFriend?.isMe)")
             }
         }
     }
@@ -803,7 +801,7 @@ class Conversation: Object {
     dynamic var unreadMessagesCount: Int = 0
     dynamic var hasUnreadMessages: Bool = false
     dynamic var mentionedMe: Bool = false
-    dynamic var lastMentionedMeUnixTime: NSTimeInterval = 1 // 默认为很早的时间
+    dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 // 默认为此Conversation创建的时间
 
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
