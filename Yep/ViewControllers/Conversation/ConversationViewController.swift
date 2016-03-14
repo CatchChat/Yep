@@ -2333,6 +2333,8 @@ class ConversationViewController: BaseViewController {
 
         isLoadingPreviousMessages = true
 
+        println("tryLoadPreviousMessages")
+
         if displayedMessagesRange.location == 0 {
 
             if let recipient = conversation.recipient {
@@ -4347,31 +4349,33 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
 
-        if scrollView.yep_isAtTop {
+        func tryTriggerLoadPrevious() {
+            guard scrollView.yep_isNearTop && (scrollView.dragging || scrollView.decelerating) else {
+                return
+            }
 
             let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {
                 return
             }
 
-            println("A try load previous messages")
-            println("\(conversationCollectionView.scrollIndicatorInsets)")
-
             guard !isLoadingPreviousMessages else {
                 cell.loadingActivityIndicator.stopAnimating()
                 return
             }
 
-            println("B try load previous messages")
-
             cell.loadingActivityIndicator.startAnimating()
 
-            delay(0.5) { [weak self] in
-                self?.tryLoadPreviousMessages { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
+            if scrollView.yep_isAtTop {
+                delay(0.5) { [weak self] in
+                    self?.tryLoadPreviousMessages { [weak cell] in
+                        cell?.loadingActivityIndicator.stopAnimating()
+                    }
                 }
             }
         }
+
+        tryTriggerLoadPrevious()
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
