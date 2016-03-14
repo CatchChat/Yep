@@ -4347,22 +4347,19 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
 
-        if scrollView.yep_isAtTop {
+        if scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) {
 
             let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {
                 return
             }
 
-            println("A try load previous messages")
-            println("\(conversationCollectionView.scrollIndicatorInsets)")
-
             guard !isLoadingPreviousMessages else {
                 cell.loadingActivityIndicator.stopAnimating()
                 return
             }
 
-            println("B try load previous messages")
+            println("try load previous messages")
 
             cell.loadingActivityIndicator.startAnimating()
 
