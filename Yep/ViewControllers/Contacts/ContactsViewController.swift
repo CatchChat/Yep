@@ -172,7 +172,13 @@ class ContactsViewController: BaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showProfile" {
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
@@ -187,6 +193,26 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+        case "presentProfileNavigation":
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                if user.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = .UserType(user)
+                }
+
+            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+            vc.setBackButtonWithTitle()
+
+        default:
+            break
         }
     }
 }
@@ -293,13 +319,17 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .Local:
 
             if let friend = friendAtIndexPath(indexPath) {
-                performSegueWithIdentifier("showProfile", sender: friend)
+                if searchControllerIsActive {
+                    performSegueWithIdentifier("presentProfileNavigation", sender: friend)
+                } else {
+                    performSegueWithIdentifier("showProfile", sender: friend)
+                }
             }
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            performSegueWithIdentifier("presentProfileNavigation", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
 }
