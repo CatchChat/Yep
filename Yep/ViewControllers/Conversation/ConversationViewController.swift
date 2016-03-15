@@ -4339,6 +4339,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
         //pullToRefreshView.scrollViewDidScroll(scrollView)
+        //println("contentInset: \(scrollView.contentInset)")
+        //println("contentOffset: \(scrollView.contentOffset)")
 
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
@@ -4350,7 +4352,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func tryTriggerLoadPrevious() {
-            guard scrollView.yep_isNearTop && (scrollView.dragging || scrollView.decelerating) else {
+            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
                 return
             }
 
@@ -4366,11 +4368,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             cell.loadingActivityIndicator.startAnimating()
 
-            if scrollView.yep_isAtTop {
-                delay(0.5) { [weak self] in
-                    self?.tryLoadPreviousMessages { [weak cell] in
-                        cell?.loadingActivityIndicator.stopAnimating()
-                    }
+            delay(0.5) { [weak self] in
+                self?.tryLoadPreviousMessages { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
                 }
             }
         }
