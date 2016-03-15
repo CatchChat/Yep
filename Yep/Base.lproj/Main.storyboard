@@ -296,6 +296,39 @@
             </objects>
             <point key="canvasLocation" x="35" y="-544"/>
         </scene>
+        <!--Contacts Table View Controller-->
+        <scene sceneID="IcX-WY-xfl">
+            <objects>
+                <tableViewController id="Elx-uz-sdo" customClass="ContactsTableViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="I19-Xo-i15">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pug-Fz-Ami">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pug-Fz-Ami" id="3kM-OW-DD7">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Elx-uz-sdo" id="RNw-eV-Ipv"/>
+                            <outlet property="delegate" destination="Elx-uz-sdo" id="dP5-I1-4wH"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="qLP-cZ-dMi"/>
+                    <connections>
+                        <segue destination="AZ0-Fw-rwa" kind="show" identifier="showAddFriends" id="UE6-Vr-db5"/>
+                        <segue destination="ud8-be-cUH" kind="show" identifier="showProfile" id="TQw-IC-SLC"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YYK-Tt-xtv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-581" y="-801"/>
+        </scene>
         <!--ProfileNavigationViewController-->
         <scene sceneID="pap-Ej-s4v">
             <objects>
@@ -478,7 +511,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="3Dc-Qq-4vY"/>
+                        <segue destination="Elx-uz-sdo" kind="relationship" relationship="rootViewController" id="hBl-4r-vvQ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoZ-xx-fki" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -638,4 +671,8 @@
         <image name="icon_settings" width="30" height="30"/>
         <image name="top_shadow" width="375" height="80"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="UE6-Vr-db5"/>
+        <segue reference="TQw-IC-SLC"/>
+    </inferredMetricsTieBreakers>
 </document>

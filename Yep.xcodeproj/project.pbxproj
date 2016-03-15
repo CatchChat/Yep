@@ -261,6 +261,7 @@
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
+		50D2124C1C97F1ED007F541C /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2124B1C97F1ED007F541C /* ContactsTableViewController.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
@@ -633,6 +634,7 @@
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
+		50D2124B1C97F1ED007F541C /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsTableViewController.swift; path = ViewControllers/Contacts/ContactsTableViewController.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
@@ -1092,6 +1094,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+				50D2124B1C97F1ED007F541C /* ContactsTableViewController.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -2738,6 +2741,7 @@
 				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
+				50D2124C1C97F1ED007F541C /* ContactsTableViewController.swift in Sources */,
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
