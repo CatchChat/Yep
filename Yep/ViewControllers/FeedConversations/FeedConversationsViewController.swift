@@ -196,8 +196,11 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
         let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
 
-            guard let conversation = self?.feedConversations[safe: indexPath.row] else {
+            defer {
                 tableView.setEditing(false, animated: true)
+            }
+
+            guard let conversation = self?.feedConversations[safe: indexPath.row] else {
                 return
             }
 
@@ -217,14 +220,11 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
                     realm.refresh()
 
-                    delay(0.1) {
-                        tableView.setEditing(false, animated: true)
-                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
-                        // 延迟一些再发通知，避免影响 tableView 的删除
-                        delay(0.5) {
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                        }
+                    // 延迟一些再发通知，避免影响 tableView 的删除
+                    delay(0.5) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
             }
@@ -255,8 +255,6 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             } else {
                 doDeleteConversation()
             }
-
-            tableView.setEditing(false, animated: true)
         }
 
         return [deleteAction]
