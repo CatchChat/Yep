@@ -194,23 +194,6 @@ class ContactsViewController: BaseViewController {
             
             vc.setBackButtonWithTitle()
 
-        case "presentProfileNavigation":
-            let nvc = segue.destinationViewController as! UINavigationController
-            let vc = nvc.topViewController as! ProfileViewController
-
-            if let user = sender as? User {
-                if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = .UserType(user)
-                }
-
-            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
-            }
-
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
-
         default:
             break
         }
@@ -319,17 +302,13 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .Local:
 
             if let friend = friendAtIndexPath(indexPath) {
-                if searchControllerIsActive {
-                    performSegueWithIdentifier("presentProfileNavigation", sender: friend)
-                } else {
-                    performSegueWithIdentifier("showProfile", sender: friend)
-                }
+                performSegueWithIdentifier("showProfile", sender: friend)
             }
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
-            performSegueWithIdentifier("presentProfileNavigation", sender: Box<DiscoveredUser>(discoveredUser))
+            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
 }
