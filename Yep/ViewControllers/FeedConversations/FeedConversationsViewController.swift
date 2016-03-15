@@ -206,26 +206,25 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
             let doDeleteConversation: () -> Void = {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                guard let realm = conversation.realm else {
+                    return
+                }
 
-                    guard let realm = conversation.realm else {
-                        return
-                    }
+                realm.beginWrite()
 
-                    realm.beginWrite()
+                deleteConversation(conversation, inRealm: realm)
 
-                    deleteConversation(conversation, inRealm: realm)
+                let _ = try? realm.commitWrite()
 
-                    let _ = try? realm.commitWrite()
+                realm.refresh()
 
-                    realm.refresh()
+                tableView.beginUpdates()
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                tableView.endUpdates()
 
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
-                    // 延迟一些再发通知，避免影响 tableView 的删除
-                    delay(0.5) {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
+                // 延迟一些再发通知，避免影响 tableView 的删除
+                delay(0.5) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                 }
             }
 
