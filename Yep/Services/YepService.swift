@@ -1390,17 +1390,16 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: Fail
 
 func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
-    return headGroups(failureHandler: failureHandler, completion: { result in
+    headGroups(failureHandler: failureHandler, completion: { result in
 
         guard let page1Groups = result["circles"] as? [JSONDictionary] else {
+            println("headGroups result have NOT circles: \(result)")
             completion([])
             return
         }
 
         guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
-
             println("groups not paging info.")
-
             completion(page1Groups)
             return
         }
@@ -1438,6 +1437,8 @@ func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDic
             dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
                 if allGood {
                     completion(groups)
+                } else {
+                    println("get groups NOT allGood")
                 }
             }
         }

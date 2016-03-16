@@ -258,11 +258,9 @@ class Group: Object {
     dynamic var owner: User?
     var members = List<User>()
 
-    dynamic var groupType: Int = GroupType.Public.rawValue
+    dynamic var groupType: Int = GroupType.Private.rawValue
 
-    var withFeed: Feed? {
-        return linkingObjects(Feed.self, forProperty: "group").first
-    }
+    dynamic var withFeed: Feed?
 
     dynamic var includeMe: Bool = false
 
@@ -1231,12 +1229,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
     // update feed
 
-    //println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
 
     feed.kind = feedData.kind.rawValue
     feed.deleted = false
 
     feed.group = group
+    group.withFeed = feed
 
     group.groupType = GroupType.Public.rawValue
 
