@@ -594,17 +594,9 @@ class Message: Object {
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation? {
         willSet {
-
             // 往大了更新 conversation.updatedUnixTime
             if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
-                //println("set _conversation.updatedUnixTime")
                 _conversation.updatedUnixTime = createdUnixTime
-            }
-
-            // 新消息且未读，才考虑设置 hasUnreadMessages
-            if conversation == nil && readed == false, let _conversation = newValue {
-                println("set _conversation.hasUnreadMessages")
-                _conversation.hasUnreadMessages = true
             }
         }
     }
@@ -801,7 +793,7 @@ class Conversation: Object {
     dynamic var unreadMessagesCount: Int = 0
     dynamic var hasUnreadMessages: Bool = false
     dynamic var mentionedMe: Bool = false
-    dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 // 默认为此Conversation创建的时间
+    dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
 
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
@@ -1124,9 +1116,10 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
 
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-    let a = SortDescriptor(property: "hasUnreadMessages", ascending: false)
-    let b = SortDescriptor(property: "updatedUnixTime", ascending: false)
-    return realm.objects(Conversation).filter(predicate).sorted([a, b])
+    let a = SortDescriptor(property: "mentionedMe", ascending: false)
+    let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
+    let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
+    return realm.objects(Conversation).filter(predicate).sorted([a, b, c])
 }
 
 func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
