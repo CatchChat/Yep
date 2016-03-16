@@ -25,7 +25,7 @@ class ContactsViewController: BaseViewController {
     #endif
 
     private var searchController: UISearchController?
-    var searchControllerIsActive: Bool {
+    private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
 
@@ -99,7 +99,7 @@ class ContactsViewController: BaseViewController {
             self.searchController = searchController
 
             // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-            self.definesPresentationContext = true
+            //self.definesPresentationContext = true
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -152,7 +152,9 @@ class ContactsViewController: BaseViewController {
     // MARK: Actions
 
     @objc private func deactiveSearchController(sender: NSNotification) {
-        searchController?.active = false
+        if let searchController = searchController {
+            searchController.active = false
+        }
     }
 
     private func updateContactsTableView() {
@@ -301,6 +303,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
+
+        searchController?.active = false
 
         switch section {
 
