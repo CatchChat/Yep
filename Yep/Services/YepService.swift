@@ -1362,7 +1362,7 @@ func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHandler?,
 func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
-        "per_page": 30,
+        "per_page": 50,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -1391,17 +1391,16 @@ func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: Fail
 
 func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
 
-    return headGroups(failureHandler: failureHandler, completion: { result in
+    headGroups(failureHandler: failureHandler, completion: { result in
 
         guard let page1Groups = result["circles"] as? [JSONDictionary] else {
+            println("headGroups result have NOT circles: \(result)")
             completion([])
             return
         }
 
         guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
-
             println("groups not paging info.")
-
             completion(page1Groups)
             return
         }
@@ -1439,6 +1438,8 @@ func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDic
             dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
                 if allGood {
                     completion(groups)
+                } else {
+                    println("get groups NOT allGood")
                 }
             }
         }
@@ -1662,10 +1663,22 @@ func officialMessages(completion completion: Int -> Void) {
                         if let conversation = sender?.conversation {
                             let _ = try? realm.write {
 
-                                // 纪录消息的 detail 信息
-                                recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
+                                // 先同步 read 状态
+                                if let sender = message.fromFriend where sender.isMe {
+                                    message.readed = true
 
+                                } else if let state = messageInfo["state"] as? String where state == "read" {
+                                    message.readed = true
+                                }
+
+                                // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
+                                if message.conversation == nil && message.readed == false {
+                                    conversation.hasUnreadMessages = true
+                                }
                                 message.conversation = conversation
+
+                                // 最后纪录消息余下的 detail 信息（其中设置 mentionedMe 需要 conversation）
+                                recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
                             }
 
                             messagesCount++

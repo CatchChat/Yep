@@ -258,11 +258,9 @@ class Group: Object {
     dynamic var owner: User?
     var members = List<User>()
 
-    dynamic var groupType: Int = GroupType.Public.rawValue
+    dynamic var groupType: Int = GroupType.Private.rawValue
 
-    var withFeed: Feed? {
-        return linkingObjects(Feed.self, forProperty: "group").first
-    }
+    dynamic var withFeed: Feed?
 
     dynamic var includeMe: Bool = false
 
@@ -594,19 +592,9 @@ class Message: Object {
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation? {
         willSet {
-
             // 往大了更新 conversation.updatedUnixTime
             if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
-                //println("set _conversation.updatedUnixTime")
                 _conversation.updatedUnixTime = createdUnixTime
-            }
-
-            // 新消息且未读，才考虑设置 hasUnreadMessages
-            if conversation == nil && readed == false, let _conversation = newValue {
-                println("set _conversation.hasUnreadMessages")
-                _conversation.hasUnreadMessages = true
-            } else {
-                println("try hasUnreadMessages: \(conversation == nil), \(readed), \(fromFriend?.isMe)")
             }
         }
     }
@@ -728,15 +716,14 @@ enum ConversationType: Int {
     }
 }
 
-
 class Conversation: Object {
     
     var fakeID: String? {
-        
+
         if invalidated {
             return nil
         }
-        
+
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
@@ -749,12 +736,12 @@ class Conversation: Object {
         default:
             return nil
         }
-        
+
         return nil
     }
-    
+
     var recipientID: String? {
-        
+
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
@@ -767,53 +754,54 @@ class Conversation: Object {
         default:
             return nil
         }
-        
+
         return nil
     }
-    
+
     var recipient: Recipient? {
-        
+
         if let recipientType = ConversationType(rawValue: type), recipientID = recipientID {
             return Recipient(type: recipientType, ID: recipientID)
         }
-        
+
         return nil
     }
-    
+
     var mentionInitUsers: [UsernamePrefixMatchedUser] {
-        
+
         let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe }) ?? [])
-        
+
         let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
-        
+
         return users
     }
-    
+
     dynamic var type: Int = ConversationType.OneToOne.rawValue
     dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    
+
     dynamic var withFriend: User?
     dynamic var withGroup: Group?
-    
+
     dynamic var draft: Draft?
-    
+
     var messages: [Message] {
         return linkingObjects(Message.self, forProperty: "conversation")
     }
-    
+
     dynamic var unreadMessagesCount: Int = 0
     dynamic var hasUnreadMessages: Bool = false
     dynamic var mentionedMe: Bool = false
-    dynamic var lastMentionedMeUnixTime: NSTimeInterval = 1 // 默认为很早的时间
-    
+    dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
+
     var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
-    
+
     var needDetectMention: Bool {
         return type == ConversationType.Group.rawValue
     }
 }
+
 // MARK: Feed
 
 //enum AttachmentKind: String {
@@ -1126,9 +1114,10 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
 
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-    let a = SortDescriptor(property: "hasUnreadMessages", ascending: false)
-    let b = SortDescriptor(property: "updatedUnixTime", ascending: false)
-    return realm.objects(Conversation).filter(predicate).sorted([a, b])
+    let a = SortDescriptor(property: "mentionedMe", ascending: false)
+    let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
+    let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
+    return realm.objects(Conversation).filter(predicate).sorted([a, b, c])
 }
 
 func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
@@ -1195,8 +1184,8 @@ func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversa
         let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
-    case .Group:
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
+    case .Group: // Public for now
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
@@ -1208,8 +1197,7 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
     // save feed
     
     var _feed = feedWithFeedID(feedData.id, inRealm: realm)
-    // MARK: Test
-//    _feed = nil
+
     if _feed == nil {
         let newFeed = Feed()
         newFeed.feedID = feedData.id
@@ -1241,12 +1229,13 @@ func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm 
 
     // update feed
 
-    //println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
+    println("update feed: \(feedData.kind.rawValue), \(feed.feedID)")
 
     feed.kind = feedData.kind.rawValue
     feed.deleted = false
 
     feed.group = group
+    group.withFeed = feed
 
     group.groupType = GroupType.Public.rawValue
 

@@ -18,16 +18,14 @@ var skillSizeCache = [String: CGRect]()
 
 class DiscoverViewController: BaseViewController {
 
-    @IBOutlet weak var discoveredUsersCollectionView: UICollectionView!
+    @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
     @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
     
     @IBOutlet private weak var modeButtonItem: UIBarButtonItem!
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
-    
+
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
@@ -64,7 +62,7 @@ class DiscoverViewController: BaseViewController {
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
-            updateDiscoverUsers()
+            updateDiscoverUsers(mode: .Static)
 
             // save discoveredUserSortStyle
 
@@ -163,6 +161,11 @@ class DiscoverViewController: BaseViewController {
             }
         }
 
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.lightGrayColor()
+        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        discoveredUsersCollectionView.addSubview(refreshControl)
+
         #if DEBUG
             //view.addSubview(discoverFPSLabel)
         #endif
@@ -221,7 +224,12 @@ class DiscoverViewController: BaseViewController {
     
     private var currentPageIndex = 1
     private var isFetching = false
-    private func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    private enum UpdateMode {
+        case Static
+        case TopRefresh
+        case LoadMore
+    }
+    private func updateDiscoverUsers(mode mode: UpdateMode, finish: (() -> Void)? = nil) {
 
         if isFetching {
             return
@@ -229,12 +237,12 @@ class DiscoverViewController: BaseViewController {
 
         isFetching = true
         
-        if !isLoadMore {
+        if case .Static = mode {
             activityIndicator.startAnimating()
             view.bringSubviewToFront(activityIndicator)
         }
 
-        if isLoadMore {
+        if case .LoadMore = mode {
             currentPageIndex++
 
         } else {
@@ -279,7 +287,7 @@ class DiscoverViewController: BaseViewController {
 
                 var wayToUpdate: UICollectionView.WayToUpdate = .None
 
-                if isLoadMore {
+                if case .LoadMore = mode {
                     let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
                     strongSelf.discoveredUsers += discoveredUsers
                     let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
@@ -407,7 +415,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                     cell.loadingActivityIndicator.startAnimating()
                 }
 
-                updateDiscoverUsers(isLoadMore: true, finish: { [weak cell] in
+                updateDiscoverUsers(mode: .LoadMore, finish: { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
                 })
             }

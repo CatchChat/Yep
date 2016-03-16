@@ -131,6 +131,66 @@
             </objects>
             <point key="canvasLocation" x="-559" y="-615"/>
         </scene>
+        <!--Discover-->
+        <scene sceneID="n5u-x5-QaP">
+            <objects>
+                <viewController storyboardIdentifier="DiscoverViewController" id="5NR-G1-qqW" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3q-lk-c8x"/>
+                        <viewControllerLayoutGuide type="bottom" id="fou-D4-AiD"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F0W-Z6-RS5">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
+                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qiv-cC-3J3" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="-64" id="7Dp-9c-rpA"/>
+                            <constraint firstItem="fou-D4-AiD" firstAttribute="top" secondItem="qiv-cC-3J3" secondAttribute="bottom" constant="-49" id="CNN-fi-eLn"/>
+                            <constraint firstAttribute="centerX" secondItem="zzD-ES-eHf" secondAttribute="centerX" id="NcD-eS-2bl"/>
+                            <constraint firstAttribute="trailing" secondItem="qiv-cC-3J3" secondAttribute="trailing" id="j8a-KC-uIC"/>
+                            <constraint firstItem="qiv-cC-3J3" firstAttribute="leading" secondItem="F0W-Z6-RS5" secondAttribute="leading" id="kv1-KK-S2H"/>
+                            <constraint firstItem="zzD-ES-eHf" firstAttribute="top" secondItem="y3q-lk-c8x" secondAttribute="bottom" constant="120" id="q7Q-WP-er9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Discover" id="di2-g9-owW">
+                        <barButtonItem key="leftBarButtonItem" image="icon_list" id="Q6P-X5-laI">
+                            <connections>
+                                <action selector="changeMode:" destination="5NR-G1-qqW" id="rkV-4T-Tpw"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title=" " id="mve-O6-ube">
+                            <connections>
+                                <action selector="showFilters:" destination="5NR-G1-qqW" id="IQs-8r-M7C"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="zzD-ES-eHf" id="ysT-DA-Krf"/>
+                        <outlet property="discoveredUsersCollectionView" destination="qiv-cC-3J3" id="Uyg-VP-ENL"/>
+                        <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
+                        <outlet property="modeButtonItem" destination="Q6P-X5-laI" id="AMy-5a-IsW"/>
+                        <segue destination="J6W-3w-f5X" kind="show" identifier="showProfile" id="txu-pp-hSI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-559" y="1077"/>
+        </scene>
         <!--ProfileViewController-->
         <scene sceneID="UKd-3u-mzY">
             <objects>
@@ -476,7 +536,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="3Dc-Qq-4vY"/>
+                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="7Yg-OV-MON"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoZ-xx-fki" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -509,7 +569,7 @@
         <!--Profile-->
         <scene sceneID="E1Z-RL-QZO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="icon_me" id="zZf-BL-xLF">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_me_active"/>

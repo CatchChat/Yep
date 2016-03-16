@@ -71,6 +71,7 @@ class ContactsViewController: BaseViewController {
         title = NSLocalizedString("Contacts", comment: "")
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships:", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deactiveSearchController:", name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
 
         coverUnderStatusBarView.hidden = true
 
@@ -98,7 +99,9 @@ class ContactsViewController: BaseViewController {
             self.searchController = searchController
 
             // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-            self.definesPresentationContext = true
+            //self.definesPresentationContext = true
+
+            //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -150,9 +153,20 @@ class ContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateContactsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.contactsTableView.reloadData()
+    @objc private func deactiveSearchController(sender: NSNotification) {
+        if let searchController = searchController {
+            searchController.active = false
+        }
+    }
+
+    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.contactsTableView.reloadData()
+
+            if scrollsToTop {
+                let y = -(self?.contactsTableView.contentInset.top ?? 0)
+                self?.contactsTableView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+            }
         }
     }
 
@@ -172,7 +186,13 @@ class ContactsViewController: BaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showProfile" {
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
@@ -187,6 +207,9 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+        default:
+            break
         }
     }
 }
@@ -288,6 +311,8 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
+        searchController?.active = false
+
         switch section {
 
         case .Local:
@@ -315,9 +340,10 @@ extension ContactsViewController: UISearchResultsUpdating {
         }
         
         let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
-        filteredFriends = friends.filter(predicate)
+        let filteredFriends = friends.filter(predicate)
+        self.filteredFriends = filteredFriends
 
-        updateContactsTableView()
+        updateContactsTableView(scrollsToTop: !filteredFriends.isEmpty)
 
         searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
 
@@ -364,10 +390,12 @@ extension ContactsViewController: UISearchBarDelegate {
 extension ContactsViewController: UISearchControllerDelegate {
 
     func willPresentSearchController(searchController: UISearchController) {
+        println("willPresentSearchController")
         coverUnderStatusBarView.hidden = false
     }
 
     func willDismissSearchController(searchController: UISearchController) {
+        println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
     }
 }
