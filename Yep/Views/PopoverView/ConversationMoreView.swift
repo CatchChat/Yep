@@ -356,6 +356,8 @@ extension ConversationMoreView {
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 
+import Foundation
+
 class ConversationMoreViewManager {
     
     var conversation: Conversation?
@@ -366,7 +368,6 @@ class ConversationMoreViewManager {
     var toggleBlockAction: (() -> Void)?
     var shareFeedAction: (() -> Void)?
     var updateGroupAffairAction: (() -> Void)?
-    var hide: (() -> Void)?
     
     var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
     var afterGotSettingsForGroupAction: ((groupID: String, notificationEnabled: Bool) -> Void)?
@@ -402,15 +403,15 @@ class ConversationMoreViewManager {
     
     private var moreViewCreated: Bool = false
     
-    lazy var moreView: PopoverView = {
+    lazy var moreView: ActionSheetView = {
         
-        let cancelItem = PopoverView.Item.Cancel
+        let cancelItem = ActionSheetView.Item.Cancel
         
-        let view: PopoverView
+        let view: ActionSheetView
         
         if let user = self.conversation?.withFriend {
             
-            view = PopoverView(items: [
+            view = ActionSheetView(items: [
                 .Detail(
                     title: NSLocalizedString("View profile", comment: ""),
                     titleColor: UIColor.darkGrayColor(),
@@ -442,7 +443,7 @@ class ConversationMoreViewManager {
             
         } else if let group = self.conversation?.withGroup {
             
-            view = PopoverView(items: [
+            view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
                 .Default(
                     title: NSLocalizedString("Share this feed", comment: ""),
@@ -472,8 +473,8 @@ class ConversationMoreViewManager {
             }
             
         } else {
-            view = PopoverView(items: [])
-            println("lazy PopoverView: should NOT be there!")
+            view = ActionSheetView(items: [])
+            println("lazy ActionSheetView: should NOT be there!")
         }
         
         self.moreViewCreated = true
@@ -492,7 +493,7 @@ class ConversationMoreViewManager {
     
     // MARK: Private
     
-    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> PopoverView.Item {
+    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
             title: NSLocalizedString("Do not disturb", comment: ""),
             titleColor: UIColor.darkGrayColor(),
@@ -503,7 +504,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> PopoverView.Item {
+    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
             title: NSLocalizedString("Push notifications", comment: ""),
             titleColor: UIColor.darkGrayColor(),
@@ -514,7 +515,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func makeBlockItem(blocked blocked: Bool) -> PopoverView.Item {
+    private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
         return .Default(
             title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),
             titleColor: UIColor.redColor(),
@@ -525,7 +526,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func updateGroupItem(group group: Group) -> PopoverView.Item {
+    private func updateGroupItem(group group: Group) -> ActionSheetView.Item {
         
         let isMyFeed = group.withFeed?.creator?.isMe ?? false
         let includeMe = group.includeMe
@@ -551,4 +552,6 @@ class ConversationMoreViewManager {
         )
     }
 }
+
+
 

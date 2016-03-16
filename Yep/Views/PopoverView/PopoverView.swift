@@ -231,7 +231,6 @@ class PopoverView: UIView {
         view.delegate = self
         view.rowHeight = self.rowHeight
         view.scrollEnabled = false
-        
         view.registerClass(PopoverDefaultCell.self, forCellReuseIdentifier: PopoverDefaultCell.popoverReuseIdentifier)
         view.registerClass(PopoverDetailCell.self, forCellReuseIdentifier: PopoverDetailCell.popoverReuseIdentifier)
         view.registerClass(PopoverSwitchCell.self, forCellReuseIdentifier: PopoverSwitchCell.popoverReuseIdentifier)
@@ -310,7 +309,6 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier(PopoverDefaultCell.popoverReuseIdentifier) as! PopoverDefaultCell
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
-            
             return cell
             
         case let .Detail(title, titleColor, _):
@@ -318,7 +316,6 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCellWithIdentifier(PopoverDetailCell.popoverReuseIdentifier) as! PopoverDetailCell
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
-            
             return cell
             
         case let .Switch(title, titleColor, switchOn, action):
@@ -328,7 +325,6 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.textColor = titleColor
             cell.checkedSwitch.on = switchOn
             cell.action = action
-            
             return cell
             
         case let .Check(title, titleColor, checked, _):
@@ -337,7 +333,6 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
             cell.checkImageView.hidden = !checked
-            
             return cell
             
         case .Cancel:

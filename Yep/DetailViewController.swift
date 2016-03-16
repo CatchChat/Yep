@@ -23,7 +23,6 @@ class DetailViewController: UIViewController {
     
     
     private var conversation: Conversation!
-    
     var profileUser: ProfileUser?
     var dribbbleWork: DribbbleWork?
     var instagramWork: InstagramWork?
@@ -82,6 +81,7 @@ class DetailViewController: UIViewController {
             
             case "showDetailFeedsOfProfileUser":
                 let vc = segue.destinationViewController as! FeedsViewController
+
                 if let
                     info = (sender as? Box<[String: AnyObject]>)?.value,
                     profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,

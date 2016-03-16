@@ -1,4 +1,4 @@
-//
+ //
 //  ProfileViewController.swift
 //  Yep
 //
@@ -815,7 +815,11 @@ class ProfileViewController: SegueViewController {
     override func viewWillAppear(animated: Bool) {
 
         super.viewWillAppear(animated)
-
+        
+        guard let profileUser = profileUser else {
+            return
+        }
+        displayProfileUserFeeds()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
 
         customNavigationBar.alpha = 1.0
@@ -888,6 +892,59 @@ class ProfileViewController: SegueViewController {
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
 
             self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    private func displayProfileUserFeeds() {
+        guard let profileUser = profileUser else {
+            return
+        }
+        configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
+            self?.feeds = feeds
+            self?.feedAttachments = feedAttachments
+            
+            let info: [String: AnyObject] = [
+                "profileUser": Box(profileUser),
+                "feeds": Box(feeds ?? []),
+            ]
+            print(self?.profileUser)
+            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                self?.performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+            } else {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+            }
+            })
+    }
+    
+    private func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
+        
+        if let feedAttachments = feedAttachments {
+            self.feedAttachments = feedAttachments
+            
+        } else {
+            guard let profileUser = profileUser else {
+                return
+            }
+            
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
+                println("user's feeds: \(feeds.count)")
+                
+                let feedAttachments = feeds.map({ feed -> DiscoveredAttachment? in
+                    if let attachment = feed.attachment {
+                        if case let .Images(attachments) = attachment {
+                            return attachments.first
+                        }
+                    }
+                    
+                    return nil
+                })
+                
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.feedAttachments = feedAttachments
+                    
+                    completion?(feeds: feeds, feedAttachments: feedAttachments)
+                }
+            })
         }
     }
 
@@ -1157,15 +1214,6 @@ class ProfileViewController: SegueViewController {
         case "showFeedsOfProfileUser":
 
             let vc = segue.destinationViewController as! FeedsViewController
-
-            if let
-                info = (sender as? Box<[String: AnyObject]>)?.value,
-                profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
-                feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
-                    vc.profileUser = profileUser
-                    vc.feeds = feeds
-                    vc.preparedFeedsCount = feeds.count
-            }
             
             vc.hideRightBarItem = true
 

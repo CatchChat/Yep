@@ -90,6 +90,7 @@
                         <segue destination="1y0-IN-47w" kind="show" identifier="showProfileFromFeedView" id="eCp-94-guS"/>
                         <segue destination="9xD-Rm-9US" kind="presentation" identifier="presentNewFeed" id="e4k-KG-exv"/>
                         <segue destination="8Oq-Nk-eYq" kind="show" identifier="showProfileWithUsername" id="l5Y-gH-p57"/>
+                        <segue destination="hLi-90-a5d" kind="show" identifier="showProfile" id="PQd-fF-5Ms"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zLf-XS-3py" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -132,22 +133,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rhq-Gr-AA2" customClass="ConversationMoreView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Jf-Px-Ffb">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <constraints>
-                            <constraint firstItem="QmV-mb-dk2" firstAttribute="top" secondItem="Rhq-Gr-AA2" secondAttribute="bottom" id="IND-Bb-zkp"/>
-                            <constraint firstItem="Rhq-Gr-AA2" firstAttribute="leading" secondItem="ApA-en-sCg" secondAttribute="leading" id="Pge-as-9qk"/>
-                            <constraint firstAttribute="trailing" secondItem="Rhq-Gr-AA2" secondAttribute="trailing" id="ogs-pG-R5Q"/>
-                            <constraint firstItem="Rhq-Gr-AA2" firstAttribute="top" secondItem="ApA-en-sCg" secondAttribute="top" id="wN5-xM-0du"/>
-                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="250"/>
                     <connections>
-                        <outlet property="moreView" destination="Rhq-Gr-AA2" id="TDQ-cD-AzM"/>
+                        <outlet property="popover" destination="5Jf-Px-Ffb" id="W7l-2W-vAE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gby-43-0KH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -166,22 +161,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FdH-Ol-NN1" customClass="MoreMessageTypesView" customModule="Yep" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iP9-FS-4k0" customClass="MoreMessageTypesView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="250"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="FdH-Ol-NN1" secondAttribute="trailing" id="4KP-dR-xqh"/>
-                            <constraint firstItem="FdH-Ol-NN1" firstAttribute="top" secondItem="gdD-xI-QwC" secondAttribute="top" id="Ecz-02-GRa"/>
-                            <constraint firstItem="FdH-Ol-NN1" firstAttribute="leading" secondItem="gdD-xI-QwC" secondAttribute="leading" id="YM7-wm-NKC"/>
-                            <constraint firstItem="CCM-YY-pua" firstAttribute="top" secondItem="FdH-Ol-NN1" secondAttribute="bottom" id="daV-9W-ncm"/>
+                            <constraint firstItem="iP9-FS-4k0" firstAttribute="leading" secondItem="gdD-xI-QwC" secondAttribute="leading" id="4iM-cN-j0Y"/>
+                            <constraint firstItem="iP9-FS-4k0" firstAttribute="top" secondItem="gdD-xI-QwC" secondAttribute="top" id="7zr-We-ukr"/>
+                            <constraint firstAttribute="trailing" secondItem="iP9-FS-4k0" secondAttribute="trailing" id="pb7-l0-shj"/>
+                            <constraint firstItem="CCM-YY-pua" firstAttribute="top" secondItem="iP9-FS-4k0" secondAttribute="bottom" id="xll-Qz-pEo"/>
                         </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="300" height="250"/>
                     <connections>
-                        <outlet property="moreTypesView" destination="FdH-Ol-NN1" id="tq0-1U-vZo"/>
+                        <outlet property="moreTypesView" destination="iP9-FS-4k0" id="pSc-FS-593"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ORb-cg-5Ce" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -189,12 +184,12 @@
             <point key="canvasLocation" x="193" y="2268"/>
         </scene>
         <!--ProfileViewController-->
-        <scene sceneID="ZHm-QA-IAa">
+        <scene sceneID="9n4-Fz-faT">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="bhi-Zn-U0N" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gOk-TU-G9h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZQ-Qu-Ctd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="hLi-90-a5d" sceneMemberID="viewController"/>
             </objects>
-            <point key="canvasLocation" x="8" y="1699"/>
+            <point key="canvasLocation" x="26.5" y="1695"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="JvR-ag-PtC">
