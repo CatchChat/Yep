@@ -1184,8 +1184,8 @@ func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversa
         let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
-    case .Group:
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
+    case .Group: // Public for now
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
