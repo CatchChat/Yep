@@ -120,12 +120,12 @@ class DiscoverViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-            segmentedControl.hidden = true
-        } else {
+//        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+//            segmentedControl.hidden = true
+//        } else {
             navigationItem.leftBarButtonItem = nil
             navigationItem.hidesBackButton = true
-        }
+//        }
         
         title = NSLocalizedString("Discover", comment: "")
 
