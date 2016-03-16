@@ -1361,7 +1361,7 @@ func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHandler?,
 func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
     let requestParameters = [
         "page": 1,
-        "per_page": 30,
+        "per_page": 50,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
