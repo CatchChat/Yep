@@ -25,7 +25,7 @@ class ContactsViewController: BaseViewController {
     #endif
 
     private var searchController: UISearchController?
-    private var searchControllerIsActive: Bool {
+    var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
 
@@ -71,6 +71,7 @@ class ContactsViewController: BaseViewController {
         title = NSLocalizedString("Contacts", comment: "")
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships:", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deactiveSearchController:", name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
 
         coverUnderStatusBarView.hidden = true
 
@@ -149,6 +150,10 @@ class ContactsViewController: BaseViewController {
     }
 
     // MARK: Actions
+
+    @objc private func deactiveSearchController(sender: NSNotification) {
+        searchController?.active = false
+    }
 
     private func updateContactsTableView() {
         dispatch_async(dispatch_get_main_queue()) {
@@ -373,10 +378,12 @@ extension ContactsViewController: UISearchBarDelegate {
 extension ContactsViewController: UISearchControllerDelegate {
 
     func willPresentSearchController(searchController: UISearchController) {
+        println("willPresentSearchController")
         coverUnderStatusBarView.hidden = false
     }
 
     func willDismissSearchController(searchController: UISearchController) {
+        println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
     }
 }
