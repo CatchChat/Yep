@@ -1672,7 +1672,6 @@ func officialMessages(completion completion: Int -> Void) {
                                 if message.conversation == nil && message.readed == false {
                                     conversation.hasUnreadMessages = true
                                 }
-                                println("message.conversation == nil: \(message.conversation == nil)")
                                 message.conversation = conversation
 
                                 // 最后纪录消息余下的 detail 信息（其中设置 mentionedMe 需要 conversation）
