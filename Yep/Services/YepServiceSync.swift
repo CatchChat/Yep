@@ -488,6 +488,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     groups(failureHandler: nil) { allGroups in
 
         //println("allGroups: \(allGroups)")
+        println("allGroups.count: \(allGroups.count)")
         
         dispatch_async(realmQueue) {
 

@@ -258,7 +258,7 @@ class Group: Object {
     dynamic var owner: User?
     var members = List<User>()
 
-    dynamic var groupType: Int = GroupType.Public.rawValue
+    dynamic var groupType: Int = GroupType.Private.rawValue
 
     dynamic var withFeed: Feed?
 
