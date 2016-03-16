@@ -601,11 +601,13 @@ class Message: Object {
                 _conversation.updatedUnixTime = createdUnixTime
             }
 
-            // 新消息且未读，才考虑设置 hasUnreadMessages
-            if conversation == nil && readed == false, let _conversation = newValue {
-                println("set _conversation.hasUnreadMessages")
-                _conversation.hasUnreadMessages = true
-            }
+//            // 新消息且未读，才考虑设置 hasUnreadMessages
+//            if conversation == nil && readed == false, let _conversation = newValue {
+//                println("set _conversation.hasUnreadMessages")
+//                _conversation.hasUnreadMessages = true
+//            } else {
+//                println("why? \(conversation == nil), \(readed)")
+//            }
         }
     }
 
