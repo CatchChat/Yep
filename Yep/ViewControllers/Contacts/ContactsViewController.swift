@@ -100,6 +100,8 @@ class ContactsViewController: BaseViewController {
 
             // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
             //self.definesPresentationContext = true
+
+            //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -157,9 +159,14 @@ class ContactsViewController: BaseViewController {
         }
     }
 
-    private func updateContactsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.contactsTableView.reloadData()
+    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.contactsTableView.reloadData()
+
+            if scrollsToTop {
+                let y = -(self?.contactsTableView.contentInset.top ?? 0)
+                self?.contactsTableView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+            }
         }
     }
 
@@ -333,9 +340,10 @@ extension ContactsViewController: UISearchResultsUpdating {
         }
         
         let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
-        filteredFriends = friends.filter(predicate)
+        let filteredFriends = friends.filter(predicate)
+        self.filteredFriends = filteredFriends
 
-        updateContactsTableView()
+        updateContactsTableView(scrollsToTop: !filteredFriends.isEmpty)
 
         searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
 
