@@ -817,7 +817,7 @@ class ProfileViewController: SegueViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
