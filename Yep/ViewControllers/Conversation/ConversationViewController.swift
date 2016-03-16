@@ -2219,13 +2219,14 @@ class ConversationViewController: BaseViewController {
                     }
                 }
 
-                let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
+                let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.Successed.rawValue, UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
 
-                let unreadMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
+                let sendSuccessedMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
+
+                println("sendSuccessedMessages.count: \(sendSuccessedMessages.count)")
 
                 let _ = try? realm.write {
-                    unreadMessages.forEach {
-
+                    sendSuccessedMessages.forEach {
                         $0.readed = true
                         $0.sendState = MessageSendState.Read.rawValue
                     }

@@ -801,7 +801,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
             return
         }
 
-        if let user = message.fromFriend where user.userID == YepUserDefaults.userID.value {
+        if let user = message.fromFriend where user.isMe {
             message.sendState = MessageSendState.Read.rawValue
         }
 
