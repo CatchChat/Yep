@@ -960,13 +960,17 @@ class ProfileViewController: SegueViewController {
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack:")
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    @objc private func popBack(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
+    @objc private func back(sender: AnyObject) {
+        if let presentingViewController = presentingViewController {
+            presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     @objc private func cleanForLogout(sender: NSNotification) {

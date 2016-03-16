@@ -469,7 +469,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="3Dc-Qq-4vY"/>
+                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="7Yg-OV-MON"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoZ-xx-fki" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -502,7 +502,7 @@
         <!--Profile-->
         <scene sceneID="E1Z-RL-QZO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="icon_me" id="zZf-BL-xLF">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_me_active"/>

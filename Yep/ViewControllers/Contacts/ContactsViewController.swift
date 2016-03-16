@@ -172,7 +172,13 @@ class ContactsViewController: BaseViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        if segue.identifier == "showProfile" {
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
@@ -187,6 +193,9 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+        default:
+            break
         }
     }
 }
