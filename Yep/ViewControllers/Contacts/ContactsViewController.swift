@@ -66,6 +66,11 @@ class ContactsViewController: BaseViewController {
 
         realmNotificationToken?.stop()
 
+        // ref http://stackoverflow.com/a/33281648
+        if let superView = searchController?.view.superview {
+            superView.removeFromSuperview()
+        }
+
         println("deinit Contacts")
     }
 
