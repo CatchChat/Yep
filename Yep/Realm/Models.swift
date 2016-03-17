@@ -594,6 +594,7 @@ class Message: Object {
         willSet {
             // 往大了更新 conversation.updatedUnixTime
             if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
+                println("set _conversation.updatedUnixTime")
                 _conversation.updatedUnixTime = createdUnixTime
             }
         }
