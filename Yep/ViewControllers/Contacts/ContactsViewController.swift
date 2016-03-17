@@ -164,8 +164,7 @@ class ContactsViewController: BaseViewController {
             self?.contactsTableView.reloadData()
 
             if scrollsToTop {
-                let y = -(self?.contactsTableView.contentInset.top ?? 0)
-                self?.contactsTableView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+                self?.contactsTableView.yep_scrollsToTop()
             }
         }
     }
