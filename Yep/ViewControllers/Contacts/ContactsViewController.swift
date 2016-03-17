@@ -64,6 +64,8 @@ class ContactsViewController: BaseViewController {
 
         contactsTableView?.delegate = nil
 
+        realmNotificationToken?.stop()
+
         println("deinit Contacts")
     }
 

@@ -77,7 +77,7 @@ func cleanRealmAndCaches() {
 
     ImageCache.sharedInstance.cache.removeAllObjects()
 
-    println("cleaned cache!")
+    println("cleaned caches!")
 
     // clean Message File caches
 
@@ -87,7 +87,7 @@ func cleanRealmAndCaches() {
 
     NSFileManager.cleanAvatarCaches()
 
-    println("cleaned file!")
+    println("cleaned files!")
 
     dispatch_async(dispatch_get_main_queue()) {
         NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
