@@ -743,10 +743,16 @@ class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
+                    strongSelf.feedsTableView.yep_scrollsToTop()
+
+                    strongSelf.feedsTableView.beginUpdates()
+
                     strongSelf.uploadingFeeds.insert(feed, atIndex: 0)
 
                     let indexPath = NSIndexPath(forRow: 0, inSection: Section.UploadingFeed.rawValue)
                     strongSelf.feedsTableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+                    strongSelf.feedsTableView.endUpdates()
                 }
             }
         }
@@ -758,6 +764,8 @@ class FeedsViewController: BaseViewController {
             dispatch_async(dispatch_get_main_queue()) {
 
                 if let strongSelf = self {
+
+                    strongSelf.feedsTableView.yep_scrollsToTop()
 
                     strongSelf.feedsTableView.beginUpdates()
 
