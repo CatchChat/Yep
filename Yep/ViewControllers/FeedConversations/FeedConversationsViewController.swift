@@ -184,6 +184,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             fatalError("Invalid index of feedConversations!")
         }
 
+        let title: String = NSLocalizedString("Unsubscribe", comment: "")
+        /*
         var title: String = NSLocalizedString("Unsubscribe", comment: "")
         if let feed = conversation.withGroup?.withFeed {
             if feed.deleted {
@@ -193,6 +195,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 title = NSLocalizedString("Delete", comment: "")
             }
         }
+        */
 
         let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
 
