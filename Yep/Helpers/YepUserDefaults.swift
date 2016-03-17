@@ -122,22 +122,10 @@ class YepUserDefaults {
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
 
-        [
-            v1AccessTokenKey,
-            userIDKey,
-            nicknameKey,
-            introductionKey,
-            avatarURLStringKey,
-            badgeKey,
-            pusherIDKey,
-            areaCodeKey,
-            mobileKey,
-            discoveredUserSortStyleKey,
-            feedSortStyleKey,
-            latitudeShiftKey,
-            longitudeShiftKey,
-            userLocationNameKey,
-        ].forEach({
+        // reset
+
+        let dict = defaults.dictionaryRepresentation()
+        dict.keys.forEach({
             defaults.removeObjectForKey($0)
         })
 
