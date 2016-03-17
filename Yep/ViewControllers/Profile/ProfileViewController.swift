@@ -349,7 +349,7 @@ class ProfileViewController: SegueViewController {
                 let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
-
+                print(navigationController?.view.frame,"____navigationController")
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "createdFeed:", name: YepConfig.Notification.createdFeed, object: nil)
             }
         }
@@ -373,36 +373,35 @@ class ProfileViewController: SegueViewController {
 
     private var noNeedToChangeStatusBar = false
 
-    @IBOutlet private weak var topShadowImageView: UIImageView!
+//    @IBOutlet private weak var topShadowImageView: UIImageView!
     @IBOutlet weak var profileCollectionView: UICollectionView!
 
     @IBOutlet private weak var sayHiView: BottomButtonView!
 
     private lazy var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
-    private lazy var customNavigationBar: UINavigationBar = {
-
-        let bar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
-
-        bar.tintColor = UIColor.whiteColor()
-        bar.tintAdjustmentMode = .Normal
-        bar.alpha = 0
-        bar.setItems([self.customNavigationItem], animated: false)
-
-        bar.backgroundColor = UIColor.clearColor()
-        bar.translucent = true
-        bar.shadowImage = UIImage()
-        bar.barStyle = UIBarStyle.BlackTranslucent
-        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.navigationBarTitleFont()
-        ]
-
-        bar.titleTextAttributes = textAttributes
-        
-        return bar
-    }()
+//    private lazy var customNavigationBar: UINavigationBar = {
+//
+//        let bar = UINavigationBar(frame: CGRectMake(0, 0, primaryViewColumnWidth, 64))
+//        bar.tintColor = UIColor.whiteColor()
+//        bar.tintAdjustmentMode = .Normal
+//        bar.alpha = 0
+//        bar.setItems([self.customNavigationItem], animated: false)
+//
+//        bar.backgroundColor = UIColor.clearColor()
+//        bar.translucent = true
+//        bar.shadowImage = UIImage()
+//        bar.barStyle = UIBarStyle.BlackTranslucent
+//        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+//
+//        let textAttributes = [
+//            NSForegroundColorAttributeName: UIColor.whiteColor(),
+//            NSFontAttributeName: UIFont.navigationBarTitleFont()
+//        ]
+//
+//        bar.titleTextAttributes = textAttributes
+//        
+//        return bar
+//    }()
 
     private let skillCellIdentifier = "SkillCell"
     private let headerCellIdentifier = "ProfileHeaderCell"
@@ -556,7 +555,7 @@ class ProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
             let cacheSize = Double(size)/1000000
             
@@ -569,7 +568,7 @@ class ProfileViewController: SegueViewController {
 
         title = NSLocalizedString("Profile", comment: "")
 
-        view.addSubview(customNavigationBar)
+//        view.addSubview(customNavigationBar)
 
         println("init ProfileViewController \(self)")
 
@@ -657,23 +656,23 @@ class ProfileViewController: SegueViewController {
                 if let strongSelf = self {
                     let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
                     
-                    if let coverCell = strongSelf.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
-                        
-                        let beginChangePercentage: CGFloat = 1 - 64 / strongSelf.collectionViewWidth * profileAvatarAspectRatio
-                        let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
-                        
-                        coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
-
-                        let shadowAlpha = 1 - normalizedProgressForChange
-                        
-                        if shadowAlpha < 0.2 {
-                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 0.2
-                        } else {
-                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : shadowAlpha
-                        }
-                        
-                        coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
-                    }
+//                    if let coverCell = strongSelf.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+//                        
+//                        let beginChangePercentage: CGFloat = 1 - 64 / strongSelf.collectionViewWidth * profileAvatarAspectRatio
+//                        let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
+//                        
+//                        coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
+//
+//                        let shadowAlpha = 1 - normalizedProgressForChange
+//                        
+//                        if shadowAlpha < 0.2 {
+//                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : 0.2
+//                        } else {
+//                            strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : shadowAlpha
+//                        }
+//                        
+//                        coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
+//                    }
                 }
             }
         }
@@ -818,8 +817,8 @@ class ProfileViewController: SegueViewController {
             return
         }
         displayProfileUserFeeds()
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        customNavigationBar.alpha = 1.0
+//        self.navigationController?.setNavigationBarHidden(true, animated: true)
+//        customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
 
@@ -827,7 +826,7 @@ class ProfileViewController: SegueViewController {
             statusBarShouldLight = true
         }
 
-        self.setNeedsStatusBarAppearanceUpdate()
+//        self.setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -886,24 +885,21 @@ class ProfileViewController: SegueViewController {
             )
             
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+            
             self.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
     
     private func displayProfileUserFeeds() {
-        guard let profileUser = profileUser else {
-            return
-        }
+        
         configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
             self?.feeds = feeds
             self?.feedAttachments = feedAttachments
             
             let info: [String: AnyObject] = [
-                "profileUser": Box(profileUser),
+                "profileUser": Box(self?.profileUser),
                 "feeds": Box(feeds ?? []),
             ]
-            print(self?.profileUser)
             if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                 self?.performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
             } else {
@@ -913,7 +909,7 @@ class ProfileViewController: SegueViewController {
     }
     
     private func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
-        
+
         if let feedAttachments = feedAttachments {
             self.feedAttachments = feedAttachments
             
@@ -1362,13 +1358,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.updatePrettyColorAction = { [weak self] prettyColor in
-                self?.customNavigationBar.tintColor = prettyColor
+                self?.navigationController?.navigationBar.tintColor = prettyColor
 
                 let textAttributes = [
                     NSForegroundColorAttributeName: prettyColor,
                     NSFontAttributeName: UIFont.navigationBarTitleFont()
                 ]
-                self?.customNavigationBar.titleTextAttributes = textAttributes
+                self?.navigationController?.navigationBar.titleTextAttributes = textAttributes
             }
 
             return cell
@@ -1485,12 +1481,9 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.Feeds.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
-
-            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
-                self?.feeds = feeds
-                self?.feedAttachments = feedAttachments
-            })
-
+            if let feedAttachments = self.feedAttachments {
+               cell.feedAttachments = feedAttachments
+            }
             return cell
 
         default:

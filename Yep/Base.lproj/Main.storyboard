@@ -173,12 +173,6 @@
                                     <constraint firstAttribute="height" constant="50" id="be0-Cf-Dol"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="fut-Ug-l4V" userLabel="Shadow Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="l36-59-jyr"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -186,10 +180,7 @@
                             <constraint firstItem="VZO-hp-fyU" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="2n3-L6-Rzr"/>
                             <constraint firstAttribute="trailing" secondItem="sfC-fv-gcr" secondAttribute="trailing" id="5zV-iL-BpW"/>
                             <constraint firstAttribute="trailing" secondItem="VZO-hp-fyU" secondAttribute="trailing" id="Ag4-p9-ng1"/>
-                            <constraint firstItem="fut-Ug-l4V" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="E2h-Dw-ElX"/>
                             <constraint firstItem="VZO-hp-fyU" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="EIq-yc-gkc"/>
-                            <constraint firstAttribute="trailing" secondItem="fut-Ug-l4V" secondAttribute="trailing" id="RdZ-76-Icm"/>
-                            <constraint firstItem="fut-Ug-l4V" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="d1A-8k-dBm"/>
                             <constraint firstAttribute="bottom" secondItem="VZO-hp-fyU" secondAttribute="bottom" id="fbb-zh-8xP"/>
                             <constraint firstItem="sfC-fv-gcr" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="jTZ-uA-Tgc"/>
                         </constraints>
@@ -204,7 +195,6 @@
                     <connections>
                         <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
-                        <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
                         <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
                         <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
@@ -789,6 +779,5 @@
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_settings" width="30" height="30"/>
-        <image name="top_shadow" width="375" height="80"/>
     </resources>
 </document>

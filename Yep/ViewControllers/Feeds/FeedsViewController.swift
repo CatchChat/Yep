@@ -792,7 +792,7 @@ class FeedsViewController: BaseViewController {
             // MARK： 要在master view展示profile
             
         case "showProfile":
-//
+
             let vc = segue.destinationViewController as! ProfileViewController
 //
 //            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {

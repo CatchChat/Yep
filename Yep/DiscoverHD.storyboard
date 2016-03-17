@@ -146,7 +146,7 @@
                         <outlet property="discoveredUsersCollectionView" destination="qiv-cC-3J3" id="Uyg-VP-ENL"/>
                         <outlet property="filterButtonItem" destination="mve-O6-ube" id="379-Fa-dSw"/>
                         <outlet property="modeButtonItem" destination="Q6P-X5-laI" id="AMy-5a-IsW"/>
-                        <outlet property="segmentedControl" destination="gSx-XN-y22" id="aZz-XW-hSo"/>
+                        <outlet property="segmentedControl" destination="gSx-XN-y22" id="78Z-Sl-mYu"/>
                         <segue destination="J6W-3w-f5X" kind="show" identifier="showProfile" id="txu-pp-hSI"/>
                     </connections>
                 </viewController>

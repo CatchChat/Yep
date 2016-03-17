@@ -26,6 +26,8 @@ class DiscoverViewController: BaseViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
@@ -120,12 +122,12 @@ class DiscoverViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-//            segmentedControl.hidden = true
-//        } else {
+        if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+            segmentedControl.hidden = true
+        } else {
             navigationItem.leftBarButtonItem = nil
             navigationItem.hidesBackButton = true
-//        }
+        }
         
         title = NSLocalizedString("Discover", comment: "")
 
