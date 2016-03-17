@@ -96,6 +96,8 @@ class ConversationsViewController: SegueViewController {
 
         conversationsTableView?.delegate = nil
 
+        realmNotificationToken?.stop()
+
         println("deinit Conversations")
     }
 

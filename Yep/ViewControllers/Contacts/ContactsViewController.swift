@@ -63,6 +63,15 @@ class ContactsViewController: BaseViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
 
         contactsTableView?.delegate = nil
+
+        realmNotificationToken?.stop()
+
+        // ref http://stackoverflow.com/a/33281648
+        if let superView = searchController?.view.superview {
+            superView.removeFromSuperview()
+        }
+
+        println("deinit Contacts")
     }
 
     override func viewDidLoad() {

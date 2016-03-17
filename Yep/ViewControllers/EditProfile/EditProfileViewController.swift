@@ -63,7 +63,7 @@ class EditProfileViewController: SegueViewController {
 
         editProfileTableView?.delegate = nil
 
-        println("deinit EditProfileViewController")
+        println("deinit EditProfile")
     }
 
     override func viewDidLoad() {
@@ -449,9 +449,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     dispatch_async(dispatch_get_main_queue()) {
                         unregisterThirdPartyPush()
 
-                        cleanRealmAndCaches()
-
                         YepUserDefaults.cleanAllUserDefaults()
+
+                        cleanRealmAndCaches()
 
                         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                             appDelegate.startShowStory()
