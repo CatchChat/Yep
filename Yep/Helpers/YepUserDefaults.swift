@@ -154,6 +154,8 @@ class YepUserDefaults {
             return
         }
 
+        unregisterThirdPartyPush()
+
         cleanAllUserDefaults()
 
         cleanRealmAndCaches()
