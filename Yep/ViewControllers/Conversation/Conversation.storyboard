@@ -186,8 +186,8 @@
         <!--ProfileViewController-->
         <scene sceneID="9n4-Fz-faT">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pZQ-Qu-Ctd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="hLi-90-a5d" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pZQ-Qu-Ctd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="26.5" y="1695"/>
         </scene>

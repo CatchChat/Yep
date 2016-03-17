@@ -19,6 +19,7 @@ class DetailViewController: UIViewController {
         case Skills
         case Meetup
         case SocialWork
+        case UserFeeds
     }
     
     
@@ -64,10 +65,12 @@ class DetailViewController: UIViewController {
             let dic = date as! [String]
             let segueID = dic[0].substringFromIndex(dic[0].startIndex.advancedBy(4))
             performSegueWithIdentifier("showDetail\(segueID)", sender: dic[1])
+        case .UserFeeds:
+            performSegueWithIdentifier("showUserFeeds", sender: date)
         default:()
         }
     }
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         guard let identifier = segue.identifier else {
@@ -75,62 +78,85 @@ class DetailViewController: UIViewController {
         }
         
         switch identifier{
-            case "showDetailConversation":
-                let vc = segue.destinationViewController as! ConversationViewController
-                vc.conversation = conversation
+        case "showDetailConversation":
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = conversation
             
-            case "showDetailFeedsOfProfileUser":
-                let vc = segue.destinationViewController as! FeedsViewController
-
-                if let
-                    info = (sender as? Box<[String: AnyObject]>)?.value,
-                    profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
-                    feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+        case "showDetailFeedsOfProfileUser":
+            let vc = segue.destinationViewController as! FeedsViewController
+            if let
+                info = (sender as? Box<[String: AnyObject]>)?.value,
+                profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
+                feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+                    vc.profileUser = profileUser
+                    vc.feeds = feeds
+                    vc.preparedFeedsCount = feeds.count
+            } else if let
+                profileUser = (sender as? Box<ProfileUser>)?.value {
+                    feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
                         vc.profileUser = profileUser
                         vc.feeds = feeds
                         vc.preparedFeedsCount = feeds.count
+                        vc.navigationItem.hidesBackButton = true
+                        vc.navigationItem.rightBarButtonItem = nil
+                        vc.navigationItem.title = ""
+                    })
+            }
+            
+            //                vc.hideRightBarItem = true
+            vc.hidesBottomBarWhenPushed = true
+
+            
+        case "showDetailSocialWorkGithub":
+            if let providerName = sender as? String {
+                
+                let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.githubWork = githubWork
+                vc.afterGetGithubWork = {[weak self] githubWork in
+                    self?.githubWork = githubWork
                 }
-//                vc.hideRightBarItem = true
-                vc.hidesBottomBarWhenPushed = true
-            
-            case "showDetailSocialWorkGithub":
-                if let providerName = sender as? String {
-                    
-                    let vc = segue.destinationViewController as! SocialWorkGithubViewController
-                    vc.socialAccount = SocialAccount(rawValue: providerName)
-                    vc.profileUser = profileUser
-                    vc.githubWork = githubWork
-                    
-                    vc.afterGetGithubWork = {[weak self] githubWork in
-                        self?.githubWork = githubWork
-                    }
             }
             
-            case "showDetailSocialWorkDribbble":
-                if let providerName = sender as? String {
-                    
-                    let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
-                    vc.socialAccount = SocialAccount(rawValue: providerName)
-                    vc.profileUser = profileUser
-                    vc.dribbbleWork = dribbbleWork
-                    
-                    vc.afterGetDribbbleWork = { [weak self] dribbbleWork in
-                        self?.dribbbleWork = dribbbleWork
-                    }
+        case "showDetailSocialWorkDribbble":
+            if let providerName = sender as? String {
+                
+                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.dribbbleWork = dribbbleWork
+                
+                vc.afterGetDribbbleWork = { [weak self] dribbbleWork in
+                    self?.dribbbleWork = dribbbleWork
+                }
             }
             
-            case "showDetailSocialWorkInstagram":
-                if let providerName = sender as? String {
-                    
-                    let vc = segue.destinationViewController as! SocialWorkInstagramViewController
-                    vc.socialAccount = SocialAccount(rawValue: providerName)
-                    vc.profileUser = profileUser
-                    vc.instagramWork = instagramWork
-                    
-                    vc.afterGetInstagramWork = { [weak self] instagramWork in
-                        self?.instagramWork = instagramWork
-                    }
+        case "showDetailSocialWorkInstagram":
+            if let providerName = sender as? String {
+                
+                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                vc.socialAccount = SocialAccount(rawValue: providerName)
+                vc.profileUser = profileUser
+                vc.instagramWork = instagramWork
+                
+                vc.afterGetInstagramWork = { [weak self] instagramWork in
+                    self?.instagramWork = instagramWork
+                }
             }
+            
+        case "showUserFeeds":
+            let vc = segue.destinationViewController as! UserFeedsViewController
+            
+            if let profileUser = (sender as? Box<ProfileUser>)?.value {
+                feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
+                   vc.feeds = feeds
+                   vc.profileUser = profileUser
+                   vc.preparedFeedsCount = feeds.count
+
+                })
+            }
+
         default:()
             
         }

@@ -349,7 +349,6 @@ class ProfileViewController: SegueViewController {
                 let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
-                print(navigationController?.view.frame,"____navigationController")
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: "createdFeed:", name: YepConfig.Notification.createdFeed, object: nil)
             }
         }
@@ -804,29 +803,39 @@ class ProfileViewController: SegueViewController {
                 println("Yep can NOT get Location. :[\n")
             })
         }
-
+        
         #if DEBUG
             //view.addSubview(profileFPSLabel)
         #endif
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let profileUser = profileUser else {
+        guard let _ = profileUser else {
             return
         }
-        displayProfileUserFeeds()
-//        self.navigationController?.setNavigationBarHidden(true, animated: true)
-//        customNavigationBar.alpha = 1.0
-
+        //        displayProfileUserFeeds()
+        if let profileUser = self.profileUser {
+            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+                self.performSegueWithIdentifier("showUserFeeds", sender:Box(profileUser))
+                
+            } else {
+                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(profileUser), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+            }
+            
+        }
+        
+        //        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        //        customNavigationBar.alpha = 1.0
+        
         statusBarShouldLight = false
-
+        
         if noNeedToChangeStatusBar {
             statusBarShouldLight = true
         }
-
-//        self.setNeedsStatusBarAppearanceUpdate()
+        
+        //        self.setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -900,11 +909,6 @@ class ProfileViewController: SegueViewController {
                 "profileUser": Box(self?.profileUser),
                 "feeds": Box(feeds ?? []),
             ]
-            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-                self?.performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
-            } else {
-                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
-            }
             })
     }
     
@@ -1478,12 +1482,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.SeparationLine2.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
             return cell
-
+            
         case ProfileSection.Feeds.rawValue:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
-            if let feedAttachments = self.feedAttachments {
-               cell.feedAttachments = feedAttachments
-            }
+            cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
+                self?.feeds = feeds
+                self?.feedAttachments = feedAttachments
+                })
             return cell
 
         default:
@@ -1780,7 +1785,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 "feeds": Box(feeds ?? []),
             ]
             if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-                performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+                performSegueWithIdentifier("showUserFeeds", sender: Box(info))
             } else {
                 (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
             }

@@ -39,6 +39,7 @@
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
 		336171A41C968A32003CB9C6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */; };
+		3396B75A1C9A9542005C5E2B /* UserFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */; };
 		33BBB1881C96B3290048E78E /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BBB1871C96B3290048E78E /* ConversationMoreView.swift */; };
 		33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BC0C061C96581F0084DCDD /* PopoverView.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
@@ -122,7 +123,6 @@
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
-		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
 		50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
@@ -421,6 +421,7 @@
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Yep.swift"; sourceTree = "<group>"; };
 		336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreMessageTypesView.swift; sourceTree = "<group>"; };
+		3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFeedsViewController.swift; sourceTree = "<group>"; };
 		33BBB1871C96B3290048E78E /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMoreView.swift; sourceTree = "<group>"; };
 		33BC0C061C96581F0084DCDD /* PopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
 		4EEAF88E6C6D61E595249DF5 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
@@ -506,7 +507,6 @@
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
-		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
 		50485BCD1C56062400431AC7 /* ChatLeftRecallCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftRecallCell.swift; path = Views/Cells/ChatLeftRecall/ChatLeftRecallCell.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
@@ -1147,6 +1147,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
+				3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */,
 				504F41561AD4D35400FBB19A /* ProfileLayout.swift */,
 			);
 			name = Profile;
@@ -2920,6 +2921,7 @@
 				504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
 				6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */,
+				3396B75A1C9A9542005C5E2B /* UserFeedsViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				503807201BD9EEFC0068345E /* YepMedia.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,

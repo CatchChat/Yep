@@ -18,7 +18,11 @@ class FeedsViewController: BaseViewController {
         return (skill == nil) ? true : false
     }
 
-    var profileUser: ProfileUser?
+    var profileUser: ProfileUser? {
+        didSet {
+            self.feedsTableView.reloadData()
+        }
+    }
     var preparedFeedsCount = 0
     
     var hideRightBarItem: Bool = false
@@ -57,8 +61,8 @@ class FeedsViewController: BaseViewController {
             action: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.feedSortStyle = sortStyle
-                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.feedSortStyle)
-                strongSelf.filterView.refreshItems()
+//                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.feedSortStyle)
+//                strongSelf.filterView.refreshItems()
             }
         )
     }
@@ -71,10 +75,10 @@ class FeedsViewController: BaseViewController {
         return items
     }
 
-    private lazy var filterView: ActionSheetView = {
-        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
-        return view
-    }()
+//    private lazy var filterView: ActionSheetView = {
+//        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
+//        return view
+//    }()
 
     private lazy var skillTitleView: UIView = {
 

@@ -202,7 +202,8 @@
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
                         <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
                         <segue destination="lru-67-Vok" kind="show" identifier="showConversation" id="z8s-gZ-TZ2"/>
-                        <segue destination="Ypw-Iq-qc9" kind="show" identifier="showFeedsOfProfileUser" id="xxH-O1-ehI"/>
+                        <segue destination="Ypw-Iq-qc9" kind="show" identifier="showFeedsOfProfileUser" animates="NO" id="xxH-O1-ehI"/>
+                        <segue destination="CET-dE-lvK" kind="show" identifier="showUserFeeds" animates="NO" id="1ZP-3N-Vxs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -408,6 +409,7 @@
                         <segue destination="rB9-sa-dj4" kind="show" identifier="showDetailSocialWorkGithub" animates="NO" id="lgD-EA-Pdn"/>
                         <segue destination="Qqq-BU-W0P" kind="show" identifier="showDetailSocialWorkInstagram" animates="NO" id="xyj-UF-7cR"/>
                         <segue destination="44X-ff-IET" kind="show" identifier="showDetailSocialWorkDribbble" animates="NO" id="xLC-EU-w4x"/>
+                        <segue destination="KvQ-5e-ScS" kind="show" identifier="showUserFeeds" animates="NO" id="i7U-Hz-ZuZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67u-nc-noo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -581,7 +583,34 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="Ypw-Iq-qc9" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JdK-5C-kP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="40" y="2184"/>
+            <point key="canvasLocation" x="37" y="2153"/>
+        </scene>
+        <!--UserFeedsViewController-->
+        <scene sceneID="xDf-lo-o6m">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UserFeedsViewController" id="CET-dE-lvK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eHV-3q-fms" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="40.5" y="2202"/>
+        </scene>
+        <!--UserFeeds-->
+        <scene sceneID="WUD-Cc-Gc0">
+            <objects>
+                <viewController storyboardIdentifier="UserFeedsViewController" title="UserFeeds" id="mrF-W6-qbA" customClass="UserFeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QdK-0G-9Sj"/>
+                        <viewControllerLayoutGuide type="bottom" id="sAy-OX-RaE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="b1X-rx-0RS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="2cs-aa-OBh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fbX-vz-uTx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="867" y="2618"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="cFO-gT-UQD">
@@ -757,6 +786,14 @@
             </objects>
             <point key="canvasLocation" x="28" y="-2384"/>
         </scene>
+        <!--UserFeedsViewController-->
+        <scene sceneID="5Fu-jg-TI1">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UserFeedsViewController" id="KvQ-5e-ScS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9im-O8-VUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.5" y="-2310"/>
+        </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="CzE-Vv-QQD">
             <objects>
@@ -764,6 +801,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="huc-lD-nKb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32.5" y="-2457"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mcA-il-rs8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yYY-Ta-JaO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eTS-82-9CR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mrF-W6-qbA" kind="relationship" relationship="rootViewController" id="CAB-94-B9Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="orn-28-0cI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="143" y="2618"/>
         </scene>
     </scenes>
     <resources>
