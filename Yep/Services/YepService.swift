@@ -2451,6 +2451,17 @@ enum FeedSortStyle: String {
     var nameWithArrow: String {
         return name + " ▾"
     }
+
+    var needPageFeedID: Bool {
+        switch self {
+        case .Distance:
+            return true
+        case .Time:
+            return true
+        case .Match:
+            return false
+        }
+    }
 }
 
 struct DiscoveredAttachment {

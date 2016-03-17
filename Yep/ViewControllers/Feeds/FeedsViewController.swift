@@ -502,7 +502,7 @@ class FeedsViewController: BaseViewController {
         case .Top:
             currentPageIndex = 1
         case .LoadMore:
-            currentPageIndex++
+            currentPageIndex += 1
         case .Static:
             break
         }
@@ -522,6 +522,13 @@ class FeedsViewController: BaseViewController {
         }
 
         let completion: [DiscoveredFeed] -> Void = { feeds in
+
+            println("new feeds.count: \(feeds.count)")
+            /*
+            feeds.forEach({
+                println("feedID: \($0.id)")
+            })
+            */
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -635,7 +642,10 @@ class FeedsViewController: BaseViewController {
                 feedSortStyle = .Time
             }
 
-            let maxFeedID = (mode == .LoadMore && (feedSortStyle == .Time)) ? feeds.last?.id : nil
+            let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
+
+            println("currentPageIndex: \(currentPageIndex)")
+            println("maxFeedID: \(maxFeedID)")
 
             discoverFeedsWithSortStyle(feedSortStyle, skill: skill, pageIndex: currentPageIndex, perPage: perPage, maxFeedID: maxFeedID, failureHandler:failureHandler, completion: completion)
         }
