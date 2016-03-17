@@ -106,10 +106,9 @@ class DiscoverViewController: BaseViewController {
         return label
     }()
     #endif
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
+
+    deinit {
+        println("deinit Discover")
     }
 
     override func viewDidLoad() {

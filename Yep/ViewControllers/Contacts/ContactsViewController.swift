@@ -63,6 +63,8 @@ class ContactsViewController: BaseViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
 
         contactsTableView?.delegate = nil
+
+        println("deinit Contacts")
     }
 
     override func viewDidLoad() {

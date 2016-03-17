@@ -299,7 +299,7 @@ class FeedsViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         feedsTableView?.delegate = nil
 
-        print("deinit FeedsViewControler")
+        println("deinit Feeds")
     }
     
     override func viewDidAppear(animated: Bool) {

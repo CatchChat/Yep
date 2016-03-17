@@ -63,7 +63,7 @@ class EditProfileViewController: SegueViewController {
 
         editProfileTableView?.delegate = nil
 
-        println("deinit EditProfileViewController")
+        println("deinit EditProfile")
     }
 
     override func viewDidLoad() {

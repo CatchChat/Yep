@@ -543,7 +543,7 @@ class ProfileViewController: SegueViewController {
 
         profileCollectionView?.delegate = nil
 
-        println("deinit ProfileViewController")
+        println("deinit Profile")
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
