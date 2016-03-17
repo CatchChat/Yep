@@ -122,14 +122,19 @@ class YepUserDefaults {
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
 
-        // reset
+        // reset suite
 
         let dict = defaults.dictionaryRepresentation()
         dict.keys.forEach({
             defaults.removeObjectForKey($0)
         })
-
         defaults.synchronize()
+
+        // reset standardUserDefaults
+
+        let standardUserDefaults = NSUserDefaults.standardUserDefaults()
+        standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
+        standardUserDefaults.synchronize()
     }
 
     class func maybeUserNeedRelogin() {
