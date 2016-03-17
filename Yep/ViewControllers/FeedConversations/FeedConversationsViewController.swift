@@ -166,9 +166,11 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
-            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            return
         }
+
+        performSegueWithIdentifier("showConversation", sender: conversation)
     }
 
     // Edit (for Delete)
