@@ -1048,6 +1048,32 @@ class UserLocationName: Object {
     }
 }
 
+class SubscriptionViewShown: Object {
+
+    dynamic var groupID: String = ""
+
+    override class func primaryKey() -> String? {
+        return "groupID"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["groupID"]
+    }
+
+    convenience init(groupID: String) {
+        self.init()
+
+        self.groupID = groupID
+    }
+
+    class func canShow(groupID groupID: String) -> Bool {
+        guard let realm = try? Realm() else {
+            return false
+        }
+        return realm.objects(SubscriptionViewShown).filter("groupID = %@", groupID).isEmpty
+    }
+}
+
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {

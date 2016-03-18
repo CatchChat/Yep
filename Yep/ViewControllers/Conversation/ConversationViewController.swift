@@ -2268,6 +2268,11 @@ class ConversationViewController: BaseViewController {
                 return
             }
 
+            // 最多显示一次
+            guard SubscriptionViewShown.canShow(groupID: groupID) else {
+                return
+            }
+
             delay(3) { [weak self] in
 
                 guard !group.invalidated else {
@@ -2331,6 +2336,20 @@ class ConversationViewController: BaseViewController {
                 }
 
                 self?.subscribeView.show()
+
+                // 记下已显示过
+                do {
+                    guard self != nil else {
+                        return
+                    }
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+                    let shown = SubscriptionViewShown(groupID: groupID)
+                    let _ = try? realm.write {
+                        realm.add(shown, update: true)
+                    }
+                }
             }
         })
     }
