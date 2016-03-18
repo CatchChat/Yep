@@ -1790,94 +1790,100 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
 func clearUselessRealmObjects() {
 
-    guard let realm = try? Realm() else {
-        return
-    }
+    dispatch_async(realmQueue) {
 
-    println("do clearUselessRealmObjects")
+        guard let realm = try? Realm() else {
+            return
+        }
 
-    realm.beginWrite()
+        println("do clearUselessRealmObjects")
 
-    // Message
+        realm.beginWrite()
 
-    do {
-        // 7天前
-        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+        // Message
 
-        let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
-        let oldMessages = realm.objects(Message).filter(predicate)
+        do {
+            // 7天前
+            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
 
-        println("oldMessages.count: \(oldMessages.count)")
+            let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
+            let oldMessages = realm.objects(Message).filter(predicate)
 
-        oldMessages.forEach({
-            $0.deleteAttachmentInRealm(realm)
-            realm.delete($0)
-        })
-    }
+            println("oldMessages.count: \(oldMessages.count)")
 
-    // Feed
+            oldMessages.forEach({
+                $0.deleteAttachmentInRealm(realm)
+                realm.delete($0)
+            })
+        }
 
-    do {
-        let predicate = NSPredicate(format: "group == nil")
-        let noGroupFeeds = realm.objects(Feed).filter(predicate)
+        // Feed
 
-        println("noGroupFeeds.count: \(noGroupFeeds.count)")
+        do {
+            let predicate = NSPredicate(format: "group == nil")
+            let noGroupFeeds = realm.objects(Feed).filter(predicate)
 
-        noGroupFeeds.forEach({
-            if let group = $0.group {
-                group.cascadeDeleteInRealm(realm)
-            } else {
+            println("noGroupFeeds.count: \(noGroupFeeds.count)")
+
+            noGroupFeeds.forEach({
+                if let group = $0.group {
+                    group.cascadeDeleteInRealm(realm)
+                } else {
+                    $0.cascadeDeleteInRealm(realm)
+                }
+            })
+        }
+
+        do {
+            // 2天前
+            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
+            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
+
+            let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
+            let notJoinedFeeds = realm.objects(Feed).filter(predicate)
+
+            println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
+
+            notJoinedFeeds.forEach({
+                if let group = $0.group {
+                    group.cascadeDeleteInRealm(realm)
+                } else {
+                    $0.cascadeDeleteInRealm(realm)
+                }
+            })
+        }
+
+        // User
+
+        do {
+            // 7天前
+            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
+            let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
+            //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
+
+            let strangers = realm.objects(User).filter(predicate)
+
+            // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
+            let realStrangers = strangers.filter({
+                if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
+                    return true
+                }
+
+                return false
+            })
+
+            println("realStrangers.count: \(realStrangers.count)")
+
+            realStrangers.forEach({
                 $0.cascadeDeleteInRealm(realm)
-            }
-        })
+            })
+        }
+
+        // Group
+
+        let _ = try? realm.commitWrite()
     }
-
-    do {
-        // 2天前
-        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
-
-        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
-        let notJoinedFeeds = realm.objects(Feed).filter(predicate)
-
-        println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
-
-        notJoinedFeeds.forEach({
-            if let group = $0.group {
-                group.cascadeDeleteInRealm(realm)
-            } else {
-                $0.cascadeDeleteInRealm(realm)
-            }
-        })
-    }
-
-    // User
-
-    do {
-        // 7天前
-        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
-        let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
-        //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
-
-        let strangers = realm.objects(User).filter(predicate)
-
-        // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
-        let realStrangers = strangers.filter({
-            if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
-                return true
-            }
-
-            return false
-        })
-
-        println("realStrangers.count: \(realStrangers.count)")
-
-        realStrangers.forEach({
-            $0.cascadeDeleteInRealm(realm)
-        })
-    }
-
-    // Group
-
-    let _ = try? realm.commitWrite()
 }
 
