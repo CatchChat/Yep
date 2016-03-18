@@ -1048,34 +1048,29 @@ class UserLocationName: Object {
     }
 }
 
-class FeedSubscription: Object {
+class SubscriptionViewShown: Object {
 
-    dynamic var feedID: String = ""
-    dynamic var hasShownSubscriptionViewOnce: Bool = false
+    dynamic var groupID: String = ""
 
     override class func primaryKey() -> String? {
-        return "feedID"
+        return "groupID"
     }
 
     override class func indexedProperties() -> [String] {
-        return ["feedID"]
+        return ["groupID"]
     }
 
-    convenience init(feedID: String, shown: Bool) {
+    convenience init(groupID: String) {
         self.init()
 
-        self.feedID = feedID
-        self.hasShownSubscriptionViewOnce = shown
+        self.groupID = groupID
     }
 
-    class func hasShownSubscriptionViewOnceForFeedWithID(feedID: String) -> Bool {
+    class func canShow(groupID groupID: String) -> Bool {
         guard let realm = try? Realm() else {
             return false
         }
-        guard let feedSubscription = realm.objects(FeedSubscription).filter("feedID = %@", feedID).first else {
-            return false
-        }
-        return feedSubscription.hasShownSubscriptionViewOnce
+        return realm.objects(SubscriptionViewShown).filter("groupID = %@", groupID).isEmpty
     }
 }
 
