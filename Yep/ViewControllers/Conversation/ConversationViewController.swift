@@ -2339,6 +2339,9 @@ class ConversationViewController: BaseViewController {
 
                 // 记下已显示过
                 do {
+                    guard self != nil else {
+                        return
+                    }
                     guard let realm = try? Realm() else {
                         return
                     }
