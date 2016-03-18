@@ -1517,6 +1517,10 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
 func nameOfConversation(conversation: Conversation) -> String? {
 
+    guard !conversation.invalidated else {
+        return nil
+    }
+
     if conversation.type == ConversationType.OneToOne.rawValue {
         if let withFriend = conversation.withFriend {
             return withFriend.nickname
@@ -1533,6 +1537,10 @@ func nameOfConversation(conversation: Conversation) -> String? {
 
 func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 
+    guard !conversation.invalidated else {
+        return nil
+    }
+
     let messages = messagesInConversation(conversation)
 
     if let lastMessage = messages.last {
@@ -1543,6 +1551,10 @@ func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
+
+    guard !conversation.invalidated else {
+        return nil
+    }
 
     let messages = messagesInConversationFromFriend(conversation)
 
@@ -1556,6 +1568,10 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
+
+    guard !message.invalidated else {
+        return nil
+    }
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
@@ -1572,6 +1588,10 @@ func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
 
 func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloat])? {
 
+    guard !message.invalidated else {
+        return nil
+    }
+
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
@@ -1587,6 +1607,10 @@ func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloa
 
 func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
 
+    guard !message.invalidated else {
+        return nil
+    }
+
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
@@ -1601,6 +1625,10 @@ func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 }
 
 func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
+
+    guard !message.invalidated else {
+        return nil
+    }
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
