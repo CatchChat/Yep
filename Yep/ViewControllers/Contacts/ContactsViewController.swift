@@ -28,6 +28,7 @@ class ContactsViewController: BaseViewController {
     private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
+    private var searchBarSearchButtonClicked: Bool = true
 
     private let keyboardMan = KeyboardMan()
     private var normalContactsTableViewContentInsetBottom: CGFloat?
@@ -149,10 +150,22 @@ class ContactsViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+            /*
             if let bottom = self?.normalContactsTableViewContentInsetBottom {
                 self?.contactsTableView.contentInset.bottom = bottom
                 self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
             }
+            */
+            if self?.searchBarSearchButtonClicked ?? false {
+                self?.contactsTableView.contentInset.bottom = 0
+                self?.contactsTableView.scrollIndicatorInsets.bottom = 0
+            } else {
+                if let bottom = self?.normalContactsTableViewContentInsetBottom {
+                    self?.contactsTableView.contentInset.bottom = bottom
+                    self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
+                }
+            }
+            self?.searchBarSearchButtonClicked = false
         }
 
         #if DEBUG
@@ -391,6 +404,17 @@ extension ContactsViewController: UISearchBarDelegate {
 
         if let searchController = searchController {
             updateSearchResultsForSearchController(searchController)
+        }
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.searchBarSearchButtonClicked = true
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        if let bottom = normalContactsTableViewContentInsetBottom {
+            self.contactsTableView.contentInset.bottom = bottom
+            self.contactsTableView.scrollIndicatorInsets.bottom = bottom
         }
     }
 }
