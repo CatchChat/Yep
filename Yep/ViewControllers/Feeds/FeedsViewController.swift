@@ -18,11 +18,8 @@ class FeedsViewController: BaseViewController {
         return (skill == nil) ? true : false
     }
 
-    var profileUser: ProfileUser? {
-        didSet {
-            self.feedsTableView.reloadData()
-        }
-    }
+    var profileUser: ProfileUser?
+
     var preparedFeedsCount = 0
     
     var hideRightBarItem: Bool = false
@@ -216,7 +213,23 @@ class FeedsViewController: BaseViewController {
 
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
-
+    
+    func setupFeedsForProfileUser(user user: ProfileUser) {
+        feedsOfUser(user.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { [weak self] feeds in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self?.feeds = feeds
+                self?.preparedFeedsCount = feeds.count
+                self?.navigationItem.hidesBackButton = true
+                self?.navigationItem.rightBarButtonItem = nil
+                self?.navigationItem.title = ""
+                self?.setNeedsStatusBarAppearanceUpdate()
+                self?.feedsToolbar.hidden = true
+                self?.feedsTableView.reloadData()
+            })
+        })
+    }
+    
     private struct LayoutPool {
 
         private var feedCellLayoutHash = [String: FeedCellLayout]()
