@@ -400,11 +400,15 @@ extension ContactsViewController: UISearchControllerDelegate {
     func willPresentSearchController(searchController: UISearchController) {
         println("willPresentSearchController")
         coverUnderStatusBarView.hidden = false
+
+        (tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     func willDismissSearchController(searchController: UISearchController) {
         println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
+
+        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
     }
 }
 
