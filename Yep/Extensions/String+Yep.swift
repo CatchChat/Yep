@@ -40,7 +40,7 @@ extension String {
     }
 
     var yep_removeAllWhitespaces: String {
-        return self.stringByReplacingOccurrencesOfString(" ", withString: "")
+        return self.stringByReplacingOccurrencesOfString(" ", withString: "").stringByReplacingOccurrencesOfString(" ", withString: "")
     }
 
     var yep_removeAllNewLines: String {
