@@ -500,11 +500,44 @@ extension MessageToolbar: UITextViewDelegate {
 
         if needDetectMention {
 
+            // 刚刚输入 @
+
             if text.hasSuffix("@") {
                 mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
                 initMentionUserAction?()
                 return
             }
+
+            // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
+
+            if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
+
+                var text = text
+
+                let beginning = textView.beginningOfDocument
+                let start = markedTextRange.start
+                let end = markedTextRange.end
+                let location = textView.offsetFromPosition(beginning, toPosition: start)
+                let length = textView.offsetFromPosition(start, toPosition: end)
+                let nsRange = NSMakeRange(location, length)
+                guard let range = text.yep_rangeFromNSRange(nsRange) else {
+                    return
+                }
+
+                text.removeRange(range)
+
+                if text.hasSuffix("@") {
+                    mentionUsernameRange = range
+
+                    let wordString = markedText.yep_removeAllWhitespaces
+                    println("wordString from markedText: >\(wordString)<")
+                    tryMentionUserAction?(usernamePrefix: wordString)
+
+                    return
+                }
+            }
+
+            // 正常查询 mention
 
             let currentLetterIndex = textView.selectedRange.location - 1
 
@@ -518,6 +551,8 @@ extension MessageToolbar: UITextViewDelegate {
 
                 return
             }
+
+            // 都没有就放弃
 
             giveUpMentionUserAction?()
         }
