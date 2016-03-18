@@ -1048,6 +1048,37 @@ class UserLocationName: Object {
     }
 }
 
+class FeedSubscription: Object {
+
+    dynamic var feedID: String = ""
+    dynamic var subscribed: Bool = false
+
+    override class func primaryKey() -> String? {
+        return "feedID"
+    }
+
+    override class func indexedProperties() -> [String] {
+        return ["feedID"]
+    }
+
+    convenience init(feedID: String, subscribed: Bool) {
+        self.init()
+
+        self.feedID = feedID
+        self.subscribed = subscribed
+    }
+
+    class func isSubscribedFeedWithID(feedID: String) -> Bool {
+        guard let realm = try? Realm() else {
+            return false
+        }
+        guard let feedSubscription = realm.objects(FeedSubscription).filter("feedID = %@", feedID).first else {
+            return false
+        }
+        return feedSubscription.subscribed
+    }
+}
+
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
