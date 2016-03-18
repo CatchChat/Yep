@@ -25,12 +25,15 @@ enum ConversationFeed {
     case DiscoveredFeedType(DiscoveredFeed)
     case FeedType(Feed)
 
-    var feedID: String {
+    var feedID: String? {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.id
 
         case .FeedType(let feed):
+            guard !feed.invalidated else {
+                return nil
+            }
             return feed.feedID
         }
     }
@@ -2253,8 +2256,10 @@ class ConversationViewController: BaseViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 if let strongSelf = self {
-                    let _ = try? strongSelf.realm.write {
-                        group.includeMe = meIsMember
+                    if !group.invalidated {
+                        let _ = try? strongSelf.realm.write {
+                            group.includeMe = meIsMember
+                        }
                     }
                 }
             }
@@ -2264,6 +2269,10 @@ class ConversationViewController: BaseViewController {
             }
 
             delay(3) { [weak self] in
+
+                guard !group.invalidated else {
+                    return
+                }
 
                 guard !group.includeMe else {
                     return
@@ -2275,9 +2284,11 @@ class ConversationViewController: BaseViewController {
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             if let strongSelf = self {
-                                let _ = try? strongSelf.realm.write {
-                                    group.includeMe = true
-                                    strongSelf.moreViewManager.updateForGroupAffair()
+                                if !group.invalidated {
+                                    let _ = try? strongSelf.realm.write {
+                                        group.includeMe = true
+                                        strongSelf.moreViewManager.updateForGroupAffair()
+                                    }
                                 }
                             }
                         }
