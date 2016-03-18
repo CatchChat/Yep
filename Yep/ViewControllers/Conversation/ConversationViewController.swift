@@ -25,12 +25,15 @@ enum ConversationFeed {
     case DiscoveredFeedType(DiscoveredFeed)
     case FeedType(Feed)
 
-    var feedID: String {
+    var feedID: String? {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.id
 
         case .FeedType(let feed):
+            guard !feed.invalidated else {
+                return nil
+            }
             return feed.feedID
         }
     }

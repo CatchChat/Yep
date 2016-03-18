@@ -29,7 +29,7 @@ class FeedView: UIView {
     }
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
-            guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+            guard let feedID = feed?.feedID, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
                 return
             }
 
@@ -660,7 +660,7 @@ class FeedView: UIView {
             }
         }
 
-        guard let realm = try? Realm(), feed = feed, feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+        guard let realm = try? Realm(), feedID = feed?.feedID, feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
             return
         }
 
@@ -696,7 +696,7 @@ class FeedView: UIView {
 
             audioPlaying = false
 
-            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.feedID {
+            if let feedID = feed?.feedID, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedID {
                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
             } else {
