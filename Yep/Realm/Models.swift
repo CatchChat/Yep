@@ -1051,7 +1051,7 @@ class UserLocationName: Object {
 class FeedSubscription: Object {
 
     dynamic var feedID: String = ""
-    dynamic var subscribed: Bool = false
+    dynamic var hasShownSubscriptionViewOnce: Bool = false
 
     override class func primaryKey() -> String? {
         return "feedID"
@@ -1061,21 +1061,21 @@ class FeedSubscription: Object {
         return ["feedID"]
     }
 
-    convenience init(feedID: String, subscribed: Bool) {
+    convenience init(feedID: String, shown: Bool) {
         self.init()
 
         self.feedID = feedID
-        self.subscribed = subscribed
+        self.hasShownSubscriptionViewOnce = shown
     }
 
-    class func isSubscribedFeedWithID(feedID: String) -> Bool {
+    class func hasShownSubscriptionViewOnceForFeedWithID(feedID: String) -> Bool {
         guard let realm = try? Realm() else {
             return false
         }
         guard let feedSubscription = realm.objects(FeedSubscription).filter("feedID = %@", feedID).first else {
             return false
         }
-        return feedSubscription.subscribed
+        return feedSubscription.hasShownSubscriptionViewOnce
     }
 }
 
