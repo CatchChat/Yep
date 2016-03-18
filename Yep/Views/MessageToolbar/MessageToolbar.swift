@@ -496,6 +496,8 @@ extension MessageToolbar: UITextViewDelegate {
 
         guard let text = textView.text else { return }
 
+        println("text: >\(text)<")
+
         state = text.isEmpty ? .BeginTextInput : .TextInputing
 
         if needDetectMention {
@@ -504,6 +506,34 @@ extension MessageToolbar: UITextViewDelegate {
                 mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
                 initMentionUserAction?()
                 return
+            }
+
+            if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
+                println("markedText: >\(markedText)<")
+
+                var text = text
+
+                let beginning = textView.beginningOfDocument
+                let start = markedTextRange.start
+                let end = markedTextRange.end
+                let location = textView.offsetFromPosition(beginning, toPosition: start)
+                let length = textView.offsetFromPosition(start, toPosition: end)
+                let nsRange = NSMakeRange(location, length)
+                guard let range = text.yep_rangeFromNSRange(nsRange) else {
+                    return
+                }
+
+                text.removeRange(range)
+
+                if text.hasSuffix("@") {
+                    mentionUsernameRange = range
+
+                    let wordString = markedText.yep_removeAllWhitespaces
+                    println("wordString from markedText: >\(wordString)<")
+                    tryMentionUserAction?(usernamePrefix: wordString)
+
+                    return
+                }
             }
 
             let currentLetterIndex = textView.selectedRange.location - 1
