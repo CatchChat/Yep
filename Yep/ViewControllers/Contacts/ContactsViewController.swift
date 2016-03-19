@@ -332,19 +332,19 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        searchController?.active = false
-
         switch section {
 
         case .Local:
 
             if let friend = friendAtIndexPath(indexPath) {
+                searchController?.active = false
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
+            searchController?.active = false
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
