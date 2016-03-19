@@ -10,7 +10,6 @@ import UIKit
 import RealmSwift
 import MonkeyKing
 import Navi
-import Crashlytics
 import SafariServices
 import Kingfisher
 import Proposer

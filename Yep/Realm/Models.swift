@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import Crashlytics
 import MapKit
 
 // 总是在这个队列里使用 Realm

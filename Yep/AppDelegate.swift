@@ -8,7 +8,6 @@
 
 import UIKit
 import Fabric
-import Crashlytics
 import AVFoundation
 import RealmSwift
 import MonkeyKing
