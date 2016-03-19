@@ -80,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         delay(0.5) {
             //Fabric.with([Crashlytics.self])
-            Fabric.with([Crashlytics.self, Appsee.self])
+            Fabric.with([Appsee.self])
 
             /*
             #if STAGING

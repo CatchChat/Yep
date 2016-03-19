@@ -6,8 +6,6 @@ PODS:
     - APAddressBook/Core
   - Appsee (2.2)
   - Base64 (1.1.2)
-  - Crashlytics (3.7.0):
-    - Fabric (~> 1.6.3)
   - DeviceGuru (1.3.4)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
@@ -34,7 +32,6 @@ DEPENDENCIES:
   - APAddressBook/Swift
   - Appsee
   - Base64
-  - Crashlytics
   - DeviceGuru
   - Fabric
   - FXBlurView
@@ -57,7 +54,6 @@ SPEC CHECKSUMS:
   APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DeviceGuru: 9659f3d7c3903eca2084f4801dcbbc6ebde19709
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
