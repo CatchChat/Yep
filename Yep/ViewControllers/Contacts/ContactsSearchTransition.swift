@@ -18,12 +18,17 @@ extension ContactsSearchTransition: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            isPresentation = true
-            return self
+
+            if (fromVC is ContactsViewController) && (toVC is SearchContactsViewController) {
+                isPresentation = true
+                return self
+            }
 
         } else if operation == .Pop {
-            isPresentation = false
-            return self
+            if (fromVC is SearchContactsViewController) && (toVC is ContactsViewController) {
+                isPresentation = false
+                return self
+            }
         }
 
         return nil

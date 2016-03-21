@@ -90,15 +90,36 @@ class SearchContactsViewController: UIViewController {
         }
     }
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                if user.userID != YepUserDefaults.userID.value {
+                    vc.profileUser = .UserType(user)
+                }
+
+            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+            
+            vc.setBackButtonWithTitle()
+
+        default:
+            break
+        }
     }
-    */
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -248,6 +269,31 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
             let discoveredUser = searchedUsers[indexPath.row]
             cell.configureForSearchWithDiscoveredUser(discoveredUser)
+        }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
+
+        switch section {
+
+        case .Local:
+
+            if let friend = friendAtIndexPath(indexPath) {
+                performSegueWithIdentifier("showProfile", sender: friend)
+            }
+
+        case .Online:
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
 }
