@@ -54,7 +54,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchContactsViewController
+        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchContactsViewController
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
@@ -66,17 +66,22 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            toView.alpha = 1
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveLinear, animations: { _ in
+            //toView.alpha = 1
+
+            toVC.searchBarTopConstraint.constant = 0
+            toVC.view.layoutIfNeeded()
 
         }, completion: { finished in
+            toVC.searchBar.becomeFirstResponder()
+
             transitionContext.completeTransition(true)
         })
     }
 
     private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        //let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! SearchContactsViewController
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! SearchContactsViewController
 
         let containerView = transitionContext.containerView()!
 
@@ -87,14 +92,19 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(fromView)
 
         fromView.alpha = 1
+        fromVC.searchBar.showsCancelButton = false
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveLinear, animations: { _ in
             //fromView.alpha = 0
+
+            fromVC.searchBarTopConstraint.constant = 40
+            fromVC.view.layoutIfNeeded()
 
         }, completion: { finished in
             fromView.alpha = 0
+
             transitionContext.completeTransition(true)
         })
     }

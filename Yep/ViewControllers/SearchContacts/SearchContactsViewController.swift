@@ -54,30 +54,10 @@ class SearchContactsViewController: UIViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
-
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarTopConstraint.constant = 0
-            self?.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
-        delay(0.25) { [weak self] in
-            self?.searchBar.becomeFirstResponder()
-        }
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarTopConstraint.constant = 40
-            self?.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
