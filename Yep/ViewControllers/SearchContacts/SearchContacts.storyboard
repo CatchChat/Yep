@@ -8,7 +8,7 @@
         <!--Search Contacts View Controller-->
         <scene sceneID="TsF-3y-vFT">
             <objects>
-                <tableViewController storyboardIdentifier="SearchContactsViewController" id="lh9-1r-5TN" customClass="SearchContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SearchContactsViewController" hidesBottomBarWhenPushed="YES" id="lh9-1r-5TN" customClass="SearchContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="oJk-Ri-7nH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
