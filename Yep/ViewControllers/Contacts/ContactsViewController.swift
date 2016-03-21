@@ -28,7 +28,6 @@ class ContactsViewController: BaseViewController {
     private var searchControllerIsActive: Bool {
         return searchController?.active ?? false
     }
-    private var searchBarSearchButtonClicked: Bool = true
 
     private let keyboardMan = KeyboardMan()
     private var normalContactsTableViewContentInsetBottom: CGFloat?
@@ -150,22 +149,10 @@ class ContactsViewController: BaseViewController {
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            /*
             if let bottom = self?.normalContactsTableViewContentInsetBottom {
                 self?.contactsTableView.contentInset.bottom = bottom
                 self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
             }
-            */
-            if self?.searchBarSearchButtonClicked ?? false {
-                self?.contactsTableView.contentInset.bottom = 0
-                self?.contactsTableView.scrollIndicatorInsets.bottom = 0
-            } else {
-                if let bottom = self?.normalContactsTableViewContentInsetBottom {
-                    self?.contactsTableView.contentInset.bottom = bottom
-                    self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-                }
-            }
-            self?.searchBarSearchButtonClicked = false
         }
 
         #if DEBUG
@@ -406,17 +393,6 @@ extension ContactsViewController: UISearchBarDelegate {
             updateSearchResultsForSearchController(searchController)
         }
     }
-
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        self.searchBarSearchButtonClicked = true
-    }
-
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        if let bottom = normalContactsTableViewContentInsetBottom {
-            self.contactsTableView.contentInset.bottom = bottom
-            self.contactsTableView.scrollIndicatorInsets.bottom = bottom
-        }
-    }
 }
 
 extension ContactsViewController: UISearchControllerDelegate {
@@ -424,15 +400,11 @@ extension ContactsViewController: UISearchControllerDelegate {
     func willPresentSearchController(searchController: UISearchController) {
         println("willPresentSearchController")
         coverUnderStatusBarView.hidden = false
-
-        (tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     func willDismissSearchController(searchController: UISearchController) {
         println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
-
-        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
     }
 }
 
