@@ -161,13 +161,20 @@ class ChatRightImageCell: ChatRightBaseCell {
 
                 var size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
-                
+
+                /*
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                             self?.loadingWithProgress(progress, image: image)
                         }
+                    }
+                })
+                */
+                messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
 
@@ -191,12 +198,19 @@ class ChatRightImageCell: ChatRightBaseCell {
                 var size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
+                /*
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                             self?.loadingWithProgress(progress, image: image)
                         }
+                    }
+                })
+                */
+                messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
             }
@@ -220,12 +234,19 @@ class ChatRightImageCell: ChatRightBaseCell {
 
             let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
 
+            /*
             ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Right, completion: { [weak self] progress, image in
 
                 dispatch_async(dispatch_get_main_queue()) {
                     if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                         self?.loadingWithProgress(progress, image: image)
                     }
+                }
+            })
+            */
+            messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.loadingWithProgress(loadingProgress, image: image)
                 }
             })
         }

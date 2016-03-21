@@ -82,7 +82,7 @@ extension UIImageView {
 
         yep_setMessageImageKey(imageKey)
 
-        ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: .Left, completion: { [weak self] progress, image in
+        ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
 
             guard let strongSelf = self, _imageKey = strongSelf.yep_messageImageKey where _imageKey == imageKey else {
                 return
