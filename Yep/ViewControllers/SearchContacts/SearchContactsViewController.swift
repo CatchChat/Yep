@@ -11,8 +11,23 @@ import RealmSwift
 
 class SearchContactsViewController: UIViewController {
 
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var contactsTableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
+        }
+    }
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var contactsTableView: UITableView! {
+        didSet {
+            contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
+            contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            contactsTableView.rowHeight = 80
+            contactsTableView.tableFooterView = UIView()
+        }
+    }
 
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
@@ -33,25 +48,36 @@ class SearchContactsViewController: UIViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
         title = "Search Contacts"
-
-        contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-
-        contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        contactsTableView.rowHeight = 80
-        contactsTableView.tableFooterView = UIView()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }, completion: { finished in
+        })
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        searchBar.becomeFirstResponder()
+        delay(0.25) { [weak self] in
+            self?.searchBar.becomeFirstResponder()
+        }
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 40
+            self?.view.layoutIfNeeded()
+        }, completion: { finished in
+        })
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {

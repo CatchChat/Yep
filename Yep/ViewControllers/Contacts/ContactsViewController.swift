@@ -29,6 +29,7 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private lazy var contactsSearchTransition: ContactsSearchTransition = {
         return ContactsSearchTransition()
     }()
@@ -164,6 +165,12 @@ class ContactsViewController: BaseViewController {
         #endif
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        navigationController?.delegate = originalNavigationControllerDelegate
+    }
+
     // MARK: Actions
 
     @objc private func deactiveSearchController(sender: NSNotification) {
@@ -221,6 +228,9 @@ class ContactsViewController: BaseViewController {
             vc.setBackButtonWithTitle()
 
         case "showSearchContacts":
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController!.delegate
 
             navigationController?.delegate = contactsSearchTransition
 

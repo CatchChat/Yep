@@ -34,7 +34,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
-        return 2.25
+        return 0.25
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -57,7 +57,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         containerView.addSubview(toView)
 
-        toView.alpha = 0
+        toView.alpha = 1
 
         let fullDuration = transitionDuration(transitionContext)
 
@@ -86,9 +86,10 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         let fullDuration = transitionDuration(transitionContext)
 
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            fromView.alpha = 0
+            //fromView.alpha = 0
 
         }, completion: { finished in
+            fromView.alpha = 0
             transitionContext.completeTransition(true)
         })
     }
