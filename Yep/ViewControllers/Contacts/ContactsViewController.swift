@@ -406,6 +406,13 @@ extension ContactsViewController: UISearchResultsUpdating {
 
 extension ContactsViewController: UISearchBarDelegate {
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        performSegueWithIdentifier("showSearchContacts", sender: nil)
+
+        return false
+    }
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
         if let searchController = searchController {
