@@ -235,7 +235,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    private func numberOfRowsInSection(section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
@@ -248,7 +248,15 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numberOfRowsInSection(section)
+    }
+
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return nil
+        }
 
         if searchControllerIsActive {
 
