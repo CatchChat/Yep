@@ -18,7 +18,6 @@ extension ContactsSearchTransition: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-
             if (fromVC is ContactsViewController) && (toVC is SearchContactsViewController) {
                 isPresentation = true
                 return self
@@ -66,15 +65,18 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveLinear, animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveLinear, .LayoutSubviews], animations: { _ in
             //toView.alpha = 1
+
+            toVC.searchBar.becomeFirstResponder()
 
             toVC.searchBarTopConstraint.constant = 0
             toVC.view.layoutIfNeeded()
 
-        }, completion: { finished in
-            toVC.searchBar.becomeFirstResponder()
+            //toVC.searchBar.setNeedsLayout()
+            //toVC.searchBar.layoutIfNeeded()
 
+        }, completion: { finished in
             transitionContext.completeTransition(true)
         })
     }
@@ -96,11 +98,14 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: .CurveLinear, animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveLinear, .LayoutSubviews], animations: { _ in
             //fromView.alpha = 0
 
             fromVC.searchBarTopConstraint.constant = 40
             fromVC.view.layoutIfNeeded()
+
+            //fromVC.searchBar.setNeedsLayout()
+            //fromVC.searchBar.layoutIfNeeded()
 
         }, completion: { finished in
             fromView.alpha = 0
