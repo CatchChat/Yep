@@ -19,7 +19,7 @@ def pods
     pod 'pop'
     pod 'Base64'
     pod 'SocketRocket'
-    pod 'RealmSwift', '0.98.3'
+    pod 'RealmSwift'
     pod 'MonkeyKing', '0.0.2'
     pod 'JPush-iOS-SDK', '1.8.8'
     pod 'Fabric'
