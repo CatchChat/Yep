@@ -485,17 +485,6 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
 func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
-    if let realm = try? Realm() {
-        realm.beginWrite()
-        realm.objects(Group).forEach({
-            if $0.withFeed == nil {
-                $0.groupType = GroupType.Private.rawValue
-                println("We have group with NO feed")
-            }
-        })
-        let _ = try? realm.commitWrite()
-    }
-
     groups(failureHandler: nil) { allGroups in
 
         //println("allGroups: \(allGroups)")

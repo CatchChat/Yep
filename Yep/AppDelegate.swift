@@ -425,6 +425,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard YepUserDefaults.isLogined else {
             return
         }
+
+        refreshGroupTypeForAllGroups()
         
         syncUnreadMessages {
             syncFriendshipsAndDoFurtherAction {
