@@ -38,7 +38,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
-        return 0.25
+        return 0.35
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -65,7 +65,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveLinear, .LayoutSubviews], animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             //toView.alpha = 1
 
             toVC.searchBar.becomeFirstResponder()
@@ -73,10 +73,9 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
             toVC.searchBarTopConstraint.constant = 0
             toVC.view.layoutIfNeeded()
 
-            //toVC.searchBar.setNeedsLayout()
-            //toVC.searchBar.layoutIfNeeded()
-
         }, completion: { finished in
+            toVC.searchBar.setShowsCancelButton(true, animated: true)
+
             transitionContext.completeTransition(true)
         })
     }
@@ -94,18 +93,15 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(fromView)
 
         fromView.alpha = 1
-        fromVC.searchBar.showsCancelButton = false
+        fromVC.searchBar.setShowsCancelButton(false, animated: true)
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveLinear, .LayoutSubviews], animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             //fromView.alpha = 0
 
-            fromVC.searchBarTopConstraint.constant = 40
+            fromVC.searchBarTopConstraint.constant = 44
             fromVC.view.layoutIfNeeded()
-
-            //fromVC.searchBar.setNeedsLayout()
-            //fromVC.searchBar.layoutIfNeeded()
 
         }, completion: { finished in
             fromView.alpha = 0

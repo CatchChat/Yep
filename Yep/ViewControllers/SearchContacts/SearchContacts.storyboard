@@ -18,14 +18,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="Jve-rS-vtc">
-                                <rect key="frame" x="0.0" y="60" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="luP-me-KuW" id="fWL-ve-yCg"/>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="k5R-sz-Ltl">
-                                <rect key="frame" x="0.0" y="104" width="320" height="376"/>
+                                <rect key="frame" x="0.0" y="108" width="320" height="372"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="luP-me-KuW" id="682-nP-pUP"/>
@@ -36,7 +36,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="k5R-sz-Ltl" secondAttribute="trailing" id="J46-ok-MdL"/>
-                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="YVm-C0-FOr" secondAttribute="bottom" constant="40" id="JH7-1h-kd4"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="YVm-C0-FOr" secondAttribute="bottom" constant="44" id="JH7-1h-kd4"/>
                             <constraint firstItem="k5R-sz-Ltl" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="LIp-ks-OM6"/>
                             <constraint firstAttribute="bottom" secondItem="k5R-sz-Ltl" secondAttribute="bottom" id="Pzg-PV-tq1"/>
                             <constraint firstAttribute="trailing" secondItem="Jve-rS-vtc" secondAttribute="trailing" id="WkE-L9-E5u"/>
