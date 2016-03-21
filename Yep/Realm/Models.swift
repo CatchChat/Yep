@@ -196,7 +196,7 @@ class User: Object {
         return false
     }
 
-    var chatCellCompositedName: String {
+    var compositedName: String {
         if username.isEmpty {
             return nickname
         } else {

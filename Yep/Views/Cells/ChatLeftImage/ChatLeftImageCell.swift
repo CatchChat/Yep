@@ -244,7 +244,7 @@ class ChatLeftImageCell: ChatBaseCell {
     private func configureNameLabel() {
         
         if inGroup {
-            nameLabel.text = user?.chatCellCompositedName
+            nameLabel.text = user?.compositedName
 
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
