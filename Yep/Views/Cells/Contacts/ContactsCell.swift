@@ -33,6 +33,42 @@ class ContactsCell: UITableViewCell {
         
     }
 
+    func configureWithUser(user: User) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nameLabel.text = user.nickname
+
+        if let badge = BadgeView.Badge(rawValue: user.badge) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+
+        joinedDateLabel.text = user.introduction
+        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+
+    func configureForSearchWithUser(user: User) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nameLabel.text = user.compositedName
+
+        if let badge = BadgeView.Badge(rawValue: user.badge) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+
+        joinedDateLabel.text = user.introduction
+        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)

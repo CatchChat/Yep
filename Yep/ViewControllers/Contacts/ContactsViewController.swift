@@ -298,20 +298,11 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                 return
             }
 
-            let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
-            cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
-
-            cell.nameLabel.text = friend.nickname
-
-            if let badge = BadgeView.Badge(rawValue: friend.badge) {
-                cell.badgeImageView.image = badge.image
-                cell.badgeImageView.tintColor = badge.color
+            if searchControllerIsActive {
+                cell.configureForSearchWithUser(friend)
             } else {
-                cell.badgeImageView.image = nil
+                cell.configureWithUser(friend)
             }
-
-            cell.joinedDateLabel.text = friend.introduction
-            cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
 
         case .Online:
             
