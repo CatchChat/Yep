@@ -55,4 +55,27 @@ class ContactsCell: UITableViewCell {
             badgeImageView.image = nil
         }
     }
+
+    func configureForSearchWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
+
+        let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        joinedDateLabel.text = discoveredUser.introduction
+
+        if let distance = discoveredUser.distance?.format(".1") {
+            lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+        } else {
+            lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+        }
+
+        nameLabel.text = discoveredUser.compositedName
+
+        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+    }
 }

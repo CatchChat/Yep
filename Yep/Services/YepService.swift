@@ -1086,6 +1086,14 @@ struct DiscoveredUser: Hashable {
         return id.hashValue
     }
 
+    var compositedName: String {
+        if let username = username {
+            return "\(nickname) @\(username)"
+        } else {
+            return nickname
+        }
+    }
+
     var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
             return id == myUserID
