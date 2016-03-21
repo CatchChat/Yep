@@ -79,6 +79,11 @@ class SearchContactsViewController: UIViewController {
 
 extension SearchContactsViewController: UISearchBarDelegate {
 
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+
+        navigationController?.popViewControllerAnimated(true)
+    }
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
         searchControllerIsActive = !searchText.isEmpty
