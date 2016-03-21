@@ -48,6 +48,22 @@ class SearchContactsViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        searchBar.becomeFirstResponder()
+    }
+
+    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.contactsTableView.reloadData()
+
+            if scrollsToTop {
+                self?.contactsTableView.yep_scrollsToTop()
+            }
+        }
+    }
+
     /*
     // MARK: - Navigation
 
@@ -57,6 +73,55 @@ class SearchContactsViewController: UIViewController {
     // Pass the selected object to the new view controller.
     }
     */
+}
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension SearchContactsViewController: UISearchBarDelegate {
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        searchControllerIsActive = !searchText.isEmpty
+
+        updateSearchResultsWithText(searchText)
+    }
+
+    private func updateSearchResultsWithText(searchText: String) {
+
+        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
+        let filteredFriends = friends.filter(predicate)
+        self.filteredFriends = filteredFriends
+
+        updateContactsTableView(scrollsToTop: !filteredFriends.isEmpty)
+
+        searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
+
+            //println("searchUsersByQ users: \(users)")
+
+            dispatch_async(dispatch_get_main_queue()) {
+
+                guard let filteredFriends = self?.filteredFriends else {
+                    return
+                }
+
+                // 剔除 filteredFriends 里已有的
+
+                var searchedUsers = [DiscoveredUser]()
+
+                let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
+
+                for user in users {
+                    if !filteredFriendUserIDSet.contains(user.id) {
+                        searchedUsers.append(user)
+                    }
+                }
+
+                self?.searchedUsers = searchedUsers
+                
+                self?.updateContactsTableView()
+            }
+        })
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -87,6 +152,30 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowsInSection(section)
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return nil
+        }
+
+        if searchControllerIsActive {
+
+            guard let section = Section(rawValue: section) else {
+                return nil
+            }
+
+            switch section {
+            case .Local:
+                return NSLocalizedString("Friends", comment: "")
+            case .Online:
+                return NSLocalizedString("Users", comment: "")
+            }
+
+        } else {
+            return nil
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
