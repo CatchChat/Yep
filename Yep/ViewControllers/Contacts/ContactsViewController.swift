@@ -29,6 +29,10 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
+    private lazy var contactsSearchTransition: ContactsSearchTransition = {
+        return ContactsSearchTransition()
+    }()
+
     private let keyboardMan = KeyboardMan()
     private var normalContactsTableViewContentInsetBottom: CGFloat?
 
@@ -215,6 +219,10 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+        case "showSearchContacts":
+
+            navigationController?.delegate = contactsSearchTransition
 
         default:
             break

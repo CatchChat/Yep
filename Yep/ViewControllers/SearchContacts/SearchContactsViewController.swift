@@ -7,9 +7,22 @@
 //
 
 import UIKit
+import RealmSwift
 
-class SearchContactsViewController: UITableViewController {
+class SearchContactsViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var contactsTableView: UITableView!
+
+    private lazy var friends = normalFriends()
+    private var filteredFriends: Results<User>?
+
+    private var searchedUsers = [DiscoveredUser]()
+
+    private var searchControllerIsActive = false
+
+    private let cellIdentifier = "ContactsCell"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,78 +33,102 @@ class SearchContactsViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
         title = "Search Contacts"
+
+        contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
+        contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        contactsTableView.rowHeight = 80
+        contactsTableView.tableFooterView = UIView()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension SearchContactsViewController: UITableViewDataSource, UITableViewDelegate {
+
+    enum Section: Int {
+        case Local
+        case Online
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+
+    private func numberOfRowsInSection(section: Int) -> Int {
+        guard let section = Section(rawValue: section) else {
+            return 0
+        }
+
+        switch section {
+        case .Local:
+            return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
+        case .Online:
+            return searchControllerIsActive ? searchedUsers.count : 0
+        }
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numberOfRowsInSection(section)
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        return cell
+    }
+
+    func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+        let index = indexPath.row
+        let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+        return friend
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let cell = cell as? ContactsCell else {
+            return
+        }
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return
+        }
+
+        switch section {
+
+        case .Local:
+
+            guard let friend = friendAtIndexPath(indexPath) else {
+                return
+            }
+
+            if searchControllerIsActive {
+                cell.configureForSearchWithUser(friend)
+            } else {
+                cell.configureWithUser(friend)
+            }
+
+        case .Online:
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            cell.configureForSearchWithDiscoveredUser(discoveredUser)
+        }
+    }
+}
+

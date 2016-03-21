@@ -6,33 +6,53 @@
     </dependencies>
     <scenes>
         <!--Search Contacts View Controller-->
-        <scene sceneID="TsF-3y-vFT">
+        <scene sceneID="1ah-3N-dwb">
             <objects>
-                <tableViewController storyboardIdentifier="SearchContactsViewController" hidesBottomBarWhenPushed="YES" id="lh9-1r-5TN" customClass="SearchContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="oJk-Ri-7nH">
+                <viewController storyboardIdentifier="SearchContactsViewController" id="luP-me-KuW" customClass="SearchContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YVm-C0-FOr"/>
+                        <viewControllerLayoutGuide type="bottom" id="mrS-Rg-Ckq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zgh-J5-BVq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" showsCancelButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jve-rS-vtc">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="luP-me-KuW" id="fWL-ve-yCg"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="k5R-sz-Ltl">
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="luP-me-KuW" id="682-nP-pUP"/>
+                                    <outlet property="delegate" destination="luP-me-KuW" id="h6h-u8-j10"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0dT-XV-RL9">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0dT-XV-RL9" id="WJz-7D-FT8">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="lh9-1r-5TN" id="nM1-qS-tTo"/>
-                            <outlet property="delegate" destination="lh9-1r-5TN" id="L9B-8O-l3I"/>
-                        </connections>
-                    </tableView>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="k5R-sz-Ltl" secondAttribute="trailing" id="J46-ok-MdL"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="YVm-C0-FOr" secondAttribute="bottom" id="JH7-1h-kd4"/>
+                            <constraint firstItem="k5R-sz-Ltl" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="LIp-ks-OM6"/>
+                            <constraint firstAttribute="bottom" secondItem="k5R-sz-Ltl" secondAttribute="bottom" id="Pzg-PV-tq1"/>
+                            <constraint firstAttribute="trailing" secondItem="Jve-rS-vtc" secondAttribute="trailing" id="WkE-L9-E5u"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="pfQ-dj-n85"/>
+                            <constraint firstItem="k5R-sz-Ltl" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="q8N-Aa-xRG"/>
+                        </constraints>
+                    </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="agr-q5-3X7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="contactsTableView" destination="k5R-sz-Ltl" id="uVy-2j-FWD"/>
+                        <outlet property="searchBar" destination="Jve-rS-vtc" id="Wzc-eE-f05"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7O7-xS-Haz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="425" y="372"/>
+            <point key="canvasLocation" x="631" y="373"/>
         </scene>
     </scenes>
 </document>
