@@ -120,6 +120,9 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+
         navigationController?.popViewControllerAnimated(true)
     }
 
