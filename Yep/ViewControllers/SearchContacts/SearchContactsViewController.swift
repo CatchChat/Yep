@@ -11,6 +11,9 @@ import RealmSwift
 
 class SearchContactsViewController: UIViewController {
 
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private var contactsSearchTransition: ContactsSearchTransition?
+
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
@@ -58,6 +61,10 @@ class SearchContactsViewController: UIViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
+        if let delegate = contactsSearchTransition {
+            navigationController?.delegate = delegate
+        }
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
@@ -95,6 +102,11 @@ class SearchContactsViewController: UIViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+            // 记录原始的 contactsSearchTransition 以便 pop 后恢复
+            contactsSearchTransition = navigationController?.delegate as? ContactsSearchTransition
+
+            navigationController?.delegate = originalNavigationControllerDelegate
 
         default:
             break
