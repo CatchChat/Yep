@@ -69,7 +69,7 @@ class ContactsCell: UITableViewCell {
         lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
+    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -92,7 +92,7 @@ class ContactsCell: UITableViewCell {
         }
     }
 
-    func configureForSearchWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
+    func configureForSearchWithDiscoveredUser(discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)

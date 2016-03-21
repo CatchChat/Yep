@@ -307,7 +307,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         case .Online:
             
             let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+            cell.configureForSearchWithDiscoveredUser(discoveredUser)
         }
     }
 
