@@ -108,29 +108,23 @@ class ChatLeftVideoCell: ChatBaseCell {
                 
                 if progress == 1 {
                     
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let image = image {
+                        self?.thumbnailImageView.image = image
                         
-                        if let image = image {
-                            self?.thumbnailImageView.image = image
-                            
-                            self?.thumbnailImageView.alpha = 1.0
-                        }
+                        self?.thumbnailImageView.alpha = 1.0
                     }
-                    
+
                     return
                 }
             }
 
             if let image = image {
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.thumbnailImageView.image = image
 
-                    self?.thumbnailImageView.image = image
-
-                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
-                        self?.thumbnailImageView.alpha = 1.0
-                    }, completion: nil )
-                }
+                UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                    self?.thumbnailImageView.alpha = 1.0
+                }, completion: nil )
             }
         }
     }
@@ -188,12 +182,20 @@ class ChatLeftVideoCell: ChatBaseCell {
                     }
                 }
 
+                /*
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                             self?.loadingWithProgress(progress, image: image)
                         }
+                    }
+                })
+                */
+                let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
+                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
 
@@ -211,12 +213,20 @@ class ChatLeftVideoCell: ChatBaseCell {
                     }
                 }
 
+                /*
                 ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Left, completion: { [weak self] progress, image in
 
                     dispatch_async(dispatch_get_main_queue()) {
                         if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                             self?.loadingWithProgress(progress, image: image)
                         }
+                    }
+                })
+                */
+                let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
+                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
             }
@@ -235,6 +245,7 @@ class ChatLeftVideoCell: ChatBaseCell {
                 }
             }
 
+            /*
             ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Left, completion: { [weak self] progress, image in
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -243,8 +254,15 @@ class ChatLeftVideoCell: ChatBaseCell {
                     }
                 }
             })
+            */
+            let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
+            thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.loadingWithProgress(loadingProgress, image: image)
+                }
+            })
         }
-        
+
         configureNameLabel()
     }
 
