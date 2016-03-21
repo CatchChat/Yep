@@ -168,7 +168,9 @@ class ContactsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        navigationController?.delegate = originalNavigationControllerDelegate
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
     }
 
     // MARK: Actions
