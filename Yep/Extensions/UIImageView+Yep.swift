@@ -62,6 +62,37 @@ extension UIImageView {
     }
 }
 
+// MARK: - Message
+
+private var messageKey: Void?
+
+extension UIImageView {
+
+    private var yep_messageImageKey: String? {
+        return objc_getAssociatedObject(self, &messageKey) as? String
+    }
+
+    private func yep_setMessageImageKey(messageImageKey: String) {
+        objc_setAssociatedObject(self, &messageKey, messageImageKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    func yep_setImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
+
+        let imageKey = message.imageKey
+
+        yep_setMessageImageKey(imageKey)
+
+        ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
+
+            guard let strongSelf = self, _imageKey = strongSelf.yep_messageImageKey where _imageKey == imageKey else {
+                return
+            }
+
+            completion(loadingProgress: progress, image: image)
+        })
+    }
+}
+
 // MARK: - AttachmentURL
 
 private var attachmentURLKey: Void?

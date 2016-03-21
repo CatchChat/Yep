@@ -79,15 +79,12 @@ class ChatRightVideoCell: ChatRightBaseCell {
 
             if let image = image {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                self.thumbnailImageView.image = image
 
-                    self.thumbnailImageView.image = image
-
-                    UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
-                        self.thumbnailImageView.alpha = 1.0
-                    }, completion: { (finished) -> Void in
-                    })
-                }
+                UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { () -> Void in
+                    self.thumbnailImageView.alpha = 1.0
+                }, completion: { (finished) -> Void in
+                })
             }
         }
     }
@@ -134,12 +131,11 @@ class ChatRightVideoCell: ChatRightBaseCell {
                     }
                 }
 
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
+                let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                            self?.loadingWithProgress(progress, image: image)
-                        }
+                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
 
@@ -157,12 +153,11 @@ class ChatRightVideoCell: ChatRightBaseCell {
                     }
                 }
 
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
+                let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                            self?.loadingWithProgress(progress, image: image)
-                        }
+                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
             }
@@ -181,12 +176,11 @@ class ChatRightVideoCell: ChatRightBaseCell {
                 }
             }
 
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
+            let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self?.loadingWithProgress(progress, image: image)
-                    }
+            thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.loadingWithProgress(loadingProgress, image: image)
                 }
             })
         }
