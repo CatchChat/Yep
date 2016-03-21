@@ -1427,6 +1427,16 @@ class ConversationViewController: BaseViewController {
                 self?.swipeUpPromptLabel.text = text
             }
         }
+
+        if !isFirstAppear {
+            delay(1) { [weak self] in
+                if let latestMessage = self?.messages.last {
+                    let lastReadUnixTime = latestMessage.createdUnixTime
+                    let lastReadMessageID = latestMessage.messageID
+                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
+                }
+            }
+        }
     }
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
