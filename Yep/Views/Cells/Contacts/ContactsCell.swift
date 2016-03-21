@@ -18,7 +18,8 @@ class ContactsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

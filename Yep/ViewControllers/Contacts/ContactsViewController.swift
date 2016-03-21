@@ -114,7 +114,7 @@ class ContactsViewController: BaseViewController {
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        contactsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
@@ -245,6 +245,26 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
         case .Online:
             return searchControllerIsActive ? searchedUsers.count : 0
+        }
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        if searchControllerIsActive {
+
+            guard let section = Section(rawValue: section) else {
+                return nil
+            }
+
+            switch section {
+            case .Local:
+                return NSLocalizedString("Friends", comment: "")
+            case .Online:
+                return NSLocalizedString("Users", comment: "")
+            }
+
+        } else {
+            return nil
         }
     }
 
