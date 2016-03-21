@@ -131,17 +131,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                     }
                 }
 
-                /*
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                            self?.loadingWithProgress(progress, image: image)
-                        }
-                    }
-                })
-                */
                 let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
+
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
@@ -162,17 +153,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                     }
                 }
 
-                /*
-                ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: .Right, completion: { [weak self] progress, image in
-
-                    dispatch_async(dispatch_get_main_queue()) {
-                        if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                            self?.loadingWithProgress(progress, image: image)
-                        }
-                    }
-                })
-                */
                 let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
+
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
@@ -194,17 +176,8 @@ class ChatRightVideoCell: ChatRightBaseCell {
                 }
             }
 
-            /*
-            ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)), tailDirection: .Right, completion: { [weak self] progress, image in
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                        self?.loadingWithProgress(progress, image: image)
-                    }
-                }
-            })
-            */
             let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
+
             thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.loadingWithProgress(loadingProgress, image: image)
