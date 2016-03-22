@@ -68,8 +68,6 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             //toView.alpha = 1
 
-            toVC.searchBar.becomeFirstResponder()
-
             toVC.searchBarTopConstraint.constant = 0
             toVC.view.layoutIfNeeded()
 
