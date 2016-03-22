@@ -41,7 +41,7 @@ class YepTabBarController: UITabBarController {
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
             if newValue {
-                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkDoubleTapOnFeeds:", userInfo: nil, repeats: false)
+                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapOnFeedsTimer = timer
 
             } else {

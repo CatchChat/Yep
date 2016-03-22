@@ -61,7 +61,7 @@ class MessageToolbar: UIToolbar {
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDraft:", name: Notification.updateDraft, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: Notification.updateDraft, object: nil)
             }
         }
     }
@@ -163,7 +163,7 @@ class MessageToolbar: UIToolbar {
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -220,7 +220,7 @@ class MessageToolbar: UIToolbar {
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: "moreMessageTypes", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -230,7 +230,7 @@ class MessageToolbar: UIToolbar {
         button.tintColor = UIColor.messageToolBarHighlightColor()
         button.tintAdjustmentMode = .Normal
         button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
-        button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MessageToolbar.trySendTextMessage), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -503,7 +503,7 @@ extension MessageToolbar: UITextViewDelegate {
             // 刚刚输入 @
 
             if text.hasSuffix("@") {
-                mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
+                mentionUsernameRange = text.endIndex.advancedBy(-1)..<text.endIndex
                 initMentionUserAction?()
                 return
             }

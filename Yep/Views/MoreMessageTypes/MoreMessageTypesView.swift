@@ -119,7 +119,7 @@ class MoreMessageTypesView: UIView {
 
             makeUI()
 
-            let tap = UITapGestureRecognizer(target: self, action: "hide")
+            let tap = UITapGestureRecognizer(target: self, action: #selector(MoreMessageTypesView.hide))
             containerView.addGestureRecognizer(tap)
 
             tap.cancelsTouchesInView = true

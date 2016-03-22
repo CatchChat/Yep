@@ -345,11 +345,11 @@ class ProfileViewController: SegueViewController {
             } else {
                 sayHiView.hidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "createdFeed:", name: YepConfig.Notification.createdFeed, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.Notification.createdFeed, object: nil)
             }
         }
     }
@@ -572,9 +572,9 @@ class ProfileViewController: SegueViewController {
 
         println("init ProfileViewController \(self)")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareForOAuthResult:", name: YepConfig.Notification.OAuthResult, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.prepareForOAuthResult(_:)), name: YepConfig.Notification.OAuthResult, object: nil)
 
         if let profileUser = profileUser {
 
@@ -737,7 +737,7 @@ class ProfileViewController: SegueViewController {
                         }
                     }
 
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIForUsername:", name: EditProfileViewController.Notification.NewUsername, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
             }
 
@@ -777,7 +777,7 @@ class ProfileViewController: SegueViewController {
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile:")
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.tryShareMyProfile(_:)))
                     customNavigationItem.leftBarButtonItem = shareMyProfileButton
                 }
 
@@ -785,7 +785,7 @@ class ProfileViewController: SegueViewController {
                 // share others' profile button
 
                 if let _ = profileUser.username {
-                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile:")
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.shareOthersProfile(_:)))
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
@@ -959,7 +959,7 @@ class ProfileViewController: SegueViewController {
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ProfileViewController.back(_:)))
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }

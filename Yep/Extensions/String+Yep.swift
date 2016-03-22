@@ -121,7 +121,7 @@ extension String {
         var wordString: String?
         var wordRange: Range<Index>?
 
-        self.enumerateSubstringsInRange(Range<Index>(start: startIndex, end: endIndex), options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
+        self.enumerateSubstringsInRange(startIndex..<endIndex, options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
 
             //println("substring: \(substring)")
             //println("substringRange: \(substringRange)")
@@ -142,7 +142,7 @@ extension String {
             return nil
         }
 
-        let mentionWordRange = Range<Index>(start: _wordRange.startIndex.advancedBy(-1), end: _wordRange.endIndex)
+        let mentionWordRange = _wordRange.startIndex.advancedBy(-1)..<_wordRange.endIndex
 
         let mentionWord = substringWithRange(mentionWordRange)
 

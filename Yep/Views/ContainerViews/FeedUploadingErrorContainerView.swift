@@ -36,7 +36,7 @@ class FeedUploadingErrorContainerView: UIView {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Retry", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
-        button.addTarget(self, action: "retryUploadingFeed:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.retryUploadingFeed(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -44,7 +44,7 @@ class FeedUploadingErrorContainerView: UIView {
         let button = UIButton()
         button.setTitle(NSLocalizedString("Delete", comment: ""), forState: .Normal)
         button.setTitleColor(UIColor.redColor(), forState: .Normal)
-        button.addTarget(self, action: "deleteUploadingFeed:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.deleteUploadingFeed(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
 

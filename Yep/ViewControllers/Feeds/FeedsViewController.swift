@@ -322,9 +322,9 @@ class FeedsViewController: BaseViewController {
 
         title = NSLocalizedString("Feeds", comment: "")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
@@ -340,7 +340,7 @@ class FeedsViewController: BaseViewController {
                         
                         if me.masterSkills.filter(predicate).count == 0
                             && me.learningSkills.filter(predicate).count == 0 {
-                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe:")
+                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
                                 navigationItem.rightBarButtonItem = addSkillToMeButton
                         }
                 }
@@ -350,7 +350,7 @@ class FeedsViewController: BaseViewController {
             // do nothing
 
         } else {
-            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
+            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
         }
 
@@ -471,7 +471,7 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Actions
 
-    @IBAction private func showFilter(sender: AnyObject) {
+    @objc private func showFilter(sender: AnyObject) {
         
         if let window = view.window {
             filterView.showInView(window)
@@ -921,7 +921,7 @@ class FeedsViewController: BaseViewController {
 
             vc.syncPlayFeedAudioAction = { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
         case "presentNewFeed":
@@ -1361,7 +1361,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                         if let strongSelf = self {
 
-                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
@@ -1369,7 +1369,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                                 strongSelf.feedAudioPlaybackTimer?.invalidate()
 
-                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                                 YepAudioService.sharedManager.playbackTimer = playbackTimer
 
                                 cell.audioPlaying = true
@@ -1629,7 +1629,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         menu.setTargetRect(bubbleFrame, inView: view)
         menu.setMenuVisible(true, animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         feedsTableView.deselectRowAtIndexPath(selectedIndexPathForMenu, animated: true)
     }
@@ -1649,7 +1649,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
 
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             return true
         }
 
@@ -1662,7 +1662,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             UIPasteboard.generalPasteboard().string = cell.messageTextView.text
         }
     }
