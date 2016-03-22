@@ -28,12 +28,12 @@ class RegisterVerifyMobileViewController: SegueViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(next(_:)))
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterVerifyMobileViewController.next(_:)))
         return button
     }()
     
     private lazy var callMeTimer: NSTimer = {
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(tryCallMe(_:)), userInfo: nil, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(RegisterVerifyMobileViewController.tryCallMe(_:)), userInfo: nil, repeats: true)
         return timer
     }()
 

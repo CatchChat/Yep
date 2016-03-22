@@ -59,7 +59,7 @@ class LoginVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginVerifyMobileViewController.activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
         
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
@@ -68,7 +68,7 @@ class LoginVerifyMobileViewController: UIViewController {
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.delegate = self
-        verifyCodeTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        verifyCodeTextField.addTarget(self, action: #selector(LoginVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)

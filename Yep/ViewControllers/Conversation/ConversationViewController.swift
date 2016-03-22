@@ -396,7 +396,7 @@ class ConversationViewController: BaseViewController {
 
         titleView.userInteractionEnabled = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showFriendProfile(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.showFriendProfile(_:)))
 
         titleView.addGestureRecognizer(tap)
 
@@ -756,22 +756,22 @@ class ConversationViewController: BaseViewController {
         navigationItem.titleView = titleView
 
 
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(moreAction(_:)))
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleReceivedNewMessagesNotification(_:)), name: YepConfig.Notification.newMessages, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleDeletedMessagesNotification(_:)), name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: YepConfig.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(tryInsertInActiveNewMessages(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.tryInsertInActiveNewMessages(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(messagesMarkAsReadByRecipient(_:)), name: MessageNotification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -813,7 +813,7 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView.bounces = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToCollapseMessageToolBar(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
         conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
@@ -1145,7 +1145,7 @@ class ConversationViewController: BaseViewController {
 
         // 为 nil 时才新建
         if checkTypingStatusTimer == nil {
-            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(checkTypingStatus(_:)), userInfo: nil, repeats: true)
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ConversationViewController.checkTypingStatus(_:)), userInfo: nil, repeats: true)
         }
 
         // 尽量晚的设置一些属性和闭包
@@ -3393,7 +3393,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         menu.setTargetRect(bubbleFrame, inView: view)
         menu.setMenuVisible(true, animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
 
     func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {

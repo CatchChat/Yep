@@ -199,7 +199,7 @@ class FeedView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
 
-        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(tapLocation(_:)))
+        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapLocation(_:)))
         view.addGestureRecognizer(tapLocation)
 
         return view
@@ -303,15 +303,15 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapSwitchFold = UITapGestureRecognizer(target: self, action: #selector(switchFold(_:)))
+        let tapSwitchFold = UITapGestureRecognizer(target: self, action: #selector(FeedView.switchFold(_:)))
         addGestureRecognizer(tapSwitchFold)
         tapSwitchFold.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(_:)))
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapAvatar(_:)))
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(tapSocialWork(_:)))
+        let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapSocialWork(_:)))
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
     }
 
@@ -503,7 +503,7 @@ class FeedView: UIView {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
 
-                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 }
             }
 

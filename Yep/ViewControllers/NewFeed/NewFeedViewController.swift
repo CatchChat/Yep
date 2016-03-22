@@ -123,7 +123,7 @@ class NewFeedViewController: SegueViewController {
     }
 
     private lazy var postButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: #selector(post(_:)))
+        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.post(_:)))
             button.enabled = false
         return button
     }()
@@ -222,7 +222,7 @@ class NewFeedViewController: SegueViewController {
         navigationItem.rightBarButtonItem = postButton
 
         if !attachment.needPrepare {
-            let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: #selector(cancel(_:)))
+            let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
 
             navigationItem.leftBarButtonItem = cancleButton
         }
@@ -268,7 +268,7 @@ class NewFeedViewController: SegueViewController {
         
         channelView.backgroundColor = UIColor.whiteColor()
         channelView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showSkillPickerView(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(NewFeedViewController.showSkillPickerView(_:)))
         channelView.addGestureRecognizer(tap)
         
         // try turn on location

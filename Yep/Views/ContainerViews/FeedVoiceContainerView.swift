@@ -42,7 +42,7 @@ class FeedVoiceContainerView: UIView {
         button.tintColor = UIColor.lightGrayColor()
         button.tintAdjustmentMode = .Normal
 
-        button.addTarget(self, action: #selector(playOrPauseAudio(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedVoiceContainerView.playOrPauseAudio(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
 
