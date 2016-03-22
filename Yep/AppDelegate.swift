@@ -530,6 +530,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func customAppearce() {
 
+        window?.backgroundColor = UIColor.whiteColor()
+
         // Global Tint Color
 
         window?.tintColor = UIColor.yepTintColor()
