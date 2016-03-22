@@ -177,6 +177,9 @@
 		506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */; };
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
+		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
+		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
+		507682F51C9FED1F006A973E /* ContactsSearchTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682F41C9FED1F006A973E /* ContactsSearchTransition.swift */; };
 		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
@@ -555,6 +558,9 @@
 		506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTypeButton.swift; path = Views/Buttons/MessageTypeButton.swift; sourceTree = "<group>"; };
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
+		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
+		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
+		507682F41C9FED1F006A973E /* ContactsSearchTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsSearchTransition.swift; path = ViewControllers/Contacts/ContactsSearchTransition.swift; sourceTree = "<group>"; };
 		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
@@ -1057,6 +1063,7 @@
 				500EED9B1BF1B81600C6BABC /* MediaPreview */,
 				5053AD4B1AF772CE00B3CBFA /* PickLocation */,
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
+				507682F11C9FE8FC006A973E /* SearchContacts */,
 				5064F6511B0AE2ED0089FAD4 /* AddFriends */,
 				502048251B0F1BB8002EBFC7 /* SearchedUsers */,
 				502280F91B1C3F2F00E984EE /* FriendsInContacts */,
@@ -1104,6 +1111,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+				507682F41C9FED1F006A973E /* ContactsSearchTransition.swift */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -1695,6 +1703,15 @@
 				506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */,
 			);
 			name = SkillAnnotationHeader;
+			sourceTree = "<group>";
+		};
+		507682F11C9FE8FC006A973E /* SearchContacts */ = {
+			isa = PBXGroup;
+			children = (
+				507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */,
+				507682F21C9FE921006A973E /* SearchContacts.storyboard */,
+			);
+			name = SearchContacts;
 			sourceTree = "<group>";
 		};
 		507CF1691AFC84AA00E261B4 /* CustomNavigationBar */ = {
@@ -2534,6 +2551,7 @@
 				50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */,
 				508F8FC91B0161EF00461B0B /* ProfileSeparationLineCell.xib in Resources */,
 				5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */,
+				507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */,
 				50DEE0511BEA09DD00015741 /* BlackList.storyboard in Resources */,
 				50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */,
 				505262151C522A1E00292C6A /* Show.storyboard in Resources */,
@@ -2665,6 +2683,7 @@
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
+				507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */,
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
@@ -2907,6 +2926,7 @@
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
+				507682F51C9FED1F006A973E /* ContactsSearchTransition.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,

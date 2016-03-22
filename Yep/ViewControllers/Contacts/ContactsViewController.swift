@@ -29,8 +29,13 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
-    private let keyboardMan = KeyboardMan()
-    private var normalContactsTableViewContentInsetBottom: CGFloat?
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var contactsSearchTransition: ContactsSearchTransition = {
+        return ContactsSearchTransition()
+    }()
+
+//    private let keyboardMan = KeyboardMan()
+//    private var normalContactsTableViewContentInsetBottom: CGFloat?
 
     private let cellIdentifier = "ContactsCell"
 
@@ -142,22 +147,30 @@ class ContactsViewController: BaseViewController {
             }
         }
 
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
-            self?.contactsTableView.contentInset.bottom = keyboardHeight
-            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            if let bottom = self?.normalContactsTableViewContentInsetBottom {
-                self?.contactsTableView.contentInset.bottom = bottom
-                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-            }
-        }
+//        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+//            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
+//            self?.contactsTableView.contentInset.bottom = keyboardHeight
+//            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
+//        }
+//
+//        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+//            if let bottom = self?.normalContactsTableViewContentInsetBottom {
+//                self?.contactsTableView.contentInset.bottom = bottom
+//                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
+//            }
+//        }
 
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+        }
     }
 
     // MARK: Actions
@@ -215,6 +228,18 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+        case "showSearchContacts":
+
+            let vc = segue.destinationViewController as! SearchContactsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = contactsSearchTransition
 
         default:
             break
@@ -405,6 +430,13 @@ extension ContactsViewController: UISearchResultsUpdating {
 // MARK: - UISearchBarDelegate
 
 extension ContactsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        performSegueWithIdentifier("showSearchContacts", sender: nil)
+
+        return false
+    }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
