@@ -25,7 +25,7 @@ class RegisterPickAvatarViewController: SegueViewController {
     @IBOutlet private weak var retakeButton: UIButton!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(next(_:)))
         return button
     }()
 

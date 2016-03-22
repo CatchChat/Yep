@@ -180,7 +180,7 @@ class PickLocationViewController: SegueViewController {
         view.bringSubviewToFront(searchBar)
         view.bringSubviewToFront(activityIndicator)
 
-        let pan = UIPanGestureRecognizer(target: self, action: "pan:")
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(PickLocationViewController.pan(_:)))
         mapView.addGestureRecognizer(pan)
         pan.delegate = self
     }

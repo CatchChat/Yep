@@ -73,7 +73,7 @@ class SkillCategoryButton: UIButton {
 
         makeUI()
 
-        self.addTarget(self, action: "toggleSelectionState", forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(SkillCategoryButton.toggleSelectionState), forControlEvents: .TouchUpInside)
     }
 
     func makeUI() {

@@ -65,7 +65,7 @@ class ChatLeftVideoCell: ChatBaseCell {
         }
 
         thumbnailImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftVideoCell.tapMediaView))
         thumbnailImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in

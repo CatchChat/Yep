@@ -76,7 +76,7 @@ class MediaControlView: UIView {
         button.setImage(UIImage(named: "icon_play"), forState: .Normal)
         button.tintColor = UIColor.whiteColor()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        button.addTarget(self, action: "playOrPause", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(playOrPause), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -85,7 +85,7 @@ class MediaControlView: UIView {
         button.setImage(UIImage(named: "icon_more"), forState: .Normal)
         button.tintColor = UIColor.whiteColor()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
-        button.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(share), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 

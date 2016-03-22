@@ -21,7 +21,7 @@ class FeedBiggerImageCell: FeedBasicCell {
         imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
 
         imageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedBiggerImageCell.tap(_:)))
         imageView.addGestureRecognizer(tap)
 
         return imageView

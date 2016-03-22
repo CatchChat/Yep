@@ -199,7 +199,7 @@ class FeedView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
 
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
+        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(tapLocation(_:)))
         view.addGestureRecognizer(tapLocation)
 
         return view
@@ -224,7 +224,7 @@ class FeedView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
 
-        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapURLInfo(_:)))
         view.addGestureRecognizer(tapURLInfo)
 
         return view
@@ -303,15 +303,15 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapSwitchFold = UITapGestureRecognizer(target: self, action: "switchFold:")
+        let tapSwitchFold = UITapGestureRecognizer(target: self, action: #selector(switchFold(_:)))
         addGestureRecognizer(tapSwitchFold)
         tapSwitchFold.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(tapAvatar(_:)))
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
+        let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(tapSocialWork(_:)))
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
     }
 
@@ -503,7 +503,7 @@ class FeedView: UIView {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
 
-                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 }
             }
 
@@ -671,10 +671,10 @@ class FeedView: UIView {
 
                 if let strongSelf = self {
 
-                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                     strongSelf.audioPlaybackTimer?.invalidate()
-                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
 
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 

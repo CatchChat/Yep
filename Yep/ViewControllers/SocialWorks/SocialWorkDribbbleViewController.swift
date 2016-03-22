@@ -20,9 +20,9 @@ class SocialWorkDribbbleViewController: BaseViewController {
 
 
     private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkDribbbleViewController.share(_:)))
         return button
-        }()
+    }()
     
     @IBOutlet private weak var dribbbleCollectionView: UICollectionView!
 

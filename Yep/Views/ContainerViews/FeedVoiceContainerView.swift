@@ -42,7 +42,7 @@ class FeedVoiceContainerView: UIView {
         button.tintColor = UIColor.lightGrayColor()
         button.tintAdjustmentMode = .Normal
 
-        button.addTarget(self, action: "playOrPauseAudio:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(playOrPauseAudio(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -64,7 +64,7 @@ class FeedVoiceContainerView: UIView {
 
         makeUI()
 
-        let tap = UITapGestureRecognizer(target: self, action: "playOrPauseAudio:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedVoiceContainerView.playOrPauseAudio(_:)))
         self.addGestureRecognizer(tap)
     }
 

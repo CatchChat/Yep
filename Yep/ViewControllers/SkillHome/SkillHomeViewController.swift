@@ -139,9 +139,9 @@ class SkillHomeViewController: BaseViewController {
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
-        headerView.masterButton.addTarget(self, action: "changeToMaster:", forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.masterButton.addTarget(self, action: #selector(SkillHomeViewController.changeToMaster(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
-        headerView.learningButton.addTarget(self, action: "changeToLearning:", forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.learningButton.addTarget(self, action: #selector(SkillHomeViewController.changeToLearning(_:)), forControlEvents: UIControlEvents.TouchUpInside)
 
         headerView.changeCoverAction = { [weak self] in
 
@@ -237,7 +237,7 @@ class SkillHomeViewController: BaseViewController {
 
                     if me.masterSkills.filter(predicate).count == 0
                         && me.learningSkills.filter(predicate).count == 0 {
-                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe:")
+                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
                             navigationItem.rightBarButtonItem = addSkillToMeButton
                     }
             }
@@ -335,7 +335,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         if isLoadMore {
-            masterPage++
+            masterPage += 1
 
         } else {
             masterPage = 1
@@ -380,7 +380,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         if isLoadMore {
-            learningPage++
+            learningPage += 1
 
         } else {
             learningPage = 1

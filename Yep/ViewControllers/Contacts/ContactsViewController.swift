@@ -84,8 +84,8 @@ class ContactsViewController: BaseViewController {
 
         title = NSLocalizedString("Contacts", comment: "")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships:", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deactiveSearchController:", name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.deactiveSearchController(_:)), name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
 
         coverUnderStatusBarView.hidden = true
 

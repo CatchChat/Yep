@@ -157,7 +157,7 @@ class DiscoverViewController: BaseViewController {
 
 
         refreshControl.tintColor = UIColor.lightGrayColor()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
         refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         discoveredUsersCollectionView.addSubview(refreshControl)
 
@@ -217,7 +217,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         if case .LoadMore = mode {
-            currentPageIndex++
+            currentPageIndex += 1
 
         } else {
             currentPageIndex = 1

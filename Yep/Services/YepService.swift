@@ -1687,7 +1687,7 @@ func officialMessages(completion completion: Int -> Void) {
                                 recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
                             }
 
-                            messagesCount++
+                            messagesCount += 1
                         }
                     }
                 }

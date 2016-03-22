@@ -33,7 +33,7 @@ class SubscribeView: UIView {
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
 
-        button.addTarget(self, action: "subscribe:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SubscribeView.subscribe(_:)), forControlEvents: .TouchUpInside)
 
         return button
     }()
@@ -42,7 +42,7 @@ class SubscribeView: UIView {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
 
-        button.addTarget(self, action: "dismiss:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SubscribeView.dismiss(_:)), forControlEvents: .TouchUpInside)
 
         return button
     }()

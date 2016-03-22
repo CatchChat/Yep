@@ -497,7 +497,9 @@ func syncSocialWorksToMessagesForYepTeam() {
                         // 同步最新的几个
                         var i = 0
                         for repo in githubRepos {
-                            if i++ >= 3 {
+
+                            i += 1
+                            if i >= 3 {
                                 break
                             }
 
@@ -555,7 +557,9 @@ func syncSocialWorksToMessagesForYepTeam() {
                         // 同步最新的几个
                         var i = 0
                         for shot in dribbbleShots {
-                            if i++ >= 3 {
+
+                            i += 1
+                            if i >= 3 {
                                 break
                             }
 
