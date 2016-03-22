@@ -34,8 +34,8 @@ class ContactsViewController: BaseViewController {
         return ContactsSearchTransition()
     }()
 
-    private let keyboardMan = KeyboardMan()
-    private var normalContactsTableViewContentInsetBottom: CGFloat?
+//    private let keyboardMan = KeyboardMan()
+//    private var normalContactsTableViewContentInsetBottom: CGFloat?
 
     private let cellIdentifier = "ContactsCell"
 
@@ -147,18 +147,18 @@ class ContactsViewController: BaseViewController {
             }
         }
 
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
-            self?.contactsTableView.contentInset.bottom = keyboardHeight
-            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            if let bottom = self?.normalContactsTableViewContentInsetBottom {
-                self?.contactsTableView.contentInset.bottom = bottom
-                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-            }
-        }
+//        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+//            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
+//            self?.contactsTableView.contentInset.bottom = keyboardHeight
+//            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
+//        }
+//
+//        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+//            if let bottom = self?.normalContactsTableViewContentInsetBottom {
+//                self?.contactsTableView.contentInset.bottom = bottom
+//                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
+//            }
+//        }
 
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
@@ -233,6 +233,8 @@ class ContactsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! SearchContactsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
 
             // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
             originalNavigationControllerDelegate = navigationController?.delegate

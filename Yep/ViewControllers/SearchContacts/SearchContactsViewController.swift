@@ -70,6 +70,8 @@ class SearchContactsViewController: SegueViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
+
+        //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -78,6 +80,8 @@ class SearchContactsViewController: SegueViewController {
         if let delegate = contactsSearchTransition {
             navigationController?.delegate = delegate
         }
+
+        searchBar.becomeFirstResponder()
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
@@ -88,6 +92,12 @@ class SearchContactsViewController: SegueViewController {
                 self?.contactsTableView.yep_scrollsToTop()
             }
         }
+    }
+
+    private func hideKeyboard() {
+        searchBar.resignFirstResponder()
+
+        //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     // MARK: - Navigation
@@ -150,9 +160,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
-        searchBar.resignFirstResponder()
-
-        (tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
+        hideKeyboard()
     }
 
     private func updateSearchResultsWithText(searchText: String) {
@@ -295,6 +303,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+
+        hideKeyboard()
 
         guard let section = Section(rawValue: indexPath.section) else {
             return
