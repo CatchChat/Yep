@@ -8,8 +8,9 @@
 
 import UIKit
 import RealmSwift
+import KeyboardMan
 
-class SearchContactsViewController: UIViewController {
+class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var contactsSearchTransition: ContactsSearchTransition?
@@ -32,6 +33,8 @@ class SearchContactsViewController: UIViewController {
         }
     }
 
+    private let keyboardMan = KeyboardMan()
+
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
@@ -51,6 +54,16 @@ class SearchContactsViewController: UIViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
         title = "Search Contacts"
+
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+            self?.contactsTableView.contentInset.bottom = keyboardHeight
+            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+            self?.contactsTableView.contentInset.bottom = 0
+            self?.contactsTableView.scrollIndicatorInsets.bottom = 0
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -114,7 +127,7 @@ class SearchContactsViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
+// MARK: - UISearchBarDelegate
 
 extension SearchContactsViewController: UISearchBarDelegate {
 
@@ -122,6 +135,8 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         searchBar.text = nil
         searchBar.resignFirstResponder()
+
+        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
 
         navigationController?.popViewControllerAnimated(true)
     }
@@ -131,6 +146,13 @@ extension SearchContactsViewController: UISearchBarDelegate {
         searchControllerIsActive = !searchText.isEmpty
 
         updateSearchResultsWithText(searchText)
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+
+        searchBar.resignFirstResponder()
+
+        (tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     private func updateSearchResultsWithText(searchText: String) {
@@ -230,7 +252,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         return cell
     }
 
-    func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+    private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
         let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
         return friend
@@ -245,6 +267,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
+
 
         switch section {
 
