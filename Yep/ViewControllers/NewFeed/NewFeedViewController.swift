@@ -1201,7 +1201,7 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
             
             switch mediaType {
                 
-            case kUTTypeImage as! String:
+            case String(kUTTypeImage):
                 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
                     if mediaImages.count <= 3 {

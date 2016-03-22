@@ -4658,7 +4658,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             switch mediaType {
 
-            case kUTTypeImage as! String:
+            case String(kUTTypeImage):
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -4685,7 +4685,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
                 }
 
-            case kUTTypeMovie as! String:
+            case String(kUTTypeMovie):
 
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
                     println("videoURL \(videoURL)")

@@ -486,7 +486,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
             switch mediaType {
 
-            case kUTTypeImage as! String:
+            case String(kUTTypeImage):
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
