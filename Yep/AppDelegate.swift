@@ -254,6 +254,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .Message:
 
             syncUnreadMessages() {
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                }
+
                 completionHandler(UIBackgroundFetchResult.NewData)
             }
 
@@ -297,7 +301,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
                 }
 
                 completionHandler(UIBackgroundFetchResult.NewData)
