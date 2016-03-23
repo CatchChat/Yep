@@ -3406,7 +3406,7 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
     ]
 
     let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
-        println("usersMatchWithUsernamePrefix: \(data)")
+        //println("usersMatchWithUsernamePrefix: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
             let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in
