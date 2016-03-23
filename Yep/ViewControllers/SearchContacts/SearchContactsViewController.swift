@@ -27,6 +27,7 @@ class SearchContactsViewController: SegueViewController {
             contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
+            contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
             contactsTableView.rowHeight = 80
             contactsTableView.tableFooterView = UIView()
@@ -42,6 +43,7 @@ class SearchContactsViewController: SegueViewController {
 
     private var searchControllerIsActive = false
 
+    private let headerIdentifier = "TableSectionTitleView"
     private let cellIdentifier = "ContactsCell"
     
     override func viewDidLoad() {
@@ -231,6 +233,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         return numberOfRowsInSection(section)
     }
 
+    /*
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         guard numberOfRowsInSection(section) > 0 else {
@@ -252,6 +255,49 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         } else {
             return nil
+        }
+    }
+    */
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return nil
+        }
+
+        if searchControllerIsActive {
+
+            guard let section = Section(rawValue: section) else {
+                return nil
+            }
+
+            let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
+
+            switch section {
+            case .Local:
+                header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+            case .Online:
+                header?.titleLabel.text = NSLocalizedString("Users", comment: "")
+            }
+
+            return header
+
+        } else {
+            return nil
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return 0
+        }
+
+        if searchControllerIsActive {
+            return 25
+            
+        } else {
+            return 0
         }
     }
 

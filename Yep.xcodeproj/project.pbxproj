@@ -253,6 +253,7 @@
 		50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */; };
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
+		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
 		50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50B6D9F11C61C26100D431E0 /* PushConfig.plist */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
@@ -634,6 +635,7 @@
 		50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMessageTypesView.swift; path = Views/MoreMessageTypes/MoreMessageTypesView.swift; sourceTree = "<group>"; };
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
+		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
 		50B6D9F11C61C26100D431E0 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
@@ -1407,6 +1409,7 @@
 				502AE55A1AB932D9005BD199 /* ProfileSectionHeader */,
 				50C090A21ADE391900CC6389 /* AddSkills */,
 				506BB7F71AE4E0AA00C1A2A0 /* SkillAnnotationHeader */,
+				50B6A03C1CA27A6400C460E3 /* TableSectionTitle */,
 			);
 			name = ReusableViews;
 			sourceTree = "<group>";
@@ -2045,6 +2048,14 @@
 				50DEE0421BE8B3CD00015741 /* Feedback.storyboard */,
 			);
 			name = Feedback;
+			sourceTree = "<group>";
+		};
+		50B6A03C1CA27A6400C460E3 /* TableSectionTitle */ = {
+			isa = PBXGroup;
+			children = (
+				50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */,
+			);
+			name = TableSectionTitle;
 			sourceTree = "<group>";
 		};
 		50B6D9F01C61C26100D431E0 /* JPush */ = {
@@ -2872,6 +2883,7 @@
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
 				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
 				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
+				50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
 				50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */,
