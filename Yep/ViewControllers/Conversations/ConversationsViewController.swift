@@ -441,9 +441,9 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
             // 先找最新且未读的消息
-            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: ConversationType.Group)
+            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: .Group)
             // 找不到就找最新的消息
-            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: ConversationType.Group)) {
+            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .Group)) {
 
                 if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
                     cell.chatLabel.text = placeholder
