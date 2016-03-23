@@ -359,7 +359,7 @@ class MessageToolbar: UIToolbar {
         let size = messageTextView.sizeThatFits(CGSize(width: CGRectGetWidth(messageTextView.bounds), height: CGFloat(FLT_MAX)))
 
         let newHeight = size.height
-        let limitedNewHeight = min(Ruler.iPhoneVertical(100, 150, 250, 250).value, newHeight)
+        let limitedNewHeight = min(Ruler.iPhoneVertical(80, 120, 200, 200).value, newHeight)
 
         //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
 
