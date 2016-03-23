@@ -23,11 +23,11 @@ class TableSectionTitleView: UITableViewHeaderFooterView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
-            "titleLable": titleLabel,
+            "titleLabel": titleLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[titleLable]|", options: [], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[titleLable]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[titleLabel]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[titleLabel]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
