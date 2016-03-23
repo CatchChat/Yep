@@ -168,7 +168,6 @@
 		5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */; };
 		5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */; };
 		5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */; };
-		5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5066C0281C86D48C00495278 /* ActionSheetView.swift */; };
 		506923121ADE025200D27574 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923111ADE025200D27574 /* Waver.swift */; };
 		506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923131ADE025F00D27574 /* YepRefreshView.swift */; };
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
@@ -254,6 +253,7 @@
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
+		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
 		50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50B6D9F11C61C26100D431E0 /* PushConfig.plist */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
@@ -550,7 +550,6 @@
 		5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendSearchCell.xib; path = Views/Cells/AddFriendSearch/AddFriendSearchCell.xib; sourceTree = "<group>"; };
 		5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriendMoreCell.swift; path = Views/Cells/AddFriendMore/AddFriendMoreCell.swift; sourceTree = "<group>"; };
 		5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendMoreCell.xib; path = Views/Cells/AddFriendMore/AddFriendMoreCell.xib; sourceTree = "<group>"; };
-		5066C0281C86D48C00495278 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionSheetView.swift; path = ActionSheet/ActionSheetView.swift; sourceTree = "<group>"; };
 		506923111ADE025200D27574 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
 		506923131ADE025F00D27574 /* YepRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepRefreshView.swift; path = Views/PullToRefresh/YepRefreshView.swift; sourceTree = "<group>"; };
 		506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAnnotationHeader.swift; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.swift; sourceTree = "<group>"; };
@@ -636,6 +635,7 @@
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
+		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		50B6D9F11C61C26100D431E0 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
@@ -1173,7 +1173,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5066C0271C86D41900495278 /* ActionSheet */,
+				50B6A03D1CA282B100C460E3 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
 				50F2B9791B2EEAE300F840CC /* Labels */,
@@ -1691,14 +1691,6 @@
 			name = AddFriendMore;
 			sourceTree = "<group>";
 		};
-		5066C0271C86D41900495278 /* ActionSheet */ = {
-			isa = PBXGroup;
-			children = (
-				5066C0281C86D48C00495278 /* ActionSheetView.swift */,
-			);
-			name = ActionSheet;
-			sourceTree = "<group>";
-		};
 		506BB7F71AE4E0AA00C1A2A0 /* SkillAnnotationHeader */ = {
 			isa = PBXGroup;
 			children = (
@@ -2056,6 +2048,15 @@
 				50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */,
 			);
 			name = TableSectionTitle;
+			sourceTree = "<group>";
+		};
+		50B6A03D1CA282B100C460E3 /* ActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */,
+			);
+			name = ActionSheet;
+			path = Views/ActionSheet;
 			sourceTree = "<group>";
 		};
 		50B6D9F01C61C26100D431E0 /* JPush */ = {
@@ -2865,7 +2866,6 @@
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
-				5066C0291C86D48C00495278 /* ActionSheetView.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
@@ -2894,6 +2894,7 @@
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
+				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
