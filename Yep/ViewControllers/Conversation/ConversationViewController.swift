@@ -2365,6 +2365,7 @@ class ConversationViewController: BaseViewController {
     }
 
     private var isLoadingPreviousMessages = false
+    private var noMorePreviousMessages = false
     private func tryLoadPreviousMessages(completion: () -> Void) {
 
         if isLoadingPreviousMessages {
@@ -2398,6 +2399,11 @@ class ConversationViewController: BaseViewController {
                     println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                        if case .Past = timeDirection {
+                            self?.noMorePreviousMessages = messageIDs.isEmpty
+                        }
+
                         tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                         //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
 
@@ -4393,6 +4399,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func tryTriggerLoadPrevious() {
+
+            guard !noMorePreviousMessages else {
+                return
+            }
+
             guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
                 return
             }
