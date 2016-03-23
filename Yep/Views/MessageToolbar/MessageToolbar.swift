@@ -520,14 +520,15 @@ extension MessageToolbar: UITextViewDelegate {
                 let location = textView.offsetFromPosition(beginning, toPosition: start)
                 let length = textView.offsetFromPosition(start, toPosition: end)
                 let nsRange = NSMakeRange(location, length)
-                guard let range = text.yep_rangeFromNSRange(nsRange) else {
+                let mentionNSRange = NSMakeRange(location - 1, length + 1)
+                guard let range = text.yep_rangeFromNSRange(nsRange), mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
                     return
                 }
 
                 text.removeRange(range)
 
                 if text.hasSuffix("@") {
-                    mentionUsernameRange = range
+                    mentionUsernameRange = mentionRange
 
                     let wordString = markedText.yep_removeAllWhitespaces
                     println("wordString from markedText: >\(wordString)<")

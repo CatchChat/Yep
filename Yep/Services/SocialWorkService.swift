@@ -498,10 +498,10 @@ func syncSocialWorksToMessagesForYepTeam() {
                         var i = 0
                         for repo in githubRepos {
 
-                            i += 1
                             if i >= 3 {
                                 break
                             }
+                            i += 1
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                                 messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
@@ -558,10 +558,10 @@ func syncSocialWorksToMessagesForYepTeam() {
                         var i = 0
                         for shot in dribbbleShots {
 
-                            i += 1
                             if i >= 3 {
                                 break
                             }
+                            i += 1
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                                 messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
