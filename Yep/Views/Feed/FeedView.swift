@@ -55,52 +55,52 @@ class FeedView: UIView {
 
     var foldProgress: CGFloat = 0 {
         willSet {
-            if newValue >= 0 && newValue <= 1 {
+            guard newValue >= 0 && newValue <= 1 else {
+                return
+            }
 
-                let normalHeight = self.normalHeight
-                let attachmentURLsIsEmpty = attachments.isEmpty
+            let normalHeight = self.normalHeight
+            let attachmentURLsIsEmpty = attachments.isEmpty
 
-                UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
-                    self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
-                    self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
-
-                    if newValue == 1.0 {
-                        self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                        self?.messageTextViewHeightConstraint.constant = 20
-                    }
-
-                    if newValue == 0.0 {
-                        self?.nicknameLabelTrailingConstraint.constant = 15
-                        self?.messageTextViewTrailingConstraint.constant = 15
-                        self?.calHeightOfMessageTextView()
-                    }
-
-
-                    self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
-
-                    self?.layoutIfNeeded()
-
-                    let foldingAlpha = (1 - newValue)
-                    self?.distanceLabel.alpha = foldingAlpha
-                    self?.mediaCollectionView.alpha = foldingAlpha
-                    self?.timeLabel.alpha = foldingAlpha
-                    self?.mediaView.alpha = newValue
-
-                    self?.messageLabel.alpha = newValue
-                    self?.messageTextView.alpha = foldingAlpha
-
-                }, completion: { _ in
-                })
+                self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
+                self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                 if newValue == 1.0 {
-                    foldAction?()
+                    self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.messageTextViewHeightConstraint.constant = 20
                 }
 
                 if newValue == 0.0 {
-                    unfoldAction?(self)
+                    self?.nicknameLabelTrailingConstraint.constant = 15
+                    self?.messageTextViewTrailingConstraint.constant = 15
+                    self?.calHeightOfMessageTextView()
                 }
+
+                self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
+
+                self?.layoutIfNeeded()
+
+                let foldingAlpha = (1 - newValue)
+                self?.distanceLabel.alpha = foldingAlpha
+                self?.mediaCollectionView.alpha = foldingAlpha
+                self?.timeLabel.alpha = foldingAlpha
+                self?.mediaView.alpha = newValue
+
+                self?.messageLabel.alpha = newValue
+                self?.messageTextView.alpha = foldingAlpha
+
+            }, completion: { _ in
+            })
+
+            if newValue == 1.0 {
+                foldAction?()
+            }
+
+            if newValue == 0.0 {
+                unfoldAction?(self)
             }
         }
     }
@@ -121,7 +121,11 @@ class FeedView: UIView {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var messageTextView: FeedTextView!
+    @IBOutlet weak var messageTextView: FeedTextView! {
+        didSet {
+            messageTextView.scrollEnabled = false
+        }
+    }
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -303,9 +307,9 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapSwitchFold = UITapGestureRecognizer(target: self, action: #selector(FeedView.switchFold(_:)))
-        addGestureRecognizer(tapSwitchFold)
-        tapSwitchFold.delegate = self
+        let tapToggleFold = UITapGestureRecognizer(target: self, action: #selector(FeedView.toggleFold(_:)))
+        addGestureRecognizer(tapToggleFold)
+        tapToggleFold.delegate = self
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapAvatar(_:)))
         avatarImageView.userInteractionEnabled = true
@@ -315,7 +319,7 @@ class FeedView: UIView {
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
     }
 
-    func switchFold(sender: UITapGestureRecognizer) {
+    func toggleFold(sender: UITapGestureRecognizer) {
 
         if foldProgress == 1 {
             foldProgress = 0

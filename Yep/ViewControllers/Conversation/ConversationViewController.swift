@@ -2275,6 +2275,7 @@ class ConversationViewController: BaseViewController {
                                 if !group.invalidated {
                                     let _ = try? strongSelf.realm.write {
                                         group.includeMe = true
+                                        group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                                         strongSelf.moreViewManager.updateForGroupAffair()
                                     }
                                 }
@@ -2730,6 +2731,7 @@ class ConversationViewController: BaseViewController {
                         if let strongSelf = self {
                             let _ = try? strongSelf.realm.write {
                                 group.includeMe = true
+                                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                             }
 
                             afterSubscribed?()
