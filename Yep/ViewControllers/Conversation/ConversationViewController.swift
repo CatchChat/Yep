@@ -537,33 +537,6 @@ class ConversationViewController: BaseViewController {
         return view
     }()
 
-    /*
-    private lazy var pullToRefreshView: PullToRefreshView = {
-
-        let pullToRefreshView = PullToRefreshView()
-        pullToRefreshView.delegate = self
-
-        self.conversationCollectionView.insertSubview(pullToRefreshView, atIndex: 0)
-
-        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
-
-        let viewsDictionary = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": self.view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: viewsDictionary)
-
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: [], metrics: nil, views: viewsDictionary)
-
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-
-        return pullToRefreshView
-    }()
-    */
-
     private lazy var waverView: YepWaverView = {
         let frame = self.view.bounds
         let view = YepWaverView(frame: frame)
@@ -2365,6 +2338,7 @@ class ConversationViewController: BaseViewController {
     }
 
     private var isLoadingPreviousMessages = false
+    private var noMorePreviousMessages = false
     private func tryLoadPreviousMessages(completion: () -> Void) {
 
         if isLoadingPreviousMessages {
@@ -2398,6 +2372,11 @@ class ConversationViewController: BaseViewController {
                     println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                        if case .Past = timeDirection {
+                            self?.noMorePreviousMessages = messageIDs.isEmpty
+                        }
+
                         tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                         //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
 
@@ -4189,8 +4168,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
-                                }, completion: { success in
-                                    println("resendText: \(success)")
+                            }, completion: { success in
+                                println("resendText: \(success)")
                             })
 
                         }, cancelAction: {
@@ -4379,7 +4358,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        //pullToRefreshView.scrollViewDidScroll(scrollView)
         //println("contentInset: \(scrollView.contentInset)")
         //println("contentOffset: \(scrollView.contentOffset)")
 
@@ -4393,6 +4371,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         func tryTriggerLoadPrevious() {
+
+            guard !noMorePreviousMessages else {
+                return
+            }
+
             guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
                 return
             }
@@ -4420,8 +4403,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-
-        //pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
 
         dragBeginLocation = nil
     }
@@ -4474,100 +4455,6 @@ extension ConversationViewController: FayeServiceDelegate {
     }
     */
 }
-
-/*
-// MARK: PullToRefreshViewDelegate
-extension ConversationViewController: PullToRefreshViewDelegate {
-
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
-
-        if displayedMessagesRange.location == 0 {
-
-            if let recipient = conversation.recipient {
-
-                let timeDirection: TimeDirection
-                if let maxMessageID = messages.first?.messageID {
-                    timeDirection = .Past(maxMessageID: maxMessageID)
-                } else {
-                    timeDirection = .None
-                }
-
-                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
-                    println("messagesFromRecipient: \(messageIDs.count)")
-
-                    delay(0.3) { // 人为延迟，增加等待感
-                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {
-                            dispatch_async(dispatch_get_main_queue()) {
-                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-                                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
-                            }
-                        }
-                    }
-                })
-            }
-
-        } else {
-
-            delay(0.5) {
-
-                pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
-
-                    if let strongSelf = self {
-                        //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
-
-                        var newMessagesCount = strongSelf.messagesBunchCount
-
-                        if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
-                            newMessagesCount = strongSelf.displayedMessagesRange.location
-                        }
-
-                        if newMessagesCount > 0 {
-                            strongSelf.displayedMessagesRange.location -= newMessagesCount
-                            strongSelf.displayedMessagesRange.length += newMessagesCount
-
-                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
-
-                            var indexPaths = [NSIndexPath]()
-                            for i in 0..<newMessagesCount {
-                                let indexPath = NSIndexPath(forItem: Int(i), inSection: Section.Message.rawValue)
-                                indexPaths.append(indexPath)
-                            }
-
-                            let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
-
-                            CATransaction.begin()
-                            CATransaction.setDisableActions(true)
-
-                            strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
-                                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                            }, completion: { [weak self] finished in
-                                if let strongSelf = self {
-                                    var contentOffset = strongSelf.conversationCollectionView.contentOffset
-                                    contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
-
-                                    strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-
-                                    CATransaction.commit()
-
-                                    // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
-                                    // 此时再做个 scroll 动画比较自然
-                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
-                                    strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
-                                }
-                            })
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    func scrollView() -> UIScrollView {
-        return conversationCollectionView
-    }
-}
-*/
 
 // MARK: AVAudioRecorderDelegate
 
