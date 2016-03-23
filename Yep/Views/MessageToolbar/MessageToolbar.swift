@@ -520,6 +520,12 @@ extension MessageToolbar: UITextViewDelegate {
                 let start = markedTextRange.start
                 let end = markedTextRange.end
                 let location = textView.offsetFromPosition(beginning, toPosition: start)
+
+                // 保证前面至少还有一个字符，for mentionNSRange
+                guard location > 0 else {
+                    return
+                }
+
                 let length = textView.offsetFromPosition(start, toPosition: end)
                 let nsRange = NSMakeRange(location, length)
                 let mentionNSRange = NSMakeRange(location - 1, length + 1)
