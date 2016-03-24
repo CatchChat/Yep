@@ -41,7 +41,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         if isPresentation {
             return 0.15
         } else {
-            return 0.35
+            return 0.45
         }
     }
 
@@ -99,6 +99,22 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
+        UIView.animateKeyframesWithDuration(fullDuration, delay: 0, options: [.CalculationModeCubic], animations: {
+
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.6, animations: {
+                fromVC.searchBarTopConstraint.constant = 44
+                fromVC.view.layoutIfNeeded()
+            })
+
+            UIView.addKeyframeWithRelativeStartTime(0.6, relativeDuration: 0.4, animations: {
+                fromView.alpha = 0
+            })
+
+        }, completion: { finished in
+            transitionContext.completeTransition(true)
+        })
+
+        /*
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             //fromView.alpha = 0
 
@@ -110,6 +126,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
             transitionContext.completeTransition(true)
         })
+        */
     }
 }
 
