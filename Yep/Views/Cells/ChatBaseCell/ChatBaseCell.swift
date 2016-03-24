@@ -26,7 +26,7 @@ class ChatBaseCell: UICollectionViewCell {
 
         imageView.contentMode = .ScaleAspectFit
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatBaseCell.tapAvatar(_:)))
+        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         imageView.userInteractionEnabled = true
         imageView.addGestureRecognizer(tapAvatar)
 
@@ -47,8 +47,8 @@ class ChatBaseCell: UICollectionViewCell {
 
         contentView.addSubview(avatarImageView)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatBaseCell.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatBaseCell.menuWillHide(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

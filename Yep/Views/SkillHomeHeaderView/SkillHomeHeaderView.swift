@@ -64,7 +64,7 @@ class SkillHomeHeaderView: UIView {
         backgroundColor = UIColor.lightGrayColor()
 
         headerImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(SkillHomeHeaderView.tap))
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
         headerImageView.addGestureRecognizer(tap)
     }
 

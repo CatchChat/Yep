@@ -81,7 +81,7 @@ class ChatRightTextCell: ChatRightBaseCell {
         }
 
         textContainerView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightTextCell.tapMediaView))
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         textContainerView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in

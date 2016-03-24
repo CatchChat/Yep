@@ -26,7 +26,7 @@ class ProfileSectionHeaderReusableView: UICollectionReusableView {
         titleLabelLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.leftEdgeInset
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ProfileSectionHeaderReusableView.tap))
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
         addGestureRecognizer(tap)
     }
 

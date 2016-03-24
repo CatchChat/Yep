@@ -86,7 +86,7 @@ class MediaPreviewView: UIView {
                                 }
                             })
 
-                            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MediaPreviewView.playerItemDidReachEnd(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+                            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
                             mediaControlView.playAction = { mediaControlView in
                                 player.play()
@@ -198,10 +198,10 @@ class MediaPreviewView: UIView {
     }
 
     func addHideGesture() {
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewView.hide))
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "hide")
         swipeUp.direction = .Up
 
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewView.hide))
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "hide")
         swipeDown.direction = .Down
 
         addGestureRecognizer(swipeUp)

@@ -26,7 +26,7 @@ class BottomButtonView: UIView {
         button.backgroundColor = UIColor.yepTintColor()
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(BottomButtonView.tryTap), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "tryTap", forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Ruler
 
 enum MessageToolbarState: Int, CustomStringConvertible {
 
@@ -62,7 +61,7 @@ class MessageToolbar: UIToolbar {
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: Notification.updateDraft, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateDraft:", name: Notification.updateDraft, object: nil)
             }
         }
     }
@@ -164,7 +163,7 @@ class MessageToolbar: UIToolbar {
         button.setImage(UIImage(named: "item_mic"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "toggleRecordVoice", forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -221,7 +220,7 @@ class MessageToolbar: UIToolbar {
         button.setImage(UIImage(named: "item_more"), forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "moreMessageTypes", forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -231,7 +230,7 @@ class MessageToolbar: UIToolbar {
         button.tintColor = UIColor.messageToolBarHighlightColor()
         button.tintAdjustmentMode = .Normal
         button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
-        button.addTarget(self, action: #selector(MessageToolbar.trySendTextMessage), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "trySendTextMessage", forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -359,14 +358,13 @@ class MessageToolbar: UIToolbar {
         let size = messageTextView.sizeThatFits(CGSize(width: CGRectGetWidth(messageTextView.bounds), height: CGFloat(FLT_MAX)))
 
         let newHeight = size.height
-        let limitedNewHeight = min(Ruler.iPhoneVertical(80, 120, 200, 200).value, newHeight)
 
         //println("oldHeight: \(messageTextViewHeightConstraint.constant), newHeight: \(newHeight)")
 
         if newHeight != messageTextViewHeightConstraint.constant {
 
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
-                self.messageTextViewHeightConstraint.constant = limitedNewHeight
+                self.messageTextViewHeightConstraint.constant = newHeight
                 self.layoutIfNeeded()
 
             }, completion: { [weak self] finished in
@@ -502,51 +500,11 @@ extension MessageToolbar: UITextViewDelegate {
 
         if needDetectMention {
 
-            // 刚刚输入 @
-
             if text.hasSuffix("@") {
-                mentionUsernameRange = text.endIndex.advancedBy(-1)..<text.endIndex
+                mentionUsernameRange = Range<String.Index>(start: text.endIndex.advancedBy(-1), end: text.endIndex)
                 initMentionUserAction?()
                 return
             }
-
-            // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
-
-            if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
-
-                var text = text
-
-                let beginning = textView.beginningOfDocument
-                let start = markedTextRange.start
-                let end = markedTextRange.end
-                let location = textView.offsetFromPosition(beginning, toPosition: start)
-
-                // 保证前面至少还有一个字符，for mentionNSRange
-                guard location > 0 else {
-                    return
-                }
-
-                let length = textView.offsetFromPosition(start, toPosition: end)
-                let nsRange = NSMakeRange(location, length)
-                let mentionNSRange = NSMakeRange(location - 1, length + 1)
-                guard let range = text.yep_rangeFromNSRange(nsRange), mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
-                    return
-                }
-
-                text.removeRange(range)
-
-                if text.hasSuffix("@") {
-                    mentionUsernameRange = mentionRange
-
-                    let wordString = markedText.yep_removeAllWhitespaces
-                    println("wordString from markedText: >\(wordString)<")
-                    tryMentionUserAction?(usernamePrefix: wordString)
-
-                    return
-                }
-            }
-
-            // 正常查询 mention
 
             let currentLetterIndex = textView.selectedRange.location - 1
 
@@ -560,8 +518,6 @@ extension MessageToolbar: UITextViewDelegate {
 
                 return
             }
-
-            // 都没有就放弃
 
             giveUpMentionUserAction?()
         }

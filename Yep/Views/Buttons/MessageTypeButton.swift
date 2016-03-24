@@ -50,7 +50,7 @@ class MessageTypeButton: TouchZoomButton {
 
         makeUI()
 
-        self.addTarget(self, action: #selector(MessageTypeButton.tryTapAction), forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: "tryTapAction", forControlEvents: .TouchUpInside)
     }
 
     func makeUI() {

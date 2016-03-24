@@ -76,10 +76,10 @@ class Waver: UIView {
 
     var waverCallback: ((waver: Waver) -> ())? {
         didSet {
-            displayLink = CADisplayLink(target: self, selector: #selector(Waver.callbackWaver))
+            displayLink = CADisplayLink(target: self, selector: Selector("callbackWaver"))
             displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
             
-            (0..<self.numberOfWaves).forEach { i in
+            for var i = 0; i < self.numberOfWaves; ++i {
                 let waveline = CAShapeLayer()
                 waveline.lineCap       = kCALineCapButt
                 waveline.lineJoin      = kCALineJoinRound
@@ -97,6 +97,7 @@ class Waver: UIView {
                 self.layer.addSublayer(waveline)
                 self.waves.addObject(waveline)
             }
+            
         }
     }
 
@@ -115,10 +116,8 @@ class Waver: UIView {
     }
     
     func appendValue(newValue: CGFloat) {
-
-        waveSampleCount += 1
-
-        if waveSampleCount % fps == 0{
+        
+        if ++waveSampleCount % fps == 0{
             
             waveSamples.append(newValue)
             
@@ -144,17 +143,18 @@ class Waver: UIView {
     private func updateMeters() {
         UIGraphicsBeginImageContext(self.frame.size)
         
-        (0..<self.numberOfWaves).forEach { i in
+        for var i=0; i < self.numberOfWaves; ++i {
+            
             
             let wavelinePath = UIBezierPath()
             
             // Progress is a value between 1.0 and -0.5, determined by the current wave idx, which is used to alter the wave's amplitude.
             let progress = 1.0 - CGFloat(i)/CGFloat(self.numberOfWaves)
             let normedAmplitude = (1.5*progress-0.5)*self.amplitude
-
-            var x: CGFloat = 0
-            while x < self.waveWidth + self.density {
-
+            
+            
+            for var x = 0 as CGFloat; x<self.waveWidth + self.density; x += self.density {
+                
                 //Thanks to https://github.com/stefanceriu/SCSiriWaveformView
                 // We use a parable to scale the sinus wave, that has its peak in the middle of the view.
                 let scaling = -pow(x/self.waveMid-1, 2) + 1 // make center bigger
@@ -170,8 +170,6 @@ class Waver: UIView {
                 else {
                     wavelinePath.addLineToPoint(CGPointMake(x, y))
                 }
-
-                x += self.density
             }
             
             let waveline = self.waves.objectAtIndex(i) as! CAShapeLayer

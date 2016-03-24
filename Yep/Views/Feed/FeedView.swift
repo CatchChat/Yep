@@ -29,7 +29,7 @@ class FeedView: UIView {
     }
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
-            guard let feedID = feed?.feedID, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
+            guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
                 return
             }
 
@@ -55,52 +55,52 @@ class FeedView: UIView {
 
     var foldProgress: CGFloat = 0 { 
         willSet {
-            guard newValue >= 0 && newValue <= 1 else {
-                return
-            }
+            if newValue >= 0 && newValue <= 1 {
 
-            let normalHeight = self.normalHeight
-            let attachmentURLsIsEmpty = attachments.isEmpty
+                let normalHeight = self.normalHeight
+                let attachmentURLsIsEmpty = attachments.isEmpty
 
-            UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
-                self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
-                self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
+                    self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
+                    self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
+
+                    if newValue == 1.0 {
+                        self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                        self?.messageTextViewHeightConstraint.constant = 20
+                    }
+
+                    if newValue == 0.0 {
+                        self?.nicknameLabelTrailingConstraint.constant = 15
+                        self?.messageTextViewTrailingConstraint.constant = 15
+                        self?.calHeightOfMessageTextView()
+                    }
+
+
+                    self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
+
+                    self?.layoutIfNeeded()
+
+                    let foldingAlpha = (1 - newValue)
+                    self?.distanceLabel.alpha = foldingAlpha
+                    self?.mediaCollectionView.alpha = foldingAlpha
+                    self?.timeLabel.alpha = foldingAlpha
+                    self?.mediaView.alpha = newValue
+
+                    self?.messageLabel.alpha = newValue
+                    self?.messageTextView.alpha = foldingAlpha
+
+                }, completion: { _ in
+                })
 
                 if newValue == 1.0 {
-                    self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                    self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                    self?.messageTextViewHeightConstraint.constant = 20
+                    foldAction?()
                 }
 
                 if newValue == 0.0 {
-                    self?.nicknameLabelTrailingConstraint.constant = 15
-                    self?.messageTextViewTrailingConstraint.constant = 15
-                    self?.calHeightOfMessageTextView()
+                    unfoldAction?(self)
                 }
-
-                self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
-
-                self?.layoutIfNeeded()
-
-                let foldingAlpha = (1 - newValue)
-                self?.distanceLabel.alpha = foldingAlpha
-                self?.mediaCollectionView.alpha = foldingAlpha
-                self?.timeLabel.alpha = foldingAlpha
-                self?.mediaView.alpha = newValue
-
-                self?.messageLabel.alpha = newValue
-                self?.messageTextView.alpha = foldingAlpha
-
-            }, completion: { _ in
-            })
-
-            if newValue == 1.0 {
-                foldAction?()
-            }
-
-            if newValue == 0.0 {
-                unfoldAction?(self)
             }
         }
     }
@@ -121,11 +121,7 @@ class FeedView: UIView {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var messageTextView: FeedTextView! {
-        didSet {
-            messageTextView.scrollEnabled = false
-        }
-    }
+    @IBOutlet weak var messageTextView: FeedTextView!
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -203,7 +199,7 @@ class FeedView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
 
-        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapLocation(_:)))
+        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
         view.addGestureRecognizer(tapLocation)
 
         return view
@@ -228,7 +224,7 @@ class FeedView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
 
-        let tapURLInfo = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapURLInfo(_:)))
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
         view.addGestureRecognizer(tapURLInfo)
 
         return view
@@ -307,19 +303,19 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapToggleFold = UITapGestureRecognizer(target: self, action: #selector(FeedView.toggleFold(_:)))
-        addGestureRecognizer(tapToggleFold)
-        tapToggleFold.delegate = self
+        let tapSwitchFold = UITapGestureRecognizer(target: self, action: "switchFold:")
+        addGestureRecognizer(tapSwitchFold)
+        tapSwitchFold.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapAvatar(_:)))
+        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapSocialWork(_:)))
+        let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
     }
 
-    func toggleFold(sender: UITapGestureRecognizer) {
+    func switchFold(sender: UITapGestureRecognizer) {
 
         if foldProgress == 1 {
             foldProgress = 0
@@ -507,7 +503,7 @@ class FeedView: UIView {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
 
-                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 }
             }
 
@@ -664,7 +660,7 @@ class FeedView: UIView {
             }
         }
 
-        guard let realm = try? Realm(), feedID = feed?.feedID, feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
+        guard let realm = try? Realm(), feed = feed, feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
             return
         }
 
@@ -675,10 +671,10 @@ class FeedView: UIView {
 
                 if let strongSelf = self {
 
-                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "feedAudioDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                     strongSelf.audioPlaybackTimer?.invalidate()
-                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateOnlineAudioPlaybackProgress:", userInfo: nil, repeats: true)
 
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
@@ -700,7 +696,7 @@ class FeedView: UIView {
 
             audioPlaying = false
 
-            if let feedID = feed?.feedID, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedID {
+            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.feedID {
                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
             } else {

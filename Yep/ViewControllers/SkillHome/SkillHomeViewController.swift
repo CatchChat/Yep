@@ -139,9 +139,9 @@ class SkillHomeViewController: BaseViewController {
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
         
-        headerView.masterButton.addTarget(self, action: #selector(SkillHomeViewController.changeToMaster(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.masterButton.addTarget(self, action: "changeToMaster:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        headerView.learningButton.addTarget(self, action: #selector(SkillHomeViewController.changeToLearning(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        headerView.learningButton.addTarget(self, action: "changeToLearning:", forControlEvents: UIControlEvents.TouchUpInside)
 
         headerView.changeCoverAction = { [weak self] in
 
@@ -237,7 +237,7 @@ class SkillHomeViewController: BaseViewController {
 
                     if me.masterSkills.filter(predicate).count == 0
                         && me.learningSkills.filter(predicate).count == 0 {
-                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
+                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: "addSkillToMe:")
                             navigationItem.rightBarButtonItem = addSkillToMeButton
                     }
             }
@@ -335,7 +335,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         if isLoadMore {
-            masterPage += 1
+            masterPage++
 
         } else {
             masterPage = 1
@@ -380,7 +380,7 @@ class SkillHomeViewController: BaseViewController {
         }
 
         if isLoadMore {
-            learningPage += 1
+            learningPage++
 
         } else {
             learningPage = 1
@@ -486,7 +486,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
             switch mediaType {
 
-            case String(kUTTypeImage):
+            case kUTTypeImage as! String:
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -606,12 +606,11 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
-            cell.configureWithDiscoveredUser(discoveredUser)
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
 
             return cell
 
         case Section.LoadMore.rawValue:
-
             let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
             return cell
 

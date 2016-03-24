@@ -137,7 +137,7 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
 
         let discoveredUser = discoveredUsers[indexPath.row]
 
-        cell.configureWithDiscoveredUser(discoveredUser)
+        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
 
         return cell
     }

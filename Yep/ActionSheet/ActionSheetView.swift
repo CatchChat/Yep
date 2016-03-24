@@ -117,7 +117,7 @@ private class ActionSheetSwitchCell: UITableViewCell {
 
     lazy var checkedSwitch: UISwitch = {
         let s = UISwitch()
-        s.addTarget(self, action: #selector(ActionSheetSwitchCell.toggleSwitch(_:)), forControlEvents: .ValueChanged)
+        s.addTarget(self, action: "toggleSwitch:", forControlEvents: .ValueChanged)
         return s
     }()
 
@@ -253,7 +253,7 @@ class ActionSheetView: UIView {
 
             makeUI()
 
-            let tap = UITapGestureRecognizer(target: self, action: #selector(ActionSheetView.hide))
+            let tap = UITapGestureRecognizer(target: self, action: "hide")
             containerView.addGestureRecognizer(tap)
 
             tap.cancelsTouchesInView = true

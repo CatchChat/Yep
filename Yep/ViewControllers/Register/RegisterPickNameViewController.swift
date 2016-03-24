@@ -20,7 +20,7 @@ class RegisterPickNameViewController: BaseViewController {
     @IBOutlet private weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickNameViewController.next(_:)))
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
     }()
 
@@ -62,14 +62,14 @@ class RegisterPickNameViewController: BaseViewController {
         promptTermsLabel.alpha = 0.5
 
         promptTermsLabel.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterPickNameViewController.tapTerms(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: "tapTerms:")
         promptTermsLabel.addGestureRecognizer(tap)
 
         nameTextField.backgroundColor = UIColor.whiteColor()
         nameTextField.textColor = UIColor.yepInputTextColor()
         nameTextField.placeholder = " "//NSLocalizedString("Nickname", comment: "")
         nameTextField.delegate = self
-        nameTextField.addTarget(self, action: #selector(RegisterPickNameViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        nameTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value

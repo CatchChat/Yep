@@ -98,7 +98,7 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
 
         let discoveredUser = searchedUsers[indexPath.row]
 
-        cell.configureWithDiscoveredUser(discoveredUser)
+        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
 
         return cell
     }

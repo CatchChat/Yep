@@ -37,7 +37,7 @@ class PullToRefreshView: UIView {
     var refreshTimeoutAction: (() -> Void)? {
         didSet {
             refreshTimeoutTimer?.invalidate()
-            refreshTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(PullToRefreshView.refreshTimeout(_:)), userInfo: nil, repeats: false)
+            refreshTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "refreshTimeout:", userInfo: nil, repeats: false)
         }
     }
 

@@ -109,7 +109,7 @@ class BadgeView: UIView {
 
         makeUI()
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(BadgeView.tap))
+        let tap = UITapGestureRecognizer(target: self, action: "tap")
         addGestureRecognizer(tap)
     }
 
