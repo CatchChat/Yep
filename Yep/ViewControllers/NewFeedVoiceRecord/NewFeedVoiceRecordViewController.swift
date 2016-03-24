@@ -125,7 +125,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
     private var voiceFileURL: NSURL?
     private var audioPlayer: AVAudioPlayer?
-    private weak var displayLink: CADisplayLink?
+    private var displayLink: CADisplayLink?
 
     private var sampleValues: [CGFloat] = [] {
         didSet {
