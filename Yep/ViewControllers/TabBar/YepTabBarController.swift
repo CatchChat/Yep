@@ -47,7 +47,7 @@ class YepTabBarController: UITabBarController {
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
             if newValue {
-                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkDoubleTapOnFeeds:", userInfo: nil, repeats: false)
+                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapOnFeedsTimer = timer
 
             } else {
@@ -159,6 +159,27 @@ class YepTabBarController: UITabBarController {
             vc.setBackButtonWithTitle()
 
         }
+    }
+
+    var isTabBarVisible: Bool {
+        return self.tabBar.frame.origin.y < CGRectGetMaxY(view.frame)
+    }
+
+    func setTabBarHidden(hidden: Bool, animated: Bool) {
+
+        guard isTabBarVisible == hidden else {
+            return
+        }
+
+        let height = self.tabBar.frame.size.height
+        let offsetY = (hidden ? height : -height)
+
+        let duration = (animated ? 0.25 : 0.0)
+
+        UIView.animateWithDuration(duration, animations: {
+            let frame = self.tabBar.frame
+            self.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+        }, completion: nil)
     }
 }
 

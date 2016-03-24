@@ -1086,6 +1086,14 @@ struct DiscoveredUser: Hashable {
         return id.hashValue
     }
 
+    var compositedName: String {
+        if let username = username {
+            return "\(nickname) @\(username)"
+        } else {
+            return nickname
+        }
+    }
+
     var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
             return id == myUserID
@@ -1672,8 +1680,9 @@ func officialMessages(completion completion: Int -> Void) {
                                 }
 
                                 // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
-                                if message.conversation == nil && message.readed == false {
+                                if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.updatedUnixTime {
                                     conversation.hasUnreadMessages = true
+                                    conversation.updatedUnixTime = NSDate().timeIntervalSince1970
                                 }
                                 message.conversation = conversation
 
@@ -1681,7 +1690,7 @@ func officialMessages(completion completion: Int -> Void) {
                                 recordMessageWithMessageID(messageID, detailInfo: messageInfo, inRealm: realm)
                             }
 
-                            messagesCount++
+                            messagesCount += 1
                         }
                     }
                 }
@@ -1700,7 +1709,15 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
     guard let realm = try? Realm() else { return }
 
-    let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+    //let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+
+    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
+    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
+
+    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+
+    //println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
+    //println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
 
     unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
@@ -2154,6 +2171,11 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
             tryCreateSectionDateMessageInConversation(conversation, beforeMessage: message, inRealm: realm) { sectionDateMessage in
                 realm.add(sectionDateMessage)
             }
+
+            conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+            }
         }
     }
 
@@ -2447,6 +2469,17 @@ enum FeedSortStyle: String {
     
     var nameWithArrow: String {
         return name + " ▾"
+    }
+
+    var needPageFeedID: Bool {
+        switch self {
+        case .Distance:
+            return true
+        case .Time:
+            return true
+        case .Match:
+            return false
+        }
     }
 }
 
@@ -3386,7 +3419,7 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
     ]
 
     let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
-        println("usersMatchWithUsernamePrefix: \(data)")
+        //println("usersMatchWithUsernamePrefix: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
             let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in

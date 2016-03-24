@@ -23,7 +23,7 @@ class FeedBasicCell: UITableViewCell {
 
         imageView.contentMode = .ScaleAspectFit
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedBasicCell.tapAvatar(_:)))
         imageView.userInteractionEnabled = true
         imageView.addGestureRecognizer(tapAvatar)
 
@@ -53,7 +53,7 @@ class FeedBasicCell: UITableViewCell {
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 
-        button.addTarget(self, action: "tapSkill:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedBasicCell.tapSkill(_:)), forControlEvents: .TouchUpInside)
 
         return button
     }()

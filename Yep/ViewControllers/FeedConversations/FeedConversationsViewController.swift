@@ -60,11 +60,11 @@ class FeedConversationsViewController: SegueViewController {
             }
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.changedFeedConversation, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.changedFeedConversation, object: nil)
     }
 
     var isFirstAppear = true
@@ -170,6 +170,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             //performSegueWithIdentifier("showConversation", sender: cell.conversation)
             (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(cell.conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
         }
+
+        performSegueWithIdentifier("showConversation", sender: conversation)
     }
 
     // Edit (for Delete)
@@ -185,6 +187,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             fatalError("Invalid index of feedConversations!")
         }
 
+        let title: String = NSLocalizedString("Unsubscribe", comment: "")
+        /*
         var title: String = NSLocalizedString("Unsubscribe", comment: "")
         if let feed = conversation.withGroup?.withFeed {
             if feed.deleted {
@@ -194,6 +198,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 title = NSLocalizedString("Delete", comment: "")
             }
         }
+        */
 
         let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
 

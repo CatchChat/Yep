@@ -74,7 +74,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
 
         let discoveredUser = blockedUsers[indexPath.row]
 
-        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+        cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
     }

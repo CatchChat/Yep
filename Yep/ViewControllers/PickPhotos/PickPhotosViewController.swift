@@ -28,7 +28,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit)/4)"
 
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "done:")
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickPhotosViewController.done(_:)))
         navigationItem.rightBarButtonItem = doneButton
 
         collectionView?.backgroundColor = UIColor.whiteColor()

@@ -38,7 +38,7 @@ class LinkContainerView: UIView {
 
         makeUI()
 
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(LinkContainerView.tap(_:)))
         addGestureRecognizer(tap)
     }
 

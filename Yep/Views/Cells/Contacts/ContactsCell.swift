@@ -18,7 +18,8 @@ class ContactsCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -32,7 +33,43 @@ class ContactsCell: UITableViewCell {
         
     }
 
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, tableView: UITableView, indexPath: NSIndexPath) {
+    func configureWithUser(user: User) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nameLabel.text = user.nickname
+
+        if let badge = BadgeView.Badge(rawValue: user.badge) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+
+        joinedDateLabel.text = user.introduction
+        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+
+    func configureForSearchWithUser(user: User) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nameLabel.text = user.compositedName
+
+        if let badge = BadgeView.Badge(rawValue: user.badge) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+
+        joinedDateLabel.text = user.introduction
+        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+
+    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -46,6 +83,29 @@ class ContactsCell: UITableViewCell {
         }
 
         nameLabel.text = discoveredUser.nickname
+
+        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+            badgeImageView.image = badge.image
+            badgeImageView.tintColor = badge.color
+        } else {
+            badgeImageView.image = nil
+        }
+    }
+
+    func configureForSearchWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+
+        let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        joinedDateLabel.text = discoveredUser.introduction
+
+        if let distance = discoveredUser.distance?.format(".1") {
+            lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+        } else {
+            lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+        }
+
+        nameLabel.text = discoveredUser.compositedName
 
         if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
             badgeImageView.image = badge.image

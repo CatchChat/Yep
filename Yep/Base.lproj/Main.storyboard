@@ -125,6 +125,7 @@
                         <outlet property="coverUnderStatusBarView" destination="G4u-1I-leN" id="mZf-ea-d2Y"/>
                         <segue destination="AZ0-Fw-rwa" kind="show" identifier="showAddFriends" id="sGo-49-lo9"/>
                         <segue destination="ud8-be-cUH" kind="show" identifier="showProfile" id="26L-0k-ELo"/>
+                        <segue destination="UVq-MX-Pso" kind="show" identifier="showSearchContacts" id="cFN-sJ-mbQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -209,6 +210,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559" y="1901"/>
+        </scene>
+        <!--SearchContactsViewController-->
+        <scene sceneID="qZ3-ft-tqL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchContacts" referencedIdentifier="SearchContactsViewController" id="UVq-MX-Pso" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xfl-kr-yeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-15.5" y="-436"/>
         </scene>
         <!--AddFriendsViewController-->
         <scene sceneID="xpw-2j-6I8">

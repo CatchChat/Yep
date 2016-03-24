@@ -56,6 +56,8 @@ class DiscoverViewController: BaseViewController {
     }
     
     private let layout = DiscoverFlowLayout()
+    
+    private let refreshControl = UIRefreshControl()
 
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
@@ -113,10 +115,14 @@ class DiscoverViewController: BaseViewController {
         return label
     }()
     #endif
+
+    deinit {
+        println("deinit Discover")
+    }
     
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshControl.endRefreshing()
     }
 
     override func viewDidLoad() {
@@ -163,9 +169,10 @@ class DiscoverViewController: BaseViewController {
             }
         }
 
-        let refreshControl = UIRefreshControl()
+
         refreshControl.tintColor = UIColor.lightGrayColor()
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         discoveredUsersCollectionView.addSubview(refreshControl)
 
         #if DEBUG
@@ -245,7 +252,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         if case .LoadMore = mode {
-            currentPageIndex++
+            currentPageIndex += 1
 
         } else {
             currentPageIndex = 1

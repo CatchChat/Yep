@@ -497,9 +497,11 @@ func syncSocialWorksToMessagesForYepTeam() {
                         // 同步最新的几个
                         var i = 0
                         for repo in githubRepos {
-                            if i++ >= 3 {
+
+                            if i >= 3 {
                                 break
                             }
+                            i += 1
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                                 messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
@@ -555,9 +557,11 @@ func syncSocialWorksToMessagesForYepTeam() {
                         // 同步最新的几个
                         var i = 0
                         for shot in dribbbleShots {
-                            if i++ >= 3 {
+
+                            if i >= 3 {
                                 break
                             }
+                            i += 1
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
                                 messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)

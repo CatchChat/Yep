@@ -53,7 +53,7 @@ class FeedGithubRepoContainerView: UIView {
 
         makeUI()
 
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedGithubRepoContainerView.tap(_:)))
         addGestureRecognizer(tap)
     }
 
