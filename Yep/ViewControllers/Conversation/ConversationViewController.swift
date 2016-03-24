@@ -313,6 +313,8 @@ class ConversationViewController: BaseViewController {
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
 
+    private var recipient: Recipient?
+
     var afterSentMessageAction: (() -> Void)?
     var afterDeletedFeedAction: ((feedID: String) -> Void)?
     var conversationDirtyAction: (() -> Void)?
@@ -703,6 +705,8 @@ class ConversationViewController: BaseViewController {
 
         realm = try! Realm()
 
+        recipient = conversation.recipient
+
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -874,39 +878,41 @@ class ConversationViewController: BaseViewController {
         // sync messages
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
+
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                if let recipient = self?.conversation.recipient {
+                guard let recipient = self?.recipient else {
+                    return
+                }
 
-                    let timeDirection: TimeDirection
-                    if let minMessageID = self?.messages.last?.messageID {
-                        timeDirection = .Future(minMessageID: minMessageID)
-                    } else {
-                        timeDirection = .None
+                let timeDirection: TimeDirection
+                if let minMessageID = self?.messages.last?.messageID {
+                    timeDirection = .Future(minMessageID: minMessageID)
+                } else {
+                    timeDirection = .None
 
-                        self?.activityIndicator.startAnimating()
-                    }
+                    self?.activityIndicator.startAnimating()
+                }
 
-                    dispatch_async(realmQueue) { [weak self] in
+                dispatch_async(realmQueue) { [weak self] in
 
-                        messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                            failedAction?()
+                        failedAction?()
 
-                        }, completion: { messageIDs in
-                            println("messagesFromRecipient: \(messageIDs.count)")
+                    }, completion: { messageIDs in
+                        println("messagesFromRecipient: \(messageIDs.count)")
 
-                            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-                                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                            //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
 
-                                self?.activityIndicator.stopAnimating()
-                            }
+                            self?.activityIndicator.stopAnimating()
+                        }
 
-                            successAction?()
-                        })
-                    }
+                        successAction?()
+                    })
                 }
             }
         }
@@ -1409,7 +1415,15 @@ class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
-        if let recipient = conversation.recipient, latestMessage = messages.last {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let recipient = strongSelf.recipient, latestMessage = strongSelf.messages.last else {
+                return
+            }
 
             var needMarkInServer = false
 
@@ -1431,21 +1445,21 @@ class ConversationViewController: BaseViewController {
                 }
                 */
 
-                let filteredMessages = messages.filter(predicate)
+                let filteredMessages = strongSelf.messages.filter(predicate)
 
                 println("filteredMessages.count: \(filteredMessages.count)")
-                println("conversation.unreadMessagesCount: \(conversation.unreadMessagesCount)")
+                println("conversation.unreadMessagesCount: \(strongSelf.conversation.unreadMessagesCount)")
 
-                needMarkInServer = (!filteredMessages.isEmpty || (conversation.unreadMessagesCount > 0))
+                needMarkInServer = (!filteredMessages.isEmpty || (strongSelf.conversation.unreadMessagesCount > 0))
 
                 filteredMessages.forEach { message in
-                    let _ = try? realm.write {
+                    let _ = try? strongSelf.realm.write {
                         message.readed = true
                     }
                 }
 
             } else {
-                let _ = try? realm.write {
+                let _ = try? strongSelf.realm.write {
                     latestMessage.readed = true
                 }
 
@@ -1456,11 +1470,11 @@ class ConversationViewController: BaseViewController {
 
             // 群组里没有我，不需要标记
             if recipient.type == .Group {
-                if let group = conversation.withGroup where !group.includeMe {
+                if let group = strongSelf.conversation.withGroup where !group.includeMe {
 
                     // 此情况强制所有消息“已读”
-                    let _ = try? realm.write {
-                        messages.forEach { message in
+                    let _ = try? strongSelf.realm.write {
+                        strongSelf.messages.forEach { message in
                             message.readed = true
                         }
                     }
@@ -2165,62 +2179,56 @@ class ConversationViewController: BaseViewController {
 
     private func syncMessagesReadStatus() {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-            guard let recipient = self?.conversation.recipient else {
-                return
-            }
-
-            lastMessageReadByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastMessageRead in
-
-                if let lastMessageRead = lastMessageRead {
-                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastMessageRead.unixTime, lastReadMessageID: lastMessageRead.messageID)
-                }
-            })
+        guard let recipient = recipient else {
+            return
         }
+
+        lastMessageReadByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastMessageRead in
+
+            if let lastMessageRead = lastMessageRead {
+                self?.markAsReadAllSentMesagesBeforeUnixTime(lastMessageRead.unixTime, lastReadMessageID: lastMessageRead.messageID)
+            }
+        })
     }
 
     private func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        guard let recipient = recipient else {
+            return
+        }
 
-            guard let recipient = self?.conversation.recipient else {
+        dispatch_async(realmQueue) {
+
+            guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
                 return
             }
 
-            dispatch_async(realmQueue) {
-
-                guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
-                    return
+            var lastMessageCreatedUnixTime = unixTime
+            //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
+            if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
+                let createdUnixTime = message.createdUnixTime
+                //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
+                if createdUnixTime > lastMessageCreatedUnixTime {
+                    println("NOTICE: markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), lastMessageCreatedUnixTime: \(createdUnixTime)")
+                    lastMessageCreatedUnixTime = createdUnixTime
                 }
+            }
 
-                var lastMessageCreatedUnixTime = unixTime
-                //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
-                if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
-                    let createdUnixTime = message.createdUnixTime
-                    //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
-                    if createdUnixTime > lastMessageCreatedUnixTime {
-                        println("NOTICE: markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), lastMessageCreatedUnixTime: \(createdUnixTime)")
-                        lastMessageCreatedUnixTime = createdUnixTime
-                    }
+            let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.Successed.rawValue, UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
+
+            let sendSuccessedMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
+
+            println("sendSuccessedMessages.count: \(sendSuccessedMessages.count)")
+
+            let _ = try? realm.write {
+                sendSuccessedMessages.forEach {
+                    $0.readed = true
+                    $0.sendState = MessageSendState.Read.rawValue
                 }
+            }
 
-                let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.Successed.rawValue, UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
-
-                let sendSuccessedMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
-
-                println("sendSuccessedMessages.count: \(sendSuccessedMessages.count)")
-
-                let _ = try? realm.write {
-                    sendSuccessedMessages.forEach {
-                        $0.readed = true
-                        $0.sendState = MessageSendState.Read.rawValue
-                    }
-                }
-
-                delay(0.5) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
-                }
+            delay(0.5) {
+                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
             }
         }
     }
@@ -2353,7 +2361,7 @@ class ConversationViewController: BaseViewController {
 
         if displayedMessagesRange.location == 0 {
 
-            if let recipient = conversation.recipient {
+            if let recipient = recipient {
 
                 let timeDirection: TimeDirection
                 if let maxMessageID = messages.first?.messageID {
@@ -2447,7 +2455,7 @@ class ConversationViewController: BaseViewController {
                 return
         }
 
-        if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
+        if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
         }
     }
@@ -4451,7 +4459,7 @@ extension ConversationViewController: FayeServiceDelegate {
 
     func fayeMessagesMarkAsReadByRecipient(lastReadAt: NSTimeInterval, recipientType: String, recipientID: String) {
 
-        if recipientID == conversation.recipient?.ID && recipientType == conversation.recipient?.type.nameForServer {
+        if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             self.markAsReadAllSentMesagesBeforeUnixTime(lastReadAt)
         }
     }
