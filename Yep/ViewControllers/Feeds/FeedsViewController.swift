@@ -50,7 +50,7 @@ class   FeedsViewController: BaseViewController {
         .Match,
     ]
 
-    private func filterItemWithSortStyle(sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
+    private func filterItemWithSortStyle(sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> PopoverView.Item {
         return .Check(
             title: sortStyle.name,
             titleColor: UIColor.yepTintColor(),
@@ -64,7 +64,7 @@ class   FeedsViewController: BaseViewController {
         )
     }
 
-    private func filterItemsWithCurrentSortStyle(currentSortStyle: FeedSortStyle) -> [ActionSheetView.Item] {
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: FeedSortStyle) -> [PopoverView.Item] {
         var items = filterStyles.map({
             filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
         })

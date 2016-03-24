@@ -136,8 +136,8 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
 
         let discoveredUser = discoveredUsers[indexPath.row]
-
-        cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+     
+        cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
     }

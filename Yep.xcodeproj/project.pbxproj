@@ -258,7 +258,6 @@
 		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
-		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
 		50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50B6D9F11C61C26100D431E0 /* PushConfig.plist */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
@@ -652,7 +651,6 @@
 		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
-		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		50B6D9F11C61C26100D431E0 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
@@ -2095,7 +2093,6 @@
 		50B6A03D1CA282B100C460E3 /* ActionSheet */ = {
 			isa = PBXGroup;
 			children = (
-				50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */,
 			);
 			name = ActionSheet;
 			path = Views/ActionSheet;
@@ -2960,7 +2957,6 @@
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
-				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,

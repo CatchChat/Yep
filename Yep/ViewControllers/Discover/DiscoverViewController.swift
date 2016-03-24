@@ -82,7 +82,7 @@ class DiscoverViewController: BaseViewController {
         .Default,
     ]
 
-    private func filterItemWithSortStyle(sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
+    private func filterItemWithSortStyle(sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> PopoverView.Item {
         return .Check(
             title: sortStyle.name,
             titleColor: UIColor.yepTintColor(),
@@ -96,7 +96,7 @@ class DiscoverViewController: BaseViewController {
         )
     }
 
-    private func filterItemsWithCurrentSortStyle(currentSortStyle: DiscoveredUserSortStyle) -> [ActionSheetView.Item] {
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: DiscoveredUserSortStyle) -> [PopoverView.Item] {
         var items = filterStyles.map({
            filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
         })
@@ -104,8 +104,8 @@ class DiscoverViewController: BaseViewController {
         return items
     }
 
-    private lazy var filterView: ActionSheetView = {
-        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.discoveredUserSortStyle))
+    private lazy var filterView: PopoverView = {
+        let view = PopoverView(items: self.filterItemsWithCurrentSortStyle(self.discoveredUserSortStyle))
         return view
     }()
 

@@ -606,7 +606,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
-            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
+            cell.configureWithDiscoveredUser(discoveredUser)
 
             return cell
 

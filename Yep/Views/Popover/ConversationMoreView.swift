@@ -403,15 +403,15 @@ class ConversationMoreViewManager {
     
     private var moreViewCreated: Bool = false
     
-    lazy var moreView: ActionSheetView = {
+    lazy var moreView: PopoverView = {
         
-        let cancelItem = ActionSheetView.Item.Cancel
+        let cancelItem = PopoverView.Item.Cancel
         
-        let view: ActionSheetView
+        let view: PopoverView
         
         if let user = self.conversation?.withFriend {
             
-            view = ActionSheetView(items: [
+            view = PopoverView(items: [
                 .Detail(
                     title: NSLocalizedString("View profile", comment: ""),
                     titleColor: UIColor.darkGrayColor(),
@@ -443,7 +443,7 @@ class ConversationMoreViewManager {
             
         } else if let group = self.conversation?.withGroup {
             
-            view = ActionSheetView(items: [
+            view = PopoverView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
                 .Default(
                     title: NSLocalizedString("Share this feed", comment: ""),
@@ -473,7 +473,7 @@ class ConversationMoreViewManager {
             }
             
         } else {
-            view = ActionSheetView(items: [])
+            view = PopoverView(items: [])
             println("lazy ActionSheetView: should NOT be there!")
         }
         
@@ -493,7 +493,7 @@ class ConversationMoreViewManager {
     
     // MARK: Private
     
-    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
+    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> PopoverView.Item {
         return .Switch(
             title: NSLocalizedString("Do not disturb", comment: ""),
             titleColor: UIColor.darkGrayColor(),
@@ -504,7 +504,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
+    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> PopoverView.Item {
         return .Switch(
             title: NSLocalizedString("Push notifications", comment: ""),
             titleColor: UIColor.darkGrayColor(),
@@ -515,7 +515,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
+    private func makeBlockItem(blocked blocked: Bool) -> PopoverView.Item {
         return .Default(
             title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),
             titleColor: UIColor.redColor(),
@@ -526,7 +526,7 @@ class ConversationMoreViewManager {
         )
     }
     
-    private func updateGroupItem(group group: Group) -> ActionSheetView.Item {
+    private func updateGroupItem(group group: Group) -> PopoverView.Item {
         
         let isMyFeed = group.withFeed?.creator?.isMe ?? false
         let includeMe = group.includeMe
