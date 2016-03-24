@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -24,14 +23,14 @@
                         </constraints>
                     </imageView>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last seen just now" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GZ1-Eh-QgO">
-                        <rect key="frame" x="148" y="10" width="164" height="15"/>
+                        <rect key="frame" x="206" y="10" width="104" height="15"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 2 days ago" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FiT-eM-gyl">
-                        <rect key="frame" x="85" y="31" width="227" height="15"/>
+                        <rect key="frame" x="85" y="31" width="225" height="15"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,17 +54,17 @@
                 <constraints>
                     <constraint firstItem="yGz-R6-Ojm" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FiT-eM-gyl" secondAttribute="bottom" id="0z3-gW-v7y"/>
                     <constraint firstItem="FiT-eM-gyl" firstAttribute="top" secondItem="Ivk-sQ-ylu" secondAttribute="bottom" constant="5" id="1kW-2j-UuV"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="FiT-eM-gyl" secondAttribute="trailing" id="5If-Nf-IA4"/>
+                    <constraint firstAttribute="trailing" secondItem="GZ1-Eh-QgO" secondAttribute="trailing" constant="10" id="Dhb-Wv-Khl"/>
                     <constraint firstItem="Ivk-sQ-ylu" firstAttribute="centerY" secondItem="GZ1-Eh-QgO" secondAttribute="centerY" id="E3d-lm-33u"/>
                     <constraint firstItem="tcJ-0E-OaK" firstAttribute="centerY" secondItem="Ivk-sQ-ylu" secondAttribute="centerY" id="F7j-lm-KhY"/>
-                    <constraint firstItem="GZ1-Eh-QgO" firstAttribute="leading" secondItem="tcJ-0E-OaK" secondAttribute="trailing" constant="4" id="FSh-I3-H5N"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="GZ1-Eh-QgO" secondAttribute="trailing" id="Gm9-19-lG0"/>
+                    <constraint firstItem="GZ1-Eh-QgO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tcJ-0E-OaK" secondAttribute="trailing" constant="4" id="FSh-I3-H5N"/>
                     <constraint firstItem="Ivk-sQ-ylu" firstAttribute="top" secondItem="yGz-R6-Ojm" secondAttribute="top" id="OZ4-3P-YhA"/>
                     <constraint firstItem="yGz-R6-Ojm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="S0i-Co-w0g"/>
                     <constraint firstItem="tcJ-0E-OaK" firstAttribute="leading" secondItem="Ivk-sQ-ylu" secondAttribute="trailing" constant="4" id="SBz-AF-J0n"/>
                     <constraint firstAttribute="centerY" secondItem="yGz-R6-Ojm" secondAttribute="centerY" id="UQR-Dh-Vgo"/>
                     <constraint firstItem="FiT-eM-gyl" firstAttribute="leading" secondItem="yGz-R6-Ojm" secondAttribute="trailing" constant="15" id="bB9-Ud-vlZ"/>
                     <constraint firstItem="Ivk-sQ-ylu" firstAttribute="leading" secondItem="yGz-R6-Ojm" secondAttribute="trailing" constant="15" id="dTe-Mk-5Xz"/>
+                    <constraint firstItem="FiT-eM-gyl" firstAttribute="trailing" secondItem="GZ1-Eh-QgO" secondAttribute="trailing" id="gCH-XF-o5r"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
