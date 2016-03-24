@@ -101,7 +101,7 @@ var yepNetworkActivityCount = 0 {
     }
 }
 
-private let yepSuccessStatusCodeRange: Range<Int> = 200..<300
+private let yepSuccessStatusCodeRange = Range<Int>(start: 200, end: 300)
 
 #if STAGING
 class SessionDelegate: NSObject, NSURLSessionDelegate {
@@ -243,14 +243,14 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         }
 
         dispatch_async(dispatch_get_main_queue()) {
-            yepNetworkActivityCount -= 1
+            yepNetworkActivityCount--
         }
     }
 
     task.resume()
 
     dispatch_async(dispatch_get_main_queue()) {
-        yepNetworkActivityCount += 1
+        yepNetworkActivityCount++
     }
 }
 

@@ -122,19 +122,26 @@ class YepUserDefaults {
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
 
-        // reset suite
-
-        let dict = defaults.dictionaryRepresentation()
-        dict.keys.forEach({
+        [
+            v1AccessTokenKey,
+            userIDKey,
+            nicknameKey,
+            introductionKey,
+            avatarURLStringKey,
+            badgeKey,
+            pusherIDKey,
+            areaCodeKey,
+            mobileKey,
+            discoveredUserSortStyleKey,
+            feedSortStyleKey,
+            latitudeShiftKey,
+            longitudeShiftKey,
+            userLocationNameKey,
+        ].forEach({
             defaults.removeObjectForKey($0)
         })
+
         defaults.synchronize()
-
-        // reset standardUserDefaults
-
-        let standardUserDefaults = NSUserDefaults.standardUserDefaults()
-        standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
-        standardUserDefaults.synchronize()
     }
 
     class func maybeUserNeedRelogin() {
@@ -146,8 +153,6 @@ class YepUserDefaults {
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
             return
         }
-
-        unregisterThirdPartyPush()
 
         cleanAllUserDefaults()
 

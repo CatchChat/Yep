@@ -21,7 +21,7 @@ class RegisterPickMobileViewController: SegueViewController {
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickMobileViewController.next(_:)))
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
         return button
     }()
 
@@ -40,13 +40,13 @@ class RegisterPickMobileViewController: SegueViewController {
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
 
         areaCodeTextField.delegate = self
-        areaCodeTextField.addTarget(self, action: #selector(RegisterPickMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        areaCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
         //mobileNumberTextField.placeholder = ""
         mobileNumberTextField.backgroundColor = UIColor.whiteColor()
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
-        mobileNumberTextField.addTarget(self, action: #selector(RegisterPickMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        mobileNumberTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value

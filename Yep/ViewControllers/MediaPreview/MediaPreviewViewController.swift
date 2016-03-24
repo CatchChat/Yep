@@ -185,11 +185,11 @@ class MediaPreviewViewController: UIViewController {
             })
         })
 
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: "dismiss")
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
 
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: "dismiss")
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
 
@@ -630,7 +630,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     })
 
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
                     mediaControlView.playAction = { mediaControlView in
                         player.play()

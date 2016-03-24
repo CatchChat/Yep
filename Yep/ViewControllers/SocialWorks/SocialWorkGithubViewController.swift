@@ -18,8 +18,9 @@ class SocialWorkGithubViewController: BaseViewController {
 
     var afterGetGithubWork: (GithubWork -> Void)?
 
+
     private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkGithubViewController.share(_:)))
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
         return button
     }()
 

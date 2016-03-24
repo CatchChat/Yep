@@ -83,7 +83,7 @@ class YepAudioService: NSObject {
 
     func startCheckRecordTimeoutTimer() {
 
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(YepAudioService.checkRecordTimeout(_:)), userInfo: nil, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "checkRecordTimeout:", userInfo: nil, repeats: true)
 
         checkRecordTimeoutTimer = timer
 
@@ -342,7 +342,7 @@ class YepAudioService: NSObject {
     override init() {
         super.init()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAudioService.proximityStateChanged), name: UIDeviceProximityStateDidChangeNotification, object: UIDevice.currentDevice())
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityStateChanged", name: UIDeviceProximityStateDidChangeNotification, object: UIDevice.currentDevice())
     }
 
     func proximityStateChanged() {

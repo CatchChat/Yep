@@ -44,7 +44,7 @@ class FeedMediaContainerView: UIView {
         makeUI()
 
         mediaImageView.userInteractionEnabled = true
-        let tapMedia = UITapGestureRecognizer(target: self, action: #selector(FeedMediaContainerView.tapMedia(_:)))
+        let tapMedia = UITapGestureRecognizer(target: self, action: "tapMedia:")
         mediaImageView.addGestureRecognizer(tapMedia)
     }
 

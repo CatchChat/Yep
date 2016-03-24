@@ -31,7 +31,7 @@ class EditSkillCell: UITableViewCell {
         skillLabelLeadingConstraint.constant = Ruler.iPhoneHorizontal(15, 20, 25).value
         removeButtonTrailingConstraint.constant = Ruler.iPhoneHorizontal(15, 20, 25).value
 
-        removeButton.addTarget(self, action: #selector(EditSkillCell.tryRemoveSkill), forControlEvents: .TouchUpInside)
+        removeButton.addTarget(self, action: "tryRemoveSkill", forControlEvents: .TouchUpInside)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

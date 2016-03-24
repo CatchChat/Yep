@@ -603,7 +603,6 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
             } else {
                 group.groupType = GroupType.Private.rawValue
             }
-            println("group.groupType: \(group.groupType)")
 
             if group.conversation == nil {
                 let conversation = Conversation()
@@ -1102,9 +1101,8 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
                             }
 
                             // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
-                            if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.updatedUnixTime {
+                            if message.conversation == nil && message.readed == false {
                                 conversation.hasUnreadMessages = true
-                                conversation.updatedUnixTime = NSDate().timeIntervalSince1970
                             }
                             message.conversation = conversation
 

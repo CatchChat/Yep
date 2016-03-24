@@ -46,11 +46,23 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
     private enum Section: Int {
         case Search = 0
         case More
+
+        static var caseCount: Int {
+            var max: Int = 0
+            while let _ = self.init(rawValue: ++max) {}
+            return max
+        }
     }
 
     private enum More: Int, CustomStringConvertible {
         case Contacts
         //case FaceToFace
+
+        static var caseCount: Int {
+            var max: Int = 0
+            while let _ = self.init(rawValue: ++max) {}
+            return max
+        }
 
         var description: String {
             switch self {
@@ -65,7 +77,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return Section.caseCount
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -75,7 +87,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
 
         case Section.More.rawValue:
-            return 1
+            return More.caseCount
 
         default:
             return 0

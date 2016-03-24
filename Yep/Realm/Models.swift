@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Crashlytics
 import MapKit
 
 // 总是在这个队列里使用 Realm
@@ -196,7 +197,7 @@ class User: Object {
         return false
     }
 
-    var compositedName: String {
+    var chatCellCompositedName: String {
         if username.isEmpty {
             return nickname
         } else {
@@ -553,10 +554,6 @@ class Message: Object {
     dynamic var attachmentID: String = ""
     dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
-    var imageKey: String {
-        return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
-    }
-
     var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
             return String(format: NSLocalizedString("%@: %@", comment: ""), nickname, textContent)
@@ -597,7 +594,6 @@ class Message: Object {
         willSet {
             // 往大了更新 conversation.updatedUnixTime
             if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
-                println("set _conversation.updatedUnixTime")
                 _conversation.updatedUnixTime = createdUnixTime
             }
         }
@@ -1051,32 +1047,6 @@ class UserLocationName: Object {
     }
 }
 
-class SubscriptionViewShown: Object {
-
-    dynamic var groupID: String = ""
-
-    override class func primaryKey() -> String? {
-        return "groupID"
-    }
-
-    override class func indexedProperties() -> [String] {
-        return ["groupID"]
-    }
-
-    convenience init(groupID: String) {
-        self.init()
-
-        self.groupID = groupID
-    }
-
-    class func canShow(groupID groupID: String) -> Bool {
-        guard let realm = try? Realm() else {
-            return false
-        }
-        return realm.objects(SubscriptionViewShown).filter("groupID = %@", groupID).isEmpty
-    }
-}
-
 // MARK: Helpers
 
 func normalFriends() -> Results<User> {
@@ -1129,19 +1099,6 @@ func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     return realm.objects(Group).filter(predicate).first
 }
 
-func refreshGroupTypeForAllGroups() {
-    if let realm = try? Realm() {
-        realm.beginWrite()
-        realm.objects(Group).forEach({
-            if $0.withFeed == nil {
-                $0.groupType = GroupType.Private.rawValue
-                println("We have group with NO feed")
-            }
-        })
-        let _ = try? realm.commitWrite()
-    }
-}
-
 func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     let predicate = NSPredicate(format: "feedID = %@", feedID)
 
@@ -1185,9 +1142,8 @@ func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversatio
         let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).count
 
-    case .Group: // Public for now
-        let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.Public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
+    case .Group:
+        let count = realm.objects(Group).filter("includeMe = true").map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
@@ -1212,8 +1168,8 @@ func latestValidMessageInRealm(realm: Realm, withConversationType conversationTy
         let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
-    case .Group: // Public for now
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
+    case .Group:
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true")
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
@@ -1560,10 +1516,6 @@ func tryCreateSectionDateMessageInConversation(conversation: Conversation, befor
 
 func nameOfConversation(conversation: Conversation) -> String? {
 
-    guard !conversation.invalidated else {
-        return nil
-    }
-
     if conversation.type == ConversationType.OneToOne.rawValue {
         if let withFriend = conversation.withFriend {
             return withFriend.nickname
@@ -1580,10 +1532,6 @@ func nameOfConversation(conversation: Conversation) -> String? {
 
 func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 
-    guard !conversation.invalidated else {
-        return nil
-    }
-
     let messages = messagesInConversation(conversation)
 
     if let lastMessage = messages.last {
@@ -1594,10 +1542,6 @@ func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
-
-    guard !conversation.invalidated else {
-        return nil
-    }
 
     let messages = messagesInConversationFromFriend(conversation)
 
@@ -1611,10 +1555,6 @@ func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
 }
 
 func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
-
-    guard !message.invalidated else {
-        return nil
-    }
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
@@ -1631,10 +1571,6 @@ func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
 
 func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloat])? {
 
-    guard !message.invalidated else {
-        return nil
-    }
-
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
@@ -1650,10 +1586,6 @@ func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloa
 
 func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
 
-    guard !message.invalidated else {
-        return nil
-    }
-
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
@@ -1668,10 +1600,6 @@ func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 }
 
 func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
-
-    guard !message.invalidated else {
-        return nil
-    }
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
@@ -1861,100 +1789,94 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
 func clearUselessRealmObjects() {
 
-    dispatch_async(realmQueue) {
-
-        guard let realm = try? Realm() else {
-            return
-        }
-
-        println("do clearUselessRealmObjects")
-
-        realm.beginWrite()
-
-        // Message
-
-        do {
-            // 7天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
-            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
-
-            let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
-            let oldMessages = realm.objects(Message).filter(predicate)
-
-            println("oldMessages.count: \(oldMessages.count)")
-
-            oldMessages.forEach({
-                $0.deleteAttachmentInRealm(realm)
-                realm.delete($0)
-            })
-        }
-
-        // Feed
-
-        do {
-            let predicate = NSPredicate(format: "group == nil")
-            let noGroupFeeds = realm.objects(Feed).filter(predicate)
-
-            println("noGroupFeeds.count: \(noGroupFeeds.count)")
-
-            noGroupFeeds.forEach({
-                if let group = $0.group {
-                    group.cascadeDeleteInRealm(realm)
-                } else {
-                    $0.cascadeDeleteInRealm(realm)
-                }
-            })
-        }
-
-        do {
-            // 2天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
-            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
-
-            let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
-            let notJoinedFeeds = realm.objects(Feed).filter(predicate)
-
-            println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
-
-            notJoinedFeeds.forEach({
-                if let group = $0.group {
-                    group.cascadeDeleteInRealm(realm)
-                } else {
-                    $0.cascadeDeleteInRealm(realm)
-                }
-            })
-        }
-
-        // User
-
-        do {
-            // 7天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
-            //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
-            let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
-            //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
-
-            let strangers = realm.objects(User).filter(predicate)
-
-            // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
-            let realStrangers = strangers.filter({
-                if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
-                    return true
-                }
-
-                return false
-            })
-
-            println("realStrangers.count: \(realStrangers.count)")
-
-            realStrangers.forEach({
-                $0.cascadeDeleteInRealm(realm)
-            })
-        }
-
-        // Group
-
-        let _ = try? realm.commitWrite()
+    guard let realm = try? Realm() else {
+        return
     }
+
+    println("do clearUselessRealmObjects")
+
+    realm.beginWrite()
+
+    // Message
+
+    do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+
+        let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
+        let oldMessages = realm.objects(Message).filter(predicate)
+
+        println("oldMessages.count: \(oldMessages.count)")
+
+        oldMessages.forEach({
+            $0.deleteAttachmentInRealm(realm)
+            realm.delete($0)
+        })
+    }
+
+    // Feed
+
+    do {
+        let predicate = NSPredicate(format: "group == nil")
+        let noGroupFeeds = realm.objects(Feed).filter(predicate)
+
+        println("noGroupFeeds.count: \(noGroupFeeds.count)")
+
+        noGroupFeeds.forEach({
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
+        })
+    }
+
+    do {
+        // 2天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
+
+        let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
+        let notJoinedFeeds = realm.objects(Feed).filter(predicate)
+
+        println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
+
+        notJoinedFeeds.forEach({
+            if let group = $0.group {
+                group.cascadeDeleteInRealm(realm)
+            } else {
+                $0.cascadeDeleteInRealm(realm)
+            }
+        })
+    }
+
+    // User
+
+    do {
+        // 7天前
+        let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+        let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
+        //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
+
+        let strangers = realm.objects(User).filter(predicate)
+
+        // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
+        let realStrangers = strangers.filter({
+            if $0.conversation == nil && $0.belongsToGroups.isEmpty && $0.ownedGroups.isEmpty && $0.createdFeeds.isEmpty && $0.messages.isEmpty {
+                return true
+            }
+
+            return false
+        })
+
+        println("realStrangers.count: \(realStrangers.count)")
+
+        realStrangers.forEach({
+            $0.cascadeDeleteInRealm(realm)
+        })
+    }
+
+    // Group
+
+    let _ = try? realm.commitWrite()
 }
 

@@ -108,11 +108,11 @@ class MediaView: UIView {
 
         layer.addSublayer(videoPlayerLayer)
 
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(MediaView.doubleTapToZoom(_:)))
+        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTapToZoom:")
         doubleTap.numberOfTapsRequired = 2
         addGestureRecognizer(doubleTap)
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(MediaView.tapToDismiss(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: "tapToDismiss:")
         tap.requireGestureRecognizerToFail(doubleTap)
         addGestureRecognizer(tap)
     }

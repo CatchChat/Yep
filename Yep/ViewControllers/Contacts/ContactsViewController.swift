@@ -29,13 +29,8 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var contactsSearchTransition: ContactsSearchTransition = {
-        return ContactsSearchTransition()
-    }()
-
-//    private let keyboardMan = KeyboardMan()
-//    private var normalContactsTableViewContentInsetBottom: CGFloat?
+    private let keyboardMan = KeyboardMan()
+    private var normalContactsTableViewContentInsetBottom: CGFloat?
 
     private let cellIdentifier = "ContactsCell"
 
@@ -68,15 +63,6 @@ class ContactsViewController: BaseViewController {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
 
         contactsTableView?.delegate = nil
-
-        realmNotificationToken?.stop()
-
-        // ref http://stackoverflow.com/a/33281648
-        if let superView = searchController?.view.superview {
-            superView.removeFromSuperview()
-        }
-
-        println("deinit Contacts")
     }
 
     override func viewDidLoad() {
@@ -84,8 +70,8 @@ class ContactsViewController: BaseViewController {
 
         title = NSLocalizedString("Contacts", comment: "")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.deactiveSearchController(_:)), name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "syncFriendships:", name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "deactiveSearchController:", name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
 
         coverUnderStatusBarView.hidden = true
 
@@ -119,7 +105,7 @@ class ContactsViewController: BaseViewController {
         }
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+        contactsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
         contactsTableView.rowHeight = 80
@@ -147,30 +133,22 @@ class ContactsViewController: BaseViewController {
             }
         }
 
-//        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-//            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
-//            self?.contactsTableView.contentInset.bottom = keyboardHeight
-//            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-//        }
-//
-//        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-//            if let bottom = self?.normalContactsTableViewContentInsetBottom {
-//                self?.contactsTableView.contentInset.bottom = bottom
-//                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-//            }
-//        }
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
+            self?.contactsTableView.contentInset.bottom = keyboardHeight
+            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+            if let bottom = self?.normalContactsTableViewContentInsetBottom {
+                self?.contactsTableView.contentInset.bottom = bottom
+                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
+            }
+        }
 
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-        }
     }
 
     // MARK: Actions
@@ -186,7 +164,8 @@ class ContactsViewController: BaseViewController {
             self?.contactsTableView.reloadData()
 
             if scrollsToTop {
-                self?.contactsTableView.yep_scrollsToTop()
+                let y = -(self?.contactsTableView.contentInset.top ?? 0)
+                self?.contactsTableView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
             }
         }
     }
@@ -229,18 +208,6 @@ class ContactsViewController: BaseViewController {
             
             vc.setBackButtonWithTitle()
 
-        case "showSearchContacts":
-
-            let vc = segue.destinationViewController as! SearchContactsViewController
-            vc.originalNavigationControllerDelegate = navigationController?.delegate
-
-            vc.hidesBottomBarWhenPushed = true
-
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = contactsSearchTransition
-
         default:
             break
         }
@@ -260,7 +227,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return 2
     }
 
-    private func numberOfRowsInSection(section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
@@ -270,34 +237,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
         case .Online:
             return searchControllerIsActive ? searchedUsers.count : 0
-        }
-    }
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRowsInSection(section)
-    }
-
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
-        guard numberOfRowsInSection(section) > 0 else {
-            return nil
-        }
-
-        if searchControllerIsActive {
-
-            guard let section = Section(rawValue: section) else {
-                return nil
-            }
-
-            switch section {
-            case .Local:
-                return NSLocalizedString("Friends", comment: "")
-            case .Online:
-                return NSLocalizedString("Users", comment: "")
-            }
-
-        } else {
-            return nil
         }
     }
 
@@ -331,16 +270,25 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                 return
             }
 
-            if searchControllerIsActive {
-                cell.configureForSearchWithUser(friend)
+            let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
+            cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+            cell.nameLabel.text = friend.nickname
+
+            if let badge = BadgeView.Badge(rawValue: friend.badge) {
+                cell.badgeImageView.image = badge.image
+                cell.badgeImageView.tintColor = badge.color
             } else {
-                cell.configureWithUser(friend)
+                cell.badgeImageView.image = nil
             }
+
+            cell.joinedDateLabel.text = friend.introduction
+            cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
 
         case .Online:
             
             let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser)
+            cell.configureWithDiscoveredUser(discoveredUser, tableView: tableView, indexPath: indexPath)
         }
     }
 
@@ -363,19 +311,19 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
+        searchController?.active = false
+
         switch section {
 
         case .Local:
 
             if let friend = friendAtIndexPath(indexPath) {
-                searchController?.active = false
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
-            searchController?.active = false
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
    }
@@ -430,13 +378,6 @@ extension ContactsViewController: UISearchResultsUpdating {
 // MARK: - UISearchBarDelegate
 
 extension ContactsViewController: UISearchBarDelegate {
-
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
-
-        performSegueWithIdentifier("showSearchContacts", sender: nil)
-
-        return false
-    }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 

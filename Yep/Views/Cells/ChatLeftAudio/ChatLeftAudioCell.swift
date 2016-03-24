@@ -119,7 +119,7 @@ class ChatLeftAudioCell: ChatBaseCell {
         }
 
         bubbleImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftAudioCell.tapMediaView))
+        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
         bubbleImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
@@ -233,7 +233,7 @@ class ChatLeftAudioCell: ChatBaseCell {
     private func configureNameLabel() {
 
         if inGroup {
-            nameLabel.text = user?.compositedName
+            nameLabel.text = user?.chatCellCompositedName
 
             let height = YepConfig.ChatCell.nameLabelHeightForGroup
             let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()

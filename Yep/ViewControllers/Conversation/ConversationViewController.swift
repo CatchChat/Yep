@@ -25,15 +25,12 @@ enum ConversationFeed {
     case DiscoveredFeedType(DiscoveredFeed)
     case FeedType(Feed)
 
-    var feedID: String? {
+    var feedID: String {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.id
 
         case .FeedType(let feed):
-            guard !feed.invalidated else {
-                return nil
-            }
             return feed.feedID
         }
     }
@@ -396,7 +393,7 @@ class ConversationViewController: BaseViewController {
 
         titleView.userInteractionEnabled = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.showFriendProfile(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: "showFriendProfile:")
 
         titleView.addGestureRecognizer(tap)
 
@@ -675,24 +672,22 @@ class ConversationViewController: BaseViewController {
         lastTimeMessagesCount = messages.count
 
         navigationItem.titleView = titleView
-
-
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction:")
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: YepConfig.Notification.newMessages, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedNewMessagesNotification:", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleDeletedMessagesNotification:", name: YepConfig.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.tryInsertInActiveNewMessages(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "tryInsertInActiveNewMessages:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillHideNotification:", name: UIMenuControllerWillHideMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: MessageNotification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "messagesMarkAsReadByRecipient:", name: MessageNotification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -734,7 +729,7 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView.bounces = true
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
+        let tap = UITapGestureRecognizer(target: self, action: "tapToCollapseMessageToolBar:")
         conversationCollectionView.addGestureRecognizer(tap)
 
         messageToolbarBottomConstraint.constant = 0
@@ -1136,7 +1131,7 @@ class ConversationViewController: BaseViewController {
 
         // 为 nil 时才新建
         if checkTypingStatusTimer == nil {
-            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ConversationViewController.checkTypingStatus(_:)), userInfo: nil, repeats: true)
+            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("checkTypingStatus:"), userInfo: nil, repeats: true)
         }
 
         // 尽量晚的设置一些属性和闭包
@@ -1416,16 +1411,6 @@ class ConversationViewController: BaseViewController {
                 }
 
                 self?.swipeUpPromptLabel.text = text
-            }
-        }
-
-        if !isFirstAppear {
-            delay(1) { [weak self] in
-                if let latestMessage = self?.messages.last {
-                    let lastReadUnixTime = latestMessage.createdUnixTime
-                    let lastReadMessageID = latestMessage.messageID
-                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
-                }
             }
         }
     }
@@ -2255,10 +2240,8 @@ class ConversationViewController: BaseViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 if let strongSelf = self {
-                    if !group.invalidated {
-                        let _ = try? strongSelf.realm.write {
-                            group.includeMe = meIsMember
-                        }
+                    let _ = try? strongSelf.realm.write {
+                        group.includeMe = meIsMember
                     }
                 }
             }
@@ -2267,16 +2250,7 @@ class ConversationViewController: BaseViewController {
                 return
             }
 
-            // 最多显示一次
-            guard SubscriptionViewShown.canShow(groupID: groupID) else {
-                return
-            }
-
             delay(3) { [weak self] in
-
-                guard !group.invalidated else {
-                    return
-                }
 
                 guard !group.includeMe else {
                     return
@@ -2288,12 +2262,9 @@ class ConversationViewController: BaseViewController {
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             if let strongSelf = self {
-                                if !group.invalidated {
-                                    let _ = try? strongSelf.realm.write {
-                                        group.includeMe = true
-                                        group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                                        strongSelf.moreViewManager.updateForGroupAffair()
-                                    }
+                                let _ = try? strongSelf.realm.write {
+                                    group.includeMe = true
+//                                    strongSelf.moreViewManager.updateForGroupAffair()
                                 }
                             }
                         }
@@ -2336,26 +2307,11 @@ class ConversationViewController: BaseViewController {
                 }
 
                 self?.subscribeView.show()
-
-                // 记下已显示过
-                do {
-                    guard self != nil else {
-                        return
-                    }
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-                    let shown = SubscriptionViewShown(groupID: groupID)
-                    let _ = try? realm.write {
-                        realm.add(shown, update: true)
-                    }
-                }
             }
         })
     }
 
     private var isLoadingPreviousMessages = false
-    private var noMorePreviousMessages = false
     private func tryLoadPreviousMessages(completion: () -> Void) {
 
         if isLoadingPreviousMessages {
@@ -2387,11 +2343,6 @@ class ConversationViewController: BaseViewController {
                     println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                        if case .Past = timeDirection {
-                            self?.noMorePreviousMessages = messageIDs.isEmpty
-                        }
-
                         tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                         //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
 
@@ -2866,7 +2817,6 @@ class ConversationViewController: BaseViewController {
                         if let strongSelf = self {
                             let _ = try? strongSelf.realm.write {
                                 group.includeMe = true
-                                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                             }
 
                             afterSubscribed?()
@@ -3263,7 +3213,7 @@ class ConversationViewController: BaseViewController {
         if let message = message {
             let audioPlayedDuration = audioPlayedDurationOfMessage(message)
             YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
-                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(ConversationViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer
             }
         } else {
@@ -3509,7 +3459,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         menu.setTargetRect(bubbleFrame, inView: view)
         menu.setMenuVisible(true, animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRecieveMenuWillShowNotification:", name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
 
     func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -3533,7 +3483,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             UIMenuController.sharedMenuController().menuItems = [
-                UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:)))
+                UIMenuItem(title: title, action: "deleteMessage:")
             ]
 
             return true
@@ -3548,17 +3498,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
 
         if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
-            if action == #selector(NSObject.copy(_:)) {
+            if action == "copy:" {
                 return true
             }
 
         } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
-            if action == #selector(NSObject.copy(_:)) {
+            if action == "copy:" {
                 return true
             }
         }
 
-        if action == #selector(ChatBaseCell.deleteMessage(_:)) {
+        if action == "deleteMessage:" {
             return true
         }
 
@@ -3568,12 +3518,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
 
         if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
-            if action == #selector(NSObject.copy(_:)) {
+            if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
 
         } else if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
-            if action == #selector(NSObject.copy(_:)) {
+            if action == "copy:" {
                 UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
             }
         }
@@ -4307,8 +4257,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
 
-                            }, completion: { success in
-                                println("resendText: \(success)")
+                                }, completion: { success in
+                                    println("resendText: \(success)")
                             })
 
                         }, cancelAction: {
@@ -4497,8 +4447,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        //println("contentInset: \(scrollView.contentInset)")
-        //println("contentOffset: \(scrollView.contentOffset)")
+        //pullToRefreshView.scrollViewDidScroll(scrollView)
 
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
@@ -4509,15 +4458,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
 
-        func tryTriggerLoadPrevious() {
-
-            guard !noMorePreviousMessages else {
-                return
-            }
-
-            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
-                return
-            }
+        if scrollView.yep_isAtTop {
 
             let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {
@@ -4545,6 +4486,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+        //pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
 
         dragBeginLocation = nil
     }
@@ -4597,6 +4540,100 @@ extension ConversationViewController: FayeServiceDelegate {
     }
     */
 }
+
+/*
+// MARK: PullToRefreshViewDelegate
+extension ConversationViewController: PullToRefreshViewDelegate {
+
+    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+
+        if displayedMessagesRange.location == 0 {
+
+            if let recipient = conversation.recipient {
+
+                let timeDirection: TimeDirection
+                if let maxMessageID = messages.first?.messageID {
+                    timeDirection = .Past(maxMessageID: maxMessageID)
+                } else {
+                    timeDirection = .None
+                }
+
+                messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: nil, completion: { messageIDs in
+                    println("messagesFromRecipient: \(messageIDs.count)")
+
+                    delay(0.3) { // 人为延迟，增加等待感
+                        pulllToRefreshView.endRefreshingAndDoFurtherAction() {
+                            dispatch_async(dispatch_get_main_queue()) {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+                            }
+                        }
+                    }
+                })
+            }
+
+        } else {
+
+            delay(0.5) {
+
+                pulllToRefreshView.endRefreshingAndDoFurtherAction() { [weak self] in
+
+                    if let strongSelf = self {
+                        //let lastDisplayedMessagesRange = strongSelf.displayedMessagesRange
+
+                        var newMessagesCount = strongSelf.messagesBunchCount
+
+                        if (strongSelf.displayedMessagesRange.location - newMessagesCount) < 0 {
+                            newMessagesCount = strongSelf.displayedMessagesRange.location
+                        }
+
+                        if newMessagesCount > 0 {
+                            strongSelf.displayedMessagesRange.location -= newMessagesCount
+                            strongSelf.displayedMessagesRange.length += newMessagesCount
+
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count // 同样需要纪录它
+
+                            var indexPaths = [NSIndexPath]()
+                            for i in 0..<newMessagesCount {
+                                let indexPath = NSIndexPath(forItem: Int(i), inSection: Section.Message.rawValue)
+                                indexPaths.append(indexPath)
+                            }
+
+                            let bottomOffset = strongSelf.conversationCollectionView.contentSize.height - strongSelf.conversationCollectionView.contentOffset.y
+
+                            CATransaction.begin()
+                            CATransaction.setDisableActions(true)
+
+                            strongSelf.conversationCollectionView.performBatchUpdates({ [weak self] in
+                                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                            }, completion: { [weak self] finished in
+                                if let strongSelf = self {
+                                    var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                                    contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                                    strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                                    CATransaction.commit()
+
+                                    // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
+                                    // 此时再做个 scroll 动画比较自然
+                                    let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
+                                    strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func scrollView() -> UIScrollView {
+        return conversationCollectionView
+    }
+}
+*/
 
 // MARK: AVAudioRecorderDelegate
 
@@ -4687,7 +4724,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             switch mediaType {
 
-            case String(kUTTypeImage):
+            case kUTTypeImage as! String:
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
@@ -4714,7 +4751,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     }
                 }
 
-            case String(kUTTypeMovie):
+            case kUTTypeMovie as! String:
 
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
                     println("videoURL \(videoURL)")
