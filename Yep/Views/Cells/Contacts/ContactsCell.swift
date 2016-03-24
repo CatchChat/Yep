@@ -66,7 +66,7 @@ class ContactsCell: UITableViewCell {
         }
 
         joinedDateLabel.text = user.introduction
-        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        lastTimeSeenLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {

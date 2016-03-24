@@ -44,7 +44,7 @@ class SearchContactsViewController: SegueViewController {
     private var searchControllerIsActive = false
 
     private let headerIdentifier = "TableSectionTitleView"
-    private let cellIdentifier = "ContactsCell"
+    private let cellIdentifier = "SearchedContactsCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -302,7 +302,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
         return cell
     }
 
@@ -314,7 +314,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        guard let cell = cell as? ContactsCell else {
+        guard let cell = cell as? SearchedContactsCell else {
             return
         }
 
@@ -331,16 +331,12 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
                 return
             }
 
-            if searchControllerIsActive {
-                cell.configureForSearchWithUser(friend)
-            } else {
-                cell.configureWithUser(friend)
-            }
+            cell.configureWithUser(friend)
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser)
+            cell.configureWithDiscoveredUser(discoveredUser)
         }
     }
 
