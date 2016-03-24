@@ -109,7 +109,7 @@ class VoiceRecordSampleView: UIView {
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintH)
         NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintV)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadSampleCollectionView:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VoiceRecordSampleView.reloadSampleCollectionView(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
     }
 
     @objc private func reloadSampleCollectionView(notification: NSNotification) {

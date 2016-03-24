@@ -8,7 +8,6 @@
 
 import UIKit
 import Fabric
-import Crashlytics
 import AVFoundation
 import RealmSwift
 import MonkeyKing
@@ -46,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
         let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 29, migrationBlock: { migration, oldSchemaVersion in
+        return Realm.Configuration(path: realmPath, schemaVersion: 30, migrationBlock: { migration, oldSchemaVersion in
         })
     }
 
@@ -76,6 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Life Circle
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        BuddyBuildSDK.setup()
+        
 
         master.detailViewController = detail
                 
@@ -85,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         delay(0.5) {
             //Fabric.with([Crashlytics.self])
-            Fabric.with([Crashlytics.self, Appsee.self])
+            Fabric.with([Appsee.self])
 
             /*
             #if STAGING
@@ -261,6 +262,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .Message:
 
             syncUnreadMessages() {
+                dispatch_async(dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                }
+
                 completionHandler(UIBackgroundFetchResult.NewData)
             }
 
@@ -304,7 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
                 }
 
                 completionHandler(UIBackgroundFetchResult.NewData)
@@ -432,6 +437,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard YepUserDefaults.isLogined else {
             return
         }
+
+        refreshGroupTypeForAllGroups()
         
         syncUnreadMessages {
             syncFriendshipsAndDoFurtherAction {
@@ -534,6 +541,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func customAppearance() {
+
+        window?.backgroundColor = UIColor.whiteColor()
 
         // Global Tint Color
 

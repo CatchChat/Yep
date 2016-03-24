@@ -34,7 +34,7 @@ class FPSLabel: UILabel {
 
     func run() {
 
-        displayLink = CADisplayLink(target: self, selector: "tick:")
+        displayLink = CADisplayLink(target: self, selector: #selector(FPSLabel.tick(_:)))
         displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
     }
 

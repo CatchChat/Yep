@@ -60,7 +60,7 @@ class FeedbackViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: "done:")
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(FeedbackViewController.done(_:)))
         navigationItem.rightBarButtonItem = doneBarButtonItem
         navigationItem.rightBarButtonItem?.enabled = false
 
@@ -74,7 +74,7 @@ class FeedbackViewController: UIViewController {
             self?.view.layoutIfNeeded()
         }
 
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedbackViewController.tap(_:)))
         view.addGestureRecognizer(tap)
     }
 

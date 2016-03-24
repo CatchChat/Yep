@@ -70,7 +70,7 @@ class FeedURLContainerView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedURLContainerView.tap(_:)))
         addGestureRecognizer(tap)
     }
 

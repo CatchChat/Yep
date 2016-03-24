@@ -19,7 +19,7 @@ class SocialWorkInstagramViewController: BaseViewController {
 
 
     private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "share:")
+        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkInstagramViewController.share(_:)))
         return button
         }()
 

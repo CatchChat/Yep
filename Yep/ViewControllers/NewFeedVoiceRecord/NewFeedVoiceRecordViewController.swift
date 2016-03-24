@@ -82,7 +82,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
                 }, completion: { _ in })
 
-                displayLink = CADisplayLink(target: self, selector: "checkVoiceRecordValue:")
+                displayLink = CADisplayLink(target: self, selector: #selector(NewFeedVoiceRecordViewController.checkVoiceRecordValue(_:)))
                 displayLink?.frameInterval = 6 // 频率为每秒 10 次
                 displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
 
@@ -382,7 +382,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
                 audioPlayer.play()
                 audioPlaying = true
 
-                playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(NewFeedVoiceRecordViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
         } else {
@@ -409,7 +409,7 @@ class NewFeedVoiceRecordViewController: SegueViewController {
 
                     audioPlaying = true
 
-                    playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                    playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(NewFeedVoiceRecordViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 }
 
             } catch let error {

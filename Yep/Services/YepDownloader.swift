@@ -322,7 +322,7 @@ extension YepDownloader: NSURLSessionDataDelegate {
                     let data = progressReporters[i].tasks[j].tempData
                     finishedAction(data)
 
-                    progressReporters[i].finishedTasksCount++
+                    progressReporters[i].finishedTasksCount += 1
 
                     // 若任务都已完成，移除此 progressReporter
                     if progressReporters[i].finishedTasksCount == progressReporters[i].tasks.count {

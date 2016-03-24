@@ -70,6 +70,14 @@ class MoreMessageTypesView: UIView {
             isFirstTimeBeenAddAsSubview = false
 
             makeUI()
+/*
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(MoreMessageTypesView.hide))
+            containerView.addGestureRecognizer(tap)
+
+            tap.cancelsTouchesInView = true
+            tap.delegate = self
+*/
         }
     }
     func makeUI() {

@@ -6,8 +6,6 @@ PODS:
     - APAddressBook/Core
   - Appsee (2.2)
   - Base64 (1.1.2)
-  - Crashlytics (3.7.0):
-    - Fabric (~> 1.6.3)
   - DeviceGuru (1.3.4)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
@@ -19,13 +17,13 @@ PODS:
   - Navi (0.4.2)
   - pop (1.0.9)
   - Proposer (0.7.1)
-  - Realm (0.98.3):
-    - Realm/Headers (= 0.98.3)
-  - Realm/Headers (0.98.3)
-  - RealmSwift (0.98.3):
-    - Realm (= 0.98.3)
+  - Realm (0.98.5):
+    - Realm/Headers (= 0.98.5)
+  - Realm/Headers (0.98.5)
+  - RealmSwift (0.98.5):
+    - Realm (= 0.98.5)
   - Ruler (0.6)
-  - SocketRocket (0.4.2)
+  - SocketRocket (0.5.0)
   - TPKeyboardAvoiding (1.2.11)
 
 DEPENDENCIES:
@@ -34,7 +32,6 @@ DEPENDENCIES:
   - APAddressBook/Swift
   - Appsee
   - Base64
-  - Crashlytics
   - DeviceGuru
   - Fabric
   - FXBlurView
@@ -46,7 +43,7 @@ DEPENDENCIES:
   - Navi
   - pop
   - Proposer
-  - RealmSwift (= 0.98.3)
+  - RealmSwift
   - Ruler
   - SocketRocket
   - TPKeyboardAvoiding
@@ -57,7 +54,6 @@ SPEC CHECKSUMS:
   APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DeviceGuru: 9659f3d7c3903eca2084f4801dcbbc6ebde19709
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -69,10 +65,10 @@ SPEC CHECKSUMS:
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
-  Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
-  RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31
+  Realm: db08379969e45cea2edd1c3c0a090fe9e22d2d2f
+  RealmSwift: cb11ad1c35e15dc982f2dbf5afe2a3124193a358
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
-  SocketRocket: ffe08119b00ef982f6c37052a4705a057c8494ad
+  SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
   TPKeyboardAvoiding: e5ce146b313de063957bfa75a13f1e9b0ff18ab7
 
 COCOAPODS: 0.39.0

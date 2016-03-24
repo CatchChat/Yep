@@ -22,7 +22,7 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
 
         imageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tap:")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedNormalImagesCell.tap(_:)))
         imageView.addGestureRecognizer(tap)
         return imageView
     }
