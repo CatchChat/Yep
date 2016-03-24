@@ -914,8 +914,9 @@ class ConversationViewController: BaseViewController {
         switch conversation.type {
 
         case ConversationType.OneToOne.rawValue:
-            syncMessages(failedAction: nil, successAction: nil)
-            syncMessagesReadStatus()
+            syncMessages(failedAction: nil, successAction: { [weak self] in
+                self?.syncMessagesReadStatus()
+            })
 
         case ConversationType.Group.rawValue:
 
