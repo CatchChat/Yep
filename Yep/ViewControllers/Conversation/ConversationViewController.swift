@@ -1126,8 +1126,6 @@ class ConversationViewController: BaseViewController {
 
         if isFirstAppear {
 
-            isFirstAppear = false
-
             messageToolbar.notifyTypingAction = { [weak self] in
 
                 if let withFriend = self?.conversation.withFriend {
@@ -1403,14 +1401,10 @@ class ConversationViewController: BaseViewController {
         }
 
         if !isFirstAppear {
-            delay(1) { [weak self] in
-                if let latestMessage = self?.messages.last {
-                    let lastReadUnixTime = latestMessage.createdUnixTime
-                    let lastReadMessageID = latestMessage.messageID
-                    self?.markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
-                }
-            }
+            syncMessagesReadStatus()
         }
+
+        isFirstAppear = false
     }
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
