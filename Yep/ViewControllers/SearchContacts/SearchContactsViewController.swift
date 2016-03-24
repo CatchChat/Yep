@@ -148,7 +148,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
+//        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
 
         navigationController?.popViewControllerAnimated(true)
     }

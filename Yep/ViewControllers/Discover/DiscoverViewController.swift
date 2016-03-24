@@ -171,7 +171,9 @@ class DiscoverViewController: BaseViewController {
 
 
         refreshControl.tintColor = UIColor.lightGrayColor()
-        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        //        TODO:
+//        #selector(DiscoverViewController.refresh(_:)
+        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
         refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         discoveredUsersCollectionView.addSubview(refreshControl)
 

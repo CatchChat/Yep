@@ -175,7 +175,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
         }
 */
-        performSegueWithIdentifier("showConversation", sender: conversation)
+//        performSegueWithIdentifier("showConversation", sender: conversation)
+        }
     }
 
     // Edit (for Delete)

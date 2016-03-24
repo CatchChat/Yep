@@ -11,7 +11,7 @@ import RealmSwift
 import AVFoundation
 import MapKit
 
-class   /FeedsViewController: BaseViewController {
+class   FeedsViewController: BaseViewController {
 
     var skill: Skill?
     var needShowSkill: Bool {
@@ -335,8 +335,10 @@ class   /FeedsViewController: BaseViewController {
             // do nothing
 
         } else {
+            //TODO
+//            #selector(FeedsViewController.showFilter(_:)
 
-            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
+            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: "showFilter:")
 //            navigationItem.leftBarButtonItem = filterBarItem
             navigationItem.rightBarButtonItem = filterBarItem
 

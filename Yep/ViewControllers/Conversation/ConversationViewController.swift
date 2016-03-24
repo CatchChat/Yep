@@ -4497,22 +4497,23 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-
-
+        
+        
         //pullToRefreshView.scrollViewDidScroll(scrollView)
-
+        
         //println("contentInset: \(scrollView.contentInset)")
         //println("contentOffset: \(scrollView.contentOffset)")
-
-
+        
+        
         if let dragBeginLocation = dragBeginLocation {
             let location = scrollView.panGestureRecognizer.locationInView(view)
             let deltaY = location.y - dragBeginLocation.y
-
+            
             if deltaY < -30 {
                 tryFoldFeedView()
             }
         }
+    }
 
 
         // if scrollView.yep_isAtTop {
@@ -4522,9 +4523,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 return
             }
 
-            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
-                return
-            }
+//            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
+//                return
+//            }
 
             let indexPath = NSIndexPath(forItem: 0, inSection: Section.LoadPrevious.rawValue)
             guard conversationCollectionViewHasBeenMovedToBottomOnce, let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? LoadMoreCollectionViewCell else {

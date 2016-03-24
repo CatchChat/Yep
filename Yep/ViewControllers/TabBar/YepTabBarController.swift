@@ -180,8 +180,8 @@ class YepTabBarController: UITabBarController {
             let frame = self.tabBar.frame
             self.tabBar.frame = CGRectOffset(frame, 0, offsetY);
         }, completion: nil)
+         */
     }
-    */
 }
 
 // MARK: - UITabBarControllerDelegate

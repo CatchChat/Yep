@@ -118,7 +118,7 @@ private class PopoverSwitchCell: UITableViewCell {
     
     lazy var checkedSwitch: UISwitch = {
         let s = UISwitch()
-        s.addTarget(self, action: "toggleSwitch:", forControlEvents: .ValueChanged)
+        s.addTarget(self, action: #selector(PopoverSwitchCell.toggleSwitch(_:)), forControlEvents: .ValueChanged)
         return s
     }()
     

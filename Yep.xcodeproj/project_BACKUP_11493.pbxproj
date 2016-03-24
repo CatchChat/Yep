@@ -38,15 +38,15 @@
 		0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA691AC3ED3D00617758 /* UIKit.framework */; };
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
-		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
-		3306508B1CA3DAA300DE348E /* UserFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3306508A1CA3DAA300DE348E /* UserFeedsViewController.swift */; };
-		330650E01CA3E73800DE348E /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650DD1CA3E73800DE348E /* ConversationMoreView.swift */; };
-		330650E11CA3E73800DE348E /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650DE1CA3E73800DE348E /* MoreMessageTypesView.swift */; };
-		330650E21CA3E73800DE348E /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650DF1CA3E73800DE348E /* PopoverView.swift */; };
-		330650E71CA3E8DA00DE348E /* MatchPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650E41CA3E8DA00DE348E /* MatchPopoverViewController.swift */; };
-		330650E81CA3E8DA00DE348E /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650E51CA3E8DA00DE348E /* PopoverContentViewController.swift */; };
-		330650E91CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650E61CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift */; };
+<<<<<<< HEAD
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
+		336171A41C968A32003CB9C6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */; };
+		3396B75A1C9A9542005C5E2B /* UserFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */; };
+		33BBB1881C96B3290048E78E /* ConversationMoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BBB1871C96B3290048E78E /* ConversationMoreView.swift */; };
+		33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33BC0C061C96581F0084DCDD /* PopoverView.swift */; };
+=======
+		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
+>>>>>>> origin/develop
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
@@ -370,15 +370,21 @@
 		92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E0FFE41C5F38E400226B96 /* MZFayeClient.m */; };
 		92E0FFE81C5F38E400226B96 /* MZFayeMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 92E0FFE61C5F38E400226B96 /* MZFayeMessage.m */; };
 		B00500D7E943DDD27CF9C562 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3146F0F60F2A38BC6E0FA66 /* Pods_Yep.framework */; };
-		B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C73250AC8BB116924CA11C0 /* QuartzCore.framework */; };
+<<<<<<< HEAD
 		D8C13FFC1C65502C001D7947 /* SkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */; };
 		D8C140031C655178001D7947 /* DiscoverHD.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8C140021C655178001D7947 /* DiscoverHD.storyboard */; };
 		D8C140051C6551C0001D7947 /* MeetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C140041C6551C0001D7947 /* MeetupViewController.swift */; };
 		D8C9851E1C64AE470016A14D /* DiscoverHDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */; };
 		D8C985241C64B05F0016A14D /* DiscoverHDCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */; };
 		D8F0B4831C632A4800DF2E23 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */; };
+		E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */; };
 		E4783E421C8937E400324D9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4783E411C8937E400324D9A /* Images.xcassets */; };
+		E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4783E431C89646900324D9A /* PopoverContentViewController.swift */; };
+		E4C701731C8E6982007596B4 /* PopoverMoreTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */; };
+=======
+		B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C73250AC8BB116924CA11C0 /* QuartzCore.framework */; };
 		F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */; };
+>>>>>>> origin/develop
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -428,17 +434,17 @@
 		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
-		3306508A1CA3DAA300DE348E /* UserFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserFeedsViewController.swift; path = ViewControllers/Profile/UserFeedsViewController.swift; sourceTree = "<group>"; };
-		330650DD1CA3E73800DE348E /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMoreView.swift; sourceTree = "<group>"; };
-		330650DE1CA3E73800DE348E /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreMessageTypesView.swift; sourceTree = "<group>"; };
-		330650DF1CA3E73800DE348E /* PopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
-		330650E41CA3E8DA00DE348E /* MatchPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchPopoverViewController.swift; sourceTree = "<group>"; };
-		330650E51CA3E8DA00DE348E /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
-		330650E61CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMoreTypesViewController.swift; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Yep.swift"; sourceTree = "<group>"; };
+		336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreMessageTypesView.swift; sourceTree = "<group>"; };
+		3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFeedsViewController.swift; sourceTree = "<group>"; };
+		33BBB1871C96B3290048E78E /* ConversationMoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationMoreView.swift; sourceTree = "<group>"; };
+		33BC0C061C96581F0084DCDD /* PopoverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverView.swift; sourceTree = "<group>"; };
+=======
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
+>>>>>>> origin/develop
 		4EEAF88E6C6D61E595249DF5 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		5008A1941B8DB8B500E94274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -775,7 +781,10 @@
 		D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDViewController.swift; sourceTree = "<group>"; };
 		D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverHDCell.swift; sourceTree = "<group>"; };
 		D8F0B4821C632A4800DF2E23 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchPopoverViewController.swift; sourceTree = "<group>"; };
 		E4783E411C8937E400324D9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E4783E431C89646900324D9A /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
+		E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMoreTypesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -892,8 +901,8 @@
 				50DBDEF21C48C2290044E21B /* Protocols */,
 				5052620E1C5202C700292C6A /* Operations */,
 				504F5E721BA034BB006CE418 /* Activities */,
-				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				5023DE391AB6979C00B3EE96 /* Views */,
+				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				505262131C522A1E00292C6A /* Show.storyboard */,
 				0A8F54B41AB67D11004AD60E /* Main.storyboard */,
@@ -985,26 +994,15 @@
 			name = ScrollView;
 			sourceTree = "<group>";
 		};
-		330650DC1CA3E73800DE348E /* Popover */ = {
+		33BC0C051C9657FA0084DCDD /* PopoverView */ = {
 			isa = PBXGroup;
 			children = (
-				330650DD1CA3E73800DE348E /* ConversationMoreView.swift */,
-				330650DE1CA3E73800DE348E /* MoreMessageTypesView.swift */,
-				330650DF1CA3E73800DE348E /* PopoverView.swift */,
+				33BC0C061C96581F0084DCDD /* PopoverView.swift */,
+				336171A31C968A32003CB9C6 /* MoreMessageTypesView.swift */,
+				33BBB1871C96B3290048E78E /* ConversationMoreView.swift */,
 			);
-			name = Popover;
-			path = Views/Popover;
-			sourceTree = "<group>";
-		};
-		330650E31CA3E8BA00DE348E /* Popover */ = {
-			isa = PBXGroup;
-			children = (
-				330650E41CA3E8DA00DE348E /* MatchPopoverViewController.swift */,
-				330650E51CA3E8DA00DE348E /* PopoverContentViewController.swift */,
-				330650E61CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift */,
-			);
-			name = Popover;
-			path = ViewControllers/PopoverView;
+			name = PopoverView;
+			path = Views/PopoverView;
 			sourceTree = "<group>";
 		};
 		500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */ = {
@@ -1108,7 +1106,6 @@
 		5023DE271AB6856600B3EE96 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				330650E31CA3E8BA00DE348E /* Popover */,
 				5023DE281AB6857500B3EE96 /* Conversations */,
 				503CAB441AC00CB900DFE830 /* Conversation */,
 				500EED9B1BF1B81600C6BABC /* MediaPreview */,
@@ -1180,8 +1177,8 @@
 		5023DE311AB6861900B3EE96 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				3306508A1CA3DAA300DE348E /* UserFeedsViewController.swift */,
 				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
+				3396B7591C9A9542005C5E2B /* UserFeedsViewController.swift */,
 				504F41561AD4D35400FBB19A /* ProfileLayout.swift */,
 			);
 			name = Profile;
@@ -1224,8 +1221,12 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				330650DC1CA3E73800DE348E /* Popover */,
+<<<<<<< HEAD
+				33BC0C051C9657FA0084DCDD /* PopoverView */,
+				5066C0271C86D41900495278 /* ActionSheet */,
+=======
 				50B6A03D1CA282B100C460E3 /* ActionSheet */,
+>>>>>>> origin/develop
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
 				50F2B9791B2EEAE300F840CC /* Labels */,
@@ -1569,6 +1570,8 @@
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
+				E4783E431C89646900324D9A /* PopoverContentViewController.swift */,
+				E4C701721C8E6982007596B4 /* PopoverMoreTypesViewController.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -2469,6 +2472,7 @@
 			children = (
 				D8C140021C655178001D7947 /* DiscoverHD.storyboard */,
 				D8C9851D1C64AE470016A14D /* DiscoverHDViewController.swift */,
+				E427F7371C8B3FCA00FBB59A /* MatchPopoverViewController.swift */,
 				D8C985231C64B05F0016A14D /* DiscoverHDCell.swift */,
 				D8C13FFB1C65502C001D7947 /* SkillsViewController.swift */,
 				D8C140041C6551C0001D7947 /* MeetupViewController.swift */,
@@ -2750,10 +2754,13 @@
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
+<<<<<<< HEAD
+				E4783E441C89646900324D9A /* PopoverContentViewController.swift in Sources */,
+=======
 				507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */,
+>>>>>>> origin/develop
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
 				50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */,
-				330650E21CA3E73800DE348E /* PopoverView.swift in Sources */,
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
 				5020B8A51C059662006CE8EA /* VoiceRecordSampleView.swift in Sources */,
@@ -2762,6 +2769,7 @@
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
+				33BC0C071C96581F0084DCDD /* PopoverView.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */,
@@ -2784,8 +2792,8 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				E427F7381C8B3FCA00FBB59A /* MatchPopoverViewController.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
-				330650E71CA3E8DA00DE348E /* MatchPopoverViewController.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
 				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
@@ -2797,7 +2805,6 @@
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
-				330650E81CA3E8DA00DE348E /* PopoverContentViewController.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */,
 				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
@@ -2821,7 +2828,6 @@
 				502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */,
 				92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */,
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
-				330650E91CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
@@ -2856,7 +2862,6 @@
 				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
 				503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */,
-				330650E11CA3E73800DE348E /* MoreMessageTypesView.swift in Sources */,
 				502B605F1BD112E500D9C17E /* QuickPickPhotosCell.swift in Sources */,
 				50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
@@ -2892,7 +2897,6 @@
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
 				50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */,
-				3306508B1CA3DAA300DE348E /* UserFeedsViewController.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
@@ -2909,6 +2913,7 @@
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */,
+				E4C701731C8E6982007596B4 /* PopoverMoreTypesViewController.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
 				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
@@ -2940,8 +2945,8 @@
 				50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */,
 				50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */,
 				D8C140051C6551C0001D7947 /* MeetupViewController.swift in Sources */,
+				33BBB1881C96B3290048E78E /* ConversationMoreView.swift in Sources */,
 				5023DE2A1AB685BA00B3EE96 /* ContactsViewController.swift in Sources */,
-				330650E01CA3E73800DE348E /* ConversationMoreView.swift in Sources */,
 				50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */,
 				5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */,
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
@@ -2980,6 +2985,7 @@
 				504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
 				6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */,
+				3396B75A1C9A9542005C5E2B /* UserFeedsViewController.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
 				503807201BD9EEFC0068345E /* YepMedia.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
@@ -3010,6 +3016,7 @@
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,
 				5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */,
+				336171A41C968A32003CB9C6 /* MoreMessageTypesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
