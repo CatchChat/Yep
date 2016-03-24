@@ -11,14 +11,20 @@ import UIKit
 class SearchedContactsCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel! {
+        didSet {
+            usernameLabel.font = UIFont.systemFontOfSize(12)
+            usernameLabel.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.780, alpha: 1)
+        }
+    }
     @IBOutlet weak var topRightLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

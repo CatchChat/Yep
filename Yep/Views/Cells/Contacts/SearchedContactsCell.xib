@@ -30,13 +30,13 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="@nixzhu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdd-dR-Fia">
-                        <rect key="frame" x="115" y="10" width="55" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="115" y="12" width="48" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last seen just now" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h6-tG-AMg">
-                        <rect key="frame" x="176" y="11" width="134" height="15"/>
+                        <rect key="frame" x="169" y="11" width="141" height="15"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
@@ -54,11 +54,11 @@
                     <constraint firstAttribute="trailing" secondItem="8h6-tG-AMg" secondAttribute="trailing" constant="10" id="GC3-56-7pE"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dbD-VB-gB8" secondAttribute="bottom" id="Q0p-Zk-rjI"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UBt-hI-gbQ"/>
-                    <constraint firstItem="Tdd-dR-Fia" firstAttribute="centerY" secondItem="vY7-bl-BsK" secondAttribute="centerY" id="YUW-Wm-OEH"/>
                     <constraint firstItem="vY7-bl-BsK" firstAttribute="leading" secondItem="MQ0-GV-fXP" secondAttribute="trailing" constant="15" id="a3n-cW-qxp"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dSe-ud-GS0"/>
                     <constraint firstItem="dbD-VB-gB8" firstAttribute="top" secondItem="vY7-bl-BsK" secondAttribute="bottom" constant="5" id="fIC-8b-569"/>
                     <constraint firstItem="vY7-bl-BsK" firstAttribute="top" secondItem="MQ0-GV-fXP" secondAttribute="top" id="kCk-c0-1AU"/>
+                    <constraint firstItem="Tdd-dR-Fia" firstAttribute="baseline" secondItem="vY7-bl-BsK" secondAttribute="baseline" id="nt2-gn-lmd"/>
                     <constraint firstItem="dbD-VB-gB8" firstAttribute="leading" secondItem="MQ0-GV-fXP" secondAttribute="trailing" constant="15" id="qBA-4W-aYl"/>
                     <constraint firstItem="8h6-tG-AMg" firstAttribute="leading" secondItem="Tdd-dR-Fia" secondAttribute="trailing" constant="6" id="tQr-Ml-n9l"/>
                     <constraint firstItem="Tdd-dR-Fia" firstAttribute="leading" secondItem="vY7-bl-BsK" secondAttribute="trailing" constant="6" id="tTg-TY-Lce"/>
