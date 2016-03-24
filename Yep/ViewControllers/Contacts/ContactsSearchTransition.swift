@@ -99,6 +99,22 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
+        UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
+
+            fromVC.searchBarTopConstraint.constant = 44
+            fromVC.view.layoutIfNeeded()
+
+        }, completion: { finished in
+
+            UIView.animateWithDuration(fullDuration * 0.4, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
+                fromView.alpha = 0
+
+            }, completion: { finished in
+                transitionContext.completeTransition(true)
+            })
+        })
+
+        /*
         UIView.animateKeyframesWithDuration(fullDuration, delay: 0, options: [.CalculationModeCubic], animations: {
 
             UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.6, animations: {
@@ -113,6 +129,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         }, completion: { finished in
             transitionContext.completeTransition(true)
         })
+        */
 
         /*
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
