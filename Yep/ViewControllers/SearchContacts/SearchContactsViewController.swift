@@ -83,7 +83,12 @@ class SearchContactsViewController: SegueViewController {
             navigationController?.delegate = delegate
         }
 
-        searchBar.becomeFirstResponder()
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }, completion: { [weak self] _ in
+            self?.searchBar.becomeFirstResponder()
+        })
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
