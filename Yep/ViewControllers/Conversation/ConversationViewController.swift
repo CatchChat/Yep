@@ -2165,7 +2165,12 @@ class ConversationViewController: BaseViewController {
 
     private func syncMessagesReadStatus() {
 
-        if let recipient = conversation.recipient {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+            guard let recipient = self?.conversation.recipient else {
+                return
+            }
+
             lastMessageReadByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastMessageRead in
 
                 if let lastMessageRead = lastMessageRead {
