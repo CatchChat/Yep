@@ -44,7 +44,7 @@ class SearchContactsViewController: SegueViewController {
     private var searchControllerIsActive = false
 
     private let headerIdentifier = "TableSectionTitleView"
-    private let cellIdentifier = "ContactsCell"
+    private let cellIdentifier = "SearchedContactsCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,7 +83,12 @@ class SearchContactsViewController: SegueViewController {
             navigationController?.delegate = delegate
         }
 
-        searchBar.becomeFirstResponder()
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }, completion: { [weak self] _ in
+            self?.searchBar.becomeFirstResponder()
+        })
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
@@ -302,7 +307,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
         return cell
     }
 
@@ -314,7 +319,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        guard let cell = cell as? ContactsCell else {
+        guard let cell = cell as? SearchedContactsCell else {
             return
         }
 
@@ -331,16 +336,12 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
                 return
             }
 
-            if searchControllerIsActive {
-                cell.configureForSearchWithUser(friend)
-            } else {
-                cell.configureWithUser(friend)
-            }
+            cell.configureWithUser(friend)
 
         case .Online:
 
             let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser)
+            cell.configureWithDiscoveredUser(discoveredUser)
         }
     }
 

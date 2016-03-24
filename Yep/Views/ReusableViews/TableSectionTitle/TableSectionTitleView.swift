@@ -12,7 +12,8 @@ class TableSectionTitleView: UITableViewHeaderFooterView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(15)
+        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = UIColor(red: 0.502, green: 0.502, blue: 0.502, alpha: 1)
         return label
     }()
 

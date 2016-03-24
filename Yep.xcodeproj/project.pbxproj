@@ -254,6 +254,8 @@
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
 		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
+		50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */; };
+		50B6A0431CA395A200C460E3 /* SearchedContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */; };
 		50B6D9F21C61C26100D431E0 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50B6D9F11C61C26100D431E0 /* PushConfig.plist */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
@@ -636,6 +638,8 @@
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
 		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
+		50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedContactsCell.swift; path = Views/Cells/Contacts/SearchedContactsCell.swift; sourceTree = "<group>"; };
+		50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedContactsCell.xib; path = Views/Cells/Contacts/SearchedContactsCell.xib; sourceTree = "<group>"; };
 		50B6D9F11C61C26100D431E0 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
@@ -2157,6 +2161,8 @@
 			children = (
 				50E114FA1ABC549300F13000 /* ContactsCell.swift */,
 				50E114FB1ABC549300F13000 /* ContactsCell.xib */,
+				50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */,
+				50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -2587,6 +2593,7 @@
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */,
+				50B6A0431CA395A200C460E3 /* SearchedContactsCell.xib in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */,
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
@@ -2806,6 +2813,7 @@
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
+				50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */,
 				50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */,
 				50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
