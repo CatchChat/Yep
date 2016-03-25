@@ -1779,6 +1779,10 @@ class ConversationViewController: BaseViewController {
                 UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                     self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
                 }, completion: { _ in })
+
+                if !strongSelf.messageToolbar.state.isAtBottom {
+                    strongSelf.messageToolbar.state = .Default
+                }
             }
         }
 

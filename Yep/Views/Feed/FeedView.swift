@@ -323,6 +323,7 @@ class FeedView: UIView {
 
         if foldProgress == 1 {
             foldProgress = 0
+
         } else if foldProgress == 0 {
             foldProgress = 1
         }
