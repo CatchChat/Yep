@@ -167,8 +167,17 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
 
         if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
-            //performSegueWithIdentifier("showConversation", sender: cell.conversation)
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(cell.conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+            
+            if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
+                detail = detailNav.topViewController,
+                index  = detailNav.viewControllers.indexOf(detail) {
+                var detailControllersStack = detailNav.viewControllers
+                
+                let conversationVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+                conversationVC.conversation = cell.conversation
+                detailControllersStack[index] = conversationVC
+                detailNav.setViewControllers(detailControllersStack, animated: false)
+            }
 
 /*        guard let conversation = feedConversations[safe: indexPath.row] else {
             return

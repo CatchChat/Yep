@@ -64,22 +64,35 @@ extension DiscoverHDViewController:UITableViewDataSource,UITableViewDelegate {
    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        print("Selected!")
         tableView.reloadData()
         
         let cell = DiscoverLeftTableView.cellForRowAtIndexPath(indexPath) as! DiscoverHDCell
         cell.ItemBackgroundImage.image = UIImage(named: "table_bg_active")
         
-        switch(indexPath.row){
-        case 0:
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Feeds)
-        case 1:
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.People)
-        case 2:
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Skills)
-        case 3:
-            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Meetup)
-        default:()
+        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
+        detail = detailNav.topViewController,
+        index  = detailNav.viewControllers.indexOf(detail) {
+            var detailControllersStack = detailNav.viewControllers
+
+            switch(indexPath.row){
+                
+            case 0:
+                let feedsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FeedsViewController") as! FeedsViewController
+                detailControllersStack[index] = feedsVC
+                detailNav.setViewControllers(detailControllersStack, animated: false)
+
+            case 1:
+                let usersVC = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+                detailControllersStack[index] = usersVC
+                detailNav.setViewControllers(detailControllersStack, animated: false)
+            case 2:
+                break
+//                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Skills)
+            case 3:
+                break
+//                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Meetup)
+            default:()
+            }
         }
         
     }

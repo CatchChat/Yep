@@ -84,26 +84,17 @@ class DetailViewController: UIViewController {
             
         case "showDetailFeedsOfProfileUser":
             let vc = segue.destinationViewController as! FeedsViewController
-            
-            if let
+            if let // Discover feeds
                 info = (sender as? Box<[String: AnyObject]>)?.value,
                 profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
                 feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
                     vc.profileUser = profileUser
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count
-            } else if let
-                user = (sender as? Box<ProfileUser>)?.value {
-                    vc.profileUser = user
-                    vc.setupFeedsForProfileUser(user: user)
-//                    feedsOfUser(user.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
-//                        vc.feeds = feeds
-//                        vc.preparedFeedsCount = feeds.count
-//                        vc.navigationItem.hidesBackButton = true
-//                        vc.navigationItem.rightBarButtonItem = nil
-//                        vc.navigationItem.title = ""
-//                        vc.setNeedsStatusBarAppearanceUpdate()
-//                    })
+            } else if let // 本人 Feeds
+            user = ((sender as? Box<User>)?.value), profileUser: ProfileUser = .UserType(user) {
+                    vc.profileUser = profileUser
+                    vc.setupFeedsForProfileUser(user: profileUser)
             }
             
             //                vc.hideRightBarItem = true

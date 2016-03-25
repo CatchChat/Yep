@@ -411,7 +411,7 @@ class ConversationViewController: BaseViewController {
     private lazy var  popoverMoreView: PopoverContentViewController = {
         let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreContentController") as! PopoverContentViewController
         popoverContent.modalPresentationStyle = .Popover
-        popoverContent.preferredContentSize = CGSize(width: 300, height: 242)
+        popoverContent.preferredContentSize = CGSize(width: 300, height: 240)
         
         popoverContent.conversation = self.conversation
         

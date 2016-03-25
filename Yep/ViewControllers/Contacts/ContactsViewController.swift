@@ -217,21 +217,21 @@ class ContactsViewController: BaseViewController {
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
-
+    
     enum Section: Int {
         case Local
         case Online
     }
-
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 2
     }
-
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
-
+        
         switch section {
         case .Local:
             return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
@@ -239,52 +239,52 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return searchControllerIsActive ? searchedUsers.count : 0
         }
     }
-
+    
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
         let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
         return friend
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
         return cell
     }
-
+    
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-
+        
         guard let cell = cell as? ContactsCell else {
             return
         }
-
+        
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
-
+        
         switch section {
-
+            
         case .Local:
-
+            
             guard let friend = friendAtIndexPath(indexPath) else {
                 return
             }
-
+            
             let userAvatar = UserAvatar(userID: friend.userID, avatarURLString: friend.avatarURLString, avatarStyle: miniAvatarStyle)
             cell.avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
-
+            
             cell.nameLabel.text = friend.nickname
-
+            
             if let badge = BadgeView.Badge(rawValue: friend.badge) {
                 cell.badgeImageView.image = badge.image
                 cell.badgeImageView.tintColor = badge.color
             } else {
                 cell.badgeImageView.image = nil
             }
-
+            
             cell.joinedDateLabel.text = friend.introduction
             cell.lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
-
+            
         case .Online:
             
             let discoveredUser = searchedUsers[indexPath.row]
@@ -292,45 +292,61 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configureWithDiscoveredUser(discoveredUser)
         }
     }
-
+    
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-
+        
         guard let cell = cell as? ContactsCell else {
             return
         }
-
+        
         cell.avatarImageView.image = nil
     }
-
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-
+        
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
-
+        
         searchController?.active = false
-
-        switch section {
-
-        case .Local:
-
-            if let friend = friendAtIndexPath(indexPath) {
-                performSegueWithIdentifier("showProfile", sender: friend)
+        
+        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
+            detail = detailNav.topViewController,
+            index  = detailNav.viewControllers.indexOf(detail) {
+            
+            var detailControllersStack = detailNav.viewControllers
+            
+            let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            detailControllersStack[index] = profileVC
+            detailNav.setViewControllers(detailControllersStack, animated: false)
+            
+            profileVC.hidesBottomBarWhenPushed = true
+            profileVC.setBackButtonWithTitle()
+            switch section {
+                
+            case .Local:
+                
+                if let friend = friendAtIndexPath(indexPath) {
+                    if friend.userID != YepUserDefaults.userID.value {
+                        profileVC.profileUser = .UserType(friend)
+                    }
+                }
+                
+            case .Online:
+                
+                let discoveredUser = searchedUsers[indexPath.row]
+                profileVC.profileUser = .DiscoveredUserType(discoveredUser)
             }
-
-        case .Online:
-
-            let discoveredUser = searchedUsers[indexPath.row]
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            
         }
-   }
+    }
 }
 
-// MARK: - UISearchResultsUpdating 
+// MARK: - UISearchResultsUpdating
 
 extension ContactsViewController: UISearchResultsUpdating {
 

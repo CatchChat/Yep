@@ -195,15 +195,12 @@
                     <connections>
                         <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
                         <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
-                        <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
                         <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
                         <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
                         <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
                         <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
                         <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
                         <segue destination="lru-67-Vok" kind="show" identifier="showConversation" id="z8s-gZ-TZ2"/>
-                        <segue destination="Ypw-Iq-qc9" kind="show" identifier="showFeedsOfProfileUser" animates="NO" id="xxH-O1-ehI"/>
-                        <segue destination="CET-dE-lvK" kind="show" identifier="showUserFeeds" animates="NO" id="1ZP-3N-Vxs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -241,11 +238,12 @@
                         <segue destination="HI7-HE-lfi" kind="relationship" relationship="viewControllers" id="u9t-ac-tqW"/>
                         <segue destination="HFE-uY-fys" kind="relationship" relationship="viewControllers" id="DQ6-Rk-9zC"/>
                         <segue destination="dwP-GL-7hj" kind="relationship" relationship="viewControllers" id="I8B-nP-KAs"/>
+                        <segue destination="fpz-7Q-M1t" kind="showDetail" identifier="showDetailView" id="esG-hf-DNM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMa-ZP-SEr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2395" y="318"/>
+            <point key="canvasLocation" x="-2611" y="-1162"/>
         </scene>
         <!--Feeds View Controller-->
         <scene sceneID="Dcb-bn-5M7">
@@ -306,7 +304,7 @@
                         <segue destination="h8b-7V-qPb" kind="show" identifier="showFeedsWithSkill" id="D1j-0N-VMH"/>
                         <segue destination="dYX-Ms-gWP" kind="show" identifier="showSkillHome" id="TTj-EA-7SS"/>
                         <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
-                        <segue destination="oUx-zd-faH" kind="show" identifier="showProfile" id="Gdt-20-g91"/>
+                        <segue destination="oUx-zd-faH" kind="showDetail" identifier="showProfile" action="showViewController:sender:" id="Gdt-20-g91"/>
                         <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
                         <segue destination="9n0-n0-AJg" kind="presentation" identifier="presentNewFeedVoiceRecord" id="xzo-eI-lqm"/>
                         <segue destination="eU6-TF-LII" kind="presentation" identifier="presentPickLocation" id="bvu-Rs-ARw"/>
@@ -402,14 +400,11 @@
                     <connections>
                         <outlet property="PolygonImageView" destination="Ixl-gA-JqO" id="YJ4-iQ-3kr"/>
                         <segue destination="NdR-3W-W6D" kind="show" identifier="showDetailConversation" animates="NO" id="30j-Al-1vh"/>
-                        <segue destination="ZSI-kg-pwt" kind="show" identifier="showDetailFeedsOfProfileUser" animates="NO" id="cFX-OX-ajg"/>
-                        <segue destination="vRd-iH-nrr" kind="show" identifier="showDetailDiscover" animates="NO" id="69P-SE-yfg"/>
                         <segue destination="uiR-dt-962" kind="show" identifier="showDetailSkills" animates="NO" id="w35-n3-AVU"/>
                         <segue destination="TmQ-x8-Gvv" kind="showDetail" identifier="showDetailMeetup" animates="NO" action="showViewController:sender:" id="4R9-om-dli"/>
                         <segue destination="rB9-sa-dj4" kind="show" identifier="showDetailSocialWorkGithub" animates="NO" id="lgD-EA-Pdn"/>
                         <segue destination="Qqq-BU-W0P" kind="show" identifier="showDetailSocialWorkInstagram" animates="NO" id="xyj-UF-7cR"/>
                         <segue destination="44X-ff-IET" kind="show" identifier="showDetailSocialWorkDribbble" animates="NO" id="xLC-EU-w4x"/>
-                        <segue destination="KvQ-5e-ScS" kind="show" identifier="showUserFeeds" animates="NO" id="i7U-Hz-ZuZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="67u-nc-noo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -612,14 +607,6 @@
             </objects>
             <point key="canvasLocation" x="867" y="2618"/>
         </scene>
-        <!--FeedsViewController-->
-        <scene sceneID="cFO-gT-UQD">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="ZSI-kg-pwt" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2eS-HR-Ffa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-14" y="-2640"/>
-        </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="4UU-LR-Oke">
             <objects>
@@ -744,16 +731,6 @@
             </objects>
             <point key="canvasLocation" x="-247" y="1130"/>
         </scene>
-        <!--DiscoverViewController-->
-        <scene sceneID="V40-E6-K7X">
-            <objects>
-                <viewControllerPlaceholder storyboardName="DiscoverHD" referencedIdentifier="DiscoverViewController" id="vRd-iH-nrr" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="U7Z-co-gbF"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kO9-Dz-TLz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-5.5" y="-2699"/>
-        </scene>
         <!--UIViewController-R46-i2-4J4-->
         <scene sceneID="723-5I-G19">
             <objects>
@@ -785,14 +762,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-0I-Irq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="28" y="-2384"/>
-        </scene>
-        <!--UserFeedsViewController-->
-        <scene sceneID="5Fu-jg-TI1">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="UserFeedsViewController" id="KvQ-5e-ScS" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9im-O8-VUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="0.5" y="-2310"/>
         </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="CzE-Vv-QQD">
@@ -835,4 +804,7 @@
         <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_settings" width="30" height="30"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="xvh-Ny-zUr"/>
+    </inferredMetricsTieBreakers>
 </document>

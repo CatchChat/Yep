@@ -47,6 +47,7 @@
 		330650E81CA3E8DA00DE348E /* PopoverContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650E51CA3E8DA00DE348E /* PopoverContentViewController.swift */; };
 		330650E91CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330650E61CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift */; };
 		332581C61C9177E1007D33B9 /* UIImagePickerController+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */; };
+		339878AB1CA4108900CA0096 /* ReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339878AA1CA4108900CA0096 /* ReplaceSegue.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
@@ -435,6 +436,7 @@
 		330650E51CA3E8DA00DE348E /* PopoverContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentViewController.swift; sourceTree = "<group>"; };
 		330650E61CA3E8DA00DE348E /* PopoverMoreTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverMoreTypesViewController.swift; sourceTree = "<group>"; };
 		332581C51C9177E1007D33B9 /* UIImagePickerController+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImagePickerController+Yep.swift"; sourceTree = "<group>"; };
+		339878AA1CA4108900CA0096 /* ReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReplaceSegue.swift; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -891,6 +893,7 @@
 				5052620E1C5202C700292C6A /* Operations */,
 				504F5E721BA034BB006CE418 /* Activities */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
+				339878A91CA4106A00CA0096 /* Segue */,
 				5023DE391AB6979C00B3EE96 /* Views */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				505262131C522A1E00292C6A /* Show.storyboard */,
@@ -1003,6 +1006,14 @@
 			);
 			name = Popover;
 			path = ViewControllers/PopoverView;
+			sourceTree = "<group>";
+		};
+		339878A91CA4106A00CA0096 /* Segue */ = {
+			isa = PBXGroup;
+			children = (
+				339878AA1CA4108900CA0096 /* ReplaceSegue.swift */,
+			);
+			name = Segue;
 			sourceTree = "<group>";
 		};
 		500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */ = {
@@ -2862,6 +2873,7 @@
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
 				504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
+				339878AB1CA4108900CA0096 /* ReplaceSegue.swift in Sources */,
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
@@ -3161,6 +3173,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

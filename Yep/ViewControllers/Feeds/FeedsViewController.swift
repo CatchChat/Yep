@@ -214,14 +214,17 @@ class   FeedsViewController: BaseViewController {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
     
+    // MARK: 显示个人Feeds
+ 
     func setupFeedsForProfileUser(user user: ProfileUser) {
+        
         feedsOfUser(user.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { [weak self] feeds in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 self?.feeds = feeds
                 self?.preparedFeedsCount = feeds.count
-                self?.navigationItem.hidesBackButton = true
-                self?.navigationItem.rightBarButtonItem = nil
+//                self?.navigationItem.hidesBackButton = true
+//                self?.navigationItem.rightBarButtonItem = nil
                 self?.navigationItem.title = ""
                 self?.setNeedsStatusBarAppearanceUpdate()
                 self?.feedsToolbar.hidden = true

@@ -515,29 +515,30 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         case Section.FeedConversation.rawValue:
             
             performSegueWithIdentifier("showFeedConversations", sender: nil)
-            //(UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.FeedConversation)
-
-
+            
         case Section.Conversation.rawValue:
-            
-            
-            /*if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                performSegueWithIdentifier("showConversation", sender: cell.conversation)
-            }*/
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                
-                //performSegueWithIdentifier("showConversation", sender: cell.conversation)
-                //(UIApplication.sharedApplication().delegate as! AppDelegate).detail.loadControl(cell.conversation,requestFrom: DetailViewController.requestDetailFrom.Conversation)
-                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(cell.conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
-            }
 
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
+                    detail = detailNav.topViewController,
+                    index  = detailNav.viewControllers.indexOf(detail) {
+                    
+                    var detailControllersStack = detailNav.viewControllers
+                    
+                    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+                    vc.conversation = cell.conversation
+                    detailControllersStack[index] = vc
+                    detailNav.setViewControllers(detailControllersStack, animated: false)
+                }
+            }
+            
         default:
             break
         }
     }
-
+    
     // Edit (for Delete)
-
+    
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
         if indexPath.section == Section.Conversation.rawValue {

@@ -819,15 +819,16 @@ class ProfileViewController: SegueViewController {
             return
         }
         //        displayProfileUserFeeds()
-        if let profileUser = self.profileUser {
-            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
-                self.performSegueWithIdentifier("showUserFeeds", sender:Box(profileUser))
-                
-            } else {
-                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(profileUser), requestFrom: DetailViewController.requestDetailFrom.Feeds)
-            }
-            
-        }
+//        if let profileUser = self.profileUser {
+//            if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
+//                self.performSegueWithIdentifier("showUserFeeds", sender:Box(profileUser))
+//                
+//            } else {
+//                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(profileUser), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+//            }
+//            
+//        }
+        
         
         //        self.navigationController?.setNavigationBarHidden(true, animated: true)
         //        customNavigationBar.alpha = 1.0
@@ -1798,18 +1799,18 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
-    func displayProfileFeeds(){
-        guard let profileUser = profileUser else {
-            return
-        }
-        
-        let info: [String: AnyObject] = [
-            "profileUser": Box(profileUser),
-            "feeds": Box(feeds ?? []),
-        ]
-        
-        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
-    }
+//    func displayProfileFeeds(){
+//        guard let profileUser = profileUser else {
+//            return
+//        }
+//        
+//        let info: [String: AnyObject] = [
+//            "profileUser": Box(profileUser),
+//            "feeds": Box(feeds ?? []),
+//        ]
+//        
+//        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
+//    }
 }
 
 

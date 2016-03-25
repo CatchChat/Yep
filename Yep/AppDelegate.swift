@@ -1,3 +1,4 @@
+
 //
 //  AppDelegate.swift
 //  Yep
@@ -396,6 +397,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+
             vc.fromType = .None
             vc.setBackButtonWithTitle()
 
