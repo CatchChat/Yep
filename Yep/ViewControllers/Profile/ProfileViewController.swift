@@ -350,6 +350,7 @@ class ProfileViewController: SegueViewController {
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
                 NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.Notification.createdFeed, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: YepConfig.Notification.deletedFeed, object: nil)
             }
         }
     }
@@ -1001,6 +1002,40 @@ class ProfileViewController: SegueViewController {
         self.feedAttachments = feedAttachments
 
         updateProfileCollectionView()
+    }
+
+    @objc private func deletedFeed(sender: NSNotification) {
+
+        guard feeds != nil else {
+            return
+        }
+
+        let feedID = sender.object as! String
+
+        var indexOfDeletedFeed: Int?
+        for (index, feed) in feeds!.enumerate() {
+            if feed.id == feedID {
+                indexOfDeletedFeed = index
+                break
+            }
+        }
+
+        if let index = indexOfDeletedFeed {
+            feeds!.removeAtIndex(index)
+
+            let feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
+                if let attachment = feed.attachment {
+                    if case let .Images(attachments) = attachment {
+                        return attachments.first
+                    }
+                }
+
+                return nil
+            })
+            feedAttachments = feedAttachments
+
+            updateProfileCollectionView()
+        }
     }
 
     private func updateProfileCollectionView() {

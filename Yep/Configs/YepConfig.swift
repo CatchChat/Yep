@@ -60,6 +60,7 @@ class YepConfig {
         static let updatedUser = "YepConfig.Notification.updatedUser"
         static let OAuthResult = "YepConfig.Notification.OAuthResult"
         static let createdFeed = "YepConfig.Notification.createdFeed"
+        static let deletedFeed = "YepConfig.Notification.deletedFeed"
         static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
     }
 

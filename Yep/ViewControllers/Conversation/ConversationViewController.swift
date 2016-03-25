@@ -2719,6 +2719,9 @@ class ConversationViewController: BaseViewController {
                     self?.afterDeletedFeedAction?(feedID: feedID)
 
                     dispatch_async(dispatch_get_main_queue()) {
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
+
                         self?.navigationController?.popViewControllerAnimated(true)
                     }
                 })
