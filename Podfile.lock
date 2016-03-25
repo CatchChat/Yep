@@ -17,11 +17,11 @@ PODS:
   - Navi (0.4.2)
   - pop (1.0.9)
   - Proposer (0.7.1)
-  - Realm (0.98.3):
-    - Realm/Headers (= 0.98.3)
-  - Realm/Headers (0.98.3)
-  - RealmSwift (0.98.3):
-    - Realm (= 0.98.3)
+  - Realm (0.98.1):
+    - Realm/Headers (= 0.98.1)
+  - Realm/Headers (0.98.1)
+  - RealmSwift (0.98.1):
+    - Realm (= 0.98.1)
   - Ruler (0.6)
   - SocketRocket (0.5.0)
   - TPKeyboardAvoiding (1.2.11)
@@ -43,7 +43,7 @@ DEPENDENCIES:
   - Navi
   - pop
   - Proposer
-  - RealmSwift (= 0.98.3)
+  - RealmSwift
   - Ruler
   - SocketRocket
   - TPKeyboardAvoiding
@@ -65,8 +65,8 @@ SPEC CHECKSUMS:
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
-  Realm: c6a7d00221a2d5177810a674aebd40c5e0b70b0f
-  RealmSwift: d6ecad6e4c2a645d6ac956c2c7e9efb375f39c31
+  Realm: ca4a4122e939e228e10694fc49011386cb2ecb07
+  RealmSwift: 7d3c7033427816a2c3417ba0d004d694987e503a
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
   SocketRocket: 2c51efccd2d73c99a923407ca4b06e7e9da95dbf
   TPKeyboardAvoiding: e5ce146b313de063957bfa75a13f1e9b0ff18ab7
