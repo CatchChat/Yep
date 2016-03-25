@@ -483,7 +483,6 @@ class FeedsViewController: BaseViewController {
     enum UpdateFeedsMode {
         case Top
         case LoadMore
-        case Static
     }
     private func updateFeeds(mode mode: UpdateFeedsMode = .Top, finish: (() -> Void)? = nil) {
 
@@ -503,8 +502,6 @@ class FeedsViewController: BaseViewController {
             currentPageIndex = 1
         case .LoadMore:
             currentPageIndex += 1
-        case .Static:
-            break
         }
 
         let failureHandler: FailureHandler = { reason, errorMessage in
@@ -575,22 +572,6 @@ class FeedsViewController: BaseViewController {
                         if !indexPaths.isEmpty {
                             wayToUpdate = .Insert(indexPaths)
                         }
-
-                    case .Static:
-                        var indexesOfMessagesCountUpdated = [Int]()
-                        newFeeds.forEach({ feed in
-                            if let index = strongSelf.feeds.indexOf(feed) {
-                                if strongSelf.feeds[index].messagesCount != feed.messagesCount {
-                                    strongSelf.feeds[index].messagesCount = feed.messagesCount
-                                    indexesOfMessagesCountUpdated.append(index)
-                                }
-                            }
-                        })
-
-                        let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
-
-                        println("static indexPaths.count: \(indexPaths.count)")
-                        wayToUpdate = .ReloadIndexPaths(indexPaths)
                     }
 
                     // 前面都没导致更新且有新feeds数量和旧feeds一致，再根据 messagesCount 来判断
@@ -912,8 +893,6 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.conversationDirtyAction = { [weak self] groupID in
-                //self?.updateFeeds(mode: .Static)
-                println("conversationDirtyAction")
 
                 groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
 
@@ -936,6 +915,8 @@ class FeedsViewController: BaseViewController {
                         }
                     }
                 })
+
+                println("conversationDirtyAction")
             }
 
             /*
