@@ -2869,10 +2869,12 @@ class ConversationViewController: BaseViewController {
             success(finished)
         }
 
+        if messageAge == .New {
+            conversationIsDirty = true
+        }
+
         if messageIDs == nil {
             afterSentMessageAction?()
-
-            conversationIsDirty = true
 
             if isSubscribeViewShowing {
 
