@@ -906,11 +906,36 @@ class FeedsViewController: BaseViewController {
                     delay(1) {
                         self?.updateFeeds()
                     }
+
+                    println("afterDeletedFeedAction")
                 }
             }
 
-            vc.conversationDirtyAction = { [weak self] in
-                self?.updateFeeds(mode: .Static)
+            vc.conversationDirtyAction = { [weak self] groupID in
+                //self?.updateFeeds(mode: .Static)
+                println("conversationDirtyAction")
+
+                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
+
+                    if let feedInfo = groupInfo["topic"] as? JSONDictionary {
+
+                        guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                            return
+                        }
+
+                        if let index = strongSelf.feeds.indexOf(feed) {
+                            if strongSelf.feeds[index].messagesCount != feed.messagesCount {
+                                strongSelf.feeds[index].messagesCount = feed.messagesCount
+
+                                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                                let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
+                                }
+                            }
+                        }
+                    }
+                })
             }
 
             /*
