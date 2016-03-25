@@ -2711,15 +2711,16 @@ class ConversationViewController: BaseViewController {
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
-                doDeleteConversation(afterLeaveGroup: {
-                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: { [weak self] in
+                doDeleteConversation(afterLeaveGroup: { [weak self] in
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                         println("deleted feed: \(feedID)")
-                        self?.afterDeletedFeedAction?(feedID: feedID)
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self?.navigationController?.popViewControllerAnimated(true)
-                        }
                     })
+
+                    self?.afterDeletedFeedAction?(feedID: feedID)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
                 })
 
             }, cancelAction: { [weak self] in
