@@ -317,7 +317,7 @@ class ConversationViewController: BaseViewController {
 
     var afterSentMessageAction: (() -> Void)?
     var afterDeletedFeedAction: ((feedID: String) -> Void)?
-    var conversationDirtyAction: (() -> Void)?
+    var conversationDirtyAction: ((groupID: String) -> Void)?
     var conversationIsDirty = false
     var syncPlayFeedAudioAction: (() -> Void)?
 
@@ -1514,7 +1514,9 @@ class ConversationViewController: BaseViewController {
         super.viewWillDisappear(animated)
 
         if conversationIsDirty {
-            conversationDirtyAction?()
+            if let groupID = conversation.withGroup?.groupID {
+                conversationDirtyAction?(groupID: groupID)
+            }
         }
 
         if let checkTypingStatusTimer = checkTypingStatusTimer {
@@ -2867,10 +2869,12 @@ class ConversationViewController: BaseViewController {
             success(finished)
         }
 
+        if messageAge == .New {
+            conversationIsDirty = true
+        }
+
         if messageIDs == nil {
             afterSentMessageAction?()
-
-            conversationIsDirty = true
 
             if isSubscribeViewShowing {
 

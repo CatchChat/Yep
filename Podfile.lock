@@ -1,18 +1,18 @@
 PODS:
   - 1PasswordExtension (1.8)
-  - Alamofire (3.2.1)
+  - Alamofire (3.3.0)
   - APAddressBook/Core (0.2.3)
   - APAddressBook/Swift (0.2.3):
     - APAddressBook/Core
   - Appsee (2.2)
   - Base64 (1.1.2)
-  - DeviceGuru (1.3.4)
+  - DeviceGuru (1.3.5)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - Kanna (1.0.5)
   - KeyboardMan (0.5.2)
-  - Kingfisher (2.1.0)
+  - Kingfisher (2.2.0)
   - MonkeyKing (0.0.2)
   - Navi (0.4.2)
   - pop (1.0.9)
@@ -50,17 +50,17 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
-  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
   APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  DeviceGuru: 9659f3d7c3903eca2084f4801dcbbc6ebde19709
+  DeviceGuru: 899d7dd478962e6e0f995fcdac0ca2741804d203
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   Kanna: 1df5cd995dc1f3a282e3dcf7521cfef2f069ac4d
   KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
-  Kingfisher: 3ac09acad75a25ab22f6d7cef3de10d61dd4792d
+  Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
