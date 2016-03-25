@@ -981,16 +981,9 @@ class ProfileViewController: SegueViewController {
         updateProfileCollectionView()
     }
 
-    @objc private func createdFeed(sender: NSNotification) {
+    private func updateFeedAttachmentsAfterUpdateFeeds() {
 
-        guard self.feeds != nil else {
-            return
-        }
-
-        let feed = (sender.object as! Box<DiscoveredFeed>).value
-        self.feeds!.insert(feed, atIndex: 0)
-
-        let feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
+        feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
             if let attachment = feed.attachment {
                 if case let .Images(attachments) = attachment {
                     return attachments.first
@@ -999,9 +992,19 @@ class ProfileViewController: SegueViewController {
 
             return nil
         })
-        self.feedAttachments = feedAttachments
 
         updateProfileCollectionView()
+    }
+    @objc private func createdFeed(sender: NSNotification) {
+
+        guard feeds != nil else {
+            return
+        }
+
+        let feed = (sender.object as! Box<DiscoveredFeed>).value
+        feeds!.insert(feed, atIndex: 0)
+
+        updateFeedAttachmentsAfterUpdateFeeds()
     }
 
     @objc private func deletedFeed(sender: NSNotification) {
@@ -1011,7 +1014,6 @@ class ProfileViewController: SegueViewController {
         }
 
         let feedID = sender.object as! String
-
         var indexOfDeletedFeed: Int?
         for (index, feed) in feeds!.enumerate() {
             if feed.id == feedID {
@@ -1019,23 +1021,12 @@ class ProfileViewController: SegueViewController {
                 break
             }
         }
-
-        if let index = indexOfDeletedFeed {
-            feeds!.removeAtIndex(index)
-
-            let feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
-                if let attachment = feed.attachment {
-                    if case let .Images(attachments) = attachment {
-                        return attachments.first
-                    }
-                }
-
-                return nil
-            })
-            feedAttachments = feedAttachments
-
-            updateProfileCollectionView()
+        guard let index = indexOfDeletedFeed else {
+            return
         }
+        feeds!.removeAtIndex(index)
+
+        updateFeedAttachmentsAfterUpdateFeeds()
     }
 
     private func updateProfileCollectionView() {
