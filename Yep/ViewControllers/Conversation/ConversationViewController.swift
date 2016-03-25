@@ -2701,8 +2701,6 @@ class ConversationViewController: BaseViewController {
                 let _ = try? realm.commitWrite()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-                self?.navigationController?.popViewControllerAnimated(true)
             }
         }
 
@@ -2717,11 +2715,19 @@ class ConversationViewController: BaseViewController {
                     deleteFeedWithFeedID(feedID, failureHandler: nil, completion: { [weak self] in
                         println("deleted feed: \(feedID)")
                         self?.afterDeletedFeedAction?(feedID: feedID)
+
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.navigationController?.popViewControllerAnimated(true)
+                        }
                     })
                 })
 
-            }, cancelAction: {
+            }, cancelAction: { [weak self] in
                 doDeleteConversation()
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
             })
 
         } else {
