@@ -2701,8 +2701,6 @@ class ConversationViewController: BaseViewController {
                 let _ = try? realm.commitWrite()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-
-                self?.navigationController?.popViewControllerAnimated(true)
             }
         }
 
@@ -2713,15 +2711,27 @@ class ConversationViewController: BaseViewController {
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
-                doDeleteConversation(afterLeaveGroup: {
-                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: { [weak self] in
+                doDeleteConversation(afterLeaveGroup: { [weak self] in
+                    deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                         println("deleted feed: \(feedID)")
-                        self?.afterDeletedFeedAction?(feedID: feedID)
                     })
+
+                    self?.afterDeletedFeedAction?(feedID: feedID)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
+
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
                 })
 
-            }, cancelAction: {
+            }, cancelAction: { [weak self] in
                 doDeleteConversation()
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.navigationController?.popViewControllerAnimated(true)
+                }
             })
 
         } else {
