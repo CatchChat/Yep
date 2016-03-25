@@ -589,6 +589,7 @@ class FeedsViewController: BaseViewController {
 
                         let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
 
+                        println("static indexPaths.count: \(indexPaths.count)")
                         wayToUpdate = .ReloadIndexPaths(indexPaths)
                     }
 
@@ -621,6 +622,7 @@ class FeedsViewController: BaseViewController {
                         if !wayToUpdate.needsLabor {
                             let indexPaths = indexesOfMessagesCountUpdated.map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
 
+                            println("defer indexPaths.count: \(indexPaths.count)")
                             wayToUpdate = .ReloadIndexPaths(indexPaths)
                         }
                     }
@@ -901,7 +903,7 @@ class FeedsViewController: BaseViewController {
                     }
 
                     // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
-                    delay(0.5) {
+                    delay(1) {
                         self?.updateFeeds()
                     }
                 }
