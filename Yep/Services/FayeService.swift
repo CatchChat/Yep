@@ -263,7 +263,19 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
 
         if isMessageSendFromMe() {
-            return
+
+            // 如果收到的消息在本地的 SendingMessagePool 里，那就不同步了
+            if let tempMesssageID = messageInfo["random_id"] as? String {
+                if SendingMessagePool.containsMessage(tempMesssageID: tempMesssageID) {
+                    println("SendingMessagePool.containsMessage \(tempMesssageID)")
+                    return
+                }
+
+            } else {
+                // 是自己发的消息被广播过来，但没有 random_id，也不同步了
+                println("isMessageSendFromMe but NOT random_id")
+                return
+            }
         }
         /*
         // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
