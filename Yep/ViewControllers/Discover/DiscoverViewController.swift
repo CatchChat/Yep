@@ -172,9 +172,7 @@ class DiscoverViewController: BaseViewController {
 
 
         refreshControl.tintColor = UIColor.lightGrayColor()
-        //        TODO:
-//        #selector(DiscoverViewController.refresh(_:)
-        refreshControl.addTarget(self, action: "refresh:", forControlEvents: .ValueChanged)
+        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
         refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         discoveredUsersCollectionView.addSubview(refreshControl)
 
@@ -196,7 +194,18 @@ class DiscoverViewController: BaseViewController {
             break;
         }
     }
+    // MARK: Actions
     
+    @objc private func refresh(sender: UIRefreshControl) {
+        
+        updateDiscoverUsers(mode: .TopRefresh) {
+            dispatch_async(dispatch_get_main_queue()) {
+                sender.endRefreshing()
+            }
+        }
+    }
+    
+
     @IBAction private func changeMode(sender: AnyObject) {
 
         switch userMode {
