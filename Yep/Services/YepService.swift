@@ -1113,6 +1113,7 @@ func ==(lhs: DiscoveredUser, rhs: DiscoveredUser) -> Bool {
 }
 
 let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
+
     if let
         id = userInfo["id"] as? String,
         nickname = userInfo["nickname"] as? String,
@@ -1158,6 +1159,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
             return discoverUser
     }
 
+    println("failed parseDiscoveredUser userInfo: \(userInfo)")
     return nil
 }
 
