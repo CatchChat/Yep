@@ -484,11 +484,13 @@ class MessageToolbar: UIToolbar {
     private func notifyTyping() {
 
         if inNotifyTyping {
+            //println("inNotifyTyping")
             return
 
         } else {
             inNotifyTyping = true
 
+            //println("notifyTypingAction")
             notifyTypingAction?()
 
             finishNotifyTypingTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(MessageToolbar.finishNotifyTyping(_:)), userInfo: nil, repeats: false)

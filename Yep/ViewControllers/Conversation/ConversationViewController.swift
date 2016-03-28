@@ -697,6 +697,8 @@ class ConversationViewController: BaseViewController {
 
         conversationCollectionView?.delegate = nil
 
+        checkTypingStatusTimer?.invalidate()
+
         println("deinit ConversationViewController")
     }
 
@@ -1519,9 +1521,7 @@ class ConversationViewController: BaseViewController {
             }
         }
 
-        if let checkTypingStatusTimer = checkTypingStatusTimer {
-            checkTypingStatusTimer.invalidate()
-        }
+        checkTypingStatusTimer?.invalidate()
 
         NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
     }
@@ -2470,7 +2470,7 @@ class ConversationViewController: BaseViewController {
 
     @objc private func checkTypingStatus(sender: NSTimer) {
 
-        typingResetDelay = typingResetDelay - 0.5
+        typingResetDelay = typingResetDelay - 1
 
         if typingResetDelay < 0 {
             self.updateStateInfoOfTitleView(titleView)
@@ -2684,9 +2684,8 @@ class ConversationViewController: BaseViewController {
         func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                if let checkTypingStatusTimer = self?.checkTypingStatusTimer {
-                    checkTypingStatusTimer.invalidate()
-                }
+
+                self?.checkTypingStatusTimer?.invalidate()
 
                 guard let conversation = self?.conversation, realm = conversation.realm else {
                     return
@@ -4448,7 +4447,7 @@ extension ConversationViewController: FayeServiceDelegate {
                 switch instantStateType {
 
                 case .Text:
-                    self.typingResetDelay = 0.5
+                    self.typingResetDelay = 2
 
                 case .Audio:
                     self.typingResetDelay = 2.5
