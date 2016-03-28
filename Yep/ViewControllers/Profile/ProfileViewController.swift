@@ -1150,7 +1150,8 @@ class ProfileViewController: SegueViewController {
                             realm.add(newConversation)
                         }
                     }
-
+                    // TODO 
+                    
                     if let conversation = user.conversation {
                         if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                             performSegueWithIdentifier("showConversation", sender: conversation)
@@ -1179,8 +1180,11 @@ class ProfileViewController: SegueViewController {
                     if let conversation = user.conversation {
                         if (UIDevice.currentDevice().userInterfaceIdiom == .Phone) {
                             performSegueWithIdentifier("showConversation", sender: conversation)
+                     
                         } else {
-                            (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(conversation, requestFrom: DetailViewController.requestDetailFrom.Conversation)
+                            let conversationVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+                            conversationVC.conversation = conversation
+                            self.navigationController?.pushViewController(conversationVC, animated: true)
                         }
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
@@ -1798,19 +1802,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             break
         }
     }
-    
-//    func displayProfileFeeds(){
-//        guard let profileUser = profileUser else {
-//            return
-//        }
-//        
-//        let info: [String: AnyObject] = [
-//            "profileUser": Box(profileUser),
-//            "feeds": Box(feeds ?? []),
-//        ]
-//        
-//        (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(Box(info), requestFrom: DetailViewController.requestDetailFrom.Feeds)
-//    }
+
 }
 
 

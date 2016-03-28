@@ -20,7 +20,6 @@ class PopoverContentViewController: UIViewController {
     var toggleBlockAction: (() -> Void)?
     var shareFeedAction: (() -> Void)?
     var updateGroupAffairAction: (() -> Void)?
-    
     var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
     var afterGotSettingsForGroupAction: ((groupID: String, notificationEnabled: Bool) -> Void)?
     
@@ -180,6 +179,9 @@ class PopoverContentViewController: UIViewController {
     }
     
     private func updateGroupItem(group group: Group) -> PopoverView.Item {
+        
+        // TODO: leaved group: 16ecc7635a7d72fc1d276d00d7b9ba26
+//        2016-03-28 16:08:17.645 Yep[4181:2486631] *** Terminating app due to uncaught exception 'RLMException', reason: 'Object has been deleted or invalidated.'
         
         let isMyFeed = group.withFeed?.creator?.isMe ?? false
         let includeMe = group.includeMe

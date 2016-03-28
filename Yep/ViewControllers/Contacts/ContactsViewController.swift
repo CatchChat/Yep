@@ -306,13 +306,13 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            searchController?.active = false
         }
         
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
         
-        searchController?.active = false
         
         if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController {
             
@@ -321,6 +321,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             detailNav.replaceTopViewController(profileVC)
             
             profileVC.hidesBottomBarWhenPushed = true
+            
             profileVC.setBackButtonWithTitle()
             switch section {
                 
@@ -383,6 +384,7 @@ extension ContactsViewController: UISearchResultsUpdating {
                 self?.searchedUsers = searchedUsers
 
                 self?.updateContactsTableView()
+
             }
         })
     }

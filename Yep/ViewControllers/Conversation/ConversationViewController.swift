@@ -412,7 +412,7 @@ class ConversationViewController: BaseViewController {
         let popoverContent: PopoverContentViewController = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("PopoverMoreContentController") as! PopoverContentViewController
         popoverContent.modalPresentationStyle = .Popover
         popoverContent.preferredContentSize = CGSize(width: 300, height: 240)
-        
+
         popoverContent.conversation = self.conversation
         
         popoverContent.showProfileAction = { [weak self] in
@@ -474,6 +474,12 @@ class ConversationViewController: BaseViewController {
         popoverContent.afterGotSettingsForGroupAction = { [weak self] groupID, notificationEnabled in
             self?.updateNotificationEnabled(notificationEnabled, forGroupWithGroupID: groupID)
         }
+        
+        popoverContent.moreView.hide = { [weak self] in
+            
+            self?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
         return popoverContent
     }()
 
@@ -888,7 +894,6 @@ class ConversationViewController: BaseViewController {
 //        tryShowSubscribeView()
 
         needDetectMention = conversation.needDetectMention
-
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif
@@ -1556,6 +1561,7 @@ class ConversationViewController: BaseViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -2633,8 +2639,12 @@ class ConversationViewController: BaseViewController {
         }
     }
     */
+    
+    
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
-
+        defer {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
@@ -2673,7 +2683,10 @@ class ConversationViewController: BaseViewController {
         let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
 
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+        
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
@@ -2684,7 +2697,9 @@ class ConversationViewController: BaseViewController {
         guard let realm = try? Realm() else {
             return
         }
-
+        defer {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
         if let user = userWithUserID(userID, inRealm: realm) {
             let _ = try? realm.write {
                 user.notificationEnabled = enabled
@@ -2699,7 +2714,9 @@ class ConversationViewController: BaseViewController {
         guard let realm = try? Realm() else {
             return
         }
-
+        defer {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
         if let group = groupWithGroupID(forGroupWithGroupID, inRealm: realm) {
             let _ = try? realm.write {
                 group.notificationEnabled = enabled
@@ -2710,7 +2727,10 @@ class ConversationViewController: BaseViewController {
     }
 
     private func toggleDoNotDisturb() {
-
+        defer {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
         if let user = conversation.withFriend {
 
             let userID = user.userID

@@ -208,7 +208,9 @@ class PopoverView: UIView {
     }
     
     var items: [Item]
-    
+
+    var hide: (() -> Void)?
+
     private let rowHeight: CGFloat = 60
     
     private var totalHeight: CGFloat {
@@ -275,10 +277,6 @@ class PopoverView: UIView {
         view.addSubview(self)
         
         layoutIfNeeded()
-    }
-    
-    func hide(){
-        
     }
     
     func delayAndDo(afterAction: (() -> Void)?) {
@@ -349,6 +347,7 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
         
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            hide?()
         }
         
         let item = items[indexPath.row]
@@ -358,7 +357,6 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
         case .Default(_, _, let action):
             
             if action() {
-                hide()
             }
             
         case .Detail(_, _, let action):
@@ -374,11 +372,9 @@ extension PopoverView: UITableViewDataSource, UITableViewDelegate {
         case .Check(_, _, _, let action):
             
             action()
-            hide()
             
         case .Cancel:
             
-            hide()
             break
         }
     }
