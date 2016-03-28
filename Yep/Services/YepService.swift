@@ -2233,10 +2233,14 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
     if let mediaType = MessageMediaType(rawValue: message.mediaType) {
 
+        let tempMessageID = NSUUID().UUIDString
+        SendingMessagePool.addMessage(tempMesssageID: tempMessageID)
+
         var messageInfo: JSONDictionary = [
             "recipient_id": recipientID,
             "recipient_type": recipientType,
             "media_type": mediaType.description,
+            "random_id": tempMessageID,
         ]
 
         if let fillMoreInfo = fillMoreInfo {
