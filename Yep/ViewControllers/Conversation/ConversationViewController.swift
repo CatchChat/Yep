@@ -2250,6 +2250,10 @@ class ConversationViewController: BaseViewController {
                     if !group.invalidated {
                         let _ = try? strongSelf.realm.write {
                             group.includeMe = meIsMember
+
+                            if meIsMember {
+                                FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                            }
                         }
                     }
                 }
@@ -2285,6 +2289,8 @@ class ConversationViewController: BaseViewController {
                                         group.includeMe = true
                                         group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                                         strongSelf.moreViewManager.updateForGroupAffair()
+
+                                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
                                     }
                                 }
                             }
@@ -2749,6 +2755,8 @@ class ConversationViewController: BaseViewController {
                             let _ = try? strongSelf.realm.write {
                                 group.includeMe = true
                                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
+
+                                FayeService.sharedManager.subscribeGroup(groupID: groupID)
                             }
 
                             afterSubscribed?()
@@ -2890,6 +2898,10 @@ class ConversationViewController: BaseViewController {
                 realm.beginWrite()
                 conversation.withGroup?.includeMe = true
                 let _ = try? realm.commitWrite()
+
+                if let groupID = conversation.withGroup?.groupID {
+                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
+                }
 
                 delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
