@@ -173,6 +173,7 @@ class PopoverContentViewController: UIViewController {
             titleColor: UIColor.redColor(),
             action: { [weak self] in
                 self?.toggleBlockAction?()
+
                 return false
             }
         )

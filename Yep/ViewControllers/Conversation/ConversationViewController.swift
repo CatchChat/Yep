@@ -2642,9 +2642,6 @@ class ConversationViewController: BaseViewController {
     
     
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
-        defer {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
@@ -2697,9 +2694,7 @@ class ConversationViewController: BaseViewController {
         guard let realm = try? Realm() else {
             return
         }
-        defer {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
+
         if let user = userWithUserID(userID, inRealm: realm) {
             let _ = try? realm.write {
                 user.notificationEnabled = enabled
@@ -2714,9 +2709,7 @@ class ConversationViewController: BaseViewController {
         guard let realm = try? Realm() else {
             return
         }
-        defer {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
+
         if let group = groupWithGroupID(forGroupWithGroupID, inRealm: realm) {
             let _ = try? realm.write {
                 group.notificationEnabled = enabled
@@ -2727,9 +2720,6 @@ class ConversationViewController: BaseViewController {
     }
 
     private func toggleDoNotDisturb() {
-        defer {
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
         
         if let user = conversation.withFriend {
 
