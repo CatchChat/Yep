@@ -53,6 +53,7 @@ class MessageToolbar: UIToolbar {
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        finishNotifyTypingTimer?.invalidate()
     }
 
     struct Notification {
@@ -475,11 +476,27 @@ class MessageToolbar: UIToolbar {
         voiceRecordCancelAction?(messageToolBar: self)
     }
     
-    // Update status
-    
-    func notifyTyping() {
+    // Notify typing
 
-        notifyTypingAction?()
+    private var finishNotifyTypingTimer: NSTimer?
+    private var inNotifyTyping: Bool = false
+    
+    private func notifyTyping() {
+
+        if inNotifyTyping {
+            return
+
+        } else {
+            inNotifyTyping = true
+
+            notifyTypingAction?()
+
+            finishNotifyTypingTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(MessageToolbar.finishNotifyTyping(_:)), userInfo: nil, repeats: false)
+        }
+    }
+
+    @objc private func finishNotifyTyping(sender: NSTimer) {
+        inNotifyTyping = false
     }
 }
 
