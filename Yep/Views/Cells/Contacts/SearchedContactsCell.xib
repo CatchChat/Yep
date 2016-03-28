@@ -43,7 +43,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 2 days ago" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbD-VB-gB8">
-                        <rect key="frame" x="85" y="32" width="103" height="15"/>
+                        <rect key="frame" x="85" y="32" width="225" height="15"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
@@ -54,6 +54,7 @@
                     <constraint firstAttribute="trailing" secondItem="8h6-tG-AMg" secondAttribute="trailing" constant="10" id="GC3-56-7pE"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dbD-VB-gB8" secondAttribute="bottom" id="Q0p-Zk-rjI"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UBt-hI-gbQ"/>
+                    <constraint firstItem="dbD-VB-gB8" firstAttribute="trailing" secondItem="8h6-tG-AMg" secondAttribute="trailing" id="Vr1-aU-Ez8"/>
                     <constraint firstItem="vY7-bl-BsK" firstAttribute="leading" secondItem="MQ0-GV-fXP" secondAttribute="trailing" constant="15" id="a3n-cW-qxp"/>
                     <constraint firstItem="MQ0-GV-fXP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dSe-ud-GS0"/>
                     <constraint firstItem="dbD-VB-gB8" firstAttribute="top" secondItem="vY7-bl-BsK" secondAttribute="bottom" constant="5" id="fIC-8b-569"/>
