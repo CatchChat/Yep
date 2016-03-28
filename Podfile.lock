@@ -11,12 +11,12 @@ PODS:
   - FXBlurView (1.6.4)
   - JPush-iOS-SDK (1.8.8)
   - Kanna (1.0.5)
-  - KeyboardMan (0.5.2)
+  - KeyboardMan (0.6.0)
   - Kingfisher (2.2.0)
   - MonkeyKing (0.0.2)
   - Navi (0.4.2)
   - pop (1.0.9)
-  - Proposer (0.7.1)
+  - Proposer (0.8.0)
   - Realm (0.98.6):
     - Realm/Headers (= 0.98.6)
   - Realm/Headers (0.98.6)
@@ -59,12 +59,12 @@ SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush-iOS-SDK: d4c097d8abbdd0837e24d44b41aacf64a6feddfd
   Kanna: 1df5cd995dc1f3a282e3dcf7521cfef2f069ac4d
-  KeyboardMan: b081c254c5c0adc794a49b4e97a86cb4ac917a66
+  KeyboardMan: 665211f180093f5bb3c6ff7e8b7f858c432c6ccf
   Kingfisher: 350869ed88d6451803b390475d977abdd9f0a357
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Proposer: e9759ad71a6702fd94315a0bff1f8c116edf6f07
+  Proposer: 17cd7fd2509b0d8d7c9e33815d648087c7dcaa81
   Realm: 44803f35418c5d89b27825a564247fcd190de37e
   RealmSwift: c7239c52c83f8c43525a5269ba7be1694da33afc
   Ruler: b36ec3bbc5fc6c3b7f629a6052cc1c17ada4b280
