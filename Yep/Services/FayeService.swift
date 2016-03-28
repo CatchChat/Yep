@@ -268,6 +268,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
             if let tempMesssageID = messageInfo["random_id"] as? String {
                 if SendingMessagePool.containsMessage(tempMesssageID: tempMesssageID) {
                     println("SendingMessagePool.containsMessage \(tempMesssageID)")
+                    // 广播只有一次，可从池子里清除 tempMesssageID
+                    SendingMessagePool.removeMessage(tempMesssageID: tempMesssageID)
                     return
                 }
 

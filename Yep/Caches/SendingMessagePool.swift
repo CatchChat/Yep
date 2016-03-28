@@ -26,4 +26,9 @@ class SendingMessagePool {
 
         sharedPool.tempMessageIDSet.insert(tempMesssageID)
     }
+
+    class func removeMessage(tempMesssageID tempMesssageID: String) {
+
+        sharedPool.tempMessageIDSet.remove(tempMesssageID)
+    }
 }
