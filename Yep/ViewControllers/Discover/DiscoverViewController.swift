@@ -152,6 +152,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         discoveredUsersCollectionView.backgroundColor = UIColor.clearColor()
+        
         discoveredUsersCollectionView.setCollectionViewLayout(layout, animated: false)
         discoveredUsersCollectionView.delegate = self
         discoveredUsersCollectionView.dataSource = self
@@ -439,9 +440,8 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         return 40.0
     }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         switch indexPath.section {
 
         case Section.User.rawValue:
@@ -449,14 +449,14 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
             switch userMode {
 
             case .Normal:
-                return CGSize(width: view.bounds.width, height: 80)
+                return CGSize(width: discoveredUsersCollectionView.frame.width, height: 80)
 
             case .Card:
-                return CGSize(width: (view.bounds.width - (40 + 30 + 30 + 40)) * 1/3, height: 280)
+                return CGSize(width: (discoveredUsersCollectionView.frame.width - (20 + 40 + 40 + 20)) * 1/3, height: 280)
             }
 
         case Section.LoadMore.rawValue:
-            return CGSize(width: view.bounds.width, height: 80)
+            return CGSize(width: discoveredUsersCollectionView.frame.width, height: 80)
 
         default:
             return CGSizeZero

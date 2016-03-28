@@ -69,4 +69,15 @@ class YepNavigationController: UINavigationController, UIGestureRecognizerDelega
         
         return true
     }
+    
+    func replaceTopViewController(newTopController: UIViewController) {
+        guard let detailVC = self.topViewController,
+            index = self.viewControllers.indexOf(detailVC) else {
+                return
+        }
+        
+        var detailViewControllerStack = self.viewControllers
+        detailViewControllerStack[index] = newTopController
+        self.setViewControllers(detailViewControllerStack, animated: false)
+    }
 }

@@ -69,22 +69,18 @@ extension DiscoverHDViewController:UITableViewDataSource,UITableViewDelegate {
         let cell = DiscoverLeftTableView.cellForRowAtIndexPath(indexPath) as! DiscoverHDCell
         cell.ItemBackgroundImage.image = UIImage(named: "table_bg_active")
         
-        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
-        detail = detailNav.topViewController,
-        index  = detailNav.viewControllers.indexOf(detail) {
-            var detailControllersStack = detailNav.viewControllers
+        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController{
 
             switch(indexPath.row){
                 
             case 0:
                 let feedsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FeedsViewController") as! FeedsViewController
-                detailControllersStack[index] = feedsVC
-                detailNav.setViewControllers(detailControllersStack, animated: false)
+                detailNav.replaceTopViewController(feedsVC)
 
             case 1:
                 let usersVC = UIStoryboard(name: "DiscoverHD", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
-                detailControllersStack[index] = usersVC
-                detailNav.setViewControllers(detailControllersStack, animated: false)
+                detailNav.replaceTopViewController(usersVC)
+                
             case 2:
                 break
 //                (UIApplication.sharedApplication().delegate as! AppDelegate).detail.requestHandle(nil, requestFrom: DetailViewController.requestDetailFrom.Skills)

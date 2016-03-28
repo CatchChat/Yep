@@ -314,15 +314,11 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
         searchController?.active = false
         
-        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController,
-            detail = detailNav.topViewController,
-            index  = detailNav.viewControllers.indexOf(detail) {
-            
-            var detailControllersStack = detailNav.viewControllers
+        if let detailNav = splitViewController?.childViewControllers[1] as? YepNavigationController {
             
             let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-            detailControllersStack[index] = profileVC
-            detailNav.setViewControllers(detailControllersStack, animated: false)
+            
+            detailNav.replaceTopViewController(profileVC)
             
             profileVC.hidesBottomBarWhenPushed = true
             profileVC.setBackButtonWithTitle()
