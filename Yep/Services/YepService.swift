@@ -426,7 +426,7 @@ func updateAvatarWithImageData(imageData: NSData, failureHandler: FailureHandler
                     avatarInfo = json["avatar"] as? JSONDictionary,
                     avatarURLString = avatarInfo["url"] as? String
                 else {
-                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
+                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: "failed parse JSON in updateAvatarWithImageData")
                     return
                 }
 
