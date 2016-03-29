@@ -611,7 +611,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                 conversation.withGroup = group
 
                 if let updatedUnixTime = groupInfo["updated_at"] as? NSTimeInterval {
-                    conversation.updatedUnixTime = updatedUnixTime
+                    conversation.updatedUnixTime = max(updatedUnixTime, conversation.updatedUnixTime)
                 }
 
                 realm.add(conversation)
@@ -912,17 +912,20 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            if let updatedUnixTime = messageInfo["created_at"] as? NSTimeInterval {
-                newMessage.createdUnixTime = updatedUnixTime
+            if let createdUnixTime = messageInfo["created_at"] as? NSTimeInterval {
+                newMessage.createdUnixTime = createdUnixTime
             }
 
             if case .New = messageAge {
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
                 if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
-                        println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
-                        newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
-                        println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        // 只考虑最近的消息，过了可能混乱的时机就不再考虑
+                        if abs(newMessage.createdUnixTime - latestMessage.createdUnixTime) < 60 {
+                            println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                            newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+                            println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
+                        }
                     }
                 }
             }
@@ -1103,8 +1106,14 @@ func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: Message
 
                             // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
                             if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.updatedUnixTime {
-                                conversation.hasUnreadMessages = true
-                                conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+
+                                println("ThreeUnixTime: \nc:\(message.createdUnixTime)\nu:\(conversation.updatedUnixTime)\nn:\(NSDate().timeIntervalSince1970)")
+
+                                // 不考虑特别旧的消息
+                                if message.createdUnixTime > (NSDate().timeIntervalSince1970 - 60*60*12) {
+                                    conversation.hasUnreadMessages = true
+                                    conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+                                }
                             }
                             message.conversation = conversation
 
