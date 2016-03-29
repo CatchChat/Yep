@@ -391,6 +391,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
             let _ = try? realm.commitWrite()
 
+            // 如果已经显示了就不用push
+            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID where newFakeID == oldFakeID {
+                return
+            }
+
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
