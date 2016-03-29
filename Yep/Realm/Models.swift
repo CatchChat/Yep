@@ -1217,7 +1217,7 @@ func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversa
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND fromFriend != nil AND conversation != nil AND conversation.type = %d", conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group: // Public for now
