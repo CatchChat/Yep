@@ -1652,8 +1652,8 @@ func officialMessages(completion completion: Int -> Void) {
                         let newMessage = Message()
                         newMessage.messageID = messageID
 
-                        if let updatedUnixTime = messageInfo["updated_at"] as? NSTimeInterval {
-                            newMessage.createdUnixTime = updatedUnixTime
+                        if let createdUnixTime = messageInfo["created_at"] as? NSTimeInterval {
+                            newMessage.createdUnixTime = createdUnixTime
                         }
 
                         let _ = try? realm.write {
@@ -1709,15 +1709,16 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
     guard let realm = try? Realm() else { return }
 
-    //let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
+    let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
 
     let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
     let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
 
     let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
 
-    //println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
-    //println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
+    println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
+    println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
+    println("*now: \(NSDate().timeIntervalSince1970)")
 
     unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
