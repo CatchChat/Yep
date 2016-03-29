@@ -611,7 +611,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
                 conversation.withGroup = group
 
                 if let updatedUnixTime = groupInfo["updated_at"] as? NSTimeInterval {
-                    conversation.updatedUnixTime = updatedUnixTime
+                    conversation.updatedUnixTime = max(updatedUnixTime, conversation.updatedUnixTime)
                 }
 
                 realm.add(conversation)
