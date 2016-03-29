@@ -424,14 +424,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             feed = feedWithFeedID(feedID, inRealm: realm),
             conversation = feed.group?.conversation,
             tabBarVC = window?.rootViewController as? UITabBarController,
-            nvc = tabBarVC.selectedViewController as? UINavigationController,
-            vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
                 return
         }
 
-        vc.conversation = conversation
+        // 如果已经显示了就不用push
+        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed where feed.feedID == feedID {
+            return
 
-        nvc.pushViewController(vc, animated: true)
+        } else {
+            guard let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
+                return
+            }
+
+            vc.conversation = conversation
+
+            nvc.pushViewController(vc, animated: true)
+        }
     }
 
     // MARK: Public
