@@ -338,6 +338,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
 
+        println("userActivity.userInfo: \(userActivity.userInfo)")
+
         switch userActivity.activityType {
 
         case NSUserActivityTypeBrowsingWeb:
@@ -352,38 +354,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         case feedActivityType:
 
-            println("userActivity.userInfo: \(userActivity.userInfo)")
-
             guard let feedID = userActivity.userInfo?["feedID"] as? String else {
                 return false
             }
 
-            guard let realm = try? Realm(), feed = feedWithFeedID(feedID, inRealm: realm), conversation = feed.group?.conversation else {
-                return false
-            }
-
-            guard let tabBarVC = window?.rootViewController as? UITabBarController else {
-                return false
-            }
-
-            guard let nvc = tabBarVC.viewControllers?.first as? UINavigationController       else {
-                return false
-            }
-
-            nvc.popToRootViewControllerAnimated(false)
-
-            guard let conversationsVC = nvc.topViewController as? ConversationsViewController else {
-                return false
-            }
-
-            conversationsVC.performSegueWithIdentifier("showConversation", sender: conversation)
-//            conversationsVC.performSegueWithIdentifier("showFeedConversations", sender: nil)
-//
-//            guard let feedConversationsVC = nvc.topViewController as? FeedConversationsViewController else {
-//                return false
-//            }
-//
-//            feedConversationsVC.performSegueWithIdentifier("showConversation", sender: conversation)
+            handleFeedSearchActivity(feedID: feedID)
 
         default:
             break
@@ -407,7 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //println("matchSharedFeed: \(feed)")
 
             guard let
-                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
+                vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
                 realm = try? Realm() else {
                     return
             }
@@ -440,6 +415,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             nvc.pushViewController(vc, animated: true)
         })
+    }
+
+    private func handleFeedSearchActivity(feedID feedID: String) {
+
+        guard let
+            realm = try? Realm(),
+            feed = feedWithFeedID(feedID, inRealm: realm),
+            conversation = feed.group?.conversation,
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController,
+            vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
+                return
+        }
+
+        vc.conversation = conversation
+
+        nvc.pushViewController(vc, animated: true)
     }
 
     // MARK: Public
