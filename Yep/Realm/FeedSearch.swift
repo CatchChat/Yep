@@ -21,7 +21,7 @@ extension Feed {
 
     var userActivity: NSUserActivity {
         let activity = NSUserActivity(activityType: feedActivityType)
-        activity.title = body
+        activity.title = creator?.nickname
         activity.userInfo = userActivityUserInfo
         activity.keywords = [body]
         activity.contentAttributeSet = attributeSet

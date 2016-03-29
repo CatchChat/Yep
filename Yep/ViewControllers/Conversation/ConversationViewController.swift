@@ -961,6 +961,14 @@ class ConversationViewController: BaseViewController {
         #endif
     }
 
+    override func updateUserActivityState(activity: NSUserActivity) {
+        if #available(iOS 9.0, *) {
+            if let feed = conversation.withGroup?.withFeed {
+                activity.addUserInfoEntriesFromDictionary(feed.userActivityUserInfo)
+            }
+        }
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
