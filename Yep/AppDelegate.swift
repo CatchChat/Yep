@@ -338,7 +338,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
 
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+        switch userActivity.activityType {
+
+        case NSUserActivityTypeBrowsingWeb:
 
             guard let webpageURL = userActivity.webpageURL else {
                 return false
@@ -347,6 +349,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if !handleUniversalLink(webpageURL) {
                 UIApplication.sharedApplication().openURL(webpageURL)
             }
+
+        case feedActivityType:
+
+            println("userActivity.userInfo: \(userActivity.userInfo)")
+
+            guard let feedID = userActivity.userInfo?["feedID"] as? String else {
+                return false
+            }
+
+            guard let realm = try? Realm(), feed = feedWithFeedID(feedID, inRealm: realm), conversation = feed.group?.conversation else {
+                return false
+            }
+
+            guard let tabBarVC = window?.rootViewController as? UITabBarController else {
+                return false
+            }
+
+            guard let nvc = tabBarVC.viewControllers?.first as? UINavigationController       else {
+                return false
+            }
+
+            nvc.popToRootViewControllerAnimated(false)
+
+            guard let conversationsVC = nvc.topViewController as? ConversationsViewController else {
+                return false
+            }
+
+            conversationsVC.performSegueWithIdentifier("showConversation", sender: conversation)
+//            conversationsVC.performSegueWithIdentifier("showFeedConversations", sender: nil)
+//
+//            guard let feedConversationsVC = nvc.topViewController as? FeedConversationsViewController else {
+//                return false
+//            }
+//
+//            feedConversationsVC.performSegueWithIdentifier("showConversation", sender: conversation)
+
+        default:
+            break
         }
 
         return true
