@@ -8,19 +8,23 @@
 
 import CoreSpotlight
 
+let feedActivityType = "Catch-Inc.Yep.Feed"
+
 @available(iOS 9.0, *)
 extension Feed {
 
-    static let domainID = "Catch-Inc.Yep.Feed"
-
     var userActivityUserInfo: [NSObject: AnyObject] {
-        return ["feedID": feedID]
+        return [
+            "feedID": feedID,
+        ]
     }
 
     var userActivity: NSUserActivity {
-        let activity = NSUserActivity(activityType: Feed.domainID)
+        let activity = NSUserActivity(activityType: feedActivityType)
         activity.title = body
         activity.userInfo = userActivityUserInfo
         activity.keywords = [body]
+        activity.eligibleForSearch = true
+        return activity
     }
 }
