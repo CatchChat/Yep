@@ -407,6 +407,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             //println("matchProfile: \(discoveredUser)")
 
+            // 如果已经显示了就不用push
+            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID where userID == discoveredUser.id {
+                return
+            }
+
             guard let
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
                     return
