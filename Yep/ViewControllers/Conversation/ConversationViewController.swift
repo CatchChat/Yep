@@ -950,6 +950,12 @@ class ConversationViewController: BaseViewController {
 
         needDetectMention = conversation.needDetectMention
 
+        if #available(iOS 9.0, *) {
+            if let feed = conversation.withGroup?.withFeed {
+                self.userActivity = feed.userActivity
+            }
+        }
+
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif
