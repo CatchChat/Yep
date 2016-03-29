@@ -593,15 +593,7 @@ class Message: Object {
     dynamic var deletedByCreator: Bool = false
 
     dynamic var fromFriend: User?
-    dynamic var conversation: Conversation? {
-        willSet {
-            // 往大了更新 conversation.updatedUnixTime
-            if let _conversation = newValue where createdUnixTime > _conversation.updatedUnixTime {
-                println("set _conversation.updatedUnixTime")
-                _conversation.updatedUnixTime = createdUnixTime
-            }
-        }
-    }
+    dynamic var conversation: Conversation?
 
     var isReal: Bool {
 

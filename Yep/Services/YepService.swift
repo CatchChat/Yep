@@ -2173,6 +2173,7 @@ func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath f
             }
 
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+
             dispatch_async(dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
             }
