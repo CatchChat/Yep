@@ -24,7 +24,16 @@ extension Feed {
         activity.title = body
         activity.userInfo = userActivityUserInfo
         activity.keywords = [body]
+        activity.contentAttributeSet = attributeSet
         activity.eligibleForSearch = true
         return activity
+    }
+
+    var attributeSet: CSSearchableItemAttributeSet {
+        let attributeSet = CSSearchableItemAttributeSet()
+        attributeSet.title = creator?.nickname
+        attributeSet.contentDescription = body
+        attributeSet.thumbnailData = creator?.avatar?.roundMini
+        return attributeSet
     }
 }
