@@ -2726,7 +2726,7 @@ class ConversationViewController: BaseViewController {
 
                     self?.afterDeletedFeedAction?(feedID: feedID)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
 
@@ -2735,18 +2735,22 @@ class ConversationViewController: BaseViewController {
                 })
 
             }, cancelAction: { [weak self] in
-                doDeleteConversation()
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.navigationController?.popViewControllerAnimated(true)
-                }
+                doDeleteConversation(afterLeaveGroup: {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
+                })
             })
 
         } else {
             let includeMe = group.includeMe
             // 不然考虑订阅或取消订阅
             if includeMe {
-                doDeleteConversation()
+                doDeleteConversation(afterLeaveGroup: {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
+                })
 
             } else {
                 let groupID = group.groupID
