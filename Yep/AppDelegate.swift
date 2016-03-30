@@ -152,10 +152,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
 
         if #available(iOS 9.0, *) {
-            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
-            indexUserSearchableItems()
-            indexFeedSearchableItems()
+            if YepUserDefaults.isLogined {
+                indexUserSearchableItems()
+                indexFeedSearchableItems()
+
+            } else {
+                CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+            }
         }
     }
 
