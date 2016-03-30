@@ -2676,6 +2676,8 @@ class ConversationViewController: BaseViewController {
                     println("blockUserWithUserID \(success)")
 
                     self.updateBlocked(true, forUserWithUserID: userID)
+
+                    deleteSearchableItemOfUser(userID: userID)
                 })
             }
         }
@@ -2686,6 +2688,8 @@ class ConversationViewController: BaseViewController {
         guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
             return
         }
+
+        let feedID = feed.feedID
 
         func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
@@ -2706,13 +2710,14 @@ class ConversationViewController: BaseViewController {
                 let _ = try? realm.commitWrite()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                deleteSearchableItemOfFeed(feedID: feedID)
             }
         }
 
         let isMyFeed = feedCreator.isMe
         // 若是创建者，再询问是否删除 Feed
         if isMyFeed {
-            let feedID = feed.feedID
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
@@ -2723,7 +2728,7 @@ class ConversationViewController: BaseViewController {
 
                     self?.afterDeletedFeedAction?(feedID: feedID)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
 
@@ -2732,18 +2737,22 @@ class ConversationViewController: BaseViewController {
                 })
 
             }, cancelAction: { [weak self] in
-                doDeleteConversation()
-
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.navigationController?.popViewControllerAnimated(true)
-                }
+                doDeleteConversation(afterLeaveGroup: {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
+                })
             })
 
         } else {
             let includeMe = group.includeMe
             // 不然考虑订阅或取消订阅
             if includeMe {
-                doDeleteConversation()
+                doDeleteConversation(afterLeaveGroup: {
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.navigationController?.popViewControllerAnimated(true)
+                    }
+                })
 
             } else {
                 let groupID = group.groupID

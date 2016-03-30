@@ -2501,7 +2501,7 @@ struct DiscoveredAttachment {
         return image != nil
     }
 
-    var thumbnailImage: UIImage? {
+    var thumbnailImageData: NSData? {
 
         guard (metadata as NSString).length > 0 else {
             return nil
@@ -2510,12 +2510,20 @@ struct DiscoveredAttachment {
         if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
                 if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {
-                    if let imageData = NSData(base64EncodedString: thumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
-                        let image = UIImage(data: imageData)
-                        return image
-                    }
+                    let imageData = NSData(base64EncodedString: thumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0))
+                    return imageData
                 }
             }
+        }
+
+        return nil
+    }
+
+    var thumbnailImage: UIImage? {
+
+        if let imageData = thumbnailImageData {
+            let image = UIImage(data: imageData)
+            return image
         }
 
         return nil

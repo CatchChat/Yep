@@ -209,6 +209,13 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 return
             }
 
+            guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+                return
+            }
+
+            let feedID = feed.feedID
+            let feedCreatorID = feedCreator.userID
+
             let doDeleteConversation: () -> Void = {
 
                 guard let realm = conversation.realm else {
@@ -231,14 +238,9 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 delay(0.5) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                 }
-            }
 
-            guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
-                return
+                deleteSearchableItemOfFeed(feedID: feedID)
             }
-
-            let feedID = feed.feedID
-            let feedCreatorID = feedCreator.userID
 
             // 若是创建者，再询问是否删除 Feed
 

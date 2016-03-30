@@ -13,7 +13,7 @@ import RealmSwift
 import MonkeyKing
 import Navi
 import Appsee
-
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -72,8 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Life Circle
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
         BuddyBuildSDK.setup()
-        
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
@@ -120,34 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
-        
-        println("Resign active")
-
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        
-        println("Enter background")
-
-        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
-
-        #if DEBUG
-        //clearUselessRealmObjects() // only for test
-        #endif
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        
-        println("Will Foreground")
-    }
-
     func applicationDidBecomeActive(application: UIApplication) {
 
         println("Did Active")
-        
+
         if !isFirstActive {
             syncUnreadMessages() {}
 
@@ -165,8 +141,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
-
+        
         isFirstActive = false
+    }
+
+    func applicationWillResignActive(application: UIApplication) {
+
+        println("Resign active")
+
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+
+        if #available(iOS 9.0, *) {
+
+            if YepUserDefaults.isLogined {
+                indexUserSearchableItems()
+                indexFeedSearchableItems()
+
+            } else {
+                CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+            }
+        }
+    }
+
+    func applicationDidEnterBackground(application: UIApplication) {
+        
+        println("Enter background")
+
+        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+
+        #if DEBUG
+        //clearUselessRealmObjects() // only for test
+        #endif
+    }
+
+    func applicationWillEnterForeground(application: UIApplication) {
+        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+        println("Will Foreground")
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -338,7 +349,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
 
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+        println("userActivity.activityType: \(userActivity.activityType)")
+        println("userActivity.userInfo: \(userActivity.userInfo)")
+
+        let activityType = userActivity.activityType
+
+        if activityType == NSUserActivityTypeBrowsingWeb {
 
             guard let webpageURL = userActivity.webpageURL else {
                 return false
@@ -346,10 +362,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             if !handleUniversalLink(webpageURL) {
                 UIApplication.sharedApplication().openURL(webpageURL)
+                return true
             }
         }
 
-        return true
+        if #available(iOS 9.0, *) {
+
+            if activityType == CSSearchableItemActionType {
+                
+                guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+                    return false
+                }
+
+                guard let (itemType, itemID) = searchableItem(searchableItemID: searchableItemID) else {
+                    return false
+                }
+
+                switch itemType {
+
+                case .User:
+                    return handleUserSearchActivity(userID: itemID)
+
+                case .Feed:
+                    return handleFeedSearchActivity(feedID: itemID)
+                }
+            }
+        }
+
+        return false
     }
     
     private func handleUniversalLink(URL: NSURL) -> Bool {
@@ -367,7 +407,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //println("matchSharedFeed: \(feed)")
 
             guard let
-                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
+                vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
                 realm = try? Realm() else {
                     return
             }
@@ -376,16 +416,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
             let _ = try? realm.commitWrite()
 
+            // 如果已经显示了就不用push
+            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID where newFakeID == oldFakeID {
+                return
+            }
+
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
 
         // Profile (Last)
 
         }) || URL.yep_matchProfile({ discoveredUser in
 
             //println("matchProfile: \(discoveredUser)")
+
+            // 如果已经显示了就不用push
+            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID where userID == discoveredUser.id {
+                return
+            }
 
             guard let
                 vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
@@ -398,8 +450,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             vc.hidesBottomBarWhenPushed = true
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
         })
+    }
+
+    private func handleUserSearchActivity(userID userID: String) -> Bool {
+
+        guard let
+            realm = try? Realm(),
+            user = userWithUserID(userID, inRealm: realm),
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return false
+        }
+
+        // 如果已经显示了就不用push
+        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID where _userID == userID {
+            return true
+
+        } else {
+            guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+                return false
+            }
+
+            vc.profileUser = ProfileUser.UserType(user)
+            vc.fromType = .None
+            vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
+
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
+
+            return true
+        }
+    }
+
+    private func handleFeedSearchActivity(feedID feedID: String) -> Bool {
+
+        guard let
+            realm = try? Realm(),
+            feed = feedWithFeedID(feedID, inRealm: realm),
+            conversation = feed.group?.conversation,
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return false
+        }
+
+        // 如果已经显示了就不用push
+        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed where feed.feedID == feedID {
+            return true
+
+        } else {
+            guard let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
+                return false
+            }
+
+            vc.conversation = conversation
+
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
+
+            return true
+        }
     }
 
     // MARK: Public
@@ -484,7 +601,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
             println("reply to [\(recipientType): \(recipientID)], \(success)")
         })
-        
+    }
+
+    @available(iOS 9.0, *)
+    private func indexUserSearchableItems() {
+
+        let users = normalFriends()
+
+        let searchableItems = users.map({
+            CSSearchableItem(
+                uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
+                domainIdentifier: userDomainIdentifier,
+                attributeSet: $0.attributeSet
+            )
+        })
+
+        println("userSearchableItems: \(searchableItems.count)")
+
+        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("indexUserSearchableItems OK")
+            }
+        }
+    }
+
+    @available(iOS 9.0, *)
+    private func indexFeedSearchableItems() {
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        let feeds = realm.objects(Feed)
+            .filter({ $0.deleted == false })
+            .filter({ $0.creator != nil})
+            .filter({ $0.group?.conversation != nil })
+            .filter({ ($0.group?.includeMe ?? false) })
+
+        let searchableItems = feeds.map({
+            CSSearchableItem(
+                uniqueIdentifier: searchableItemID(searchableItemType: .Feed, itemID: $0.feedID),
+                domainIdentifier: feedDomainIdentifier,
+                attributeSet: $0.attributeSet
+            )
+        })
+
+        println("feedSearchableItems: \(searchableItems.count)")
+
+        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("indexFeedSearchableItems OK")
+            }
+        }
     }
 
     private func syncUnreadMessages(furtherAction: () -> Void) {
