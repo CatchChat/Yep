@@ -34,6 +34,20 @@ func searchableItem(searchableItemID searchableItemID: String) -> (itemType: Sea
     return (itemType: itemType, itemID: parts[1])
 }
 
+func deleteSearchableItemOfUser(userID userID: String) {
+    if #available(iOS 9.0, *) {
+        let feedSearchableItemID = searchableItemID(searchableItemType: .User, itemID: userID)
+        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("deleteSearchableItemOfUser: \(userID) OK")
+            }
+        })
+    }
+}
+
 func deleteSearchableItemOfFeed(feedID feedID: String) {
     if #available(iOS 9.0, *) {
         let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)

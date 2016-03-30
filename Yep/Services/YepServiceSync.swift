@@ -399,8 +399,6 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                 }
             }
 
-            // 改变没有 friendship 的 user 的状态
-
             guard let realm = try? Realm() else {
                 return
             }
@@ -411,15 +409,19 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
             realm.beginWrite()
 
+            // 改变没有 friendship 的 user 的状态
+
             for i in 0..<localUsers.count {
                 let localUser = localUsers[i]
 
-                if !remoteUerIDSet.contains(localUser.userID) {
+                let localUserID = localUser.userID
+
+                if !remoteUerIDSet.contains(localUserID) {
 
                     localUser.friendshipID = ""
 
                     if let myUserID = YepUserDefaults.userID.value {
-                        if myUserID == localUser.userID {
+                        if myUserID == localUserID {
                             localUser.friendState = UserFriendState.Me.rawValue
 
                         } else if localUser.friendState == UserFriendState.Normal.rawValue {
@@ -428,6 +430,8 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                     }
                     
                     localUser.isBestfriend = false
+
+                    deleteSearchableItemOfUser(userID: localUserID)
                 }
             }
 
