@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import CoreSpotlight
 
 private let v1AccessTokenKey = "v1AccessToken"
 private let userIDKey = "userID"
@@ -141,6 +142,10 @@ class YepUserDefaults {
 
         guard v1AccessToken.value != nil else {
             return
+        }
+
+        if #available(iOS 9.0, *) {
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
         }
 
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
