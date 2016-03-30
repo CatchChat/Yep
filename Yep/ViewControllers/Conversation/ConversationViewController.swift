@@ -15,6 +15,7 @@ import Proposer
 import KeyboardMan
 import Navi
 import MonkeyKing
+import CoreSpotlight
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -2687,6 +2688,8 @@ class ConversationViewController: BaseViewController {
             return
         }
 
+        let feedID = feed.feedID
+
         func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -2706,13 +2709,25 @@ class ConversationViewController: BaseViewController {
                 let _ = try? realm.commitWrite()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+
+                // 清理 Spotlight 搜索条目
+                if #available(iOS 9.0, *) {
+                    let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)
+                    CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
+                        if error != nil {
+                            println(error!.localizedDescription)
+
+                        } else {
+                            println("deleteSearchableItem of Feed: \(feedID) OK")
+                        }
+                    })
+                }
             }
         }
 
         let isMyFeed = feedCreator.isMe
         // 若是创建者，再询问是否删除 Feed
         if isMyFeed {
-            let feedID = feed.feedID
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
