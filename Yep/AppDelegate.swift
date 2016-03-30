@@ -375,8 +375,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
 
                 switch itemType {
+
                 case .User:
-                    break
+                    handleUserSearchActivity(userID: itemID)
+
                 case .Feed:
                     handleFeedSearchActivity(feedID: itemID)
                 }
@@ -446,6 +448,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             nvc.pushViewController(vc, animated: true)
         })
+    }
+
+    private func handleUserSearchActivity(userID userID: String) {
+
+        guard let
+            realm = try? Realm(),
+            user = userWithUserID(userID, inRealm: realm),
+            tabBarVC = window?.rootViewController as? UITabBarController,
+            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+                return
+        }
+
+        // 如果已经显示了就不用push
+        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID where _userID == userID {
+            return
+
+        } else {
+            guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+                return
+            }
+
+            vc.profileUser = ProfileUser.UserType(user)
+            vc.fromType = .None
+            vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
+
+            nvc.pushViewController(vc, animated: true)
+        }
     }
 
     private func handleFeedSearchActivity(feedID feedID: String) {
