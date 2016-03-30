@@ -420,7 +420,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc.conversation = feedConversation
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
 
         // Profile (Last)
 
@@ -444,7 +446,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             vc.hidesBottomBarWhenPushed = true
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
         })
     }
 
@@ -473,7 +477,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             vc.hidesBottomBarWhenPushed = true
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
 
             return true
         }
@@ -501,7 +507,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             vc.conversation = conversation
 
-            nvc.pushViewController(vc, animated: true)
+            delay(0.25) {
+                nvc.pushViewController(vc, animated: true)
+            }
 
             return true
         }
