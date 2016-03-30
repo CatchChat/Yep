@@ -431,7 +431,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                     
                     localUser.isBestfriend = false
 
-                    deleteSearchableItemOfUser(userID: localUserID)
+                    deleteSearchableItemOfUser(userID: localUserID, printOK: false)
                 }
             }
 

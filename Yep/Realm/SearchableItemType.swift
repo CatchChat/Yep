@@ -34,7 +34,7 @@ func searchableItem(searchableItemID searchableItemID: String) -> (itemType: Sea
     return (itemType: itemType, itemID: parts[1])
 }
 
-private func deleteSearchableItem(searchableItemType itemType: SearchableItemType, itemID: String) {
+private func deleteSearchableItem(searchableItemType itemType: SearchableItemType, itemID: String, printOK: Bool) {
 
     if #available(iOS 9.0, *) {
 
@@ -45,19 +45,21 @@ private func deleteSearchableItem(searchableItemType itemType: SearchableItemTyp
                 println(error!.localizedDescription)
 
             } else {
-                println("deleteSearchableItem \(itemType): \(itemID) OK")
+                if printOK {
+                    println("deleteSearchableItem \(itemType): \(itemID) OK")
+                }
             }
         })
     }
 }
 
-func deleteSearchableItemOfUser(userID userID: String) {
+func deleteSearchableItemOfUser(userID userID: String, printOK: Bool = true) {
 
-    deleteSearchableItem(searchableItemType: .User, itemID: userID)
+    deleteSearchableItem(searchableItemType: .User, itemID: userID, printOK: printOK)
 }
 
-func deleteSearchableItemOfFeed(feedID feedID: String) {
+func deleteSearchableItemOfFeed(feedID feedID: String, printOK: Bool = true) {
 
-    deleteSearchableItem(searchableItemType: .Feed, itemID: feedID)
+    deleteSearchableItem(searchableItemType: .Feed, itemID: feedID, printOK: printOK)
 }
 
