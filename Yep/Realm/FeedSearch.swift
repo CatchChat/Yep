@@ -9,7 +9,7 @@
 import CoreSpotlight
 import MobileCoreServices
 
-//let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
+let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
 
 @available(iOS 9.0, *)
 extension Feed {

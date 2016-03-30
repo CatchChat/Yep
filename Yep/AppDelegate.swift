@@ -146,16 +146,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(application: UIApplication) {
-        
+
         println("Resign active")
 
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-    }
 
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        if #available(iOS 9.0, *) {
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
-        println("Will Foreground")
+            indexFeedSearchableItems()
+        }
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -167,12 +167,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #if DEBUG
         //clearUselessRealmObjects() // only for test
         #endif
+    }
 
-        if #available(iOS 9.0, *) {
-            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+    func applicationWillEnterForeground(application: UIApplication) {
+        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
-            indexFeedSearchableItems()
-        }
+        println("Will Foreground")
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -546,7 +546,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
             println("reply to [\(recipientType): \(recipientID)], \(success)")
         })
-        
     }
 
     @available(iOS 9.0, *)
@@ -576,7 +575,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 println(error!.localizedDescription)
 
             } else {
-                println("indexFeedSearchableItems")
+                println("indexFeedSearchableItems OK")
             }
         }
     }
