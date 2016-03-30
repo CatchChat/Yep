@@ -36,7 +36,14 @@ extension Feed {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
         attributeSet.title = creator?.nickname
         attributeSet.contentDescription = body
-        attributeSet.thumbnailData = creator?.avatar?.roundMini
+
+        if kind == FeedKind.Image.rawValue, let attachment = attachments.first.map({ DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil) }), thumbnailImageData = attachment.thumbnailImageData {
+            attributeSet.thumbnailData = thumbnailImageData
+
+        } else {
+            attributeSet.thumbnailData = creator?.avatar?.roundMini
+        }
+
         return attributeSet
     }
 }
