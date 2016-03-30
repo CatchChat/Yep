@@ -538,6 +538,8 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         group.conversation?.hasUnreadMessages = false
                     }
 
+                    deleteSearchableItemOfFeed(feedID: feed.feedID)
+
                 } else {
                     group.cascadeDeleteInRealm(realm)
                 }
