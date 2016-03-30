@@ -34,31 +34,30 @@ func searchableItem(searchableItemID searchableItemID: String) -> (itemType: Sea
     return (itemType: itemType, itemID: parts[1])
 }
 
-func deleteSearchableItemOfUser(userID userID: String) {
+private func deleteSearchableItem(searchableItemType itemType: SearchableItemType, itemID: String) {
+
     if #available(iOS 9.0, *) {
-        let feedSearchableItemID = searchableItemID(searchableItemType: .User, itemID: userID)
-        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
+
+        let toDeleteSearchableItemID = searchableItemID(searchableItemType: itemType, itemID: itemID)
+
+        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([toDeleteSearchableItemID], completionHandler: { error in
             if error != nil {
                 println(error!.localizedDescription)
 
             } else {
-                println("deleteSearchableItemOfUser: \(userID) OK")
+                println("deleteSearchableItem \(itemType): \(itemID) OK")
             }
         })
     }
 }
 
-func deleteSearchableItemOfFeed(feedID feedID: String) {
-    if #available(iOS 9.0, *) {
-        let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)
-        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
-            if error != nil {
-                println(error!.localizedDescription)
+func deleteSearchableItemOfUser(userID userID: String) {
 
-            } else {
-                println("deleteSearchableItemOfFeed: \(feedID) OK")
-            }
-        })
-    }
+    deleteSearchableItem(searchableItemType: .User, itemID: userID)
+}
+
+func deleteSearchableItemOfFeed(feedID feedID: String) {
+
+    deleteSearchableItem(searchableItemType: .Feed, itemID: feedID)
 }
 
