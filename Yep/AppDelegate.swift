@@ -154,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if #available(iOS 9.0, *) {
             CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
+            indexUserSearchableItems()
             indexFeedSearchableItems()
         }
     }
@@ -546,6 +547,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
             println("reply to [\(recipientType): \(recipientID)], \(success)")
         })
+    }
+
+    @available(iOS 9.0, *)
+    private func indexUserSearchableItems() {
+
+        let users = normalFriends()
+
+        let searchableItems = users.map({
+            CSSearchableItem(
+                uniqueIdentifier: $0.userID,
+                domainIdentifier: userDomainIdentifier,
+                attributeSet: $0.attributeSet
+            )
+        })
+
+        println("userSearchableItems: \(searchableItems.count)")
+
+        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("indexUserSearchableItems OK")
+            }
+        }
     }
 
     @available(iOS 9.0, *)
