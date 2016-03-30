@@ -14,7 +14,22 @@ enum SearchableItemType: String {
     case Feed
 }
 
-func relatedUniqueIdentifier(searchableItemType itemType: SearchableItemType, searchableItemID itemID: String) -> String {
+func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {
 
     return "\(itemType)/\(itemID)"
+}
+
+func searchableItem(searchableItemID searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
+
+    let parts = searchableItemID.componentsSeparatedByString("/")
+
+    guard parts.count == 2 else {
+        return nil
+    }
+
+    guard let itemType = SearchableItemType(rawValue: parts[0]) else {
+        return nil
+    }
+
+    return (itemType: itemType, itemID: parts[1])
 }

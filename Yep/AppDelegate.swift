@@ -366,11 +366,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             if activityType == CSSearchableItemActionType {
                 
-                guard let feedID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+                guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
                     return false
                 }
 
-                handleFeedSearchActivity(feedID: feedID)
+                guard let (itemType, itemID) = searchableItem(searchableItemID: searchableItemID) else {
+                    return false
+                }
+
+                switch itemType {
+                case .User:
+                    break
+                case .Feed:
+                    handleFeedSearchActivity(feedID: itemID)
+                }
 
                 return true
             }
@@ -556,7 +565,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = users.map({
             CSSearchableItem(
-                uniqueIdentifier: relatedUniqueIdentifier(searchableItemType: .User, searchableItemID: $0.userID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
                 domainIdentifier: userDomainIdentifier,
                 attributeSet: $0.attributeSet
             )
@@ -588,7 +597,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = feeds.map({
             CSSearchableItem(
-                uniqueIdentifier: relatedUniqueIdentifier(searchableItemType: .Feed, searchableItemID: $0.feedID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .Feed, itemID: $0.feedID),
                 domainIdentifier: feedDomainIdentifier,
                 attributeSet: $0.attributeSet
             )
