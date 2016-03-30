@@ -13,7 +13,7 @@ import RealmSwift
 import MonkeyKing
 import Navi
 import Appsee
-
+import CoreSpotlight
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -72,8 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Life Circle
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
         BuddyBuildSDK.setup()
-        
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
@@ -120,34 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
-        
-        println("Resign active")
-
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        
-        println("Enter background")
-
-        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
-
-        #if DEBUG
-        //clearUselessRealmObjects() // only for test
-        #endif
-    }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-        
-        println("Will Foreground")
-    }
-
     func applicationDidBecomeActive(application: UIApplication) {
 
         println("Did Active")
-        
+
         if !isFirstActive {
             syncUnreadMessages() {}
 
@@ -165,8 +141,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
-
+        
         isFirstActive = false
+    }
+
+    func applicationWillResignActive(application: UIApplication) {
+        
+        println("Resign active")
+
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+    }
+
+    func applicationWillEnterForeground(application: UIApplication) {
+        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+        println("Will Foreground")
+    }
+
+    func applicationDidEnterBackground(application: UIApplication) {
+        
+        println("Enter background")
+
+        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+
+        #if DEBUG
+        //clearUselessRealmObjects() // only for test
+        #endif
+
+        if #available(iOS 9.0, *) {
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+
+            indexFeedSearchableItems()
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -338,11 +344,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
 
+        println("userActivity.activityType: \(userActivity.activityType)")
         println("userActivity.userInfo: \(userActivity.userInfo)")
 
-        switch userActivity.activityType {
+        let activityType = userActivity.activityType
 
-        case NSUserActivityTypeBrowsingWeb:
+        if activityType == NSUserActivityTypeBrowsingWeb {
 
             guard let webpageURL = userActivity.webpageURL else {
                 return false
@@ -350,21 +357,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             if !handleUniversalLink(webpageURL) {
                 UIApplication.sharedApplication().openURL(webpageURL)
+                return true
             }
-
-        case feedActivityType:
-
-            guard let feedID = userActivity.userInfo?["feedID"] as? String else {
-                return false
-            }
-
-            handleFeedSearchActivity(feedID: feedID)
-
-        default:
-            break
         }
 
-        return true
+        if #available(iOS 9.0, *) {
+
+            if activityType == CSSearchableItemActionType {
+                
+                guard let feedID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+                    return false
+                }
+
+                handleFeedSearchActivity(feedID: feedID)
+
+                return true
+            }
+        }
+
+        return false
     }
     
     private func handleUniversalLink(URL: NSURL) -> Bool {
@@ -536,6 +547,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             println("reply to [\(recipientType): \(recipientID)], \(success)")
         })
         
+    }
+
+    @available(iOS 9.0, *)
+    private func indexFeedSearchableItems() {
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        let feeds = realm.objects(Feed)
+            .filter({ $0.deleted == false })
+            .filter({ $0.creator != nil})
+            .filter({ $0.group?.conversation != nil })
+
+        let searchableItems = feeds.map({
+            CSSearchableItem(
+                uniqueIdentifier: $0.feedID,
+                domainIdentifier: feedDomainIdentifier,
+                attributeSet: $0.attributeSet
+            )
+        })
+
+        println("feedSearchableItems: \(searchableItems.count)")
+
+        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("indexFeedSearchableItems")
+            }
+        }
     }
 
     private func syncUnreadMessages(furtherAction: () -> Void) {

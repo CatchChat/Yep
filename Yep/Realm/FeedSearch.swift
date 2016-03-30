@@ -7,8 +7,9 @@
 //
 
 import CoreSpotlight
+import MobileCoreServices
 
-let feedActivityType = "Catch-Inc.Yep.Feed"
+let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
 
 @available(iOS 9.0, *)
 extension Feed {
@@ -20,7 +21,7 @@ extension Feed {
     }
 
     var userActivity: NSUserActivity {
-        let activity = NSUserActivity(activityType: feedActivityType)
+        let activity = NSUserActivity(activityType: feedDomainIdentifier)
         activity.title = creator?.nickname
         activity.userInfo = userActivityUserInfo
         activity.keywords = [body]
@@ -30,7 +31,7 @@ extension Feed {
     }
 
     var attributeSet: CSSearchableItemAttributeSet {
-        let attributeSet = CSSearchableItemAttributeSet()
+        let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
         attributeSet.title = creator?.nickname
         attributeSet.contentDescription = body
         attributeSet.thumbnailData = creator?.avatar?.roundMini
