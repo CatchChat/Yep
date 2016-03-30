@@ -9,11 +9,12 @@
 import CoreSpotlight
 import MobileCoreServices
 
-let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
+//let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
 
 @available(iOS 9.0, *)
 extension Feed {
 
+    /*
     var userActivityUserInfo: [NSObject: AnyObject] {
         return [
             "feedID": feedID,
@@ -29,6 +30,7 @@ extension Feed {
         activity.eligibleForSearch = true
         return activity
     }
+    */
 
     var attributeSet: CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)

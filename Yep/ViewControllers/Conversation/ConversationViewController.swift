@@ -950,24 +950,10 @@ class ConversationViewController: BaseViewController {
 
         needDetectMention = conversation.needDetectMention
 
-//        if #available(iOS 9.0, *) {
-//            if let feed = conversation.withGroup?.withFeed {
-//                self.userActivity = feed.userActivity
-//            }
-//        }
-
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif
     }
-
-//    override func updateUserActivityState(activity: NSUserActivity) {
-//        if #available(iOS 9.0, *) {
-//            if let feed = conversation.withGroup?.withFeed {
-//                activity.addUserInfoEntriesFromDictionary(feed.userActivityUserInfo)
-//            }
-//        }
-//    }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
