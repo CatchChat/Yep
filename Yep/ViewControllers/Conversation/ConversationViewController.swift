@@ -2676,6 +2676,8 @@ class ConversationViewController: BaseViewController {
                     println("blockUserWithUserID \(success)")
 
                     self.updateBlocked(true, forUserWithUserID: userID)
+
+                    deleteSearchableItemOfUser(userID: userID)
                 })
             }
         }
