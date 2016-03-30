@@ -377,13 +377,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch itemType {
 
                 case .User:
-                    handleUserSearchActivity(userID: itemID)
+                    return handleUserSearchActivity(userID: itemID)
 
                 case .Feed:
-                    handleFeedSearchActivity(feedID: itemID)
+                    return handleFeedSearchActivity(feedID: itemID)
                 }
-
-                return true
             }
         }
 
@@ -450,23 +448,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
-    private func handleUserSearchActivity(userID userID: String) {
+    private func handleUserSearchActivity(userID userID: String) -> Bool {
 
         guard let
             realm = try? Realm(),
             user = userWithUserID(userID, inRealm: realm),
             tabBarVC = window?.rootViewController as? UITabBarController,
             nvc = tabBarVC.selectedViewController as? UINavigationController else {
-                return
+                return false
         }
 
         // 如果已经显示了就不用push
         if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID where _userID == userID {
-            return
+            return true
 
         } else {
             guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
-                return
+                return false
             }
 
             vc.profileUser = ProfileUser.UserType(user)
@@ -476,10 +474,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             vc.hidesBottomBarWhenPushed = true
 
             nvc.pushViewController(vc, animated: true)
+
+            return true
         }
     }
 
-    private func handleFeedSearchActivity(feedID feedID: String) {
+    private func handleFeedSearchActivity(feedID feedID: String) -> Bool {
 
         guard let
             realm = try? Realm(),
@@ -487,21 +487,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             conversation = feed.group?.conversation,
             tabBarVC = window?.rootViewController as? UITabBarController,
             nvc = tabBarVC.selectedViewController as? UINavigationController else {
-                return
+                return false
         }
 
         // 如果已经显示了就不用push
         if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed where feed.feedID == feedID {
-            return
+            return true
 
         } else {
             guard let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
-                return
+                return false
             }
 
             vc.conversation = conversation
 
             nvc.pushViewController(vc, animated: true)
+
+            return true
         }
     }
 
