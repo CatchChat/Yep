@@ -639,6 +639,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .filter({ $0.deleted == false })
             .filter({ $0.creator != nil})
             .filter({ $0.group?.conversation != nil })
+            .filter({ ($0.group?.includeMe ?? false) })
 
         let searchableItems = feeds.map({
             CSSearchableItem(
