@@ -556,7 +556,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = users.map({
             CSSearchableItem(
-                uniqueIdentifier: $0.userID,
+                uniqueIdentifier: relatedUniqueIdentifier(searchableItemType: .User, searchableItemID: $0.userID),
                 domainIdentifier: userDomainIdentifier,
                 attributeSet: $0.attributeSet
             )
@@ -588,7 +588,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = feeds.map({
             CSSearchableItem(
-                uniqueIdentifier: $0.feedID,
+                uniqueIdentifier: relatedUniqueIdentifier(searchableItemType: .Feed, searchableItemID: $0.feedID),
                 domainIdentifier: feedDomainIdentifier,
                 attributeSet: $0.attributeSet
             )
