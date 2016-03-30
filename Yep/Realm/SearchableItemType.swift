@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import CoreSpotlight
 
 enum SearchableItemType: String {
 
@@ -33,3 +33,18 @@ func searchableItem(searchableItemID searchableItemID: String) -> (itemType: Sea
 
     return (itemType: itemType, itemID: parts[1])
 }
+
+func deleteSearchableItemOfFeed(feedID feedID: String) {
+    if #available(iOS 9.0, *) {
+        let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)
+        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
+            if error != nil {
+                println(error!.localizedDescription)
+
+            } else {
+                println("deleteSearchableItemOfFeed: \(feedID) OK")
+            }
+        })
+    }
+}
+

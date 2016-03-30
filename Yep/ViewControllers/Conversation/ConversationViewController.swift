@@ -15,7 +15,6 @@ import Proposer
 import KeyboardMan
 import Navi
 import MonkeyKing
-import CoreSpotlight
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -2710,18 +2709,7 @@ class ConversationViewController: BaseViewController {
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
 
-                // 清理 Spotlight 搜索条目
-                if #available(iOS 9.0, *) {
-                    let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)
-                    CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
-                        if error != nil {
-                            println(error!.localizedDescription)
-
-                        } else {
-                            println("deleteSearchableItem of Feed: \(feedID) OK")
-                        }
-                    })
-                }
+                deleteSearchableItemOfFeed(feedID: feedID)
             }
         }
 

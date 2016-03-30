@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import CoreSpotlight
 
 class FeedConversationsViewController: SegueViewController {
 
@@ -240,18 +239,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                 }
 
-                // 清理 Spotlight 搜索条目
-                if #available(iOS 9.0, *) {
-                    let feedSearchableItemID = searchableItemID(searchableItemType: .Feed, itemID: feedID)
-                    CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers([feedSearchableItemID], completionHandler: { error in
-                        if error != nil {
-                            println(error!.localizedDescription)
-
-                        } else {
-                            println("deleteSearchableItem of Feed: \(feedID) OK")
-                        }
-                    })
-                }
+                deleteSearchableItemOfFeed(feedID: feedID)
             }
 
             // 若是创建者，再询问是否删除 Feed
