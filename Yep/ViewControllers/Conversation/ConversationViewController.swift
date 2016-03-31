@@ -1174,12 +1174,8 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        if let errorMessage = errorMessage {
-                            YepAlert.alertSorry(message: errorMessage, inViewController: self)
-
-                        } else {
-                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
-                        }
+                        let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                        YepAlert.alertSorry(message: message, inViewController: self)
 
                     }, completion: { success in
                         println("sendText to friend: \(success)")
@@ -4213,7 +4209,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                YepAlert.alertSorry(message: NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                let message = errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                YepAlert.alertSorry(message: message, inViewController: self)
 
                             }, completion: { success in
                                 println("resendText: \(success)")
