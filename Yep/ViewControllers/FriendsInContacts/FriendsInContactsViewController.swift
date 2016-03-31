@@ -15,7 +15,19 @@ class FriendsInContactsViewController: BaseViewController {
         static let NewFriends = "NewFriendsInContactsNotification"
     }
 
-    @IBOutlet private weak var friendsTableView: UITableView!
+    private let cellIdentifier = "ContactsCell"
+
+    @IBOutlet private weak var friendsTableView: UITableView! {
+        didSet {
+            friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            friendsTableView.rowHeight = 80
+            friendsTableView.tableFooterView = UIView()
+        }
+    }
+
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private lazy var contacts: [CNContact] = {
@@ -62,21 +74,22 @@ class FriendsInContactsViewController: BaseViewController {
             }
         }
     }
-    
-    private let cellIdentifier = "ContactsCell"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Available Friends", comment: "")
+    }
 
-        friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-        
-        friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        friendsTableView.rowHeight = 80
-        friendsTableView.tableFooterView = UIView()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
+        uploadContactsToMatchNewFriends()
+    }
+
+    // MARK: Upload Contacts
+
+    func uploadContactsToMatchNewFriends() {
         var uploadContacts = [UploadContact]()
 
         for contact in contacts {
