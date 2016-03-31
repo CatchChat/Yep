@@ -405,6 +405,12 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let localUsers = realm.objects(User)
 
+            do {
+                let localUserIDSet = Set<String>(localUsers.map({ $0.userID }))
+                let userIDs = Array(localUserIDSet.subtract(remoteUerIDSet))
+                deleteSearchableItems(searchableItemType: .User, itemIDs: userIDs)
+            }
+
             // 一个大的写入，减少 realm 发通知
 
             realm.beginWrite()
@@ -430,8 +436,6 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                     }
                     
                     localUser.isBestfriend = false
-
-                    deleteSearchableItemOfUser(userID: localUserID, printOK: false)
                 }
             }
 
@@ -526,6 +530,11 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                 }
             }
 
+            do {
+                let feedIDs = groupsToDelete.map({ $0.withFeed?.feedID }).flatMap({ $0 })
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: feedIDs)
+            }
+
             for group in groupsToDelete {
 
                 // 有关联的 Feed 时就标记，不然删除
@@ -541,8 +550,6 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                         group.conversation?.mentionedMe = false
                         group.conversation?.hasUnreadMessages = false
                     }
-
-                    deleteSearchableItemOfFeed(feedID: feed.feedID)
 
                 } else {
                     group.cascadeDeleteInRealm(realm)

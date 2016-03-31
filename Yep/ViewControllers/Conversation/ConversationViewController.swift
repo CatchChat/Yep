@@ -2677,7 +2677,7 @@ class ConversationViewController: BaseViewController {
 
                     self.updateBlocked(true, forUserWithUserID: userID)
 
-                    deleteSearchableItemOfUser(userID: userID)
+                    deleteSearchableItems(searchableItemType: .User, itemIDs: [userID])
                 })
             }
         }
@@ -2711,7 +2711,7 @@ class ConversationViewController: BaseViewController {
 
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
 
-                deleteSearchableItemOfFeed(feedID: feedID)
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
             }
         }
 
