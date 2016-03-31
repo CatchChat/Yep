@@ -12,7 +12,6 @@ def pods
     pod 'KeyboardMan'
     pod 'Ruler'
     pod 'Proposer'
-    pod 'APAddressBook/Swift'
     pod 'FXBlurView'
     pod 'Kingfisher'
     pod 'TPKeyboardAvoiding'

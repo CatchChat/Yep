@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import APAddressBook
+import Contacts
 
 class FriendsInContactsViewController: BaseViewController {
 
@@ -15,13 +15,51 @@ class FriendsInContactsViewController: BaseViewController {
         static let NewFriends = "NewFriendsInContactsNotification"
     }
 
-    @IBOutlet private weak var friendsTableView: UITableView!
+    private let cellIdentifier = "ContactsCell"
+
+    @IBOutlet private weak var friendsTableView: UITableView! {
+        didSet {
+            friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            friendsTableView.rowHeight = 80
+            friendsTableView.tableFooterView = UIView()
+        }
+    }
+
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private lazy var addressBook: APAddressBook = {
-        let addressBook = APAddressBook()
-        addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
-        return addressBook
+    private lazy var contacts: [CNContact] = {
+
+        let contactStore = CNContactStore()
+
+        guard let containers = try? contactStore.containersMatchingPredicate(nil) else {
+            println("Error fetching containers")
+            return []
+        }
+
+        let keysToFetch = [
+            CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),
+            CNContactPhoneNumbersKey,
+        ]
+
+        var results: [CNContact] = []
+
+        containers.forEach({
+
+            let fetchPredicate = CNContact.predicateForContactsInContainerWithIdentifier($0.identifier)
+
+            do {
+                let containerResults = try contactStore.unifiedContactsMatchingPredicate(fetchPredicate, keysToFetch: keysToFetch)
+                results.appendContentsOf(containerResults)
+
+            } catch {
+                println("Error fetching results for container")
+            }
+        })
+
+        return results
     }()
 
     private var discoveredUsers = [DiscoveredUser]() {
@@ -36,64 +74,60 @@ class FriendsInContactsViewController: BaseViewController {
             }
         }
     }
-    
-    private let cellIdentifier = "ContactsCell"
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Available Friends", comment: "")
+    }
 
-        friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-        
-        friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        friendsTableView.rowHeight = 80
-        friendsTableView.tableFooterView = UIView()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
-        addressBook.loadContacts { contacts, error in
-            
-            if let contacts = contacts {
+        uploadContactsToMatchNewFriends()
+    }
 
-                var uploadContacts = [UploadContact]()
+    // MARK: Upload Contacts
 
-                for contact in contacts {
+    func uploadContactsToMatchNewFriends() {
 
-                    if let name = contact.name {
+        var uploadContacts = [UploadContact]()
 
-                        if let phones = contact.phones{
-                            for phone in phones {
-                                if let compositeName = name.compositeName, number = phone.number {
-                                    let uploadContact: UploadContact = ["name": compositeName , "number": number]
-                                    uploadContacts.append(uploadContact)
-                                }
-                            }
-                        }
-                    }
-                }
+        for contact in contacts {
 
-                //println(uploadContacts)
+            guard let compositeName = CNContactFormatter.stringFromContact(contact, style: .FullName) else {
+                continue
+            }
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.activityIndicator.startAnimating()
-                }
-
-                friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.activityIndicator.stopAnimating()
-                    }
-
-                }, completion: { discoveredUsers in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.discoveredUsers = discoveredUsers
-
-                        self?.activityIndicator.stopAnimating()
-                    }
-                })
+            let phoneNumbers = contact.phoneNumbers
+            for phoneNumber in phoneNumbers {
+                let number = (phoneNumber.value as! CNPhoneNumber).stringValue
+                let uploadContact: UploadContact = ["name": compositeName , "number": number]
+                uploadContacts.append(uploadContact)
             }
         }
+
+        //println("uploadContacts: \(uploadContacts)")
+        println("uploadContacts.count: \(uploadContacts.count)")
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.activityIndicator.startAnimating()
+        }
+
+        friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
+
+        }, completion: { discoveredUsers in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.discoveredUsers = discoveredUsers
+
+                self?.activityIndicator.stopAnimating()
+            }
+        })
     }
 
     // MARK: Actions
