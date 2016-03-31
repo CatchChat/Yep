@@ -3297,7 +3297,8 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        let message = errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
+                        YepAlert.alertSorry(message: message, inViewController: self)
 
                     }, completion: { success -> Void in
                         println("sendLocation to friend: \(success)")
@@ -4175,7 +4176,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
                                         println("resendLocation: \(success)")
