@@ -50,12 +50,6 @@ class FriendsInContactsViewController: BaseViewController {
         return results
     }()
 
-//    private lazy var addressBook: APAddressBook = {
-//        let addressBook = APAddressBook()
-//        addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
-//        return addressBook
-//    }()
-
     private var discoveredUsers = [DiscoveredUser]() {
         didSet {
             if discoveredUsers.count > 0 {
@@ -117,52 +111,6 @@ class FriendsInContactsViewController: BaseViewController {
                 self?.activityIndicator.stopAnimating()
             }
         })
-
-        /*
-        addressBook.loadContacts { contacts, error in
-            
-            if let contacts = contacts {
-
-                var uploadContacts = [UploadContact]()
-
-                for contact in contacts {
-
-                    if let name = contact.name {
-
-                        if let phones = contact.phones{
-                            for phone in phones {
-                                if let compositeName = name.compositeName, number = phone.number {
-                                    let uploadContact: UploadContact = ["name": compositeName , "number": number]
-                                    uploadContacts.append(uploadContact)
-                                }
-                            }
-                        }
-                    }
-                }
-
-                //println(uploadContacts)
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    self?.activityIndicator.startAnimating()
-                }
-
-                friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.activityIndicator.stopAnimating()
-                    }
-
-                }, completion: { discoveredUsers in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.discoveredUsers = discoveredUsers
-
-                        self?.activityIndicator.stopAnimating()
-                    }
-                })
-            }
-        }
-        */
     }
 
     // MARK: Actions
