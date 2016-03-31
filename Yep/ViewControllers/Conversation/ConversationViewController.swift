@@ -1278,7 +1278,8 @@ class ConversationViewController: BaseViewController {
                         }, failureHandler: { [weak self] reason, errorMessage in
                             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                            let message = errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
+                            YepAlert.alertSorry(message: message, inViewController: self)
 
                         }, completion: { success in
                             println("send audio to friend: \(success)")
@@ -4106,7 +4107,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
                                         println("resendAudio: \(success)")
