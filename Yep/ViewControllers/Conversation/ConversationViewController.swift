@@ -4069,7 +4069,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend image!\nPlease make sure your device is connected to the Internet.", comment: "")
                                         YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
@@ -4108,7 +4108,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your device is connected to the Internet.", comment: "")
                                         YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
@@ -4139,7 +4139,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your device is connected to the Internet.", comment: "")
                                         YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
@@ -4176,7 +4176,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your device is connected to the Internet.", comment: "")
                                         YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
@@ -4215,7 +4215,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                let message = errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                let message = errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your device is connected to the Internet.", comment: "")
                                 YepAlert.alertSorry(message: message, inViewController: self)
 
                             }, completion: { success in
