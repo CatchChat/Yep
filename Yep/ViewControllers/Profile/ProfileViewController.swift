@@ -1727,7 +1727,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     presentViewController(safariViewController, animated: true, completion: nil)
 
                     oAuthCompleteAction = {
-                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
+                        safariViewController.dismissViewControllerAnimated(true, completion: {
+                            // OAuth 成功后，自动跳转去显示对应的 social work
+                            delay(1) { [weak self] in
+                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                            }
+                        })
                     }
                 }
             }
