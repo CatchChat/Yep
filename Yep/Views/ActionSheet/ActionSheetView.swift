@@ -30,11 +30,7 @@ private class ActionSheetDefaultCell: UITableViewCell {
 
     lazy var colorTitleLabel: UILabel = {
         let label = UILabel()
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
-        }
+        label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
         return label
     }()
 
@@ -73,11 +69,7 @@ private class ActionSheetDetailCell: UITableViewCell {
 
         textLabel?.textColor = UIColor.darkGrayColor()
 
-        if #available(iOS 8.2, *) {
-            textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
-        } else {
-            textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
-        }
+        textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -102,11 +94,7 @@ private class ActionSheetSwitchCell: UITableViewCell {
 
         textLabel?.textColor = UIColor.darkGrayColor()
 
-        if #available(iOS 8.2, *) {
-            textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
-        } else {
-            textLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
-        }
+        textLabel?.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
 
         makeUI()
     }
@@ -154,11 +142,7 @@ private class ActionSheetCheckCell: UITableViewCell {
 
     lazy var colorTitleLabel: UILabel = {
         let label = UILabel()
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 18)!
-        }
+        label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
         return label
     }()
 

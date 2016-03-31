@@ -40,24 +40,21 @@ func deleteSearchableItems(searchableItemType itemType: SearchableItemType, item
         return
     }
 
-    if #available(iOS 9.0, *) {
+    let toDeleteSearchableItemIDs = itemIDs.map({
+        searchableItemID(searchableItemType: itemType, itemID: $0)
+    })
 
-        let toDeleteSearchableItemIDs = itemIDs.map({
-            searchableItemID(searchableItemType: itemType, itemID: $0)
-        })
+    CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers(toDeleteSearchableItemIDs, completionHandler: { error in
+        if error != nil {
+            println(error!.localizedDescription)
 
-        CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers(toDeleteSearchableItemIDs, completionHandler: { error in
-            if error != nil {
-                println(error!.localizedDescription)
-
+        } else {
+            if itemIDs.count == 1 {
+                println("deleteSearchableItem \(itemType): \(itemIDs[0]) OK")
             } else {
-                if itemIDs.count == 1 {
-                    println("deleteSearchableItem \(itemType): \(itemIDs[0]) OK")
-                } else {
-                    println("deleteSearchableItems \(itemType): count \(itemIDs.count) OK")
-                }
+                println("deleteSearchableItems \(itemType): count \(itemIDs.count) OK")
             }
-        })
-    }
+        }
+    })
 }
 

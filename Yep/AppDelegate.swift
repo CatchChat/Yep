@@ -151,15 +151,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
 
-        if #available(iOS 9.0, *) {
+        if YepUserDefaults.isLogined {
+            indexUserSearchableItems()
+            indexFeedSearchableItems()
 
-            if YepUserDefaults.isLogined {
-                indexUserSearchableItems()
-                indexFeedSearchableItems()
-
-            } else {
-                CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
-            }
+        } else {
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
         }
     }
 
@@ -214,10 +211,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         defer {
             completionHandler()
-        }
-
-        guard #available(iOS 9, *) else {
-            return
         }
 
         guard let identifier = identifier else {
@@ -354,42 +347,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let activityType = userActivity.activityType
 
-        if activityType == NSUserActivityTypeBrowsingWeb {
+        switch  activityType {
+
+        case NSUserActivityTypeBrowsingWeb:
 
             guard let webpageURL = userActivity.webpageURL else {
                 return false
             }
 
-            if !handleUniversalLink(webpageURL) {
-                UIApplication.sharedApplication().openURL(webpageURL)
-                return true
-            }
-        }
+            return handleUniversalLink(webpageURL)
 
-        if #available(iOS 9.0, *) {
-
-            if activityType == CSSearchableItemActionType {
+        case CSSearchableItemActionType:
                 
-                guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
-                    return false
-                }
-
-                guard let (itemType, itemID) = searchableItem(searchableItemID: searchableItemID) else {
-                    return false
-                }
-
-                switch itemType {
-
-                case .User:
-                    return handleUserSearchActivity(userID: itemID)
-
-                case .Feed:
-                    return handleFeedSearchActivity(feedID: itemID)
-                }
+            guard let searchableItemID = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String else {
+                return false
             }
-        }
 
-        return false
+            guard let (itemType, itemID) = searchableItem(searchableItemID: searchableItemID) else {
+                return false
+            }
+
+            switch itemType {
+
+            case .User:
+                return handleUserSearchActivity(userID: itemID)
+
+            case .Feed:
+                return handleFeedSearchActivity(feedID: itemID)
+            }
+
+        default:
+            return false
+        }
     }
     
     private func handleUniversalLink(URL: NSURL) -> Bool {
@@ -603,7 +592,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
-    @available(iOS 9.0, *)
     private func indexUserSearchableItems() {
 
         let users = normalFriends()
@@ -628,7 +616,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    @available(iOS 9.0, *)
     private func indexFeedSearchableItems() {
 
         guard let realm = try? Realm() else {

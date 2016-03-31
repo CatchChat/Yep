@@ -137,11 +137,7 @@ class YepConfig {
         static let userCellAvatarSize: CGFloat = 80
 
         static let introFont: UIFont = {
-            if #available(iOS 8.2, *) {
-                return UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
-            } else {
-                return UIFont(name: "HelveticaNeue-Light", size: 12)!
-            }
+            return UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
         }()
 
         static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
@@ -150,11 +146,7 @@ class YepConfig {
     struct EditProfile {
 
         static let introFont: UIFont = {
-            if #available(iOS 8.2, *) {
-                return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
-            } else {
-                return UIFont(name: "HelveticaNeue-Light", size: 15)!
-            }
+            return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
         }()
 
         static let introInset: CGFloat = 20 + 20
