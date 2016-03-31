@@ -4136,7 +4136,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        YepAlert.alertSorry(message: NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: ""), inViewController: self)
+                                        let message = errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.", comment: "")
+                                        YepAlert.alertSorry(message: message, inViewController: self)
 
                                     }, completion: { success in
                                         println("resendVideo: \(success)")
@@ -4813,7 +4814,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                let message = errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: "")
+                YepAlert.alertSorry(message: message, inViewController: self)
 
             }, completion: { success in
                 println("sendVideo to friend: \(success)")
