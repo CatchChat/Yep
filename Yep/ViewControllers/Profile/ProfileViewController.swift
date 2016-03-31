@@ -1655,88 +1655,79 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SocialAccount.rawValue:
 
-            if let profileUser = profileUser {
+            guard let
+                profileUser = profileUser,
+                providerName = profileUser.providerNameWithIndexPath(indexPath),
+                socialAccount = SocialAccount(rawValue: providerName) else {
+                    break
+            }
 
-                if let providerName = profileUser.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
+            if profileUser.enabledSocialAccount(socialAccount) {
+                performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
 
-                    if profileUser.enabledSocialAccount(socialAccount) {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+            } else {
+                guard profileUserIsMe else {
+                    break
+                }
 
-                    } else {
-                        if profileUserIsMe {
-                            
-                            afterOAuthAction = { [weak self] socialAccount in
-                                // 更新自己的 provider enabled 状态
-                                let providerName = socialAccount.rawValue
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    guard let realm = try? Realm() else {
-                                        return
-                                    }
-                                    
-                                    if let
-                                        myUserID = YepUserDefaults.userID.value,
-                                        me = userWithUserID(myUserID, inRealm: realm) {
-                                            
-                                            var haveSocialAccountProvider = false
-                                            for socialAccountProvider in me.socialAccountProviders {
-                                                if socialAccountProvider.name == providerName {
-                                                    let _ = try? realm.write {
-                                                        socialAccountProvider.enabled = true
-                                                    }
-                                                    
-                                                    haveSocialAccountProvider = true
-                                                    break
-                                                }
-                                            }
-                                            
-                                            // 如果之前没有，这就新建一个
-                                            if !haveSocialAccountProvider {
-                                                let provider = UserSocialAccountProvider()
-                                                provider.name = providerName
-                                                provider.enabled = true
-                                                
-                                                let _ = try? realm.write {
-                                                    me.socialAccountProviders.append(provider)
-                                                }
-                                            }
-                                            
-                                            self?.updateProfileCollectionView()
-                                            
-                                            // OAuth 成功后，自动跳转去显示对应的 social work
-                                            delay(1) {
-                                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
-                                            }
-                                    }
+                afterOAuthAction = { [weak self] socialAccount in
+
+                    // 更新自己的 provider enabled 状态
+                    let providerName = socialAccount.rawValue
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+
+                        guard let
+                            realm = try? Realm(),
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) else {
+                                return
+                        }
+
+                        var haveSocialAccountProvider = false
+                        for socialAccountProvider in me.socialAccountProviders {
+                            if socialAccountProvider.name == providerName {
+                                let _ = try? realm.write {
+                                    socialAccountProvider.enabled = true
                                 }
-                            }
-                            
-                            if isOperatingSystemAtLeastMajorVersion(9) {
-                            
-                                self.socialAccount = SocialAccount(rawValue: providerName)
-
-                                if #available(iOS 9.0, *) {
-
-                                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
-                                        performSegueWithIdentifier("presentOAuth", sender: providerName)
-                                        return
-                                    }
-
-                                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
-                                    presentViewController(safariViewController, animated: true, completion: nil)
-                                    
-                                    oAuthCompleteAction = {
-                                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
-                                    }
-
-                                } else {
-                                    performSegueWithIdentifier("presentOAuth", sender: providerName)
-                                }
-                                
-                            } else {
-                                performSegueWithIdentifier("presentOAuth", sender: providerName)
+                                haveSocialAccountProvider = true
+                                break
                             }
                         }
+                        
+                        // 如果之前没有，这就新建一个
+                        if !haveSocialAccountProvider {
+                            let provider = UserSocialAccountProvider()
+                            provider.name = providerName
+                            provider.enabled = true
+                            
+                            let _ = try? realm.write {
+                                me.socialAccountProviders.append(provider)
+                            }
+                        }
+                        
+                        self?.updateProfileCollectionView()
+                        
+                        // OAuth 成功后，自动跳转去显示对应的 social work
+                        delay(1) {
+                            self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                        }
+                    }
+                }
+
+                do {
+                    self.socialAccount = SocialAccount(rawValue: providerName)
+
+                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
+                        performSegueWithIdentifier("presentOAuth", sender: providerName)
+                        return
+                    }
+
+                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
+                    presentViewController(safariViewController, animated: true, completion: nil)
+
+                    oAuthCompleteAction = {
+                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
                     }
                 }
             }
