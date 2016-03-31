@@ -12,21 +12,22 @@ import Proposer
 
 class AddFriendsViewController: SegueViewController {
 
-    @IBOutlet private weak var addFriendsTableView: UITableView!
-
     private let addFriendSearchCellIdentifier = "AddFriendSearchCell"
     private let addFriendMoreCellIdentifier = "AddFriendMoreCell"
-    
+
+    @IBOutlet private weak var addFriendsTableView: UITableView! {
+        didSet {
+            addFriendsTableView.rowHeight = 60
+
+            addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
+            addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Add Friends", comment: "")
-
-
-        addFriendsTableView.rowHeight = 60
-
-        addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
-        addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
     }
 
     // MARK: Navigation
@@ -90,7 +91,9 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
-            cell.searchTextField.becomeFirstResponder()
+            delay(0.5) {
+                cell.searchTextField.becomeFirstResponder()
+            }
 
             return cell
 
