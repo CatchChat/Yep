@@ -51,7 +51,7 @@ class FriendsInContactsViewController: BaseViewController {
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()
 
-        addressBook.loadContacts { (contacts, error) -> Void in
+        addressBook.loadContacts { contacts, error in
             
             if let contacts = contacts {
 
