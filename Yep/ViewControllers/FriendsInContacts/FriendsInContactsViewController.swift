@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import APAddressBook
+import Contacts
 
 class FriendsInContactsViewController: BaseViewController {
 
@@ -18,11 +18,43 @@ class FriendsInContactsViewController: BaseViewController {
     @IBOutlet private weak var friendsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private lazy var addressBook: APAddressBook = {
-        let addressBook = APAddressBook()
-        addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
-        return addressBook
+    private lazy var contacts: [CNContact] = {
+
+        let contactStore = CNContactStore()
+
+        guard let containers = try? contactStore.containersMatchingPredicate(nil) else {
+            println("Error fetching containers")
+            return []
+        }
+
+        let keysToFetch = [
+            CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),
+            CNContactPhoneNumbersKey,
+        ]
+
+        var results: [CNContact] = []
+
+        containers.forEach({
+
+            let fetchPredicate = CNContact.predicateForContactsInContainerWithIdentifier($0.identifier)
+
+            do {
+                let containerResults = try contactStore.unifiedContactsMatchingPredicate(fetchPredicate, keysToFetch: keysToFetch)
+                results.appendContentsOf(containerResults)
+
+            } catch {
+                println("Error fetching results for container")
+            }
+        })
+
+        return results
     }()
+
+//    private lazy var addressBook: APAddressBook = {
+//        let addressBook = APAddressBook()
+//        addressBook.fieldsMask = APContactField(rawValue: APContactField.Name.rawValue | APContactField.PhonesOnly.rawValue)
+//        return addressBook
+//    }()
 
     private var discoveredUsers = [DiscoveredUser]() {
         didSet {
@@ -51,6 +83,42 @@ class FriendsInContactsViewController: BaseViewController {
         friendsTableView.rowHeight = 80
         friendsTableView.tableFooterView = UIView()
 
+        var uploadContacts = [UploadContact]()
+
+        for contact in contacts {
+
+            let compositeName = contact.givenName
+
+            let phoneNumbers = contact.phoneNumbers
+            for phoneNumber in phoneNumbers {
+                let number = (phoneNumber.value as! CNPhoneNumber).stringValue
+                let uploadContact: UploadContact = ["name": compositeName , "number": number]
+                uploadContacts.append(uploadContact)
+            }
+        }
+
+        println("uploadContacts: \(uploadContacts)")
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.activityIndicator.startAnimating()
+        }
+
+        friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+            }
+
+        }, completion: { discoveredUsers in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.discoveredUsers = discoveredUsers
+
+                self?.activityIndicator.stopAnimating()
+            }
+        })
+
+        /*
         addressBook.loadContacts { contacts, error in
             
             if let contacts = contacts {
@@ -94,6 +162,7 @@ class FriendsInContactsViewController: BaseViewController {
                 })
             }
         }
+        */
     }
 
     // MARK: Actions
