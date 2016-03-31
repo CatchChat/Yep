@@ -1,9 +1,6 @@
 PODS:
   - 1PasswordExtension (1.8)
   - Alamofire (3.3.0)
-  - APAddressBook/Core (0.2.3)
-  - APAddressBook/Swift (0.2.3):
-    - APAddressBook/Core
   - Appsee (2.2)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.5)
@@ -29,7 +26,6 @@ PODS:
 DEPENDENCIES:
   - 1PasswordExtension
   - Alamofire
-  - APAddressBook/Swift
   - Appsee
   - Base64
   - DeviceGuru
@@ -51,7 +47,6 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   1PasswordExtension: 627d5aecf210c7636968faf5a4c3546c9531385b
   Alamofire: 9054db4a1b1ca9e363223183e01cea380159a27c
-  APAddressBook: 2a91bf05999548bea210ec9d1a68073f4dc8bfce
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: 899d7dd478962e6e0f995fcdac0ca2741804d203
