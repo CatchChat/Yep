@@ -90,11 +90,14 @@ class FriendsInContactsViewController: BaseViewController {
     // MARK: Upload Contacts
 
     func uploadContactsToMatchNewFriends() {
+
         var uploadContacts = [UploadContact]()
 
         for contact in contacts {
 
-            let compositeName = contact.givenName
+            guard let compositeName = CNContactFormatter.stringFromContact(contact, style: .FullName) else {
+                continue
+            }
 
             let phoneNumbers = contact.phoneNumbers
             for phoneNumber in phoneNumbers {
@@ -104,7 +107,8 @@ class FriendsInContactsViewController: BaseViewController {
             }
         }
 
-        println("uploadContacts: \(uploadContacts)")
+        //println("uploadContacts: \(uploadContacts)")
+        println("uploadContacts.count: \(uploadContacts.count)")
 
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.activityIndicator.startAnimating()
