@@ -74,9 +74,19 @@ let defaultFailureHandler: FailureHandler = { reason, errorMessage in
 }
 
 func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
+//    func escape(string: String) -> String {
+//        let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
+//        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
+//    }
+
     func escape(string: String) -> String {
-        let legalURLCharactersToBeEscaped: CFStringRef = ":/?&=;+!@#$()',*"
-        return CFURLCreateStringByAddingPercentEscapes(nil, string, nil, legalURLCharactersToBeEscaped, CFStringBuiltInEncodings.UTF8.rawValue) as String
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+
+        let allowedCharacterSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
+        allowedCharacterSet.removeCharactersInString(generalDelimitersToEncode + subDelimitersToEncode)
+
+        return string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? string
     }
 
     var components: [(String, String)] = []
