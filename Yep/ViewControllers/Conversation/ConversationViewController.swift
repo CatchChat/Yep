@@ -1174,7 +1174,12 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        if let errorMessage = errorMessage {
+                            YepAlert.alertSorry(message: errorMessage, inViewController: self)
+
+                        } else {
+                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        }
 
                     }, completion: { success in
                         println("sendText to friend: \(success)")
