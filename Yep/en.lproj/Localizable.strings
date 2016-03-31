@@ -156,19 +156,19 @@
 "Face to Face" = "Face to Face";
 
 /* No comment provided by engineer. */
-"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet.";
+"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
 
 /* No comment provided by engineer. */
-"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend image!\nPlease make sure your iPhone is connected to the Internet.";
+"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";
 
 /* No comment provided by engineer. */
-"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend location!\nPlease make sure your iPhone is connected to the Internet.";
+"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
 
 /* No comment provided by engineer. */
-"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend text!\nPlease make sure your iPhone is connected to the Internet.";
+"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
 
 /* No comment provided by engineer. */
-"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "Failed to resend video!\nPlease make sure your iPhone is connected to the Internet.";
+"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
 
 /* No comment provided by engineer. */
 "Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
