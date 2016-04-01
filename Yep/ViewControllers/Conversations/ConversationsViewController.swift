@@ -19,20 +19,34 @@ class ConversationsViewController: SegueViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .Minimal
+        searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        return searchBar
+    }()
+
+    private let feedConversationDockCellID = "FeedConversationDockCell"
+    private let cellIdentifier = "ConversationCell"
+
     @IBOutlet weak var conversationsTableView: UITableView! {
         didSet {
+            searchBar.sizeToFit()
+            conversationsTableView.tableHeaderView = searchBar
+            conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+            println("searchBar.frame: \(searchBar.frame)")
+
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
             conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
             conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+
             conversationsTableView.rowHeight = 80
+
             conversationsTableView.tableFooterView = UIView()
         }
     }
-
-    private let feedConversationDockCellID = "FeedConversationDockCell"
-    private let cellIdentifier = "ConversationCell"
 
     private var realm: Realm!
 
