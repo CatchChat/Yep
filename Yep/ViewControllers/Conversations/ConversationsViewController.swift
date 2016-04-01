@@ -19,7 +19,17 @@ class ConversationsViewController: SegueViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
-    @IBOutlet weak var conversationsTableView: UITableView!
+    @IBOutlet weak var conversationsTableView: UITableView! {
+        didSet {
+            conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
+            conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            conversationsTableView.rowHeight = 80
+            conversationsTableView.tableFooterView = UIView()
+        }
+    }
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
     private let cellIdentifier = "ConversationCell"
@@ -142,14 +152,6 @@ class ConversationsViewController: SegueViewController {
         }
 
         view.backgroundColor = UIColor.whiteColor()
-
-        conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
-        conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        conversationsTableView.rowHeight = 80
-        conversationsTableView.tableFooterView = UIView()
 
         noConversation = conversations.isEmpty
 
