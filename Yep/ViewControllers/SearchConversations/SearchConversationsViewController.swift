@@ -42,6 +42,12 @@ class SearchConversationsViewController: UIViewController {
 
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
+
+    private var realm: Realm!
+    private lazy var feeds: Results<Feed> = {
+        return self.realm.objects(Feed)
+    }()
+    private var filteredFeeds: [Feed]?
     
     private let keyboardMan = KeyboardMan()
 
@@ -49,6 +55,8 @@ class SearchConversationsViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Search Contacts"
+
+        realm = try! Realm()
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.resultsTableView.contentInset.bottom = keyboardHeight
@@ -134,11 +142,29 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
-        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
-        let filteredFriends = friends.filter(predicate)
-        self.filteredFriends = filteredFriends
+        var scrollsToTop = false
 
-        updateResultsTableView(scrollsToTop: !filteredFriends.isEmpty)
+        do {
+            let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
+            let filteredFriends = friends.filter(predicate)
+            self.filteredFriends = filteredFriends
+
+            scrollsToTop = !filteredFriends.isEmpty
+        }
+
+        do {
+            let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
+            let filteredFeeds = feeds.filter(predicate)
+                .filter({ $0.deleted == false })
+                .filter({ $0.creator != nil})
+                .filter({ $0.group?.conversation != nil })
+                .filter({ ($0.group?.includeMe ?? false) })
+            self.filteredFeeds = filteredFeeds
+
+            scrollsToTop = !filteredFeeds.isEmpty
+        }
+
+        updateResultsTableView(scrollsToTop: scrollsToTop)
     }
 }
 
@@ -167,9 +193,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .Friend:
             return filteredFriends?.count ?? 0
         case .MessageRecord:
-            return 2
+            return 0
         case .Feed:
-            return 3
+            return filteredFeeds?.count ?? 0
         }
     }
 
