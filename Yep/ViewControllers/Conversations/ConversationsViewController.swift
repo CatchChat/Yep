@@ -23,6 +23,7 @@ class ConversationsViewController: SegueViewController {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        searchBar.delegate = self
         return searchBar
     }()
 
@@ -389,6 +390,16 @@ class ConversationsViewController: SegueViewController {
 
             self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
         }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension ConversationsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        return false
     }
 }
 
