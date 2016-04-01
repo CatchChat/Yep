@@ -100,10 +100,11 @@ class SearchConversationsViewController: SegueViewController {
             return
         }
 
-        func swapNavigationDelegate() {
+        func hackNavigationDelegate() {
             // 记录原始的 conversationsSearchTransition 以便 pop 后恢复
             conversationsSearchTransition = navigationController?.delegate as? ConversationsSearchTransition
 
+            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
             navigationController?.delegate = originalNavigationControllerDelegate
         }
 
@@ -119,13 +120,13 @@ class SearchConversationsViewController: SegueViewController {
 
             vc.setBackButtonWithTitle()
 
-            swapNavigationDelegate()
+            hackNavigationDelegate()
 
         case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
 
-            swapNavigationDelegate()
+            hackNavigationDelegate()
 
         default:
             break
