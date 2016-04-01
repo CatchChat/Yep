@@ -48,6 +48,8 @@ class SearchConversationsViewController: SegueViewController {
         return self.realm.objects(Feed)
     }()
     private var filteredFeeds: [Feed]?
+
+    private var keyword: String?
     
     private let keyboardMan = KeyboardMan()
 
@@ -173,6 +175,8 @@ extension SearchConversationsViewController: UISearchBarDelegate {
     }
 
     private func updateSearchResultsWithText(searchText: String) {
+
+        self.keyword = searchText
 
         var scrollsToTop = false
 
@@ -315,7 +319,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     return
             }
 
-            cell.configureWithFeed(feed)
+            cell.configureWithFeed(feed, keyword: keyword)
         }
     }
 
