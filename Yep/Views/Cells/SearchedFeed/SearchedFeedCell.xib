@@ -24,7 +24,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeds" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYL-Hd-6xE">
-                        <rect key="frame" x="85" y="32" width="41" height="17"/>
+                        <rect key="frame" x="85" y="32" width="225" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -35,12 +35,17 @@
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="top" secondItem="2Bo-NA-oWO" secondAttribute="top" id="2Qt-Aj-xZp"/>
                     <constraint firstItem="2Bo-NA-oWO" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3xS-Am-Ahq"/>
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="centerY" secondItem="2Bo-NA-oWO" secondAttribute="centerY" id="BMk-Ja-sbw"/>
+                    <constraint firstAttribute="trailing" secondItem="XYL-Hd-6xE" secondAttribute="trailing" constant="10" id="TD5-nf-dTW"/>
                     <constraint firstItem="2Bo-NA-oWO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="XYK-3e-IPC"/>
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="leading" secondItem="2Bo-NA-oWO" secondAttribute="leading" id="YyJ-EK-vhP"/>
                     <constraint firstItem="XYL-Hd-6xE" firstAttribute="centerY" secondItem="2Bo-NA-oWO" secondAttribute="centerY" id="hdv-kU-dI9"/>
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="centerX" secondItem="2Bo-NA-oWO" secondAttribute="centerX" id="n65-GQ-99t"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="mediaView" destination="2Bo-NA-oWO" id="JOO-sh-Nfw"/>
+                <outlet property="nameLabel" destination="XYL-Hd-6xE" id="frm-ps-MQ3"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>

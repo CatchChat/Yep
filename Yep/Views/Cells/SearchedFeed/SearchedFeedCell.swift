@@ -10,6 +10,9 @@ import UIKit
 
 class SearchedFeedCell: UITableViewCell {
 
+    @IBOutlet weak var mediaView: FeedMediaView!
+    @IBOutlet weak var nameLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +23,26 @@ class SearchedFeedCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        mediaView.hidden = true
+
+        mediaView.imageView1.image = nil
+        mediaView.imageView2.image = nil
+        mediaView.imageView3.image = nil
+        mediaView.imageView4.image = nil
+    }
+
+    func configureWithFeed(feed: Feed) {
+
+        nameLabel.text = feed.body
+
+        let attachments = feed.attachments.map({
+            DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
+        })
+        mediaView.setImagesWithAttachments(attachments)
+    }
+
 }

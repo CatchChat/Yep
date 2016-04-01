@@ -268,7 +268,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             guard let
                 friend = filteredFriends?[safe: indexPath.row],
                 cell = cell as? SearchedContactsCell else {
-                return
+                    return
             }
 
             cell.configureWithUser(friend)
@@ -277,7 +277,13 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             break
 
         case .Feed:
-            break
+            guard let
+                feed = filteredFeeds?[safe: indexPath.row],
+                cell = cell as? SearchedFeedCell else {
+                    return
+            }
+
+            cell.configureWithFeed(feed)
         }
     }
 }
