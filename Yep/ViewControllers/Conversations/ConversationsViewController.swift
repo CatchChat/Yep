@@ -15,7 +15,7 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: SegueViewController {
+class ConversationsViewController: BaseViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
@@ -25,6 +25,11 @@ class ConversationsViewController: SegueViewController {
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
         searchBar.delegate = self
         return searchBar
+    }()
+
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
+        return ConversationsSearchTransition()
     }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
@@ -335,6 +340,18 @@ class ConversationsViewController: SegueViewController {
         guard let identifier = segue.identifier else { return }
 
         switch identifier {
+
+        case "showSearchConversations":
+
+            let vc = segue.destinationViewController as! SearchConversationsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = conversationsSearchTransition
 
         case "showConversation":
 

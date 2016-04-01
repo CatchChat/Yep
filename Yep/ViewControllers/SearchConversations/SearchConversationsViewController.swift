@@ -10,6 +10,9 @@ import UIKit
 
 class SearchConversationsViewController: UIViewController {
 
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private var conversationsSearchTransition: ConversationsSearchTransition?
+
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
@@ -43,6 +46,21 @@ class SearchConversationsViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let delegate = conversationsSearchTransition {
+            navigationController?.delegate = delegate
+        }
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
+
+        searchBar.becomeFirstResponder()
+    }
+
     /*
     // MARK: - Navigation
 
@@ -53,4 +71,19 @@ class SearchConversationsViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: - UISearchBarDelegate
+
+extension SearchConversationsViewController: UISearchBarDelegate {
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+
+        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
+
+        navigationController?.popViewControllerAnimated(true)
+    }
 }
