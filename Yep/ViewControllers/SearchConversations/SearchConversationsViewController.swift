@@ -22,7 +22,8 @@ class SearchConversationsViewController: UIViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
-    private let cellIdentifier = "SearchedContactsCell"
+    private let searchedContactsCellID = "SearchedContactsCell"
+    private let searchedFeedCellID = "SearchedFeedCell"
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
@@ -30,7 +31,8 @@ class SearchConversationsViewController: UIViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            resultsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            resultsTableView.registerNib(UINib(nibName: searchedContactsCellID, bundle: nil), forCellReuseIdentifier: searchedContactsCellID)
+            resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
 
             resultsTableView.rowHeight = 80
             resultsTableView.tableFooterView = UIView()
@@ -182,8 +184,26 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
-        return cell
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Friend:
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedContactsCellID) as! SearchedContactsCell
+            return cell
+
+        case .MessageRecord:
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedContactsCellID) as! SearchedContactsCell
+            return cell
+
+        case .Feed:
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedCellID) as! SearchedFeedCell
+
+            return cell
+        }
     }
 }
 
