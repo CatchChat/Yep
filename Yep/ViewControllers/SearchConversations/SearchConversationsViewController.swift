@@ -8,6 +8,7 @@
 
 import UIKit
 import KeyboardMan
+import RealmSwift
 
 class SearchConversationsViewController: UIViewController {
 
@@ -39,6 +40,9 @@ class SearchConversationsViewController: UIViewController {
         }
     }
 
+    private lazy var friends = normalFriends()
+    private var filteredFriends: Results<User>?
+    
     private let keyboardMan = KeyboardMan()
 
     override func viewDidLoad() {
@@ -92,6 +96,16 @@ class SearchConversationsViewController: UIViewController {
 
         searchBar.resignFirstResponder()
     }
+
+    private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.resultsTableView.reloadData()
+
+            if scrollsToTop {
+                self?.resultsTableView.yep_scrollsToTop()
+            }
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -111,6 +125,20 @@ extension SearchConversationsViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
+    }
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        updateSearchResultsWithText(searchText)
+    }
+
+    private func updateSearchResultsWithText(searchText: String) {
+
+        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
+        let filteredFriends = friends.filter(predicate)
+        self.filteredFriends = filteredFriends
+
+        updateResultsTableView(scrollsToTop: !filteredFriends.isEmpty)
     }
 }
 
@@ -137,7 +165,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         switch section {
         case .Friend:
-            return 2
+            return filteredFriends?.count ?? 0
         case .MessageRecord:
             return 2
         case .Feed:
