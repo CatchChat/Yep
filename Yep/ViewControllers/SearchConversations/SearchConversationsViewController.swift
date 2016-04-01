@@ -233,5 +233,30 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return cell
         }
     }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Friend:
+            guard let
+                friend = filteredFriends?[safe: indexPath.row],
+                cell = cell as? SearchedContactsCell else {
+                return
+            }
+
+            cell.configureWithUser(friend)
+
+        case .MessageRecord:
+            break
+
+        case .Feed:
+            break
+        }
+    }
 }
 
