@@ -36,6 +36,11 @@
                             <constraint firstItem="4Gb-0u-tk4" firstAttribute="top" secondItem="f3K-3m-l5S" secondAttribute="bottom" id="tPg-NE-qGo"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="resultsTableView" destination="4Gb-0u-tk4" id="8NG-cz-ALr"/>
+                        <outlet property="searchBar" destination="f3K-3m-l5S" id="GTH-WR-U4z"/>
+                        <outlet property="searchBarTopConstraint" destination="5oS-So-16v" id="WJy-7D-Hi2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eUe-Vo-ZAk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

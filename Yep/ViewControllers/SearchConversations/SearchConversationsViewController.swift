@@ -10,6 +10,27 @@ import UIKit
 
 class SearchConversationsViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        }
+    }
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+
+    private let headerIdentifier = "TableSectionTitleView"
+
+    @IBOutlet weak var resultsTableView: UITableView! {
+        didSet {
+            resultsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
+            resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
+
+            resultsTableView.rowHeight = 80
+            resultsTableView.tableFooterView = UIView()
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
