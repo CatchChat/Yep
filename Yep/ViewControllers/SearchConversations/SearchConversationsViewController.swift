@@ -10,7 +10,7 @@ import UIKit
 import KeyboardMan
 import RealmSwift
 
-class SearchConversationsViewController: UIViewController {
+class SearchConversationsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var conversationsSearchTransition: ConversationsSearchTransition?
@@ -90,15 +90,47 @@ class SearchConversationsViewController: UIViewController {
         searchBar.becomeFirstResponder()
     }
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        func swapNavigationDelegate() {
+            // 记录原始的 conversationsSearchTransition 以便 pop 后恢复
+            conversationsSearchTransition = navigationController?.delegate as? ConversationsSearchTransition
+
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+
+        switch identifier {
+
+        case "showProfile":
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let user = sender as! User
+            vc.profileUser = .UserType(user)
+
+            vc.hidesBottomBarWhenPushed = true
+
+            vc.setBackButtonWithTitle()
+
+            swapNavigationDelegate()
+
+        case "showConversation":
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+
+            swapNavigationDelegate()
+
+        default:
+            break
+        }
     }
-    */
+
+    // MARK: - Private
 
     private func hideKeyboard() {
 
@@ -284,6 +316,41 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             }
 
             cell.configureWithFeed(feed)
+        }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        hideKeyboard()
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Friend:
+            guard let friend = filteredFriends?[safe: indexPath.row] else {
+                return
+            }
+
+            performSegueWithIdentifier("showProfile", sender: friend)
+
+        case .MessageRecord:
+            break
+
+        case .Feed:
+            guard let
+                feed = filteredFeeds?[safe: indexPath.row],
+                conversation = feed.group?.conversation else {
+                    return
+            }
+
+            performSegueWithIdentifier("showConversation", sender: conversation)
         }
     }
 }
