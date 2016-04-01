@@ -154,11 +154,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
-            let filteredFeeds = feeds.filter(predicate)
-                .filter({ $0.deleted == false })
-                .filter({ $0.creator != nil})
-                .filter({ $0.group?.conversation != nil })
-                .filter({ ($0.group?.includeMe ?? false) })
+            let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
             self.filteredFeeds = filteredFeeds
 
             scrollsToTop = !filteredFeeds.isEmpty

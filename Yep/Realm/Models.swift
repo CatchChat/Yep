@@ -1147,6 +1147,16 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
+func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
+    let validFeeds: [Feed] = feeds
+        .filter({ $0.deleted == false })
+        .filter({ $0.creator != nil})
+        .filter({ $0.group?.conversation != nil })
+        .filter({ ($0.group?.includeMe ?? false) })
+
+    return validFeeds
+}
+
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
