@@ -21,6 +21,7 @@ class SearchConversationsViewController: UIViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
+    private let cellIdentifier = "SearchedContactsCell"
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
@@ -28,6 +29,7 @@ class SearchConversationsViewController: UIViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
+            resultsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
 
             resultsTableView.rowHeight = 80
             resultsTableView.tableFooterView = UIView()
@@ -87,3 +89,79 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension SearchConversationsViewController: UITableViewDataSource, UITableViewDelegate {
+
+    enum Section: Int {
+        case Friend
+        case MessageRecord
+        case Feed
+    }
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+
+        return 3
+    }
+
+    private func numberOfRowsInSection(section: Int) -> Int {
+
+        guard let section = Section(rawValue: section) else {
+            return 0
+        }
+
+        switch section {
+        case .Friend:
+            return 2
+        case .MessageRecord:
+            return 2
+        case .Feed:
+            return 3
+        }
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        return numberOfRowsInSection(section)
+    }
+
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return nil
+        }
+
+        guard let section = Section(rawValue: section) else {
+            return nil
+        }
+
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
+
+        switch section {
+        case .Friend:
+            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+        case .MessageRecord:
+            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
+        case .Feed:
+            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+        }
+
+        return header
+    }
+
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        guard numberOfRowsInSection(section) > 0 else {
+            return 0
+        }
+
+        return 25
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
+        return cell
+    }
+}
+
