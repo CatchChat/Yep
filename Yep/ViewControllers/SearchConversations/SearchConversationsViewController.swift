@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeyboardMan
 
 class SearchConversationsViewController: UIViewController {
 
@@ -36,10 +37,22 @@ class SearchConversationsViewController: UIViewController {
         }
     }
 
+    private let keyboardMan = KeyboardMan()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = "Search Contacts"
+
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
+            self?.resultsTableView.contentInset.bottom = keyboardHeight
+            self?.resultsTableView.scrollIndicatorInsets.bottom = keyboardHeight
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
+            self?.resultsTableView.contentInset.bottom = 0
+            self?.resultsTableView.scrollIndicatorInsets.bottom = 0
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -73,6 +86,10 @@ class SearchConversationsViewController: UIViewController {
     }
     */
 
+    private func hideKeyboard() {
+
+        searchBar.resignFirstResponder()
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -87,6 +104,11 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
 
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+
+        hideKeyboard()
     }
 }
 
