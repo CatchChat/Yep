@@ -399,6 +399,8 @@ extension ConversationsViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
 
+        performSegueWithIdentifier("showSearchConversations", sender: nil)
+
         return false
     }
 }
