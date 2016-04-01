@@ -12,17 +12,31 @@ class FeedMediaCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var deleteImageView: UIImageView!
-
+    var delete: (() -> Void)?
+    
+//    typealias NewFeedImageTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
+//    
+//    var tapMediaAction: NewFeedImageTapMediaAction?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
         imageView.backgroundColor = YepConfig.FeedMedia.backgroundColor
         imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
         imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
-        
+        imageView.userInteractionEnabled = true
         contentView.backgroundColor = UIColor.clearColor()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(FeedMediaCell.deleteImage));
+        deleteImageView.addGestureRecognizer(tapGesture);
+        
     }
-
+    
+    
+    @objc private func deleteImage() {
+        delete?()
+    }
+ 
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -33,6 +47,7 @@ class FeedMediaCell: UICollectionViewCell {
 
         imageView.image = image
         deleteImageView.hidden = false
+        
     }
 
     func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
