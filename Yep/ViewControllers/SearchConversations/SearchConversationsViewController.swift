@@ -71,7 +71,7 @@ class SearchConversationsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Search Contacts"
+        title = NSLocalizedString("Search", comment: "") 
 
         realm = try! Realm()
 
