@@ -24,6 +24,7 @@ class SearchConversationsViewController: SegueViewController {
 
     private let headerIdentifier = "TableSectionTitleView"
     private let searchedUserCellID = "SearchedUserCell"
+    private let searchedMessageCellID = "SearchedMessageCell"
     private let searchedFeedCellID = "SearchedFeedCell"
 
     @IBOutlet weak var resultsTableView: UITableView! {
@@ -33,6 +34,7 @@ class SearchConversationsViewController: SegueViewController {
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
+            resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
 
             resultsTableView.rowHeight = 80
@@ -226,7 +228,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .Friend:
             return filteredFriends?.count ?? 0
         case .MessageRecord:
-            return 0
+            return 3
         case .Feed:
             return filteredFeeds?.count ?? 0
         }
@@ -283,7 +285,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return cell
 
         case .MessageRecord:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
             return cell
 
         case .Feed:
