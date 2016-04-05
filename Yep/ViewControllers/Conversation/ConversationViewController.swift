@@ -1116,8 +1116,6 @@ class ConversationViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         setNeedsStatusBarAppearanceUpdate()
 
-        conversationCollectionViewHasBeenMovedToBottomOnce = true
-
         FayeService.sharedManager.delegate = self
 
         // 进来时就尽快标记已读
@@ -1567,14 +1565,23 @@ class ConversationViewController: BaseViewController {
 
             if let indexOfSearchedMessage = indexOfSearchedMessage {
                 let index = indexOfSearchedMessage - displayedMessagesRange.location
-                let indexPath = NSIndexPath(forItem: index, inSection: Section.Message.rawValue)
-                conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredVertically, animated: false)
+
+                if abs(index - displayedMessagesRange.length) > 3 {
+                    let indexPath = NSIndexPath(forItem: index, inSection: Section.Message.rawValue)
+                    conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredVertically, animated: false)
+
+                } else {
+                    // 尽量滚到底部
+                    tryScrollToBottom()
+                }
 
             } else {
                 // 尽量滚到底部
                 tryScrollToBottom()
             }
         }
+
+        conversationCollectionViewHasBeenMovedToBottomOnce = true
     }
 
     // MARK: UI
