@@ -196,6 +196,14 @@ class User: Object {
         return false
     }
 
+    var mentionedUsername: String? {
+        if username.isEmpty {
+            return nil
+        } else {
+            return "@\(username)"
+        }
+    }
+
     var compositedName: String {
         if username.isEmpty {
             return nickname

@@ -12,6 +12,7 @@ class SearchedUserCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,6 +36,15 @@ class SearchedUserCell: UITableViewCell {
 
         } else {
             nicknameLabel.text = user.nickname
+        }
+
+        if let mentionUsername = user.mentionedUsername {
+            if let keyword = keyword {
+                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
+
+            } else {
+                usernameLabel.text = mentionUsername
+            }
         }
     }
 }
