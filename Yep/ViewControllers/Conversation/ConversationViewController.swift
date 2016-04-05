@@ -15,6 +15,7 @@ import Proposer
 import KeyboardMan
 import Navi
 import MonkeyKing
+import Ruler
 
 struct MessageNotification {
     static let MessageStateChanged = "MessageStateChangedNotification"
@@ -337,6 +338,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    var indexOfSearchedMessage: Int?
     private let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
     private var displayedMessagesRange = NSRange() {
         didSet {
@@ -724,10 +726,16 @@ class ConversationViewController: BaseViewController {
 
         view.tintAdjustmentMode = .Normal
 
-        if messages.count >= messagesBunchCount {
-            displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
+        if let indexOfSearchedMessage = indexOfSearchedMessage {
+            let fixedIndexOfSearchedMessage = max(0, indexOfSearchedMessage - Ruler.iPhoneVertical(5, 6, 8, 10).value)
+            displayedMessagesRange = NSRange(location: fixedIndexOfSearchedMessage, length: messages.count - fixedIndexOfSearchedMessage)
+
         } else {
-            displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
+            if messages.count >= messagesBunchCount {
+                displayedMessagesRange = NSRange(location: messages.count - messagesBunchCount, length: messagesBunchCount)
+            } else {
+                displayedMessagesRange = NSRange(location: 0, length: messages.count)
+            }
         }
 
         lastTimeMessagesCount = messages.count
@@ -1107,8 +1115,6 @@ class ConversationViewController: BaseViewController {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
         setNeedsStatusBarAppearanceUpdate()
-
-        conversationCollectionViewHasBeenMovedToBottomOnce = true
 
         FayeService.sharedManager.delegate = self
 
@@ -1557,9 +1563,25 @@ class ConversationViewController: BaseViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
 
-            // 尽量滚到底部
-            tryScrollToBottom()
+            if let indexOfSearchedMessage = indexOfSearchedMessage {
+                let index = indexOfSearchedMessage - displayedMessagesRange.location
+
+                if abs(index - displayedMessagesRange.length) > 3 {
+                    let indexPath = NSIndexPath(forItem: index, inSection: Section.Message.rawValue)
+                    conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredVertically, animated: false)
+
+                } else {
+                    // 尽量滚到底部
+                    tryScrollToBottom()
+                }
+
+            } else {
+                // 尽量滚到底部
+                tryScrollToBottom()
+            }
         }
+
+        conversationCollectionViewHasBeenMovedToBottomOnce = true
     }
 
     // MARK: UI

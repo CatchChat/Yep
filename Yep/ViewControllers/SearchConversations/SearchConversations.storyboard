@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Search Conversations View Controller-->
+        <scene sceneID="EWb-gf-5o3">
+            <objects>
+                <viewController storyboardIdentifier="SearchConversationsViewController" id="0cZ-uK-4CS" customClass="SearchConversationsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mhh-D8-fAy"/>
+                        <viewControllerLayoutGuide type="bottom" id="jzg-cy-ZRY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XnF-11-oSJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="f3K-3m-l5S">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="0cZ-uK-4CS" id="SEp-9q-kil"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Gb-0u-tk4">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="0cZ-uK-4CS" id="BHt-0A-f1S"/>
+                                    <outlet property="delegate" destination="0cZ-uK-4CS" id="RqS-zq-Xe5"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="f3K-3m-l5S" firstAttribute="top" secondItem="Mhh-D8-fAy" secondAttribute="bottom" constant="44" id="5oS-So-16v"/>
+                            <constraint firstItem="4Gb-0u-tk4" firstAttribute="leading" secondItem="XnF-11-oSJ" secondAttribute="leading" id="JAz-fc-E8x"/>
+                            <constraint firstItem="f3K-3m-l5S" firstAttribute="leading" secondItem="XnF-11-oSJ" secondAttribute="leading" id="Vke-eL-g9v"/>
+                            <constraint firstAttribute="trailing" secondItem="f3K-3m-l5S" secondAttribute="trailing" id="cV5-tI-9gs"/>
+                            <constraint firstAttribute="trailing" secondItem="4Gb-0u-tk4" secondAttribute="trailing" id="hos-ve-Jvt"/>
+                            <constraint firstAttribute="bottom" secondItem="4Gb-0u-tk4" secondAttribute="bottom" id="tE0-PX-j1a"/>
+                            <constraint firstItem="4Gb-0u-tk4" firstAttribute="top" secondItem="f3K-3m-l5S" secondAttribute="bottom" id="tPg-NE-qGo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="resultsTableView" destination="4Gb-0u-tk4" id="8NG-cz-ALr"/>
+                        <outlet property="searchBar" destination="f3K-3m-l5S" id="GTH-WR-U4z"/>
+                        <outlet property="searchBarTopConstraint" destination="5oS-So-16v" id="WJy-7D-Hi2"/>
+                        <segue destination="wg8-8L-cYy" kind="show" identifier="showProfile" id="C0q-fd-ZbQ"/>
+                        <segue destination="LF6-zD-lyS" kind="show" identifier="showConversation" id="4DJ-dD-BFN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eUe-Vo-ZAk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="370" y="353"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="5PQ-cd-eK4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="wg8-8L-cYy" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hWT-Jx-0G0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="924" y="272"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="h6y-Yg-ddN">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="LF6-zD-lyS" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0P5-dn-oUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="967.5" y="427"/>
+        </scene>
+    </scenes>
+</document>

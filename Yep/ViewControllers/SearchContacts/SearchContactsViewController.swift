@@ -22,6 +22,9 @@ class SearchContactsViewController: SegueViewController {
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
+    private let headerIdentifier = "TableSectionTitleView"
+    private let cellIdentifier = "SearchedContactsCell"
+
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -42,9 +45,6 @@ class SearchContactsViewController: SegueViewController {
     private var searchedUsers = [DiscoveredUser]()
 
     private var searchControllerIsActive = false
-
-    private let headerIdentifier = "TableSectionTitleView"
-    private let cellIdentifier = "SearchedContactsCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()

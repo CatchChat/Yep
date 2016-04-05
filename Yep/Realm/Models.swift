@@ -196,6 +196,14 @@ class User: Object {
         return false
     }
 
+    var mentionedUsername: String? {
+        if username.isEmpty {
+            return nil
+        } else {
+            return "@\(username)"
+        }
+    }
+
     var compositedName: String {
         if username.isEmpty {
             return nickname
@@ -1145,6 +1153,26 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     #endif
 
     return realm.objects(Feed).filter(predicate).first
+}
+
+func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
+    let validFeeds: [Feed] = feeds
+        .filter({ $0.deleted == false })
+        .filter({ $0.creator != nil})
+        .filter({ $0.group?.conversation != nil })
+        .filter({ ($0.group?.includeMe ?? false) })
+
+    return validFeeds
+}
+
+func filterValidMessages(messages: Results<Message>) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+
+    return validMessages
 }
 
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {

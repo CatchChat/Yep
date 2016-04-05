@@ -200,3 +200,38 @@ extension String {
     }
 }
 
+extension String {
+
+    func yep_hightlightSearchKeyword(keyword: String) -> NSAttributedString? {
+
+        return yep_highlightKeyword(keyword, withColor: UIColor.yepTintColor())
+    }
+
+    func yep_highlightKeyword(keyword: String, withColor color: UIColor) -> NSAttributedString? {
+
+        guard !keyword.isEmpty else {
+            return nil
+        }
+
+        let text = self
+        let attributedString = NSMutableAttributedString(string: text)
+        let textRange = NSMakeRange(0, (text as NSString).length)
+
+        // highlight keyword
+
+        let highlightTextAttributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: color,
+        ]
+
+        let highlightExpression = try! NSRegularExpression(pattern: keyword, options: [.CaseInsensitive])
+
+        highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+
+            if let result = result {
+                attributedString.addAttributes(highlightTextAttributes, range: result.range )
+            }
+        })
+
+        return attributedString
+    }
+}
