@@ -202,12 +202,16 @@ extension String {
 
 extension String {
 
-    func yep_hightlightSearchKeyword(keyword: String) -> NSAttributedString {
+    func yep_hightlightSearchKeyword(keyword: String) -> NSAttributedString? {
 
         return yep_highlightKeyword(keyword, withColor: UIColor.yepTintColor())
     }
 
-    func yep_highlightKeyword(keyword: String, withColor color: UIColor) -> NSAttributedString {
+    func yep_highlightKeyword(keyword: String, withColor color: UIColor) -> NSAttributedString? {
+
+        guard !keyword.isEmpty else {
+            return nil
+        }
 
         let text = self
         let attributedString = NSMutableAttributedString(string: text)
