@@ -337,6 +337,7 @@ class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    var indexOfSearchedMessage: Int?
     private let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
     private var displayedMessagesRange = NSRange() {
         didSet {
@@ -724,10 +725,15 @@ class ConversationViewController: BaseViewController {
 
         view.tintAdjustmentMode = .Normal
 
-        if messages.count >= messagesBunchCount {
-            displayedMessagesRange = NSRange(location: Int(messages.count) - messagesBunchCount, length: messagesBunchCount)
+        if let indexOfSearchedMessage = indexOfSearchedMessage {
+            displayedMessagesRange = NSRange(location: indexOfSearchedMessage, length: messages.count - indexOfSearchedMessage)
+
         } else {
-            displayedMessagesRange = NSRange(location: 0, length: Int(messages.count))
+            if messages.count >= messagesBunchCount {
+                displayedMessagesRange = NSRange(location: messages.count - messagesBunchCount, length: messagesBunchCount)
+            } else {
+                displayedMessagesRange = NSRange(location: 0, length: messages.count)
+            }
         }
 
         lastTimeMessagesCount = messages.count

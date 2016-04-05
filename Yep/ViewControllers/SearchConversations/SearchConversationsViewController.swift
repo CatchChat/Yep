@@ -139,7 +139,9 @@ class SearchConversationsViewController: SegueViewController {
 
         case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
+            let info = (sender as! Box<[String: AnyObject]>).value
+            vc.conversation = info["conversation"] as! Conversation
+            vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
             hackNavigationDelegate()
 
@@ -455,7 +457,17 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     return
             }
 
-            performSegueWithIdentifier("showConversation", sender: conversation)
+            let messages = messagesOfConversation(conversation, inRealm: realm)
+            guard let indexOfSearchedMessage = messages.indexOf(message) else {
+                return
+            }
+
+            let info: [String: AnyObject] = [
+                "conversation":conversation,
+                "indexOfSearchedMessage": indexOfSearchedMessage,
+            ]
+            let sender = Box<[String: AnyObject]>(info)
+            performSegueWithIdentifier("showConversation", sender: sender)
 
         case .Feed:
             guard let
@@ -464,7 +476,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     return
             }
 
-            performSegueWithIdentifier("showConversation", sender: conversation)
+            let info: [String: AnyObject] = [
+                "conversation":conversation,
+                ]
+            let sender = Box<[String: AnyObject]>(info)
+            performSegueWithIdentifier("showConversation", sender: sender)
         }
     }
 }
