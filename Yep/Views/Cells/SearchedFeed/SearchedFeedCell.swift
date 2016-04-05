@@ -35,27 +35,7 @@ class SearchedFeedCell: UITableViewCell {
     func configureWithFeed(feed: Feed, keyword: String?) {
 
         if let keyword = keyword {
-
-            let text = feed.body
-            let attributedString = NSMutableAttributedString(string: text)
-            let textRange = NSMakeRange(0, (text as NSString).length)
-
-            // highlight keyword
-
-            let highlightTextAttributes: [String: AnyObject] = [
-                NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            ]
-
-            let highlightExpression = try! NSRegularExpression(pattern: keyword, options: [.CaseInsensitive])
-
-            highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
-
-                if let result = result {
-                    attributedString.addAttributes(highlightTextAttributes, range: result.range )
-                }
-            })
-
-            nameLabel.attributedText = attributedString
+            nameLabel.attributedText = feed.body.yep_hightlightSearchKeyword(keyword)
 
         } else {
             nameLabel.text = feed.body
