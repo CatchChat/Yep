@@ -330,7 +330,13 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             cell.configureWithUser(friend, keyword: keyword)
 
         case .MessageRecord:
-            break
+            guard let
+                message = filteredMessages?[safe: indexPath.row],
+                cell = cell as? SearchedMessageCell else {
+                    return
+            }
+
+            cell.configureWithMessage(message, keyword: keyword)
 
         case .Feed:
             guard let

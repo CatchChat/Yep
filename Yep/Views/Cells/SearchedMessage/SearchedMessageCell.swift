@@ -25,5 +25,23 @@ class SearchedMessageCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    func configureWithMessage(message: Message, keyword: String?) {
+
+        guard let user = message.fromFriend else {
+            return
+        }
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = user.nickname
+
+        if let keyword = keyword {
+            messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword)
+
+        } else {
+            messageLabel.text = message.textContent
+        }
+    }
 }
