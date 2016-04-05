@@ -23,6 +23,7 @@ class SearchConversationsViewController: SegueViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
+    private let searchSectionTitleCellID = "SearchSectionTitleCell"
     private let searchedUserCellID = "SearchedUserCell"
     private let searchedMessageCellID = "SearchedMessageCell"
     private let searchedFeedCellID = "SearchedFeedCell"
@@ -33,11 +34,18 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
+            resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
 
-            resultsTableView.rowHeight = 80
+            //resultsTableView.rowHeight = 80
+            resultsTableView.sectionHeaderHeight = 20
+            resultsTableView.sectionFooterHeight = 0
+
+            resultsTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
+            resultsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 0))
             resultsTableView.tableFooterView = UIView()
         }
     }
@@ -65,6 +73,8 @@ class SearchConversationsViewController: SegueViewController {
         super.viewDidLoad()
 
         title = "Search Contacts"
+
+        automaticallyAdjustsScrollViewInsets = false
 
         realm = try! Realm()
 
@@ -258,11 +268,26 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         switch section {
         case .Friend:
-            return filteredFriends?.count ?? 0
+            //return filteredFriends?.count ?? 0
+            if let count = filteredFriends?.count where count > 0 {
+                return count + 1
+            } else {
+                return 0
+            }
         case .MessageRecord:
-            return filteredMessages?.count ?? 0
+            //return filteredMessages?.count ?? 0
+            if let count = filteredMessages?.count where count > 0 {
+                return count + 1
+            } else {
+                return 0
+            }
         case .Feed:
-            return filteredFeeds?.count ?? 0
+            //return filteredFeeds?.count ?? 0
+            if let count = filteredFeeds?.count where count > 0 {
+                return count + 1
+            } else {
+                return 0
+            }
         }
     }
 
@@ -271,6 +296,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         return numberOfRowsInSection(section)
     }
 
+    /*
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         guard numberOfRowsInSection(section) > 0 else {
@@ -303,11 +329,37 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         return 25
     }
+    */
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        if indexPath.row == 0 {
+            return 40
+        } else {
+            return 80
+        }
+    }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
+        }
+
+        if indexPath.row == 0 {
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+
+            switch section {
+            case .Friend:
+                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
+            case .MessageRecord:
+                cell.sectionTitleLabel.text = NSLocalizedString("Messages", comment: "")
+            case .Feed:
+                cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+            }
+
+            return cell
         }
 
         switch section {
@@ -329,15 +381,21 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
+        guard indexPath.row > 0 else {
+            return
+        }
+
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
+
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
         case .Friend:
             guard let
-                friend = filteredFriends?[safe: indexPath.row],
+                friend = filteredFriends?[safe: itemIndex],
                 cell = cell as? SearchedUserCell else {
                     return
             }
@@ -346,7 +404,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
             guard let
-                message = filteredMessages?[safe: indexPath.row],
+                message = filteredMessages?[safe: itemIndex],
                 cell = cell as? SearchedMessageCell else {
                     return
             }
@@ -355,7 +413,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .Feed:
             guard let
-                feed = filteredFeeds?[safe: indexPath.row],
+                feed = filteredFeeds?[safe: itemIndex],
                 cell = cell as? SearchedFeedCell else {
                     return
             }
@@ -370,16 +428,22 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
+        guard indexPath.row > 0 else {
+            return
+        }
+
         hideKeyboard()
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
+        let itemIndex = indexPath.row - 1
+
         switch section {
 
         case .Friend:
-            guard let friend = filteredFriends?[safe: indexPath.row] else {
+            guard let friend = filteredFriends?[safe: itemIndex] else {
                 return
             }
 
@@ -387,7 +451,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
             guard let
-                message = filteredMessages?[safe: indexPath.row],
+                message = filteredMessages?[safe: itemIndex],
                 conversation = message.conversation else {
                     return
             }
@@ -396,7 +460,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .Feed:
             guard let
-                feed = filteredFeeds?[safe: indexPath.row],
+                feed = filteredFeeds?[safe: itemIndex],
                 conversation = feed.group?.conversation else {
                     return
             }
