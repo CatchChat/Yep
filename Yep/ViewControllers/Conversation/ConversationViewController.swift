@@ -1563,8 +1563,10 @@ class ConversationViewController: BaseViewController {
             // 先调整一下初次的 contentInset
             setConversaitonCollectionViewOriginalContentInset()
 
-            // 尽量滚到底部
-            tryScrollToBottom()
+            if indexOfSearchedMessage == nil {
+                // 尽量滚到底部
+                tryScrollToBottom()
+            }
         }
     }
 
