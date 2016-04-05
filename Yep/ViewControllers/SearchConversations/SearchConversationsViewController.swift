@@ -308,7 +308,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     return
             }
 
-            cell.configureWithUser(friend)
+            cell.configureWithUser(friend, keyword: keyword)
 
         case .MessageRecord:
             break

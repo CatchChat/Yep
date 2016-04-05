@@ -25,11 +25,36 @@ class SearchedUserCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureWithUser(user: User) {
+    func configureWithUser(user: User, keyword: String?) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
-        nicknameLabel.text = user.nickname
+        if let keyword = keyword {
+
+            let text = user.nickname
+            let attributedString = NSMutableAttributedString(string: text)
+            let textRange = NSMakeRange(0, (text as NSString).length)
+
+            // highlight keyword
+
+            let highlightTextAttributes: [String: AnyObject] = [
+                NSForegroundColorAttributeName: UIColor.yepTintColor(),
+            ]
+
+            let highlightExpression = try! NSRegularExpression(pattern: keyword, options: [.CaseInsensitive])
+
+            highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+
+                if let result = result {
+                    attributedString.addAttributes(highlightTextAttributes, range: result.range )
+                }
+            })
+
+            nicknameLabel.attributedText = attributedString
+            
+        } else {
+            nicknameLabel.text = user.nickname
+        }
     }
 }
