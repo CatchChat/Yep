@@ -46,6 +46,12 @@ class SearchConversationsViewController: SegueViewController {
     private var filteredFriends: Results<User>?
 
     private var realm: Realm!
+
+    private lazy var messages: Results<Message> = {
+        return self.realm.objects(Message)
+    }()
+    private var filteredMessages: [Message]?
+
     private lazy var feeds: Results<Feed> = {
         return self.realm.objects(Feed)
     }()
@@ -183,6 +189,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         var scrollsToTop = false
 
+        // users
         do {
             let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
             let filteredFriends = friends.filter(predicate)
@@ -191,6 +198,16 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             scrollsToTop = !filteredFriends.isEmpty
         }
 
+        // messages
+        do {
+            let predicate = NSPredicate(format: "textContent CONTAINS[c] %@", searchText)
+            let filteredMessages = filterValidMessages(messages.filter(predicate))
+            self.filteredMessages = filteredMessages
+
+            scrollsToTop = !filteredMessages.isEmpty
+        }
+
+        // feeds
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
             let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
@@ -228,7 +245,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .Friend:
             return filteredFriends?.count ?? 0
         case .MessageRecord:
-            return 3
+            return filteredMessages?.count ?? 0
         case .Feed:
             return filteredFeeds?.count ?? 0
         }

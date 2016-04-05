@@ -1165,6 +1165,16 @@ func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
     return validFeeds
 }
 
+func filterValidMessages(messages: Results<Message>) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+
+    return validMessages
+}
+
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
