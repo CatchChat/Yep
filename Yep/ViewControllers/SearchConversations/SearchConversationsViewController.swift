@@ -186,9 +186,23 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
+        guard !searchText.isEmpty else {
+            filteredFriends = nil
+            filteredMessages = nil
+            filteredFeeds = nil
+
+            updateResultsTableView(scrollsToTop: true)
+
+            return
+        }
+
         self.keyword = searchText
 
         var scrollsToTop = false
+
+        defer {
+
+        }
 
         // users
         do {
