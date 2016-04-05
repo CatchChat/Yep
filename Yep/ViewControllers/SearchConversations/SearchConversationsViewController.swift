@@ -23,7 +23,7 @@ class SearchConversationsViewController: SegueViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
-    private let searchedContactsCellID = "SearchedContactsCell"
+    private let searchedUserCellID = "SearchedUserCell"
     private let searchedFeedCellID = "SearchedFeedCell"
 
     @IBOutlet weak var resultsTableView: UITableView! {
@@ -32,7 +32,7 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            resultsTableView.registerNib(UINib(nibName: searchedContactsCellID, bundle: nil), forCellReuseIdentifier: searchedContactsCellID)
+            resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
 
             resultsTableView.rowHeight = 80
@@ -279,11 +279,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         switch section {
 
         case .Friend:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedContactsCellID) as! SearchedContactsCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
             return cell
 
         case .MessageRecord:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedContactsCellID) as! SearchedContactsCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
             return cell
 
         case .Feed:
@@ -304,7 +304,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .Friend:
             guard let
                 friend = filteredFriends?[safe: indexPath.row],
-                cell = cell as? SearchedContactsCell else {
+                cell = cell as? SearchedUserCell else {
                     return
             }
 

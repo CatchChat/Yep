@@ -15,7 +15,8 @@ class SearchedUserCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -23,5 +24,12 @@ class SearchedUserCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    func configureWithUser(user: User) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = user.nickname
+    }
 }
