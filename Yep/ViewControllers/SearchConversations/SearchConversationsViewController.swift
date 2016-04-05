@@ -372,7 +372,13 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             performSegueWithIdentifier("showProfile", sender: friend)
 
         case .MessageRecord:
-            break
+            guard let
+                message = filteredMessages?[safe: indexPath.row],
+                conversation = message.conversation else {
+                    return
+            }
+
+            performSegueWithIdentifier("showConversation", sender: conversation)
 
         case .Feed:
             guard let
