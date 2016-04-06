@@ -10,6 +10,16 @@ import UIKit
 
 class SearchMoreResultsCell: UITableViewCell {
 
+    var fold: Bool = true {
+        didSet {
+            if fold {
+                showMoreLabel.text = NSLocalizedString("Show More", comment: "")
+            } else {
+                showMoreLabel.text = NSLocalizedString("Hide", comment: "")
+            }
+        }
+    }
+
     @IBOutlet weak var showMoreLabel: UILabel!
 
     override func awakeFromNib() {

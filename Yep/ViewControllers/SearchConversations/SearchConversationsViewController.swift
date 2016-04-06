@@ -526,6 +526,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 }
 
                 cell.configureWithUser(friend, keyword: keyword)
+
+            } else {
+                guard let cell = cell as? SearchMoreResultsCell else {
+                    return
+                }
+                cell.fold = isMoreFriendsFold
             }
 
         case .MessageRecord:
@@ -537,6 +543,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                         return
                 }
                 cell.configureWithUserMessages(userMessages, keyword: keyword)
+
+            } else {
+                guard let cell = cell as? SearchMoreResultsCell else {
+                    return
+                }
+                cell.fold = isMoreUserMessagesFold
             }
 
         case .Feed:
@@ -548,6 +560,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 }
 
                 cell.configureWithFeed(feed, keyword: keyword)
+
+            } else {
+                guard let cell = cell as? SearchMoreResultsCell else {
+                    return
+                }
+                cell.fold = isMoreFeedsFold
             }
         }
     }
@@ -580,6 +598,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 performSegueWithIdentifier("showProfile", sender: friend)
 
             } else {
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                    cell.fold = !isMoreFriendsFold
+                }
                 isMoreFriendsFold = !isMoreFriendsFold
             }
 
@@ -614,6 +635,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 }
 
             } else {
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                    cell.fold = !isMoreUserMessagesFold
+                }
                 isMoreUserMessagesFold = !isMoreUserMessagesFold
             }
 
@@ -632,6 +656,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 performSegueWithIdentifier("showConversation", sender: sender)
 
             } else {
+                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                    cell.fold = !isMoreFeedsFold
+                }
                 isMoreFeedsFold = !isMoreFeedsFold
             }
         }
