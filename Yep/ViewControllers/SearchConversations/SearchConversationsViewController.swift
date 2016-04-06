@@ -309,6 +309,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case Friend
         case MessageRecord
         case Feed
+
+        static let maxNumberOfItems: Int = 3
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -333,7 +335,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .MessageRecord:
             //return filteredUserMessages?.count ?? 0
             if let count = filteredUserMessages?.count where count > 0 {
-                return count + 1
+                if count > Section.maxNumberOfItems {
+                    return Section.maxNumberOfItems + 1
+                } else {
+                    return count
+                }
             } else {
                 return 0
             }
@@ -434,7 +440,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (filteredUserMessages?.count ?? 0) {
+            if itemIndex < Section.maxNumberOfItems {
                 let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
                 return cell
             } else {
@@ -475,7 +481,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (filteredUserMessages?.count ?? 0) {
+            if itemIndex < Section.maxNumberOfItems {
                 guard let
                     userMessages = filteredUserMessages?[safe: itemIndex],
                     cell = cell as? SearchedMessageCell else {
@@ -532,7 +538,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (filteredUserMessages?.count ?? 0) {
+            if itemIndex < Section.maxNumberOfItems {
                 guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
                     return
                 }
