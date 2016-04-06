@@ -27,6 +27,7 @@ class SearchConversationsViewController: SegueViewController {
     private let searchedUserCellID = "SearchedUserCell"
     private let searchedMessageCellID = "SearchedMessageCell"
     private let searchedFeedCellID = "SearchedFeedCell"
+    private let searchMoreResultsCellID = "SearchMoreResultsCell"
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
@@ -38,6 +39,7 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
+            resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
 
             resultsTableView.rowHeight = 80
             //resultsTableView.sectionHeaderHeight = 10
@@ -329,7 +331,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //                return 0
 //            }
         case .MessageRecord:
-            return filteredUserMessages?.count ?? 0
+            //return filteredUserMessages?.count ?? 0
+            if let count = filteredUserMessages?.count where count > 0 {
+                return count + 1
+            } else {
+                return 0
+            }
             //return filteredMessages?.count ?? 0
 //            if let count = filteredMessages?.count where count > 0 {
 //                return count + 1
@@ -417,6 +424,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            return cell
 //        }
 
+        let itemIndex = indexPath.row
+
         switch section {
 
         case .Friend:
@@ -424,8 +433,14 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return cell
 
         case .MessageRecord:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
-            return cell
+
+            if itemIndex < (filteredUserMessages?.count ?? 0) {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                return cell
+            }
 
         case .Feed:
             let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedCellID) as! SearchedFeedCell
@@ -459,12 +474,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             cell.configureWithUser(friend, keyword: keyword)
 
         case .MessageRecord:
-            guard let
-                userMessages = filteredUserMessages?[safe: itemIndex],
-                cell = cell as? SearchedMessageCell else {
-                    return
+
+            if itemIndex < (filteredUserMessages?.count ?? 0) {
+                guard let
+                    userMessages = filteredUserMessages?[safe: itemIndex],
+                    cell = cell as? SearchedMessageCell else {
+                        return
+                }
+                cell.configureWithUserMessages(userMessages, keyword: keyword)
             }
-            cell.configureWithUserMessages(userMessages, keyword: keyword)
 //            guard let
 //                message = filteredMessages?[safe: itemIndex],
 //                cell = cell as? SearchedMessageCell else {
@@ -513,31 +531,34 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             performSegueWithIdentifier("showProfile", sender: friend)
 
         case .MessageRecord:
-            guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
-                return
-            }
 
-            if userMessages.messages.count == 1 {
-                let message = userMessages.messages.first!
-                guard let conversation = message.conversation else {
+            if itemIndex < (filteredUserMessages?.count ?? 0) {
+                guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
                     return
                 }
 
-                let messages = messagesOfConversation(conversation, inRealm: realm)
+                if userMessages.messages.count == 1 {
+                    let message = userMessages.messages.first!
+                    guard let conversation = message.conversation else {
+                        return
+                    }
 
-                guard let indexOfSearchedMessage = messages.indexOf(message) else {
-                    return
+                    let messages = messagesOfConversation(conversation, inRealm: realm)
+
+                    guard let indexOfSearchedMessage = messages.indexOf(message) else {
+                        return
+                    }
+
+                    let info: [String: AnyObject] = [
+                        "conversation":conversation,
+                        "indexOfSearchedMessage": indexOfSearchedMessage,
+                    ]
+                    let sender = Box<[String: AnyObject]>(info)
+                    performSegueWithIdentifier("showConversation", sender: sender)
+
+                } else {
+                    performSegueWithIdentifier("showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
                 }
-
-                let info: [String: AnyObject] = [
-                    "conversation":conversation,
-                    "indexOfSearchedMessage": indexOfSearchedMessage,
-                ]
-                let sender = Box<[String: AnyObject]>(info)
-                performSegueWithIdentifier("showConversation", sender: sender)
-
-            } else {
-                performSegueWithIdentifier("showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
             }
 
 //            guard let
