@@ -154,6 +154,12 @@ class SearchConversationsViewController: SegueViewController {
 
             hackNavigationDelegate()
 
+        case "showSearchedUserMessages":
+            let vc = segue.destinationViewController as! SearchedUserMessagesViewController
+            let userMessages = (sender as! Box<UserMessages>).value
+
+            hackNavigationDelegate()
+
         default:
             break
         }
@@ -507,6 +513,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     ]
                 let sender = Box<[String: AnyObject]>(info)
                 performSegueWithIdentifier("showConversation", sender: sender)
+
+            } else {
+                performSegueWithIdentifier("showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
             }
 
 //            guard let

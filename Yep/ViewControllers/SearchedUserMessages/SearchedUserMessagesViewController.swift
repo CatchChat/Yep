@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedUserMessagesViewController: UIViewController {
+class SearchedUserMessagesViewController: BaseViewController {
 
     private let searchedMessageCellID = "SearchedMessageCell"
 

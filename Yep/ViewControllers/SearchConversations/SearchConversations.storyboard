@@ -49,6 +49,7 @@
                         <outlet property="searchBarTopConstraint" destination="5oS-So-16v" id="WJy-7D-Hi2"/>
                         <segue destination="wg8-8L-cYy" kind="show" identifier="showProfile" id="C0q-fd-ZbQ"/>
                         <segue destination="LF6-zD-lyS" kind="show" identifier="showConversation" id="4DJ-dD-BFN"/>
+                        <segue destination="nAH-3o-aq0" kind="show" identifier="showSearchedUserMessages" id="hKS-KX-4Fn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eUe-Vo-ZAk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -69,7 +70,15 @@
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="LF6-zD-lyS" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0P5-dn-oUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="967.5" y="427"/>
+            <point key="canvasLocation" x="944" y="375"/>
+        </scene>
+        <!--SearchedUserMessagesViewController-->
+        <scene sceneID="YId-xQ-scH">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchedUserMessages" referencedIdentifier="SearchedUserMessagesViewController" id="nAH-3o-aq0" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="acB-hh-Hq5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="977" y="465"/>
         </scene>
     </scenes>
 </document>
