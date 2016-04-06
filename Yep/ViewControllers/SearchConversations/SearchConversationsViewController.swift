@@ -94,14 +94,14 @@ class SearchConversationsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
-    private var isMoreMessagesFold: Bool = true {
+    private var isMoreUserMessagesFold: Bool = true {
         didSet {
-            if isMoreMessagesFold != oldValue {
+            if isMoreUserMessagesFold != oldValue {
                 let indexPaths = (Section.maxNumberOfItems..<countOfFilteredUserMessages).map({
                     NSIndexPath(forRow: $0, inSection: Section.MessageRecord.rawValue)
                 })
 
-                if isMoreMessagesFold == false {
+                if isMoreUserMessagesFold == false {
                     resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
                 } else {
                     resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
@@ -259,7 +259,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             return
         }
 
-        isMoreMessagesFold = true
+        isMoreUserMessagesFold = true
 
         self.keyword = searchText
 
@@ -365,7 +365,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .MessageRecord:
             //return countOfFilteredUserMessages
             if let count = filteredUserMessages?.count where count > 0 {
-                if !isMoreMessagesFold {
+                if !isMoreUserMessagesFold {
                     return count + 1
                 }
                 if count > Section.maxNumberOfItems {
@@ -430,12 +430,32 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         return 25
     }
 
+    private func haveMoreItemsInSection(section: Section) -> Bool {
+
+        switch section {
+        case .Friend:
+            return false
+        case .MessageRecord:
+            return countOfFilteredUserMessages > Section.maxNumberOfItems
+        case .Feed:
+            return false
+        }
+    }
+
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
-            return 80
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        if haveMoreItemsInSection(section) {
+            if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
+                return 80
+            } else {
+                return 40
+            }
         } else {
-            return 40
+            return 80
         }
     }
 
@@ -471,7 +491,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (isMoreMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
+            if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
                 return cell
             } else {
@@ -512,7 +532,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (isMoreMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
+            if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 guard let
                     userMessages = filteredUserMessages?[safe: itemIndex],
                     cell = cell as? SearchedMessageCell else {
@@ -567,7 +587,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
 
-            if itemIndex < (isMoreMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
+            if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
                     return
                 }
@@ -596,7 +616,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 }
 
             } else {
-                isMoreMessagesFold = !isMoreMessagesFold
+                isMoreUserMessagesFold = !isMoreUserMessagesFold
             }
 
 //            guard let
