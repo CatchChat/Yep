@@ -105,8 +105,7 @@ class ConversationsViewController: BaseViewController {
     #endif
 
     private lazy var conversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return oneToOneConversationsInRealm(self.realm)
     }()
 
     private struct Listener {

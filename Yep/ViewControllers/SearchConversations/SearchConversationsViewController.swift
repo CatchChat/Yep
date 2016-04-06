@@ -23,7 +23,7 @@ class SearchConversationsViewController: SegueViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
-    private let searchSectionTitleCellID = "SearchSectionTitleCell"
+    //private let searchSectionTitleCellID = "SearchSectionTitleCell"
     private let searchedUserCellID = "SearchedUserCell"
     private let searchedMessageCellID = "SearchedMessageCell"
     private let searchedFeedCellID = "SearchedFeedCell"
@@ -34,7 +34,7 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
+            //resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
@@ -54,10 +54,19 @@ class SearchConversationsViewController: SegueViewController {
 
     private var realm: Realm!
 
-    private lazy var messages: Results<Message> = {
-        return self.realm.objects(Message)
+    private lazy var oneToOneConversations: Results<Conversation> = {
+        return oneToOneConversationsInRealm(self.realm)
     }()
-    private var filteredMessages: [Message]?
+    struct UserMessages {
+        let user: User
+        let messages: [Message]
+    }
+    private var filteredUserMessages: [UserMessages]?
+
+//    private lazy var messages: Results<Message> = {
+//        return self.realm.objects(Message)
+//    }()
+//    private var filteredMessages: [Message]?
 
     private lazy var feeds: Results<Feed> = {
         return self.realm.objects(Feed)
@@ -197,7 +206,8 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         guard !searchText.isEmpty else {
             filteredFriends = nil
-            filteredMessages = nil
+            filteredUserMessages = nil
+            //filteredMessages = nil
             filteredFeeds = nil
 
             updateResultsTableView(scrollsToTop: true)
@@ -224,12 +234,26 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         // messages
         do {
-            let predicate = NSPredicate(format: "textContent CONTAINS[c] %@", searchText)
-            let filteredMessages = filterValidMessages(messages.filter(predicate))
-            self.filteredMessages = filteredMessages
+            let filteredUserMessages: [UserMessages] = oneToOneConversations.map({
+                let messages = $0.messages
+                let filteredMessages = filterValidMessages(messages)
+                let searchedMessages = filteredMessages
+                    .filter({ $0.textContent.localizedStandardContainsString(searchText) })
 
-            scrollsToTop = !filteredMessages.isEmpty
+                return UserMessages(user: $0.withFriend!, messages: searchedMessages)
+            })
+
+            self.filteredUserMessages = filteredUserMessages
+
+            scrollsToTop = !filteredUserMessages.isEmpty
         }
+//        do {
+//            let predicate = NSPredicate(format: "textContent CONTAINS[c] %@", searchText)
+//            let filteredMessages = filterValidMessages(messages.filter(predicate))
+//            self.filteredMessages = filteredMessages
+//
+//            scrollsToTop = !filteredMessages.isEmpty
+//        }
 
         // feeds
         do {
@@ -274,7 +298,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //                return 0
 //            }
         case .MessageRecord:
-            return filteredMessages?.count ?? 0
+            return filteredUserMessages?.count ?? 0
+            //return filteredMessages?.count ?? 0
 //            if let count = filteredMessages?.count where count > 0 {
 //                return count + 1
 //            } else {
@@ -404,12 +429,18 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .MessageRecord:
             guard let
-                message = filteredMessages?[safe: itemIndex],
+                userMessages = filteredUserMessages?[safe: itemIndex],
                 cell = cell as? SearchedMessageCell else {
                     return
             }
-
-            cell.configureWithMessage(message, keyword: keyword)
+            cell.configureWithUserMessages(userMessages, keyword: keyword)
+//            guard let
+//                message = filteredMessages?[safe: itemIndex],
+//                cell = cell as? SearchedMessageCell else {
+//                    return
+//            }
+//
+//            cell.configureWithMessage(message, keyword: keyword)
 
         case .Feed:
             guard let
@@ -451,23 +482,24 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             performSegueWithIdentifier("showProfile", sender: friend)
 
         case .MessageRecord:
-            guard let
-                message = filteredMessages?[safe: itemIndex],
-                conversation = message.conversation else {
-                    return
-            }
-
-            let messages = messagesOfConversation(conversation, inRealm: realm)
-            guard let indexOfSearchedMessage = messages.indexOf(message) else {
-                return
-            }
-
-            let info: [String: AnyObject] = [
-                "conversation":conversation,
-                "indexOfSearchedMessage": indexOfSearchedMessage,
-            ]
-            let sender = Box<[String: AnyObject]>(info)
-            performSegueWithIdentifier("showConversation", sender: sender)
+            break
+//            guard let
+//                message = filteredMessages?[safe: itemIndex],
+//                conversation = message.conversation else {
+//                    return
+//            }
+//
+//            let messages = messagesOfConversation(conversation, inRealm: realm)
+//            guard let indexOfSearchedMessage = messages.indexOf(message) else {
+//                return
+//            }
+//
+//            let info: [String: AnyObject] = [
+//                "conversation":conversation,
+//                "indexOfSearchedMessage": indexOfSearchedMessage,
+//            ]
+//            let sender = Box<[String: AnyObject]>(info)
+//            performSegueWithIdentifier("showConversation", sender: sender)
 
         case .Feed:
             guard let

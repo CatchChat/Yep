@@ -1175,6 +1175,16 @@ func filterValidMessages(messages: Results<Message>) -> [Message] {
     return validMessages
 }
 
+func filterValidMessages(messages: [Message]) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+
+    return validMessages
+}
+
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
@@ -1485,6 +1495,11 @@ func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> Me
     }
 
     return nil
+}
+
+func oneToOneConversationsInRealm(realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+    return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 }
 
 func messagesInConversationFromFriend(conversation: Conversation) -> Results<Message> {
