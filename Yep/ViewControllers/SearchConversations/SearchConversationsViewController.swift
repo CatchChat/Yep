@@ -54,9 +54,14 @@ class SearchConversationsViewController: SegueViewController {
 
     private var realm: Realm!
 
-    private lazy var oneToOneConversations: Results<Conversation> = {
-        return oneToOneConversationsInRealm(self.realm)
+//    private lazy var oneToOneConversations: Results<Conversation> = {
+//        return oneToOneConversationsInRealm(self.realm)
+//    }()
+
+    private lazy var users: Results<User> = {
+        return self.realm.objects(User)
     }()
+
     struct UserMessages {
         let user: User
         let messages: [Message]
@@ -243,22 +248,40 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         // messages
         do {
-            let filteredUserMessages: [UserMessages] = oneToOneConversations.map({
+            let filteredUserMessages: [UserMessages] = users.map({
                 let messages = $0.messages
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContainsString(searchText) })
 
-                guard let user = $0.withFriend where !searchedMessages.isEmpty else {
+                guard !searchedMessages.isEmpty else {
                     return nil
                 }
-                return UserMessages(user: user, messages: searchedMessages)
+                return UserMessages(user: $0, messages: searchedMessages)
             }).flatMap({ $0 })
 
             self.filteredUserMessages = filteredUserMessages
 
             scrollsToTop = !filteredUserMessages.isEmpty
         }
+//        do {
+//            let filteredUserMessages: [UserMessages] = oneToOneConversations.map({
+//                let messages = $0.messages
+//                let filteredMessages = filterValidMessages(messages)
+//                let searchedMessages = filteredMessages
+//                    .filter({ $0.textContent.localizedStandardContainsString(searchText) })
+//
+//                guard let user = $0.withFriend where !searchedMessages.isEmpty else {
+//                    return nil
+//                }
+//                return UserMessages(user: user, messages: searchedMessages)
+//            }).flatMap({ $0 })
+//
+//            self.filteredUserMessages = filteredUserMessages
+//
+//            scrollsToTop = !filteredUserMessages.isEmpty
+//        }
+
 //        do {
 //            let predicate = NSPredicate(format: "textContent CONTAINS[c] %@", searchText)
 //            let filteredMessages = filterValidMessages(messages.filter(predicate))
