@@ -1171,6 +1171,7 @@ func filterValidMessages(messages: Results<Message>) -> [Message] {
         .filter({ $0.deletedByCreator == false })
         .filter({ $0.isReal == true })
         .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
 
     return validMessages
 }
@@ -1181,6 +1182,7 @@ func filterValidMessages(messages: [Message]) -> [Message] {
         .filter({ $0.deletedByCreator == false })
         .filter({ $0.isReal == true })
         .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
 
     return validMessages
 }
