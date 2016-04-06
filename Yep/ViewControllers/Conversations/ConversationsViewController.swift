@@ -39,8 +39,8 @@ class ConversationsViewController: BaseViewController {
         didSet {
             searchBar.sizeToFit()
             conversationsTableView.tableHeaderView = searchBar
-            conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
-            println("searchBar.frame: \(searchBar.frame)")
+            //conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+            //println("searchBar.frame: \(searchBar.frame)")
 
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -105,8 +105,7 @@ class ConversationsViewController: BaseViewController {
     #endif
 
     private lazy var conversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return oneToOneConversationsInRealm(self.realm)
     }()
 
     private struct Listener {
@@ -339,6 +338,19 @@ class ConversationsViewController: BaseViewController {
 
         guard let identifier = segue.identifier else { return }
 
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = conversationsSearchTransition
+        }
+
+        func recoverNavigationDelegate() {
+            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+                navigationController?.delegate = originalNavigationControllerDelegate
+            }
+        }
+
         switch identifier {
 
         case "showSearchConversations":
@@ -348,10 +360,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = conversationsSearchTransition
+            hackNavigationDelegate()
 
         case "showConversation":
 
@@ -376,6 +385,8 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
+            recoverNavigationDelegate()
+
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -384,6 +395,8 @@ class ConversationsViewController: BaseViewController {
             vc.profileUser = ProfileUser.UserType(user)
 
             vc.setBackButtonWithTitle()
+
+            recoverNavigationDelegate()
             
         default:
             break

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Searched User Messages View Controller-->
+        <scene sceneID="Ye5-p5-hRu">
+            <objects>
+                <viewController storyboardIdentifier="SearchedUserMessagesViewController" id="g6p-NL-ghw" customClass="SearchedUserMessagesViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1c7-oo-QvC"/>
+                        <viewControllerLayoutGuide type="bottom" id="OOE-XU-Ob3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jza-pU-u6X">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="cIp-ma-nEf">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="g6p-NL-ghw" id="HS1-RF-Vn9"/>
+                                    <outlet property="delegate" destination="g6p-NL-ghw" id="NMD-Nw-DBp"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="cIp-ma-nEf" secondAttribute="trailing" id="K0q-y4-ZEf"/>
+                            <constraint firstItem="cIp-ma-nEf" firstAttribute="leading" secondItem="jza-pU-u6X" secondAttribute="leading" id="RBS-mA-aJC"/>
+                            <constraint firstItem="OOE-XU-Ob3" firstAttribute="top" secondItem="cIp-ma-nEf" secondAttribute="bottom" id="ban-3h-MeV"/>
+                            <constraint firstItem="cIp-ma-nEf" firstAttribute="top" secondItem="jza-pU-u6X" secondAttribute="top" id="nkJ-5J-8mj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="messagesTableView" destination="cIp-ma-nEf" id="7eO-bK-qIU"/>
+                        <segue destination="9hb-yD-ZAp" kind="show" identifier="showConversation" id="Y4k-vE-RHw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hJu-V7-aUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="392" y="361"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="Gvw-gj-awT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="9hb-yD-ZAp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EMm-OY-60N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="920" y="361"/>
+        </scene>
+    </scenes>
+</document>

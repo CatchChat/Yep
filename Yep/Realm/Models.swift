@@ -1171,6 +1171,18 @@ func filterValidMessages(messages: Results<Message>) -> [Message] {
         .filter({ $0.deletedByCreator == false })
         .filter({ $0.isReal == true })
         .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
+
+    return validMessages
+}
+
+func filterValidMessages(messages: [Message]) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
 
     return validMessages
 }
@@ -1485,6 +1497,11 @@ func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> Me
     }
 
     return nil
+}
+
+func oneToOneConversationsInRealm(realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+    return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 }
 
 func messagesInConversationFromFriend(conversation: Conversation) -> Results<Message> {

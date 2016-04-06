@@ -1113,6 +1113,8 @@ class ConversationViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        conversationCollectionViewHasBeenMovedToBottomOnce = true
+
         navigationController?.setNavigationBarHidden(false, animated: true)
         setNeedsStatusBarAppearanceUpdate()
 
@@ -1580,8 +1582,6 @@ class ConversationViewController: BaseViewController {
                 tryScrollToBottom()
             }
         }
-
-        conversationCollectionViewHasBeenMovedToBottomOnce = true
     }
 
     // MARK: UI
