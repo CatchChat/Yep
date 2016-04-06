@@ -34,22 +34,26 @@ class SearchedUserMessagesViewController: BaseViewController {
         title = NSLocalizedString("Messages", comment: "")
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showConversation":
+            let vc = segue.destinationViewController as! ConversationViewController
+            let info = (sender as! Box<[String: AnyObject]>).value
+            vc.conversation = info["conversation"] as! Conversation
+            vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
+
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -80,6 +84,33 @@ extension SearchedUserMessagesViewController: UITableViewDataSource, UITableView
         }
 
         cell.configureWithMessage(message, keyword: keyword)
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        let itemIndex = indexPath.row
+
+        guard let message = messages[safe: itemIndex],
+            conversation = message.conversation,
+            realm = conversation.realm else {
+                return
+        }
+
+        let conversationMessages = messagesOfConversation(conversation, inRealm: realm)
+        guard let indexOfSearchedMessage = conversationMessages.indexOf(message) else {
+            return
+        }
+
+        let info: [String: AnyObject] = [
+            "conversation":conversation,
+            "indexOfSearchedMessage": indexOfSearchedMessage,
+        ]
+        let sender = Box<[String: AnyObject]>(info)
+        performSegueWithIdentifier("showConversation", sender: sender)
     }
 }
 

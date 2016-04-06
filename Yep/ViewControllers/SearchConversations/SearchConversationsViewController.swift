@@ -513,7 +513,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 let info: [String: AnyObject] = [
                     "conversation":conversation,
                     "indexOfSearchedMessage": indexOfSearchedMessage,
-                    ]
+                ]
                 let sender = Box<[String: AnyObject]>(info)
                 performSegueWithIdentifier("showConversation", sender: sender)
 

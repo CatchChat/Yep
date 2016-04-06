@@ -35,11 +35,20 @@
                     </view>
                     <connections>
                         <outlet property="messagesTableView" destination="cIp-ma-nEf" id="7eO-bK-qIU"/>
+                        <segue destination="9hb-yD-ZAp" kind="show" identifier="showConversation" id="Y4k-vE-RHw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJu-V7-aUU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="392" y="361"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="Gvw-gj-awT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="9hb-yD-ZAp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EMm-OY-60N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="920" y="361"/>
         </scene>
     </scenes>
 </document>
