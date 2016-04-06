@@ -41,7 +41,7 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
             resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
 
-            resultsTableView.rowHeight = 80
+            //resultsTableView.rowHeight = 80
             //resultsTableView.sectionHeaderHeight = 10
             //resultsTableView.sectionFooterHeight = 10
             //resultsTableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 0, right: 0)
@@ -420,16 +420,14 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         return 25
     }
 
-    /*
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        if indexPath.row == 0 {
-            return 40
-        } else {
+        if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
             return 80
+        } else {
+            return 40
         }
     }
-    */
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
