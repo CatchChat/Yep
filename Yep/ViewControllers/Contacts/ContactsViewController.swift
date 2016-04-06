@@ -218,6 +218,12 @@ class ContactsViewController: BaseViewController {
             navigationController?.delegate = contactsSearchTransition
         }
 
+        func recoverNavigationDelegate() {
+            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+                navigationController?.delegate = originalNavigationControllerDelegate
+            }
+        }
+
         switch identifier {
 
         case "showProfile":
@@ -235,6 +241,8 @@ class ContactsViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
+
+            recoverNavigationDelegate()
 
         case "showSearchContacts":
 

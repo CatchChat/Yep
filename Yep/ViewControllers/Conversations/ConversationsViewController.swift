@@ -338,6 +338,19 @@ class ConversationsViewController: BaseViewController {
 
         guard let identifier = segue.identifier else { return }
 
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = conversationsSearchTransition
+        }
+
+        func recoverNavigationDelegate() {
+            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+                navigationController?.delegate = originalNavigationControllerDelegate
+            }
+        }
+
         switch identifier {
 
         case "showSearchConversations":
@@ -347,10 +360,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = conversationsSearchTransition
+            hackNavigationDelegate()
 
         case "showConversation":
 
@@ -375,9 +385,7 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
-            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-                navigationController?.delegate = originalNavigationControllerDelegate
-            }
+            recoverNavigationDelegate()
 
         case "showProfile":
 
@@ -388,9 +396,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-                navigationController?.delegate = originalNavigationControllerDelegate
-            }
+            recoverNavigationDelegate()
             
         default:
             break
