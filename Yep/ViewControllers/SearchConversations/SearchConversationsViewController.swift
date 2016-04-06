@@ -56,10 +56,6 @@ class SearchConversationsViewController: SegueViewController {
 
     private var realm: Realm!
 
-//    private lazy var oneToOneConversations: Results<Conversation> = {
-//        return oneToOneConversationsInRealm(self.realm)
-//    }()
-
     private lazy var users: Results<User> = {
         return self.realm.objects(User)
     }()
@@ -69,11 +65,6 @@ class SearchConversationsViewController: SegueViewController {
         let messages: [Message]
     }
     private var filteredUserMessages: [UserMessages]?
-
-//    private lazy var messages: Results<Message> = {
-//        return self.realm.objects(Message)
-//    }()
-//    private var filteredMessages: [Message]?
 
     private lazy var feeds: Results<Feed> = {
         return self.realm.objects(Feed)
@@ -281,7 +272,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         guard !searchText.isEmpty else {
             filteredFriends = nil
             filteredUserMessages = nil
-            //filteredMessages = nil
             filteredFeeds = nil
 
             updateResultsTableView(scrollsToTop: true)
@@ -324,31 +314,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
             scrollsToTop = !filteredUserMessages.isEmpty
         }
-//        do {
-//            let filteredUserMessages: [UserMessages] = oneToOneConversations.map({
-//                let messages = $0.messages
-//                let filteredMessages = filterValidMessages(messages)
-//                let searchedMessages = filteredMessages
-//                    .filter({ $0.textContent.localizedStandardContainsString(searchText) })
-//
-//                guard let user = $0.withFriend where !searchedMessages.isEmpty else {
-//                    return nil
-//                }
-//                return UserMessages(user: user, messages: searchedMessages)
-//            }).flatMap({ $0 })
-//
-//            self.filteredUserMessages = filteredUserMessages
-//
-//            scrollsToTop = !filteredUserMessages.isEmpty
-//        }
-
-//        do {
-//            let predicate = NSPredicate(format: "textContent CONTAINS[c] %@", searchText)
-//            let filteredMessages = filterValidMessages(messages.filter(predicate))
-//            self.filteredMessages = filteredMessages
-//
-//            scrollsToTop = !filteredMessages.isEmpty
-//        }
 
         // feeds
         do {
@@ -403,34 +368,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         }
 
         switch section {
+
         case .Friend:
-            //return filteredFriends?.count ?? 0
             return numberOfRowsWithCountOfItems(countOfFilteredFriends, fold: isMoreFriendsFold)
 
-//            if let count = filteredFriends?.count where count > 0 {
-//                return count + 1
-//            } else {
-//                return 0
-//            }
         case .MessageRecord:
-            //return countOfFilteredUserMessages
             return numberOfRowsWithCountOfItems(countOfFilteredUserMessages, fold: isMoreUserMessagesFold)
 
-            //return filteredMessages?.count ?? 0
-//            if let count = filteredMessages?.count where count > 0 {
-//                return count + 1
-//            } else {
-//                return 0
-//            }
         case .Feed:
-            //return filteredFeeds?.count ?? 0
             return numberOfRowsWithCountOfItems(countOfFilteredFeeds, fold: isMoreFeedsFold)
-
-//            if let count = filteredFeeds?.count where count > 0 {
-//                return count + 1
-//            } else {
-//                return 0
-//            }
         }
     }
 
@@ -592,13 +538,6 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 }
                 cell.configureWithUserMessages(userMessages, keyword: keyword)
             }
-//            guard let
-//                message = filteredMessages?[safe: itemIndex],
-//                cell = cell as? SearchedMessageCell else {
-//                    return
-//            }
-//
-//            cell.configureWithMessage(message, keyword: keyword)
 
         case .Feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
@@ -677,24 +616,6 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             } else {
                 isMoreUserMessagesFold = !isMoreUserMessagesFold
             }
-
-//            guard let
-//                message = filteredMessages?[safe: itemIndex],
-//                conversation = message.conversation else {
-//                    return
-//            }
-//
-//            let messages = messagesOfConversation(conversation, inRealm: realm)
-//            guard let indexOfSearchedMessage = messages.indexOf(message) else {
-//                return
-//            }
-//
-//            let info: [String: AnyObject] = [
-//                "conversation":conversation,
-//                "indexOfSearchedMessage": indexOfSearchedMessage,
-//            ]
-//            let sender = Box<[String: AnyObject]>(info)
-//            performSegueWithIdentifier("showConversation", sender: sender)
 
         case .Feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
