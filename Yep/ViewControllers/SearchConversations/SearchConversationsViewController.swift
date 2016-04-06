@@ -158,6 +158,9 @@ class SearchConversationsViewController: SegueViewController {
             let vc = segue.destinationViewController as! SearchedUserMessagesViewController
             let userMessages = (sender as! Box<UserMessages>).value
 
+            vc.messages = userMessages.messages
+            vc.keyword = keyword
+
             hackNavigationDelegate()
 
         default:

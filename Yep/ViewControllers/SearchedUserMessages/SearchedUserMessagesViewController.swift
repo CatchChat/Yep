@@ -10,6 +10,9 @@ import UIKit
 
 class SearchedUserMessagesViewController: BaseViewController {
 
+    var messages: [Message] = []
+    var keyword: String? = nil
+
     private let searchedMessageCellID = "SearchedMessageCell"
 
     @IBOutlet weak var messagesTableView: UITableView! {
@@ -28,7 +31,7 @@ class SearchedUserMessagesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = NSLocalizedString("Messages", comment: "")
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,3 +51,35 @@ class SearchedUserMessagesViewController: BaseViewController {
     */
 
 }
+
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension SearchedUserMessagesViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
+        return cell
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        let itemIndex = indexPath.row
+
+        guard let
+            message = messages[safe: itemIndex],
+            cell = cell as? SearchedMessageCell else {
+                return
+        }
+
+        cell.configureWithMessage(message, keyword: keyword)
+    }
+}
+
