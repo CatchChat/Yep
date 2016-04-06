@@ -485,7 +485,30 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             performSegueWithIdentifier("showProfile", sender: friend)
 
         case .MessageRecord:
-            break
+            guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
+                return
+            }
+
+            if userMessages.messages.count == 1 {
+                let message = userMessages.messages.first!
+                guard let conversation = message.conversation else {
+                    return
+                }
+
+                let messages = messagesOfConversation(conversation, inRealm: realm)
+
+                guard let indexOfSearchedMessage = messages.indexOf(message) else {
+                    return
+                }
+
+                let info: [String: AnyObject] = [
+                    "conversation":conversation,
+                    "indexOfSearchedMessage": indexOfSearchedMessage,
+                    ]
+                let sender = Box<[String: AnyObject]>(info)
+                performSegueWithIdentifier("showConversation", sender: sender)
+            }
+
 //            guard let
 //                message = filteredMessages?[safe: itemIndex],
 //                conversation = message.conversation else {
