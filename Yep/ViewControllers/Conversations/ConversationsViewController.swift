@@ -39,8 +39,8 @@ class ConversationsViewController: BaseViewController {
         didSet {
             searchBar.sizeToFit()
             conversationsTableView.tableHeaderView = searchBar
-            conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
-            println("searchBar.frame: \(searchBar.frame)")
+            //conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+            //println("searchBar.frame: \(searchBar.frame)")
 
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
