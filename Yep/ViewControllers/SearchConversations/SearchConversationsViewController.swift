@@ -233,10 +233,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         var scrollsToTop = false
 
-        defer {
-
-        }
-
         // users
         do {
             let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
