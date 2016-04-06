@@ -44,4 +44,34 @@ class SearchedMessageCell: UITableViewCell {
             messageLabel.text = message.textContent
         }
     }
+
+    func configureWithUserMessages(userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
+
+        let user = userMessages.user
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = user.nickname
+
+        let count = userMessages.messages.count
+
+        if let message = userMessages.messages.first {
+
+            if count > 1 {
+                messageLabel.textColor = UIColor.yepTintColor()
+                messageLabel.text = "\(count) messages"
+
+            } else {
+                messageLabel.textColor = UIColor.blackColor()
+
+                if let keyword = keyword {
+                    messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword)
+
+                } else {
+                    messageLabel.text = message.textContent
+                }
+            }
+        }
+    }
 }
