@@ -94,6 +94,22 @@ class SearchConversationsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
+    private var isMoreFriendsFold: Bool = true {
+        didSet {
+            if isMoreFriendsFold != oldValue {
+                let indexPaths = (Section.maxNumberOfItems..<countOfFilteredFriends).map({
+                    NSIndexPath(forRow: $0, inSection: Section.Friend.rawValue)
+                })
+
+                if isMoreFriendsFold == false {
+                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                } else {
+                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                }
+            }
+        }
+    }
+
     private var isMoreUserMessagesFold: Bool = true {
         didSet {
             if isMoreUserMessagesFold != oldValue {
@@ -106,8 +122,22 @@ class SearchConversationsViewController: SegueViewController {
                 } else {
                     resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
                 }
-            } else {
+            }
+        }
+    }
 
+    private var isMoreFeedsFold: Bool = true {
+        didSet {
+            if isMoreFeedsFold != oldValue {
+                let indexPaths = (Section.maxNumberOfItems..<countOfFilteredFeeds).map({
+                    NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue)
+                })
+
+                if isMoreFeedsFold == false {
+                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                } else {
+                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                }
             }
         }
     }
@@ -259,7 +289,9 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             return
         }
 
+        isMoreFriendsFold = true
         isMoreUserMessagesFold = true
+        isMoreFeedsFold = true
 
         self.keyword = searchText
 
@@ -356,7 +388,20 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         switch section {
         case .Friend:
-            return filteredFriends?.count ?? 0
+            //return filteredFriends?.count ?? 0
+            let count = countOfFilteredFriends
+            if count > 0 {
+                if !isMoreFriendsFold {
+                    return count + 1
+                }
+                if count > Section.maxNumberOfItems {
+                    return Section.maxNumberOfItems + 1
+                } else {
+                    return count
+                }
+            } else {
+                return 0
+            }
 //            if let count = filteredFriends?.count where count > 0 {
 //                return count + 1
 //            } else {
@@ -364,7 +409,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            }
         case .MessageRecord:
             //return countOfFilteredUserMessages
-            if let count = filteredUserMessages?.count where count > 0 {
+            let count = countOfFilteredUserMessages
+            if count > 0 {
                 if !isMoreUserMessagesFold {
                     return count + 1
                 }
@@ -383,7 +429,20 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //                return 0
 //            }
         case .Feed:
-            return filteredFeeds?.count ?? 0
+            //return filteredFeeds?.count ?? 0
+            let count = countOfFilteredFeeds
+            if count > 0 {
+                if !isMoreFeedsFold {
+                    return count + 1
+                }
+                if count > Section.maxNumberOfItems {
+                    return Section.maxNumberOfItems + 1
+                } else {
+                    return count
+                }
+            } else {
+                return 0
+            }
 //            if let count = filteredFeeds?.count where count > 0 {
 //                return count + 1
 //            } else {
@@ -434,11 +493,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         switch section {
         case .Friend:
-            return false
+            return countOfFilteredFriends > Section.maxNumberOfItems
         case .MessageRecord:
             return countOfFilteredUserMessages > Section.maxNumberOfItems
         case .Feed:
-            return false
+            return countOfFilteredFeeds > Section.maxNumberOfItems
         }
     }
 
@@ -486,11 +545,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         switch section {
 
         case .Friend:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
-            return cell
+            if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                return cell
+            }
 
         case .MessageRecord:
-
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
                 return cell
@@ -500,9 +563,13 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             }
 
         case .Feed:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedCellID) as! SearchedFeedCell
-
-            return cell
+            if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedCellID) as! SearchedFeedCell
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                return cell
+            }
         }
     }
 
@@ -522,13 +589,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         switch section {
 
         case .Friend:
-            guard let
-                friend = filteredFriends?[safe: itemIndex],
-                cell = cell as? SearchedUserCell else {
-                    return
-            }
+            if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
+                guard let
+                    friend = filteredFriends?[safe: itemIndex],
+                    cell = cell as? SearchedUserCell else {
+                        return
+                }
 
-            cell.configureWithUser(friend, keyword: keyword)
+                cell.configureWithUser(friend, keyword: keyword)
+            }
 
         case .MessageRecord:
 
@@ -549,13 +618,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            cell.configureWithMessage(message, keyword: keyword)
 
         case .Feed:
-            guard let
-                feed = filteredFeeds?[safe: itemIndex],
-                cell = cell as? SearchedFeedCell else {
-                    return
-            }
+            if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
+                guard let
+                    feed = filteredFeeds?[safe: itemIndex],
+                    cell = cell as? SearchedFeedCell else {
+                        return
+                }
 
-            cell.configureWithFeed(feed, keyword: keyword)
+                cell.configureWithFeed(feed, keyword: keyword)
+            }
         }
     }
 
@@ -579,11 +650,16 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         switch section {
 
         case .Friend:
-            guard let friend = filteredFriends?[safe: itemIndex] else {
-                return
-            }
+            if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
+                guard let friend = filteredFriends?[safe: itemIndex] else {
+                    return
+                }
 
-            performSegueWithIdentifier("showProfile", sender: friend)
+                performSegueWithIdentifier("showProfile", sender: friend)
+
+            } else {
+                isMoreFriendsFold = !isMoreFriendsFold
+            }
 
         case .MessageRecord:
 
@@ -638,17 +714,22 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            performSegueWithIdentifier("showConversation", sender: sender)
 
         case .Feed:
-            guard let
-                feed = filteredFeeds?[safe: itemIndex],
-                conversation = feed.group?.conversation else {
-                    return
-            }
+            if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
+                guard let
+                    feed = filteredFeeds?[safe: itemIndex],
+                    conversation = feed.group?.conversation else {
+                        return
+                }
 
-            let info: [String: AnyObject] = [
-                "conversation":conversation,
-            ]
-            let sender = Box<[String: AnyObject]>(info)
-            performSegueWithIdentifier("showConversation", sender: sender)
+                let info: [String: AnyObject] = [
+                    "conversation":conversation,
+                ]
+                let sender = Box<[String: AnyObject]>(info)
+                performSegueWithIdentifier("showConversation", sender: sender)
+
+            } else {
+                isMoreFeedsFold = !isMoreFeedsFold
+            }
         }
     }
 }
