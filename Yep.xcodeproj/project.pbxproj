@@ -329,6 +329,8 @@
 		50E348931B9063A700A8E699 /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E348911B9063A700A8E699 /* AboutCell.xib */; };
 		50E34C111CB4B66D007CAE80 /* SearchedUserMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C101CB4B66D007CAE80 /* SearchedUserMessagesViewController.swift */; };
 		50E34C131CB4B682007CAE80 /* SearchedUserMessages.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C121CB4B682007CAE80 /* SearchedUserMessages.storyboard */; };
+		50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C151CB4E3E5007CAE80 /* SearchMoreResultsCell.swift */; };
+		50E34C181CB4E3E5007CAE80 /* SearchMoreResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */; };
 		50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */; };
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
@@ -730,6 +732,8 @@
 		50E348911B9063A700A8E699 /* AboutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutCell.xib; path = Views/Cells/About/AboutCell.xib; sourceTree = "<group>"; };
 		50E34C101CB4B66D007CAE80 /* SearchedUserMessagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUserMessagesViewController.swift; path = ViewControllers/SearchedUserMessages/SearchedUserMessagesViewController.swift; sourceTree = "<group>"; };
 		50E34C121CB4B682007CAE80 /* SearchedUserMessages.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchedUserMessages.storyboard; path = ViewControllers/SearchedUserMessages/SearchedUserMessages.storyboard; sourceTree = "<group>"; };
+		50E34C151CB4E3E5007CAE80 /* SearchMoreResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchMoreResultsCell.swift; path = Views/Cells/SearchMoreResults/SearchMoreResultsCell.swift; sourceTree = "<group>"; };
+		50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchMoreResultsCell.xib; path = Views/Cells/SearchMoreResults/SearchMoreResultsCell.xib; sourceTree = "<group>"; };
 		50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedNormalImagesCell.swift; path = Views/Cells/Feed/FeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -1312,6 +1316,7 @@
 				50098D441CB348AF009275FE /* SearchedUser */,
 				50098D491CB35EA8009275FE /* SearchedMessage */,
 				50098D4E1CB3974F009275FE /* SearchSectionTitle */,
+				50E34C141CB4E3A1007CAE80 /* SearchMoreResults */,
 				84C9598A1B7320060017D3ED /* ChatBase */,
 				508B717E1B1FE9BD006BDDB3 /* ChatRightBase */,
 				503315991AC101830008A209 /* ChatLeftText */,
@@ -2301,6 +2306,15 @@
 			name = SearchedUserMessages;
 			sourceTree = "<group>";
 		};
+		50E34C141CB4E3A1007CAE80 /* SearchMoreResults */ = {
+			isa = PBXGroup;
+			children = (
+				50E34C151CB4E3E5007CAE80 /* SearchMoreResultsCell.swift */,
+				50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */,
+			);
+			name = SearchMoreResults;
+			sourceTree = "<group>";
+		};
 		50E61CEC1AF1F6A600908A9D /* ConversationTitle */ = {
 			isa = PBXGroup;
 			children = (
@@ -2686,6 +2700,7 @@
 				50DEE0451BEA025100015741 /* About.storyboard in Resources */,
 				50DEE0371BE3720F00015741 /* LoadMoreCollectionViewCell.xib in Resources */,
 				505EC81D1ADFBE1B001D27E0 /* SkillSelectionCell.xib in Resources */,
+				50E34C181CB4E3E5007CAE80 /* SearchMoreResultsCell.xib in Resources */,
 				50E34C131CB4B682007CAE80 /* SearchedUserMessages.storyboard in Resources */,
 				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
 				50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */,
@@ -2888,6 +2903,7 @@
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
+				50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
 				50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */,
 				50A0E3011C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift in Sources */,
