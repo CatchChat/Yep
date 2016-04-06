@@ -84,7 +84,23 @@ class SearchConversationsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
-    private var isMoreMessagesFold: Bool = true
+    private var isMoreMessagesFold: Bool = true {
+        didSet {
+            if isMoreMessagesFold != oldValue {
+                let indexPaths = (Section.maxNumberOfItems..<(filteredUserMessages?.count ?? 0)).map({
+                    NSIndexPath(forRow: $0, inSection: Section.MessageRecord.rawValue)
+                })
+
+                if isMoreMessagesFold == false {
+                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                } else {
+                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+                }
+            } else {
+
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -517,9 +533,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        }
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
 //        guard indexPath.row > 0 else {
 //            return
@@ -575,7 +589,6 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
             } else {
                 isMoreMessagesFold = !isMoreMessagesFold
-                updateResultsTableView(scrollsToTop: false)
             }
 
 //            guard let
