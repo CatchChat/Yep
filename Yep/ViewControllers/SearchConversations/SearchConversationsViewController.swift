@@ -386,12 +386,10 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return 0
         }
 
-        switch section {
-        case .Friend:
-            //return filteredFriends?.count ?? 0
-            let count = countOfFilteredFriends
+        func numberOfRowsWithCountOfItems(countOfItems: Int, fold: Bool) -> Int {
+            let count = countOfItems
             if count > 0 {
-                if !isMoreFriendsFold {
+                if !fold {
                     return count + 1
                 }
                 if count > Section.maxNumberOfItems {
@@ -402,6 +400,13 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             } else {
                 return 0
             }
+        }
+
+        switch section {
+        case .Friend:
+            //return filteredFriends?.count ?? 0
+            return numberOfRowsWithCountOfItems(countOfFilteredFriends, fold: isMoreFriendsFold)
+
 //            if let count = filteredFriends?.count where count > 0 {
 //                return count + 1
 //            } else {
@@ -409,19 +414,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            }
         case .MessageRecord:
             //return countOfFilteredUserMessages
-            let count = countOfFilteredUserMessages
-            if count > 0 {
-                if !isMoreUserMessagesFold {
-                    return count + 1
-                }
-                if count > Section.maxNumberOfItems {
-                    return Section.maxNumberOfItems + 1
-                } else {
-                    return count
-                }
-            } else {
-                return 0
-            }
+            return numberOfRowsWithCountOfItems(countOfFilteredUserMessages, fold: isMoreUserMessagesFold)
+
             //return filteredMessages?.count ?? 0
 //            if let count = filteredMessages?.count where count > 0 {
 //                return count + 1
@@ -430,19 +424,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 //            }
         case .Feed:
             //return filteredFeeds?.count ?? 0
-            let count = countOfFilteredFeeds
-            if count > 0 {
-                if !isMoreFeedsFold {
-                    return count + 1
-                }
-                if count > Section.maxNumberOfItems {
-                    return Section.maxNumberOfItems + 1
-                } else {
-                    return count
-                }
-            } else {
-                return 0
-            }
+            return numberOfRowsWithCountOfItems(countOfFilteredFeeds, fold: isMoreFeedsFold)
+
 //            if let count = filteredFeeds?.count where count > 0 {
 //                return count + 1
 //            } else {
