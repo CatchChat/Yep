@@ -375,6 +375,10 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
+            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+                navigationController?.delegate = originalNavigationControllerDelegate
+            }
+
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -383,6 +387,10 @@ class ConversationsViewController: BaseViewController {
             vc.profileUser = ProfileUser.UserType(user)
 
             vc.setBackButtonWithTitle()
+
+            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+                navigationController?.delegate = originalNavigationControllerDelegate
+            }
             
         default:
             break
