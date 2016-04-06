@@ -240,8 +240,11 @@ extension SearchConversationsViewController: UISearchBarDelegate {
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContainsString(searchText) })
 
-                return UserMessages(user: $0.withFriend!, messages: searchedMessages)
-            })
+                guard let user = $0.withFriend where !searchedMessages.isEmpty else {
+                    return nil
+                }
+                return UserMessages(user: user, messages: searchedMessages)
+            }).flatMap({ $0 })
 
             self.filteredUserMessages = filteredUserMessages
 
