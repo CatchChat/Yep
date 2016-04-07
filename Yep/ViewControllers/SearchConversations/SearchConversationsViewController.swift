@@ -326,11 +326,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContainsString(searchText) })
+                let sortedMessages = searchedMessages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-                guard !searchedMessages.isEmpty else {
+                guard !sortedMessages.isEmpty else {
                     return nil
                 }
-                return UserMessages(user: $0, messages: searchedMessages)
+                return UserMessages(user: $0, messages: sortedMessages)
             }).flatMap({ $0 })
 
             self.filteredUserMessages = filteredUserMessages
