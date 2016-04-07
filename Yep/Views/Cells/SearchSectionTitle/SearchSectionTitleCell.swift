@@ -10,7 +10,11 @@ import UIKit
 
 class SearchSectionTitleCell: UITableViewCell {
 
-    @IBOutlet weak var sectionTitleLabel: UILabel!
+    @IBOutlet weak var sectionTitleLabel: UILabel! {
+        didSet {
+            sectionTitleLabel.textColor = UIColor(white: 0.4, alpha: 1.0)
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
