@@ -68,13 +68,13 @@ class FeedView: UIView {
                 self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                 if newValue == 1.0 {
-                    self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.usernameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
                     self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
                     self?.messageTextViewHeightConstraint.constant = 20
                 }
 
                 if newValue == 0.0 {
-                    self?.nicknameLabelTrailingConstraint.constant = 15
+                    self?.usernameLabelTrailingConstraint.constant = 15
                     self?.messageTextViewTrailingConstraint.constant = 15
                     self?.calHeightOfMessageTextView()
                 }
@@ -112,7 +112,8 @@ class FeedView: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
-    @IBOutlet weak var nicknameLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var usernameLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var dotLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
@@ -390,6 +391,7 @@ class FeedView: UIView {
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
+            usernameLabel.text = creator.mentionedUsername
         }
         
         if let distance = feed.distance {
