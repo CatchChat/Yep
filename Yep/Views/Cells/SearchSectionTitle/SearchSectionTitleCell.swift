@@ -15,6 +15,7 @@ class SearchSectionTitleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        selectionStyle = .None
         separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 

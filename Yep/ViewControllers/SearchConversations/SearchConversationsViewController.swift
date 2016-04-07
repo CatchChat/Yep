@@ -20,6 +20,11 @@ class SearchConversationsViewController: SegueViewController {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
         }
     }
+    @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
+        didSet {
+            searchBarBottomLineView.lineColor = UIColor(white: 0.68, alpha: 1.0)
+        }
+    }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
@@ -149,6 +154,8 @@ class SearchConversationsViewController: SegueViewController {
             self?.resultsTableView.contentInset.bottom = 0
             self?.resultsTableView.scrollIndicatorInsets.bottom = 0
         }
+
+        searchBarBottomLineView.hidden = true
     }
 
     private var isFirstAppear = true
@@ -253,10 +260,19 @@ class SearchConversationsViewController: SegueViewController {
 
 extension SearchConversationsViewController: UISearchBarDelegate {
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        searchBarBottomLineView.hidden = false
+
+        return true
+    }
+
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 
         searchBar.text = nil
         searchBar.resignFirstResponder()
+
+        searchBarBottomLineView.hidden = true
 
         (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
 
