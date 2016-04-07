@@ -229,12 +229,7 @@ class SearchConversationsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-
-        for subview in searchBar.subviews {
-            for subview in subview.subviews {
-                (subview as? UIControl)?.enabled = true
-            }
-        }
+        searchBar.yep_enableCancelButton()
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {

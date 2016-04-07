@@ -91,6 +91,8 @@ class SearchContactsViewController: SegueViewController {
         searchBar.becomeFirstResponder()
     }
 
+    // MARK: Private
+
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.contactsTableView.reloadData()
@@ -102,7 +104,9 @@ class SearchContactsViewController: SegueViewController {
     }
 
     private func hideKeyboard() {
+
         searchBar.resignFirstResponder()
+        searchBar.yep_enableCancelButton()
 
         //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
