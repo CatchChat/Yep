@@ -13,11 +13,12 @@ class SearchedUserCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        separatorInset = YepConfig.ContactsCell.separatorInset
+        separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -28,7 +29,7 @@ class SearchedUserCell: UITableViewCell {
 
     func configureWithUser(user: User, keyword: String?) {
 
-        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         if let keyword = keyword {
@@ -46,5 +47,7 @@ class SearchedUserCell: UITableViewCell {
                 usernameLabel.text = mentionUsername
             }
         }
+
+        timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 }

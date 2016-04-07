@@ -14,17 +14,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_topic_text" translatesAutoresizingMaskIntoConstraints="NO" id="wUA-63-Lyy">
-                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <rect key="frame" x="15" y="20" width="40" height="40"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Bo-NA-oWO" customClass="FeedMediaView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <rect key="frame" x="15" y="20" width="40" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="60" id="YPF-ua-vOa"/>
-                            <constraint firstAttribute="width" constant="60" id="jdi-p4-TYf"/>
+                            <constraint firstAttribute="height" constant="40" id="YPF-ua-vOa"/>
+                            <constraint firstAttribute="width" constant="40" id="jdi-p4-TYf"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeds" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYL-Hd-6xE">
-                        <rect key="frame" x="85" y="32" width="225" height="17"/>
+                        <rect key="frame" x="70" y="32" width="240" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -37,7 +37,7 @@
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="centerY" secondItem="2Bo-NA-oWO" secondAttribute="centerY" id="BMk-Ja-sbw"/>
                     <constraint firstAttribute="trailing" secondItem="XYL-Hd-6xE" secondAttribute="trailing" constant="10" id="TD5-nf-dTW"/>
                     <constraint firstItem="XYL-Hd-6xE" firstAttribute="top" relation="greaterThanOrEqual" secondItem="2Bo-NA-oWO" secondAttribute="top" id="V0t-TC-Vrh"/>
-                    <constraint firstItem="2Bo-NA-oWO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="XYK-3e-IPC"/>
+                    <constraint firstItem="2Bo-NA-oWO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="XYK-3e-IPC"/>
                     <constraint firstItem="wUA-63-Lyy" firstAttribute="leading" secondItem="2Bo-NA-oWO" secondAttribute="leading" id="YyJ-EK-vhP"/>
                     <constraint firstItem="XYL-Hd-6xE" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="2Bo-NA-oWO" secondAttribute="bottom" id="f9k-Np-8YJ"/>
                     <constraint firstItem="XYL-Hd-6xE" firstAttribute="centerY" secondItem="2Bo-NA-oWO" secondAttribute="centerY" id="hdv-kU-dI9"/>

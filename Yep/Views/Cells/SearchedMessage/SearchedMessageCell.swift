@@ -12,12 +12,13 @@ class SearchedMessageCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        separatorInset = YepConfig.ContactsCell.separatorInset
+        separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -43,13 +44,15 @@ class SearchedMessageCell: UITableViewCell {
         } else {
             messageLabel.text = message.textContent
         }
+
+        timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
     }
 
     func configureWithUserMessages(userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
 
         let user = userMessages.user
 
-        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         nicknameLabel.text = user.nickname
@@ -62,6 +65,9 @@ class SearchedMessageCell: UITableViewCell {
                 messageLabel.textColor = UIColor.yepTintColor()
                 messageLabel.text = "\(count) messages"
 
+                timeLabel.hidden = true
+                timeLabel.text = nil
+
             } else {
                 messageLabel.textColor = UIColor.blackColor()
 
@@ -71,6 +77,9 @@ class SearchedMessageCell: UITableViewCell {
                 } else {
                     messageLabel.text = message.textContent
                 }
+
+                timeLabel.hidden = false
+                timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
             }
         }
     }

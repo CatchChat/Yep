@@ -22,7 +22,7 @@ class SearchedUserMessagesViewController: BaseViewController {
 
             messagesTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
 
-            messagesTableView.rowHeight = 80
+            messagesTableView.rowHeight = 70
 
             messagesTableView.tableFooterView = UIView()
         }

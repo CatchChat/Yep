@@ -20,10 +20,15 @@ class SearchConversationsViewController: SegueViewController {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
         }
     }
+    @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
+        didSet {
+            searchBarBottomLineView.lineColor = UIColor(white: 0.68, alpha: 1.0)
+        }
+    }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
-    //private let searchSectionTitleCellID = "SearchSectionTitleCell"
+    private let searchSectionTitleCellID = "SearchSectionTitleCell"
     private let searchedUserCellID = "SearchedUserCell"
     private let searchedMessageCellID = "SearchedMessageCell"
     private let searchedFeedCellID = "SearchedFeedCell"
@@ -35,16 +40,16 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            //resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
+            resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
             resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
 
             //resultsTableView.rowHeight = 80
-            //resultsTableView.sectionHeaderHeight = 10
-            //resultsTableView.sectionFooterHeight = 10
-            //resultsTableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 0, right: 0)
+            resultsTableView.sectionHeaderHeight = 0
+            resultsTableView.sectionFooterHeight = 0
+            resultsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
 
             resultsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 0))
             resultsTableView.tableFooterView = UIView()
@@ -149,7 +154,11 @@ class SearchConversationsViewController: SegueViewController {
             self?.resultsTableView.contentInset.bottom = 0
             self?.resultsTableView.scrollIndicatorInsets.bottom = 0
         }
+
+        searchBarBottomLineView.hidden = true
     }
+
+    private var isFirstAppear = true
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -169,7 +178,11 @@ class SearchConversationsViewController: SegueViewController {
             self?.view.layoutIfNeeded()
         }, completion: nil)
 
-        searchBar.becomeFirstResponder()
+        if isFirstAppear {
+            searchBar.becomeFirstResponder()
+        }
+
+        isFirstAppear = false
     }
 
     // MARK: - Navigation
@@ -229,6 +242,7 @@ class SearchConversationsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
+        searchBar.yep_enableCancelButton()
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
@@ -246,10 +260,19 @@ class SearchConversationsViewController: SegueViewController {
 
 extension SearchConversationsViewController: UISearchBarDelegate {
 
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        searchBarBottomLineView.hidden = false
+
+        return true
+    }
+
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 
         searchBar.text = nil
         searchBar.resignFirstResponder()
+
+        searchBarBottomLineView.hidden = true
 
         (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
 
@@ -259,22 +282,36 @@ extension SearchConversationsViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
+
+        if let searchText = searchBar.text {
+            searchText.trimming(.Whitespace)
+            updateSearchResultsWithText(searchText)
+        }
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
-        updateSearchResultsWithText(searchText)
+        if searchText.isEmpty {
+            clearSearchResults()
+        }
+
+        //let searchText = searchText.trimming(.Whitespace)
+        //updateSearchResultsWithText(searchText)
+    }
+
+    private func clearSearchResults() {
+
+        filteredFriends = nil
+        filteredUserMessages = nil
+        filteredFeeds = nil
+
+        updateResultsTableView(scrollsToTop: true)
     }
 
     private func updateSearchResultsWithText(searchText: String) {
 
         guard !searchText.isEmpty else {
-            filteredFriends = nil
-            filteredUserMessages = nil
-            filteredFeeds = nil
-
-            updateResultsTableView(scrollsToTop: true)
+            clearSearchResults()
 
             return
         }
@@ -303,11 +340,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContainsString(searchText) })
+                let sortedMessages = searchedMessages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-                guard !searchedMessages.isEmpty else {
+                guard !sortedMessages.isEmpty else {
                     return nil
                 }
-                return UserMessages(user: $0, messages: searchedMessages)
+                return UserMessages(user: $0, messages: sortedMessages)
             }).flatMap({ $0 })
 
             self.filteredUserMessages = filteredUserMessages
@@ -355,12 +393,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             let count = countOfItems
             if count > 0 {
                 if !fold {
-                    return count + 1
+                    return 1 + count + 1
                 }
                 if count > Section.maxNumberOfItems {
-                    return Section.maxNumberOfItems + 1
+                    return 1 + Section.maxNumberOfItems + 1
                 } else {
-                    return count
+                    return 1 + count
                 }
             } else {
                 return 0
@@ -391,20 +429,21 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return nil
         }
 
-        guard let section = Section(rawValue: section) else {
-            return nil
-        }
+//        guard let section = Section(rawValue: section) else {
+//            return nil
+//        }
 
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
 
-        switch section {
-        case .Friend:
-            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-        case .MessageRecord:
-            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
-        case .Feed:
-            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
-        }
+//        switch section {
+//        case .Friend:
+//            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+//        case .MessageRecord:
+//            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
+//        case .Feed:
+//            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+//        }
+        header?.titleLabel.text = nil
 
         return header
     }
@@ -415,7 +454,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return 0
         }
 
-        return 25
+        return 15
     }
 
     private func haveMoreItemsInSection(section: Section) -> Bool {
@@ -432,18 +471,22 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
+        guard indexPath.row > 0 else {
+            return 40
+        }
+
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
         if haveMoreItemsInSection(section) {
             if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
-                return 80
+                return 70
             } else {
-                return 40
+                return 30
             }
         } else {
-            return 80
+            return 70
         }
     }
 
@@ -453,23 +496,23 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             fatalError("Invalid section!")
         }
 
-//        if indexPath.row == 0 {
-//
-//            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
-//
-//            switch section {
-//            case .Friend:
-//                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
-//            case .MessageRecord:
-//                cell.sectionTitleLabel.text = NSLocalizedString("Messages", comment: "")
-//            case .Feed:
-//                cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
-//            }
-//
-//            return cell
-//        }
+        if indexPath.row == 0 {
 
-        let itemIndex = indexPath.row
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+
+            switch section {
+            case .Friend:
+                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
+            case .MessageRecord:
+                cell.sectionTitleLabel.text = NSLocalizedString("Messages", comment: "")
+            case .Feed:
+                cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+            }
+
+            return cell
+        }
+
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
@@ -504,16 +547,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-//        guard indexPath.row > 0 else {
-//            return
-//        }
+        guard indexPath.row > 0 else {
+            return
+        }
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
-//        let itemIndex = indexPath.row - 1
-        let itemIndex = indexPath.row
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
@@ -574,9 +616,9 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
-//        guard indexPath.row > 0 else {
-//            return
-//        }
+        guard indexPath.row > 0 else {
+            return
+        }
 
         hideKeyboard()
 
@@ -584,8 +626,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             fatalError("Invalid section!")
         }
 
-//        let itemIndex = indexPath.row - 1
-        let itemIndex = indexPath.row
+        let itemIndex = indexPath.row - 1
 
         switch section {
 

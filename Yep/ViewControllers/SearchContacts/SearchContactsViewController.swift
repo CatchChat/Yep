@@ -68,6 +68,8 @@ class SearchContactsViewController: SegueViewController {
         }
     }
 
+    private var isFirstAppear = true
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -88,8 +90,14 @@ class SearchContactsViewController: SegueViewController {
             self?.view.layoutIfNeeded()
         }, completion: nil)
 
-        searchBar.becomeFirstResponder()
+        if isFirstAppear {
+            searchBar.becomeFirstResponder()
+        }
+
+        isFirstAppear = false
     }
+
+    // MARK: Private
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -102,7 +110,9 @@ class SearchContactsViewController: SegueViewController {
     }
 
     private func hideKeyboard() {
+
         searchBar.resignFirstResponder()
+        searchBar.yep_enableCancelButton()
 
         //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
