@@ -297,14 +297,19 @@ extension SearchConversationsViewController: UISearchBarDelegate {
     }
      */
 
+    private func clearSearchResults() {
+
+        filteredFriends = nil
+        filteredUserMessages = nil
+        filteredFeeds = nil
+
+        updateResultsTableView(scrollsToTop: true)
+    }
+
     private func updateSearchResultsWithText(searchText: String) {
 
         guard !searchText.isEmpty else {
-            filteredFriends = nil
-            filteredUserMessages = nil
-            filteredFeeds = nil
-
-            updateResultsTableView(scrollsToTop: true)
+            clearSearchResults()
 
             return
         }
