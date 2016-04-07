@@ -34,13 +34,22 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last seen just now" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wg-9N-5sb">
+                        <rect key="frame" x="206" y="34" width="104" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="cwA-2p-aIF" firstAttribute="centerY" secondItem="bTT-J7-9HF" secondAttribute="centerY" id="2aa-4L-6vf"/>
+                    <constraint firstAttribute="trailing" secondItem="7wg-9N-5sb" secondAttribute="trailing" constant="10" id="6pD-9u-cAe"/>
                     <constraint firstItem="bTT-J7-9HF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="GvQ-uS-HHG"/>
                     <constraint firstItem="bTT-J7-9HF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SEt-kS-q1L"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cf8-az-cIZ" secondAttribute="trailing" constant="10" id="Vu1-qK-5Gd"/>
+                    <constraint firstItem="7wg-9N-5sb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="cf8-az-cIZ" secondAttribute="trailing" constant="8" id="bCj-mP-kk6"/>
                     <constraint firstItem="cf8-az-cIZ" firstAttribute="baseline" secondItem="cwA-2p-aIF" secondAttribute="baseline" id="bXa-Z4-0gY"/>
+                    <constraint firstItem="7wg-9N-5sb" firstAttribute="baseline" secondItem="cwA-2p-aIF" secondAttribute="baseline" id="dFF-hk-731"/>
                     <constraint firstItem="cwA-2p-aIF" firstAttribute="leading" secondItem="bTT-J7-9HF" secondAttribute="trailing" constant="15" id="iOn-bM-ToQ"/>
                     <constraint firstItem="cf8-az-cIZ" firstAttribute="leading" secondItem="cwA-2p-aIF" secondAttribute="trailing" constant="4" id="rcE-5i-jMz"/>
                 </constraints>
@@ -48,6 +57,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="bTT-J7-9HF" id="gkh-kp-qBr"/>
                 <outlet property="nicknameLabel" destination="cwA-2p-aIF" id="ZlV-yR-gw1"/>
+                <outlet property="timeLabel" destination="7wg-9N-5sb" id="Gtt-4d-Uha"/>
                 <outlet property="usernameLabel" destination="cf8-az-cIZ" id="M1b-44-rHb"/>
             </connections>
             <point key="canvasLocation" x="415" y="335"/>

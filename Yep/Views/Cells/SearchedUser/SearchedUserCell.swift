@@ -13,6 +13,7 @@ class SearchedUserCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,5 +47,7 @@ class SearchedUserCell: UITableViewCell {
                 usernameLabel.text = mentionUsername
             }
         }
+
+        timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
     }
 }
