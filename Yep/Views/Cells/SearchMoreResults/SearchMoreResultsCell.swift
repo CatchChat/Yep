@@ -26,6 +26,7 @@ class SearchMoreResultsCell: UITableViewCell {
         super.awakeFromNib()
 
         selectionStyle = .None
+        separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
