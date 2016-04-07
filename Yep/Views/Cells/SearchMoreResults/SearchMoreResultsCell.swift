@@ -14,13 +14,16 @@ class SearchMoreResultsCell: UITableViewCell {
         didSet {
             if fold {
                 showMoreLabel.text = NSLocalizedString("Show More", comment: "")
+                arrowImageView.image = UIImage(named: "icon_arrow_down")
             } else {
                 showMoreLabel.text = NSLocalizedString("Hide", comment: "")
+                arrowImageView.image = UIImage(named: "icon_arrow_up")
             }
         }
     }
 
     @IBOutlet weak var showMoreLabel: UILabel!
+    @IBOutlet weak var arrowImageView: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()

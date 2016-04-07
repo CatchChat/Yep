@@ -13,22 +13,31 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show More" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d4C-2T-Xis">
-                        <rect key="frame" x="10" y="13" width="300" height="18"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Show More" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d4C-2T-Xis">
+                        <rect key="frame" x="10" y="13" width="274" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_down" translatesAutoresizingMaskIntoConstraints="NO" id="dEF-3W-Ywu">
+                        <rect key="frame" x="290" y="18" width="15" height="8"/>
+                    </imageView>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="dEF-3W-Ywu" secondAttribute="trailing" constant="15" id="112-Kb-3gE"/>
                     <constraint firstItem="d4C-2T-Xis" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4p2-Hk-cGT"/>
-                    <constraint firstAttribute="trailing" secondItem="d4C-2T-Xis" secondAttribute="trailing" constant="10" id="5MA-bz-t1l"/>
+                    <constraint firstItem="dEF-3W-Ywu" firstAttribute="leading" secondItem="d4C-2T-Xis" secondAttribute="trailing" constant="6" id="iEV-ZF-5dg"/>
+                    <constraint firstItem="dEF-3W-Ywu" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="jM2-R4-NLm"/>
                     <constraint firstItem="d4C-2T-Xis" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="nXS-XA-DWl"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="arrowImageView" destination="dEF-3W-Ywu" id="yVL-nY-bOq"/>
                 <outlet property="showMoreLabel" destination="d4C-2T-Xis" id="6Zy-d1-4ty"/>
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="icon_arrow_down" width="15" height="8"/>
+    </resources>
 </document>
