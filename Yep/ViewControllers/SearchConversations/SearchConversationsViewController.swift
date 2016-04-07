@@ -438,12 +438,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         if haveMoreItemsInSection(section) {
             if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
-                return 80
+                return 70
             } else {
-                return 40
+                return 30
             }
         } else {
-            return 80
+            return 70
         }
     }
 
