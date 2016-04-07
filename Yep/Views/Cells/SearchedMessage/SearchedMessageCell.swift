@@ -17,7 +17,7 @@ class SearchedMessageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        separatorInset = YepConfig.ContactsCell.separatorInset
+        separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
