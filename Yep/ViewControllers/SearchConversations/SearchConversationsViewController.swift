@@ -42,9 +42,9 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
 
             //resultsTableView.rowHeight = 80
-            //resultsTableView.sectionHeaderHeight = 10
-            //resultsTableView.sectionFooterHeight = 10
-            //resultsTableView.contentInset = UIEdgeInsets(top: -36, left: 0, bottom: 0, right: 0)
+            resultsTableView.sectionHeaderHeight = 0
+            resultsTableView.sectionFooterHeight = 0
+            resultsTableView.contentInset = UIEdgeInsets(top: -34, left: 0, bottom: 0, right: 0)
 
             resultsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 0))
             resultsTableView.tableFooterView = UIView()
