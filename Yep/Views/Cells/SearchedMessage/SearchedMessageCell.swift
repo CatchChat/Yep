@@ -12,6 +12,7 @@ class SearchedMessageCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
 
     override func awakeFromNib() {
@@ -43,6 +44,8 @@ class SearchedMessageCell: UITableViewCell {
         } else {
             messageLabel.text = message.textContent
         }
+
+        timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
     }
 
     func configureWithUserMessages(userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
@@ -62,6 +65,9 @@ class SearchedMessageCell: UITableViewCell {
                 messageLabel.textColor = UIColor.yepTintColor()
                 messageLabel.text = "\(count) messages"
 
+                timeLabel.hidden = true
+                timeLabel.text = nil
+
             } else {
                 messageLabel.textColor = UIColor.blackColor()
 
@@ -71,6 +77,9 @@ class SearchedMessageCell: UITableViewCell {
                 } else {
                     messageLabel.text = message.textContent
                 }
+
+                timeLabel.hidden = false
+                timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
             }
         }
     }
