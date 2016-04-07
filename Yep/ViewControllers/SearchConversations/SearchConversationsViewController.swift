@@ -289,13 +289,15 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         }
     }
 
-    /*
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
-        updateSearchResultsWithText(searchText)
+        if searchText.isEmpty {
+            clearSearchResults()
+        }
+
+        //let searchText = searchText.trimming(.Whitespace)
+        //updateSearchResultsWithText(searchText)
     }
-     */
 
     private func clearSearchResults() {
 
