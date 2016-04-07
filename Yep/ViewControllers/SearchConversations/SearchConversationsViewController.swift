@@ -398,20 +398,21 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return nil
         }
 
-        guard let section = Section(rawValue: section) else {
-            return nil
-        }
+//        guard let section = Section(rawValue: section) else {
+//            return nil
+//        }
 
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
 
-        switch section {
-        case .Friend:
-            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-        case .MessageRecord:
-            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
-        case .Feed:
-            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
-        }
+//        switch section {
+//        case .Friend:
+//            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+//        case .MessageRecord:
+//            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
+//        case .Feed:
+//            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+//        }
+        header?.titleLabel.text = nil
 
         return header
     }
@@ -422,7 +423,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return 0
         }
 
-        return 25
+        return 15
     }
 
     private func haveMoreItemsInSection(section: Section) -> Bool {
