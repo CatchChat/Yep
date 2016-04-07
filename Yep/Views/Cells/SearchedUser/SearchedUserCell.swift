@@ -28,7 +28,7 @@ class SearchedUserCell: UITableViewCell {
 
     func configureWithUser(user: User, keyword: String?) {
 
-        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         if let keyword = keyword {

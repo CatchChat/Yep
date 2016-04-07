@@ -15,21 +15,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bTT-J7-9HF">
-                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <rect key="frame" x="15" y="20" width="40" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="Hgc-Kg-yR3"/>
+                            <constraint firstAttribute="width" constant="40" id="Hgc-Kg-yR3"/>
                             <constraint firstAttribute="width" secondItem="bTT-J7-9HF" secondAttribute="height" multiplier="1:1" id="zBW-PE-5oq"/>
                         </constraints>
                     </imageView>
                     <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="NIX" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cwA-2p-aIF">
-                        <rect key="frame" x="85" y="32" width="24" height="17"/>
+                        <rect key="frame" x="70" y="32" width="24" height="17"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="@nixzhu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cf8-az-cIZ">
-                        <rect key="frame" x="113" y="34" width="48" height="15"/>
+                        <rect key="frame" x="98" y="34" width="48" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -37,7 +37,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="cwA-2p-aIF" firstAttribute="centerY" secondItem="bTT-J7-9HF" secondAttribute="centerY" id="2aa-4L-6vf"/>
-                    <constraint firstItem="bTT-J7-9HF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="GvQ-uS-HHG"/>
+                    <constraint firstItem="bTT-J7-9HF" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="GvQ-uS-HHG"/>
                     <constraint firstItem="bTT-J7-9HF" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SEt-kS-q1L"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cf8-az-cIZ" secondAttribute="trailing" constant="10" id="Vu1-qK-5Gd"/>
                     <constraint firstItem="cf8-az-cIZ" firstAttribute="baseline" secondItem="cwA-2p-aIF" secondAttribute="baseline" id="bXa-Z4-0gY"/>
