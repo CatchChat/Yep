@@ -44,7 +44,7 @@ class SearchConversationsViewController: SegueViewController {
             //resultsTableView.rowHeight = 80
             resultsTableView.sectionHeaderHeight = 0
             resultsTableView.sectionFooterHeight = 0
-            resultsTableView.contentInset = UIEdgeInsets(top: -34, left: 0, bottom: 0, right: 0)
+            resultsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
 
             resultsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 0))
             resultsTableView.tableFooterView = UIView()

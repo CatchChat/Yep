@@ -14,14 +14,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nxm-j5-AiS">
-                        <rect key="frame" x="10" y="13" width="300" height="18"/>
+                        <rect key="frame" x="15" y="13" width="295" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Nxm-j5-AiS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Vtd-Ns-om9"/>
+                    <constraint firstItem="Nxm-j5-AiS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="Vtd-Ns-om9"/>
                     <constraint firstAttribute="trailing" secondItem="Nxm-j5-AiS" secondAttribute="trailing" constant="10" id="XuI-0h-oYQ"/>
                     <constraint firstItem="Nxm-j5-AiS" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fV2-jD-fQp"/>
                 </constraints>
