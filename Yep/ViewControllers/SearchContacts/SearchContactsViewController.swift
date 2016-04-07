@@ -68,6 +68,8 @@ class SearchContactsViewController: SegueViewController {
         }
     }
 
+    private var isFirstAppear = true
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -88,7 +90,11 @@ class SearchContactsViewController: SegueViewController {
             self?.view.layoutIfNeeded()
         }, completion: nil)
 
-        searchBar.becomeFirstResponder()
+        if isFirstAppear {
+            searchBar.becomeFirstResponder()
+        }
+
+        isFirstAppear = false
     }
 
     // MARK: Private
