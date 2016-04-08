@@ -49,7 +49,7 @@ class SearchContactsViewController: SegueViewController {
 
     private var searchedUsers = [DiscoveredUser]()
 
-    private var searchControllerIsActive = false
+    //private var searchControllerIsActive = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,7 +175,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        searchControllerIsActive = !searchText.isEmpty
+        //searchControllerIsActive = !searchText.isEmpty
 
         updateSearchResultsWithText(searchText)
     }
@@ -243,9 +243,11 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         switch section {
         case .Local:
-            return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
+            //return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
+            return filteredFriends?.count ?? 0
         case .Online:
-            return searchControllerIsActive ? searchedUsers.count : 0
+            //return searchControllerIsActive ? searchedUsers.count : 0
+            return searchedUsers.count
         }
     }
 
@@ -285,26 +287,41 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return nil
         }
 
-        if searchControllerIsActive {
+        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
 
-            guard let section = Section(rawValue: section) else {
-                return nil
-            }
-
-            let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-
-            switch section {
-            case .Local:
-                header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-            case .Online:
-                header?.titleLabel.text = NSLocalizedString("Users", comment: "")
-            }
-
-            return header
-
-        } else {
+        guard let section = Section(rawValue: section) else {
             return nil
         }
+
+        switch section {
+        case .Local:
+            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+        case .Online:
+            header?.titleLabel.text = NSLocalizedString("Users", comment: "")
+        }
+
+        return header
+
+//        if searchControllerIsActive {
+//
+//            guard let section = Section(rawValue: section) else {
+//                return nil
+//            }
+//
+//            let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
+//
+//            switch section {
+//            case .Local:
+//                header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+//            case .Online:
+//                header?.titleLabel.text = NSLocalizedString("Users", comment: "")
+//            }
+//
+//            return header
+//
+//        } else {
+//            return nil
+//        }
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -313,12 +330,14 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return 0
         }
 
-        if searchControllerIsActive {
-            return 25
-            
-        } else {
-            return 0
-        }
+        return 25
+
+//        if searchControllerIsActive {
+//            return 25
+//            
+//        } else {
+//            return 0
+//        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -328,7 +347,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
-        let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+        //let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+        let friend = filteredFriends?[safe: index]
         return friend
     }
 
