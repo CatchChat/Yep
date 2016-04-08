@@ -35,7 +35,7 @@ class SearchContactsViewController: SegueViewController {
             contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
 
-            contactsTableView.rowHeight = 80
+            //contactsTableView.rowHeight = 80
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
             contactsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
@@ -306,19 +306,20 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         }
 
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-
-        guard let section = Section(rawValue: section) else {
-            return nil
-        }
-
-        switch section {
-        case .Local:
-            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-        case .Online:
-            header?.titleLabel.text = NSLocalizedString("Users", comment: "")
-        }
-
+        header?.titleLabel.text = nil
         return header
+//        guard let section = Section(rawValue: section) else {
+//            return nil
+//        }
+//
+//        switch section {
+//        case .Local:
+//            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
+//        case .Online:
+//            header?.titleLabel.text = NSLocalizedString("Users", comment: "")
+//        }
+//
+//        return header
 
 //        if searchControllerIsActive {
 //
@@ -356,6 +357,15 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 //        } else {
 //            return 0
 //        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        guard indexPath.row > 0 else {
+            return 40
+        }
+
+        return 70
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
