@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import AVFoundation
 import MapKit
+import Ruler
 
 class FeedsViewController: BaseViewController {
 
@@ -1039,7 +1040,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
                     return cell
 
-                } else if feed.imageAttachmentsCount <= 3 {
+                } else if feed.imageAttachmentsCount <= Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
                     return cell
 
@@ -1212,7 +1213,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.tapMediaAction = tapMediaAction
 
-                } else if feed.imageAttachmentsCount <= 3 {
+                } else if feed.imageAttachmentsCount <= Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value {
 
                     guard let cell = cell as? FeedNormalImagesCell else {
                         break
