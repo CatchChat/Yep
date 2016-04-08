@@ -29,7 +29,6 @@ class SearchContactsViewController: SegueViewController {
 
     private let headerIdentifier = "TableSectionTitleView"
     private let searchSectionTitleCellID = "SearchSectionTitleCell"
-    //private let cellIdentifier = "SearchedContactsCell"
     private let searchedUserCellID = "SearchedUserCell"
     private let searchedDiscoveredUserCellID = "SearchedDiscoveredUserCell"
 
@@ -40,11 +39,9 @@ class SearchContactsViewController: SegueViewController {
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
-            //contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
             contactsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
             contactsTableView.registerNib(UINib(nibName: searchedDiscoveredUserCellID, bundle: nil), forCellReuseIdentifier: searchedDiscoveredUserCellID)
 
-            //contactsTableView.rowHeight = 80
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
             contactsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
@@ -69,18 +66,10 @@ class SearchContactsViewController: SegueViewController {
 
     private var keyword: String?
 
-    //private var searchControllerIsActive = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
-        title = "Search Contacts"
+        title = NSLocalizedString("Search", comment: "") 
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.contactsTableView.contentInset.bottom = keyboardHeight
@@ -101,8 +90,6 @@ class SearchContactsViewController: SegueViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
-
-        //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -140,8 +127,6 @@ class SearchContactsViewController: SegueViewController {
 
         searchBar.resignFirstResponder()
         searchBar.yep_enableCancelButton()
-
-        //(tabBarController as? YepTabBarController)?.setTabBarHidden(true, animated: true)
     }
 
     // MARK: - Navigation
@@ -206,23 +191,13 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        //searchControllerIsActive = !searchText.isEmpty
-
-        //updateSearchResultsWithText(searchText)
-
-        if searchText.isEmpty {
-            clearSearchResults()
-        }
+        let searchText = searchText.trimming(.Whitespace)
+        updateSearchResultsWithText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
-
-        if let searchText = searchBar.text {
-            searchText.trimming(.Whitespace)
-            updateSearchResultsWithText(searchText)
-        }
     }
 
     private func clearSearchResults() {
@@ -308,10 +283,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         switch section {
         case .Local:
-            //return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
             return numberOfRowsWithCountOfItems(countOfFilteredFriends)
         case .Online:
-            //return searchControllerIsActive ? searchedUsers.count : 0
             return numberOfRowsWithCountOfItems(countOfSearchedUsers)
         }
     }
@@ -319,32 +292,6 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowsInSection(section)
     }
-
-    /*
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
-        guard numberOfRowsInSection(section) > 0 else {
-            return nil
-        }
-
-        if searchControllerIsActive {
-
-            guard let section = Section(rawValue: section) else {
-                return nil
-            }
-
-            switch section {
-            case .Local:
-                return NSLocalizedString("Friends", comment: "")
-            case .Online:
-                return NSLocalizedString("Users", comment: "")
-            }
-
-        } else {
-            return nil
-        }
-    }
-    */
 
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
@@ -354,40 +301,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
         header?.titleLabel.text = nil
-        return header
-//        guard let section = Section(rawValue: section) else {
-//            return nil
-//        }
-//
-//        switch section {
-//        case .Local:
-//            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-//        case .Online:
-//            header?.titleLabel.text = NSLocalizedString("Users", comment: "")
-//        }
-//
-//        return header
 
-//        if searchControllerIsActive {
-//
-//            guard let section = Section(rawValue: section) else {
-//                return nil
-//            }
-//
-//            let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-//
-//            switch section {
-//            case .Local:
-//                header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-//            case .Online:
-//                header?.titleLabel.text = NSLocalizedString("Users", comment: "")
-//            }
-//
-//            return header
-//
-//        } else {
-//            return nil
-//        }
+        return header
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -396,14 +311,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return 0
         }
 
-        return 25
-
-//        if searchControllerIsActive {
-//            return 25
-//            
-//        } else {
-//            return 0
-//        }
+        return 15
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -448,7 +356,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     private func friendAtIndex(index: Int) -> User? {
-        //let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+
         let friend = filteredFriends?[safe: index]
         return friend
     }
