@@ -40,12 +40,17 @@ class SearchedUserCell: UITableViewCell {
         }
 
         if let mentionUsername = user.mentionedUsername {
+            usernameLabel.hidden = false
+
             if let keyword = keyword {
                 usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
 
             } else {
                 usernameLabel.text = mentionUsername
             }
+
+        } else {
+            usernameLabel.hidden = true
         }
 
         timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
@@ -64,12 +69,17 @@ class SearchedUserCell: UITableViewCell {
         }
 
         if let mentionUsername = discoveredUser.mentionedUsername {
+            usernameLabel.hidden = false
+
             if let keyword = keyword {
                 usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
 
             } else {
                 usernameLabel.text = mentionUsername
             }
+
+        } else {
+            usernameLabel.hidden = true
         }
 
         timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo.lowercaseString)
