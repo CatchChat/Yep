@@ -332,6 +332,9 @@
 		50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C151CB4E3E5007CAE80 /* SearchMoreResultsCell.swift */; };
 		50E34C181CB4E3E5007CAE80 /* SearchMoreResultsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */; };
 		50E34C1B1CB60475007CAE80 /* UISearchBar+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C1A1CB60475007CAE80 /* UISearchBar+Yep.swift */; };
+		50E34C1D1CB7516C007CAE80 /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */; };
+		50E34C211CB75774007CAE80 /* SearchedDiscoveredUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C1F1CB75774007CAE80 /* SearchedDiscoveredUserCell.swift */; };
+		50E34C221CB75774007CAE80 /* SearchedDiscoveredUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C201CB75774007CAE80 /* SearchedDiscoveredUserCell.xib */; };
 		50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */; };
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
@@ -736,6 +739,9 @@
 		50E34C151CB4E3E5007CAE80 /* SearchMoreResultsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchMoreResultsCell.swift; path = Views/Cells/SearchMoreResults/SearchMoreResultsCell.swift; sourceTree = "<group>"; };
 		50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchMoreResultsCell.xib; path = Views/Cells/SearchMoreResults/SearchMoreResultsCell.xib; sourceTree = "<group>"; };
 		50E34C1A1CB60475007CAE80 /* UISearchBar+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UISearchBar+Yep.swift"; path = "Extensions/UISearchBar+Yep.swift"; sourceTree = "<group>"; };
+		50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRepresentation.swift; path = Protocols/UserRepresentation.swift; sourceTree = "<group>"; };
+		50E34C1F1CB75774007CAE80 /* SearchedDiscoveredUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedDiscoveredUserCell.swift; path = Views/Cells/SearchedDiscoveredUser/SearchedDiscoveredUserCell.swift; sourceTree = "<group>"; };
+		50E34C201CB75774007CAE80 /* SearchedDiscoveredUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedDiscoveredUserCell.xib; path = Views/Cells/SearchedDiscoveredUser/SearchedDiscoveredUserCell.xib; sourceTree = "<group>"; };
 		50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedNormalImagesCell.swift; path = Views/Cells/Feed/FeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -1317,6 +1323,7 @@
 				5012FDDC1BFABDEA00294145 /* ProfileFeeds */,
 				50E114FE1ABC549800F13000 /* Contacts */,
 				50098D441CB348AF009275FE /* SearchedUser */,
+				50E34C1E1CB75728007CAE80 /* SearchedDiscoveredUser */,
 				50098D491CB35EA8009275FE /* SearchedMessage */,
 				50008D371CAE533000245296 /* SearchedFeed */,
 				50098D4E1CB3974F009275FE /* SearchSectionTitle */,
@@ -2203,6 +2210,7 @@
 			isa = PBXGroup;
 			children = (
 				50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */,
+				50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -2316,6 +2324,15 @@
 				50E34C161CB4E3E5007CAE80 /* SearchMoreResultsCell.xib */,
 			);
 			name = SearchMoreResults;
+			sourceTree = "<group>";
+		};
+		50E34C1E1CB75728007CAE80 /* SearchedDiscoveredUser */ = {
+			isa = PBXGroup;
+			children = (
+				50E34C1F1CB75774007CAE80 /* SearchedDiscoveredUserCell.swift */,
+				50E34C201CB75774007CAE80 /* SearchedDiscoveredUserCell.xib */,
+			);
+			name = SearchedDiscoveredUser;
 			sourceTree = "<group>";
 		};
 		50E61CEC1AF1F6A600908A9D /* ConversationTitle */ = {
@@ -2728,6 +2745,7 @@
 				50098D481CB348FA009275FE /* SearchedUserCell.xib in Resources */,
 				50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */,
 				0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */,
+				50E34C221CB75774007CAE80 /* SearchedDiscoveredUserCell.xib in Resources */,
 				50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
@@ -2955,6 +2973,7 @@
 				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
 				50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
+				50E34C1D1CB7516C007CAE80 /* UserRepresentation.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
@@ -3011,6 +3030,7 @@
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
+				50E34C211CB75774007CAE80 /* SearchedDiscoveredUserCell.swift in Sources */,
 				505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */,
 				0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */,
 				6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */,

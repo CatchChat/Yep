@@ -51,7 +51,6 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.sectionFooterHeight = 0
             resultsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
 
-            resultsTableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 0))
             resultsTableView.tableFooterView = UIView()
         }
     }
@@ -567,7 +566,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                         return
                 }
 
-                cell.configureWithUser(friend, keyword: keyword)
+                cell.configureWithUserRepresentation(friend, keyword: keyword)
 
             } else {
                 guard let cell = cell as? SearchMoreResultsCell else {

@@ -1086,6 +1086,14 @@ struct DiscoveredUser: Hashable {
         return id.hashValue
     }
 
+    var mentionedUsername: String? {
+        if let username = username where !username.isEmpty {
+            return "@\(username)"
+        } else {
+            return nil
+        }
+    }
+
     var compositedName: String {
         if let username = username {
             return "\(nickname) @\(username)"

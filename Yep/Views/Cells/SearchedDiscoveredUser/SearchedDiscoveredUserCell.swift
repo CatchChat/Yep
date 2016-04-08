@@ -1,19 +1,19 @@
 //
-//  SearchedUserCell.swift
+//  SearchedDiscoveredUserCell.swift
 //  Yep
 //
-//  Created by NIX on 16/4/5.
+//  Created by NIX on 16/4/8.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class SearchedUserCell: UITableViewCell {
+class SearchedDiscoveredUserCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var introLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,7 +27,7 @@ class SearchedUserCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?, showTime: Bool = true) {
+    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -53,10 +53,6 @@ class SearchedUserCell: UITableViewCell {
             usernameLabel.hidden = true
         }
 
-        if showTime {
-            timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
-        } else {
-            timeLabel.text = nil
-        }
+        introLabel.text = user.userIntroduction
     }
 }
