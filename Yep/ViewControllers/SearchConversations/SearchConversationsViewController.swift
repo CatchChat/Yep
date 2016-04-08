@@ -566,7 +566,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                         return
                 }
 
-                cell.configureWithUser(friend, keyword: keyword)
+                cell.configureWithUserRepresentation(friend, keyword: keyword)
 
             } else {
                 guard let cell = cell as? SearchMoreResultsCell else {

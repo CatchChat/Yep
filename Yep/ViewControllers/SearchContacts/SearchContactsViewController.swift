@@ -451,12 +451,12 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
                 return
             }
 
-            cell.configureWithUser(friend, keyword: keyword)
+            cell.configureWithUserRepresentation(friend, keyword: keyword)
 
         case .Online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            cell.configureWithDiscoveredUser(discoveredUser, keyword: keyword)
+            cell.configureWithUserRepresentation(discoveredUser, keyword: keyword)
         }
     }
 
