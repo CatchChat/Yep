@@ -302,6 +302,8 @@ class ConversationsViewController: BaseViewController {
         }
 
         isFirstAppear = false
+
+        recoverNavigationDelegate()
     }
     
     private func askForNotification() {
@@ -334,6 +336,12 @@ class ConversationsViewController: BaseViewController {
 
     // MARK: Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else { return }
@@ -343,12 +351,6 @@ class ConversationsViewController: BaseViewController {
             originalNavigationControllerDelegate = navigationController?.delegate
 
             navigationController?.delegate = conversationsSearchTransition
-        }
-
-        func recoverNavigationDelegate() {
-            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-                navigationController?.delegate = originalNavigationControllerDelegate
-            }
         }
 
         switch identifier {
