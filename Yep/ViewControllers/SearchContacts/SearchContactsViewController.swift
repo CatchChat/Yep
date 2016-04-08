@@ -69,7 +69,7 @@ class SearchContactsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Search Contacts"
+        title = NSLocalizedString("Search", comment: "") 
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.contactsTableView.contentInset.bottom = keyboardHeight
