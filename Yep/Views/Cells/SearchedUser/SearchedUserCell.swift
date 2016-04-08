@@ -27,7 +27,7 @@ class SearchedUserCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?) {
+    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?, showTime: Bool = true) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -53,6 +53,10 @@ class SearchedUserCell: UITableViewCell {
             usernameLabel.hidden = true
         }
 
-        timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        if showTime {
+            timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        } else {
+            timeLabel.text = nil
+        }
     }
 }
