@@ -47,10 +47,6 @@ class NewFeedViewController: SegueViewController {
     }
 
     var attachment: Attachment = .Default
-
-    typealias NewFeedImageTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [UIImage], index: Int) -> Void
-    
-    var tapMediaAction: NewFeedImageTapMediaAction?
     
     var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
     var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
@@ -135,6 +131,7 @@ class NewFeedViewController: SegueViewController {
     private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
+        imagePicker.sourceType = .PhotoLibrary
         imagePicker.mediaTypes = [kUTTypeImage as String]
         imagePicker.allowsEditing = false
         return imagePicker
@@ -1058,40 +1055,6 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
     }
     
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 1 {
-            
-            let tapMediaAction: NewFeedImageTapMediaAction = { [weak self] transitionView, image, attachments, index in
-                
-                guard image != nil else {
-                    return
-                }
-                
-                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-//                vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                vc.startIndex = index
-                
-                let transitionView = transitionView
-                let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                vc.previewImageViewInitalFrame = frame
-                vc.bottomPreviewImage = image
-                
-                vc.transitionView = transitionView
-                
-                delay(0) {
-                    transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                }
-                vc.afterDismissAction = { [weak self] in
-                    transitionView.alpha = 1
-                    self?.view.window?.makeKeyAndVisible()
-                }
-                
-                mediaPreviewWindow.rootViewController = vc
-                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                mediaPreviewWindow.makeKeyAndVisible()
-        }
-        
-    }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         switch indexPath.section {
@@ -1149,19 +1112,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             self.presentViewController(pickAlertController, animated: true, completion: nil)
 
         case 1:
-//            break;
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
+//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
             
-            let transitionView = cell.imageView
-            
-            tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: mediaImages, index: indexPath.item)
-            
-            // TODO:点击图片应该是放大Preview， 按图片右上角的 X 才是删除图片
+            let previewVC = UIStoryboard(name: "NewFeed", bundle: nil).instantiateViewControllerWithIdentifier("NewFeedPreviewViewController") as! NewFeedPreviewViewController
+            previewVC.previewImages = mediaImages
+            previewVC.startIndex = indexPath.item
+            self.navigationController?.pushViewController(previewVC, animated: true)
 //            mediaImages.removeAtIndex(indexPath.item)
 ////            if !imageAssets.isEmpty {
 ////                imageAssets.removeAtIndex(indexPath.item)
 ////            }
-//            collectionView.deleteItemsAtIndexPaths([indexPath])
             
         default:
             break

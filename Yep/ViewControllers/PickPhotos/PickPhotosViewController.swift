@@ -28,6 +28,9 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit)/4)"
 
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
+        navigationItem.leftBarButtonItem = backBarButtonItem
+        
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickPhotosViewController.done(_:)))
         navigationItem.rightBarButtonItem = doneButton
 
@@ -59,6 +62,25 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
     // MARK: Actions
 
+    func back(sender: UIBarButtonItem) {
+        
+        let rootFetchResults = PHCollection.fetchTopLevelUserCollectionsWithOptions(nil)
+        rootFetchResults.enumerateObjectsUsingBlock { (collection, idx, stop) in
+            print(collection,"+++++root")
+            
+        }
+//        let allAlbumsOptions = PHFetchOptions()
+//
+//        let allAlbums:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: allAlbumsOptions)
+//        allAlbums.enumerateObjectsUsingBlock { (collection, idx, stop) in
+//            if let collection = collection as? PHAssetCollection {
+//                
+//                print(collection.localizedTitle,"____localizeTitle")
+//            }
+//        }
+        
+    }
+    
     func done(sender: UIBarButtonItem) {
 
         var images = [UIImage]()
