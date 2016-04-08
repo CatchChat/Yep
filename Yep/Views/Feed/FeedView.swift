@@ -291,6 +291,9 @@ class FeedView: UIView {
         timeLabel.textColor = UIColor.grayColor()
         dotLabel.textColor = UIColor.grayColor()
 
+        usernameLabel.hidden = true
+        usernameLabel.text = nil
+
         messageLabel.font = UIFont.feedMessageFont()
         messageLabel.alpha = 0
 
@@ -391,9 +394,9 @@ class FeedView: UIView {
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
-            usernameLabel.text = creator.mentionedUsername
+            //usernameLabel.text = creator.mentionedUsername
         }
-        
+
         if let distance = feed.distance {
             if distance < 1 {
                 distanceLabel.text = NSLocalizedString("Nearby", comment: "")
