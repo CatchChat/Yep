@@ -168,9 +168,7 @@ class ContactsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-        }
+        recoverNavigationDelegate()
     }
 
     // MARK: Actions
@@ -205,10 +203,23 @@ class ContactsViewController: BaseViewController {
 
     // MARK: Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
             return
+        }
+
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = contactsSearchTransition
         }
 
         switch identifier {
@@ -229,6 +240,8 @@ class ContactsViewController: BaseViewController {
             
             vc.setBackButtonWithTitle()
 
+            recoverNavigationDelegate()
+
         case "showSearchContacts":
 
             let vc = segue.destinationViewController as! SearchContactsViewController
@@ -236,10 +249,7 @@ class ContactsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = contactsSearchTransition
+            hackNavigationDelegate()
 
         default:
             break

@@ -15,14 +15,44 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: SegueViewController {
+class ConversationsViewController: BaseViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
-    @IBOutlet weak var conversationsTableView: UITableView!
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .Minimal
+        searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        searchBar.delegate = self
+        return searchBar
+    }()
+
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
+        return ConversationsSearchTransition()
+    }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
     private let cellIdentifier = "ConversationCell"
+
+    @IBOutlet weak var conversationsTableView: UITableView! {
+        didSet {
+            searchBar.sizeToFit()
+            conversationsTableView.tableHeaderView = searchBar
+            //conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+            //println("searchBar.frame: \(searchBar.frame)")
+
+            conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
+            conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+
+            conversationsTableView.rowHeight = 80
+
+            conversationsTableView.tableFooterView = UIView()
+        }
+    }
 
     private var realm: Realm!
 
@@ -75,8 +105,7 @@ class ConversationsViewController: SegueViewController {
     #endif
 
     private lazy var conversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return oneToOneConversationsInRealm(self.realm)
     }()
 
     private struct Listener {
@@ -142,14 +171,6 @@ class ConversationsViewController: SegueViewController {
         }
 
         view.backgroundColor = UIColor.whiteColor()
-
-        conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
-        conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        conversationsTableView.rowHeight = 80
-        conversationsTableView.tableFooterView = UIView()
 
         noConversation = conversations.isEmpty
 
@@ -281,6 +302,8 @@ class ConversationsViewController: SegueViewController {
         }
 
         isFirstAppear = false
+
+        recoverNavigationDelegate()
     }
     
     private func askForNotification() {
@@ -313,11 +336,33 @@ class ConversationsViewController: SegueViewController {
 
     // MARK: Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else { return }
 
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = conversationsSearchTransition
+        }
+
         switch identifier {
+
+        case "showSearchConversations":
+
+            let vc = segue.destinationViewController as! SearchConversationsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            hackNavigationDelegate()
 
         case "showConversation":
 
@@ -342,6 +387,8 @@ class ConversationsViewController: SegueViewController {
                 }
             }
 
+            recoverNavigationDelegate()
+
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -350,6 +397,8 @@ class ConversationsViewController: SegueViewController {
             vc.profileUser = ProfileUser.UserType(user)
 
             vc.setBackButtonWithTitle()
+
+            recoverNavigationDelegate()
             
         default:
             break
@@ -373,6 +422,18 @@ class ConversationsViewController: SegueViewController {
 
             self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
         }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension ConversationsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        performSegueWithIdentifier("showSearchConversations", sender: nil)
+
+        return false
     }
 }
 

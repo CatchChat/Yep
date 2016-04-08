@@ -196,6 +196,14 @@ class User: Object {
         return false
     }
 
+    var mentionedUsername: String? {
+        if username.isEmpty {
+            return nil
+        } else {
+            return "@\(username)"
+        }
+    }
+
     var compositedName: String {
         if username.isEmpty {
             return nickname
@@ -1147,6 +1155,38 @@ func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
+func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
+    let validFeeds: [Feed] = feeds
+        .filter({ $0.deleted == false })
+        .filter({ $0.creator != nil})
+        .filter({ $0.group?.conversation != nil })
+        .filter({ ($0.group?.includeMe ?? false) })
+
+    return validFeeds
+}
+
+func filterValidMessages(messages: Results<Message>) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
+
+    return validMessages
+}
+
+func filterValidMessages(messages: [Message]) -> [Message] {
+    let validMessages: [Message] = messages
+        .filter({ $0.hidden == false })
+        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isReal == true })
+        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ $0.conversation != nil })
+
+    return validMessages
+}
+
 func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
@@ -1457,6 +1497,11 @@ func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> Me
     }
 
     return nil
+}
+
+func oneToOneConversationsInRealm(realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
+    return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
 }
 
 func messagesInConversationFromFriend(conversation: Conversation) -> Results<Message> {

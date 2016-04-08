@@ -163,6 +163,10 @@ class YepConfig {
         static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
     }
 
+    struct SearchedItemCell {
+        static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+    }
+
     struct ConversationCell {
         static let avatarSize: CGFloat = 60
     }

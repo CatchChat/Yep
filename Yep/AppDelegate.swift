@@ -622,11 +622,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        let feeds = realm.objects(Feed)
-            .filter({ $0.deleted == false })
-            .filter({ $0.creator != nil})
-            .filter({ $0.group?.conversation != nil })
-            .filter({ ($0.group?.includeMe ?? false) })
+        let feeds = filterValidFeeds(realm.objects(Feed))
 
         let searchableItems = feeds.map({
             CSSearchableItem(
