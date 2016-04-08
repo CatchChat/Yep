@@ -14,12 +14,16 @@ protocol UserRepresentation {
     var nickname: String { get }
     var mentionedUsername: String? { get }
     var avatarURLString: String { get }
+    var userIntroduction: String? { get }
 
     var lastSignInUnixTime: NSTimeInterval { get }
 }
 
 extension User: UserRepresentation {
 
+    var userIntroduction: String? {
+        return introduction.isEmpty ? nil : introduction
+    }
 }
 
 extension DiscoveredUser: UserRepresentation {
@@ -27,4 +31,9 @@ extension DiscoveredUser: UserRepresentation {
     var userID: String {
         return id
     }
+
+    var userIntroduction: String? {
+        return introduction
+    }
 }
+

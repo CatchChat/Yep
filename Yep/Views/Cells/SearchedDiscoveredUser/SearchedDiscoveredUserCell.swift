@@ -17,7 +17,8 @@ class SearchedDiscoveredUserCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -25,5 +26,33 @@ class SearchedDiscoveredUserCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?) {
+
+        let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        if let keyword = keyword {
+            nicknameLabel.attributedText = user.nickname.yep_hightlightSearchKeyword(keyword)
+
+        } else {
+            nicknameLabel.text = user.nickname
+        }
+
+        if let mentionUsername = user.mentionedUsername {
+            usernameLabel.hidden = false
+
+            if let keyword = keyword {
+                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
+
+            } else {
+                usernameLabel.text = mentionUsername
+            }
+
+        } else {
+            usernameLabel.hidden = true
+        }
+
+        introLabel.text = user.userIntroduction
+    }
 }

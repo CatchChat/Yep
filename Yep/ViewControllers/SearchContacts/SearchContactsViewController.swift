@@ -26,6 +26,7 @@ class SearchContactsViewController: SegueViewController {
     private let searchSectionTitleCellID = "SearchSectionTitleCell"
     //private let cellIdentifier = "SearchedContactsCell"
     private let searchedUserCellID = "SearchedUserCell"
+    private let searchedDiscoveredUserCellID = "SearchedDiscoveredUserCell"
 
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
@@ -36,6 +37,7 @@ class SearchContactsViewController: SegueViewController {
             contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             //contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
             contactsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
+            contactsTableView.registerNib(UINib(nibName: searchedDiscoveredUserCellID, bundle: nil), forCellReuseIdentifier: searchedDiscoveredUserCellID)
 
             //contactsTableView.rowHeight = 80
             contactsTableView.sectionHeaderHeight = 0
@@ -417,8 +419,16 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         }
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
-        return cell
+        switch section {
+
+        case .Local:
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+            return cell
+
+        case .Online:
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchedDiscoveredUserCellID) as! SearchedDiscoveredUserCell
+            return cell
+        }
     }
 
     private func friendAtIndex(index: Int) -> User? {
@@ -433,9 +443,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return
         }
 
-        guard let cell = cell as? SearchedUserCell else {
-            return
-        }
+
 
         guard let section = Section(rawValue: indexPath.section) else {
             return
@@ -450,13 +458,21 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             guard let friend = friendAtIndex(itemIndex) else {
                 return
             }
+            guard let cell = cell as? SearchedUserCell else {
+                return
+            }
 
             cell.configureWithUserRepresentation(friend, keyword: keyword, showTime: false)
 
         case .Online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            cell.configureWithUserRepresentation(discoveredUser, keyword: keyword, showTime: false)
+
+            guard let cell = cell as? SearchedDiscoveredUserCell else {
+                return
+            }
+
+            cell.configureWithUserRepresentation(discoveredUser, keyword: keyword)
         }
     }
 
