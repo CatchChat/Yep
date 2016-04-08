@@ -72,11 +72,13 @@ struct FeedCellLayout {
         let imageView1Frame: CGRect
         let imageView2Frame: CGRect
         let imageView3Frame: CGRect
+        let imageView4Frame: CGRect
 
-        init(imageView1Frame: CGRect, imageView2Frame: CGRect, imageView3Frame: CGRect) {
+        init(imageView1Frame: CGRect, imageView2Frame: CGRect, imageView3Frame: CGRect, imageView4Frame: CGRect) {
             self.imageView1Frame = imageView1Frame
             self.imageView2Frame = imageView2Frame
             self.imageView3Frame = imageView3Frame
+            self.imageView4Frame = imageView4Frame
         }
     }
     var normalImagesLayout: NormalImagesLayout?
@@ -242,7 +244,7 @@ struct FeedCellLayout {
 
                 self.biggerImageLayout = biggerImageLayout
 
-            } else if feed.imageAttachmentsCount <= 3 {
+            } else if feed.imageAttachmentsCount <= 4 {
 
                 let x1 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
                 let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
@@ -253,7 +255,10 @@ struct FeedCellLayout {
                 let x3 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
                 let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
-                let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame)
+                let x4 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
+                let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+
+                let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
 
                 self.normalImagesLayout = normalImagesLayout
 

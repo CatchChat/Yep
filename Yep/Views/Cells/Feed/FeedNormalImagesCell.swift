@@ -52,6 +52,14 @@ class FeedNormalImagesCell: FeedBasicCell {
         return imageView
     }()
 
+    lazy var imageView4: UIImageView = {
+        let x = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
+        let frame = CGRect(origin: CGPoint(x: x, y: 0), size: YepConfig.FeedNormalImagesCell.imageSize)
+        let imageView = self.createImageViewWithFrame(frame)
+
+        return imageView
+    }()
+
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
@@ -67,8 +75,9 @@ class FeedNormalImagesCell: FeedBasicCell {
         contentView.addSubview(imageView1)
         contentView.addSubview(imageView2)
         contentView.addSubview(imageView3)
+        contentView.addSubview(imageView4)
 
-        imageViews = [imageView1, imageView2, imageView3]
+        imageViews = [imageView1, imageView2, imageView3, imageView4]
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -87,6 +96,7 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView1.image = nil
         imageView2.image = nil
         imageView3.image = nil
+        imageView4.image = nil
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
@@ -100,6 +110,7 @@ class FeedNormalImagesCell: FeedBasicCell {
             imageView1.frame = normalImagesLayout.imageView1Frame
             imageView2.frame = normalImagesLayout.imageView2Frame
             imageView3.frame = normalImagesLayout.imageView3Frame
+            imageView4.frame = normalImagesLayout.imageView4Frame
 
         } else {
             imageViews.forEach({
@@ -131,7 +142,7 @@ class FeedNormalImagesCell: FeedBasicCell {
 
         if layoutCache.layout == nil {
 
-            let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1.frame, imageView2Frame: imageView2.frame, imageView3Frame: imageView3.frame)
+            let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1.frame, imageView2Frame: imageView2.frame, imageView3Frame: imageView3.frame, imageView4Frame: imageView4.frame)
             _newLayout?.normalImagesLayout = normalImagesLayout
 
             if let newLayout = _newLayout {
