@@ -311,7 +311,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return 0
         }
 
-        return 25
+        return 15
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

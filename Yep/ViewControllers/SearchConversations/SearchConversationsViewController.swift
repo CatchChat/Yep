@@ -46,7 +46,6 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
             resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
 
-            //resultsTableView.rowHeight = 80
             resultsTableView.sectionHeaderHeight = 0
             resultsTableView.sectionFooterHeight = 0
             resultsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
@@ -278,6 +277,13 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        if searchText.isEmpty {
+            clearSearchResults()
+        }
+    }
+
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
@@ -286,16 +292,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             searchText.trimming(.Whitespace)
             updateSearchResultsWithText(searchText)
         }
-    }
-
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if searchText.isEmpty {
-            clearSearchResults()
-        }
-
-        //let searchText = searchText.trimming(.Whitespace)
-        //updateSearchResultsWithText(searchText)
     }
 
     private func clearSearchResults() {
@@ -428,20 +424,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return nil
         }
 
-//        guard let section = Section(rawValue: section) else {
-//            return nil
-//        }
-
         let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
 
-//        switch section {
-//        case .Friend:
-//            header?.titleLabel.text = NSLocalizedString("Friends", comment: "")
-//        case .MessageRecord:
-//            header?.titleLabel.text = NSLocalizedString("Messages", comment: "")
-//        case .Feed:
-//            header?.titleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
-//        }
         header?.titleLabel.text = nil
 
         return header
