@@ -208,21 +208,22 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         //searchControllerIsActive = !searchText.isEmpty
 
-        //updateSearchResultsWithText(searchText)
+        let searchText = searchText.trimming(.Whitespace)
+        updateSearchResultsWithText(searchText)
 
-        if searchText.isEmpty {
-            clearSearchResults()
-        }
+//        if searchText.isEmpty {
+//            clearSearchResults()
+//        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
 
-        if let searchText = searchBar.text {
-            searchText.trimming(.Whitespace)
-            updateSearchResultsWithText(searchText)
-        }
+//        if let searchText = searchBar.text {
+//            searchText.trimming(.Whitespace)
+//            updateSearchResultsWithText(searchText)
+//        }
     }
 
     private func clearSearchResults() {
