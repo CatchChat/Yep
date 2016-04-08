@@ -168,9 +168,7 @@ class ContactsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-        }
+        recoverNavigationDelegate()
     }
 
     // MARK: Actions
@@ -205,6 +203,12 @@ class ContactsViewController: BaseViewController {
 
     // MARK: Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
@@ -216,12 +220,6 @@ class ContactsViewController: BaseViewController {
             originalNavigationControllerDelegate = navigationController?.delegate
 
             navigationController?.delegate = contactsSearchTransition
-        }
-
-        func recoverNavigationDelegate() {
-            if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-                navigationController?.delegate = originalNavigationControllerDelegate
-            }
         }
 
         switch identifier {
