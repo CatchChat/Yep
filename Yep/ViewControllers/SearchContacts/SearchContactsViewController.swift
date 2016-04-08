@@ -186,15 +186,38 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         //searchControllerIsActive = !searchText.isEmpty
 
-        updateSearchResultsWithText(searchText)
+        //updateSearchResultsWithText(searchText)
+
+        if searchText.isEmpty {
+            clearSearchResults()
+        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
+
+        if let searchText = searchBar.text {
+            searchText.trimming(.Whitespace)
+            updateSearchResultsWithText(searchText)
+        }
+    }
+
+    private func clearSearchResults() {
+
+        filteredFriends = nil
+        searchedUsers = []
+
+        updateContactsTableView(scrollsToTop: true)
     }
 
     private func updateSearchResultsWithText(searchText: String) {
+
+        guard !searchText.isEmpty else {
+            clearSearchResults()
+
+            return
+        }
 
         let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
         let filteredFriends = friends.filter(predicate)
