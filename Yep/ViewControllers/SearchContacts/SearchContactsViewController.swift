@@ -32,7 +32,12 @@ class SearchContactsViewController: SegueViewController {
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+
             contactsTableView.rowHeight = 80
+            contactsTableView.sectionHeaderHeight = 0
+            contactsTableView.sectionFooterHeight = 0
+            contactsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
+
             contactsTableView.tableFooterView = UIView()
         }
     }
