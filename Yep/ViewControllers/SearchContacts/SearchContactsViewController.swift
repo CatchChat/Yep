@@ -24,7 +24,8 @@ class SearchContactsViewController: SegueViewController {
 
     private let headerIdentifier = "TableSectionTitleView"
     private let searchSectionTitleCellID = "SearchSectionTitleCell"
-    private let cellIdentifier = "SearchedContactsCell"
+    //private let cellIdentifier = "SearchedContactsCell"
+    private let searchedUserCellID = "SearchedUserCell"
 
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
@@ -33,7 +34,8 @@ class SearchContactsViewController: SegueViewController {
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
-            contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            //contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            contactsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
 
             //contactsTableView.rowHeight = 80
             contactsTableView.sectionHeaderHeight = 0
@@ -57,6 +59,8 @@ class SearchContactsViewController: SegueViewController {
     private var countOfSearchedUsers: Int {
         return searchedUsers.count
     }
+
+    private var keyword: String?
 
     //private var searchControllerIsActive = false
     
@@ -218,6 +222,8 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
             return
         }
+
+        self.keyword = searchText
 
         let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
         let filteredFriends = friends.filter(predicate)
@@ -411,7 +417,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return cell
         }
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
         return cell
     }
 
@@ -427,7 +433,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return
         }
 
-        guard let cell = cell as? SearchedContactsCell else {
+        guard let cell = cell as? SearchedUserCell else {
             return
         }
 
@@ -445,12 +451,12 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
                 return
             }
 
-            cell.configureWithUser(friend)
+            cell.configureWithUser(friend, keyword: keyword)
 
         case .Online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            cell.configureWithDiscoveredUser(discoveredUser)
+            cell.configureWithDiscoveredUser(discoveredUser, keyword: keyword)
         }
     }
 

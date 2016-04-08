@@ -50,4 +50,28 @@ class SearchedUserCell: UITableViewCell {
 
         timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
     }
+
+    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, keyword: String?) {
+
+        let userAvatar = UserAvatar(userID: discoveredUser.id, avatarURLString: discoveredUser.avatarURLString, avatarStyle: nanoAvatarStyle)
+        avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        if let keyword = keyword {
+            nicknameLabel.attributedText = discoveredUser.nickname.yep_hightlightSearchKeyword(keyword)
+
+        } else {
+            nicknameLabel.text = discoveredUser.nickname
+        }
+
+        if let mentionUsername = discoveredUser.mentionedUsername {
+            if let keyword = keyword {
+                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
+
+            } else {
+                usernameLabel.text = mentionUsername
+            }
+        }
+
+        timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
 }
