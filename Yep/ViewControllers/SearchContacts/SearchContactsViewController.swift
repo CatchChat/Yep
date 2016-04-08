@@ -23,6 +23,7 @@ class SearchContactsViewController: SegueViewController {
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
     private let headerIdentifier = "TableSectionTitleView"
+    private let searchSectionTitleCellID = "SearchSectionTitleCell"
     private let cellIdentifier = "SearchedContactsCell"
 
     @IBOutlet weak var contactsTableView: UITableView! {
@@ -31,6 +32,7 @@ class SearchContactsViewController: SegueViewController {
             contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
+            contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
             contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
 
             contactsTableView.rowHeight = 80
@@ -48,6 +50,13 @@ class SearchContactsViewController: SegueViewController {
     private var filteredFriends: Results<User>?
 
     private var searchedUsers = [DiscoveredUser]()
+
+    private var countOfFilteredFriends: Int {
+        return filteredFriends?.count ?? 0
+    }
+    private var countOfSearchedUsers: Int {
+        return searchedUsers.count
+    }
 
     //private var searchControllerIsActive = false
     
@@ -241,13 +250,22 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return 0
         }
 
+        func numberOfRowsWithCountOfItems(countOfItems: Int) -> Int {
+            let count = countOfItems
+            if count > 0 {
+                return 1 + count
+            } else {
+                return 0
+            }
+        }
+
         switch section {
         case .Local:
             //return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
-            return filteredFriends?.count ?? 0
+            return numberOfRowsWithCountOfItems(countOfFilteredFriends)
         case .Online:
             //return searchControllerIsActive ? searchedUsers.count : 0
-            return searchedUsers.count
+            return numberOfRowsWithCountOfItems(countOfSearchedUsers)
         }
     }
 
@@ -341,18 +359,40 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        if indexPath.row == 0 {
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+
+            switch section {
+            case .Local:
+                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
+            case .Online:
+                cell.sectionTitleLabel.text = NSLocalizedString("Users", comment: "")
+            }
+
+            return cell
+        }
+
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! SearchedContactsCell
         return cell
     }
 
-    private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
-        let index = indexPath.row
+    private func friendAtIndex(index: Int) -> User? {
         //let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
         let friend = filteredFriends?[safe: index]
         return friend
     }
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard indexPath.row > 0 else {
+            return
+        }
 
         guard let cell = cell as? SearchedContactsCell else {
             return
@@ -362,12 +402,13 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return
         }
 
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
         case .Local:
 
-            guard let friend = friendAtIndexPath(indexPath) else {
+            guard let friend = friendAtIndex(itemIndex) else {
                 return
             }
 
@@ -375,7 +416,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         case .Online:
 
-            let discoveredUser = searchedUsers[indexPath.row]
+            let discoveredUser = searchedUsers[itemIndex]
             cell.configureWithDiscoveredUser(discoveredUser)
         }
     }
@@ -386,23 +427,29 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
+        guard indexPath.row > 0 else {
+            return
+        }
+
         hideKeyboard()
 
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
+        let itemIndex = indexPath.row - 1
+
         switch section {
 
         case .Local:
 
-            if let friend = friendAtIndexPath(indexPath) {
+            if let friend = friendAtIndex(itemIndex) {
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
 
         case .Online:
 
-            let discoveredUser = searchedUsers[indexPath.row]
+            let discoveredUser = searchedUsers[itemIndex]
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
