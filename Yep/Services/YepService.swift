@@ -15,8 +15,8 @@ import Alamofire
 let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
 let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
-let yepBaseURL = NSURL(string: "https://api.soyep.com")!
-let fayeBaseURL = NSURL(string: "wss://faye.catchchatchina.com/faye")!
+let yepBaseURL = NSURL(string: "")!
+let fayeBaseURL = NSURL(string: "")!
 #endif
 
 // Models
