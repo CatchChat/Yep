@@ -37,6 +37,7 @@ class ChatBaseCell: UICollectionViewCell {
     var tapAvatarAction: ((user: User) -> Void)?
     
     var deleteMessageAction: (() -> Void)?
+    var reportMessageAction: (() -> Void)?
 
     deinit {
         NSNotificationCenter.defaultCenter()
@@ -77,6 +78,10 @@ class ChatBaseCell: UICollectionViewCell {
 
     func deleteMessage(object: UIMenuController?) {
         deleteMessageAction?()
+    }
+
+    func reportMessage(object: UIMenuController?) {
+        reportMessageAction?()
     }
 }
 

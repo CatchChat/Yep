@@ -3464,7 +3464,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             UIMenuController.sharedMenuController().menuItems = [
-                UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:)))
+                UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:))),
+                UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:))),
             ]
 
             return true
@@ -3490,6 +3491,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         if action == #selector(ChatBaseCell.deleteMessage(_:)) {
+            return true
+        }
+
+        if action == #selector(ChatBaseCell.reportMessage(_:)) {
             return true
         }
 
