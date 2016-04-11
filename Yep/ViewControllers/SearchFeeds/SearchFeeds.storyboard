@@ -24,6 +24,9 @@
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AQU-dM-Gus">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Z31-Zx-AsW" id="gQ6-zr-QZf"/>
+                                </connections>
                             </searchBar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmH-ug-Qcg" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="108" width="600" height="1"/>

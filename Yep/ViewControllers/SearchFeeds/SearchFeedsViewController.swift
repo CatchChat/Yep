@@ -58,6 +58,24 @@ class SearchFeedsViewController: UIViewController {
         isFirstAppear = false
     }
 
+    // MARK: - Private
+
+    private func hideKeyboard() {
+
+        searchBar.resignFirstResponder()
+        searchBar.yep_enableCancelButton()
+    }
+
+    private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
+//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+//            self?.resultsTableView.reloadData()
+//
+//            if scrollsToTop {
+//                self?.resultsTableView.yep_scrollsToTop()
+//            }
+//        }
+    }
+
     /*
     // MARK: - Navigation
 
@@ -68,4 +86,57 @@ class SearchFeedsViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: - UISearchBarDelegate
+
+extension SearchFeedsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        searchBarBottomLineView.hidden = false
+
+        return true
+    }
+
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+
+        searchBarBottomLineView.hidden = true
+
+        navigationController?.popViewControllerAnimated(true)
+    }
+
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        updateSearchResultsWithText(searchText)
+    }
+
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+
+        hideKeyboard()
+    }
+
+    private func clearSearchResults() {
+
+//        filteredFriends = nil
+//        filteredUserMessages = nil
+//        filteredFeeds = nil
+
+        updateResultsTableView(scrollsToTop: true)
+    }
+
+    private func updateSearchResultsWithText(searchText: String) {
+
+        guard !searchText.isEmpty else {
+            clearSearchResults()
+
+            return
+        }
+
+
+        //updateResultsTableView(scrollsToTop: scrollsToTop)
+    }
 }
