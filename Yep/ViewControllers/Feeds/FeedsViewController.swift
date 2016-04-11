@@ -1007,7 +1007,7 @@ extension FeedsViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
 
-        //performSegueWithIdentifier("showSearchConversations", sender: nil)
+        performSegueWithIdentifier("showSearchFeeds", sender: nil)
 
         return false
     }
