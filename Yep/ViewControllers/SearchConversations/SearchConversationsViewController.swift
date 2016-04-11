@@ -345,9 +345,10 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
             let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
-            self.filteredFeeds = filteredFeeds
+            let sortedFilteredFeeds = filteredFeeds.sort({ $0.createdUnixTime > $1.createdUnixTime })
+            self.filteredFeeds = sortedFilteredFeeds
 
-            scrollsToTop = !filteredFeeds.isEmpty
+            scrollsToTop = !sortedFilteredFeeds.isEmpty
         }
 
         updateResultsTableView(scrollsToTop: scrollsToTop)
