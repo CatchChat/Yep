@@ -46,6 +46,7 @@ extension UIViewController {
     enum ReportObject {
         case User(ProfileUser)
         case Feed(feedID: String)
+        case Message(messageID: String)
     }
 
     func report(object: ReportObject) {
@@ -76,6 +77,9 @@ extension UIViewController {
 
                 }, completion: {
                 })
+
+            case .Message(let messageID):
+                println("report Message: \(messageID)")
             }
         }
 

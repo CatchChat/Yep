@@ -3937,6 +3937,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 cell.deleteMessageAction = { [weak self] in
                     self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
                 }
+
+                cell.reportMessageAction = { [weak self] in
+                    self?.report(.Message(messageID: message.messageID))
+                }
             }
 
             if sender.friendState != UserFriendState.Me.rawValue { // from Friend
