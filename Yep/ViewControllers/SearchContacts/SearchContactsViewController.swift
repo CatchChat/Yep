@@ -386,7 +386,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
                 return
             }
 
-            cell.configureWithUserRepresentation(friend, keyword: keyword, showTime: false)
+            cell.configureWithUserRepresentation(friend, keyword: keyword)
 
         case .Online:
 

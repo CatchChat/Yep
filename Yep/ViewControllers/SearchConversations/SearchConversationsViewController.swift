@@ -279,19 +279,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        if searchText.isEmpty {
-            clearSearchResults()
-        }
+        updateSearchResultsWithText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
-
-        if let searchText = searchBar.text {
-            searchText.trimming(.Whitespace)
-            updateSearchResultsWithText(searchText)
-        }
     }
 
     private func clearSearchResults() {
@@ -352,9 +345,10 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
             let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
-            self.filteredFeeds = filteredFeeds
+            let sortedFilteredFeeds = filteredFeeds.sort({ $0.createdUnixTime > $1.createdUnixTime })
+            self.filteredFeeds = sortedFilteredFeeds
 
-            scrollsToTop = !filteredFeeds.isEmpty
+            scrollsToTop = !sortedFilteredFeeds.isEmpty
         }
 
         updateResultsTableView(scrollsToTop: scrollsToTop)
