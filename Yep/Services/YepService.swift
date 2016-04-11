@@ -2955,6 +2955,27 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func feedsWithKeyword(keyword: String, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+
+    guard !keyword.isEmpty else {
+        completion([])
+        return
+    }
+
+    let requestParameters: JSONDictionary = [
+        "q": keyword,
+    ]
+
+    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
+        println("feedsWithKeyword \(keyword): \(data)")
+        return parseFeeds(data)
+    }
+
+    let resource = authJsonResource(path: "/v1/topics/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 func feedWithSharedToken(token: String, failureHandler: FailureHandler?, completion: DiscoveredFeed -> Void) {
 
     let requestParameters: JSONDictionary = [

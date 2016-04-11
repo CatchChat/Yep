@@ -408,8 +408,12 @@ class FeedsViewController: BaseViewController {
         }
 
         #if DEBUG
-//            view.addSubview(feedsFPSLabel)
+            //view.addSubview(feedsFPSLabel)
         #endif
+
+        feedsWithKeyword("hello", failureHandler: nil) { feeds in
+            println("feeds.count \(feeds.count)")
+        }
     }
 
     // MARK: Actions
