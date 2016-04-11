@@ -279,19 +279,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        if searchText.isEmpty {
-            clearSearchResults()
-        }
+        updateSearchResultsWithText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
 
         hideKeyboard()
-
-        if let searchText = searchBar.text {
-            searchText.trimming(.Whitespace)
-            updateSearchResultsWithText(searchText)
-        }
     }
 
     private func clearSearchResults() {
