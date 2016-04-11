@@ -10,6 +10,18 @@ import UIKit
 
 class SearchFeedsViewController: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar! {
+        didSet {
+            searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        }
+    }
+    @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
+        didSet {
+            searchBarBottomLineView.lineColor = UIColor(white: 0.68, alpha: 1.0)
+        }
+    }
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

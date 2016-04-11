@@ -50,6 +50,11 @@
                             <constraint firstItem="kmH-ug-Qcg" firstAttribute="leading" secondItem="Sdg-d0-wry" secondAttribute="leading" id="rMQ-ab-juG"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="searchBar" destination="AQU-dM-Gus" id="Pu4-V8-yek"/>
+                        <outlet property="searchBarBottomLineView" destination="kmH-ug-Qcg" id="AZV-5y-Ovd"/>
+                        <outlet property="searchBarTopConstraint" destination="EcN-qI-yL7" id="lvV-g3-bxx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
