@@ -402,6 +402,8 @@ class FeedsViewController: BaseViewController {
         
         if preparedFeedsCount > 0 {
             currentPageIndex = 2
+        } else {
+            updateFeeds()
         }
 
         // 没有 profileUser 才设置 feedSortStyle 以请求服务器
