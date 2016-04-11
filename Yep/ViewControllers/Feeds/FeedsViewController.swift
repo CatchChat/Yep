@@ -40,7 +40,7 @@ class FeedsViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
-        searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
         searchBar.delegate = self
         return searchBar
     }()

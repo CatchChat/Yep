@@ -15,7 +15,7 @@ class SearchFeedsViewController: UIViewController {
 
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
-            searchBar.placeholder = NSLocalizedString("Search", comment: "")
+            searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
         }
     }
     @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
