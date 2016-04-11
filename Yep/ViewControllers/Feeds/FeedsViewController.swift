@@ -45,6 +45,11 @@ class FeedsViewController: BaseViewController {
         return searchBar
     }()
 
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var feedsSearchTransition: FeedsSearchTransition = {
+        return FeedsSearchTransition()
+    }()
+
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
     private let feedBasicCellID = "FeedBasicCell"
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
@@ -339,6 +344,8 @@ class FeedsViewController: BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
+        recoverNavigationDelegate()
     }
 
     override func viewDidLoad() {
@@ -738,6 +745,12 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     private var newFeedViewController: NewFeedViewController?
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -806,7 +819,23 @@ class FeedsViewController: BaseViewController {
             return self
         }
 
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = feedsSearchTransition
+        }
+
         switch identifier {
+
+        case "showSearchFeeds":
+
+            let vc = segue.destinationViewController as! SearchFeedsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            hackNavigationDelegate()
 
         case "showProfile":
 
@@ -833,6 +862,8 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
+            recoverNavigationDelegate()
+
         case "showSkillHome":
 
             let vc = segue.destinationViewController as! SkillHomeViewController
@@ -842,6 +873,8 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.hidesBottomBarWhenPushed = true
+
+            recoverNavigationDelegate()
 
         case "showFeedsWithSkill":
 
@@ -862,6 +895,8 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.hidesBottomBarWhenPushed = true
+
+            recoverNavigationDelegate()
 
         case "showConversation":
 
@@ -949,6 +984,8 @@ class FeedsViewController: BaseViewController {
                 guard let strongSelf = self else { return }
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
+
+            recoverNavigationDelegate()
 
         case "presentNewFeed":
 

@@ -10,6 +10,9 @@ import UIKit
 
 class SearchFeedsViewController: UIViewController {
 
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private var feedsSearchTransition: FeedsSearchTransition?
+
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
@@ -28,11 +31,32 @@ class SearchFeedsViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private var isFirstAppear = true
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
-    
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let delegate = feedsSearchTransition {
+            navigationController?.delegate = delegate
+        }
+
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+            }, completion: nil)
+
+        if isFirstAppear {
+            searchBar.becomeFirstResponder()
+        }
+        
+        isFirstAppear = false
+    }
 
     /*
     // MARK: - Navigation
