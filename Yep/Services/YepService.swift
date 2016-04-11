@@ -839,6 +839,8 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+// MARK: - Report
+
 func reportFeedWithFeedID(feedID: String, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
     
     var requestParameters: JSONDictionary = [
@@ -858,6 +860,28 @@ func reportFeedWithFeedID(feedID: String, forReason reason: ReportReason, failur
     
     let resource = authJsonResource(path: "/v1/topics/\(feedID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
     
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func reportMessageWithMessageID(messageID: String, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "report_type": reason.type
+    ]
+
+    switch reason {
+    case .Other(let description):
+        requestParameters["reason"] = description
+    default:
+        break
+    }
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/messages/\(messageID)/reports", method: .POST, requestParameters: requestParameters, parse: parse)
+
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
