@@ -37,6 +37,7 @@ class ChatBaseCell: UICollectionViewCell {
     var tapAvatarAction: ((user: User) -> Void)?
     
     var deleteMessageAction: (() -> Void)?
+    var reportMessageAction: (() -> Void)?
 
     deinit {
         NSNotificationCenter.defaultCenter()
@@ -78,6 +79,10 @@ class ChatBaseCell: UICollectionViewCell {
     func deleteMessage(object: UIMenuController?) {
         deleteMessageAction?()
     }
+
+    func reportMessage(object: UIMenuController?) {
+        reportMessageAction?()
+    }
 }
 
 extension ChatBaseCell: UIGestureRecognizerDelegate {
@@ -93,18 +98,13 @@ extension ChatBaseCell: UIGestureRecognizerDelegate {
 
         // iOS 9 在长按链接时不弹出 menu
 
-        if isOperatingSystemAtLeastMajorVersion(9) {
-
-            if let longPressGestureRecognizer = otherGestureRecognizer as? UILongPressGestureRecognizer {
-                if longPressGestureRecognizer.minimumPressDuration == 0.75 {
-                    return true
-                }
+        if let longPressGestureRecognizer = otherGestureRecognizer as? UILongPressGestureRecognizer {
+            if longPressGestureRecognizer.minimumPressDuration == 0.75 {
+                return true
             }
-
-            return false
         }
-        
-        return true
+
+        return false
     }
 }
 

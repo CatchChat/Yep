@@ -45,7 +45,8 @@ extension UIViewController {
 
     enum ReportObject {
         case User(ProfileUser)
-        case Feed(DiscoveredFeed)
+        case Feed(feedID: String)
+        case Message(messageID: String)
     }
 
     func report(object: ReportObject) {
@@ -53,8 +54,8 @@ extension UIViewController {
         let reportWithReason: ReportReason -> Void = { [weak self] reason in
 
             switch object {
-            case .User(let profileUser):
 
+            case .User(let profileUser):
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
@@ -65,9 +66,19 @@ extension UIViewController {
                 }, completion: {
                 })
 
-            case .Feed(let discoveredFeed):
+            case .Feed(let feedID):
+                reportFeedWithFeedID(feedID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                reportFeed(discoveredFeed.id, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
+                    if let errorMessage = errorMessage {
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                    }
+
+                }, completion: {
+                })
+
+            case .Message(let messageID):
+                reportMessageWithMessageID(messageID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {

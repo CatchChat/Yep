@@ -1604,7 +1604,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
 
                 if let feed = self?.feeds[indexPath.row] {
-                    self?.report(.Feed(feed))
+                    self?.report(.Feed(feedID: feed.id))
                 }
 
                 tableView.setEditing(false, animated: true)

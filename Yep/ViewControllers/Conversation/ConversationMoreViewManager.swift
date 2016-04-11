@@ -55,6 +55,15 @@ class ConversationMoreViewManager {
 
     lazy var moreView: ActionSheetView = {
 
+        let reportItem = ActionSheetView.Item.Default(
+            title: NSLocalizedString("Report", comment: ""),
+            titleColor: UIColor.yepTintColor(),
+            action: { [weak self] in
+                self?.reportAction?()
+                return true
+            }
+        )
+
         let cancelItem = ActionSheetView.Item.Cancel
 
         let view: ActionSheetView
@@ -70,14 +79,7 @@ class ConversationMoreViewManager {
                     }
                 ),
                 self.makeDoNotDisturbItem(notificationEnabled: user.notificationEnabled), // 1
-                .Default(
-                    title: NSLocalizedString("Report", comment: ""),
-                    titleColor: UIColor.yepTintColor(),
-                    action: { [weak self] in
-                        self?.reportAction?()
-                        return true
-                    }
-                ),
+                reportItem,
                 self.makeBlockItem(blocked: user.blocked), // 3
                 cancelItem,
                 ]
@@ -104,6 +106,7 @@ class ConversationMoreViewManager {
                     }
                 ),
                 self.updateGroupItem(group: group), // 2
+                reportItem,
                 cancelItem,
                 ]
             )

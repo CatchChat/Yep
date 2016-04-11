@@ -94,10 +94,6 @@ func cleanRealmAndCaches() {
     }
 }
 
-func isOperatingSystemAtLeastMajorVersion(majorVersion: Int) -> Bool {
-    return NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: majorVersion, minorVersion: 0, patchVersion: 0))
-}
-
 extension String {
     func stringByAppendingPathComponent(path: String) -> String {
         return (self as NSString).stringByAppendingPathComponent(path)

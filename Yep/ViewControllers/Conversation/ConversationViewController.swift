@@ -2658,12 +2658,13 @@ class ConversationViewController: BaseViewController {
 
     private func tryReport() {
 
-        guard let user = conversation.withFriend else {
-            return
-        }
+        if let user = conversation.withFriend {
+            let profileUser = ProfileUser.UserType(user)
+            report(.User(profileUser))
 
-        let profileUser = ProfileUser.UserType(user)
-        report(.User(profileUser))
+        } else if let feed = self.conversation?.withGroup?.withFeed {
+            report(.Feed(feedID: feed.feedID))
+        }
     }
 
     private func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
@@ -3464,7 +3465,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             UIMenuController.sharedMenuController().menuItems = [
-                UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:)))
+                UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:))),
+                UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:))),
             ]
 
             return true
@@ -3490,6 +3492,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
 
         if action == #selector(ChatBaseCell.deleteMessage(_:)) {
+            return true
+        }
+
+        if action == #selector(ChatBaseCell.reportMessage(_:)) {
             return true
         }
 
@@ -3931,6 +3937,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 cell.deleteMessageAction = { [weak self] in
                     self?.deleteMessageAtIndexPath(message, indexPath: indexPath)
+                }
+
+                cell.reportMessageAction = { [weak self] in
+                    self?.report(.Message(messageID: message.messageID))
                 }
             }
 
