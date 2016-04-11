@@ -3452,6 +3452,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             // must configure it before show
 
+            var canReport = false
+
             let title: String
             if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
                 let isMyMessage = message.fromFriend?.isMe ?? false
@@ -3459,15 +3461,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     title = NSLocalizedString("Recall", comment: "")
                 } else {
                     title = NSLocalizedString("Hide", comment: "")
+                    canReport = true
                 }
             } else {
                 title = NSLocalizedString("Delete", comment: "")
             }
 
-            UIMenuController.sharedMenuController().menuItems = [
+            var menuItems = [
                 UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:))),
-                UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:))),
             ]
+
+            if canReport {
+                let reportItem = UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:)))
+                menuItems.append(reportItem)
+            }
+
+            UIMenuController.sharedMenuController().menuItems = menuItems
 
             return true
 
