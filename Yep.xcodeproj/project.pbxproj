@@ -40,6 +40,11 @@
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
 		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
+		33893E3A1CB7C62E00B276C1 /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33893E371CB7C62E00B276C1 /* NewFeed.storyboard */; };
+		33893E3B1CB7C62E00B276C1 /* NewFeedPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */; };
+		33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */; };
+		338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */; };
+		338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */; };
 		50008D291CAA66E600245296 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D281CAA66E600245296 /* FeedSearch.swift */; };
 		50008D2B1CAB697A00245296 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2A1CAB697A00245296 /* UserSearch.swift */; };
 		50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2C1CAB76AD00245296 /* SearchableItemType.swift */; };
@@ -348,8 +353,6 @@
 		50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */; };
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
-		50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */; };
-		50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */; };
 		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; };
 		50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; };
@@ -442,6 +445,11 @@
 		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
+		33893E371CB7C62E00B276C1 /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewFeed.storyboard; sourceTree = "<group>"; };
+		33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewViewController.swift; sourceTree = "<group>"; };
+		33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedViewController.swift; sourceTree = "<group>"; };
+		338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewCell.swift; sourceTree = "<group>"; };
+		338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewFeedPreviewCell.xib; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -755,8 +763,6 @@
 		50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaView.swift; path = Views/Media/MediaView.swift; sourceTree = "<group>"; };
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
-		50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedViewController.swift; path = ViewControllers/NewFeed/NewFeedViewController.swift; sourceTree = "<group>"; };
-		50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeed.storyboard; path = ViewControllers/NewFeed/NewFeed.storyboard; sourceTree = "<group>"; };
 		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
 		50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAnyImagesCell.swift; path = Views/Cells/Feed/FeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
@@ -1007,6 +1013,16 @@
 				0AC25F051B1105D5009E6E13 /* YepChildScrollView.swift */,
 			);
 			name = ScrollView;
+			sourceTree = "<group>";
+		};
+		338940341CB7C80900B276C1 /* NewFeedPreview */ = {
+			isa = PBXGroup;
+			children = (
+				338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */,
+				338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */,
+			);
+			name = NewFeedPreview;
+			path = Views/Cells/NewFeedPreview;
 			sourceTree = "<group>";
 		};
 		50008D2E1CAE0CD400245296 /* SearchConversations */ = {
@@ -1311,6 +1327,7 @@
 		5023DE3A1AB697A700B3EE96 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				338940341CB7C80900B276C1 /* NewFeedPreview */,
 				848806AD1B7899E6000C5424 /* EditSkill */,
 				50A640E21B6F41340050E4A3 /* DoNotDisturb */,
 				5023DE3B1AB697B000B3EE96 /* Conversation */,
@@ -2381,10 +2398,12 @@
 		50F5AF841BBA67140033C9BC /* NewFeed */ = {
 			isa = PBXGroup;
 			children = (
-				50F5AF821BBA67060033C9BC /* NewFeedViewController.swift */,
-				50F5AF851BBA676D0033C9BC /* NewFeed.storyboard */,
+				33893E371CB7C62E00B276C1 /* NewFeed.storyboard */,
+				33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */,
+				33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */,
 			);
 			name = NewFeed;
+			path = ViewControllers/NewFeed;
 			sourceTree = "<group>";
 		};
 		50F5AF891BBBB2B30033C9BC /* HorizontalLine */ = {
@@ -2669,7 +2688,6 @@
 				50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */,
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
-				50F5AF861BBA676D0033C9BC /* NewFeed.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
@@ -2683,6 +2701,7 @@
 				50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */,
 				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
+				338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
 				50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */,
@@ -2730,6 +2749,7 @@
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
 				50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */,
 				50B6A0431CA395A200C460E3 /* SearchedContactsCell.xib in Resources */,
+				33893E3A1CB7C62E00B276C1 /* NewFeed.storyboard in Resources */,
 				502AE54F1AB93175005BD199 /* ProfileHeaderCell.xib in Resources */,
 				50DEE05B1BEA0EAA00015741 /* FriendsInContacts.storyboard in Resources */,
 				503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */,
@@ -2952,6 +2972,7 @@
 				503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */,
 				502B605F1BD112E500D9C17E /* QuickPickPhotosCell.swift in Sources */,
 				50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */,
+				33893E3B1CB7C62E00B276C1 /* NewFeedPreviewViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				92E0FFE81C5F38E400226B96 /* MZFayeMessage.m in Sources */,
@@ -2982,6 +3003,7 @@
 				5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
+				338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
@@ -3064,6 +3086,7 @@
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
 				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
+				33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */,
 				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
@@ -3082,7 +3105,6 @@
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
-				50F5AF831BBA67060033C9BC /* NewFeedViewController.swift in Sources */,
 				50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */,
 				50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
