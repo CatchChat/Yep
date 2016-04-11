@@ -394,10 +394,10 @@
             </objects>
             <point key="canvasLocation" x="1050.5" y="404.5"/>
         </scene>
-        <!--PickPhotosViewController-->
+        <!--PhotosPickerViewController-->
         <scene sceneID="Fvm-6m-Coo">
             <objects>
-                <viewControllerPlaceholder storyboardName="PickPhotos" referencedIdentifier="PickPhotosViewController" id="frk-9a-m7E" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="PickPhotos" referencedIdentifier="PhotosPickerViewController" id="frk-9a-m7E" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMV-uK-YZv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1459.5" y="405"/>

@@ -45,6 +45,7 @@
 		33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */; };
 		338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */; };
 		338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */; };
+		338940401CBB908000B276C1 /* PhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */; };
 		50008D291CAA66E600245296 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D281CAA66E600245296 /* FeedSearch.swift */; };
 		50008D2B1CAB697A00245296 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2A1CAB697A00245296 /* UserSearch.swift */; };
 		50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2C1CAB76AD00245296 /* SearchableItemType.swift */; };
@@ -453,6 +454,7 @@
 		33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedViewController.swift; sourceTree = "<group>"; };
 		338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewCell.swift; sourceTree = "<group>"; };
 		338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewFeedPreviewCell.xib; sourceTree = "<group>"; };
+		3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosPickerViewController.swift; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -1718,6 +1720,7 @@
 			children = (
 				50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */,
 				50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */,
+				3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */,
 				50535D211BCE497E002FE1A4 /* PickPhotos.storyboard */,
 			);
 			name = PickPhotos;
@@ -3067,6 +3070,7 @@
 				50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */,
 				50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
+				338940401CBB908000B276C1 /* PhotosPickerViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,

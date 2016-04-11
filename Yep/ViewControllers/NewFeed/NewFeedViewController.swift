@@ -433,8 +433,8 @@ class NewFeedViewController: SegueViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showPickPhotos" {
-            
-            let vc = segue.destinationViewController as! PickPhotosViewController
+
+            let vc = segue.destinationViewController as! PhotosPickerViewController
             
             vc.pickedImageSet = Set(imageAssets)
             vc.imageLimit = mediaImages.count
@@ -1093,7 +1093,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] action -> Void in
 
-                proposeToAccess(.Photos, agreed: { [weak self] in
+                proposeToAccess(.Photos, agreed: {  [weak self] in
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
                     
                 }, rejected: { [weak self] in

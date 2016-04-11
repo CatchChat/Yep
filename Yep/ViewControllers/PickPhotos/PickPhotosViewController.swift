@@ -10,6 +10,10 @@ import UIKit
 import Photos
 import Ruler
 
+protocol PhotosPickerDelegate: class {
+    func dismissPhotoPicker()
+}
+
 class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
 
     var images: PHFetchResult!
@@ -23,24 +27,11 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
     let photoCellID = "PhotoCell"
     
-    private lazy var imagePicker: UIImagePickerController = {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.allowsEditing = true
-        return imagePicker
-    }()
+    weak var delegate: PhotosPickerDelegate?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit)/4)"
-
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
-        navigationItem.leftBarButtonItem = backBarButtonItem
-        
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickPhotosViewController.done(_:)))
-        navigationItem.rightBarButtonItem = doneButton
 
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
@@ -57,7 +48,13 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             layout.minimumLineSpacing = gap
             layout.sectionInset = UIEdgeInsets(top: gap, left: gap, bottom: gap, right: gap)
         }
-
+        
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
+        navigationItem.leftBarButtonItem = backBarButtonItem
+        
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PhotosPickerViewController.done(_:)))
+        navigationItem.rightBarButtonItem = doneButton
+        
         let options = PHFetchOptions()
         options.sortDescriptors = [
             NSSortDescriptor(key: "creationDate", ascending: false)
@@ -66,21 +63,18 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
 
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
+        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
 
     // MARK: Actions
-
+    
     func back(sender: UIBarButtonItem) {
-//        
-//            self.imagePicker.sourceType = .PhotoLibrary
-//            self.presentViewController(self.imagePicker, animated: true, completion: nil)
-//            self.imagePicker.sourceType = .SavedPhotosAlbum
-//            self.imagePicker.pushViewController(self.imagePicker, animated: true)
-//        let rootFetchResults = PHCollection.fetchTopLevelUserCollectionsWithOptions(nil)
-//        rootFetchResults.enumerateObjectsUsingBlock {  [weak self](collection, idx, stop) in
-//            
-//        }
-//
+        navigationController?.popViewControllerAnimated(true)
         
     }
     
@@ -127,7 +121,8 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         }
 
         completion?(images: images, imageAssets: pickedImageAssets)
-        navigationController?.popViewControllerAnimated(true)
+//        navigationController?.popViewControllerAnimated(true)
+        delegate?.dismissPhotoPicker()
     }
 
     // MARK: UICollectionViewDataSource
@@ -213,8 +208,4 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             }
         }
     }
-}
-
-extension PickPhotosViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
 }

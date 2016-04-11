@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--Show View Controller-->
@@ -19,18 +18,15 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zwm-fM-O1u">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <animations/>
                                 <connections>
                                     <outlet property="delegate" destination="Acs-5Z-0vE" id="4Rx-1k-RAw"/>
                                 </connections>
                             </scrollView>
                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="9Z8-B0-cVp">
                                 <rect key="frame" x="168" y="560" width="39" height="37"/>
-                                <animations/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzt-eY-iLl" userLabel="Register Button">
                                 <rect key="frame" x="0.0" y="607" width="187.5" height="60"/>
-                                <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="g5v-yL-RwM"/>
@@ -44,7 +40,6 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button" customClass="EdgeBorderButton" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="187.5" y="607" width="187.5" height="60"/>
-                                <animations/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
@@ -53,7 +48,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OXr-PM-hSY" firstAttribute="height" secondItem="kzt-eY-iLl" secondAttribute="height" id="5c3-oR-ODQ"/>
@@ -98,14 +92,12 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genius" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-Wq-vkJ">
                                 <rect key="frame" x="126" y="458" width="123" height="48"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discover them around you" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ExN-8a-QFy">
                                 <rect key="frame" x="87" y="526" width="200.5" height="20.5"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -115,58 +107,44 @@
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Oval1" translatesAutoresizingMaskIntoConstraints="NO" id="CFd-r7-acV">
                                         <rect key="frame" x="147" y="150" width="20" height="20"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="A4j-pF-pbY">
                                         <rect key="frame" x="242" y="219" width="21" height="21"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval4" translatesAutoresizingMaskIntoConstraints="NO" id="12E-Gf-ntu">
                                         <rect key="frame" x="239" y="168" width="15" height="15"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Head" translatesAutoresizingMaskIntoConstraints="NO" id="c4w-rY-ACr">
                                         <rect key="frame" x="121" y="145" width="133" height="169"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval11" translatesAutoresizingMaskIntoConstraints="NO" id="V9h-uS-Fid">
                                         <rect key="frame" x="229" y="233" width="18" height="18"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval5" translatesAutoresizingMaskIntoConstraints="NO" id="CYG-IO-Sle">
                                         <rect key="frame" x="103" y="173" width="38" height="38"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval10" translatesAutoresizingMaskIntoConstraints="NO" id="OWU-VH-TXx">
                                         <rect key="frame" x="99" y="182" width="11" height="11"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval2" translatesAutoresizingMaskIntoConstraints="NO" id="Jrw-DG-yhp">
                                         <rect key="frame" x="67" y="201" width="15" height="15"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval6" translatesAutoresizingMaskIntoConstraints="NO" id="ZmV-nY-itP">
                                         <rect key="frame" x="83" y="225" width="21" height="21"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval9" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-GP-Y6a">
                                         <rect key="frame" x="200" y="241" width="11" height="11"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval8" translatesAutoresizingMaskIntoConstraints="NO" id="rKu-h8-ZaZ">
                                         <rect key="frame" x="281" y="195" width="11" height="11"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval7" translatesAutoresizingMaskIntoConstraints="NO" id="bcz-Kn-Kbr">
                                         <rect key="frame" x="169" y="195" width="21" height="21"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Oval_big" translatesAutoresizingMaskIntoConstraints="NO" id="bBq-yc-eUP">
                                         <rect key="frame" x="184" y="163" width="73" height="58"/>
-                                        <animations/>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="c4w-rY-ACr" firstAttribute="centerY" secondItem="A4j-pF-pbY" secondAttribute="centerY" id="7Y7-Ae-xr5"/>
@@ -198,7 +176,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yae-Kb-Xsy" secondAttribute="trailing" id="2gq-UQ-Jp0"/>
@@ -249,14 +226,12 @@
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q2B-Nx-QNF">
                                 <rect key="frame" x="132" y="458.5" width="110.5" height="48"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Match friends with your skills" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AO-eC-NT3">
                                 <rect key="frame" x="76" y="526.5" width="222.5" height="20.5"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -266,26 +241,20 @@
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Camera" translatesAutoresizingMaskIntoConstraints="NO" id="Sij-Kk-TC5">
                                         <rect key="frame" x="103" y="150.5" width="71" height="45"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Pen" translatesAutoresizingMaskIntoConstraints="NO" id="ofE-QC-oZA">
                                         <rect key="frame" x="184" y="140.5" width="7" height="66"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Controller" translatesAutoresizingMaskIntoConstraints="NO" id="6nM-wS-8be">
                                         <rect key="frame" x="103" y="208.5" width="71" height="42"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Keyboard" translatesAutoresizingMaskIntoConstraints="NO" id="Cja-9u-yQO">
                                         <rect key="frame" x="102.5" y="260.5" width="170" height="65"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Book" translatesAutoresizingMaskIntoConstraints="NO" id="L7f-XP-WgV">
                                         <rect key="frame" x="201" y="139.5" width="71" height="100"/>
-                                        <animations/>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="ofE-QC-oZA" firstAttribute="top" secondItem="L7f-XP-WgV" secondAttribute="top" constant="1" id="2mS-5n-sO7"/>
@@ -301,7 +270,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="7AO-eC-NT3" secondAttribute="centerX" id="22w-hc-bxC"/>
@@ -348,38 +316,29 @@
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Frame" translatesAutoresizingMaskIntoConstraints="NO" id="1lR-a5-JrZ">
                                         <rect key="frame" x="105" y="119" width="165" height="204"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 1" translatesAutoresizingMaskIntoConstraints="NO" id="tj4-tr-cL0">
                                         <rect key="frame" x="110" y="162.5" width="77" height="153"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 2" translatesAutoresizingMaskIntoConstraints="NO" id="jPP-SX-vd3">
                                         <rect key="frame" x="111" y="162.5" width="153" height="77"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 6" translatesAutoresizingMaskIntoConstraints="NO" id="vTA-cW-Ynf">
                                         <rect key="frame" x="149" y="239.5" width="77" height="77"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 4" translatesAutoresizingMaskIntoConstraints="NO" id="zan-ma-LCx">
                                         <rect key="frame" x="109" y="282.5" width="76" height="63"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 5" translatesAutoresizingMaskIntoConstraints="NO" id="cgB-mZ-QOD">
                                         <rect key="frame" x="225" y="162.5" width="39" height="115"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 8" translatesAutoresizingMaskIntoConstraints="NO" id="UYU-1W-xtm">
                                         <rect key="frame" x="178" y="254.5" width="100" height="80"/>
-                                        <animations/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Fill 7" translatesAutoresizingMaskIntoConstraints="NO" id="Bnh-Ag-r6W">
                                         <rect key="frame" x="194" y="190" width="57" height="84"/>
-                                        <animations/>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="Bnh-Ag-r6W" firstAttribute="centerX" secondItem="jPP-SX-vd3" secondAttribute="centerX" constant="35" id="1lJ-38-oTL"/>
@@ -402,20 +361,17 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meet" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EbL-hX-MJo">
                                 <rect key="frame" x="142.5" y="458" width="89.5" height="48"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <color key="textColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Build world together" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5Q-3A-GBz">
                                 <rect key="frame" x="109.5" y="526" width="155" height="20.5"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="pXy-Vz-Rw7" firstAttribute="leading" secondItem="Hi1-fl-C5n" secondAttribute="leading" id="3OA-Nn-Iqv"/>
@@ -452,7 +408,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uLP-N4-GPU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
