@@ -66,8 +66,8 @@ class FeedsViewController: BaseViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
-            searchBar.sizeToFit()
-            feedsTableView.tableHeaderView = searchBar
+            //searchBar.sizeToFit()
+            //feedsTableView.tableHeaderView = searchBar
 
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()
@@ -429,10 +429,6 @@ class FeedsViewController: BaseViewController {
         #if DEBUG
             //view.addSubview(feedsFPSLabel)
         #endif
-
-        feedsWithKeyword("hello", failureHandler: nil) { feeds in
-            println("feeds.count \(feeds.count)")
-        }
     }
 
     // MARK: Actions
