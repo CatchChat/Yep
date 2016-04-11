@@ -54,8 +54,8 @@ extension UIViewController {
         let reportWithReason: ReportReason -> Void = { [weak self] reason in
 
             switch object {
-            case .User(let profileUser):
 
+            case .User(let profileUser):
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
@@ -67,7 +67,6 @@ extension UIViewController {
                 })
 
             case .Feed(let feedID):
-
                 reportFeedWithFeedID(feedID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
@@ -79,7 +78,15 @@ extension UIViewController {
                 })
 
             case .Message(let messageID):
-                println("report Message: \(messageID)")
+                reportMessageWithMessageID(messageID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    if let errorMessage = errorMessage {
+                        YepAlert.alertSorry(message: errorMessage, inViewController: self)
+                    }
+
+                }, completion: {
+                })
             }
         }
 
