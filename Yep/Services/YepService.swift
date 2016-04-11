@@ -839,7 +839,7 @@ func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason,
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func reportFeed(feedID: String, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
+func reportFeedWithFeedID(feedID: String, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {
     
     var requestParameters: JSONDictionary = [
         "report_type": reason.type

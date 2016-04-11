@@ -2657,12 +2657,13 @@ class ConversationViewController: BaseViewController {
 
     private func tryReport() {
 
-        guard let user = conversation.withFriend else {
-            return
-        }
+        if let user = conversation.withFriend {
+            let profileUser = ProfileUser.UserType(user)
+            report(.User(profileUser))
 
-        let profileUser = ProfileUser.UserType(user)
-        report(.User(profileUser))
+        } else if let feed = self.conversation?.withGroup?.withFeed {
+            report(.Feed(feedID: feed.feedID))
+        }
     }
 
     private func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {

@@ -45,7 +45,7 @@ extension UIViewController {
 
     enum ReportObject {
         case User(ProfileUser)
-        case Feed(DiscoveredFeed)
+        case Feed(feedID: String)
     }
 
     func report(object: ReportObject) {
@@ -65,9 +65,9 @@ extension UIViewController {
                 }, completion: {
                 })
 
-            case .Feed(let discoveredFeed):
+            case .Feed(let feedID):
 
-                reportFeed(discoveredFeed.id, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
+                reportFeedWithFeedID(feedID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     if let errorMessage = errorMessage {
