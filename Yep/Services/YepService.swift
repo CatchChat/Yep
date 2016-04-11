@@ -2933,12 +2933,17 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
 func feedsWithKeyword(keyword: String, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
+    guard !keyword.isEmpty else {
+        completion([])
+        return
+    }
+
     let requestParameters: JSONDictionary = [
         "q": keyword,
     ]
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-
+        println("feedsWithKeyword \(keyword): \(data)")
         return parseFeeds(data)
     }
 
