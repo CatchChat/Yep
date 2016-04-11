@@ -525,6 +525,7 @@ class ConversationViewController: BaseViewController {
 
                 if let strongSelf = self {
                     strongSelf.imagePicker.sourceType = .PhotoLibrary
+                    
                     strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }

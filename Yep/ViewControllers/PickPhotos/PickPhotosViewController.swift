@@ -22,6 +22,14 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     var imageLimit = 0
 
     let photoCellID = "PhotoCell"
+    
+    private lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        return imagePicker
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,21 +71,16 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     // MARK: Actions
 
     func back(sender: UIBarButtonItem) {
-        
-        let rootFetchResults = PHCollection.fetchTopLevelUserCollectionsWithOptions(nil)
-        rootFetchResults.enumerateObjectsUsingBlock { (collection, idx, stop) in
-            print(collection,"+++++root")
-            
-        }
-//        let allAlbumsOptions = PHFetchOptions()
-//
-//        let allAlbums:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: allAlbumsOptions)
-//        allAlbums.enumerateObjectsUsingBlock { (collection, idx, stop) in
-//            if let collection = collection as? PHAssetCollection {
-//                
-//                print(collection.localizedTitle,"____localizeTitle")
-//            }
+//        
+//            self.imagePicker.sourceType = .PhotoLibrary
+//            self.presentViewController(self.imagePicker, animated: true, completion: nil)
+//            self.imagePicker.sourceType = .SavedPhotosAlbum
+//            self.imagePicker.pushViewController(self.imagePicker, animated: true)
+//        let rootFetchResults = PHCollection.fetchTopLevelUserCollectionsWithOptions(nil)
+//        rootFetchResults.enumerateObjectsUsingBlock {  [weak self](collection, idx, stop) in
+//            
 //        }
+//
         
     }
     
@@ -212,3 +215,6 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     }
 }
 
+extension PickPhotosViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+}
