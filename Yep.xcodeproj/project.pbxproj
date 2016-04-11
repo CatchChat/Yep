@@ -340,6 +340,8 @@
 		50E34C1D1CB7516C007CAE80 /* UserRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */; };
 		50E34C211CB75774007CAE80 /* SearchedDiscoveredUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C1F1CB75774007CAE80 /* SearchedDiscoveredUserCell.swift */; };
 		50E34C221CB75774007CAE80 /* SearchedDiscoveredUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C201CB75774007CAE80 /* SearchedDiscoveredUserCell.xib */; };
+		50E34C261CBB8A37007CAE80 /* SearchFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C251CBB8A37007CAE80 /* SearchFeedsViewController.swift */; };
+		50E34C281CBB8A49007CAE80 /* SearchFeeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C271CBB8A49007CAE80 /* SearchFeeds.storyboard */; };
 		50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */; };
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
@@ -750,6 +752,8 @@
 		50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserRepresentation.swift; path = Protocols/UserRepresentation.swift; sourceTree = "<group>"; };
 		50E34C1F1CB75774007CAE80 /* SearchedDiscoveredUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedDiscoveredUserCell.swift; path = Views/Cells/SearchedDiscoveredUser/SearchedDiscoveredUserCell.swift; sourceTree = "<group>"; };
 		50E34C201CB75774007CAE80 /* SearchedDiscoveredUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedDiscoveredUserCell.xib; path = Views/Cells/SearchedDiscoveredUser/SearchedDiscoveredUserCell.xib; sourceTree = "<group>"; };
+		50E34C251CBB8A37007CAE80 /* SearchFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsViewController.swift; path = ViewControllers/SearchFeeds/SearchFeedsViewController.swift; sourceTree = "<group>"; };
+		50E34C271CBB8A49007CAE80 /* SearchFeeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchFeeds.storyboard; path = ViewControllers/SearchFeeds/SearchFeeds.storyboard; sourceTree = "<group>"; };
 		50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedNormalImagesCell.swift; path = Views/Cells/Feed/FeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -1206,6 +1210,7 @@
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
 				50AFBF601BB4F33A007D19DA /* Feeds */,
+				50E34C241CBB89EC007CAE80 /* SearchFeeds */,
 				50F5AF841BBA67140033C9BC /* NewFeed */,
 				501138271BCB591E0055A014 /* FeedConversations */,
 				50535D1E1BCE42C4002FE1A4 /* PickPhotos */,
@@ -2352,6 +2357,15 @@
 			name = SearchedDiscoveredUser;
 			sourceTree = "<group>";
 		};
+		50E34C241CBB89EC007CAE80 /* SearchFeeds */ = {
+			isa = PBXGroup;
+			children = (
+				50E34C251CBB8A37007CAE80 /* SearchFeedsViewController.swift */,
+				50E34C271CBB8A49007CAE80 /* SearchFeeds.storyboard */,
+			);
+			name = SearchFeeds;
+			sourceTree = "<group>";
+		};
 		50E61CEC1AF1F6A600908A9D /* ConversationTitle */ = {
 			isa = PBXGroup;
 			children = (
@@ -2771,6 +2785,7 @@
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
 				50008D3B1CAE537400245296 /* SearchedFeedCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
+				50E34C281CBB8A49007CAE80 /* SearchFeeds.storyboard in Resources */,
 				50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */,
@@ -2934,6 +2949,7 @@
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
+				50E34C261CBB8A37007CAE80 /* SearchFeedsViewController.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
 				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,

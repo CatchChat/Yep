@@ -64,7 +64,6 @@ class FeedsViewController: BaseViewController {
             searchBar.sizeToFit()
             feedsTableView.tableHeaderView = searchBar
 
-
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()
             feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
