@@ -104,6 +104,14 @@ class ConversationMoreViewManager {
                     }
                 ),
                 self.updateGroupItem(group: group), // 2
+                .Default(
+                    title: NSLocalizedString("Report", comment: ""),
+                    titleColor: UIColor.yepTintColor(),
+                    action: { [weak self] in
+                        self?.reportAction?()
+                        return true
+                    }
+                ),
                 cancelItem,
                 ]
             )
