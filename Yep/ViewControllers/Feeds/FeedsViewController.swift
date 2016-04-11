@@ -37,7 +37,58 @@ class FeedsViewController: BaseViewController {
     }
     var feeds = [DiscoveredFeed]()
 
-    @IBOutlet weak var feedsTableView: UITableView!
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .Minimal
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
+        searchBar.delegate = self
+        return searchBar
+    }()
+
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var feedsSearchTransition: FeedsSearchTransition = {
+        return FeedsSearchTransition()
+    }()
+
+    private let feedSkillUsersCellID = "FeedSkillUsersCell"
+    private let feedBasicCellID = "FeedBasicCell"
+    private let feedBiggerImageCellID = "FeedBiggerImageCell"
+    private let feedNormalImagesCellID = "FeedNormalImagesCell"
+    private let feedAnyImagesCellID = "FeedAnyImagesCell"
+    private let feedGithubRepoCellID = "FeedGithubRepoCell"
+    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
+    private let feedVoiceCellID = "FeedVoiceCell"
+    private let feedLocationCellID = "FeedLocationCell"
+    private let feedURLCellID = "FeedURLCell"
+    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
+
+    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+
+    @IBOutlet weak var feedsTableView: UITableView!  {
+        didSet {
+            searchBar.sizeToFit()
+            feedsTableView.tableHeaderView = searchBar
+
+            feedsTableView.backgroundColor = UIColor.whiteColor()
+            feedsTableView.tableFooterView = UIView()
+            feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+
+            feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
+
+            feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
+            feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
+            feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
+            feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
+            feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
+            feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
+            feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
+            feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
+            feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
+
+            feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+        }
+    }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private var selectedIndexPathForMenu: NSIndexPath?
@@ -164,20 +215,6 @@ class FeedsViewController: BaseViewController {
         return label
     }()
     #endif
-
-    private let feedSkillUsersCellID = "FeedSkillUsersCell"
-    private let feedBasicCellID = "FeedBasicCell"
-    private let feedBiggerImageCellID = "FeedBiggerImageCell"
-    private let feedNormalImagesCellID = "FeedNormalImagesCell"
-    private let feedAnyImagesCellID = "FeedAnyImagesCell"
-    private let feedGithubRepoCellID = "FeedGithubRepoCell"
-    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
-    private let feedVoiceCellID = "FeedVoiceCell"
-    private let feedLocationCellID = "FeedLocationCell"
-    private let feedURLCellID = "FeedURLCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-
-    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
 
@@ -307,6 +344,8 @@ class FeedsViewController: BaseViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
+        recoverNavigationDelegate()
     }
 
     override func viewDidLoad() {
@@ -356,26 +395,6 @@ class FeedsViewController: BaseViewController {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
         }
-
-        feedsTableView.backgroundColor = UIColor.whiteColor()
-        feedsTableView.tableFooterView = UIView()
-        feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-
-        feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
-
-        feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
-        feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
-        feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
-        feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
-        feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
-        feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
-        feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
-        feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
-        feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
-
-        feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
-
 
         if hideRightBarItem {
              navigationItem.rightBarButtonItem = nil
@@ -726,6 +745,12 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     private var newFeedViewController: NewFeedViewController?
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -794,7 +819,23 @@ class FeedsViewController: BaseViewController {
             return self
         }
 
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = feedsSearchTransition
+        }
+
         switch identifier {
+
+        case "showSearchFeeds":
+
+            let vc = segue.destinationViewController as! SearchFeedsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            hackNavigationDelegate()
 
         case "showProfile":
 
@@ -821,6 +862,8 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
+            recoverNavigationDelegate()
+
         case "showSkillHome":
 
             let vc = segue.destinationViewController as! SkillHomeViewController
@@ -830,6 +873,8 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.hidesBottomBarWhenPushed = true
+
+            recoverNavigationDelegate()
 
         case "showFeedsWithSkill":
 
@@ -850,6 +895,8 @@ class FeedsViewController: BaseViewController {
             }
 
             vc.hidesBottomBarWhenPushed = true
+
+            recoverNavigationDelegate()
 
         case "showConversation":
 
@@ -938,6 +985,8 @@ class FeedsViewController: BaseViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
+            recoverNavigationDelegate()
+
         case "presentNewFeed":
 
             guard let
@@ -986,6 +1035,18 @@ class FeedsViewController: BaseViewController {
         default:
             break
         }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension FeedsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        performSegueWithIdentifier("showSearchFeeds", sender: nil)
+
+        return false
     }
 }
 

@@ -184,8 +184,6 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         searchBarBottomLineView.hidden = true
 
-        (tabBarController as? YepTabBarController)?.setTabBarHidden(false, animated: true)
-
         navigationController?.popViewControllerAnimated(true)
     }
 
