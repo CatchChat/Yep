@@ -111,15 +111,20 @@ class SearchConversationsViewController: SegueViewController {
     private var isMoreUserMessagesFold: Bool = true {
         didSet {
             if isMoreUserMessagesFold != oldValue {
-                let indexPaths = (Section.maxNumberOfItems..<countOfFilteredUserMessages).map({
+                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredUserMessages).map({
                     NSIndexPath(forRow: $0, inSection: Section.MessageRecord.rawValue)
                 })
 
+                resultsTableView.beginUpdates()
+
                 if isMoreUserMessagesFold == false {
                     resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+
                 } else {
                     resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
                 }
+
+                resultsTableView.endUpdates()
             }
         }
     }
