@@ -18,6 +18,7 @@ class SearchConversationsViewController: SegueViewController {
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
+            searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
         }
     }
     @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
@@ -36,7 +37,8 @@ class SearchConversationsViewController: SegueViewController {
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
-            resultsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
+            resultsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
@@ -479,7 +481,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             case .Friend:
                 cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
             case .MessageRecord:
-                cell.sectionTitleLabel.text = NSLocalizedString("Messages", comment: "")
+                cell.sectionTitleLabel.text = NSLocalizedString("Chat Records", comment: "")
             case .Feed:
                 cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
             }

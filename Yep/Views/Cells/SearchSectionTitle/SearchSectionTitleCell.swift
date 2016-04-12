@@ -12,7 +12,7 @@ class SearchSectionTitleCell: UITableViewCell {
 
     @IBOutlet weak var sectionTitleLabel: UILabel! {
         didSet {
-            sectionTitleLabel.textColor = UIColor(white: 0.4, alpha: 1.0)
+            sectionTitleLabel.textColor = UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1)
         }
     }
 

@@ -17,7 +17,7 @@ class SearchedUserMessagesViewController: BaseViewController {
 
     @IBOutlet weak var messagesTableView: UITableView! {
         didSet {
-            messagesTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            messagesTableView.separatorColor = YepConfig.SearchTableView.separatorColor
             messagesTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             messagesTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
@@ -31,7 +31,7 @@ class SearchedUserMessagesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Messages", comment: "")
+        title = NSLocalizedString("Chat Records", comment: "")
     }
 
     // MARK: - Navigation
