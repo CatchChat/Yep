@@ -163,6 +163,9 @@ class YepConfig {
         static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
     }
 
+    struct SearchTableView {
+        static let separatorColor = UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1)
+    }
     struct SearchedItemCell {
         static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
     }

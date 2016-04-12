@@ -36,7 +36,7 @@ class SearchConversationsViewController: SegueViewController {
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
-            resultsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
             resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
