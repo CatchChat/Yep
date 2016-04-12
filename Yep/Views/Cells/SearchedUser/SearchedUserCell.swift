@@ -27,6 +27,15 @@ class SearchedUserCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+        nicknameLabel.text = nil
+        usernameLabel.text = nil
+        timeLabel.text = nil
+    }
+
     func configureWithUserRepresentation(user: UserRepresentation, keyword: String?, showTime: Bool = true) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)

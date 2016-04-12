@@ -29,6 +29,7 @@ class SearchedFeedCell: UITableViewCell {
         super.prepareForReuse()
 
         mediaView.hidden = true
+        nameLabel.text = nil
 
         mediaView.clearImages()
     }
