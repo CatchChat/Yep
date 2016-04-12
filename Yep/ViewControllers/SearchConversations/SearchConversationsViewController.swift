@@ -56,6 +56,8 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
+    private var searchTask: CancelableTask?
+
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
@@ -279,37 +281,37 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 
-        var searchText: String?
+        cancel(searchTask)
 
-        if range.location == 0 && range.length == 0 {
-            searchText = text
+        searchTask = delay(0.5) { [weak self] in
 
-        } else if let
-            textField = searchBar.yep_textField,
-            markedTextRange = textField.markedTextRange,
-            markedText = textField.textInRange(markedTextRange) {
+            var searchText: String?
 
-            let replacementText = text
+            if let
+                textField = searchBar.yep_textField,
+                markedTextRange = textField.markedTextRange,
+                markedText = textField.textInRange(markedTextRange) {
 
-            if let text = searchBar.text where !text.isEmpty {
-                let beginning = textField.beginningOfDocument
-                let start = markedTextRange.start
-                let end = markedTextRange.end
-                let location = textField.offsetFromPosition(beginning, toPosition: start)
-                let length = textField.offsetFromPosition(start, toPosition: end)
-                let nsRange = NSMakeRange(location, length)
+                if let text = searchBar.text where !text.isEmpty {
+                    let beginning = textField.beginningOfDocument
+                    let start = markedTextRange.start
+                    let end = markedTextRange.end
+                    let location = textField.offsetFromPosition(beginning, toPosition: start)
+                    let length = textField.offsetFromPosition(start, toPosition: end)
+                    let nsRange = NSMakeRange(location, length)
 
-                if let range = text.yep_rangeFromNSRange(nsRange) {
-                    var text = text
-                    text.removeRange(range)
-                    searchText = text + markedText.yep_removeAllWhitespaces + replacementText
+                    if let range = text.yep_rangeFromNSRange(nsRange) {
+                        var text = text
+                        text.removeRange(range)
+                        searchText = text + markedText.yep_removeAllWhitespaces
+                    }
+                }
+
+                if let searchText = searchText {
+                    println("searchText: \(searchText)")
+                    self?.updateSearchResultsWithText(searchText)
                 }
             }
-        }
-
-        if let searchText = searchText {
-            println("searchText: \(searchText)")
-            updateSearchResultsWithText(searchText)
         }
 
         return true
