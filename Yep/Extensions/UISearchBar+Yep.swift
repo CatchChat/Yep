@@ -18,4 +18,17 @@ extension UISearchBar {
             }
         }
     }
+
+    var yep_textField: UITextField? {
+
+        for subview in self.subviews {
+            for subview in subview.subviews {
+                if let textField = subview as? UITextField {
+                    return textField
+                }
+            }
+        }
+
+        return nil
+    }
 }
