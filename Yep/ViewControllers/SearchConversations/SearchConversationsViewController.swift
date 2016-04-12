@@ -279,21 +279,17 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 
-        if let textField = searchBar.yep_textField {
-            println("markedTextRange: \(textField.markedTextRange)")
-        } else {
-            println("no")
-        }
+        if range.location == 0 && range.length == 0 {
+            let searchText = text
+            println("searchText: \(searchText)")
 
-        if let
+        } else if let
             textField = searchBar.yep_textField,
             markedTextRange = textField.markedTextRange,
             markedText = textField.textInRange(markedTextRange) {
 
-            println("markedTextRange: \(markedTextRange)")
-            println("markedText: \(markedText)")
-
             var searchText: String?
+            let replacementText = text
 
             if let text = searchBar.text where !text.isEmpty {
                 let beginning = textField.beginningOfDocument
@@ -306,11 +302,11 @@ extension SearchConversationsViewController: UISearchBarDelegate {
                 if let range = text.yep_rangeFromNSRange(nsRange) {
                     var text = text
                     text.removeRange(range)
-                    searchText = text + markedText.yep_removeAllWhitespaces
+                    searchText = text + markedText.yep_removeAllWhitespaces + replacementText
                 }
 
             } else {
-                searchText = markedText.yep_removeAllWhitespaces
+                searchText = markedText.yep_removeAllWhitespaces + replacementText
             }
 
             if let searchText = searchText {
