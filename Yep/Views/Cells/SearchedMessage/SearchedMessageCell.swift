@@ -27,6 +27,15 @@ class SearchedMessageCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        avatarImageView.image = nil
+        nicknameLabel.text = nil
+        timeLabel.text = nil
+        messageLabel.text = nil
+    }
+
     func configureWithMessage(message: Message, keyword: String?) {
 
         guard let user = message.fromFriend else {
