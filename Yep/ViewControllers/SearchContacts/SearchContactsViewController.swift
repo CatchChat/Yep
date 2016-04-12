@@ -196,33 +196,8 @@ extension SearchContactsViewController: UISearchBarDelegate {
         cancel(searchTask)
 
         searchTask = delay(0.5) { [weak self] in
-
-            var searchText: String?
-
-            if let
-                textField = searchBar.yep_textField,
-                markedTextRange = textField.markedTextRange,
-                markedText = textField.textInRange(markedTextRange) {
-
-                if let text = searchBar.text where !text.isEmpty {
-                    let beginning = textField.beginningOfDocument
-                    let start = markedTextRange.start
-                    let end = markedTextRange.end
-                    let location = textField.offsetFromPosition(beginning, toPosition: start)
-                    let length = textField.offsetFromPosition(start, toPosition: end)
-                    let nsRange = NSMakeRange(location, length)
-
-                    if let range = text.yep_rangeFromNSRange(nsRange) {
-                        var text = text
-                        text.removeRange(range)
-                        searchText = text + markedText.yep_removeAllWhitespaces
-                    }
-                }
-
-                if let searchText = searchText {
-                    println("searchText: \(searchText)")
-                    self?.updateSearchResultsWithText(searchText)
-                }
+            if let searchText = searchBar.yep_fullSearchText {
+                self?.updateSearchResultsWithText(searchText)
             }
         }
         
