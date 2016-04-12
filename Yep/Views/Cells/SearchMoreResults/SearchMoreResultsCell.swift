@@ -22,7 +22,11 @@ class SearchMoreResultsCell: UITableViewCell {
         }
     }
 
-    @IBOutlet weak var showMoreLabel: UILabel!
+    @IBOutlet weak var showMoreLabel: UILabel! {
+        didSet {
+            showMoreLabel.textColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+        }
+    }
     @IBOutlet weak var arrowImageView: UIImageView!
 
     override func awakeFromNib() {
