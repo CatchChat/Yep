@@ -54,6 +54,8 @@ class SearchContactsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
+    private var searchTask: CancelableTask?
+
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
@@ -187,6 +189,44 @@ extension SearchContactsViewController: UISearchBarDelegate {
         searchBarBottomLineView.hidden = true
 
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+
+            var searchText: String?
+
+            if let
+                textField = searchBar.yep_textField,
+                markedTextRange = textField.markedTextRange,
+                markedText = textField.textInRange(markedTextRange) {
+
+                if let text = searchBar.text where !text.isEmpty {
+                    let beginning = textField.beginningOfDocument
+                    let start = markedTextRange.start
+                    let end = markedTextRange.end
+                    let location = textField.offsetFromPosition(beginning, toPosition: start)
+                    let length = textField.offsetFromPosition(start, toPosition: end)
+                    let nsRange = NSMakeRange(location, length)
+
+                    if let range = text.yep_rangeFromNSRange(nsRange) {
+                        var text = text
+                        text.removeRange(range)
+                        searchText = text + markedText.yep_removeAllWhitespaces
+                    }
+                }
+
+                if let searchText = searchText {
+                    println("searchText: \(searchText)")
+                    self?.updateSearchResultsWithText(searchText)
+                }
+            }
+        }
+        
+        return true
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
