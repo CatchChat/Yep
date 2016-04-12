@@ -54,6 +54,8 @@ class SearchContactsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
+    private var searchTask: CancelableTask?
+
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
@@ -189,10 +191,26 @@ extension SearchContactsViewController: UISearchBarDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            if let searchText = searchBar.yep_fullSearchText {
+                self?.updateSearchResultsWithText(searchText)
+            }
+        }
+        
+        return true
+    }
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
-        updateSearchResultsWithText(searchText)
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -210,9 +228,16 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
+        let searchText = searchText.trimming(.Whitespace)
+
         guard !searchText.isEmpty else {
             clearSearchResults()
 
+            return
+        }
+
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
             return
         }
 

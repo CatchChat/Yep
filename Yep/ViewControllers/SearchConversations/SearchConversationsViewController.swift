@@ -56,6 +56,8 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
+    private var searchTask: CancelableTask?
+
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
@@ -277,9 +279,26 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            if let searchText = searchBar.yep_fullSearchText {
+                self?.updateSearchResultsWithText(searchText)
+            }
+        }
+
+        return true
+    }
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        updateSearchResultsWithText(searchText)
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
@@ -298,17 +317,24 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
+        let searchText = searchText.trimming(.Whitespace)
+
         guard !searchText.isEmpty else {
             clearSearchResults()
 
             return
         }
 
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
+            return
+        }
+
+        self.keyword = searchText
+
         isMoreFriendsFold = true
         isMoreUserMessagesFold = true
         isMoreFeedsFold = true
-
-        self.keyword = searchText
 
         var scrollsToTop = false
 
