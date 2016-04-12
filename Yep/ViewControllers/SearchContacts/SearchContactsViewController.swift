@@ -35,6 +35,7 @@ class SearchContactsViewController: SegueViewController {
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
+            contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
             contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
