@@ -277,6 +277,50 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+
+        if let textField = searchBar.yep_textField {
+            println("markedTextRange: \(textField.markedTextRange)")
+        } else {
+            println("no")
+        }
+
+        if let
+            textField = searchBar.yep_textField,
+            markedTextRange = textField.markedTextRange,
+            markedText = textField.textInRange(markedTextRange) {
+
+            println("markedTextRange: \(markedTextRange)")
+            println("markedText: \(markedText)")
+
+            var searchText: String?
+
+            if let text = searchBar.text where !text.isEmpty {
+                let beginning = textField.beginningOfDocument
+                let start = markedTextRange.start
+                let end = markedTextRange.end
+                let location = textField.offsetFromPosition(beginning, toPosition: start)
+                let length = textField.offsetFromPosition(start, toPosition: end)
+                let nsRange = NSMakeRange(location, length)
+
+                if let range = text.yep_rangeFromNSRange(nsRange) {
+                    var text = text
+                    text.removeRange(range)
+                    searchText = text + markedText.yep_removeAllWhitespaces
+                }
+
+            } else {
+                searchText = markedText.yep_removeAllWhitespaces
+            }
+
+            if let searchText = searchText {
+                println("searchText: \(searchText)")
+            }
+        }
+
+        return true
+    }
+
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
         updateSearchResultsWithText(searchText)
