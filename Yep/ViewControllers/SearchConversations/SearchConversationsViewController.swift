@@ -95,7 +95,7 @@ class SearchConversationsViewController: SegueViewController {
     private var isMoreFriendsFold: Bool = true {
         didSet {
             if isMoreFriendsFold != oldValue {
-                let indexPaths = (Section.maxNumberOfItems..<countOfFilteredFriends).map({
+                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredFriends).map({
                     NSIndexPath(forRow: $0, inSection: Section.Friend.rawValue)
                 })
 
@@ -115,16 +115,12 @@ class SearchConversationsViewController: SegueViewController {
                     NSIndexPath(forRow: $0, inSection: Section.MessageRecord.rawValue)
                 })
 
-                resultsTableView.beginUpdates()
-
                 if isMoreUserMessagesFold == false {
                     resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
 
                 } else {
                     resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
                 }
-
-                resultsTableView.endUpdates()
             }
         }
     }
@@ -132,7 +128,7 @@ class SearchConversationsViewController: SegueViewController {
     private var isMoreFeedsFold: Bool = true {
         didSet {
             if isMoreFeedsFold != oldValue {
-                let indexPaths = (Section.maxNumberOfItems..<countOfFilteredFeeds).map({
+                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredFeeds).map({
                     NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue)
                 })
 
