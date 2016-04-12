@@ -231,7 +231,11 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        updateSearchResultsWithText(searchText)
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
