@@ -191,7 +191,6 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
         updateSearchResultsWithText(searchText)
     }
 
@@ -210,9 +209,16 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
+        let searchText = searchText.trimming(.Whitespace)
+
         guard !searchText.isEmpty else {
             clearSearchResults()
 
+            return
+        }
+
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
             return
         }
 

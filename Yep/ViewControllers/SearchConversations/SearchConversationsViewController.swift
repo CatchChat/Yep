@@ -338,17 +338,24 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     private func updateSearchResultsWithText(searchText: String) {
 
+        let searchText = searchText.trimming(.Whitespace)
+
         guard !searchText.isEmpty else {
             clearSearchResults()
 
             return
         }
 
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
+            return
+        }
+
+        self.keyword = searchText
+
         isMoreFriendsFold = true
         isMoreUserMessagesFold = true
         isMoreFeedsFold = true
-
-        self.keyword = searchText
 
         var scrollsToTop = false
 
