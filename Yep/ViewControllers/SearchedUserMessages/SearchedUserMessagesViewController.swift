@@ -31,7 +31,7 @@ class SearchedUserMessagesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Messages", comment: "")
+        title = NSLocalizedString("Chat Records", comment: "")
     }
 
     // MARK: - Navigation
