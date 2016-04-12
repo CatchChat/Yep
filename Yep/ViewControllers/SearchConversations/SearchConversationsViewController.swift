@@ -92,18 +92,24 @@ class SearchConversationsViewController: SegueViewController {
 
     private let keyboardMan = KeyboardMan()
 
+    private func updateForFold(fold: Bool, withCountOfItems countOfItems: Int, inSection section: Section) {
+
+        let indexPaths = ((1 + Section.maxNumberOfItems)...countOfItems).map({
+            NSIndexPath(forRow: $0, inSection: section.rawValue)
+        })
+
+        if fold == false {
+            resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        } else {
+            resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+        }
+    }
+
     private var isMoreFriendsFold: Bool = true {
         didSet {
             if isMoreFriendsFold != oldValue {
-                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredFriends).map({
-                    NSIndexPath(forRow: $0, inSection: Section.Friend.rawValue)
-                })
 
-                if isMoreFriendsFold == false {
-                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                } else {
-                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                }
+                updateForFold(isMoreFriendsFold, withCountOfItems: countOfFilteredFriends, inSection: .Friend)
             }
         }
     }
@@ -111,16 +117,8 @@ class SearchConversationsViewController: SegueViewController {
     private var isMoreUserMessagesFold: Bool = true {
         didSet {
             if isMoreUserMessagesFold != oldValue {
-                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredUserMessages).map({
-                    NSIndexPath(forRow: $0, inSection: Section.MessageRecord.rawValue)
-                })
 
-                if isMoreUserMessagesFold == false {
-                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-
-                } else {
-                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                }
+                updateForFold(isMoreUserMessagesFold, withCountOfItems: countOfFilteredUserMessages, inSection: .MessageRecord)
             }
         }
     }
@@ -128,15 +126,8 @@ class SearchConversationsViewController: SegueViewController {
     private var isMoreFeedsFold: Bool = true {
         didSet {
             if isMoreFeedsFold != oldValue {
-                let indexPaths = ((1 + Section.maxNumberOfItems)...countOfFilteredFeeds).map({
-                    NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue)
-                })
 
-                if isMoreFeedsFold == false {
-                    resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                } else {
-                    resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
-                }
+                updateForFold(isMoreFeedsFold, withCountOfItems: countOfFilteredFeeds, inSection: .Feed)
             }
         }
     }
