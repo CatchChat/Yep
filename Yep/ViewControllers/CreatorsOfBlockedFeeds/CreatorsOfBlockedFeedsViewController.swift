@@ -1,25 +1,25 @@
 //
-//  BlackListViewController.swift
+//  CreatorsOfBlockedFeedsViewController.swift
 //  Yep
 //
-//  Created by nixzhu on 15/8/24.
-//  Copyright (c) 2015年 Catch Inc. All rights reserved.
+//  Created by NIX on 16/4/13.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 import RealmSwift
 
-class BlackListViewController: BaseViewController {
+class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedUsersTableView: UITableView!
+    @IBOutlet private weak var blockedCreatorsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private let cellIdentifier = "ContactsCell"
 
-    private var blockedUsers = [DiscoveredUser]() {
+    private var blockedCreators = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))
+                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
             }
         }
     }
@@ -27,31 +27,31 @@ class BlackListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Blocked Users", comment: "")
+        title = NSLocalizedString("Blocked Creators", comment: "")
 
-        blockedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        blockedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        blockedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        blockedUsersTableView.rowHeight = 80
-        blockedUsersTableView.tableFooterView = UIView()
-
+        blockedCreatorsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        blockedCreatorsTableView.rowHeight = 80
+        blockedCreatorsTableView.tableFooterView = UIView()
 
         activityIndicator.startAnimating()
 
-        blockedUsersByMe(failureHandler: { [weak self] reason, errorMessage in
+        creatorsOfBlockedFeeds(failureHandler: { [weak self] reason, errorMessage in
             dispatch_async(dispatch_get_main_queue()) {
                 self?.activityIndicator.stopAnimating()
             }
 
-            YepAlert.alertSorry(message: NSLocalizedString("Netword Error: Faild to get blocked users!", comment: ""), inViewController: self)
+            let errorMessage = errorMessage ?? NSLocalizedString("Netword Error: Faild to get blocked creator!", comment: "")
+            YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-        }, completion: { blockedUsers in
+        }, completion: { blockedCreators in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.activityIndicator.stopAnimating()
 
-                self?.blockedUsers = blockedUsers
-                self?.blockedUsersTableView.reloadData()
+                self?.blockedCreators = blockedCreators
+                self?.blockedCreatorsTableView.reloadData()
             }
         })
     }
@@ -76,21 +76,21 @@ class BlackListViewController: BaseViewController {
             vc.hidesBottomBarWhenPushed = true
 
             vc.setBackButtonWithTitle()
-            
+
         default:
             break
         }
     }
 }
 
-extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
+extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return blockedUsers.count
+        return blockedCreators.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -98,7 +98,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.selectionStyle = .None
 
-        let discoveredUser = blockedUsers[indexPath.row]
+        let discoveredUser = blockedCreators[indexPath.row]
 
         cell.configureWithDiscoveredUser(discoveredUser)
 
@@ -111,7 +111,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        let discoveredUser = blockedUsers[indexPath.row]
+        let discoveredUser = blockedCreators[indexPath.row]
         performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
     }
 
@@ -125,37 +125,27 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
 
         if editingStyle == .Delete {
 
-            let discoveredUser = blockedUsers[indexPath.row]
+            let discoveredUser = blockedCreators[indexPath.row]
 
-            unblockUserWithUserID(discoveredUser.id, failureHandler: nil, completion: { success in
-                println("unblockUserWithUserID \(success)")
+            unblockFeedsFromCreator(userID: discoveredUser.id, failureHandler: nil, completion: { success in
+                println("unblockFeedsFromCreator \(success)")
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-
-                    if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
-                        let _ = try? realm.write {
-                            user.blocked = false
-                        }
-                    }
-
                     if let strongSelf = self {
-                        if let index = strongSelf.blockedUsers.indexOf(discoveredUser)  {
+                        if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {
 
-                            strongSelf.blockedUsers.removeAtIndex(index)
+                            strongSelf.blockedCreators.removeAtIndex(index)
 
                             let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
-                            strongSelf.blockedUsersTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                            strongSelf.blockedCreatorsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
                         }
                     }
                 }
             })
         }
     }
-
+    
     func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
         return NSLocalizedString("Unblock", comment: "")
     }

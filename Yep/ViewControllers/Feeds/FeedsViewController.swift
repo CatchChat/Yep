@@ -37,6 +37,22 @@ class FeedsViewController: BaseViewController {
     }
     var feeds = [DiscoveredFeed]()
 
+    private var blockedFeeds = false {
+        didSet {
+            moreViewManager.blockedFeeds = blockedFeeds
+        }
+    }
+    private lazy var moreViewManager: FeedsMoreViewManager = {
+
+        let manager = FeedsMoreViewManager()
+
+        manager.toggleBlockFeedsAction = { [weak self] in
+            self?.toggleBlockFeeds()
+        }
+
+        return manager
+    }()
+
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
@@ -342,12 +358,6 @@ class FeedsViewController: BaseViewController {
 
         println("deinit Feeds")
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        recoverNavigationDelegate()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -395,10 +405,24 @@ class FeedsViewController: BaseViewController {
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
+
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: YepConfig.Notification.blockedFeedsByCreator, object: nil)
         }
 
         if hideRightBarItem {
-             navigationItem.rightBarButtonItem = nil
+            if profileUser?.isMe ?? false {
+                navigationItem.rightBarButtonItem = nil
+
+            } else {
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+                navigationItem.rightBarButtonItem = moreBarButtonItem
+
+                if let userID = profileUser?.userID {
+                    amIBlockedFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] blocked in
+                        self?.blockedFeeds = blocked
+                    })
+                }
+            }
         }
         
         if preparedFeedsCount > 0 {
@@ -434,8 +458,41 @@ class FeedsViewController: BaseViewController {
         #endif
     }
 
-    // MARK: Actions
-    
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        /*
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+            navigationControllerDelegate = nil
+        }
+        */
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
+    }
+
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        recoverNavigationDelegate()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if blockedFeeds {
+            if let userID = profileUser?.userID {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
+            }
+        }
+    }
+
+    // MARK: - Actions
+
     @objc private func addSkillToMe(sender: AnyObject) {
         println("addSkillToMe")
         
@@ -479,27 +536,17 @@ class FeedsViewController: BaseViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
-
-        navigationController?.setNavigationBarHidden(false, animated: false)
-
-        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
-    }
-
-    // MARK: - Actions
-
     @objc private func showFilter(sender: AnyObject) {
         
         if let window = view.window {
             filterView.showInView(window)
+        }
+    }
+
+    @objc private func moreAction(sender: AnyObject) {
+
+        if let window = view.window {
+            moreViewManager.moreView.showInView(window)
         }
     }
 
@@ -740,6 +787,35 @@ class FeedsViewController: BaseViewController {
         let currentTime = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
         setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    private func toggleBlockFeeds() {
+
+        guard let userID = profileUser?.userID else {
+            return
+        }
+
+        if blockedFeeds {
+            unblockFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] in
+                self?.blockedFeeds = false
+            })
+        } else {
+            blockFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] in
+                self?.blockedFeeds = true
+            })
+        }
+    }
+
+    @objc private func hideFeedsByCrearor(notifcation: NSNotification) {
+
+        if let userID = notifcation.object as? String {
+            println("hideFeedsByCreator: \(userID)")
+
+            feeds = feeds.filter({ $0.creator.userID != userID })
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.feedsTableView.reloadData()
+            }
+        }
     }
 
     // MARK: - Navigation

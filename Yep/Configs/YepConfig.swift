@@ -62,6 +62,7 @@ class YepConfig {
         static let createdFeed = "YepConfig.Notification.createdFeed"
         static let deletedFeed = "YepConfig.Notification.deletedFeed"
         static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
+        static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
     }
 
     struct Message {
