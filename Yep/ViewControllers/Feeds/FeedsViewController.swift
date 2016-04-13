@@ -40,14 +40,6 @@ class FeedsViewController: BaseViewController {
     private var blockedFeeds = false {
         didSet {
             moreViewManager.blockedFeeds = blockedFeeds
-
-            if blockedFeeds {
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    if let userID = self?.profileUser?.userID {
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
-                    }
-                }
-            }
         }
     }
     private lazy var moreViewManager: FeedsMoreViewManager = {
@@ -366,12 +358,6 @@ class FeedsViewController: BaseViewController {
 
         println("deinit Feeds")
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        recoverNavigationDelegate()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -472,8 +458,41 @@ class FeedsViewController: BaseViewController {
         #endif
     }
 
-    // MARK: Actions
-    
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        /*
+        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
+        if let delegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = delegate
+            navigationControllerDelegate = nil
+        }
+        */
+
+        navigationController?.setNavigationBarHidden(false, animated: false)
+
+        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
+    }
+
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        recoverNavigationDelegate()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if blockedFeeds {
+            if let userID = profileUser?.userID {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
+            }
+        }
+    }
+
+    // MARK: - Actions
+
     @objc private func addSkillToMe(sender: AnyObject) {
         println("addSkillToMe")
         
@@ -516,23 +535,6 @@ class FeedsViewController: BaseViewController {
             presentViewController(alertController, animated: true, completion: nil)
         }
     }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
-
-        navigationController?.setNavigationBarHidden(false, animated: false)
-
-        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
-    }
-
-    // MARK: - Actions
 
     @objc private func showFilter(sender: AnyObject) {
         
