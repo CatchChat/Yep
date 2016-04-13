@@ -19,6 +19,7 @@ class SearchContactsViewController: SegueViewController {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
             searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+            searchBar.returnKeyType = .Done
         }
     }
     @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {

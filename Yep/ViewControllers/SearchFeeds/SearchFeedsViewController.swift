@@ -17,6 +17,7 @@ class SearchFeedsViewController: UIViewController {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
             searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+            searchBar.returnKeyType = .Done
         }
     }
     @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
