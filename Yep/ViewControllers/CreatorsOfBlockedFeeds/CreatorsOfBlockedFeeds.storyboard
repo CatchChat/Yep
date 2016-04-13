@@ -41,11 +41,20 @@
                     <connections>
                         <outlet property="activityIndicator" destination="res-ll-Sw4" id="dyi-g8-2yg"/>
                         <outlet property="blockedCreatorsTableView" destination="XGS-YI-ZeN" id="FoN-An-c2b"/>
+                        <segue destination="9Dp-T5-VKu" kind="show" identifier="showProfile" id="u5Y-b3-Qcs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rw8-B1-ElQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="437" y="351"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="hgm-Rl-iDR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="9Dp-T5-VKu" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fwo-sM-2pF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="949.5" y="382"/>
         </scene>
     </scenes>
 </document>

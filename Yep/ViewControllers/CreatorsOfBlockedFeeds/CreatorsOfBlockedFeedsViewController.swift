@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class CreatorsOfBlockedFeedsViewController: UIViewController {
+class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
     @IBOutlet private weak var blockedCreatorsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -55,6 +55,32 @@ class CreatorsOfBlockedFeedsViewController: UIViewController {
             }
         })
     }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+            vc.setBackButtonWithTitle()
+
+        default:
+            break
+        }
+    }
 }
 
 extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarDelegate {
@@ -77,6 +103,16 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
         cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        let discoveredUser = blockedCreators[indexPath.row]
+        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
     }
 
     // Edit (for Unblock)
