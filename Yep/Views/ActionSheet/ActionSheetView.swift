@@ -154,7 +154,7 @@ private class ActionSheetSubtitleSwitchCell: UITableViewCell {
 
     lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
+        label.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
         label.textColor = UIColor.lightGrayColor()
         return label
     }()

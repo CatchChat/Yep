@@ -22,7 +22,9 @@ class FeedsMoreViewManager {
     }
 
     private func makeBlockFeedsItem(blockedFeeds blockedFeeds: Bool) -> ActionSheetView.Item {
-        return .SubtitleSwitch(title: NSLocalizedString("不看他的话题", comment: ""), titleColor: UIColor.blackColor(), subtitle: NSLocalizedString("对方的话题将不再显示在你的时间线上", comment: ""), subtitleColor: UIColor.lightGrayColor(), switchOn: blockedFeeds, action: { [weak self] switchOn in
+        let titleColor = UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1)
+        let subtitleColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+        return .SubtitleSwitch(title: NSLocalizedString("不看他的话题", comment: ""), titleColor: titleColor, subtitle: NSLocalizedString("对方的话题将不再显示在你的时间线上", comment: ""), subtitleColor: subtitleColor, switchOn: blockedFeeds, action: { [weak self] switchOn in
                 self?.toggleBlockFeedsAction?()
             }
         )
