@@ -91,7 +91,22 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
 
             let discoveredUser = blockedCreators[indexPath.row]
 
-            // TODO
+            unblockFeedsFromCreator(userID: discoveredUser.id, failureHandler: nil, completion: { success in
+                println("unblockFeedsFromCreator \(success)")
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    if let strongSelf = self {
+                        if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {
+
+                            strongSelf.blockedCreators.removeAtIndex(index)
+
+                            let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
+                            strongSelf.blockedCreatorsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                        }
+                    }
+                }
+            })
         }
     }
     
