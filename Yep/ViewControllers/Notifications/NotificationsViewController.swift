@@ -241,32 +241,46 @@ class NotificationsViewController: SegueViewController {
 
 extension NotificationsViewController: UITableViewDataSource, UITableViewDelegate {
 
+    enum Section: Int {
+        case DoNotDisturbPeriod
+        case BlackList
+        case CreatorsOfBlockedFeeds
+    }
+
     private enum DoNotDisturbPeriodRow: Int {
         case Switch
         case Period
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid Section!")
+        }
+
         switch section {
-        case 0:
+        case .DoNotDisturbPeriod:
             return doNotDisturbPeriod.isOn ? 2 : 1
-        case 1:
+        case .BlackList:
             return 1
-        default:
-            return 0
+        case .CreatorsOfBlockedFeeds:
+            return 1
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section!")
+        }
 
-        case 0:
+        switch section {
+
+        case .DoNotDisturbPeriod:
 
             switch indexPath.row {
 
@@ -319,14 +333,17 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                 break
             }
 
-        case 1:
+        case .BlackList:
 
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
             cell.annotationLabel.text = NSLocalizedString("Blocked Users", comment: "")
             return cell
 
-        default:
-            break
+        case .CreatorsOfBlockedFeeds:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
+            cell.annotationLabel.text = NSLocalizedString("Creators of blocked feeds", comment: "")
+            return cell
         }
 
         return UITableViewCell()
@@ -334,8 +351,13 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.section {
-        case 0:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section!")
+        }
+
+        switch section {
+
+        case .DoNotDisturbPeriod:
             switch indexPath.row {
 
             case DoNotDisturbPeriodRow.Switch.rawValue:
@@ -347,10 +369,12 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             default:
                 break
             }
-        case 1:
+
+        case .BlackList:
             return 60
-        default:
-            break
+
+        case .CreatorsOfBlockedFeeds:
+            return 60
         }
 
         return 0
@@ -362,14 +386,21 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
-        case 0:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section!")
+        }
+
+        switch section {
+
+        case .DoNotDisturbPeriod:
             if indexPath.row == DoNotDisturbPeriodRow.Period.rawValue {
                 performSegueWithIdentifier("showDoNotDisturbPeriod", sender: nil)
             }
-        case 1:
+
+        case .BlackList:
             performSegueWithIdentifier("showBlackList", sender: nil)
-        default:
+
+        case .CreatorsOfBlockedFeeds:
             break
         }
     }
