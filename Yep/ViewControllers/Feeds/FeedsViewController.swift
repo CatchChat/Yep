@@ -409,9 +409,13 @@ class FeedsViewController: BaseViewController {
         }
 
         if hideRightBarItem {
-            //navigationItem.rightBarButtonItem = nil
-            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
-            navigationItem.rightBarButtonItem = moreBarButtonItem
+            if profileUser?.isMe ?? false {
+                navigationItem.rightBarButtonItem = nil
+
+            } else {
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+                navigationItem.rightBarButtonItem = moreBarButtonItem
+            }
         }
         
         if preparedFeedsCount > 0 {
