@@ -37,12 +37,13 @@ class FeedsViewController: BaseViewController {
     }
     var feeds = [DiscoveredFeed]()
 
+    private var blockedFeeds = false
     private lazy var moreViewManager: FeedsMoreViewManager = {
 
         let manager = FeedsMoreViewManager()
 
         manager.toggleBlockFeedsAction = { [weak self] in
-            //self?.toggleBlockFeeds()
+            self?.toggleBlockFeeds()
         }
 
         return manager
@@ -415,6 +416,12 @@ class FeedsViewController: BaseViewController {
             } else {
                 let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
                 navigationItem.rightBarButtonItem = moreBarButtonItem
+
+                if let userID = profileUser?.userID {
+                    amIBlockedFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] blocked in
+                        self?.blockedFeeds = blocked
+                    })
+                }
             }
         }
         
@@ -764,6 +771,23 @@ class FeedsViewController: BaseViewController {
         let currentTime = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
         setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    private func toggleBlockFeeds() {
+
+        guard let userID = profileUser?.userID else {
+            return
+        }
+
+        if blockedFeeds {
+            unblockFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] in
+                self?.blockedFeeds = false
+            })
+        } else {
+            blockFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] in
+                self?.blockedFeeds = true
+            })
+        }
     }
 
     // MARK: - Navigation

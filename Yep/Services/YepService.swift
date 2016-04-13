@@ -3128,7 +3128,7 @@ func amIBlockedFeedsFromCreator(userID userID: String, failureHandler: FailureHa
         return blocked
     }
 
-    let resource = authJsonResource(path: "/v1/users/:\(userID)/hide_topics_setting", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/v1/users/\(userID)/hide_topics_setting", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
