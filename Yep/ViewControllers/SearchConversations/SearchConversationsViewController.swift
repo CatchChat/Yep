@@ -287,6 +287,10 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
+        if searchText.isEmpty {
+            self.keyword = nil
+        }
+
         cancel(searchTask)
 
         searchTask = delay(0.5) { [weak self] in
