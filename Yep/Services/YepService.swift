@@ -3117,6 +3117,22 @@ func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, comp
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func amIBlockedFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "id": userID,
+    ]
+
+    let parse: JSONDictionary -> Bool? = { data in
+        let blocked = data["hide_topics"] as? Bool
+        return blocked
+    }
+
+    let resource = authJsonResource(path: "/v1/users/:\(userID)/hide_topics_setting", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 func blockFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
