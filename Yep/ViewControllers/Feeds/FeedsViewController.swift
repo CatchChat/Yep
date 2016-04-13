@@ -42,8 +42,8 @@ class FeedsViewController: BaseViewController {
             moreViewManager.blockedFeeds = blockedFeeds
 
             if blockedFeeds {
-                if let userID = profileUser?.userID {
-                    dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let userID = self?.profileUser?.userID {
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
                     }
                 }
@@ -807,7 +807,12 @@ class FeedsViewController: BaseViewController {
     @objc private func hideFeedsByCrearor(notifcation: NSNotification) {
 
         if let userID = notifcation.object as? String {
-            println("hideFeedsByCrearor: \(userID)")
+            println("hideFeedsByCreator: \(userID)")
+
+            feeds = feeds.filter({ $0.creator.userID != userID })
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.feedsTableView.reloadData()
+            }
         }
     }
 
