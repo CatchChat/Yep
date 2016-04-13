@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class BlackListViewController: UIViewController {
+class BlackListViewController: BaseViewController {
 
     @IBOutlet private weak var blockedUsersTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -55,6 +55,32 @@ class BlackListViewController: UIViewController {
             }
         })
     }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+                vc.profileUser = .DiscoveredUserType(discoveredUser)
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+            vc.setBackButtonWithTitle()
+            
+        default:
+            break
+        }
+    }
 }
 
 extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -77,6 +103,16 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        let discoveredUser = blockedUsers[indexPath.row]
+        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
     }
 
     // Edit (for Unblock)
