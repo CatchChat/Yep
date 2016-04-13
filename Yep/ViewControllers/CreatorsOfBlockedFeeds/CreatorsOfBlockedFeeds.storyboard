@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Creators Of Blocked Feeds View Controller-->
         <scene sceneID="cHt-SW-Bm6">
             <objects>
-                <viewController id="c5N-wJ-jXo" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreatorsOfBlockedFeedsViewController" id="c5N-wJ-jXo" customClass="CreatorsOfBlockedFeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bti-Sy-ecR"/>
                         <viewControllerLayoutGuide type="bottom" id="5FN-hQ-7DD"/>

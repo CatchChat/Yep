@@ -401,7 +401,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             performSegueWithIdentifier("showBlackList", sender: nil)
 
         case .CreatorsOfBlockedFeeds:
-            break
+            performSegueWithIdentifier("showCreatorsOfBlockedFeeds", sender: nil)
         }
     }
 }
