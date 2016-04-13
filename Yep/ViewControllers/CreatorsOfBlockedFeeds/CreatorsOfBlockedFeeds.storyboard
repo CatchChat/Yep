@@ -19,6 +19,10 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XGS-YI-ZeN">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="c5N-wJ-jXo" id="GC8-NW-12z"/>
+                                    <outlet property="delegate" destination="c5N-wJ-jXo" id="pzk-hq-s63"/>
+                                </connections>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="res-ll-Sw4">
                                 <rect key="frame" x="290" y="140" width="20" height="20"/>
@@ -34,6 +38,10 @@
                             <constraint firstItem="XGS-YI-ZeN" firstAttribute="top" secondItem="JCT-YL-bcs" secondAttribute="top" id="VWY-ZR-cI0"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="res-ll-Sw4" id="dyi-g8-2yg"/>
+                        <outlet property="creatorsOfBlockedFeedsTableView" destination="XGS-YI-ZeN" id="vSL-kn-3Tj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rw8-B1-ElQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

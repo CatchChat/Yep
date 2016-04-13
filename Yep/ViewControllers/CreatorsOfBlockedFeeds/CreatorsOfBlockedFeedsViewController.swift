@@ -7,29 +7,79 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CreatorsOfBlockedFeedsViewController: UIViewController {
+
+    @IBOutlet private weak var creatorsOfBlockedFeedsTableView: UITableView!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+
+    private let cellIdentifier = "ContactsCell"
+
+    private var creatorsOfBlockedFeeds = [DiscoveredUser]() {
+        willSet {
+            if newValue.count == 0 {
+                creatorsOfBlockedFeedsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        title = NSLocalizedString("Blocked Creators", comment: "")
+
+        creatorsOfBlockedFeedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        creatorsOfBlockedFeedsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+        creatorsOfBlockedFeedsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        creatorsOfBlockedFeedsTableView.rowHeight = 80
+        creatorsOfBlockedFeedsTableView.tableFooterView = UIView()
+
+        activityIndicator.startAnimating()
+    }
+}
+
+extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return creatorsOfBlockedFeeds.count
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        cell.selectionStyle = .None
+
+        let discoveredUser = creatorsOfBlockedFeeds[indexPath.row]
+
+        cell.configureWithDiscoveredUser(discoveredUser)
+
+        return cell
+    }
+
+    // Edit (for Unblock)
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        if editingStyle == .Delete {
+
+            let discoveredUser = creatorsOfBlockedFeeds[indexPath.row]
+
+            // TODO
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+        return NSLocalizedString("Unblock", comment: "")
     }
-    */
-
 }
+
