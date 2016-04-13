@@ -37,7 +37,11 @@ class FeedsViewController: BaseViewController {
     }
     var feeds = [DiscoveredFeed]()
 
-    private var blockedFeeds = false
+    private var blockedFeeds = false {
+        didSet {
+            moreViewManager.blockedFeeds = blockedFeeds
+        }
+    }
     private lazy var moreViewManager: FeedsMoreViewManager = {
 
         let manager = FeedsMoreViewManager()
@@ -530,7 +534,6 @@ class FeedsViewController: BaseViewController {
     @objc private func moreAction(sender: AnyObject) {
 
         if let window = view.window {
-            moreViewManager.blockedFeeds = blockedFeeds
             moreViewManager.moreView.showInView(window)
         }
     }
