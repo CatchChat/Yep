@@ -36,9 +36,9 @@ class ImageCacheController {
         }
 
         let minCache = max(0, updatedCache.firstIndex - cachePreheatSize)
-        let maxCache = min(images.count - 1, updatedCache.lastIndex + cachePreheatSize + 1)
+        let maxCache = min(images.count - 1, updatedCache.lastIndex + cachePreheatSize)
 
-        updatedCache.addIndexesInRange(NSMakeRange(minCache, maxCache - minCache))
+        updatedCache.addIndexesInRange(NSMakeRange(minCache, maxCache - minCache + 1))
 
         // Which indices can be chucked?
         self.cachedIndices.enumerateIndexesUsingBlock { index, _ in

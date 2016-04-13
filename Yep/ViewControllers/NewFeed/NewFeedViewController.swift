@@ -996,16 +996,6 @@ class NewFeedViewController: SegueViewController {
             tryCreateFeed()
         }
     }
-    
-    // MARK: Fetch images from imagePicker
-    
-//    func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
-//        
-//        for image in images {
-//            self.mediaImages.append(image)
-//        }
-//        
-//    }
 
     @IBAction private func playOrPauseAudio(sender: UIButton) {
         YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
@@ -1239,13 +1229,13 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
     }
 }
 
+// MARK: Fetch images from imagePicker
+
 extension NewFeedViewController: ReturnPickedPhotosDelegate {
     func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
         
         for image in images {
-            if !self.mediaImages.contains(image) {
             self.mediaImages.append(image)
-            }
         }
         
     }
