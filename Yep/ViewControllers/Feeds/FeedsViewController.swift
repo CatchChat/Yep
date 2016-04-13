@@ -530,6 +530,7 @@ class FeedsViewController: BaseViewController {
     @objc private func moreAction(sender: AnyObject) {
 
         if let window = view.window {
+            moreViewManager.blockedFeeds = blockedFeeds
             moreViewManager.moreView.showInView(window)
         }
     }
