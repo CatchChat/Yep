@@ -345,6 +345,8 @@
 		50E34C281CBB8A49007CAE80 /* SearchFeeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C271CBB8A49007CAE80 /* SearchFeeds.storyboard */; };
 		50E34C2A1CBB8CAA007CAE80 /* FeedsSearchTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C291CBB8CAA007CAE80 /* FeedsSearchTransition.swift */; };
 		50E34C2C1CBDEC31007CAE80 /* FeedsMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C2B1CBDEC31007CAE80 /* FeedsMoreViewManager.swift */; };
+		50E34C2F1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C2E1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift */; };
+		50E34C311CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C301CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard */; };
 		50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */; };
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
@@ -760,6 +762,8 @@
 		50E34C271CBB8A49007CAE80 /* SearchFeeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchFeeds.storyboard; path = ViewControllers/SearchFeeds/SearchFeeds.storyboard; sourceTree = "<group>"; };
 		50E34C291CBB8CAA007CAE80 /* FeedsSearchTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsSearchTransition.swift; path = ViewControllers/Feeds/FeedsSearchTransition.swift; sourceTree = "<group>"; };
 		50E34C2B1CBDEC31007CAE80 /* FeedsMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsMoreViewManager.swift; path = ViewControllers/Feeds/FeedsMoreViewManager.swift; sourceTree = "<group>"; };
+		50E34C2E1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatorsOfBlockedFeedsViewController.swift; path = ViewControllers/CreatorsOfBlockedFeeds/CreatorsOfBlockedFeedsViewController.swift; sourceTree = "<group>"; };
+		50E34C301CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = CreatorsOfBlockedFeeds.storyboard; path = ViewControllers/CreatorsOfBlockedFeeds/CreatorsOfBlockedFeeds.storyboard; sourceTree = "<group>"; };
 		50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedNormalImagesCell.swift; path = Views/Cells/Feed/FeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -1205,6 +1209,7 @@
 				50A640E11B6F38D60050E4A3 /* Notifications */,
 				50A640ED1B6F4E480050E4A3 /* DoNotDisturbPeriod */,
 				503ED23B1B8ADCED0072187D /* BlackList */,
+				50E34C2D1CBE29F5007CAE80 /* CreatorsOfBlockedFeeds */,
 				50B38FCD1B6B37F90064C132 /* Feedback */,
 				50E3488F1B905C0700A8E699 /* About */,
 				5080EB1D1B93F440006F3C2D /* PodsHelpYep */,
@@ -2375,6 +2380,15 @@
 			name = SearchFeeds;
 			sourceTree = "<group>";
 		};
+		50E34C2D1CBE29F5007CAE80 /* CreatorsOfBlockedFeeds */ = {
+			isa = PBXGroup;
+			children = (
+				50E34C2E1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift */,
+				50E34C301CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard */,
+			);
+			name = CreatorsOfBlockedFeeds;
+			sourceTree = "<group>";
+		};
 		50E61CEC1AF1F6A600908A9D /* ConversationTitle */ = {
 			isa = PBXGroup;
 			children = (
@@ -2740,6 +2754,7 @@
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
 				50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */,
+				50E34C311CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard in Resources */,
 				0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */,
 				5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */,
 				50DEE0431BE8B3CD00015741 /* Feedback.storyboard in Resources */,
@@ -2895,6 +2910,7 @@
 				5020B8A51C059662006CE8EA /* VoiceRecordSampleView.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
 				500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */,
+				50E34C2F1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
