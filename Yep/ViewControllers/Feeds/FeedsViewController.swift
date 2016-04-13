@@ -40,6 +40,14 @@ class FeedsViewController: BaseViewController {
     private var blockedFeeds = false {
         didSet {
             moreViewManager.blockedFeeds = blockedFeeds
+
+            if blockedFeeds {
+                if let userID = profileUser?.userID {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
+                    }
+                }
+            }
         }
     }
     private lazy var moreViewManager: FeedsMoreViewManager = {
@@ -411,6 +419,8 @@ class FeedsViewController: BaseViewController {
         } else {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
+
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: YepConfig.Notification.blockedFeedsByCreator, object: nil)
         }
 
         if hideRightBarItem {
@@ -791,6 +801,13 @@ class FeedsViewController: BaseViewController {
             blockFeedsFromCreator(userID: userID, failureHandler: nil, completion: { [weak self] in
                 self?.blockedFeeds = true
             })
+        }
+    }
+
+    @objc private func hideFeedsByCrearor(notifcation: NSNotification) {
+
+        if let userID = notifcation.object as? String {
+            println("hideFeedsByCrearor: \(userID)")
         }
     }
 
