@@ -37,6 +37,17 @@ class FeedsViewController: BaseViewController {
     }
     var feeds = [DiscoveredFeed]()
 
+    private lazy var moreViewManager: FeedsMoreViewManager = {
+
+        let manager = FeedsMoreViewManager()
+
+        manager.toggleBlockFeedsAction = { [weak self] in
+            //self?.toggleBlockFeeds()
+        }
+
+        return manager
+    }()
+
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
@@ -398,7 +409,9 @@ class FeedsViewController: BaseViewController {
         }
 
         if hideRightBarItem {
-             navigationItem.rightBarButtonItem = nil
+            //navigationItem.rightBarButtonItem = nil
+            let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+            navigationItem.rightBarButtonItem = moreBarButtonItem
         }
         
         if preparedFeedsCount > 0 {
@@ -500,6 +513,13 @@ class FeedsViewController: BaseViewController {
         
         if let window = view.window {
             filterView.showInView(window)
+        }
+    }
+
+    @objc private func moreAction(sender: AnyObject) {
+
+        if let window = view.window {
+            moreViewManager.moreView.showInView(window)
         }
     }
 

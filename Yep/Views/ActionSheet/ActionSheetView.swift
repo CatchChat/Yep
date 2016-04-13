@@ -154,7 +154,7 @@ private class ActionSheetSubtitleSwitchCell: UITableViewCell {
 
     lazy var subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
+        label.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
         label.textColor = UIColor.lightGrayColor()
         return label
     }()
@@ -180,13 +180,13 @@ private class ActionSheetSubtitleSwitchCell: UITableViewCell {
         titleStackView.axis = .Vertical
         titleStackView.distribution = .Fill
         titleStackView.alignment = .Fill
-        titleStackView.spacing = 5
+        titleStackView.spacing = 2
         titleStackView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleStackView)
 
         do {
             let centerY = NSLayoutConstraint(item: titleStackView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1, constant: 0)
-            let leading = NSLayoutConstraint(item: titleStackView, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)
+            let leading = NSLayoutConstraint(item: titleStackView, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 20)
 
             NSLayoutConstraint.activateConstraints([centerY, leading])
         }
@@ -198,7 +198,7 @@ private class ActionSheetSubtitleSwitchCell: UITableViewCell {
             NSLayoutConstraint.activateConstraints([centerY, trailing])
         }
 
-        let gap = NSLayoutConstraint(item: checkedSwitch, attribute: .Leading, relatedBy: .Equal, toItem: titleStackView, attribute: .Trailing, multiplier: 1, constant: 0)
+        let gap = NSLayoutConstraint(item: checkedSwitch, attribute: .Leading, relatedBy: .Equal, toItem: titleStackView, attribute: .Trailing, multiplier: 1, constant: 10)
 
         NSLayoutConstraint.activateConstraints([gap])
     }
