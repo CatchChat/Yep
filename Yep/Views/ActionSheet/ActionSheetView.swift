@@ -265,6 +265,7 @@ class ActionSheetView: UIView {
         case Default(title: String, titleColor: UIColor, action: () -> Bool)
         case Detail(title: String, titleColor: UIColor, action: () -> Void)
         case Switch(title: String, titleColor: UIColor, switchOn: Bool, action: (switchOn: Bool) -> Void)
+        case SubtitleSwitch(title: String, titleColor: UIColor, subtitle: String, subtitleColor: UIColor, switchOn: Bool, action: (switchOn: Bool) -> Void)
         case Check(title: String, titleColor: UIColor, checked: Bool, action: () -> Void)
         case Cancel
     }
@@ -303,6 +304,7 @@ class ActionSheetView: UIView {
         view.registerClass(ActionSheetDefaultCell.self, forCellReuseIdentifier: ActionSheetDefaultCell.reuseIdentifier)
         view.registerClass(ActionSheetDetailCell.self, forCellReuseIdentifier: ActionSheetDetailCell.reuseIdentifier)
         view.registerClass(ActionSheetSwitchCell.self, forCellReuseIdentifier: ActionSheetSwitchCell.reuseIdentifier)
+        view.registerClass(ActionSheetSubtitleSwitchCell.self, forCellReuseIdentifier: ActionSheetSubtitleSwitchCell.reuseIdentifier)
         view.registerClass(ActionSheetCheckCell.self, forCellReuseIdentifier: ActionSheetCheckCell.reuseIdentifier)
 
         return view
@@ -487,6 +489,18 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
             return cell
 
+        case let .SubtitleSwitch(title, titleColor, subtitle, subtitleColor, switchOn, action):
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSubtitleSwitchCell.reuseIdentifier) as! ActionSheetSubtitleSwitchCell
+            cell.titleLabel.text = title
+            cell.titleLabel.textColor = titleColor
+            cell.subtitleLabel.text = subtitle
+            cell.subtitleLabel.textColor = subtitleColor
+            cell.checkedSwitch.on = switchOn
+            cell.action = action
+
+            return cell
+
         case let .Check(title, titleColor, checked, _):
 
             let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetCheckCell.reuseIdentifier) as! ActionSheetCheckCell
@@ -530,7 +544,11 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case .Switch:
 
-           break
+            break
+
+        case .SubtitleSwitch:
+            
+            break
 
         case .Check(_, _, _, let action):
 
