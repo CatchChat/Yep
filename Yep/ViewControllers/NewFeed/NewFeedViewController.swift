@@ -434,16 +434,17 @@ class NewFeedViewController: SegueViewController {
         
         if segue.identifier == "showPickPhotos" {
 
-            let vc = segue.destinationViewController as! PhotosPickerViewController
+            let vc = segue.destinationViewController as! PickPhotosViewController
             
             vc.pickedImageSet = Set(imageAssets)
             vc.imageLimit = mediaImages.count
-            vc.completion = { [weak self] images, imageAssets in
-                
-                for image in images {
-                    self?.mediaImages.append(image)
-                }
-            }
+            vc.delegate = self
+//            vc.completion = { [weak self] images, imageAssets in
+//                
+//                for image in images {
+//                    self?.mediaImages.append(image)
+//                }
+//            }
         }
     }
     
@@ -995,6 +996,16 @@ class NewFeedViewController: SegueViewController {
             tryCreateFeed()
         }
     }
+    
+    // MARK: Fetch images from imagePicker
+    
+//    func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
+//        
+//        for image in images {
+//            self.mediaImages.append(image)
+//        }
+//        
+//    }
 
     @IBAction private func playOrPauseAudio(sender: UIButton) {
         YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
@@ -1095,6 +1106,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
                 proposeToAccess(.Photos, agreed: {  [weak self] in
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
+
                     
                 }, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
@@ -1225,4 +1237,17 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
         
         dismissViewControllerAnimated(true, completion: nil)
     }
+}
+
+extension NewFeedViewController: ReturnPickedPhotosDelegate {
+    func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
+        
+        for image in images {
+            if !self.mediaImages.contains(image) {
+            self.mediaImages.append(image)
+            }
+        }
+        
+    }
+ 
 }

@@ -4,25 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
-        <!--Photos Picker View Controller-->
-        <scene sceneID="xag-YR-apl">
-            <objects>
-                <viewController storyboardIdentifier="PhotosPickerViewController" id="oGL-bf-73e" customClass="PhotosPickerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="C17-3T-jhk"/>
-                        <viewControllerLayoutGuide type="bottom" id="1Qc-KQ-UI6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sCt-L2-X3K">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FiV-ag-nlC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4.5" y="382.5"/>
-        </scene>
         <!--Pick Photos View Controller-->
         <scene sceneID="4Xl-2q-cdS">
             <objects>

@@ -45,7 +45,9 @@
 		33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */; };
 		338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */; };
 		338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */; };
-		338940401CBB908000B276C1 /* PhotosPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */; };
+		338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940451CBCB0E200B276C1 /* AlbumListController.swift */; };
+		338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940471CBCF05A00B276C1 /* AlbumListCell.swift */; };
+		3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940481CBCF05A00B276C1 /* AlbumListCell.xib */; };
 		50008D291CAA66E600245296 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D281CAA66E600245296 /* FeedSearch.swift */; };
 		50008D2B1CAB697A00245296 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2A1CAB697A00245296 /* UserSearch.swift */; };
 		50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2C1CAB76AD00245296 /* SearchableItemType.swift */; };
@@ -457,7 +459,9 @@
 		33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedViewController.swift; sourceTree = "<group>"; };
 		338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewCell.swift; sourceTree = "<group>"; };
 		338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewFeedPreviewCell.xib; sourceTree = "<group>"; };
-		3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosPickerViewController.swift; sourceTree = "<group>"; };
+		338940451CBCB0E200B276C1 /* AlbumListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumListController.swift; sourceTree = "<group>"; };
+		338940471CBCF05A00B276C1 /* AlbumListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumListCell.swift; sourceTree = "<group>"; };
+		338940481CBCF05A00B276C1 /* AlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumListCell.xib; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -1034,6 +1038,8 @@
 			children = (
 				338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */,
 				338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */,
+				338940471CBCF05A00B276C1 /* AlbumListCell.swift */,
+				338940481CBCF05A00B276C1 /* AlbumListCell.xib */,
 			);
 			name = NewFeedPreview;
 			path = Views/Cells/NewFeedPreview;
@@ -1727,7 +1733,7 @@
 			children = (
 				50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */,
 				50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */,
-				3389403F1CBB908000B276C1 /* PhotosPickerViewController.swift */,
+				338940451CBCB0E200B276C1 /* AlbumListController.swift */,
 				50535D211BCE497E002FE1A4 /* PickPhotos.storyboard */,
 			);
 			name = PickPhotos;
@@ -2799,6 +2805,7 @@
 				0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */,
 				5053AD511AF82A1700B3CBFA /* PickLocationCell.xib in Resources */,
 				5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */,
+				3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */,
 				50E1CE891BDA3CED0025B933 /* SkillHome.storyboard in Resources */,
 				50098D481CB348FA009275FE /* SearchedUserCell.xib in Resources */,
 				50DEE0571BEA0C9A00015741 /* Settings.storyboard in Resources */,
@@ -2983,6 +2990,7 @@
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				50485BCE1C56062400431AC7 /* ChatLeftRecallCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
+				338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */,
@@ -3089,7 +3097,6 @@
 				50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */,
 				50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
-				338940401CBB908000B276C1 /* PhotosPickerViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
 				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
@@ -3136,6 +3143,7 @@
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
+				338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */,
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
