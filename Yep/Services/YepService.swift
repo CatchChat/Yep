@@ -3106,6 +3106,17 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func blockedFeedCreators(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+
+    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Social Work
 
 struct TokensOfSocialAccounts {
