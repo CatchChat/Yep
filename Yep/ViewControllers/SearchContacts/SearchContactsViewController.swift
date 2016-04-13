@@ -35,9 +35,8 @@ class SearchContactsViewController: SegueViewController {
 
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
-            contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
+            //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
-            contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
@@ -73,7 +72,9 @@ class SearchContactsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Search", comment: "") 
+        title = NSLocalizedString("Search", comment: "")
+
+        contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.contactsTableView.contentInset.bottom = keyboardHeight

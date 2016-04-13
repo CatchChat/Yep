@@ -37,9 +37,8 @@ class SearchConversationsViewController: SegueViewController {
 
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
-            resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
+            //resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             resultsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
-            resultsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
             resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
             resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
@@ -135,7 +134,9 @@ class SearchConversationsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Search", comment: "") 
+        title = NSLocalizedString("Search", comment: "")
+
+        resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
         realm = try! Realm()
 
