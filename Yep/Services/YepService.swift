@@ -3132,6 +3132,21 @@ func blockFeedsFromCreator(userID userID: String, failureHandler: FailureHandler
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func unblockFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "user_id": userID,
+    ]
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators/\(userID)", method: .DELETE, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Social Work
 
 struct TokensOfSocialAccounts {
