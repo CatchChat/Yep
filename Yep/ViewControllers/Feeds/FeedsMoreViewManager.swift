@@ -22,9 +22,11 @@ class FeedsMoreViewManager {
     }
 
     private func makeBlockFeedsItem(blockedFeeds blockedFeeds: Bool) -> ActionSheetView.Item {
+        let title = NSLocalizedString("Hide these feeds", comment: "")
         let titleColor = UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1)
+        let subtitle = NSLocalizedString("Feeds by this creator will remove from your timeline.", comment: "")
         let subtitleColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
-        return .SubtitleSwitch(title: NSLocalizedString("不看他的话题", comment: ""), titleColor: titleColor, subtitle: NSLocalizedString("对方的话题将不再显示在你的时间线上", comment: ""), subtitleColor: subtitleColor, switchOn: blockedFeeds, action: { [weak self] switchOn in
+        return .SubtitleSwitch(title: title, titleColor: titleColor, subtitle: subtitle, subtitleColor: subtitleColor, switchOn: blockedFeeds, action: { [weak self] switchOn in
                 self?.toggleBlockFeedsAction?()
             }
         )

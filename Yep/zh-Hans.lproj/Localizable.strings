@@ -748,3 +748,7 @@
 "Chat Records" = "聊天记录";
 
 "%d messages" = "%d 条相关记录";
+
+"Hide these feeds" = "不看此人的话题";
+
+"Feeds by this creator will remove from your timeline." = "此人的话题将不再出现在您的时间线上";
