@@ -752,3 +752,7 @@
 "Hide these feeds" = "不看此人的话题";
 
 "Feeds by this creator will remove from your timeline." = "此人的话题将不再出现在您的时间线上";
+
+"Creators of Blocked Feeds" = "被屏蔽的话题创建者";
+"Blocked Creators" = "被屏蔽的创建者";
+"No blocked creators." = "没有被屏蔽的创建者";

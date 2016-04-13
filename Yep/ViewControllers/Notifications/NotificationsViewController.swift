@@ -342,7 +342,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
         case .CreatorsOfBlockedFeeds:
 
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
-            cell.annotationLabel.text = NSLocalizedString("Creators of blocked feeds", comment: "")
+            cell.annotationLabel.text = NSLocalizedString("Creators of Blocked Feeds", comment: "")
             return cell
         }
 
