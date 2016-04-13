@@ -3109,6 +3109,10 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
 func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+        if let creatorInfos = data["blocked_topic_creators"] as? [JSONDictionary] {
+            let creators = creatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+            return creators
+        }
         return nil
     }
 

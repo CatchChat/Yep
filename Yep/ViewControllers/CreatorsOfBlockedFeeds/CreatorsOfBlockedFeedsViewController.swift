@@ -11,15 +11,15 @@ import RealmSwift
 
 class CreatorsOfBlockedFeedsViewController: UIViewController {
 
-    @IBOutlet private weak var creatorsOfBlockedFeedsTableView: UITableView!
+    @IBOutlet private weak var blockedCreatorsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private let cellIdentifier = "ContactsCell"
 
-    private var creatorsOfBlockedFeeds = [DiscoveredUser]() {
+    private var blockedCreators = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                creatorsOfBlockedFeedsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
+                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
             }
         }
     }
@@ -29,14 +29,31 @@ class CreatorsOfBlockedFeedsViewController: UIViewController {
 
         title = NSLocalizedString("Blocked Creators", comment: "")
 
-        creatorsOfBlockedFeedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        creatorsOfBlockedFeedsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        creatorsOfBlockedFeedsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        creatorsOfBlockedFeedsTableView.rowHeight = 80
-        creatorsOfBlockedFeedsTableView.tableFooterView = UIView()
+        blockedCreatorsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        blockedCreatorsTableView.rowHeight = 80
+        blockedCreatorsTableView.tableFooterView = UIView()
 
         activityIndicator.startAnimating()
+
+        creatorsOfBlockedFeeds(failureHandler: { [weak self] reason, errorMessage in
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.activityIndicator.stopAnimating()
+            }
+
+            let errorMessage = errorMessage ?? NSLocalizedString("Netword Error: Faild to get blocked creator!", comment: "")
+            YepAlert.alertSorry(message: errorMessage, inViewController: self)
+
+        }, completion: { blockedCreators in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.activityIndicator.stopAnimating()
+
+                self?.blockedCreators = blockedCreators
+                self?.blockedCreatorsTableView.reloadData()
+            }
+        })
     }
 }
 
@@ -47,7 +64,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return creatorsOfBlockedFeeds.count
+        return blockedCreators.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -55,7 +72,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
 
         cell.selectionStyle = .None
 
-        let discoveredUser = creatorsOfBlockedFeeds[indexPath.row]
+        let discoveredUser = blockedCreators[indexPath.row]
 
         cell.configureWithDiscoveredUser(discoveredUser)
 
@@ -72,7 +89,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
 
         if editingStyle == .Delete {
 
-            let discoveredUser = creatorsOfBlockedFeeds[indexPath.row]
+            let discoveredUser = blockedCreators[indexPath.row]
 
             // TODO
         }
