@@ -17,7 +17,7 @@ class NewFeedPreviewViewController: UIViewController {
     
     var previewImages = [UIImage]()
     var startIndex: Int = 0
-    
+    var imagesLimit: Int = 0
     private let previewCellID = "NewFeedPreviewCell"
     
     override func viewDidLoad() {
@@ -26,6 +26,8 @@ class NewFeedPreviewViewController: UIViewController {
         previewCollectionView.pagingEnabled = true
         previewCollectionView.showsHorizontalScrollIndicator = false
         self.automaticallyAdjustsScrollViewInsets = false
+        
+        title = "\(startIndex + 1)/\(imagesLimit)"
         
     }
 
@@ -53,6 +55,7 @@ extension NewFeedPreviewViewController: UICollectionViewDelegate, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(previewCellID, forIndexPath: indexPath) as! NewFeedPreviewCell
         cell.image.image = previewImages[indexPath.item]
+        title = "\(indexPath.item + 1)/\(imagesLimit)"
         return cell
     }
     

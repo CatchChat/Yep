@@ -142,7 +142,8 @@ class NewFeedViewController: SegueViewController {
     private var mediaImages = [UIImage]() {
         didSet {
             self.mediaCollectionView.performBatchUpdates({ [weak self] in
-                self?.mediaCollectionView.reloadSections(NSIndexSet(index: 1))
+                self?.mediaCollectionView.reloadSections(NSIndexSet(index: 0))
+               
                 }, completion: nil)
         }
     }
@@ -1014,9 +1015,9 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
         switch section {
         case 0:
-            return 1
-        case 1:
             return mediaImages.count
+        case 1:
+            return 1
         default:
             return 0
         }
@@ -1026,11 +1027,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
         switch indexPath.section {
             
-        case 0:
+        case 1:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaAddCellID, forIndexPath: indexPath) as! FeedMediaAddCell
             return cell
             
-        case 1:
+        case 0:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
             
             let image = mediaImages[indexPath.item]
@@ -1048,8 +1049,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
-        
-        return CGSize(width: 80, height: 80)
+
+        switch indexPath.section {
+        case 1:
+            guard mediaImages.count != 4 else {
+                return CGSizeZero
+            }
+            return CGSize(width: 80, height: 80)
+        default:
+            return CGSize(width: 80, height: 80)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
@@ -1060,7 +1069,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
         switch indexPath.section {
             
-        case 0:
+        case 1:
 
             messageTextView.resignFirstResponder()
             
@@ -1113,12 +1122,14 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
             self.presentViewController(pickAlertController, animated: true, completion: nil)
 
-        case 1:
+        case 0:
 //            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
             let previewVC = UIStoryboard(name: "NewFeed", bundle: nil).instantiateViewControllerWithIdentifier("NewFeedPreviewViewController") as! NewFeedPreviewViewController
             previewVC.previewImages = mediaImages
+            previewVC.imagesLimit = 4
             previewVC.startIndex = indexPath.item
+            
             self.navigationController?.pushViewController(previewVC, animated: true)
 //            mediaImages.removeAtIndex(indexPath.item)
 ////            if !imageAssets.isEmpty {

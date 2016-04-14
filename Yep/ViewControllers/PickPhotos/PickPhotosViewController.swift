@@ -45,11 +45,11 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 
-            let width: CGFloat = Ruler.iPhoneHorizontal(77.5, 92.5, 101).value
+            let width: CGFloat = Ruler.iPhoneHorizontal(77.5, 92.5, 102).value
             let height = width
             layout.itemSize = CGSize(width: width, height: height)
 
-            let gap: CGFloat = Ruler.iPhoneHorizontal(2, 1, 2).value
+            let gap: CGFloat = Ruler.iPhoneHorizontal(1, 1, 1).value
             layout.minimumInteritemSpacing = gap
             layout.minimumLineSpacing = gap
             layout.sectionInset = UIEdgeInsets(top: gap, left: gap, bottom: gap, right: gap)
