@@ -160,6 +160,12 @@ class SearchConversationsViewController: SegueViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if isFirstAppear {
+            delay(0.5) { [weak self] in
+                self?.searchBar.becomeFirstResponder()
+            }
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -174,9 +180,9 @@ class SearchConversationsViewController: SegueViewController {
 //            self?.view.layoutIfNeeded()
 //        }, completion: nil)
 
-        if isFirstAppear {
-            searchBar.becomeFirstResponder()
-        }
+//        if isFirstAppear {
+//            searchBar.becomeFirstResponder()
+//        }
 
         isFirstAppear = false
     }
