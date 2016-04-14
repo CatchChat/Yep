@@ -63,7 +63,17 @@ class ChatLeftRecallCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureWithMessage(message: Message) {
-        recallLabel.text = message.recalledTextContent
+    enum IndicateType {
+        case RecalledMessage
+        case BlockedByRecipient
+    }
+
+    func configureWithMessage(message: Message, indicateType: IndicateType) {
+        switch indicateType {
+        case .RecalledMessage:
+            recallLabel.text = message.recalledTextContent
+        case .BlockedByRecipient:
+            recallLabel.text = message.blockedTextContent
+        }
     }
 }

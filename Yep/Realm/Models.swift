@@ -549,6 +549,11 @@ class Message: Object {
         return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
     }
 
+    var blockedTextContent: String {
+        let nickname = fromFriend?.nickname ?? ""
+        return String(format: NSLocalizedString("Oops! 你被对方屏蔽了。", comment: ""), nickname)
+    }
+
     dynamic var openGraphDetected: Bool = false
     dynamic var openGraphInfo: OpenGraphInfo?
 

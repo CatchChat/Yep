@@ -3955,7 +3955,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 if message.blockedByRecipient {
                     if let cell = cell as? ChatLeftRecallCell {
-                        cell.configureWithMessage(message)
+                        cell.configureWithMessage(message, indicateType: .BlockedByRecipient)
                     }
                 }
 
@@ -4087,7 +4087,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     if message.deletedByCreator {
                         if let cell = cell as? ChatLeftRecallCell {
-                            cell.configureWithMessage(message)
+                            cell.configureWithMessage(message, indicateType: .RecalledMessage)
                         }
 
                     } else {
