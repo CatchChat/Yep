@@ -599,6 +599,7 @@ class Message: Object {
     dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
     dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
     dynamic var deletedByCreator: Bool = false
+    dynamic var blockedByRecipient: Bool = false
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
