@@ -11,7 +11,17 @@ import RealmSwift
 
 extension ConversationViewController {
 
-    func indicateBlockedByRecipient() {
+    func promptSendMessageFailed(reason reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
+
+        if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == ErrorCode.BlockedByRecipient {
+            indicateBlockedByRecipient()
+        } else {
+            let message = errorMessage ?? reserveErrorMessage
+            YepAlert.alertSorry(message: message, inViewController: self)
+        }
+    }
+
+    private func indicateBlockedByRecipient() {
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             if let conversation = self?.conversation {
                 self?.indicateBlockedByRecipientInConversation(conversation)
