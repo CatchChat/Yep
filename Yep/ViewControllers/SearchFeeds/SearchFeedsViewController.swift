@@ -39,6 +39,15 @@ class SearchFeedsViewController: UIViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if isFirstAppear {
+            delay(0.3) { [weak self] in
+                self?.searchBar.becomeFirstResponder()
+            }
+            delay(0.4) { [weak self] in
+                self?.searchBar.setShowsCancelButton(true, animated: true)
+            }
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -51,12 +60,8 @@ class SearchFeedsViewController: UIViewController {
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
             self?.view.layoutIfNeeded()
-            }, completion: nil)
+        }, completion: nil)
 
-        if isFirstAppear {
-            searchBar.becomeFirstResponder()
-        }
-        
         isFirstAppear = false
     }
 

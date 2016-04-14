@@ -39,7 +39,7 @@ extension FeedsSearchTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
         if isPresentation {
-            return 0.15
+            return 0.25
         } else {
             return 0.45
         }
@@ -57,7 +57,7 @@ extension FeedsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchFeedsViewController
+        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchFeedsViewController
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
@@ -73,8 +73,6 @@ extension FeedsSearchTransition: UIViewControllerAnimatedTransitioning {
             toView.alpha = 1
 
         }, completion: { finished in
-            toVC.searchBar.setShowsCancelButton(true, animated: true)
-
             transitionContext.completeTransition(true)
         })
     }
