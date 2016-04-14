@@ -96,6 +96,15 @@ class SearchContactsViewController: SegueViewController {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if isFirstAppear {
+            delay(0.3) { [weak self] in
+                self?.searchBar.becomeFirstResponder()
+            }
+            delay(0.4) { [weak self] in
+                self?.searchBar.setShowsCancelButton(true, animated: true)
+            }
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -109,10 +118,6 @@ class SearchContactsViewController: SegueViewController {
             self?.searchBarTopConstraint.constant = 0
             self?.view.layoutIfNeeded()
         }, completion: nil)
-
-        if isFirstAppear {
-            searchBar.becomeFirstResponder()
-        }
 
         isFirstAppear = false
     }
