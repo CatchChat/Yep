@@ -2022,7 +2022,7 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Text.rawValue:
 
-            if message.deletedByCreator {
+            if message.isIndicator {
                 height = 26
 
             } else {
@@ -2089,7 +2089,7 @@ class ConversationViewController: BaseViewController {
 
         // inGroup, plus height for show name
         if conversation.withGroup != nil {
-            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.deletedByCreator {
+            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.isIndicator {
                 if let sender = message.fromFriend {
                     if sender.friendState != UserFriendState.Me.rawValue {
                         height += YepConfig.ChatCell.marginTopForGroup

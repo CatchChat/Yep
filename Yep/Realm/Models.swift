@@ -605,6 +605,9 @@ class Message: Object {
     dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
     dynamic var deletedByCreator: Bool = false
     dynamic var blockedByRecipient: Bool = false
+    var isIndicator: Bool {
+        return deletedByCreator || blockedByRecipient
+    }
 
     dynamic var fromFriend: User?
     dynamic var conversation: Conversation?
@@ -804,7 +807,7 @@ class Conversation: Object {
     dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
 
     var latestValidMessage: Message? {
-        return messages.filter({ ($0.hidden == false) && ($0.deletedByCreator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 
     var needDetectMention: Bool {
@@ -1174,7 +1177,7 @@ func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
 func filterValidMessages(messages: Results<Message>) -> [Message] {
     let validMessages: [Message] = messages
         .filter({ $0.hidden == false })
-        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isIndicator == false })
         .filter({ $0.isReal == true })
         .filter({ !($0.fromFriend?.isMe ?? true)})
         .filter({ $0.conversation != nil })
@@ -1185,7 +1188,7 @@ func filterValidMessages(messages: Results<Message>) -> [Message] {
 func filterValidMessages(messages: [Message]) -> [Message] {
     let validMessages: [Message] = messages
         .filter({ $0.hidden == false })
-        .filter({ $0.deletedByCreator == false })
+        .filter({ $0.isIndicator == false })
         .filter({ $0.isReal == true })
         .filter({ !($0.fromFriend?.isMe ?? true)})
         .filter({ $0.conversation != nil })
@@ -1247,14 +1250,14 @@ func latestValidMessageInRealm(realm: Realm, withConversationType conversationTy
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
+        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group: // Public for now
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
+        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
     }
 }
 
@@ -1263,14 +1266,14 @@ func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversa
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
 
     case .Group: // Public for now
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
         let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.deletedByCreator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
+        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
     }
 }
 
