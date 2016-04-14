@@ -659,13 +659,13 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         case .AttachmentType:
 
-            guard let image = cell.mediaView.image else {
-                return
-            }
-
             mediaControlView.type = .Image
 
             mediaControlView.shareAction = { [weak self] in
+
+                guard let image = cell.mediaView.image else {
+                    return
+                }
 
                 let info = MonkeyKing.Info(
                     title: nil,
