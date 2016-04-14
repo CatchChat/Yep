@@ -39,7 +39,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
         if isPresentation {
-            return 0.15
+            return 0.25
         } else {
             return 0.45
         }
@@ -57,7 +57,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchContactsViewController
+        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchContactsViewController
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
@@ -72,12 +72,7 @@ extension ContactsSearchTransition: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             toView.alpha = 1
 
-            //toVC.searchBarTopConstraint.constant = 0
-            //toVC.view.layoutIfNeeded()
-
         }, completion: { finished in
-            toVC.searchBar.setShowsCancelButton(true, animated: true)
-
             transitionContext.completeTransition(true)
         })
     }
