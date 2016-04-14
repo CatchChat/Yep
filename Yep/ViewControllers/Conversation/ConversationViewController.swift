@@ -3816,6 +3816,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
                         return cell
 
+                    } else if message.blockedByRecipient {
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                        return cell
+
                     } else {
                         if message.openGraphInfo != nil {
                             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
@@ -4056,6 +4060,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
+                        if let cell = cell as? ChatLeftRecallCell {
+                            cell.configureWithMessage(message)
+                        }
+
+                    } else if message.blockedByRecipient {
                         if let cell = cell as? ChatLeftRecallCell {
                             cell.configureWithMessage(message)
                         }
