@@ -1,5 +1,5 @@
 //
-//  ChatLeftRecallCell.swift
+//  ChatTextIndicatorCell.swift
 //  Yep
 //
 //  Created by nixzhu on 16/1/25.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatLeftRecallCell: UICollectionViewCell {
+class ChatTextIndicatorCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
@@ -63,7 +63,17 @@ class ChatLeftRecallCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureWithMessage(message: Message) {
-        recallLabel.text = message.recalledTextContent
+    enum IndicateType {
+        case RecalledMessage
+        case BlockedByRecipient
+    }
+
+    func configureWithMessage(message: Message, indicateType: IndicateType) {
+        switch indicateType {
+        case .RecalledMessage:
+            recallLabel.text = message.recalledTextContent
+        case .BlockedByRecipient:
+            recallLabel.text = message.blockedTextContent
+        }
     }
 }

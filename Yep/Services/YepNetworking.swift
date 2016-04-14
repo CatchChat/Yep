@@ -43,10 +43,14 @@ public struct Resource<A>: CustomStringConvertible {
     }
 }
 
+public enum ErrorCode: String {
+    case BlockedByRecipient = "rejected_your_message"
+}
+
 public enum Reason: CustomStringConvertible {
     case CouldNotParseJSON
     case NoData
-    case NoSuccessStatusCode(statusCode: Int)
+    case NoSuccessStatusCode(statusCode: Int, errorCode: ErrorCode?)
     case Other(NSError?)
 
     public var description: String {
@@ -224,7 +228,8 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 }
 
             } else {
-                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
+                let errorCode = errorCodeInData(data)
+                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessage: errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLCommandLine)
 
@@ -265,6 +270,19 @@ func errorMessageInData(data: NSData?) -> String? {
         if let json = decodeJSON(data) {
             if let errorMessage = json["error"] as? String {
                 return errorMessage
+            }
+        }
+    }
+
+    return nil
+}
+
+func errorCodeInData(data: NSData?) -> ErrorCode? {
+    if let data = data {
+        if let json = decodeJSON(data) {
+            println("error json: \(json)")
+            if let errorCodeString = json["code"] as? String {
+                return ErrorCode(rawValue: errorCodeString)
             }
         }
     }

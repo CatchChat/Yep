@@ -686,7 +686,7 @@ class ConversationViewController: BaseViewController {
     private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
-    private let chatLeftRecallCellIdentifier =  "ChatLeftRecallCell"
+    private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
 
     private struct Listener {
@@ -795,7 +795,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
 
-        conversationCollectionView.registerClass(ChatLeftRecallCell.self, forCellWithReuseIdentifier: chatLeftRecallCellIdentifier)
+        conversationCollectionView.registerClass(ChatTextIndicatorCell.self, forCellWithReuseIdentifier: chatTextIndicatorCellIdentifier)
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
 
@@ -1183,8 +1183,11 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
-                        YepAlert.alertSorry(message: message, inViewController: self)
+                        self?.promptSendMessageFailed(
+                            reason: reason,
+                            errorMessage: errorMessage,
+                            reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                        )
 
                     }, completion: { success in
                         println("sendText to friend: \(success)")
@@ -1287,8 +1290,11 @@ class ConversationViewController: BaseViewController {
                         }, failureHandler: { [weak self] reason, errorMessage in
                             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                            let message = errorMessage ?? NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
-                            YepAlert.alertSorry(message: message, inViewController: self)
+                            self?.promptSendMessageFailed(
+                                reason: reason,
+                                errorMessage: errorMessage,
+                                reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
+                            )
 
                         }, completion: { success in
                             println("send audio to friend: \(success)")
@@ -2005,7 +2011,7 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.Text.rawValue:
 
-            if message.deletedByCreator {
+            if message.isIndicator {
                 height = 26
 
             } else {
@@ -2072,7 +2078,7 @@ class ConversationViewController: BaseViewController {
 
         // inGroup, plus height for show name
         if conversation.withGroup != nil {
-            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.deletedByCreator {
+            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.isIndicator {
                 if let sender = message.fromFriend {
                     if sender.friendState != UserFriendState.Me.rawValue {
                         height += YepConfig.ChatCell.marginTopForGroup
@@ -2903,7 +2909,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
         // 重要
         guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
@@ -3321,8 +3327,11 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        let message = errorMessage ?? NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
-                        YepAlert.alertSorry(message: message, inViewController: self)
+                        self?.promptSendMessageFailed(
+                            reason: reason,
+                            errorMessage: errorMessage,
+                            reserveErrorMessage: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
+                        )
 
                     }, completion: { success -> Void in
                         println("sendLocation to friend: \(success)")
@@ -3773,6 +3782,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             guard let sender = message.fromFriend else {
+
+                if message.blockedByRecipient {
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
+                    return cell
+                }
+
                 println("🐌🐌 Conversation: message has NOT fromFriend!")
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
@@ -3813,7 +3828,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
                         return cell
 
                     } else {
@@ -3929,6 +3944,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             guard let sender = message.fromFriend else {
+
+                if message.blockedByRecipient {
+                    if let cell = cell as? ChatTextIndicatorCell {
+                        cell.configureWithMessage(message, indicateType: .BlockedByRecipient)
+                    }
+                }
+
                 return
             }
 
@@ -4056,8 +4078,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        if let cell = cell as? ChatLeftRecallCell {
-                            cell.configureWithMessage(message)
+                        if let cell = cell as? ChatTextIndicatorCell {
+                            cell.configureWithMessage(message, indicateType: .RecalledMessage)
                         }
 
                     } else {
@@ -4111,8 +4133,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend image!\nPlease make sure your device is connected to the Internet.", comment: "")
-                                        YepAlert.alertSorry(message: message, inViewController: self)
+                                        self?.promptSendMessageFailed(
+                                            reason: reason,
+                                            errorMessage: errorMessage,
+                                            reserveErrorMessage: NSLocalizedString("Failed to resend image!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        )
 
                                     }, completion: { success in
                                         println("resendImage: \(success)")
@@ -4150,8 +4175,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend audio!\nPlease make sure your device is connected to the Internet.", comment: "")
-                                        YepAlert.alertSorry(message: message, inViewController: self)
+                                        self?.promptSendMessageFailed(
+                                            reason: reason,
+                                            errorMessage: errorMessage,
+                                            reserveErrorMessage: NSLocalizedString("Failed to resend audio!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        )
 
                                     }, completion: { success in
                                         println("resendAudio: \(success)")
@@ -4181,8 +4209,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend video!\nPlease make sure your device is connected to the Internet.", comment: "")
-                                        YepAlert.alertSorry(message: message, inViewController: self)
+                                        self?.promptSendMessageFailed(
+                                            reason: reason,
+                                            errorMessage: errorMessage,
+                                            reserveErrorMessage: NSLocalizedString("Failed to resend video!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        )
 
                                     }, completion: { success in
                                         println("resendVideo: \(success)")
@@ -4218,8 +4249,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                        let message = errorMessage ?? NSLocalizedString("Failed to resend location!\nPlease make sure your device is connected to the Internet.", comment: "")
-                                        YepAlert.alertSorry(message: message, inViewController: self)
+                                        self?.promptSendMessageFailed(
+                                            reason: reason,
+                                            errorMessage: errorMessage,
+                                            reserveErrorMessage: NSLocalizedString("Failed to resend location!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        )
 
                                     }, completion: { success in
                                         println("resendLocation: \(success)")
@@ -4257,8 +4291,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                let message = errorMessage ?? NSLocalizedString("Failed to resend text!\nPlease make sure your device is connected to the Internet.", comment: "")
-                                YepAlert.alertSorry(message: message, inViewController: self)
+                                self?.promptSendMessageFailed(
+                                    reason: reason,
+                                    errorMessage: errorMessage,
+                                    reserveErrorMessage: NSLocalizedString("Failed to resend text!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                )
 
                             }, completion: { success in
                                 println("resendText: \(success)")
@@ -4724,8 +4761,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                let message = errorMessage ?? NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: "")
-                YepAlert.alertSorry(message: message, inViewController: self)
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: "")
+                )
 
             }, completion: { success -> Void in
                 println("sendImage to friend: \(success)")
@@ -4860,8 +4900,11 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                let message = errorMessage ?? NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: "")
-                YepAlert.alertSorry(message: message, inViewController: self)
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: "")
+                )
 
             }, completion: { success in
                 println("sendVideo to friend: \(success)")
