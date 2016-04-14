@@ -1183,8 +1183,25 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
-                        YepAlert.alertSorry(message: message, inViewController: self)
+                        //let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                        //YepAlert.alertSorry(message: message, inViewController: self)
+
+                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                            if let realm = self?.realm {
+                                let message = Message()
+                                let messageID = "UserBlocked" + NSUUID().UUIDString
+                                message.messageID = messageID
+                                message.blockedByRecipient = true
+                                message.conversation = self?.conversation
+                                let _ = try? realm.write {
+                                    realm.add(message)
+                                }
+
+                                self?.updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true, success: { _ in
+                                })
+                            }
+                        }
 
                     }, completion: { success in
                         println("sendText to friend: \(success)")
@@ -3773,6 +3790,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             guard let sender = message.fromFriend else {
+
+                if message.blockedByRecipient {
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                    return cell
+                }
+
                 println("🐌🐌 Conversation: message has NOT fromFriend!")
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
@@ -3813,10 +3836,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
-                        return cell
-
-                    } else if message.blockedByRecipient {
                         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
                         return cell
 
@@ -3933,6 +3952,13 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
 
             guard let sender = message.fromFriend else {
+
+                if message.blockedByRecipient {
+                    if let cell = cell as? ChatLeftRecallCell {
+                        cell.configureWithMessage(message)
+                    }
+                }
+
                 return
             }
 
@@ -4060,11 +4086,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        if let cell = cell as? ChatLeftRecallCell {
-                            cell.configureWithMessage(message)
-                        }
-
-                    } else if message.blockedByRecipient {
                         if let cell = cell as? ChatLeftRecallCell {
                             cell.configureWithMessage(message)
                         }
