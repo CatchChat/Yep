@@ -165,6 +165,9 @@ class SearchConversationsViewController: SegueViewController {
             delay(0.5) { [weak self] in
                 self?.searchBar.becomeFirstResponder()
             }
+            delay(0.7) { [weak self] in
+                self?.searchBar.setShowsCancelButton(true, animated: true)
+            }
         }
     }
 
@@ -175,10 +178,10 @@ class SearchConversationsViewController: SegueViewController {
             navigationController?.delegate = delegate
         }
 
-//        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-//            self?.searchBarTopConstraint.constant = 0
-//            self?.view.layoutIfNeeded()
-//        }, completion: nil)
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 0
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
 
 //        if isFirstAppear {
 //            searchBar.becomeFirstResponder()

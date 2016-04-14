@@ -39,7 +39,7 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
         if isPresentation {
-            return 0.45
+            return 0.25
         } else {
             return 0.45
         }
@@ -71,11 +71,11 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             toView.alpha = 1
-            toVC.searchBarTopConstraint.constant = 0
-            toVC.view.layoutIfNeeded()
+//            toVC.searchBarTopConstraint.constant = 0
+//            toVC.view.layoutIfNeeded()
 
         }, completion: { finished in
-            toVC.searchBar.setShowsCancelButton(true, animated: true)
+            //toVC.searchBar.setShowsCancelButton(true, animated: true)
 
             transitionContext.completeTransition(true)
         })
