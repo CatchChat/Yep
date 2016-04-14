@@ -183,10 +183,6 @@ class SearchConversationsViewController: SegueViewController {
             self?.view.layoutIfNeeded()
         }, completion: nil)
 
-//        if isFirstAppear {
-//            searchBar.becomeFirstResponder()
-//        }
-
         isFirstAppear = false
     }
 

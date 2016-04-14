@@ -57,7 +57,7 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchConversationsViewController
+        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchConversationsViewController
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
@@ -71,12 +71,8 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
 
         UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
             toView.alpha = 1
-//            toVC.searchBarTopConstraint.constant = 0
-//            toVC.view.layoutIfNeeded()
 
         }, completion: { finished in
-            //toVC.searchBar.setShowsCancelButton(true, animated: true)
-
             transitionContext.completeTransition(true)
         })
     }
