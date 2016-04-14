@@ -162,10 +162,10 @@ class SearchConversationsViewController: SegueViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
 
         if isFirstAppear {
-            delay(0.5) { [weak self] in
+            delay(0.3) { [weak self] in
                 self?.searchBar.becomeFirstResponder()
             }
-            delay(0.7) { [weak self] in
+            delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
             }
         }
