@@ -686,7 +686,7 @@ class ConversationViewController: BaseViewController {
     private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
     private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
     private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
-    private let chatLeftRecallCellIdentifier =  "ChatLeftRecallCell"
+    private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
 
     private struct Listener {
@@ -795,7 +795,7 @@ class ConversationViewController: BaseViewController {
         conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
         conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
 
-        conversationCollectionView.registerClass(ChatLeftRecallCell.self, forCellWithReuseIdentifier: chatLeftRecallCellIdentifier)
+        conversationCollectionView.registerClass(ChatTextIndicatorCell.self, forCellWithReuseIdentifier: chatTextIndicatorCellIdentifier)
 
         conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
 
@@ -3777,7 +3777,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             guard let sender = message.fromFriend else {
 
                 if message.blockedByRecipient {
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
                     return cell
                 }
 
@@ -3821,7 +3821,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftRecallCellIdentifier, forIndexPath: indexPath) as! ChatLeftRecallCell
+                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
                         return cell
 
                     } else {
@@ -3939,7 +3939,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             guard let sender = message.fromFriend else {
 
                 if message.blockedByRecipient {
-                    if let cell = cell as? ChatLeftRecallCell {
+                    if let cell = cell as? ChatTextIndicatorCell {
                         cell.configureWithMessage(message, indicateType: .BlockedByRecipient)
                     }
                 }
@@ -4071,7 +4071,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        if let cell = cell as? ChatLeftRecallCell {
+                        if let cell = cell as? ChatTextIndicatorCell {
                             cell.configureWithMessage(message, indicateType: .RecalledMessage)
                         }
 

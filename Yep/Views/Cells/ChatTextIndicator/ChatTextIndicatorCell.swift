@@ -1,5 +1,5 @@
 //
-//  ChatLeftRecallCell.swift
+//  ChatTextIndicatorCell.swift
 //  Yep
 //
 //  Created by nixzhu on 16/1/25.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatLeftRecallCell: UICollectionViewCell {
+class ChatTextIndicatorCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
