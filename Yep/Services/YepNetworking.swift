@@ -43,10 +43,14 @@ public struct Resource<A>: CustomStringConvertible {
     }
 }
 
+public enum ErrorCode: String {
+    case BlockedByRecipient = "rejected_your_message"
+}
+
 public enum Reason: CustomStringConvertible {
     case CouldNotParseJSON
     case NoData
-    case NoSuccessStatusCode(statusCode: Int, errorCode: Int?)
+    case NoSuccessStatusCode(statusCode: Int, errorCode: ErrorCode?)
     case Other(NSError?)
 
     public var description: String {
@@ -273,12 +277,12 @@ func errorMessageInData(data: NSData?) -> String? {
     return nil
 }
 
-func errorCodeInData(data: NSData?) -> Int? {
+func errorCodeInData(data: NSData?) -> ErrorCode? {
     if let data = data {
         if let json = decodeJSON(data) {
             println("error json: \(json)")
-            if let errorCode = json["code"] as? Int {
-                return errorCode
+            if let errorCodeString = json["code"] as? String {
+                return ErrorCode(rawValue: errorCodeString)
             }
         }
     }

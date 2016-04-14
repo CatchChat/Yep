@@ -1183,7 +1183,7 @@ class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        if case .NoSuccessStatusCode(let statusCode) = reason where statusCode == 403 {
+                        if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == ErrorCode.BlockedByRecipient {
                             self?.indicateBlockedByRecipient()
                         } else {
                             let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
