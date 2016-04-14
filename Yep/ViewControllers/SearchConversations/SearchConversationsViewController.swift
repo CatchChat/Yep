@@ -169,10 +169,10 @@ class SearchConversationsViewController: SegueViewController {
             navigationController?.delegate = delegate
         }
 
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarTopConstraint.constant = 0
-            self?.view.layoutIfNeeded()
-        }, completion: nil)
+//        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+//            self?.searchBarTopConstraint.constant = 0
+//            self?.view.layoutIfNeeded()
+//        }, completion: nil)
 
         if isFirstAppear {
             searchBar.becomeFirstResponder()
