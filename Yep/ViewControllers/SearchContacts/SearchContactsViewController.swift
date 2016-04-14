@@ -87,7 +87,7 @@ class SearchContactsViewController: SegueViewController {
             self?.contactsTableView.scrollIndicatorInsets.bottom = 0
         }
 
-        searchBarBottomLineView.hidden = true
+        searchBarBottomLineView.alpha = 0
     }
 
     private var isFirstAppear = true
@@ -183,7 +183,10 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
 
-        searchBarBottomLineView.hidden = false
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarBottomLineView.alpha = 1
+        }, completion: { finished in
+        })
 
         return true
     }
@@ -193,7 +196,10 @@ extension SearchContactsViewController: UISearchBarDelegate {
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        searchBarBottomLineView.hidden = true
+        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarBottomLineView.alpha = 0
+        }, completion: { finished in
+        })
 
         navigationController?.popViewControllerAnimated(true)
     }
