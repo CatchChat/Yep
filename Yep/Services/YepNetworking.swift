@@ -263,6 +263,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 func errorMessageInData(data: NSData?) -> String? {
     if let data = data {
         if let json = decodeJSON(data) {
+            println("error json: \(json)")
             if let errorMessage = json["error"] as? String {
                 return errorMessage
             }
