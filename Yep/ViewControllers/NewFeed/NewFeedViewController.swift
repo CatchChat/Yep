@@ -1129,6 +1129,9 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             previewVC.previewImages = mediaImages
             previewVC.imagesLimit = 4
             previewVC.startIndex = indexPath.item
+            previewVC.returnPickedImage = { [weak self] images in
+                self?.mediaImages = images
+            }
             
             self.navigationController?.pushViewController(previewVC, animated: true)
 //            mediaImages.removeAtIndex(indexPath.item)
