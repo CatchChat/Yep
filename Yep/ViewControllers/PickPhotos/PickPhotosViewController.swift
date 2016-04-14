@@ -34,7 +34,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     var imageLimit = 0
 
     let photoCellID = "PhotoCell"
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit + pickedImages.count)/4)"
@@ -71,11 +71,6 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         
         PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(self)
         
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        navigationController?.interactivePopGestureRecognizer?.enabled = true
         
         guard var vcStack = navigationController?.viewControllers else { return }
         if !vcStack.isEmpty {
@@ -88,8 +83,16 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             }
         }
         
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+ 
         guard let images = images else { return }
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
+        
+        navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
 
     // MARK: Actions
@@ -98,7 +101,6 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         album?.imageLimit   = imageLimit
         album?.pickedImages.appendContentsOf(pickedImages)
         navigationController?.popViewControllerAnimated(true)
-        
     }
     
     func done(sender: UIBarButtonItem) {
@@ -218,6 +220,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         imageCacheController?.updateVisibleCells(indexPaths as [NSIndexPath]!)
     }
 
+    
     // MARK: - PHPhotoLibraryChangeObserver
 
     func photoLibraryDidChange(changeInstance: PHChange) {
@@ -243,5 +246,19 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
                 }
             }
         }
+    }
+}
+
+extension PickPhotosViewController: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailByGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == navigationController?.interactivePopGestureRecognizer {
+            return true
+        }
+        return false
     }
 }

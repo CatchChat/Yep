@@ -8,7 +8,7 @@
         <scene sceneID="4Xl-2q-cdS">
             <objects>
                 <collectionViewController storyboardIdentifier="PickPhotosViewController" id="g1i-ba-0bZ" customClass="PickPhotosViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="NVq-tg-CC1">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="NVq-tg-CC1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Fb3-7b-aZ5">

@@ -55,9 +55,12 @@ class AlbumListController: UITableViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-         super.viewWillAppear(animated)
+   
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
+    
     
     @objc private func cancel(sender: UIBarButtonItem) {
         
