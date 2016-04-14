@@ -46,7 +46,7 @@ public struct Resource<A>: CustomStringConvertible {
 public enum Reason: CustomStringConvertible {
     case CouldNotParseJSON
     case NoData
-    case NoSuccessStatusCode(statusCode: Int)
+    case NoSuccessStatusCode(statusCode: Int, errorCode: Int?)
     case Other(NSError?)
 
     public var description: String {
@@ -224,7 +224,8 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 }
 
             } else {
-                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode), errorMessage: errorMessageInData(data))
+                let errorCode = errorCodeInData(data)
+                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessage: errorMessageInData(data))
                 println("\(resource)\n")
                 println(request.cURLCommandLine)
 
@@ -263,9 +264,21 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 func errorMessageInData(data: NSData?) -> String? {
     if let data = data {
         if let json = decodeJSON(data) {
-            println("error json: \(json)")
             if let errorMessage = json["error"] as? String {
                 return errorMessage
+            }
+        }
+    }
+
+    return nil
+}
+
+func errorCodeInData(data: NSData?) -> Int? {
+    if let data = data {
+        if let json = decodeJSON(data) {
+            println("error json: \(json)")
+            if let errorCode = json["code"] as? Int {
+                return errorCode
             }
         }
     }
