@@ -1186,22 +1186,7 @@ class ConversationViewController: BaseViewController {
                         //let message = errorMessage ?? NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
                         //YepAlert.alertSorry(message: message, inViewController: self)
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                            if let realm = self?.realm {
-                                let message = Message()
-                                let messageID = "UserBlocked" + NSUUID().UUIDString
-                                message.messageID = messageID
-                                message.blockedByRecipient = true
-                                message.conversation = self?.conversation
-                                let _ = try? realm.write {
-                                    realm.add(message)
-                                }
-
-                                self?.updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true, success: { _ in
-                                })
-                            }
-                        }
+                        self?.indicateBlockedByRecipient()
 
                     }, completion: { success in
                         println("sendText to friend: \(success)")
@@ -2920,7 +2905,7 @@ class ConversationViewController: BaseViewController {
         }
     }
 
-    private func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
         // 重要
         guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码

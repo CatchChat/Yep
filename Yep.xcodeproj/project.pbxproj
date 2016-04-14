@@ -349,6 +349,7 @@
 		50E34C2C1CBDEC31007CAE80 /* FeedsMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C2B1CBDEC31007CAE80 /* FeedsMoreViewManager.swift */; };
 		50E34C2F1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C2E1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift */; };
 		50E34C311CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E34C301CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard */; };
+		50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */; };
 		50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */; };
 		50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */; };
 		50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */; };
@@ -768,6 +769,7 @@
 		50E34C2B1CBDEC31007CAE80 /* FeedsMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedsMoreViewManager.swift; path = ViewControllers/Feeds/FeedsMoreViewManager.swift; sourceTree = "<group>"; };
 		50E34C2E1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatorsOfBlockedFeedsViewController.swift; path = ViewControllers/CreatorsOfBlockedFeeds/CreatorsOfBlockedFeedsViewController.swift; sourceTree = "<group>"; };
 		50E34C301CBE2A48007CAE80 /* CreatorsOfBlockedFeeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = CreatorsOfBlockedFeeds.storyboard; path = ViewControllers/CreatorsOfBlockedFeeds/CreatorsOfBlockedFeeds.storyboard; sourceTree = "<group>"; };
+		50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+TextIndicator.swift"; path = "ViewControllers/Conversation/ConversationViewController+TextIndicator.swift"; sourceTree = "<group>"; };
 		50E392BB1C22752C00C0CECB /* FeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedNormalImagesCell.swift; path = Views/Cells/Feed/FeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCellLayout.swift; path = Views/Cells/Feed/FeedCellLayout.swift; sourceTree = "<group>"; };
 		50E392BF1C22B30300C0CECB /* FeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoCell.swift; path = Views/Cells/Feed/FeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -1661,6 +1663,7 @@
 			children = (
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
+				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
 				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
@@ -3130,6 +3133,7 @@
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
 				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
+				50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				50E34C111CB4B66D007CAE80 /* SearchedUserMessagesViewController.swift in Sources */,
