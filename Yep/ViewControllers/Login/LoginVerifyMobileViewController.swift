@@ -120,7 +120,7 @@ class LoginVerifyMobileViewController: UIViewController {
         }
 
         if (callMeInSeconds > 1) {
-            callMeInSeconds--
+            callMeInSeconds -= 1
         }
     }
 
