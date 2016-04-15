@@ -166,7 +166,7 @@ class DiscoverViewController: BaseViewController {
         }
 
         if isLoadMore {
-            currentPageIndex++
+            currentPageIndex += 1
 
         } else {
             currentPageIndex = 1

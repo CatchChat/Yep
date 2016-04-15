@@ -237,14 +237,14 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         }
 
         dispatch_async(dispatch_get_main_queue()) {
-            yepNetworkActivityCount--
+            yepNetworkActivityCount -= 1
         }
     }
 
     task.resume()
 
     dispatch_async(dispatch_get_main_queue()) {
-        yepNetworkActivityCount++
+        yepNetworkActivityCount += 1
     }
 }
 
