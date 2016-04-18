@@ -74,150 +74,91 @@ class FayeService: NSObject, MZFayeClientDelegate {
             client.setExtension(extensionData, forChannel: channel)
         }
     }
-    
-    func unsubscribeGroup(groupID groupID: String) {
-        let circleChannel = circleChannelWithCircleID(groupID)
+
+    func tryStartConnect() {
+
+        guard let userID = YepUserDefaults.userID.value, personalChannel = personalChannelWithUserID(userID) else {
+            println("FayeClient startConnect failed, not userID or personalChannel!")
+            return
+        }
+
+        println("Faye will subscribe \(personalChannel)")
         
-        prepareForChannel(circleChannel!)
+        prepareForChannel("connect")
+        prepareForChannel("handshake")
+        prepareForChannel(personalChannel)
         
-        client.unsubscribeFromChannel(circleChannel)
-    }
-    
-    func subscribeGroup(groupID groupID: String) {
         dispatch_async(fayeQueue) { [weak self] in
 
-            let circleChannel = self?.circleChannelWithCircleID(groupID)
-            
-            self?.prepareForChannel(circleChannel!)
-            
-            self?.client.subscribeToChannel(circleChannel, usingBlock: { data in
+            self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
                 //println("subscribeToChannel: \(data)")
-                if let
+                guard let
                     messageInfo = data as? JSONDictionary,
-                    messageType = messageInfo["message_type"] as? String {
-                        
-                        switch messageType {
-                            
-                        case FayeService.MessageType.Default.rawValue:
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                self?.saveMessageWithMessageInfo(messageDataInfo)
-                            }
-                            
-                        case FayeService.MessageType.Instant.rawValue:
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                
-                                if let
-                                    user = messageDataInfo["user"] as? JSONDictionary,
-                                    userID = user["id"] as? String,
-                                    state = messageDataInfo["state"] as? Int {
-                                        
-                                        if let instantStateType = InstantStateType(rawValue: state) {
-                                            dispatch_async(dispatch_get_main_queue()) {
-                                                self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
-                                            }
-                                        }
+                    messageTypeString = messageInfo["message_type"] as? String,
+                    messageType = FayeService.MessageType(rawValue: messageTypeString)
+                else {
+                    println("Faye recieved unknown message type")
+                    return
+                }
+
+                //println("messageType: \(messageType)")
+
+                switch messageType {
+
+                case .Default:
+
+                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                        self?.saveMessageWithMessageInfo(messageDataInfo)
+                    }
+
+                case .Instant:
+
+                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+
+                        if let
+                            user = messageDataInfo["user"] as? JSONDictionary,
+                            userID = user["id"] as? String,
+                            state = messageDataInfo["state"] as? Int {
+
+                                if let instantStateType = InstantStateType(rawValue: state) {
+                                    self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
                                 }
-                            }
-                            
-                        case FayeService.MessageType.Read.rawValue:
-                            break
-                        default:
-                            println("Recieved unknow message type")
                         }
+                    }
+                    
+                case .Read:
+
+                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+
+                        //println("Faye Read: \(messageDataInfo)")
+                        
+                        if let
+                            lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
+                            lastReadMessageID = messageDataInfo["last_read_id"] as? String,
+                            recipientType = messageDataInfo["recipient_type"] as? String,
+                            recipientID = messageDataInfo["recipient_id"] as? String {
+                                
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "last_read_id": lastReadMessageID, "recipient_type": recipientType, "recipient_id": recipientID])
+                                   //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
+                                }
+                        }
+                    }
+
+                case .MessageDeleted:
+
+                    guard let
+                        messageInfo = messageInfo["message"] as? JSONDictionary,
+                        messageID = messageInfo["id"] as? String
+                    else {
+                        break
+                    }
+
+                    handleMessageDeletedFromServer(messageID: messageID)
                 }
             })
-        }
-    }
 
-    func startConnect() {
-        if
-            let userID = YepUserDefaults.userID.value {
-                
-                let personalChannel = personalChannelWithUserID(userID)
-
-                println("Will Subscribe \(personalChannel)")
-                
-                prepareForChannel("connect")
-                
-                prepareForChannel("handshake")
-                
-                prepareForChannel(personalChannel!)
-                
-                dispatch_async(fayeQueue) { [weak self] in
-
-                    self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
-                        //println("subscribeToChannel: \(data)")
-                        guard let
-                            messageInfo = data as? JSONDictionary,
-                            messageTypeString = messageInfo["message_type"] as? String,
-                            messageType = FayeService.MessageType(rawValue: messageTypeString)
-                        else {
-                            println("Faye recieved unknown message type")
-                            return
-                        }
-
-                        //println("messageType: \(messageType)")
-
-                        switch messageType {
-
-                        case .Default:
-
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                self?.saveMessageWithMessageInfo(messageDataInfo)
-                            }
-
-                        case .Instant:
-
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-
-                                if let
-                                    user = messageDataInfo["user"] as? JSONDictionary,
-                                    userID = user["id"] as? String,
-                                    state = messageDataInfo["state"] as? Int {
-
-                                        if let instantStateType = InstantStateType(rawValue: state) {
-                                            self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
-                                        }
-                                }
-                            }
-                            
-                        case .Read:
-
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-
-                                //println("Faye Read: \(messageDataInfo)")
-                                
-                                if let
-                                    lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
-                                    lastReadMessageID = messageDataInfo["last_read_id"] as? String,
-                                    recipientType = messageDataInfo["recipient_type"] as? String,
-                                    recipientID = messageDataInfo["recipient_id"] as? String {
-                                        
-                                        dispatch_async(dispatch_get_main_queue()) {
-                                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "last_read_id": lastReadMessageID, "recipient_type": recipientType, "recipient_id": recipientID])
-                                           //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
-                                        }
-                                }
-                            }
-
-                        case .MessageDeleted:
-
-                            guard let
-                                messageInfo = messageInfo["message"] as? JSONDictionary,
-                                messageID = messageInfo["id"] as? String
-                            else {
-                                break
-                            }
-
-                            handleMessageDeletedFromServer(messageID: messageID)
-                        }
-                    })
-
-                    self?.client.connect()
-                }
-
-        } else {
-            println("FayeClient start failed!!!!")
+            self?.client.connect()
         }
     }
 
@@ -234,15 +175,17 @@ class FayeService: NSObject, MZFayeClientDelegate {
         } else {
             return nil
         }
-        
     }
 
-    private func personalChannelWithUserID(userID: String) -> String?{
+    private var instantChannel: String = "/messages"
+
+    private func personalChannelWithUserID(userID: String) -> String? {
+
+        guard !userID.isEmpty else {
+            return nil
+        }
+
         return "/v1/users/\(userID)/messages"
-    }
-    
-    private func circleChannelWithCircleID(circleID: String) -> String?{
-        return "/v1/circles/\(circleID)/messages"
     }
 
     private lazy var realm: Realm = {
@@ -347,7 +290,38 @@ class FayeService: NSObject, MZFayeClientDelegate {
     func fayeClient(client: MZFayeClient!, didUnsubscribeFromChannel channel: String!) {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
-    
+
+    func sendInstantMessage(message: JSONDictionary, completion: (success: Bool) -> Void) {
+
+        dispatch_async(fayeQueue) { [unowned self] in
+
+            guard let extensionData = self.extensionData() else {
+                println("Can NOT sendInstantMessage, not extensionData")
+                completion(success: false)
+                return
+            }
+
+            let data: JSONDictionary = [
+                "api_version": "v1",
+                "message_type": MessageType.Instant.rawValue,
+                "message": message
+            ]
+
+            self.client.sendMessage(data, toChannel: self.instantChannel, usingExtension: extensionData, usingBlock: { message  in
+
+                println("sendInstantMessage \(message.successful)")
+
+                if message.successful == 1 {
+                    completion(success: true)
+
+                } else {
+                    completion(success: false)
+                }
+            })
+        }
+    }
+
+    /*
     func sendPrivateMessage(message: JSONDictionary, messageType: FayeService.MessageType, userID: String, completion: (success: Bool, messageID: String?) -> Void) {
         dispatch_async(fayeQueue) { [unowned self] in
 
@@ -395,7 +369,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
             }
         }
     }
-    
+     */
+
+    /*
     func sendGroupMessage(message: JSONDictionary, circleID: String, completion: (success: Bool, messageID: String?) -> Void)  {
         
         if let
@@ -431,5 +407,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
             completion(success: false, messageID: nil)
         }
     }
-
+     */
 }
+
