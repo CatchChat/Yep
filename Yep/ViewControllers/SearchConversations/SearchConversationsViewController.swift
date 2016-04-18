@@ -175,15 +175,7 @@ class SearchConversationsViewController: SegueViewController {
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
 
-                if let cancelButton = self?.searchBar?.yep_cancelButton {
-                    self?.searchBarCancelButtonEnabledObserver = ObjectKeypathObserver(object: cancelButton, keypath: "enabled", afterValueChanged: { object in
-                        if let cancelButton = object as? UIButton {
-                            if !cancelButton.enabled {
-                                cancelButton.enabled = true
-                            }
-                        }
-                    })
-                }
+                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
             }
         }
     }
