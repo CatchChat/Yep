@@ -53,6 +53,8 @@ class SearchConversationsViewController: SegueViewController {
             resultsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
 
             resultsTableView.tableFooterView = UIView()
+
+            resultsTableView.keyboardDismissMode = .OnDrag
         }
     }
 

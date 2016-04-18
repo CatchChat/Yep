@@ -49,6 +49,8 @@ class SearchContactsViewController: SegueViewController {
             contactsTableView.contentInset = UIEdgeInsets(top: -30, left: 0, bottom: 0, right: 0)
 
             contactsTableView.tableFooterView = UIView()
+
+            contactsTableView.keyboardDismissMode = .OnDrag
         }
     }
 
