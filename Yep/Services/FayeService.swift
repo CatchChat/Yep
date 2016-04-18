@@ -75,62 +75,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
         }
     }
 
-    /*
-    func unsubscribeGroup(groupID groupID: String) {
-        let circleChannel = circleChannelWithCircleID(groupID)
-        
-        prepareForChannel(circleChannel!)
-        
-        client.unsubscribeFromChannel(circleChannel)
-    }
-    
-    func subscribeGroup(groupID groupID: String) {
-        dispatch_async(fayeQueue) { [weak self] in
-
-            let circleChannel = self?.circleChannelWithCircleID(groupID)
-            
-            self?.prepareForChannel(circleChannel!)
-            
-            self?.client.subscribeToChannel(circleChannel, usingBlock: { data in
-                //println("subscribeToChannel: \(data)")
-                if let
-                    messageInfo = data as? JSONDictionary,
-                    messageType = messageInfo["message_type"] as? String {
-                        
-                        switch messageType {
-                            
-                        case FayeService.MessageType.Default.rawValue:
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                self?.saveMessageWithMessageInfo(messageDataInfo)
-                            }
-                            
-                        case FayeService.MessageType.Instant.rawValue:
-                            if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                                
-                                if let
-                                    user = messageDataInfo["user"] as? JSONDictionary,
-                                    userID = user["id"] as? String,
-                                    state = messageDataInfo["state"] as? Int {
-                                        
-                                        if let instantStateType = InstantStateType(rawValue: state) {
-                                            dispatch_async(dispatch_get_main_queue()) {
-                                                self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
-                                            }
-                                        }
-                                }
-                            }
-                            
-                        case FayeService.MessageType.Read.rawValue:
-                            break
-                        default:
-                            println("Recieved unknow message type")
-                        }
-                }
-            })
-        }
-    }
-     */
-
     func startConnect() {
         if
             let userID = YepUserDefaults.userID.value {
@@ -148,7 +92,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 dispatch_async(fayeQueue) { [weak self] in
 
                     self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
-                        println("subscribeToChannel: \(data)")
+                        //println("subscribeToChannel: \(data)")
                         guard let
                             messageInfo = data as? JSONDictionary,
                             messageTypeString = messageInfo["message_type"] as? String,
@@ -243,10 +187,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
     private func personalChannelWithUserID(userID: String) -> String? {
         return "/v1/users/\(userID)/messages"
     }
-    
-//    private func circleChannelWithCircleID(circleID: String) -> String? {
-//        return "/v1/circles/\(circleID)/messages"
-//    }
 
     private lazy var realm: Realm = {
         return try! Realm()
