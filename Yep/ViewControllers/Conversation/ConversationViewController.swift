@@ -1154,11 +1154,19 @@ class ConversationViewController: BaseViewController {
 
                 if let withFriend = self?.conversation.withFriend {
 
-                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
+                    guard let recipient = self?.recipient else {
+                        return
+                    }
+
+                    let typingMessage: JSONDictionary = [
+                        "state": FayeService.InstantStateType.Text.rawValue,
+                        "recipient_type": recipient.type.nameForServer,
+                        "recipient_id": recipient.ID,
+                    ]
 
                     if FayeService.sharedManager.client.connected {
-                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                            println("Send typing \(result)")
+                        FayeService.sharedManager.sendInstantMessage(typingMessage, completion: { success in
+                            println("Send typing \(success)")
                         })
                     }
                 }
@@ -1374,11 +1382,19 @@ class ConversationViewController: BaseViewController {
 
                     if let withFriend = strongSelf.conversation.withFriend {
 
-                        let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
+                        guard let recipient = self?.recipient else {
+                            return
+                        }
+
+                        let recordingMessage: JSONDictionary = [
+                            "state": FayeService.InstantStateType.Audio.rawValue,
+                            "recipient_type": recipient.type.nameForServer,
+                            "recipient_id": recipient.ID,
+                        ]
 
                         if FayeService.sharedManager.client.connected {
-                            FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                                println("Send recording \(result)")
+                            FayeService.sharedManager.sendInstantMessage(recordingMessage, completion: { success in
+                                println("Send recording \(success)")
                             })
                         }
                     }
