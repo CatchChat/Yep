@@ -10,13 +10,24 @@ import UIKit
 
 extension UISearchBar {
 
-    func yep_enableCancelButton() {
+    var yep_cancelButton: UIButton? {
 
         for subview in self.subviews {
+            println("subview: \(subview)")
             for subview in subview.subviews {
-                (subview as? UIControl)?.enabled = true
+                println("----subview: \(subview)")
+                if let cancelButton = subview as? UIButton {
+                    return cancelButton
+                }
             }
         }
+
+        return nil
+    }
+
+    func yep_enableCancelButton() {
+
+        yep_cancelButton?.enabled = true
     }
 
     var yep_textField: UITextField? {
