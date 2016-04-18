@@ -15,6 +15,7 @@ class SearchContactsViewController: SegueViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var contactsSearchTransition: ContactsSearchTransition?
 
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
@@ -72,6 +73,10 @@ class SearchContactsViewController: SegueViewController {
 
     private var keyword: String?
 
+    deinit {
+        println("deinit SearchContacts")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -105,6 +110,8 @@ class SearchContactsViewController: SegueViewController {
             }
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
+
+                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
             }
         }
     }
@@ -139,7 +146,6 @@ class SearchContactsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-        searchBar.yep_enableCancelButton()
     }
 
     // MARK: - Navigation

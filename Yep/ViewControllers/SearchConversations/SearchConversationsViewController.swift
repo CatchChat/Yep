@@ -15,6 +15,7 @@ class SearchConversationsViewController: SegueViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var conversationsSearchTransition: ConversationsSearchTransition?
 
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
@@ -134,6 +135,10 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
+    deinit {
+        println("deinit SearchConversations")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -169,6 +174,8 @@ class SearchConversationsViewController: SegueViewController {
             }
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
+
+                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
             }
         }
     }
@@ -245,7 +252,6 @@ class SearchConversationsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-        searchBar.yep_enableCancelButton()
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {

@@ -10,13 +10,40 @@ import UIKit
 
 extension UISearchBar {
 
-    func yep_enableCancelButton() {
+    var yep_cancelButton: UIButton? {
 
         for subview in self.subviews {
+            println("subview: \(subview)")
             for subview in subview.subviews {
-                (subview as? UIControl)?.enabled = true
+                println("----subview: \(subview)")
+                if let cancelButton = subview as? UIButton {
+                    return cancelButton
+                }
             }
         }
+
+        return nil
+    }
+
+    func yep_enableCancelButton() {
+
+        yep_cancelButton?.enabled = true
+    }
+
+    func yep_makeSureCancelButtonAlwaysEnabled() -> ObjectKeypathObserver? {
+
+        guard let cancelButton = yep_cancelButton else {
+            println("Not cancelButton in searchBar!")
+            return nil
+        }
+
+        return ObjectKeypathObserver(object: cancelButton, keypath: "enabled", afterValueChanged: { object in
+            if let cancelButton = object as? UIButton {
+                if !cancelButton.enabled {
+                    cancelButton.enabled = true
+                }
+            }
+        })
     }
 
     var yep_textField: UITextField? {
