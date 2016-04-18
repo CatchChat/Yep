@@ -937,17 +937,10 @@ class ConversationViewController: BaseViewController {
 
         case ConversationType.Group.rawValue:
 
-            if let group = conversation.withGroup {
-
-                let groupIncludeMe = group.includeMe
-                let groupID = group.groupID
-
+            if let _ = conversation.withGroup {
                 // 直接同步消息
                 syncMessages(failedAction: {
                 }, successAction: {
-                    if groupIncludeMe {
-                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                    }
                 })
             }
 
@@ -1145,16 +1138,7 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.notifyTypingAction = { [weak self] in
 
-                if let withFriend = self?.conversation.withFriend {
-
-                    let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Text.rawValue]
-
-                    if FayeService.sharedManager.client.connected {
-                        FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                            println("Send typing \(result)")
-                        })
-                    }
-                }
+                self?.trySendInstantMessageWithType(.Text)
             }
 
             // MARK: Send Text
@@ -1365,16 +1349,7 @@ class ConversationViewController: BaseViewController {
                         YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
                     }
 
-                    if let withFriend = strongSelf.conversation.withFriend {
-
-                        let typingMessage: JSONDictionary = ["state": FayeService.InstantStateType.Audio.rawValue]
-
-                        if FayeService.sharedManager.client.connected {
-                            FayeService.sharedManager.sendPrivateMessage(typingMessage, messageType: .Instant, userID: withFriend.userID, completion: { (result, messageID) in
-                                println("Send recording \(result)")
-                            })
-                        }
-                    }
+                    self?.trySendInstantMessageWithType(.Audio)
                 }
             }
 
@@ -2281,10 +2256,6 @@ class ConversationViewController: BaseViewController {
                     if !group.invalidated {
                         let _ = try? strongSelf.realm.write {
                             group.includeMe = meIsMember
-
-                            if meIsMember {
-                                FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                            }
                         }
                     }
                 }
@@ -2320,8 +2291,6 @@ class ConversationViewController: BaseViewController {
                                         group.includeMe = true
                                         group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                                         strongSelf.moreViewManager.updateForGroupAffair()
-
-                                        FayeService.sharedManager.subscribeGroup(groupID: groupID)
                                     }
                                 }
                             }
@@ -2476,6 +2445,29 @@ class ConversationViewController: BaseViewController {
                     }
                 })
             }
+        }
+    }
+
+    private func trySendInstantMessageWithType(type: FayeService.InstantStateType) {
+
+        guard let _ = self.conversation.withFriend else {
+            return
+        }
+
+        guard let recipient = self.recipient else {
+            return
+        }
+
+        let instantMessage: JSONDictionary = [
+            "state": type.rawValue,
+            "recipient_type": recipient.type.nameForServer,
+            "recipient_id": recipient.ID,
+        ]
+
+        if FayeService.sharedManager.client.connected {
+            FayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
+                println("Send \(type) \(success)")
+            })
         }
     }
 
@@ -2796,8 +2788,6 @@ class ConversationViewController: BaseViewController {
                             let _ = try? strongSelf.realm.write {
                                 group.includeMe = true
                                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-
-                                FayeService.sharedManager.subscribeGroup(groupID: groupID)
                             }
 
                             afterSubscribed?()
@@ -2939,10 +2929,6 @@ class ConversationViewController: BaseViewController {
                 realm.beginWrite()
                 conversation.withGroup?.includeMe = true
                 let _ = try? realm.commitWrite()
-
-                if let groupID = conversation.withGroup?.groupID {
-                    FayeService.sharedManager.subscribeGroup(groupID: groupID)
-                }
 
                 delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
