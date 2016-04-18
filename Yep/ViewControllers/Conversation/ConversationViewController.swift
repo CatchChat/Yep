@@ -1152,24 +1152,7 @@ class ConversationViewController: BaseViewController {
 
             messageToolbar.notifyTypingAction = { [weak self] in
 
-                if let withFriend = self?.conversation.withFriend {
-
-                    guard let recipient = self?.recipient else {
-                        return
-                    }
-
-                    let typingMessage: JSONDictionary = [
-                        "state": FayeService.InstantStateType.Text.rawValue,
-                        "recipient_type": recipient.type.nameForServer,
-                        "recipient_id": recipient.ID,
-                    ]
-
-                    if FayeService.sharedManager.client.connected {
-                        FayeService.sharedManager.sendInstantMessage(typingMessage, completion: { success in
-                            println("Send typing \(success)")
-                        })
-                    }
-                }
+                self?.trySendInstantMessageWithType(.Text)
             }
 
             // MARK: Send Text
@@ -1380,24 +1363,7 @@ class ConversationViewController: BaseViewController {
                         YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
                     }
 
-                    if let withFriend = strongSelf.conversation.withFriend {
-
-                        guard let recipient = self?.recipient else {
-                            return
-                        }
-
-                        let recordingMessage: JSONDictionary = [
-                            "state": FayeService.InstantStateType.Audio.rawValue,
-                            "recipient_type": recipient.type.nameForServer,
-                            "recipient_id": recipient.ID,
-                        ]
-
-                        if FayeService.sharedManager.client.connected {
-                            FayeService.sharedManager.sendInstantMessage(recordingMessage, completion: { success in
-                                println("Send recording \(success)")
-                            })
-                        }
-                    }
+                    self?.trySendInstantMessageWithType(.Audio)
                 }
             }
 
@@ -2499,6 +2465,29 @@ class ConversationViewController: BaseViewController {
                     }
                 })
             }
+        }
+    }
+
+    private func trySendInstantMessageWithType(type: FayeService.InstantStateType) {
+
+        guard let _ = self.conversation.withFriend else {
+            return
+        }
+
+        guard let recipient = self.recipient else {
+            return
+        }
+
+        let instantMessage: JSONDictionary = [
+            "state": type.rawValue,
+            "recipient_type": recipient.type.nameForServer,
+            "recipient_id": recipient.ID,
+        ]
+
+        if FayeService.sharedManager.client.connected {
+            FayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
+                println("Send \(type) \(success)")
+            })
         }
     }
 
