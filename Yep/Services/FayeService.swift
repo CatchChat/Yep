@@ -77,7 +77,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
 
     func tryStartConnect() {
 
-        guard let userID = YepUserDefaults.userID.value, let personalChannel = personalChannelWithUserID(userID) else {
+        guard let userID = YepUserDefaults.userID.value, personalChannel = personalChannelWithUserID(userID) else {
             println("FayeClient startConnect failed, not userID or personalChannel!")
             return
         }
@@ -180,6 +180,11 @@ class FayeService: NSObject, MZFayeClientDelegate {
     private var instantChannel: String = "/messages"
 
     private func personalChannelWithUserID(userID: String) -> String? {
+
+        guard !userID.isEmpty else {
+            return nil
+        }
+
         return "/v1/users/\(userID)/messages"
     }
 
