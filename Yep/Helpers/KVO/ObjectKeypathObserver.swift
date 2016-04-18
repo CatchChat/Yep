@@ -12,15 +12,18 @@ class ObjectKeypathObserver: NSObject {
 
     weak var object: NSObject?
     var keypath: String
+    typealias AfterValueChanged = (object: NSObject) -> Void
+    var afterValueChanged: AfterValueChanged?
 
     deinit {
         object?.removeObserver(self, forKeyPath: keypath)
     }
 
-    init(object: NSObject, keypath: String) {
+    init(object: NSObject, keypath: String, afterValueChanged: AfterValueChanged) {
 
         self.object = object
         self.keypath = keypath
+        self.afterValueChanged = afterValueChanged
 
         super.init()
 
@@ -34,7 +37,8 @@ class ObjectKeypathObserver: NSObject {
         }
 
         if object == self.object && keypath == self.keypath {
-
+            self.afterValueChanged?(object: object)
         }
     }
 }
+

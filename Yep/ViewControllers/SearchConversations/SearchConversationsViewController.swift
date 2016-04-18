@@ -15,6 +15,7 @@ class SearchConversationsViewController: SegueViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var conversationsSearchTransition: ConversationsSearchTransition?
 
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")
@@ -134,9 +135,9 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
-    deinit {
-        searchBar.yep_cancelButton?.removeObserver(self, forKeyPath: "enabled")
-    }
+//    deinit {
+//        searchBar.yep_cancelButton?.removeObserver(self, forKeyPath: "enabled")
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,9 +175,19 @@ class SearchConversationsViewController: SegueViewController {
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
 
-                if let strongSelf = self {
-                    strongSelf.searchBar.yep_cancelButton?.addObserver(strongSelf, forKeyPath: "enabled", options: [.New], context: nil)
+                if let cancelButton = self?.searchBar?.yep_cancelButton {
+                    self?.searchBarCancelButtonEnabledObserver = ObjectKeypathObserver(object: cancelButton, keypath: "enabled", afterValueChanged: { object in
+                        if let cancelButton = object as? UIButton {
+                            if !cancelButton.enabled {
+                                cancelButton.enabled = true
+                            }
+                        }
+                    })
                 }
+
+//                if let strongSelf = self {
+//                    strongSelf.searchBar.yep_cancelButton?.addObserver(strongSelf, forKeyPath: "enabled", options: [.New], context: nil)
+//                }
             }
         }
     }
@@ -196,16 +207,18 @@ class SearchConversationsViewController: SegueViewController {
         isFirstAppear = false
     }
 
-    // MARK: KVO
-
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-
-        if let cancelButton = object as? UIButton where cancelButton == searchBar.yep_cancelButton {
-            if !cancelButton.enabled {
-                cancelButton.enabled = true
-            }
-        }
-    }
+//    // MARK: KVO
+//
+//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+//
+//        println("change: \(change)")
+//
+//        if let cancelButton = object as? UIButton where cancelButton == searchBar.yep_cancelButton {
+//            if !cancelButton.enabled {
+//                cancelButton.enabled = true
+//            }
+//        }
+//    }
 
     // MARK: - Navigation
 
