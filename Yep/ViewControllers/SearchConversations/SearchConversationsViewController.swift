@@ -135,9 +135,9 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
-//    deinit {
-//        searchBar.yep_cancelButton?.removeObserver(self, forKeyPath: "enabled")
-//    }
+    deinit {
+        println("deinit SearchConversations")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,10 +184,6 @@ class SearchConversationsViewController: SegueViewController {
                         }
                     })
                 }
-
-//                if let strongSelf = self {
-//                    strongSelf.searchBar.yep_cancelButton?.addObserver(strongSelf, forKeyPath: "enabled", options: [.New], context: nil)
-//                }
             }
         }
     }
@@ -206,19 +202,6 @@ class SearchConversationsViewController: SegueViewController {
 
         isFirstAppear = false
     }
-
-//    // MARK: KVO
-//
-//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//
-//        println("change: \(change)")
-//
-//        if let cancelButton = object as? UIButton where cancelButton == searchBar.yep_cancelButton {
-//            if !cancelButton.enabled {
-//                cancelButton.enabled = true
-//            }
-//        }
-//    }
 
     // MARK: - Navigation
 
