@@ -148,7 +148,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
                 dispatch_async(fayeQueue) { [weak self] in
 
                     self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
-                        //println("subscribeToChannel: \(data)")
+                        println("subscribeToChannel: \(data)")
                         guard let
                             messageInfo = data as? JSONDictionary,
                             messageTypeString = messageInfo["message_type"] as? String,
@@ -236,16 +236,17 @@ class FayeService: NSObject, MZFayeClientDelegate {
         } else {
             return nil
         }
-        
     }
 
-    private func personalChannelWithUserID(userID: String) -> String?{
+    private var instantChannel: String = "/messages"
+
+    private func personalChannelWithUserID(userID: String) -> String? {
         return "/v1/users/\(userID)/messages"
     }
     
-    private func circleChannelWithCircleID(circleID: String) -> String?{
-        return "/v1/circles/\(circleID)/messages"
-    }
+//    private func circleChannelWithCircleID(circleID: String) -> String? {
+//        return "/v1/circles/\(circleID)/messages"
+//    }
 
     private lazy var realm: Realm = {
         return try! Realm()
@@ -349,7 +350,38 @@ class FayeService: NSObject, MZFayeClientDelegate {
     func fayeClient(client: MZFayeClient!, didUnsubscribeFromChannel channel: String!) {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
-    
+
+    func sendInstantMessage(message: JSONDictionary, completion: (success: Bool) -> Void) {
+
+        dispatch_async(fayeQueue) { [unowned self] in
+
+            guard let extensionData = self.extensionData() else {
+                println("Can NOT sendInstantMessage, not extensionData")
+                completion(success: false)
+                return
+            }
+
+            let data: JSONDictionary = [
+                "api_version": "v1",
+                "message_type": MessageType.Instant.rawValue,
+                "message": message
+            ]
+
+            self.client.sendMessage(data, toChannel: self.instantChannel, usingExtension: extensionData, usingBlock: { message  in
+
+                println("sendInstantMessage \(message.successful)")
+
+                if message.successful == 1 {
+                    completion(success: true)
+
+                } else {
+                    completion(success: false)
+                }
+            })
+        }
+    }
+
+    /*
     func sendPrivateMessage(message: JSONDictionary, messageType: FayeService.MessageType, userID: String, completion: (success: Bool, messageID: String?) -> Void) {
         dispatch_async(fayeQueue) { [unowned self] in
 
@@ -397,7 +429,9 @@ class FayeService: NSObject, MZFayeClientDelegate {
             }
         }
     }
-    
+     */
+
+    /*
     func sendGroupMessage(message: JSONDictionary, circleID: String, completion: (success: Bool, messageID: String?) -> Void)  {
         
         if let
@@ -433,5 +467,6 @@ class FayeService: NSObject, MZFayeClientDelegate {
             completion(success: false, messageID: nil)
         }
     }
+     */
 }
 

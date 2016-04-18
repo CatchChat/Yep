@@ -2019,6 +2019,9 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: F
         }
     }
 
+    apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
+
+    /*
     if
         FayeService.sharedManager.client.connected && false, // 暂时不用 Faye 发送消息
         let recipientType = messageInfo["recipient_type"] as? String,
@@ -2081,6 +2084,7 @@ func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHandler: F
     } else {
         apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
     }
+    */
 }
 
 func sendText(text: String, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
