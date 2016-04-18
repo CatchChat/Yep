@@ -1838,7 +1838,7 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
         let groupID = group.groupID
 
-        FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
+        //FayeService.sharedManager.unsubscribeGroup(groupID: groupID)
 
         if needLeaveGroup {
             leaveGroup(groupID: groupID, failureHandler: nil, completion: {

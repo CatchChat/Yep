@@ -74,7 +74,8 @@ class FayeService: NSObject, MZFayeClientDelegate {
             client.setExtension(extensionData, forChannel: channel)
         }
     }
-    
+
+    /*
     func unsubscribeGroup(groupID groupID: String) {
         let circleChannel = circleChannelWithCircleID(groupID)
         
@@ -128,6 +129,7 @@ class FayeService: NSObject, MZFayeClientDelegate {
             })
         }
     }
+     */
 
     func startConnect() {
         if
@@ -431,5 +433,5 @@ class FayeService: NSObject, MZFayeClientDelegate {
             completion(success: false, messageID: nil)
         }
     }
-
 }
+
