@@ -72,6 +72,10 @@ class SearchContactsViewController: SegueViewController {
 
     private var keyword: String?
 
+    deinit {
+        searchBar.yep_cancelButton?.removeObserver(self, forKeyPath: "enabled")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -105,6 +109,10 @@ class SearchContactsViewController: SegueViewController {
             }
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
+
+                if let strongSelf = self {
+                    strongSelf.searchBar.yep_cancelButton?.addObserver(strongSelf, forKeyPath: "enabled", options: [.New], context: nil)
+                }
             }
         }
     }
@@ -122,6 +130,17 @@ class SearchContactsViewController: SegueViewController {
         }, completion: nil)
 
         isFirstAppear = false
+    }
+
+    // MARK: KVO
+
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+
+        if let cancelButton = object as? UIButton where cancelButton == searchBar.yep_cancelButton {
+            if !cancelButton.enabled {
+                cancelButton.enabled = true
+            }
+        }
     }
 
     // MARK: Private
