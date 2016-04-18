@@ -264,7 +264,6 @@ class SearchConversationsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-        searchBar.yep_enableCancelButton()
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
@@ -288,8 +287,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             self?.searchBarBottomLineView.alpha = 1
         }, completion: { finished in
         })
-
-
 
         return true
     }

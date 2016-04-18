@@ -158,7 +158,6 @@ class SearchContactsViewController: SegueViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-        searchBar.yep_enableCancelButton()
     }
 
     // MARK: - Navigation
