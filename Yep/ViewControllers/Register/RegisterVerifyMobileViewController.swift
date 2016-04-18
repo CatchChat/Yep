@@ -89,7 +89,7 @@ class RegisterVerifyMobileViewController: SegueViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
+       
         verifyCodeTextField.becomeFirstResponder()
 
         callMeTimer.fire()

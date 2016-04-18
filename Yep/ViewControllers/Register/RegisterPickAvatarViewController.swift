@@ -55,7 +55,7 @@ class RegisterPickAvatarViewController: SegueViewController {
                 avatarImageView.hidden = false
 
                 avatarImageView.image = UIImage(named: "default_avatar")
-
+                
                 nextButton.enabled = false
 
             case .CameraOpen:
@@ -122,7 +122,9 @@ class RegisterPickAvatarViewController: SegueViewController {
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Avatar", comment: ""))
 
         navigationItem.rightBarButtonItem = nextButton
-
+        
+        navigationItem.hidesBackButton = true
+        
         view.backgroundColor = UIColor.whiteColor()
 
         pickAvatarState = .Default
@@ -139,10 +141,17 @@ class RegisterPickAvatarViewController: SegueViewController {
         retakeButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
 
         nextButton.enabled = false
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterPickAvatarViewController.openPhotoLibrary(_:)))
+        avatarImageView.addGestureRecognizer(tap)
+        avatarImageView.userInteractionEnabled = true
+        
     }
-
+    
     // MARK: Helpers
+    
 
+    
     private func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
         let devices = AVCaptureDevice.devicesWithMediaType(mediaType)
         var captureDevice = devices.first as? AVCaptureDevice
@@ -199,29 +208,39 @@ class RegisterPickAvatarViewController: SegueViewController {
             }
         }
     }
-
+    
     @IBAction private func tryOpenCameraRoll(sender: UIButton) {
+        
+        openPhotoLibraryPicker()
+    }
+    
+    @objc private func openPhotoLibrary(sender: UITapGestureRecognizer) {
 
+        openPhotoLibraryPicker()
+    }
+    
+    private func openPhotoLibraryPicker() {
+        
         let openCameraRoll: ProposerAction = { [weak self] in
-
+            
             guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
                 self?.alertCanNotAccessCameraRoll()
                 return
             }
-
+            
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .PhotoLibrary
             imagePicker.allowsEditing = true
-
+            
             self?.presentViewController(imagePicker, animated: true, completion: nil)
         }
-
+        
         proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
             self.alertCanNotAccessCameraRoll()
         })
     }
-
+    
     private func uploadAvatarAndGotoPickSkills() {
         
         YepHUD.showActivityIndicator()
