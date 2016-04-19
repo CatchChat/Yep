@@ -13,9 +13,9 @@ extension UISearchBar {
     var yep_cancelButton: UIButton? {
 
         for subview in self.subviews {
-            println("subview: \(subview)")
+            //println("subview: \(subview)")
             for subview in subview.subviews {
-                println("----subview: \(subview)")
+                //println("----subview: \(subview)")
                 if let cancelButton = subview as? UIButton {
                     return cancelButton
                 }

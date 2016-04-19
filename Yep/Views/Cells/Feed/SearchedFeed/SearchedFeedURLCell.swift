@@ -47,6 +47,7 @@ class SearchedFeedURLCell: SearchedFeedBasicCell {
         if let attachment = feed.attachment {
             if case let .URL(openGraphInfo) = attachment {
 
+                feedURLContainerView.iconImageView.image = UIImage(named: "icon_link")
                 feedURLContainerView.titleLabel.text = openGraphInfo.title
 
                 feedURLContainerView.tapAction = { [weak self] in

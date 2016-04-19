@@ -50,6 +50,7 @@ class SearchedFeedLocationCell: SearchedFeedBasicCell {
             if case let .Location(locationInfo) = attachment {
 
                 if locationInfo.name.isEmpty {
+                    locationContainerView.iconImageView.image = UIImage(named: "icon_location")
                     locationContainerView.titleLabel.text = NSLocalizedString("Unknown location", comment: "")
 
                 } else {

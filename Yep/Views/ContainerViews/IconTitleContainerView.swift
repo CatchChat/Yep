@@ -14,7 +14,7 @@ class IconTitleContainerView: UIView {
     
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_pin_shadow")
+        imageView.image = UIImage(named: "icon_link")
         return imageView
     }()
 
@@ -47,8 +47,8 @@ class IconTitleContainerView: UIView {
             "titleLabel": titleLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[iconImageView]-5-[titleLabel]|", options: [.AlignAllCenterY], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[iconImageView]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[iconImageView(20)]-5-[titleLabel]|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[iconImageView(20)]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
