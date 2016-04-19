@@ -10,6 +10,13 @@ import UIKit
 
 class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
+
+        return ceil(height)
+    }
+
     var tapMediaAction: FeedTapMediaAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {

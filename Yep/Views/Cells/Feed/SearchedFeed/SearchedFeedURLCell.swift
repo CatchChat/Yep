@@ -10,6 +10,13 @@ import UIKit
 
 class SearchedFeedURLCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (20 + 15)
+
+        return ceil(height)
+    }
+
     var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
     lazy var feedURLContainerView: IconTitleContainerView = {

@@ -10,6 +10,13 @@ import UIKit
 
 class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (80 + 15)
+
+        return ceil(height)
+    }
+
     var tapGithubRepoLinkAction: (NSURL -> Void)?
 
     lazy var logoImageView: UIImageView = {

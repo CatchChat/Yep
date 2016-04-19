@@ -11,6 +11,13 @@ import MapKit
 
 class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (20 + 15)
+
+        return ceil(height)
+    }
+
     var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
 
     lazy var locationContainerView: IconTitleContainerView = {

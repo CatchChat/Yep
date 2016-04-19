@@ -11,6 +11,13 @@ import RealmSwift
 
 class SearchedFeedVoiceCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (50 + 15)
+
+        return ceil(height)
+    }
+
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
         view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)

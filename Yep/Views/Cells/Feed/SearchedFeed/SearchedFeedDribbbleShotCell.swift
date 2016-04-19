@@ -7,8 +7,18 @@
 //
 
 import UIKit
+import Ruler
+
+private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
 class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (dribbbleShotHeight + 15)
+
+        return ceil(height)
+    }
 
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
     var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?

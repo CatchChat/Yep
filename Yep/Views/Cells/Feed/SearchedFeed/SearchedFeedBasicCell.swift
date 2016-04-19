@@ -14,6 +14,15 @@ class SearchedFeedBasicCell: UITableViewCell {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
     }()
+
+    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let rect = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+
+        let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15 + 17 + 15
+
+        return ceil(height)
+    }
     
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
