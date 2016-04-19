@@ -28,6 +28,8 @@ class SearchedFeedURLCell: SearchedFeedBasicCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(feedURLContainerView)
+
+        feedURLContainerView.iconImageView.image = UIImage(named: "icon_link")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -47,7 +49,6 @@ class SearchedFeedURLCell: SearchedFeedBasicCell {
         if let attachment = feed.attachment {
             if case let .URL(openGraphInfo) = attachment {
 
-                feedURLContainerView.iconImageView.image = UIImage(named: "icon_link")
                 feedURLContainerView.titleLabel.text = openGraphInfo.title
 
                 feedURLContainerView.tapAction = { [weak self] in

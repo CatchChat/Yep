@@ -15,6 +15,7 @@ class IconTitleContainerView: UIView {
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_link")
+        imageView.tintColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
         return imageView
     }()
 

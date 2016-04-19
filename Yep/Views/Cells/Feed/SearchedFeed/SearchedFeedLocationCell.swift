@@ -30,6 +30,8 @@ class SearchedFeedLocationCell: SearchedFeedBasicCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.addSubview(locationContainerView)
+
+        locationContainerView.iconImageView.image = UIImage(named: "icon_location")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -50,7 +52,6 @@ class SearchedFeedLocationCell: SearchedFeedBasicCell {
             if case let .Location(locationInfo) = attachment {
 
                 if locationInfo.name.isEmpty {
-                    locationContainerView.iconImageView.image = UIImage(named: "icon_location")
                     locationContainerView.titleLabel.text = NSLocalizedString("Unknown location", comment: "")
 
                 } else {
