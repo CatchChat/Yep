@@ -90,6 +90,8 @@ class SearchedFeedBasicCell: UITableViewCell {
         return textView
     }()
 
+    var feed: DiscoveredFeed?
+    
     var tapAvatarAction: (UITableViewCell -> Void)?
     var tapSkillAction: (UITableViewCell -> Void)?
 
@@ -115,6 +117,15 @@ class SearchedFeedBasicCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        feed = nil
+
+        messageTextView.text = nil
+        messageTextView.attributedText = nil
     }
 
     // MARK: Actions
