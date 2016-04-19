@@ -48,10 +48,13 @@ class IconTitleContainerView: UIView {
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[iconImageView(20)]-5-[titleLabel]|", options: [.AlignAllCenterY], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[iconImageView(20)]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[iconImageView(20)]", options: [], metrics: nil, views: views)
+
+        let centerY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activateConstraints([centerY])
     }
 
     @objc private func tap(sender: UITapGestureRecognizer) {
