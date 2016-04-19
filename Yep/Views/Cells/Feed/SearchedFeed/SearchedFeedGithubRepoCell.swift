@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+
 class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
@@ -59,5 +61,39 @@ class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
+        super.configureWithFeed(feed, layout: layout)
+
+        if let attachment = feed.attachment {
+            if case let .Github(githubRepo) = attachment {
+                githubRepoContainerView.nameLabel.text = githubRepo.name
+                githubRepoContainerView.descriptionLabel.text = githubRepo.description
+            }
+        }
+
+        githubRepoContainerView.tapAction = { [weak self] in
+            guard let attachment = feed.attachment else {
+                return
+            }
+
+            if case .GithubRepo = feed.kind {
+                if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
+                    self?.tapGithubRepoLinkAction?(URL)
+                }
+            }
+        }
+
+        if let _ = feed.skill {
+            logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+
+        } else {
+            logoImageView.frame.origin.x = screenWidth - 18 - 15
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+        }
+        nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
+
+        let githubRepoLayout = layout.githubRepoLayout!
+        githubRepoContainerView.frame = githubRepoLayout.githubRepoContainerViewFrame
+        socialWorkBorderImageView.frame = githubRepoContainerView.frame
     }
 }
