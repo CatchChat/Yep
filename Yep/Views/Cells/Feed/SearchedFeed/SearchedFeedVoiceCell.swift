@@ -29,7 +29,7 @@ class SearchedFeedVoiceCell: SearchedFeedBasicCell {
             voiceContainerView.audioPlaying = newValue
         }
     }
-    var playOrPauseAudioAction: (FeedVoiceCell -> Void)?
+    var playOrPauseAudioAction: (SearchedFeedVoiceCell -> Void)?
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
             updateVoiceContainerView()
@@ -73,6 +73,47 @@ class SearchedFeedVoiceCell: SearchedFeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
-    }
+        super.configureWithFeed(feed, layout: layout)
 
+        if let attachment = feed.attachment {
+            if case let .Audio(audioInfo) = attachment {
+
+                voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
+
+                let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
+                voiceContainerView.timeLengthLabel.text = timeLengthString
+
+                let audioLayout = layout.audioLayout!
+                voiceContainerView.frame = audioLayout.voiceContainerViewFrame
+
+                if let realm = try? Realm() {
+
+                    let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
+
+                    if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer {
+                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+
+                    } else {
+                        let newFeedAudio = FeedAudio()
+                        newFeedAudio.feedID = audioInfo.feedID
+                        newFeedAudio.URLString = audioInfo.URLString
+                        newFeedAudio.metadata = audioInfo.metaData
+
+                        let _ = try? realm.write {
+                            realm.add(newFeedAudio)
+                        }
+
+                        audioPlaying = false
+                    }
+
+                    voiceContainerView.playOrPauseAudioAction = { [weak self] in
+                        if let strongSelf = self {
+                            strongSelf.playOrPauseAudioAction?(strongSelf)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
