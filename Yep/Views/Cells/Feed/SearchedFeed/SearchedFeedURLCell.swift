@@ -14,7 +14,6 @@ class SearchedFeedURLCell: SearchedFeedBasicCell {
 
     lazy var feedURLContainerView: IconTitleContainerView = {
         let view = IconTitleContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
-        view.compressionMode = false
         return view
     }()
 
