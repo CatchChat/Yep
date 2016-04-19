@@ -290,6 +290,7 @@
 		50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */; };
 		50CB05781CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */; };
 		50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */; };
+		50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */; };
 		50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */; };
 		50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
@@ -714,6 +715,7 @@
 		50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedBasicCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedBasicCell.swift; sourceTree = "<group>"; };
 		50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedNormalImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedGithubRepoCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedGithubRepoCell.swift; sourceTree = "<group>"; };
+		50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedDribbbleShotCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedDribbbleShotCell.swift; sourceTree = "<group>"; };
 		50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
 		50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
@@ -2251,6 +2253,7 @@
 				50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */,
 				50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */,
 				50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */,
+				50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */,
 			);
 			name = SearchedFeed;
 			sourceTree = "<group>";
@@ -3112,6 +3115,7 @@
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */,
+				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
 				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
