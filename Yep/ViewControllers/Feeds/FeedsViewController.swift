@@ -83,8 +83,8 @@ class FeedsViewController: BaseViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
-            //searchBar.sizeToFit()
-            //feedsTableView.tableHeaderView = searchBar
+            searchBar.sizeToFit()
+            feedsTableView.tableHeaderView = searchBar
 
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()

@@ -13,6 +13,7 @@ class SearchFeedsViewController: UIViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var feedsSearchTransition: FeedsSearchTransition?
 
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
@@ -26,7 +27,46 @@ class SearchFeedsViewController: UIViewController {
         }
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
-    
+
+    private let feedSkillUsersCellID = "FeedSkillUsersCell"
+    private let feedBasicCellID = "FeedBasicCell"
+    private let feedBiggerImageCellID = "FeedBiggerImageCell"
+    private let feedNormalImagesCellID = "FeedNormalImagesCell"
+    private let feedAnyImagesCellID = "FeedAnyImagesCell"
+    private let feedGithubRepoCellID = "FeedGithubRepoCell"
+    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
+    private let feedVoiceCellID = "FeedVoiceCell"
+    private let feedLocationCellID = "FeedLocationCell"
+    private let feedURLCellID = "FeedURLCell"
+    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
+
+    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+
+    @IBOutlet weak var feedsTableView: UITableView!  {
+        didSet {
+            feedsTableView.backgroundColor = UIColor.whiteColor()
+            feedsTableView.tableFooterView = UIView()
+            feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+
+            feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
+
+            feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
+            feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
+            feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
+            feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
+            feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
+            feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
+            feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
+            feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
+            feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
+
+            feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+
+            feedsTableView.keyboardDismissMode = .OnDrag
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,6 +88,8 @@ class SearchFeedsViewController: UIViewController {
             }
             delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
+
+                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
             }
         }
     }
@@ -72,7 +114,6 @@ class SearchFeedsViewController: UIViewController {
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
-        searchBar.yep_enableCancelButton()
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
