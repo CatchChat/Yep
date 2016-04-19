@@ -160,7 +160,7 @@ class SocialWorkInstagramViewController: BaseViewController {
                 )
 
                 let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+                activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
                 presentViewController(activityViewController, animated: true, completion: nil)
             }
         }

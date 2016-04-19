@@ -71,16 +71,17 @@ class YepAlert {
             alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
                 textField.placeholder = placeholder
                 textField.text = oldText
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
+                textField.addTarget(self, action: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), forControlEvents: .EditingChanged)
+//                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
             }
             
-            func removeTextFieldObservation() {
-                NSNotificationCenter.defaultCenter().removeObserver(self, name:UITextFieldTextDidChangeNotification, object: alertController.textFields?.first)
-            }
+//            func removeTextFieldObservation() {
+//                NSNotificationCenter.defaultCenter().removeObserver(self, name:UITextFieldTextDidChangeNotification, object: alertController.textFields?.first)
+//            }
             
             let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
                 cancelAction?()
-                removeTextFieldObservation()
+//                removeTextFieldObservation()
             }
             alertController.addAction(_cancelAction)
             
@@ -88,7 +89,7 @@ class YepAlert {
                 if let textField = alertController.textFields?.first, text = textField.text {
                     
                     confirmAction?(text: text)
-                    removeTextFieldObservation()
+//                    removeTextFieldObservation()
                 }
             }
             _confirmAction.enabled = false
@@ -100,9 +101,9 @@ class YepAlert {
         }
     }
 
-    @objc func handleTextFieldTextDidChangeNotification(sender: NSNotification) {
-       let textField = sender.object as? UITextField
-        YepAlert.confirmAlertAction?.enabled = textField?.text?.utf16.count >= 1
+    @objc func handleTextFieldTextDidChangeNotification(sender: UITextField) {
+//       let textField = sender.object as? UITextField
+        YepAlert.confirmAlertAction?.enabled = sender.text?.utf16.count >= 1
     }
     
     class func confirmOrCancel(title title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {

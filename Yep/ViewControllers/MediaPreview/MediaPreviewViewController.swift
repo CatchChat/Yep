@@ -586,7 +586,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                             )
 
                             let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+                            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
+                            
                             self?.presentViewController(activityViewController, animated: true, completion: nil)
                         }
                 }
@@ -695,6 +696,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 )
                 
                 let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+                activityViewController.excludedActivityTypes = [UIActivityTypeMessage,UIActivityTypeMail]
                 
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
@@ -731,7 +733,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 )
 
                 let activityViewController = UIActivityViewController(activityItems: [linkURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+                activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
         }
