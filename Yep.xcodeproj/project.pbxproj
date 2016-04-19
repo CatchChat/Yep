@@ -292,6 +292,8 @@
 		50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */; };
 		50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */; };
 		50CB057E1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */; };
+		50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */; };
+		50CB05841CC5E39A0024BE06 /* IconTitleContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */; };
 		50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */; };
 		50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
@@ -718,6 +720,8 @@
 		50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedGithubRepoCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedGithubRepoCell.swift; sourceTree = "<group>"; };
 		50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedDribbbleShotCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedDribbbleShotCell.swift; sourceTree = "<group>"; };
 		50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedVoiceCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedVoiceCell.swift; sourceTree = "<group>"; };
+		50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedLocationCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedLocationCell.swift; sourceTree = "<group>"; };
+		50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconTitleContainerView.swift; path = Views/ContainerViews/IconTitleContainerView.swift; sourceTree = "<group>"; };
 		50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
 		50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
@@ -2257,6 +2261,7 @@
 				50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */,
 				50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */,
 				50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */,
+				50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */,
 			);
 			name = SearchedFeed;
 			sourceTree = "<group>";
@@ -2523,6 +2528,7 @@
 				505082361C21377E00643CEB /* FeedVoiceContainerView.swift */,
 				50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */,
 				50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */,
+				50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */,
 			);
 			name = ContainerViews;
 			sourceTree = "<group>";
@@ -2981,6 +2987,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
@@ -3017,6 +3024,7 @@
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */,
 				92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */,
+				50CB05841CC5E39A0024BE06 /* IconTitleContainerView.swift in Sources */,
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
