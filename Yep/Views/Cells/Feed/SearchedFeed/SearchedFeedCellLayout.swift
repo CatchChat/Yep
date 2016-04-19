@@ -170,7 +170,7 @@ struct SearchedFeedCellLayout {
 
         case .URL:
 
-            let height: CGFloat = messageTextViewFrame.origin.y - beginY - 15
+            let height: CGFloat = 20
             let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
 
             let _URLLayout = SearchedFeedCellLayout.URLLayout(URLContainerViewFrame: URLContainerViewFrame)
@@ -197,7 +197,7 @@ struct SearchedFeedCellLayout {
 
         case .GithubRepo:
 
-            let height: CGFloat = messageTextViewFrame.origin.y - beginY - 15
+            let height: CGFloat = 20
             let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
 
             let githubRepoLayout = SearchedFeedCellLayout.GithubRepoLayout(githubRepoContainerViewFrame: githubRepoContainerViewFrame)
@@ -206,7 +206,7 @@ struct SearchedFeedCellLayout {
 
         case .DribbbleShot:
 
-            let height: CGFloat = messageTextViewFrame.origin.y - beginY - 15
+            let height: CGFloat = 20
             let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
 
             let dribbbleShotLayout = SearchedFeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: dribbbleShotContainerViewFrame)
@@ -230,7 +230,7 @@ struct SearchedFeedCellLayout {
             
         case .Location:
             
-            let height: CGFloat = messageTextViewFrame.origin.y - beginY - 15
+            let height: CGFloat = 20
             let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
             
             let locationLayout = SearchedFeedCellLayout.LocationLayout(locationContainerViewFrame: locationContainerViewFrame)
