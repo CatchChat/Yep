@@ -144,6 +144,32 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
+        self.feed = feed
+
+
+        let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
+        avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        nicknameLabel.text = feed.creator.nickname
+
+        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+
+        // layout
+
+        let basicLayout = layout.basicLayout
+        avatarImageView.frame = basicLayout.avatarImageViewFrame
+        messageTextView.frame = basicLayout.messageTextViewFrame
+
+        if let skill = feed.skill {
+            skillButton.setTitle(skill.localName, forState: .Normal)
+            skillButton.hidden = false
+            skillButton.frame = basicLayout.skillButtonFrame
+            nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
+
+        } else {
+            skillButton.hidden = true
+            nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
+        }
     }
 
     // MARK: Actions
