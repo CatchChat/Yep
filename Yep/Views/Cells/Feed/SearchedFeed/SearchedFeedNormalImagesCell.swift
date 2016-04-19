@@ -99,6 +99,10 @@ class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
         imageView4.image = nil
     }
 
+    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
+
+    }
+    
     // MARK: Actions
 
     @objc private func tap(sender: UITapGestureRecognizer) {

@@ -12,9 +12,6 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 struct SearchedFeedCellLayout {
 
-    typealias Update = (layout: SearchedFeedCellLayout) -> Void
-    typealias Cache = (layout: SearchedFeedCellLayout?, update: Update)
-
     let height: CGFloat
 
     struct BasicLayout {

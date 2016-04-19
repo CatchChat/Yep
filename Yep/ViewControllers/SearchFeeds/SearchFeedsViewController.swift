@@ -70,6 +70,44 @@ class SearchFeedsViewController: UIViewController {
         }
     }
 
+    private struct LayoutPool {
+
+        private var feedCellLayoutHash = [String: SearchedFeedCellLayout]()
+
+        private mutating func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> SearchedFeedCellLayout {
+            let key = feed.id
+
+            if let layout = feedCellLayoutHash[key] {
+                return layout
+
+            } else {
+                let layout = SearchedFeedCellLayout(feed: feed)
+
+                updateFeedCellLayout(layout, forFeed: feed)
+
+                return layout
+            }
+        }
+
+        private mutating func updateFeedCellLayout(layout: SearchedFeedCellLayout, forFeed feed: DiscoveredFeed) {
+
+            let key = feed.id
+
+            if !key.isEmpty {
+                feedCellLayoutHash[key] = layout
+            }
+
+            //println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
+        }
+
+        private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+            let layout = feedCellLayoutOfFeed(feed)
+            return layout.height
+        }
+    }
+    private static var layoutPool = LayoutPool()
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         println("deinit SearchFeeds")
@@ -310,11 +348,9 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         func configureFeedCell(cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
-            guard let cell = cell as? FeedBasicCell else {
+            guard let cell = cell as? SearchedFeedBasicCell else {
                 return
             }
-
-            cell.needShowDistance = false
 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
@@ -353,26 +389,21 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
 
-            /*
-            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-            let update: FeedCellLayout.Update = { newLayout in
-                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
-            }
-            let layoutCache = (layout: layout, update: update)
+            let layout = SearchFeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
 
             switch feed.kind {
 
             case .Text:
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
 
             case .URL:
 
-                guard let cell = cell as? FeedURLCell else {
+                guard let cell = cell as? SearchedFeedURLCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
 
                 cell.tapURLInfoAction = { [weak self] URL in
                     println("tapURLInfoAction URL: \(URL)")
@@ -412,42 +443,21 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
 
-                if feed.imageAttachmentsCount == 1 {
-                    guard let cell = cell as? FeedBiggerImageCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
-
-                    cell.tapMediaAction = tapMediaAction
-
-                } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
-
-                    guard let cell = cell as? FeedNormalImagesCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
-
-                    cell.tapMediaAction = tapMediaAction
-
-                } else {
-                    guard let cell = cell as? FeedAnyImagesCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
-
-                    cell.tapMediaAction = tapMediaAction
-                }
-
-            case .GithubRepo:
-
-                guard let cell = cell as? FeedGithubRepoCell else {
+                guard let cell = cell as? SearchedFeedNormalImagesCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
+
+                cell.tapMediaAction = tapMediaAction
+
+            case .GithubRepo:
+
+                guard let cell = cell as? SearchedFeedGithubRepoCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layout: layout)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -455,11 +465,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .DribbbleShot:
 
-                guard let cell = cell as? FeedDribbbleShotCell else {
+                guard let cell = cell as? SearchedFeedDribbbleShotCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
 
                 cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -496,11 +506,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Audio:
 
-                guard let cell = cell as? FeedVoiceCell else {
+                guard let cell = cell as? SearchedFeedVoiceCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
@@ -571,11 +581,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Location:
 
-                guard let cell = cell as? FeedLocationCell else {
+                guard let cell = cell as? SearchedFeedLocationCell else {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout)
 
                 cell.tapLocationAction = { locationName, locationCoordinate in
 
@@ -588,7 +598,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             default:
                 break
             }
-             */
         }
 
         switch section {

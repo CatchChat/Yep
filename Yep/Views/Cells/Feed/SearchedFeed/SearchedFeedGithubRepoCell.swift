@@ -57,4 +57,7 @@ class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
         // Configure the view for the selected state
     }
 
+    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
+
+    }
 }

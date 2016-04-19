@@ -142,7 +142,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    func configureWithFeed(feed: DiscoveredFeed, layoutCache: SearchedFeedCellLayout.Cache) {
+    func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
     }
 
