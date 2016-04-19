@@ -101,8 +101,37 @@ class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
+        super.configureWithFeed(feed, layout: layout)
+
+        if let attachments = feed.imageAttachments {
+
+            for i in 0..<imageViews.count {
+
+                if let attachment = attachments[safe: i] {
+
+                    if attachment.isTemporary {
+                        imageViews[i].image = attachment.image
+
+                    } else {
+                        imageViews[i].yep_showActivityIndicatorWhenLoading = true
+                        imageViews[i].yep_setImageOfAttachment(attachment, withSize: YepConfig.FeedNormalImagesCell.imageSize)
+                    }
+
+                    imageViews[i].hidden = false
+
+                } else {
+                    imageViews[i].hidden = true
+                }
+            }
+        }
+
+        let normalImagesLayout = layout.normalImagesLayout!
+        imageView1.frame = normalImagesLayout.imageView1Frame
+        imageView2.frame = normalImagesLayout.imageView2Frame
+        imageView3.frame = normalImagesLayout.imageView3Frame
+        imageView4.frame = normalImagesLayout.imageView4Frame
     }
-    
+
     // MARK: Actions
 
     @objc private func tap(sender: UITapGestureRecognizer) {
