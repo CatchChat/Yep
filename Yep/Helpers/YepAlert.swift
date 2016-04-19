@@ -59,7 +59,9 @@ class YepAlert {
             viewController?.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-
+    
+    static weak var confirmAlertAction: UIAlertAction?
+    
     class func textInput(title title: String, message: String?, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
         dispatch_async(dispatch_get_main_queue()) {
@@ -69,24 +71,40 @@ class YepAlert {
             alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
                 textField.placeholder = placeholder
                 textField.text = oldText
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
             }
-
+            
+            func removeTextFieldObservation() {
+                NSNotificationCenter.defaultCenter().removeObserver(self, name:UITextFieldTextDidChangeNotification, object: alertController.textFields?.first)
+            }
+            
             let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
                 cancelAction?()
+                removeTextFieldObservation()
             }
             alertController.addAction(_cancelAction)
-
+            
             let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
                 if let textField = alertController.textFields?.first, text = textField.text {
+                    
                     confirmAction?(text: text)
+                    removeTextFieldObservation()
                 }
             }
+            _confirmAction.enabled = false
+            self.confirmAlertAction = _confirmAction
+            
             alertController.addAction(_confirmAction)
 
             viewController?.presentViewController(alertController, animated: true, completion: nil)
         }
     }
 
+    @objc func handleTextFieldTextDidChangeNotification(sender: NSNotification) {
+       let textField = sender.object as? UITextField
+        YepAlert.confirmAlertAction?.enabled = textField?.text?.utf16.count >= 1
+    }
+    
     class func confirmOrCancel(title title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
 
         dispatch_async(dispatch_get_main_queue()) {

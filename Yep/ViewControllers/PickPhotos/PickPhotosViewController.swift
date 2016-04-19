@@ -217,7 +217,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
     override func scrollViewDidScroll(scrollView: UIScrollView) {
 
         let indexPaths = collectionView?.indexPathsForVisibleItems()
-//        imageCacheController?.updateVisibleCells(indexPaths as [NSIndexPath]!)
+        imageCacheController?.updateVisibleCells(indexPaths as [NSIndexPath]!)
     }
 
     

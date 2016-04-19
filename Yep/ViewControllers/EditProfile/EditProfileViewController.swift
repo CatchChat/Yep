@@ -394,7 +394,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 guard username.isEmpty else {
                     break
                 }
-
+                
                 YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
                     let newUsername = text
