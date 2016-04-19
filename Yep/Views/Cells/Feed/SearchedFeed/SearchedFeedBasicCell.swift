@@ -10,6 +10,11 @@ import UIKit
 
 class SearchedFeedBasicCell: UITableViewCell {
 
+    static let messageTextViewMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        return maxWidth
+    }()
+    
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -126,6 +131,10 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         messageTextView.text = nil
         messageTextView.attributedText = nil
+    }
+
+    func configureWithFeed(feed: DiscoveredFeed, layoutCache: SearchedFeedCellLayout.Cache) {
+
     }
 
     // MARK: Actions
