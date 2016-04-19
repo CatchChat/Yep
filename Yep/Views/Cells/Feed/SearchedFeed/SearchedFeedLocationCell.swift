@@ -44,6 +44,34 @@ class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
-    }
+        super.configureWithFeed(feed, layout: layout)
 
+        if let attachment = feed.attachment {
+            if case let .Location(locationInfo) = attachment {
+
+                if locationInfo.name.isEmpty {
+                    locationContainerView.titleLabel.text = NSLocalizedString("Unknown location", comment: "")
+
+                } else {
+                    locationContainerView.titleLabel.text = locationInfo.name
+                }
+            }
+        }
+
+        locationContainerView.tapAction = { [weak self] in
+            guard let attachment = feed.attachment else {
+                return
+            }
+
+            if case .Location = feed.kind {
+                if case let .Location(locationInfo) = attachment {
+                    self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+                }
+            }
+        }
+
+        let locationLayout = layout.locationLayout!
+        locationContainerView.frame = locationLayout.locationContainerViewFrame
+    }
 }
+
