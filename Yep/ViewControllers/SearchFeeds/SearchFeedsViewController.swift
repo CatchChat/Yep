@@ -723,9 +723,8 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         switch section {
 
         case .Feed:
-            //let feed = feeds[indexPath.row]
-            //return FeedsViewController.layoutPool.heightOfFeed(feed)
-            return 200
+            let feed = feeds[indexPath.row]
+            return SearchFeedsViewController.layoutPool.heightOfFeed(feed)
 
         case .LoadMore:
             return 60
