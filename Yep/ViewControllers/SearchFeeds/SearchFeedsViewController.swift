@@ -78,13 +78,19 @@ class SearchFeedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
         searchBarBottomLineView.alpha = 0
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+
+        feedsWithKeyword("hello", pageIndex: 0, perPage: 30, failureHandler: nil) { [weak self] feeds in
+            self?.feeds = feeds
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.feedsTableView.reloadData()
+            }
+        }
     }
 
     private var isFirstAppear = true

@@ -2959,7 +2959,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsWithKeyword(keyword: String, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+func feedsWithKeyword(keyword: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     guard !keyword.isEmpty else {
         completion([])
@@ -2968,6 +2968,8 @@ func feedsWithKeyword(keyword: String, failureHandler: FailureHandler?, completi
 
     let requestParameters: JSONDictionary = [
         "q": keyword,
+        "page": pageIndex,
+        "per_page": perPage,
     ]
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
