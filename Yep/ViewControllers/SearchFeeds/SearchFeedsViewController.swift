@@ -108,6 +108,95 @@ class SearchFeedsViewController: UIViewController {
     }
     private static var layoutPool = LayoutPool()
 
+    // MARK: Audio Play
+
+    private var audioPlayedDurations = [String: NSTimeInterval]()
+
+    private weak var feedAudioPlaybackTimer: NSTimer?
+
+    private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
+        let key = feedAudio.feedID
+
+        if !key.isEmpty {
+            if let playedDuration = audioPlayedDurations[key] {
+                return playedDuration
+            }
+        }
+
+        return 0
+    }
+
+    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofFeedAudio feedAudio: FeedAudio) {
+        let key = feedAudio.feedID
+        if !key.isEmpty {
+            audioPlayedDurations[key] = audioPlayedDuration
+        }
+
+        // recover audio cells' UI
+
+        if audioPlayedDuration == 0 {
+
+            let feedID = feedAudio.feedID
+
+            for index in 0..<feeds.count {
+                let feed = feeds[index]
+                if feed.id == feedID {
+
+                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                        cell.audioPlayedDuration = 0
+                    }
+                    
+                    break
+                }
+            }
+        }
+    }
+
+    private func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+
+        let feedID = feedAudio.feedID
+
+        for index in 0..<feeds.count {
+            let feed = feeds[index]
+            if feed.id == feedID {
+
+                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+
+                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                    cell.audioPlayedDuration = currentTime
+                }
+
+                break
+            }
+        }
+    }
+
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.audioPlayCurrentTime
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+
+        guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
+            return
+        }
+
+        let currentTime = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
+        setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
+        updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
+    }
+
+    // MARK: Life Circle
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         println("deinit SearchFeeds")
@@ -522,7 +611,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                         if let strongSelf = self {
 
-                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(SearchFeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
@@ -530,7 +619,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                                 strongSelf.feedAudioPlaybackTimer?.invalidate()
 
-                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                                 YepAudioService.sharedManager.playbackTimer = playbackTimer
 
                                 cell.audioPlaying = true
@@ -772,5 +861,40 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         if action == #selector(NSObject.copy(_:)) {
             UIPasteboard.generalPasteboard().string = cell.messageTextView.text
         }
+    }
+}
+
+// MARK: Audio Finish Playing
+
+extension SearchFeedsViewController {
+
+    private func feedAudioDidFinishPlaying() {
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio {
+            setAudioPlayedDuration(0, ofFeedAudio: playingFeedAudio)
+            println("setAudioPlayedDuration to 0")
+        }
+
+        YepAudioService.sharedManager.resetToDefault()
+    }
+
+    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+        feedAudioDidFinishPlaying()
+    }
+}
+
+// MARK: AVAudioPlayerDelegate
+
+extension SearchFeedsViewController: AVAudioPlayerDelegate {
+
+    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+
+        println("audioPlayerDidFinishPlaying \(flag)")
+        
+        feedAudioDidFinishPlaying()
     }
 }
