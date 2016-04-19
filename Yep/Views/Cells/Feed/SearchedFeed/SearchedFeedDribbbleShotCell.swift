@@ -9,6 +9,7 @@
 import UIKit
 import Ruler
 
+private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
 class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
@@ -68,5 +69,58 @@ class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
 
+        super.configureWithFeed(feed, layout: layout)
+
+        if let attachment = feed.attachment {
+            if case let .Dribbble(dribbbleShot) = attachment {
+                if let URL = NSURL(string: dribbbleShot.imageURLString) {
+                    mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
+                    mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                }
+
+                mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
+            }
+        }
+
+        mediaContainerView.tapMediaAction = { [weak self] mediaImageView in
+
+            guard let attachment = feed.attachment else {
+                return
+            }
+
+            if case .DribbbleShot = feed.kind {
+                if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                    self?.tapDribbbleShotMediaAction?(transitionView: mediaImageView, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
+                }
+            }
+        }
+
+        mediaContainerView.linkContainerView.tapAction = { [weak self] in
+
+            guard let attachment = feed.attachment else {
+                return
+            }
+
+            if case .DribbbleShot = feed.kind {
+                if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
+                    self?.tapDribbbleShotLinkAction?(URL)
+                }
+            }
+        }
+
+        if let _ = feed.skill {
+            logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+
+        } else {
+            logoImageView.frame.origin.x = screenWidth - 18 - 15
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
+        }
+        nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
+
+        mediaContainerView.layoutIfNeeded()
+
+        halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
+        mediaContainerView.mediaImageView.maskView = halfMaskImageView
     }
 }
