@@ -72,24 +72,19 @@ class YepAlert {
                 textField.placeholder = placeholder
                 textField.text = oldText
                 textField.addTarget(self, action: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), forControlEvents: .EditingChanged)
-//                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), name: UITextFieldTextDidChangeNotification, object: textField)
             }
-            
-//            func removeTextFieldObservation() {
-//                NSNotificationCenter.defaultCenter().removeObserver(self, name:UITextFieldTextDidChangeNotification, object: alertController.textFields?.first)
-//            }
+
             
             let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
                 cancelAction?()
-//                removeTextFieldObservation()
             }
+            
             alertController.addAction(_cancelAction)
             
             let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
                 if let textField = alertController.textFields?.first, text = textField.text {
                     
                     confirmAction?(text: text)
-//                    removeTextFieldObservation()
                 }
             }
             _confirmAction.enabled = false
@@ -101,8 +96,8 @@ class YepAlert {
         }
     }
 
-    @objc func handleTextFieldTextDidChangeNotification(sender: UITextField) {
-//       let textField = sender.object as? UITextField
+    @objc class func handleTextFieldTextDidChangeNotification(sender: UITextField) {
+
         YepAlert.confirmAlertAction?.enabled = sender.text?.utf16.count >= 1
     }
     
