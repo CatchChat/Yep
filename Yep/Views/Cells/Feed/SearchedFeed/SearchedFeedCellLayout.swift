@@ -125,7 +125,7 @@ struct SearchedFeedCellLayout {
 
         self.height = height
 
-        let avatarImageViewFrame = CGRect(x: 15, y: 10, width: 40, height: 40)
+        let avatarImageViewFrame = CGRect(x: 15, y: 10, width: 30, height: 30)
 
         let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
@@ -136,14 +136,14 @@ struct SearchedFeedCellLayout {
 
             let skillButtonWidth = ceil(rect.width) + 20
 
-            skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
+            skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 14, width: skillButtonWidth, height: 22)
 
             let nicknameLabelWidth = screenWidth - 65 - 15
-            nicknameLabelFrame = CGRect(x: 65, y: 21, width: nicknameLabelWidth, height: 18)
+            nicknameLabelFrame = CGRect(x: 65, y: 16, width: nicknameLabelWidth, height: 18)
 
         } else {
             let nicknameLabelWidth = screenWidth - 65 - 15
-            nicknameLabelFrame = CGRect(x: 65, y: 21, width: nicknameLabelWidth, height: 18)
+            nicknameLabelFrame = CGRect(x: 65, y: 16, width: nicknameLabelWidth, height: 18)
             skillButtonFrame = CGRectZero
         }
 

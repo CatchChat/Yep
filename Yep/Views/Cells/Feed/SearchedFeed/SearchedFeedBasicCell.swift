@@ -27,7 +27,7 @@ class SearchedFeedBasicCell: UITableViewCell {
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
-        imageView.frame = CGRect(x: 15, y: 10, width: 40, height: 40)
+        imageView.frame = CGRect(x: 15, y: 10, width: 30, height: 30)
 
         imageView.contentMode = .ScaleAspectFit
 
