@@ -70,6 +70,8 @@ class SearchFeedsViewController: UIViewController {
         }
     }
 
+    private var keyword: String?
+
     private struct LayoutPool {
 
         private var feedCellLayoutHash = [String: SearchedFeedCellLayout]()
@@ -213,14 +215,6 @@ class SearchFeedsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
-
-        feedsWithKeyword("hello", pageIndex: 0, perPage: 30, failureHandler: nil) { [weak self] feeds in
-            self?.feeds = feeds
-
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.feedsTableView.reloadData()
-            }
-        }
     }
 
     private var isFirstAppear = true
@@ -265,13 +259,13 @@ class SearchFeedsViewController: UIViewController {
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
-//        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-//            self?.resultsTableView.reloadData()
-//
-//            if scrollsToTop {
-//                self?.resultsTableView.yep_scrollsToTop()
-//            }
-//        }
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.feedsTableView.reloadData()
+
+            if scrollsToTop {
+                self?.feedsTableView.yep_scrollsToTop()
+            }
+        }
     }
 
     /*
@@ -325,14 +319,14 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     private func clearSearchResults() {
 
-//        filteredFriends = nil
-//        filteredUserMessages = nil
-//        filteredFeeds = nil
+        feeds = []
 
         updateResultsTableView(scrollsToTop: true)
     }
 
     private func updateSearchResultsWithText(searchText: String) {
+
+        let searchText = searchText.trimming(.Whitespace)
 
         guard !searchText.isEmpty else {
             clearSearchResults()
@@ -340,8 +334,18 @@ extension SearchFeedsViewController: UISearchBarDelegate {
             return
         }
 
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
+            return
+        }
 
-        //updateResultsTableView(scrollsToTop: scrollsToTop)
+        self.keyword = searchText
+
+        feedsWithKeyword(searchText, pageIndex: 1, perPage: 30, failureHandler: nil) { [weak self] feeds in
+            self?.feeds = feeds
+
+            self?.updateResultsTableView(scrollsToTop: true)
+        }
     }
 }
 
