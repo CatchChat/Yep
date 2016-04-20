@@ -310,11 +310,12 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
+        cancel(searchTask)
+
         if searchText.isEmpty {
             self.keyword = nil
+            return
         }
-
-        cancel(searchTask)
 
         searchTask = delay(0.5) { [weak self] in
             self?.updateSearchResultsWithText(searchText)
