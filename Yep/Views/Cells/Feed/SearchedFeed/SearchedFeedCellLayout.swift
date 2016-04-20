@@ -197,7 +197,7 @@ struct SearchedFeedCellLayout {
 
         case .GithubRepo:
 
-            let height: CGFloat = 20
+            let height: CGFloat = 80
             let githubRepoContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
 
             let githubRepoLayout = SearchedFeedCellLayout.GithubRepoLayout(githubRepoContainerViewFrame: githubRepoContainerViewFrame)
@@ -206,7 +206,7 @@ struct SearchedFeedCellLayout {
 
         case .DribbbleShot:
 
-            let height: CGFloat = 20
+            let height: CGFloat = SearchedFeedDribbbleShotCell.dribbbleShotHeight
             let dribbbleShotContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
 
             let dribbbleShotLayout = SearchedFeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: dribbbleShotContainerViewFrame)

@@ -78,7 +78,6 @@ class SearchedFeedBasicCell: UITableViewCell {
         textView.showsVerticalScrollIndicator = false
         textView.dataDetectorTypes = [.Link]
 
-//        textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
         textView.opaque = true
         textView.backgroundColor = UIColor.whiteColor()
 
