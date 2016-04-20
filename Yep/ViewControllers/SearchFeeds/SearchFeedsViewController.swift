@@ -260,7 +260,14 @@ class SearchFeedsViewController: UIViewController {
         case Init
         case LoadMore
     }
-    private func searchFeedsWithKeyword(keyword: String, mode: SearchFeedsMode) {
+    private func searchFeedsWithKeyword(keyword: String, mode: SearchFeedsMode, finish: (() -> Void)? = nil) {
+
+        if isFetchingFeeds {
+            finish?()
+            return
+        }
+
+        isFetchingFeeds = true
 
         switch mode {
         case .Init:
@@ -269,13 +276,29 @@ class SearchFeedsViewController: UIViewController {
             currentPageIndex += 1
         }
 
-        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: 30, failureHandler: nil) { [weak self] feeds in
+        let failureHandler: FailureHandler = { reason, errorMessage in
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.isFetchingFeeds = false
+
+                finish?()
+            }
+
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        }
+
+        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: 30, failureHandler: failureHandler) { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                 guard let strongSelf = self else {
                     return
                 }
+
+                self?.isFetchingFeeds = false
+
+                finish?()
 
                 let newFeeds = feeds
                 let oldFeeds = strongSelf.feeds
@@ -886,15 +909,19 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 break
             }
 
-            println("load more feeds")
+            println("search more feeds")
 
             if !cell.loadingActivityIndicator.isAnimating() {
                 cell.loadingActivityIndicator.startAnimating()
             }
 
-//            updateFeeds(mode: .LoadMore, finish: { [weak cell] in
-//                cell?.loadingActivityIndicator.stopAnimating()
-//            })
+            if let keyword = self.keyword {
+                searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: { [weak cell] in
+                    cell?.loadingActivityIndicator.stopAnimating()
+                })
+            } else {
+                cell.loadingActivityIndicator.stopAnimating()
+            }
         }
     }
 
