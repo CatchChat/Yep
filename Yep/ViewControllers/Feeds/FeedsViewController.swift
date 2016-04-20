@@ -379,6 +379,8 @@ class FeedsViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+
         if skill != nil {
             navigationItem.titleView = skillTitleView
             // Add to Me
@@ -1511,8 +1513,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                         if let strongSelf = self {
 
-                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playOnlineAudioWithFeedAudio success!")
@@ -1876,7 +1876,9 @@ extension FeedsViewController {
             println("setAudioPlayedDuration to 0")
         }
 
-        YepAudioService.sharedManager.resetToDefault()
+        delay(0.1) {
+            YepAudioService.sharedManager.resetToDefault()
+        }
     }
 
     @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {

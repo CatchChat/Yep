@@ -216,6 +216,8 @@ class SearchFeedsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
     }
 
     private var isFirstAppear = true
@@ -818,8 +820,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                         if let strongSelf = self {
 
-                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(SearchFeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
                                 println("playOnlineAudioWithFeedAudio success!")
@@ -1091,7 +1091,9 @@ extension SearchFeedsViewController {
             println("setAudioPlayedDuration to 0")
         }
 
-        YepAudioService.sharedManager.resetToDefault()
+        delay(0.1) {
+            YepAudioService.sharedManager.resetToDefault()
+        }
     }
 
     @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
