@@ -798,9 +798,7 @@ extension FeedView {
         audioPlayedDuration = 0
         audioPlaying = false
 
-        delay(0.1) {
-            YepAudioService.sharedManager.resetToDefault()
-        }
+        YepAudioService.sharedManager.resetToDefault()
     }
 
     @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {

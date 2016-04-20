@@ -1876,9 +1876,7 @@ extension FeedsViewController {
             println("setAudioPlayedDuration to 0")
         }
 
-        delay(0.1) {
-            YepAudioService.sharedManager.resetToDefault()
-        }
+        YepAudioService.sharedManager.resetToDefault()
     }
 
     @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
