@@ -173,11 +173,11 @@ class YepConfig {
         static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
 
         static let nicknameFont = UIFont.systemFontOfSize(14, weight: UIFontWeightMedium)
-        static let nicknameColor = UIColor.blackColor()
+        static let nicknameColor = UIColor.darkGrayColor()
         static let usernameFont = UIFont.systemFontOfSize(12)
         static let usernameColor = UIColor.lightGrayColor()
         static let messageFont = UIFont.systemFontOfSize(12)
-        static let messageColor = UIColor.blackColor()
+        static let messageColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
     }
 
     struct ConversationCell {
