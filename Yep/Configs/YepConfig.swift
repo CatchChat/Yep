@@ -171,6 +171,13 @@ class YepConfig {
 
     struct SearchedItemCell {
         static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+
+        static let nicknameFont = UIFont.systemFontOfSize(14, weight: UIFontWeightMedium)
+        static let nicknameColor = UIColor.blackColor()
+        static let usernameFont = UIFont.systemFontOfSize(12)
+        static let usernameColor = UIColor.lightGrayColor()
+        static let messageFont = UIFont.systemFontOfSize(12)
+        static let messageColor = UIColor.blackColor()
     }
 
     struct ConversationCell {
