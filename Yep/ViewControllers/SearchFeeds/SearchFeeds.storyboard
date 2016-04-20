@@ -63,6 +63,7 @@
                         <outlet property="searchBarBottomLineView" destination="kmH-ug-Qcg" id="AZV-5y-Ovd"/>
                         <outlet property="searchBarTopConstraint" destination="EcN-qI-yL7" id="lvV-g3-bxx"/>
                         <segue destination="y10-18-4Oi" kind="show" identifier="showConversation" id="VGK-3C-61T"/>
+                        <segue destination="kH9-u3-K7O" kind="show" identifier="showProfile" id="wPT-m6-33c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -76,6 +77,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERN-h5-duE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1021" y="472"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="ZoD-Op-pbA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="kH9-u3-K7O" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xyk-XX-5UX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978.5" y="364"/>
         </scene>
     </scenes>
 </document>

@@ -287,6 +287,26 @@ class SearchFeedsViewController: UIViewController {
         
         switch identifier {
 
+        case "showProfile":
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+
+                switch section {
+                case .Feed:
+                    let discoveredUser = feeds[indexPath.row].creator
+                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                case .LoadMore:
+                    break
+                }
+            }
+
+            vc.hidesBottomBarWhenPushed = true
+
+            vc.setBackButtonWithTitle()
+
+            hackNavigationDelegate()
+
         case "showConversation":
 
             let vc = segue.destinationViewController as! ConversationViewController
