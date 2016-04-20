@@ -119,6 +119,9 @@ class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         }
         nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
 
+        let dribbbleShotLayout = layout.dribbbleShotLayout!
+        mediaContainerView.frame = dribbbleShotLayout.dribbbleShotContainerViewFrame
+        socialWorkBorderImageView.frame = mediaContainerView.frame
         mediaContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
