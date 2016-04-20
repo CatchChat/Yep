@@ -26,12 +26,13 @@ class NewFeedPreviewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        previewCollectionView.backgroundColor = UIColor.blackColor()
         previewCollectionView.registerNib(UINib(nibName: previewCellID, bundle: nil), forCellWithReuseIdentifier: previewCellID)
         previewCollectionView.pagingEnabled = true
         previewCollectionView.showsHorizontalScrollIndicator = false
         self.automaticallyAdjustsScrollViewInsets = false
         
-        title = "\(startIndex + 1)/\(imagesLimit)"
+        title = "\(startIndex + 1)/\(previewImages.count)"
 
         let deleteButton: UIBarButtonItem = UIBarButtonItem(title: NSLocalizedString("Delete", comment: ""), style: .Plain, target: self, action: #selector(NewFeedPreviewViewController.deleteImage(_:)))
         navigationItem.rightBarButtonItem = deleteButton

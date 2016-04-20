@@ -23,9 +23,6 @@ private let defaultAlbumIdentifier = "com.Yep.photoPicker"
 
 class AlbumListController: UITableViewController {
 
-    let imageManager = PHCachingImageManager()
-    var imageCacheController: ImageCacheController!
-    
     var pickedImageSet = Set<PHAsset>()
     var pickedImages = [PHAsset]()
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?

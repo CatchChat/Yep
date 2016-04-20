@@ -885,7 +885,7 @@ class ProfileViewController: SegueViewController {
             )
             
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
             self.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }

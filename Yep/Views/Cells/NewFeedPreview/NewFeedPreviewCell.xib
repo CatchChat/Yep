@@ -12,33 +12,38 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="349" height="239"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8T3-bk-QSm">
-                        <rect key="frame" x="5" y="5" width="339" height="229"/>
-                    </imageView>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GAH-4M-abc">
+                        <rect key="frame" x="0.0" y="0.0" width="349" height="239"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8T3-bk-QSm">
+                                <rect key="frame" x="0.0" y="0.0" width="349" height="239"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="8T3-bk-QSm" firstAttribute="top" secondItem="GAH-4M-abc" secondAttribute="top" id="5Ny-wY-yem"/>
+                            <constraint firstItem="8T3-bk-QSm" firstAttribute="height" secondItem="GAH-4M-abc" secondAttribute="height" id="9I7-Ke-S6V"/>
+                            <constraint firstItem="8T3-bk-QSm" firstAttribute="width" secondItem="GAH-4M-abc" secondAttribute="width" id="Lrx-ze-95H"/>
+                            <constraint firstAttribute="trailing" secondItem="8T3-bk-QSm" secondAttribute="trailing" id="VVQ-1K-N9W"/>
+                            <constraint firstAttribute="bottom" secondItem="8T3-bk-QSm" secondAttribute="bottom" id="WdO-eu-prl"/>
+                            <constraint firstItem="8T3-bk-QSm" firstAttribute="leading" secondItem="GAH-4M-abc" secondAttribute="leading" id="f3n-v1-vEc"/>
+                        </constraints>
+                        <connections>
+                            <outlet property="delegate" destination="gTV-IL-0wX" id="8Fn-vU-RIF"/>
+                        </connections>
+                    </scrollView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="8T3-bk-QSm" secondAttribute="bottom" constant="5" id="4eq-CO-Nxa"/>
-                <constraint firstAttribute="trailing" secondItem="8T3-bk-QSm" secondAttribute="trailing" constant="5" id="66X-uG-QeU"/>
-                <constraint firstItem="8T3-bk-QSm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="CbF-Vx-ggm"/>
-                <constraint firstAttribute="trailing" secondItem="8T3-bk-QSm" secondAttribute="trailing" id="LSt-2u-jyO"/>
-                <constraint firstItem="8T3-bk-QSm" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="UOn-0f-49E"/>
-                <constraint firstItem="8T3-bk-QSm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="WcX-LW-bu8"/>
-                <constraint firstItem="8T3-bk-QSm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="XyX-pJ-wVf"/>
-                <constraint firstItem="8T3-bk-QSm" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="seZ-Pt-cTb"/>
+                <constraint firstItem="GAH-4M-abc" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="8Nl-xD-wgF"/>
+                <constraint firstAttribute="trailing" secondItem="GAH-4M-abc" secondAttribute="trailing" id="RDW-Rt-3gu"/>
+                <constraint firstItem="GAH-4M-abc" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Z4J-9p-q9x"/>
+                <constraint firstAttribute="bottom" secondItem="GAH-4M-abc" secondAttribute="bottom" id="rnk-U3-hge"/>
             </constraints>
             <size key="customSize" width="349" height="239"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="LSt-2u-jyO"/>
-                    <exclude reference="UOn-0f-49E"/>
-                    <exclude reference="XyX-pJ-wVf"/>
-                    <exclude reference="seZ-Pt-cTb"/>
-                </mask>
-            </variation>
             <connections>
                 <outlet property="image" destination="8T3-bk-QSm" id="OnS-bn-fCG"/>
+                <outlet property="scrollView" destination="GAH-4M-abc" id="dg3-hA-oYs"/>
             </connections>
             <point key="canvasLocation" x="868.5" y="517.5"/>
         </collectionViewCell>

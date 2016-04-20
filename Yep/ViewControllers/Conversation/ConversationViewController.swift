@@ -2574,7 +2574,8 @@ class ConversationViewController: BaseViewController {
         let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
 
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+        activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
+        
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
