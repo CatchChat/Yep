@@ -52,7 +52,7 @@ class SearchedDiscoveredUserCell: UITableViewCell {
             usernameLabel.hidden = false
 
             if let keyword = keyword {
-                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword,  baseFont: YepConfig.SearchedItemCell.nicknameFont, baseColor: YepConfig.SearchedItemCell.nicknameColor)
+                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword,  baseFont: YepConfig.SearchedItemCell.usernameFont, baseColor: YepConfig.SearchedItemCell.usernameColor)
 
             } else {
                 usernameLabel.text = mentionUsername
