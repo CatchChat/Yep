@@ -150,7 +150,7 @@ struct SearchedFeedCellLayout {
         let _rect1 = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let messageTextViewHeight = ceil(_rect1.height)
-        let messageTextViewFrame = CGRect(x: 50, y: 54, width: screenWidth - 50 - 10, height: messageTextViewHeight)
+        let messageTextViewFrame = CGRect(x: 50, y: 15 + 30 + 4, width: screenWidth - 50 - 10, height: messageTextViewHeight)
 
         let basicLayout = SearchedFeedCellLayout.BasicLayout(
             avatarImageViewFrame: avatarImageViewFrame,
