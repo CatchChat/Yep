@@ -99,9 +99,9 @@ class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
         imageView4.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
-        super.configureWithFeed(feed, layout: layout)
+        super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachments = feed.imageAttachments {
 

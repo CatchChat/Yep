@@ -141,17 +141,23 @@ class SearchedFeedBasicCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout) {
+    func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         self.feed = feed
-
 
         let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         nicknameLabel.text = feed.creator.nickname
 
-        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+        let text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+
+        if let keyword = keyword {
+            messageTextView.attributedText = text.yep_hightlightSearchKeyword(keyword)
+
+        } else {
+            messageTextView.text = text
+        }
 
         // layout
 

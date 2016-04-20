@@ -610,7 +610,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Text:
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
             case .URL:
 
@@ -618,7 +618,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.tapURLInfoAction = { [weak self] URL in
                     println("tapURLInfoAction URL: \(URL)")
@@ -662,7 +662,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.tapMediaAction = tapMediaAction
 
@@ -672,7 +672,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -684,7 +684,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -725,7 +725,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
@@ -800,7 +800,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
 
-                cell.configureWithFeed(feed, layout: layout)
+                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                 cell.tapLocationAction = { locationName, locationCoordinate in
 
