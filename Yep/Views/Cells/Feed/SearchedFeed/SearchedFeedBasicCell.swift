@@ -11,7 +11,7 @@ import UIKit
 class SearchedFeedBasicCell: UITableViewCell {
 
     static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        let maxWidth = UIScreen.mainScreen().bounds.width - (10 + 30 + 10 + 10)
         return maxWidth
     }()
 
@@ -27,7 +27,7 @@ class SearchedFeedBasicCell: UITableViewCell {
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
-        imageView.frame = CGRect(x: 15, y: 10, width: 30, height: 30)
+        imageView.frame = CGRect(x: 10, y: 15, width: 30, height: 30)
 
         imageView.contentMode = .ScaleAspectFit
 

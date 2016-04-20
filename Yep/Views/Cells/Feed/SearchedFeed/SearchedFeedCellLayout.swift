@@ -125,7 +125,7 @@ struct SearchedFeedCellLayout {
 
         self.height = height
 
-        let avatarImageViewFrame = CGRect(x: 15, y: 10, width: 30, height: 30)
+        let avatarImageViewFrame = CGRect(x: 10, y: 15, width: 30, height: 30)
 
         let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
@@ -136,21 +136,21 @@ struct SearchedFeedCellLayout {
 
             let skillButtonWidth = ceil(rect.width) + 20
 
-            skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 14, width: skillButtonWidth, height: 22)
+            skillButtonFrame = CGRect(x: screenWidth - skillButtonWidth - 10, y: 18, width: skillButtonWidth, height: 22)
 
-            let nicknameLabelWidth = screenWidth - 65 - 15
-            nicknameLabelFrame = CGRect(x: 65, y: 16, width: nicknameLabelWidth, height: 18)
+            let nicknameLabelWidth = screenWidth - 50 - 10
+            nicknameLabelFrame = CGRect(x: 50, y: 20, width: nicknameLabelWidth, height: 18)
 
         } else {
-            let nicknameLabelWidth = screenWidth - 65 - 15
-            nicknameLabelFrame = CGRect(x: 65, y: 16, width: nicknameLabelWidth, height: 18)
+            let nicknameLabelWidth = screenWidth - 50 - 10
+            nicknameLabelFrame = CGRect(x: 50, y: 20, width: nicknameLabelWidth, height: 18)
             skillButtonFrame = CGRectZero
         }
 
         let _rect1 = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let messageTextViewHeight = ceil(_rect1.height)
-        let messageTextViewFrame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: messageTextViewHeight)
+        let messageTextViewFrame = CGRect(x: 50, y: 54, width: screenWidth - 50 - 10, height: messageTextViewHeight)
 
         let basicLayout = SearchedFeedCellLayout.BasicLayout(
             avatarImageViewFrame: avatarImageViewFrame,
@@ -171,7 +171,7 @@ struct SearchedFeedCellLayout {
         case .URL:
 
             let height: CGFloat = 20
-            let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let URLContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
 
             let _URLLayout = SearchedFeedCellLayout.URLLayout(URLContainerViewFrame: URLContainerViewFrame)
 
@@ -179,16 +179,16 @@ struct SearchedFeedCellLayout {
 
         case .Image:
 
-            let x1 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
+            let x1 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
             let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
-            let x2 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 1
+            let x2 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 1
             let imageView2Frame = CGRect(origin: CGPoint(x: x2, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
-            let x3 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
+            let x3 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
             let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
-            let x4 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
+            let x4 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
             let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
             let normalImagesLayout = SearchedFeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
@@ -198,7 +198,7 @@ struct SearchedFeedCellLayout {
         case .GithubRepo:
 
             let height: CGFloat = 20
-            let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let githubRepoContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
 
             let githubRepoLayout = SearchedFeedCellLayout.GithubRepoLayout(githubRepoContainerViewFrame: githubRepoContainerViewFrame)
 
@@ -207,7 +207,7 @@ struct SearchedFeedCellLayout {
         case .DribbbleShot:
 
             let height: CGFloat = 20
-            let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let dribbbleShotContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
 
             let dribbbleShotLayout = SearchedFeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: dribbbleShotContainerViewFrame)
 
@@ -220,7 +220,7 @@ struct SearchedFeedCellLayout {
                     let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                     let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = beginY + 2
-                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 50)
+                    let voiceContainerViewFrame = CGRect(x: 50, y: y, width: width, height: 50)
                     
                     let audioLayout = SearchedFeedCellLayout.AudioLayout(voiceContainerViewFrame: voiceContainerViewFrame)
                     
@@ -231,7 +231,7 @@ struct SearchedFeedCellLayout {
         case .Location:
             
             let height: CGFloat = 20
-            let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
+            let locationContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
             
             let locationLayout = SearchedFeedCellLayout.LocationLayout(locationContainerViewFrame: locationContainerViewFrame)
             
