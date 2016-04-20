@@ -287,6 +287,15 @@
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
 		50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */; };
 		50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C090A31ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift */; };
+		50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */; };
+		50CB05781CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */; };
+		50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */; };
+		50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */; };
+		50CB057E1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */; };
+		50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */; };
+		50CB05841CC5E39A0024BE06 /* IconTitleContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */; };
+		50CB05861CC5E5F00024BE06 /* SearchedFeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05851CC5E5F00024BE06 /* SearchedFeedURLCell.swift */; };
+		50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05871CC60F400024BE06 /* SearchedFeedCellLayout.swift */; };
 		50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */; };
 		50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
@@ -708,6 +717,15 @@
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
 		50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddSkillsReusableView.xib; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.xib; sourceTree = "<group>"; };
 		50C090A31ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsViewController.swift; path = ViewControllers/Register/RegisterSelectSkillsViewController.swift; sourceTree = "<group>"; };
+		50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedBasicCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedBasicCell.swift; sourceTree = "<group>"; };
+		50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedNormalImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedNormalImagesCell.swift; sourceTree = "<group>"; };
+		50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedGithubRepoCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedGithubRepoCell.swift; sourceTree = "<group>"; };
+		50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedDribbbleShotCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedDribbbleShotCell.swift; sourceTree = "<group>"; };
+		50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedVoiceCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedVoiceCell.swift; sourceTree = "<group>"; };
+		50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedLocationCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedLocationCell.swift; sourceTree = "<group>"; };
+		50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IconTitleContainerView.swift; path = Views/ContainerViews/IconTitleContainerView.swift; sourceTree = "<group>"; };
+		50CB05851CC5E5F00024BE06 /* SearchedFeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedURLCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedURLCell.swift; sourceTree = "<group>"; };
+		50CB05871CC60F400024BE06 /* SearchedFeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedCellLayout.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedCellLayout.swift; sourceTree = "<group>"; };
 		50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
 		50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
@@ -2157,6 +2175,7 @@
 		50AFBF651BB4FC37007D19DA /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				50CB05741CC5D02A0024BE06 /* SearchedFeed */,
 				50E392BD1C228BF000C0CECB /* FeedCellLayout.swift */,
 				50858EBA1C22487900EDE492 /* FeedBasicCell.swift */,
 				50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */,
@@ -2236,6 +2255,21 @@
 				50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */,
 			);
 			name = AddSkills;
+			sourceTree = "<group>";
+		};
+		50CB05741CC5D02A0024BE06 /* SearchedFeed */ = {
+			isa = PBXGroup;
+			children = (
+				50CB05871CC60F400024BE06 /* SearchedFeedCellLayout.swift */,
+				50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */,
+				50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */,
+				50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */,
+				50CB057B1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift */,
+				50CB057D1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift */,
+				50CB057F1CC5E1200024BE06 /* SearchedFeedLocationCell.swift */,
+				50CB05851CC5E5F00024BE06 /* SearchedFeedURLCell.swift */,
+			);
+			name = SearchedFeed;
 			sourceTree = "<group>";
 		};
 		50CDBE441ACA9B4600459CE0 /* ChatRightImage */ = {
@@ -2500,6 +2534,7 @@
 				505082361C21377E00643CEB /* FeedVoiceContainerView.swift */,
 				50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */,
 				50F6D32D1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift */,
+				50CB05831CC5E39A0024BE06 /* IconTitleContainerView.swift */,
 			);
 			name = ContainerViews;
 			sourceTree = "<group>";
@@ -2948,6 +2983,7 @@
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
 				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
+				50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
@@ -2958,6 +2994,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
@@ -2980,6 +3017,7 @@
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
+				50CB05781CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift in Sources */,
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
 				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
@@ -2993,11 +3031,13 @@
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */,
 				92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */,
+				50CB05841CC5E39A0024BE06 /* IconTitleContainerView.swift in Sources */,
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
 				50E34C261CBB8A37007CAE80 /* SearchFeedsViewController.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
+				50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
 				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
 				50008D361CAE114300245296 /* ConversationsSearchTransition.swift in Sources */,
@@ -3030,6 +3070,7 @@
 				50098D471CB348FA009275FE /* SearchedUserCell.swift in Sources */,
 				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
+				50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */,
 				50098D4C1CB35EE1009275FE /* SearchedMessageCell.swift in Sources */,
 				508F8FD41B01E3D100461B0B /* SocialWorkDribbbleViewController.swift in Sources */,
 				503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */,
@@ -3050,6 +3091,7 @@
 				50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */,
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
+				50CB05861CC5E5F00024BE06 /* SearchedFeedURLCell.swift in Sources */,
 				50008D291CAA66E600245296 /* FeedSearch.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
@@ -3092,6 +3134,7 @@
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */,
+				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
 				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
@@ -3195,6 +3238,7 @@
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
 				507682F51C9FED1F006A973E /* ContactsSearchTransition.swift in Sources */,
+				50CB057E1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,

@@ -321,6 +321,8 @@ class FeedView: UIView {
 
         let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapSocialWork(_:)))
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
     }
 
     func toggleFold(sender: UITapGestureRecognizer) {
@@ -680,8 +682,6 @@ class FeedView: UIView {
                 println("playOnlineAudioWithFeedAudio success!")
 
                 if let strongSelf = self {
-
-                    NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                     strongSelf.audioPlaybackTimer?.invalidate()
                     strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
