@@ -167,7 +167,7 @@ class SearchFeedsViewController: UIViewController {
 
                 let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
 
-                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? SearchedFeedVoiceCell {
                     cell.audioPlayedDuration = currentTime
                 }
 
