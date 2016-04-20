@@ -62,7 +62,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 
-        button.addTarget(self, action: #selector(SearchedFeedBasicCell.tapSkill(_:)), forControlEvents: .TouchUpInside)
+        button.userInteractionEnabled = false
 
         return button
     }()
@@ -107,7 +107,6 @@ class SearchedFeedBasicCell: UITableViewCell {
     var feed: DiscoveredFeed?
     
     var tapAvatarAction: (UITableViewCell -> Void)?
-    var tapSkillAction: (UITableViewCell -> Void)?
 
     var touchesBeganAction: (UITableViewCell -> Void)?
     var touchesEndedAction: (UITableViewCell -> Void)?
@@ -178,10 +177,4 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         tapAvatarAction?(self)
     }
-
-    func tapSkill(sender: AnyObject) {
-
-        tapSkillAction?(self)
-    }
-
 }

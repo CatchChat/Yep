@@ -580,12 +580,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 }
             }
 
-            cell.tapSkillAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
-                }
-            }
-
             // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
             // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
             cell.touchesBeganAction = { [weak self] cell in
