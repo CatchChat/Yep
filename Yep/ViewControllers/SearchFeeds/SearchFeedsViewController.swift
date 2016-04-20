@@ -575,6 +575,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
                     println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
+                    self?.hideKeyboard()
                     self?.performSegueWithIdentifier("showProfile", sender: indexPath)
                 }
             }
@@ -871,6 +872,8 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+
+        hideKeyboard()
 
         guard let section = Section(rawValue: indexPath.section) else {
             return
