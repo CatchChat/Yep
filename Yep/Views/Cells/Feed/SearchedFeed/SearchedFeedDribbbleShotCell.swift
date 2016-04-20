@@ -16,7 +16,7 @@ class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let height = super.heightOfFeed(feed) + (dribbbleShotHeight + 15)
+        let height = super.heightOfFeed(feed) + (10 + dribbbleShotHeight)
 
         return ceil(height)
     }

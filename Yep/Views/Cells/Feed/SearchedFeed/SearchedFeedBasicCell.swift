@@ -19,7 +19,7 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
-        let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15
+        let height: CGFloat = 15 + 30 + 4 + ceil(rect.height) + 15
 
         return ceil(height)
     }
