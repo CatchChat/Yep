@@ -2973,7 +2973,7 @@ func feedsWithKeyword(keyword: String, pageIndex: Int, perPage: Int, failureHand
     ]
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-        println("feedsWithKeyword \(keyword): \(data)")
+        //println("feedsWithKeyword \(keyword): \(data)")
         return parseFeeds(data)
     }
 
