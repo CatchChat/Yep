@@ -17,6 +17,7 @@ class ConversationMoreViewManager {
     var reportAction: (() -> Void)?
     var toggleBlockAction: (() -> Void)?
     var shareFeedAction: (() -> Void)?
+    var shareFeedToContactAction: (() -> Void)?
     var updateGroupAffairAction: (() -> Void)?
 
     var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
@@ -105,6 +106,7 @@ class ConversationMoreViewManager {
                         return true
                     }
                 ),
+                self.makeShareToContactItem(),
                 self.updateGroupItem(group: group), // 2
                 reportItem,
                 cancelItem,
@@ -156,6 +158,8 @@ class ConversationMoreViewManager {
             }
         )
     }
+    
+    
 
     private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
@@ -168,6 +172,17 @@ class ConversationMoreViewManager {
         )
     }
 
+    private func makeShareToContactItem() -> ActionSheetView.Item {
+        return .Default(
+            title: NSLocalizedString("Share To Contact", comment: ""),
+            titleColor: UIColor.yepTintColor(),
+            action: { [weak self] in
+                self?.shareFeedToContactAction?()
+                return false
+            }
+        )
+    }
+    
     private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
         return .Default(
             title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),

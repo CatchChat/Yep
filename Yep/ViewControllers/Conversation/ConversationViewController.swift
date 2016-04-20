@@ -313,7 +313,8 @@ class ConversationViewController: BaseViewController {
 
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
-
+    var conversationToShare: Conversation?
+    
     private var recipient: Recipient?
 
     var afterSentMessageAction: (() -> Void)?
@@ -434,7 +435,16 @@ class ConversationViewController: BaseViewController {
         manager.toggleBlockAction = { [weak self] in
             self?.toggleBlock()
         }
+        
+        manager.shareFeedToContactAction = { [weak self] in
+                manager.moreView.hide()
 
+            if let conversation = self?.conversation.withGroup?.conversation {
+//            let vc = UIStoryboard(name: "Contacts", bundle: nil).instantiateViewControllerWithIdentifier("ContactsViewController") as? ContactsViewController
+            self?.performSegueWithIdentifier("showContacts", sender: Box(conversation))
+            }
+        }
+        
         manager.shareFeedAction = { [weak self] in
             guard let
                 description = self?.conversation.withGroup?.withFeed?.body,
@@ -3211,6 +3221,12 @@ class ConversationViewController: BaseViewController {
 
         switch identifier {
 
+        case "showContacts":
+            let vc = segue.destinationViewController as! ContactsViewController
+            vc.conversationToShare = self.conversationToShare
+            let box = sender as! Box<Conversation>
+            vc.conversationToShare = box.value
+            
         case "showProfileWithUsername":
 
             let vc = segue.destinationViewController as! ProfileViewController

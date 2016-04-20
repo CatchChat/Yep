@@ -17,6 +17,8 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
 
+    var conversationToShare: Conversation?
+    
     #if DEBUG
     private lazy var contactsFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -211,47 +213,74 @@ class ContactsViewController: BaseViewController {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
+        
         guard let identifier = segue.identifier else {
             return
         }
-
+        
         func hackNavigationDelegate() {
             // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
             originalNavigationControllerDelegate = navigationController?.delegate
-
+            
             navigationController?.delegate = contactsSearchTransition
         }
-
+        
         switch identifier {
-
+            
+        case "showConversation":
+            guard let realm = try? Realm() else {
+                return
+            }
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversationToShare = self.conversationToShare
+            if let user = sender as? User {
+                if user.userID != YepUserDefaults.userID.value {
+                    if user.friendState != UserFriendState.Me.rawValue {
+                        
+                        if user.conversation == nil {
+                            let newConversation = Conversation()
+                            
+                            newConversation.type = ConversationType.OneToOne.rawValue
+                            newConversation.withFriend = user
+                            
+                            let _ = try? realm.write {
+                                realm.add(newConversation)
+                            }
+                        }
+                        vc.conversation = user.conversation
+                        print(vc.conversationToShare,"___Toshare")
+                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    }
+                }
+            }
+            
         case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
-
+            
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
                     vc.profileUser = .UserType(user)
                 }
-
+                
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
                 vc.profileUser = .DiscoveredUserType(discoveredUser)
             }
-
+            
             vc.hidesBottomBarWhenPushed = true
             
             vc.setBackButtonWithTitle()
-
+            
             recoverNavigationDelegate()
-
+            
         case "showSearchContacts":
-
+            
             let vc = segue.destinationViewController as! SearchContactsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
-
+            
             vc.hidesBottomBarWhenPushed = true
-
+            
             hackNavigationDelegate()
-
+            
         default:
             break
         }
@@ -347,14 +376,27 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             } else {
                 cell.configureWithUser(friend)
             }
-
+            cell.showProfileAction = { [weak self] in
+                if let friend = self?.friendAtIndexPath(indexPath) {
+                    self?.searchController?.active = false
+                    self?.performSegueWithIdentifier("showProfile", sender: friend)
+                }
+            }
+            
         case .Online:
             
             let discoveredUser = searchedUsers[indexPath.row]
             cell.configureForSearchWithDiscoveredUser(discoveredUser)
+            cell.showProfileAction = { [weak self] in
+                if let discoveredUser = self?.searchedUsers[indexPath.row] {
+                    self?.searchController?.active = false
+                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                }
+            }
         }
+        
     }
-
+    
     func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
         guard let cell = cell as? ContactsCell else {
@@ -373,22 +415,24 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
-
-        switch section {
-
-        case .Local:
-
-            if let friend = friendAtIndexPath(indexPath) {
-                searchController?.active = false
-                performSegueWithIdentifier("showProfile", sender: friend)
-            }
-
-        case .Online:
-
-            let discoveredUser = searchedUsers[indexPath.row]
-            searchController?.active = false
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        if let friend = friendAtIndexPath(indexPath) {
+            performSegueWithIdentifier("showConversation", sender: friend)
         }
+//        switch section {
+//
+//        case .Local:
+//
+//            if let friend = friendAtIndexPath(indexPath) {
+//                searchController?.active = false
+//                performSegueWithIdentifier("showProfile", sender: friend)
+//            }
+//
+//        case .Online:
+//
+//            let discoveredUser = searchedUsers[indexPath.row]
+//            searchController?.active = false
+//            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+//        }
    }
 }
 

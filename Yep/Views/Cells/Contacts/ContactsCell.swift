@@ -16,6 +16,8 @@ class ContactsCell: UITableViewCell {
     @IBOutlet weak var joinedDateLabel: UILabel!
     @IBOutlet weak var lastTimeSeenLabel: UILabel!
 
+    var showProfileAction: (() -> Void)?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -37,7 +39,11 @@ class ContactsCell: UITableViewCell {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
-
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ContactsCell.tapAvatar))
+        avatarImageView.addGestureRecognizer(tap)
+        avatarImageView.userInteractionEnabled = true
+            
         nameLabel.text = user.nickname
 
         if let badge = BadgeView.Badge(rawValue: user.badge) {
@@ -49,6 +55,10 @@ class ContactsCell: UITableViewCell {
 
         joinedDateLabel.text = user.introduction
         lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+    }
+    
+    @objc private func tapAvatar() {
+        showProfileAction?()
     }
 
     func configureForSearchWithUser(user: User) {

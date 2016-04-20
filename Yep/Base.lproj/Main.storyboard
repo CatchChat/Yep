@@ -126,6 +126,7 @@
                         <segue destination="AZ0-Fw-rwa" kind="show" identifier="showAddFriends" id="sGo-49-lo9"/>
                         <segue destination="ud8-be-cUH" kind="show" identifier="showProfile" id="26L-0k-ELo"/>
                         <segue destination="UVq-MX-Pso" kind="show" identifier="showSearchContacts" id="cFN-sJ-mbQ"/>
+                        <segue destination="sMY-yq-ctJ" kind="show" identifier="showConversation" id="jcS-l3-8ES"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -295,6 +296,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xfl-kr-yeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-15.5" y="-436"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="YLm-rK-WGS">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="sMY-yq-ctJ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hWf-Hh-dqR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-22.5" y="-356"/>
         </scene>
         <!--AddFriendsViewController-->
         <scene sceneID="xpw-2j-6I8">
