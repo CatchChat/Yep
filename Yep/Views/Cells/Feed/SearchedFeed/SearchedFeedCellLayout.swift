@@ -179,17 +179,17 @@ struct SearchedFeedCellLayout {
 
         case .Image:
 
-            let x1 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
-            let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+            let x1 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 0
+            let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x2 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 1
-            let imageView2Frame = CGRect(origin: CGPoint(x: x2, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+            let x2 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 1
+            let imageView2Frame = CGRect(origin: CGPoint(x: x2, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x3 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
-            let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+            let x3 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 2
+            let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x4 = 50 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
-            let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+            let x4 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 3
+            let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
             let normalImagesLayout = SearchedFeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
 
