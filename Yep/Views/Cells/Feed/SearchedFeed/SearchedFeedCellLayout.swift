@@ -161,7 +161,7 @@ struct SearchedFeedCellLayout {
 
         self.basicLayout = basicLayout
 
-        let beginY = messageTextViewFrame.origin.y + messageTextViewFrame.height + 15
+        let beginY = messageTextViewFrame.origin.y + messageTextViewFrame.height + 10
 
         switch feed.kind {
 
