@@ -207,6 +207,9 @@ class SearchFeedsViewController: UIViewController {
 
         searchBarBottomLineView.alpha = 0
 
+        feedsTableView.layoutMargins = UIEdgeInsetsZero
+        feedsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
