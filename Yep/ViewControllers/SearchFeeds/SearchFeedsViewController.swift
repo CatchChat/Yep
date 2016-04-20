@@ -254,6 +254,68 @@ class SearchFeedsViewController: UIViewController {
 
     // MARK: - Private
 
+    private var currentPageIndex = 1
+    private var isFetchingFeeds = false
+    enum SearchFeedsMode {
+        case Init
+        case LoadMore
+    }
+    private func searchFeedsWithKeyword(keyword: String, mode: SearchFeedsMode) {
+
+        switch mode {
+        case .Init:
+            currentPageIndex = 1
+        case .LoadMore:
+            currentPageIndex += 1
+        }
+
+        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: 30, failureHandler: nil) { [weak self] feeds in
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                let newFeeds = feeds
+                let oldFeeds = strongSelf.feeds
+
+                var wayToUpdate: UITableView.WayToUpdate = .None
+
+                if strongSelf.feeds.isEmpty {
+                    wayToUpdate = .ReloadData
+                }
+
+                switch mode {
+
+                case .Init:
+                    strongSelf.feeds = newFeeds
+
+                case .LoadMore:
+                    let oldFeedsCount = oldFeeds.count
+
+                    let oldFeedIDSet = Set<String>(strongSelf.feeds.map({ $0.id }))
+                    var realNewFeeds = [DiscoveredFeed]()
+                    for feed in newFeeds {
+                        if !oldFeedIDSet.contains(feed.id) {
+                            realNewFeeds.append(feed)
+                        }
+                    }
+                    strongSelf.feeds += realNewFeeds
+
+                    let newFeedsCount = strongSelf.feeds.count
+
+                    let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+                    if !indexPaths.isEmpty {
+                        wayToUpdate = .Insert(indexPaths)
+                    }
+                }
+
+                wayToUpdate.performWithTableView(strongSelf.feedsTableView)
+            }
+        }
+    }
+
     private func hideKeyboard() {
 
         searchBar.resignFirstResponder()
@@ -465,11 +527,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
         self.keyword = searchText
 
-        feedsWithKeyword(searchText, pageIndex: 1, perPage: 30, failureHandler: nil) { [weak self] feeds in
-            self?.feeds = feeds
-
-            self?.updateResultsTableView(scrollsToTop: true)
-        }
+        searchFeedsWithKeyword(searchText, mode: .Init)
     }
 }
 
