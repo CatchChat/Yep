@@ -71,6 +71,7 @@ class SearchFeedsViewController: UIViewController {
     }
 
     private var keyword: String?
+    private var searchTask: CancelableTask?
 
     private struct LayoutPool {
 
@@ -309,7 +310,15 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        updateSearchResultsWithText(searchText)
+        if searchText.isEmpty {
+            self.keyword = nil
+        }
+
+        cancel(searchTask)
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
