@@ -25,7 +25,7 @@ class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
         let imageView = UIImageView()
         imageView.image = UIImage(named: SocialAccount.Github.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
-        imageView.tintColor = SocialAccount.Github.tintColor
+        imageView.tintColor = YepConfig.SearchedItemCell.logoTintColor
         return imageView
     }()
 

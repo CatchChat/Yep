@@ -29,7 +29,7 @@ class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         let imageView = UIImageView()
         imageView.image = UIImage(named: SocialAccount.Dribbble.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
-        imageView.tintColor = SocialAccount.Dribbble.tintColor
+        imageView.tintColor = YepConfig.SearchedItemCell.logoTintColor
         return imageView
     }()
 

@@ -178,6 +178,7 @@ class YepConfig {
         static let usernameColor = UIColor.lightGrayColor()
         static let messageFont = UIFont.systemFontOfSize(12)
         static let messageColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+        static let logoTintColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
     }
 
     struct ConversationCell {
