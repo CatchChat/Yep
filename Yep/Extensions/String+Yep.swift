@@ -202,12 +202,12 @@ extension String {
 
 extension String {
 
-    func yep_hightlightSearchKeyword(keyword: String) -> NSAttributedString? {
+    func yep_hightlightSearchKeyword(keyword: String, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
-        return yep_highlightKeyword(keyword, withColor: UIColor.yepTintColor())
+        return yep_highlightKeyword(keyword, withColor: UIColor.yepTintColor(), baseFont: baseFont, baseColor: baseColor)
     }
 
-    func yep_highlightKeyword(keyword: String, withColor color: UIColor) -> NSAttributedString? {
+    func yep_highlightKeyword(keyword: String, withColor color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         guard !keyword.isEmpty else {
             return nil
@@ -216,6 +216,9 @@ extension String {
         let text = self
         let attributedString = NSMutableAttributedString(string: text)
         let textRange = NSMakeRange(0, (text as NSString).length)
+
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: textRange)
+        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: textRange)
 
         // highlight keyword
 

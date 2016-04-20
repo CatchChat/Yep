@@ -330,7 +330,11 @@ class YepAudioService: NSObject {
 
         tryNotifyOthersOnDeactivation()
 
-        playingItem = nil
+        // hack, wait for all observers of AVPlayerItemDidPlayToEndTimeNotification
+        // to handle feedAudioDidFinishPlaying (check playingFeedAudio need playingItem)
+        delay(0) { [weak self] in
+            self?.playingItem = nil
+        }
     }
 
     // MARK: Proximity

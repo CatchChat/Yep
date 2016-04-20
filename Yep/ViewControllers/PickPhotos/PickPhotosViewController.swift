@@ -212,6 +212,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         }
     }
 
+    /*
     // MARK: - ScrollViewDelegate
 
     override func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -219,7 +220,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         let indexPaths = collectionView?.indexPathsForVisibleItems()
         imageCacheController?.updateVisibleCells(indexPaths as [NSIndexPath]!)
     }
-
+    */
     
     // MARK: - PHPhotoLibraryChangeObserver
 

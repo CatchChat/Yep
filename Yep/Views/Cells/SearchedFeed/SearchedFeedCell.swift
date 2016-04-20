@@ -37,7 +37,7 @@ class SearchedFeedCell: UITableViewCell {
     func configureWithFeed(feed: Feed, keyword: String?) {
 
         if let keyword = keyword {
-            nameLabel.attributedText = feed.body.yep_hightlightSearchKeyword(keyword)
+            nameLabel.attributedText = feed.body.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.nicknameFont, baseColor: YepConfig.SearchedItemCell.nicknameColor)
 
         } else {
             nameLabel.text = feed.body

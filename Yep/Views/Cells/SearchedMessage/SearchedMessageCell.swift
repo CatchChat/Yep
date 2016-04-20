@@ -48,7 +48,7 @@ class SearchedMessageCell: UITableViewCell {
         nicknameLabel.text = user.nickname
 
         if let keyword = keyword {
-            messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword)
+            messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.messageFont, baseColor: YepConfig.SearchedItemCell.messageColor)
 
         } else {
             messageLabel.text = message.textContent
@@ -81,7 +81,7 @@ class SearchedMessageCell: UITableViewCell {
                 messageLabel.textColor = UIColor.blackColor()
 
                 if let keyword = keyword {
-                    messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword)
+                    messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.messageFont, baseColor: YepConfig.SearchedItemCell.messageColor)
 
                 } else {
                     messageLabel.text = message.textContent

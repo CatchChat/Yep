@@ -83,8 +83,8 @@ class FeedsViewController: BaseViewController {
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
-            //searchBar.sizeToFit()
-            //feedsTableView.tableHeaderView = searchBar
+            searchBar.sizeToFit()
+            feedsTableView.tableHeaderView = searchBar
 
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()
@@ -378,6 +378,8 @@ class FeedsViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
@@ -1510,8 +1512,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let play: () -> Void = { [weak self] in
 
                         if let strongSelf = self {
-
-                            NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
                             let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
                             YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {

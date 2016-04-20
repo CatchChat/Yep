@@ -42,7 +42,7 @@ class SearchedUserCell: UITableViewCell {
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         if let keyword = keyword {
-            nicknameLabel.attributedText = user.nickname.yep_hightlightSearchKeyword(keyword)
+            nicknameLabel.attributedText = user.nickname.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.nicknameFont, baseColor: YepConfig.SearchedItemCell.nicknameColor)
 
         } else {
             nicknameLabel.text = user.nickname
@@ -52,7 +52,7 @@ class SearchedUserCell: UITableViewCell {
             usernameLabel.hidden = false
 
             if let keyword = keyword {
-                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword)
+                usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.usernameFont, baseColor: YepConfig.SearchedItemCell.usernameColor)
 
             } else {
                 usernameLabel.text = mentionUsername

@@ -17,10 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="DZu-qf-uDw">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </tableView>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AQU-dM-Gus">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -28,6 +24,14 @@
                                     <outlet property="delegate" destination="Z31-Zx-AsW" id="gQ6-zr-QZf"/>
                                 </connections>
                             </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DZu-qf-uDw">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Z31-Zx-AsW" id="8D2-oX-lrz"/>
+                                    <outlet property="delegate" destination="Z31-Zx-AsW" id="qEq-E3-ag0"/>
+                                </connections>
+                            </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmH-ug-Qcg" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="108" width="600" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -54,14 +58,33 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="feedsTableView" destination="DZu-qf-uDw" id="kFz-xM-kRU"/>
                         <outlet property="searchBar" destination="AQU-dM-Gus" id="Pu4-V8-yek"/>
                         <outlet property="searchBarBottomLineView" destination="kmH-ug-Qcg" id="AZV-5y-Ovd"/>
                         <outlet property="searchBarTopConstraint" destination="EcN-qI-yL7" id="lvV-g3-bxx"/>
+                        <segue destination="y10-18-4Oi" kind="show" identifier="showConversation" id="VGK-3C-61T"/>
+                        <segue destination="kH9-u3-K7O" kind="show" identifier="showProfile" id="wPT-m6-33c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="463" y="472"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="QED-8h-2fT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="y10-18-4Oi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ERN-h5-duE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="472"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="ZoD-Op-pbA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="kH9-u3-K7O" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xyk-XX-5UX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978.5" y="364"/>
         </scene>
     </scenes>
 </document>
