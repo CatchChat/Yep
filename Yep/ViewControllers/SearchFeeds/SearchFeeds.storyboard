@@ -62,11 +62,20 @@
                         <outlet property="searchBar" destination="AQU-dM-Gus" id="Pu4-V8-yek"/>
                         <outlet property="searchBarBottomLineView" destination="kmH-ug-Qcg" id="AZV-5y-Ovd"/>
                         <outlet property="searchBarTopConstraint" destination="EcN-qI-yL7" id="lvV-g3-bxx"/>
+                        <segue destination="y10-18-4Oi" kind="show" identifier="showConversation" id="VGK-3C-61T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="463" y="472"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="QED-8h-2fT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="y10-18-4Oi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ERN-h5-duE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="472"/>
         </scene>
     </scenes>
 </document>

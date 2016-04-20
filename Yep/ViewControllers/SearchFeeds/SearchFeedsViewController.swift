@@ -269,16 +269,110 @@ class SearchFeedsViewController: UIViewController {
         }
     }
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        func hackNavigationDelegate() {
+            // 记录原始的 feedsSearchTransition 以便 pop 后恢复
+            feedsSearchTransition = navigationController?.delegate as? FeedsSearchTransition
+
+            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+        
+        switch identifier {
+
+        case "showConversation":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            guard let
+                indexPath = sender as? NSIndexPath,
+                feed = feeds[safe: indexPath.row],
+                realm = try? Realm() else {
+                    return
+            }
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+            vc.afterDeletedFeedAction = { feedID in
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if let strongSelf = self {
+                        var deletedFeed: DiscoveredFeed?
+                        for feed in strongSelf.feeds {
+                            if feed.id == feedID {
+                                deletedFeed = feed
+                                break
+                            }
+                        }
+
+                        if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                            strongSelf.feeds.removeAtIndex(index)
+
+                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                            strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+
+                            return
+                        }
+                    }
+
+                    // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
+                    delay(1) {
+                        //self?.updateFeeds()
+                    }
+
+                    println("afterDeletedFeedAction")
+                }
+            }
+
+            vc.conversationDirtyAction = { [weak self] groupID in
+
+                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
+
+                    if let feedInfo = groupInfo["topic"] as? JSONDictionary {
+
+                        guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                            return
+                        }
+
+                        if let index = strongSelf.feeds.indexOf(feed) {
+                            if strongSelf.feeds[index].messagesCount != feed.messagesCount {
+                                strongSelf.feeds[index].messagesCount = feed.messagesCount
+
+                                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                                let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
+                                }
+                            }
+                        }
+                    }
+                })
+
+                println("conversationDirtyAction")
+            }
+
+            vc.syncPlayFeedAudioAction = { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+            }
+
+            hackNavigationDelegate()
+            
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
