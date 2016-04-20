@@ -53,8 +53,9 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "skill_bubble_empty"), forState: .Normal)
-        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        let tintColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+        button.setBackgroundImage(UIImage(named: "skill_bubble_empty_gray"), forState: .Normal)
+        button.setTitleColor(tintColor, forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
 
         let cellWidth = self.bounds.width
