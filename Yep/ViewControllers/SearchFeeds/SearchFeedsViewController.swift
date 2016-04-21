@@ -280,6 +280,7 @@ class SearchFeedsViewController: UIViewController {
 
     // MARK: - Private
 
+    private var canLoadMore: Bool = false
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
     enum SearchFeedsMode {
@@ -297,6 +298,7 @@ class SearchFeedsViewController: UIViewController {
 
         switch mode {
         case .Init:
+            canLoadMore = true
             currentPageIndex = 1
         case .LoadMore:
             currentPageIndex += 1
@@ -314,7 +316,9 @@ class SearchFeedsViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: 30, failureHandler: failureHandler) { [weak self] feeds in
+        let perPage: Int = 30
+
+        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -329,7 +333,7 @@ class SearchFeedsViewController: UIViewController {
                 let newFeeds = feeds
                 let oldFeeds = strongSelf.feeds
 
-                println("search newFeeds.count: \(newFeeds.count)")
+                self?.canLoadMore = newFeeds.count == perPage
 
                 var wayToUpdate: UITableView.WayToUpdate = .None
 
@@ -951,6 +955,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         case .LoadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
+                break
+            }
+
+            guard canLoadMore else {
+                cell.isLoading = false
                 break
             }
 
