@@ -27,7 +27,7 @@ class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
         let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         collectionView.scrollsToTop = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
