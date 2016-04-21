@@ -91,7 +91,16 @@ class SearchConversationsViewController: SegueViewController {
         return filteredFeeds?.count ?? 0
     }
 
-    private var keyword: String?
+    private var keyword: String? {
+        didSet {
+            if keyword == nil {
+                clearSearchResults()
+            }
+            if let keyword = keyword where keyword.isEmpty {
+                clearSearchResults()
+            }
+        }
+    }
 
     private let keyboardMan = KeyboardMan()
 
@@ -337,9 +346,9 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         let searchText = searchText.trimming(.Whitespace)
 
-        guard !searchText.isEmpty else {
-            clearSearchResults()
+        self.keyword = searchText
 
+        guard !searchText.isEmpty else {
             return
         }
 
@@ -347,8 +356,6 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         if let keyword = self.keyword where keyword == searchText {
             return
         }
-
-        self.keyword = searchText
 
         isMoreFriendsFold = true
         isMoreUserMessagesFold = true

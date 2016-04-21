@@ -74,7 +74,16 @@ class SearchFeedsViewController: UIViewController {
         }
     }
 
-    private var keyword: String?
+    private var keyword: String? {
+        didSet {
+            if keyword == nil {
+                clearSearchResults()
+            }
+            if let keyword = keyword where keyword.isEmpty {
+                clearSearchResults()
+            }
+        }
+    }
     private var searchTask: CancelableTask?
 
     private struct LayoutPool {
@@ -543,9 +552,9 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
         let searchText = searchText.trimming(.Whitespace)
 
-        guard !searchText.isEmpty else {
-            clearSearchResults()
+        self.keyword = searchText
 
+        guard !searchText.isEmpty else {
             return
         }
 
@@ -553,8 +562,6 @@ extension SearchFeedsViewController: UISearchBarDelegate {
         if let keyword = self.keyword where keyword == searchText {
             return
         }
-
-        self.keyword = searchText
 
         searchFeedsWithKeyword(searchText, mode: .Init)
     }
