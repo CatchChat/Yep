@@ -12,9 +12,9 @@ import AVFoundation
 import MapKit
 import Ruler
 
-let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
-
 class FeedsViewController: BaseViewController {
+
+    static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
 
     var skill: Skill?
     var needShowSkill: Bool {
@@ -1184,7 +1184,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
                     return cell
 
-                } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+                } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
                     return cell
 
@@ -1357,7 +1357,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.tapMediaAction = tapMediaAction
 
-                } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+                } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
                     guard let cell = cell as? FeedNormalImagesCell else {
                         break

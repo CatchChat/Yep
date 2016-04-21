@@ -14,6 +14,8 @@ import Ruler
 
 class SearchFeedsViewController: UIViewController {
 
+    static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
+
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var feedsSearchTransition: FeedsSearchTransition?
 
@@ -34,6 +36,7 @@ class SearchFeedsViewController: UIViewController {
 
     private let searchedFeedBasicCellID = "SearchedFeedBasicCell"
     private let searchedFeedNormalImagesCellID = "SearchedFeedNormalImagesCell"
+    private let searchedFeedAnyImagesCellID = "SearchedFeedAnyImagesCell"
     private let searchedFeedGithubRepoCellID = "SearchedFeedGithubRepoCell"
     private let searchedFeedDribbbleShotCellID = "SearchedFeedDribbbleShotCell"
     private let searchedFeedVoiceCellID = "SearchedFeedVoiceCell"
@@ -58,6 +61,7 @@ class SearchFeedsViewController: UIViewController {
 
             feedsTableView.registerClass(SearchedFeedBasicCell.self, forCellReuseIdentifier: searchedFeedBasicCellID)
             feedsTableView.registerClass(SearchedFeedNormalImagesCell.self, forCellReuseIdentifier: searchedFeedNormalImagesCellID)
+            feedsTableView.registerClass(SearchedFeedAnyImagesCell.self, forCellReuseIdentifier: searchedFeedAnyImagesCellID)
             feedsTableView.registerClass(SearchedFeedGithubRepoCell.self, forCellReuseIdentifier: searchedFeedGithubRepoCellID)
             feedsTableView.registerClass(SearchedFeedDribbbleShotCell.self, forCellReuseIdentifier: searchedFeedDribbbleShotCellID)
             feedsTableView.registerClass(SearchedFeedVoiceCell.self, forCellReuseIdentifier: searchedFeedVoiceCellID)
@@ -603,9 +607,14 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case .Image:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedNormalImagesCellID) as! SearchedFeedNormalImagesCell
-                return cell
+                if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedNormalImagesCellID) as! SearchedFeedNormalImagesCell
+                    return cell
 
+                } else {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedAnyImagesCellID) as! SearchedFeedAnyImagesCell
+                    return cell
+                }
 
             case .GithubRepo:
                 let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedGithubRepoCellID) as! SearchedFeedGithubRepoCell
@@ -741,13 +750,25 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
 
-                guard let cell = cell as? SearchedFeedNormalImagesCell else {
-                    break
+                if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+
+                    guard let cell = cell as? SearchedFeedNormalImagesCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, layout: layout, keyword: keyword)
+
+                    cell.tapMediaAction = tapMediaAction
+
+                } else {
+                    guard let cell = cell as? SearchedFeedAnyImagesCell else {
+                        break
+                    }
+
+                    // TODO
+
+                    cell.tapMediaAction = tapMediaAction
                 }
-
-                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
-
-                cell.tapMediaAction = tapMediaAction
 
             case .GithubRepo:
 

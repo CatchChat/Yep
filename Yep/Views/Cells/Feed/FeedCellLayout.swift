@@ -141,7 +141,7 @@ struct FeedCellLayout {
             if feed.imageAttachmentsCount == 1 {
                 height = FeedBiggerImageCell.heightOfFeed(feed)
 
-            } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+            } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
                 height = FeedNormalImagesCell.heightOfFeed(feed)
 
             } else {
@@ -244,7 +244,7 @@ struct FeedCellLayout {
 
                 self.biggerImageLayout = biggerImageLayout
 
-            } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+            } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
                 let x1 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
                 let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
