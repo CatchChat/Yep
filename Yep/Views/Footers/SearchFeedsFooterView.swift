@@ -16,7 +16,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(17)
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
-        label.text = NSLocalizedString("Try Search", comment: "")
+        label.text = NSLocalizedString("Try any keywords", comment: "")
         return label
     }()
 
@@ -26,7 +26,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = UIColor.yepTintColor()
         label.textAlignment = .Center
-        label.text = NSLocalizedString("iOS", comment: "")
+        label.text = NSLocalizedString("iOS, Music ...", comment: "")
         return label
     }()
 
@@ -36,7 +36,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = UIColor.yepTintColor()
         label.textAlignment = .Center
-        label.text = NSLocalizedString("App", comment: "")
+        label.text = NSLocalizedString("Book, Food ...", comment: "")
         return label
     }()
 
