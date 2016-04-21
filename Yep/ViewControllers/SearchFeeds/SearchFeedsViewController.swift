@@ -958,14 +958,17 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             if !cell.loadingActivityIndicator.isAnimating() {
                 cell.loadingActivityIndicator.startAnimating()
+                cell.noMoreResultsLabel.hidden = true
             }
 
             if let keyword = self.keyword {
                 searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
+                    cell?.noMoreResultsLabel.hidden = false
                 })
             } else {
                 cell.loadingActivityIndicator.stopAnimating()
+                cell.noMoreResultsLabel.hidden = false
             }
         }
     }
