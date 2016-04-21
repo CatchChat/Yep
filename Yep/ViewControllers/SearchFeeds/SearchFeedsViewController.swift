@@ -329,6 +329,8 @@ class SearchFeedsViewController: UIViewController {
                 let newFeeds = feeds
                 let oldFeeds = strongSelf.feeds
 
+                println("search newFeeds.count: \(newFeeds.count)")
+
                 var wayToUpdate: UITableView.WayToUpdate = .None
 
                 if strongSelf.feeds.isEmpty {
@@ -339,6 +341,8 @@ class SearchFeedsViewController: UIViewController {
 
                 case .Init:
                     strongSelf.feeds = newFeeds
+
+                    wayToUpdate = .ReloadData
 
                 case .LoadMore:
                     let oldFeedsCount = oldFeeds.count
