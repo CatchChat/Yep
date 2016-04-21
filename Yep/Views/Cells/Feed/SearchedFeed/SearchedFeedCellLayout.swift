@@ -105,7 +105,12 @@ struct SearchedFeedCellLayout {
             height = SearchedFeedURLCell.heightOfFeed(feed)
 
         case .Image:
-            height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
+            if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+                height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
+
+            } else {
+                height = SearchedFeedAnyImagesCell.heightOfFeed(feed)
+            }
 
         case .GithubRepo:
             height = SearchedFeedGithubRepoCell.heightOfFeed(feed)

@@ -12,6 +12,13 @@ private let feedMediaCellID = "FeedMediaCell"
 
 class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + feedAttachmentImageSize.height + 10
+
+        return ceil(height)
+    }
+
     lazy var mediaCollectionView: UICollectionView = {
 
         let layout = UICollectionViewFlowLayout()
@@ -74,6 +81,12 @@ class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         super.prepareForReuse()
 
         attachments = []
+    }
+
+    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+
+        super.configureWithFeed(feed, layout: layout, keyword: keyword)
+
     }
 }
 
