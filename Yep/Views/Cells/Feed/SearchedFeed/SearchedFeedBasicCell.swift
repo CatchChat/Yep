@@ -40,7 +40,7 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.yepTintColor()
+        label.textColor = UIColor.yep_mangmorGrayColor()
         label.font = UIFont.systemFontOfSize(15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
