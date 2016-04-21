@@ -263,7 +263,7 @@ struct FeedCellLayout {
                 self.normalImagesLayout = normalImagesLayout
 
             } else {
-                let height = feedAttachmentImageSize.height
+                let height = YepConfig.FeedNormalImagesCell.imageSize.height
                 let mediaCollectionViewFrame = CGRect(x: 0, y: beginY, width: screenWidth, height: height)
 
                 let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionViewFrame)

@@ -14,7 +14,7 @@ class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let height = super.heightOfFeed(feed) + feedAttachmentImageSize.height + 10
+        let height = super.heightOfFeed(feed) + YepConfig.SearchedFeedNormalImagesCell.imageSize.height + 10
 
         return ceil(height)
     }
@@ -122,7 +122,7 @@ extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionVie
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return feedAttachmentImageSize
+        return YepConfig.SearchedFeedNormalImagesCell.imageSize
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {

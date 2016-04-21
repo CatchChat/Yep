@@ -56,7 +56,7 @@ class FeedMediaCell: UICollectionViewCell {
             imageView.image = attachment.image
 
         } else {
-            let size = bigger ? feedAttachmentBiggerImageSize : feedAttachmentImageSize
+            let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
 
             imageView.yep_showActivityIndicatorWhenLoading = true
             imageView.yep_setImageOfAttachment(attachment, withSize: size)
