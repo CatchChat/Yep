@@ -24,7 +24,7 @@ class SearchMoreResultsCell: UITableViewCell {
 
     @IBOutlet weak var showMoreLabel: UILabel! {
         didSet {
-            showMoreLabel.textColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+            showMoreLabel.textColor = UIColor.yep_mangmorGrayColor()
         }
     }
     @IBOutlet weak var arrowImageView: UIImageView!
