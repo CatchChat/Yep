@@ -13,18 +13,27 @@ class SearchFeedsFooterView: UIView {
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(17)
+        label.textColor = UIColor.darkGrayColor()
+        label.textAlignment = .Center
         return label
     }()
 
     lazy var keywordLabelA: UILabel = {
 
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(13)
+        label.textColor = UIColor.yepTintColor()
+        label.textAlignment = .Center
         return label
     }()
 
     lazy var keywordLabelB: UILabel = {
 
         let label = UILabel()
+        label.font = UIFont.systemFontOfSize(13)
+        label.textColor = UIColor.yepTintColor()
+        label.textAlignment = .Center
         return label
     }()
 
@@ -55,7 +64,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[promptLabel]-10-[keywordLabelA]-10-[keywordLabelB]|", options: [.AlignAllCenterX], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]|", options: [.AlignAllCenterX], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
