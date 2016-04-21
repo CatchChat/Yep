@@ -10,6 +10,18 @@ import UIKit
 
 class LoadMoreTableViewCell: UITableViewCell {
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                loadingActivityIndicator.startAnimating()
+                noMoreResultsLabel.hidden = true
+            } else {
+                loadingActivityIndicator.stopAnimating()
+                noMoreResultsLabel.hidden = false
+            }
+        }
+    }
+
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var noMoreResultsLabel: UILabel!
 

@@ -956,19 +956,16 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             println("search more feeds")
 
-            if !cell.loadingActivityIndicator.isAnimating() {
-                cell.loadingActivityIndicator.startAnimating()
-                cell.noMoreResultsLabel.hidden = true
+            if !cell.isLoading {
+                cell.isLoading = true
             }
 
             if let keyword = self.keyword {
                 searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
-                    cell?.noMoreResultsLabel.hidden = false
+                    cell?.isLoading = false
                 })
             } else {
-                cell.loadingActivityIndicator.stopAnimating()
-                cell.noMoreResultsLabel.hidden = false
+                cell.isLoading = false
             }
         }
     }
