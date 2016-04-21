@@ -248,7 +248,7 @@ class ContactsViewController: BaseViewController {
                             }
                         }
                         vc.conversation = user.conversation
-                        print(vc.conversationToShare,"___Toshare")
+                        print(FeedKind(rawValue:vc.conversationToShare!.withGroup!.withFeed!.kind),"___Toshare")
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }

@@ -333,7 +333,8 @@ enum MessageMediaType: Int, CustomStringConvertible {
     case Location       = 5
     case SectionDate    = 6
     case SocialWork     = 7
-
+    case ShareFeed      = 8
+    
     var description: String {
         switch self {
         case .Text:
@@ -352,6 +353,8 @@ enum MessageMediaType: Int, CustomStringConvertible {
             return "sectionDate"
         case .SocialWork:
             return "socialWork"
+        case .ShareFeed:
+            return "shareFeed"
         }
     }
 

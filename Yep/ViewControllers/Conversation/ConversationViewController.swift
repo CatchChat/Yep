@@ -698,6 +698,7 @@ class ConversationViewController: BaseViewController {
     private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
     private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
+    private let chatLeftShareFeedCellIdentifier = "LeftShareFeedCell"
 
     private struct Listener {
         static let Avatar = "ConversationViewController"
