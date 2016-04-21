@@ -40,7 +40,7 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.yepTintColor()
+        label.textColor = UIColor.yep_mangmorGrayColor()
         label.font = UIFont.systemFontOfSize(15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
@@ -53,7 +53,7 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        let tintColor = UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+        let tintColor = UIColor.yep_mangmorGrayColor()
         button.setBackgroundImage(UIImage(named: "skill_bubble_empty_gray"), forState: .Normal)
         button.setTitleColor(tintColor, forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()

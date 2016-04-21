@@ -60,6 +60,16 @@ struct SearchedFeedCellLayout {
     }
     var normalImagesLayout: NormalImagesLayout?
 
+    struct AnyImagesLayout {
+
+        let mediaCollectionViewFrame: CGRect
+
+        init(mediaCollectionViewFrame: CGRect) {
+            self.mediaCollectionViewFrame = mediaCollectionViewFrame
+        }
+    }
+    var anyImagesLayout: AnyImagesLayout?
+
     struct GithubRepoLayout {
         let githubRepoContainerViewFrame: CGRect
     }
@@ -105,7 +115,12 @@ struct SearchedFeedCellLayout {
             height = SearchedFeedURLCell.heightOfFeed(feed)
 
         case .Image:
-            height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
+            if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+                height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
+
+            } else {
+                height = SearchedFeedAnyImagesCell.heightOfFeed(feed)
+            }
 
         case .GithubRepo:
             height = SearchedFeedGithubRepoCell.heightOfFeed(feed)
@@ -179,21 +194,31 @@ struct SearchedFeedCellLayout {
 
         case .Image:
 
-            let x1 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 0
-            let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
+            if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+                let x1 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 0
+                let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x2 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 1
-            let imageView2Frame = CGRect(origin: CGPoint(x: x2, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
+                let x2 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 1
+                let imageView2Frame = CGRect(origin: CGPoint(x: x2, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x3 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 2
-            let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
+                let x3 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 2
+                let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let x4 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 3
-            let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
+                let x4 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 3
+                let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
 
-            let normalImagesLayout = SearchedFeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
+                let normalImagesLayout = SearchedFeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
+                
+                self.normalImagesLayout = normalImagesLayout
 
-            self.normalImagesLayout = normalImagesLayout
+            } else {
+                let height = YepConfig.FeedNormalImagesCell.imageSize.height
+                let mediaCollectionViewFrame = CGRect(x: 0, y: beginY, width: screenWidth, height: height)
+
+                let anyImagesLayout = SearchedFeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionViewFrame)
+
+                self.anyImagesLayout = anyImagesLayout
+            }
 
         case .GithubRepo:
 

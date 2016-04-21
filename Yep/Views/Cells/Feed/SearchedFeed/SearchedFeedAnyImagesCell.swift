@@ -1,19 +1,23 @@
 //
-//  FeedAnyImagesCell.swift
+//  SearchedFeedAnyImagesCell.swift
 //  Yep
 //
-//  Created by nixzhu on 15/9/30.
-//  Copyright © 2015年 Catch Inc. All rights reserved.
+//  Created by NIX on 16/4/21.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
 private let feedMediaCellID = "FeedMediaCell"
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
-typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
+class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
-class FeedAnyImagesCell: FeedBasicCell {
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.SearchedFeedNormalImagesCell.imageSize.height + 10
+
+        return ceil(height)
+    }
 
     lazy var mediaCollectionView: UICollectionView = {
 
@@ -23,7 +27,7 @@ class FeedAnyImagesCell: FeedBasicCell {
 
         let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         collectionView.scrollsToTop = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
         collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
@@ -63,13 +67,6 @@ class FeedAnyImagesCell: FeedBasicCell {
         }
     }
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -86,39 +83,20 @@ class FeedAnyImagesCell: FeedBasicCell {
         attachments = []
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if let anyImagesLayout = layoutCache.layout?.anyImagesLayout {
-            mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
-
-        } else {
-            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height = YepConfig.FeedNormalImagesCell.imageSize.height
-            mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
-        }
+        super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment, case let .Images(attachments) = attachment {
             self.attachments = attachments
         }
 
-        if layoutCache.layout == nil {
-
-            let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionView.frame)
-            _newLayout?.anyImagesLayout = anyImagesLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
+        let anyImagesLayout = layout.anyImagesLayout!
+        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 
-extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -131,11 +109,11 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
-        
+
         if let attachment = attachments[safe: indexPath.item] {
 
             //println("attachment imageURL: \(imageURL)")
-            
+
             cell.configureWithAttachment(attachment, bigger: (attachments.count == 1))
         }
 
@@ -144,7 +122,7 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return YepConfig.FeedNormalImagesCell.imageSize
+        return YepConfig.SearchedFeedNormalImagesCell.imageSize
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
@@ -163,4 +141,3 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
         tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
     }
 }
-

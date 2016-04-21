@@ -12,9 +12,9 @@ import AVFoundation
 import MapKit
 import Ruler
 
-let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
-
 class FeedsViewController: BaseViewController {
+
+    static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
 
     var skill: Skill?
     var needShowSkill: Bool {
@@ -88,7 +88,6 @@ class FeedsViewController: BaseViewController {
 
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()
-            feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
             feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
@@ -375,6 +374,9 @@ class FeedsViewController: BaseViewController {
 
         title = NSLocalizedString("Feeds", comment: "")
 
+        feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        feedsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
@@ -627,6 +629,8 @@ class FeedsViewController: BaseViewController {
 
                     case .Top:
                         strongSelf.feeds = newFeeds
+                        
+                        wayToUpdate = .ReloadData
 
                     case .LoadMore:
                         let oldFeedsCount = strongSelf.feeds.count
@@ -1184,7 +1188,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
                     return cell
 
-                } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+                } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
                     let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
                     return cell
 
@@ -1357,7 +1361,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.tapMediaAction = tapMediaAction
 
-                } else if feed.imageAttachmentsCount <= feedNormalImagesCountThreshold {
+                } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
                     guard let cell = cell as? FeedNormalImagesCell else {
                         break
@@ -1848,6 +1852,12 @@ extension FeedsViewController: PullToRefreshViewDelegate {
                 pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
 
                 self?.activityIndicator.alpha = 1
+
+                if let strongSelf = self {
+                    //println("strongSelf.feedsTableView.contentOffset.y: \(strongSelf.feedsTableView.contentOffset.y)")
+                    strongSelf.feedsTableView.contentOffset.y += CGRectGetHeight(strongSelf.searchBar.frame)
+                    //println("strongSelf.feedsTableView.contentOffset.y: \(strongSelf.feedsTableView.contentOffset.y)")
+                }
             }
         }
 

@@ -14,6 +14,8 @@ import Ruler
 
 class SearchFeedsViewController: UIViewController {
 
+    static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
+
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private var feedsSearchTransition: FeedsSearchTransition?
 
@@ -34,6 +36,7 @@ class SearchFeedsViewController: UIViewController {
 
     private let searchedFeedBasicCellID = "SearchedFeedBasicCell"
     private let searchedFeedNormalImagesCellID = "SearchedFeedNormalImagesCell"
+    private let searchedFeedAnyImagesCellID = "SearchedFeedAnyImagesCell"
     private let searchedFeedGithubRepoCellID = "SearchedFeedGithubRepoCell"
     private let searchedFeedDribbbleShotCellID = "SearchedFeedDribbbleShotCell"
     private let searchedFeedVoiceCellID = "SearchedFeedVoiceCell"
@@ -43,7 +46,16 @@ class SearchFeedsViewController: UIViewController {
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
-    var feeds = [DiscoveredFeed]()
+    var feeds = [DiscoveredFeed]() {
+        didSet {
+            if feeds.isEmpty {
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+                feedsTableView.tableFooterView = footerView
+            } else {
+                feedsTableView.tableFooterView = nil
+            }
+        }
+    }
 
     let needShowSkill: Bool = false
 
@@ -58,6 +70,7 @@ class SearchFeedsViewController: UIViewController {
 
             feedsTableView.registerClass(SearchedFeedBasicCell.self, forCellReuseIdentifier: searchedFeedBasicCellID)
             feedsTableView.registerClass(SearchedFeedNormalImagesCell.self, forCellReuseIdentifier: searchedFeedNormalImagesCellID)
+            feedsTableView.registerClass(SearchedFeedAnyImagesCell.self, forCellReuseIdentifier: searchedFeedAnyImagesCellID)
             feedsTableView.registerClass(SearchedFeedGithubRepoCell.self, forCellReuseIdentifier: searchedFeedGithubRepoCellID)
             feedsTableView.registerClass(SearchedFeedDribbbleShotCell.self, forCellReuseIdentifier: searchedFeedDribbbleShotCellID)
             feedsTableView.registerClass(SearchedFeedVoiceCell.self, forCellReuseIdentifier: searchedFeedVoiceCellID)
@@ -70,7 +83,16 @@ class SearchFeedsViewController: UIViewController {
         }
     }
 
-    private var keyword: String?
+    private var keyword: String? {
+        didSet {
+            if keyword == nil {
+                clearSearchResults()
+            }
+            if let keyword = keyword where keyword.isEmpty {
+                clearSearchResults()
+            }
+        }
+    }
     private var searchTask: CancelableTask?
 
     private struct LayoutPool {
@@ -208,6 +230,8 @@ class SearchFeedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        feeds = []
+
         searchBarBottomLineView.alpha = 0
 
         feedsTableView.layoutMargins = UIEdgeInsetsZero
@@ -256,6 +280,7 @@ class SearchFeedsViewController: UIViewController {
 
     // MARK: - Private
 
+    private var canLoadMore: Bool = false
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
     enum SearchFeedsMode {
@@ -273,6 +298,7 @@ class SearchFeedsViewController: UIViewController {
 
         switch mode {
         case .Init:
+            canLoadMore = true
             currentPageIndex = 1
         case .LoadMore:
             currentPageIndex += 1
@@ -290,7 +316,9 @@ class SearchFeedsViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: 30, failureHandler: failureHandler) { [weak self] feeds in
+        let perPage: Int = 30
+
+        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -305,6 +333,8 @@ class SearchFeedsViewController: UIViewController {
                 let newFeeds = feeds
                 let oldFeeds = strongSelf.feeds
 
+                self?.canLoadMore = newFeeds.count == perPage
+
                 var wayToUpdate: UITableView.WayToUpdate = .None
 
                 if strongSelf.feeds.isEmpty {
@@ -315,6 +345,8 @@ class SearchFeedsViewController: UIViewController {
 
                 case .Init:
                     strongSelf.feeds = newFeeds
+
+                    wayToUpdate = .ReloadData
 
                 case .LoadMore:
                     let oldFeedsCount = oldFeeds.count
@@ -511,6 +543,8 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
+        println("try search feeds with keyword: \(searchText)")
+
         cancel(searchTask)
 
         if searchText.isEmpty {
@@ -539,18 +573,16 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
         let searchText = searchText.trimming(.Whitespace)
 
-        guard !searchText.isEmpty else {
-            clearSearchResults()
-
-            return
-        }
-
         // 不要重复搜索一样的内容
         if let keyword = self.keyword where keyword == searchText {
             return
         }
 
         self.keyword = searchText
+
+        guard !searchText.isEmpty else {
+            return
+        }
 
         searchFeedsWithKeyword(searchText, mode: .Init)
     }
@@ -603,9 +635,14 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case .Image:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedNormalImagesCellID) as! SearchedFeedNormalImagesCell
-                return cell
+                if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedNormalImagesCellID) as! SearchedFeedNormalImagesCell
+                    return cell
 
+                } else {
+                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedAnyImagesCellID) as! SearchedFeedAnyImagesCell
+                    return cell
+                }
 
             case .GithubRepo:
                 let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedGithubRepoCellID) as! SearchedFeedGithubRepoCell
@@ -741,13 +778,25 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
 
-                guard let cell = cell as? SearchedFeedNormalImagesCell else {
-                    break
+                if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
+
+                    guard let cell = cell as? SearchedFeedNormalImagesCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, layout: layout, keyword: keyword)
+
+                    cell.tapMediaAction = tapMediaAction
+
+                } else {
+                    guard let cell = cell as? SearchedFeedAnyImagesCell else {
+                        break
+                    }
+
+                    cell.configureWithFeed(feed, layout: layout, keyword: keyword)
+
+                    cell.tapMediaAction = tapMediaAction
                 }
-
-                cell.configureWithFeed(feed, layout: layout, keyword: keyword)
-
-                cell.tapMediaAction = tapMediaAction
 
             case .GithubRepo:
 
@@ -909,18 +958,23 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 break
             }
 
+            guard canLoadMore else {
+                cell.isLoading = false
+                break
+            }
+
             println("search more feeds")
 
-            if !cell.loadingActivityIndicator.isAnimating() {
-                cell.loadingActivityIndicator.startAnimating()
+            if !cell.isLoading {
+                cell.isLoading = true
             }
 
             if let keyword = self.keyword {
                 searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: { [weak cell] in
-                    cell?.loadingActivityIndicator.stopAnimating()
+                    cell?.isLoading = false
                 })
             } else {
-                cell.loadingActivityIndicator.stopAnimating()
+                cell.isLoading = false
             }
         }
     }
