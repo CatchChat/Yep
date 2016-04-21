@@ -27,6 +27,7 @@ class LoadMoreTableViewCell: UITableViewCell {
     @IBOutlet weak var noMoreResultsLabel: UILabel! {
         didSet {
             noMoreResultsLabel.textColor = UIColor.yep_mangmorGrayColor()
+            noMoreResultsLabel.text = NSLocalizedString("No more results.", comment: "")
         }
     }
 
