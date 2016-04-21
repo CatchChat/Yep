@@ -88,7 +88,6 @@ class FeedsViewController: BaseViewController {
 
             feedsTableView.backgroundColor = UIColor.whiteColor()
             feedsTableView.tableFooterView = UIView()
-            feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
             feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
@@ -374,6 +373,9 @@ class FeedsViewController: BaseViewController {
         }
 
         title = NSLocalizedString("Feeds", comment: "")
+
+        feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+        feedsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
