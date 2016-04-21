@@ -346,14 +346,14 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         let searchText = searchText.trimming(.Whitespace)
 
-        self.keyword = searchText
-
-        guard !searchText.isEmpty else {
+        // 不要重复搜索一样的内容
+        if let keyword = self.keyword where keyword == searchText {
             return
         }
 
-        // 不要重复搜索一样的内容
-        if let keyword = self.keyword where keyword == searchText {
+        self.keyword = searchText
+
+        guard !searchText.isEmpty else {
             return
         }
 
