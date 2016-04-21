@@ -1852,6 +1852,12 @@ extension FeedsViewController: PullToRefreshViewDelegate {
                 pulllToRefreshView.endRefreshingAndDoFurtherAction() {}
 
                 self?.activityIndicator.alpha = 1
+
+                if let strongSelf = self {
+                    //println("strongSelf.feedsTableView.contentOffset.y: \(strongSelf.feedsTableView.contentOffset.y)")
+                    strongSelf.feedsTableView.contentOffset.y += CGRectGetHeight(strongSelf.searchBar.frame)
+                    //println("strongSelf.feedsTableView.contentOffset.y: \(strongSelf.feedsTableView.contentOffset.y)")
+                }
             }
         }
 
