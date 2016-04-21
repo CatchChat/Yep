@@ -11,6 +11,7 @@ import UIKit
 class LoadMoreTableViewCell: UITableViewCell {
 
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var noMoreResultsLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

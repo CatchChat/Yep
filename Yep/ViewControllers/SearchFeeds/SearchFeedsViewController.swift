@@ -539,6 +539,8 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
+        println("try search feeds with keyword: \(searchText)")
+
         cancel(searchTask)
 
         if searchText.isEmpty {
