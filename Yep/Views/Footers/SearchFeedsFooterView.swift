@@ -16,6 +16,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(17)
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
+        label.text = NSLocalizedString("Try Search", comment: "")
         return label
     }()
 
@@ -25,6 +26,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = UIColor.yepTintColor()
         label.textAlignment = .Center
+        label.text = NSLocalizedString("iOS", comment: "")
         return label
     }()
 
@@ -34,6 +36,7 @@ class SearchFeedsFooterView: UIView {
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = UIColor.yepTintColor()
         label.textAlignment = .Center
+        label.text = NSLocalizedString("App", comment: "")
         return label
     }()
 
@@ -64,7 +67,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]|", options: [.AlignAllCenterX], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]-(>=0)-|", options: [.AlignAllCenterX], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)

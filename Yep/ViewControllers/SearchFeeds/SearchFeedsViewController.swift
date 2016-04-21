@@ -46,7 +46,16 @@ class SearchFeedsViewController: UIViewController {
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
-    var feeds = [DiscoveredFeed]()
+    var feeds = [DiscoveredFeed]() {
+        didSet {
+            if feeds.isEmpty {
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+                feedsTableView.tableFooterView = footerView
+            } else {
+                feedsTableView.tableFooterView = nil
+            }
+        }
+    }
 
     let needShowSkill: Bool = false
 
@@ -220,6 +229,8 @@ class SearchFeedsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        feeds = []
 
         searchBarBottomLineView.alpha = 0
 
