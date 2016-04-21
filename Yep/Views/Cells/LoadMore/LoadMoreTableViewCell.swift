@@ -23,7 +23,12 @@ class LoadMoreTableViewCell: UITableViewCell {
     }
 
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var noMoreResultsLabel: UILabel!
+
+    @IBOutlet weak var noMoreResultsLabel: UILabel! {
+        didSet {
+            noMoreResultsLabel.textColor = UIColor.yep_mangmorGrayColor()
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()

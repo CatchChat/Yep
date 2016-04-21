@@ -9,6 +9,7 @@
 import UIKit
 
 extension UIColor {
+
     class func yepTintColor() -> UIColor {
         return UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
     }
@@ -101,6 +102,9 @@ extension UIColor {
     class func yepIconImageViewTintColor() -> UIColor {
         return yepCellAccessoryImageViewTintColor()
     }
+}
+
+extension UIColor {
 
     // 反色
     var yep_inverseColor: UIColor {
@@ -128,3 +132,11 @@ extension UIColor {
         return yep_binaryColor
     }
 }
+
+extension UIColor {
+
+    class func yep_mangmorGrayColor() -> UIColor {
+        return UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+    }
+}
+
