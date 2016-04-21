@@ -32,6 +32,7 @@ func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
 
         if needBlurThumbnail {
 
+            /*
             let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
 
             let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)
@@ -44,6 +45,11 @@ func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
                 YepConfig.MetaData.imageWidth: imageWidth,
                 YepConfig.MetaData.imageHeight: imageHeight,
                 YepConfig.MetaData.blurredThumbnailString: string,
+            ]
+            */
+            metaDataInfo = [
+                YepConfig.MetaData.imageWidth: imageWidth,
+                YepConfig.MetaData.imageHeight: imageHeight,
             ]
 
         } else {

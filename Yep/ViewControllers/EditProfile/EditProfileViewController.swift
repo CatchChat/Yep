@@ -36,7 +36,7 @@ class EditProfileViewController: SegueViewController {
     }()
 
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: "saveIntroduction:")
+        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.saveIntroduction(_:)))
         return button
     }()
 
@@ -63,7 +63,7 @@ class EditProfileViewController: SegueViewController {
 
         editProfileTableView?.delegate = nil
 
-        println("deinit EditProfileViewController")
+        println("deinit EditProfile")
     }
 
     override func viewDidLoad() {
@@ -121,6 +121,7 @@ class EditProfileViewController: SegueViewController {
                 if let strongSelf = self {
                     strongSelf.imagePicker.sourceType = .PhotoLibrary
                     strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+
                 }
             }
 
@@ -393,7 +394,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 guard username.isEmpty else {
                     break
                 }
-
+                
                 YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
                     let newUsername = text
@@ -449,9 +450,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     dispatch_async(dispatch_get_main_queue()) {
                         unregisterThirdPartyPush()
 
-                        cleanRealmAndCaches()
-
                         YepUserDefaults.cleanAllUserDefaults()
+
+                        cleanRealmAndCaches()
 
                         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                             appDelegate.startShowStory()

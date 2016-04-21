@@ -181,14 +181,11 @@ class MediaPreviewViewController: UIViewController {
             })
         })
 
-        let tap = UITapGestureRecognizer(target: self, action: "dismiss")
-        view.addGestureRecognizer(tap)
-
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: "dismiss")
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
         swipeUp.direction = .Up
         view.addGestureRecognizer(swipeUp)
 
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: "dismiss")
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
         swipeDown.direction = .Down
         view.addGestureRecognizer(swipeDown)
 
@@ -476,6 +473,10 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
         if let cell = cell as? MediaViewCell {
             let previewMedia = previewMedias[indexPath.item]
             configureCell(cell, withPreviewMedia: previewMedia)
+
+            cell.mediaView.tapToDismissAction = { [weak self] in
+                self?.dismiss()
+            }
         }
     }
 
@@ -585,7 +586,8 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                             )
 
                             let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+                            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
+                            
                             self?.presentViewController(activityViewController, animated: true, completion: nil)
                         }
                 }
@@ -624,7 +626,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     })
 
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
                     mediaControlView.playAction = { mediaControlView in
                         player.play()
@@ -658,13 +660,13 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         case .AttachmentType:
 
-            guard let image = cell.mediaView.image else {
-                return
-            }
-
             mediaControlView.type = .Image
 
             mediaControlView.shareAction = { [weak self] in
+
+                guard let image = cell.mediaView.image else {
+                    return
+                }
 
                 let info = MonkeyKing.Info(
                     title: nil,
@@ -694,6 +696,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 )
                 
                 let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+                activityViewController.excludedActivityTypes = [UIActivityTypeMessage,UIActivityTypeMail]
                 
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
@@ -730,7 +733,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 )
 
                 let activityViewController = UIActivityViewController(activityItems: [linkURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+                activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
         }

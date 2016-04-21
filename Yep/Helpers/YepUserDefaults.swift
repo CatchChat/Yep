@@ -8,25 +8,26 @@
 
 import UIKit
 import RealmSwift
+import CoreSpotlight
 
-let v1AccessTokenKey = "v1AccessToken"
-let userIDKey = "userID"
-let nicknameKey = "nickname"
-let introductionKey = "introduction"
-let avatarURLStringKey = "avatarURLString"
-let badgeKey = "badge"
-let pusherIDKey = "pusherID"
+private let v1AccessTokenKey = "v1AccessToken"
+private let userIDKey = "userID"
+private let nicknameKey = "nickname"
+private let introductionKey = "introduction"
+private let avatarURLStringKey = "avatarURLString"
+private let badgeKey = "badge"
+private let pusherIDKey = "pusherID"
 
-let areaCodeKey = "areaCode"
-let mobileKey = "mobile"
+private let areaCodeKey = "areaCode"
+private let mobileKey = "mobile"
 
-let discoveredUserSortStyleKey = "discoveredUserSortStyle"
-let feedSortStyleKey = "feedSortStyle"
+private let discoveredUserSortStyleKey = "discoveredUserSortStyle"
+private let feedSortStyleKey = "feedSortStyle"
 
-let latitudeShiftKey = "latitudeShift"
-let longitudeShiftKey = "longitudeShift"
+private let latitudeShiftKey = "latitudeShift"
+private let longitudeShiftKey = "longitudeShift"
 
-let userLocationNameKey = "userLocationName"
+private let userLocationNameKey = "userLocationName"
 
 struct Listener<T>: Hashable {
     let name: String
@@ -122,40 +123,44 @@ class YepUserDefaults {
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
 
-        defaults.removeObjectForKey(v1AccessTokenKey)
-        defaults.removeObjectForKey(userIDKey)
-        defaults.removeObjectForKey(nicknameKey)
-        defaults.removeObjectForKey(introductionKey)
-        defaults.removeObjectForKey(avatarURLStringKey)
-        defaults.removeObjectForKey(badgeKey)
-        defaults.removeObjectForKey(pusherIDKey)
-        defaults.removeObjectForKey(areaCodeKey)
-        defaults.removeObjectForKey(mobileKey)
-        defaults.removeObjectForKey(discoveredUserSortStyleKey)
-        defaults.removeObjectForKey(feedSortStyleKey)
-        defaults.removeObjectForKey(latitudeShiftKey)
-        defaults.removeObjectForKey(longitudeShiftKey)
-        defaults.removeObjectForKey(userLocationNameKey)
+        // reset suite
 
+        let dict = defaults.dictionaryRepresentation()
+        dict.keys.forEach({
+            defaults.removeObjectForKey($0)
+        })
         defaults.synchronize()
+
+        // reset standardUserDefaults
+
+        let standardUserDefaults = NSUserDefaults.standardUserDefaults()
+        standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
+        standardUserDefaults.synchronize()
     }
 
-    class func userNeedRelogin() {
+    class func maybeUserNeedRelogin() {
 
-        if let _ = v1AccessToken.value {
+        guard v1AccessToken.value != nil else {
+            return
+        }
 
-            cleanRealmAndCaches()
+        CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
-            cleanAllUserDefaults()
+        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+            return
+        }
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if let rootViewController = appDelegate.window?.rootViewController {
-                    YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+        unregisterThirdPartyPush()
 
-                        appDelegate.startShowStory()
-                    })
-                }
-            }
+        cleanAllUserDefaults()
+
+        cleanRealmAndCaches()
+
+        if let rootViewController = appDelegate.window?.rootViewController {
+            YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+
+                appDelegate.startShowStory()
+            })
         }
     }
 

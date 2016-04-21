@@ -10,7 +10,6 @@ import UIKit
 import RealmSwift
 import MonkeyKing
 import Navi
-import Crashlytics
 import SafariServices
 import Kingfisher
 import Proposer
@@ -346,9 +345,12 @@ class ProfileViewController: SegueViewController {
             } else {
                 sayHiView.hidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: "showSettings:")
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
+
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.Notification.createdFeed, object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: YepConfig.Notification.deletedFeed, object: nil)
             }
         }
     }
@@ -376,7 +378,31 @@ class ProfileViewController: SegueViewController {
 
     @IBOutlet private weak var sayHiView: BottomButtonView!
 
-    private var customNavigationBar: UINavigationBar!
+    private lazy var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
+    private lazy var customNavigationBar: UINavigationBar = {
+
+        let bar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
+
+        bar.tintColor = UIColor.whiteColor()
+        bar.tintAdjustmentMode = .Normal
+        bar.alpha = 0
+        bar.setItems([self.customNavigationItem], animated: false)
+
+        bar.backgroundColor = UIColor.clearColor()
+        bar.translucent = true
+        bar.shadowImage = UIImage()
+        bar.barStyle = UIBarStyle.BlackTranslucent
+        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+
+        let textAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont.navigationBarTitleFont()
+        ]
+
+        bar.titleTextAttributes = textAttributes
+        
+        return bar
+    }()
 
     private let skillCellIdentifier = "SkillCell"
     private let headerCellIdentifier = "ProfileHeaderCell"
@@ -482,7 +508,7 @@ class ProfileViewController: SegueViewController {
     private var instagramWork: InstagramWork?
     private var githubWork: GithubWork?
     private var feeds: [DiscoveredFeed]?
-    private var feedAttachments: [DiscoveredAttachment]?
+    private var feedAttachments: [DiscoveredAttachment?]?
 
     private let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
@@ -492,8 +518,6 @@ class ProfileViewController: SegueViewController {
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
         return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 4
     }
-
-    private var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
 
     private struct Listener {
         let nickname: String
@@ -519,7 +543,7 @@ class ProfileViewController: SegueViewController {
 
         profileCollectionView?.delegate = nil
 
-        println("deinit ProfileViewController")
+        println("deinit Profile")
     }
 
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -545,11 +569,13 @@ class ProfileViewController: SegueViewController {
 
         title = NSLocalizedString("Profile", comment: "")
 
+        view.addSubview(customNavigationBar)
+
         println("init ProfileViewController \(self)")
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanForLogout:", name: EditProfileViewController.Notification.Logout, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "prepareForOAuthResult:", name: YepConfig.Notification.OAuthResult, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.prepareForOAuthResult(_:)), name: YepConfig.Notification.OAuthResult, object: nil)
 
         if let profileUser = profileUser {
 
@@ -624,7 +650,6 @@ class ProfileViewController: SegueViewController {
 
         profileUserIsMe = profileUser?.isMe ?? false
 
-
         if let profileLayout = profileCollectionView.collectionViewLayout as? ProfileLayout {
 
             profileLayout.scrollUpAction = { [weak self] progress in
@@ -638,8 +663,7 @@ class ProfileViewController: SegueViewController {
                         let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
                         
                         coverCell.avatarBlurImageView.alpha = progress < beginChangePercentage ? 0 : normalizedProgressForChange
-                        
-                        
+
                         let shadowAlpha = 1 - normalizedProgressForChange
                         
                         if shadowAlpha < 0.2 {
@@ -647,7 +671,6 @@ class ProfileViewController: SegueViewController {
                         } else {
                             strongSelf.topShadowImageView.alpha = progress < beginChangePercentage ? 1 : shadowAlpha
                         }
-
                         
                         coverCell.locationLabel.alpha = progress < 0.5 ? 1 : 1 - min(1, (progress - 0.5) * 2 * 2) // 特别对待，在后半程的前半段即完成 alpha -> 0
                     }
@@ -669,28 +692,6 @@ class ProfileViewController: SegueViewController {
         profileCollectionView.alwaysBounceVertical = true
         
         automaticallyAdjustsScrollViewInsets = false
-        
-        
-        customNavigationBar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
-        customNavigationBar.tintColor = UIColor.whiteColor()
-        customNavigationBar.tintAdjustmentMode = .Normal
-        customNavigationBar.alpha = 0
-        customNavigationBar.setItems([customNavigationItem], animated: false)
-        view.addSubview(customNavigationBar)
-        
-        customNavigationBar.backgroundColor = UIColor.clearColor()
-        customNavigationBar.translucent = true
-        customNavigationBar.shadowImage = UIImage()
-        customNavigationBar.barStyle = UIBarStyle.BlackTranslucent
-        customNavigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
-        
-        let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont.navigationBarTitleFont()
-        ]
-        
-        customNavigationBar.titleTextAttributes = textAttributes
-
         
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -737,7 +738,7 @@ class ProfileViewController: SegueViewController {
                         }
                     }
 
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIForUsername:", name: EditProfileViewController.Notification.NewUsername, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
             }
 
@@ -777,7 +778,7 @@ class ProfileViewController: SegueViewController {
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "tryShareMyProfile:")
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.tryShareMyProfile(_:)))
                     customNavigationItem.leftBarButtonItem = shareMyProfileButton
                 }
 
@@ -785,7 +786,7 @@ class ProfileViewController: SegueViewController {
                 // share others' profile button
 
                 if let _ = profileUser.username {
-                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: "shareOthersProfile:")
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.shareOthersProfile(_:)))
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
@@ -809,16 +810,14 @@ class ProfileViewController: SegueViewController {
         }
 
         #if DEBUG
-//            view.addSubview(profileFPSLabel)
+            //view.addSubview(profileFPSLabel)
         #endif
     }
 
     override func viewWillAppear(animated: Bool) {
-
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-
         customNavigationBar.alpha = 1.0
 
         statusBarShouldLight = false
@@ -859,7 +858,6 @@ class ProfileViewController: SegueViewController {
             }
 
             let info = MonkeyKing.Info(
-                //title: String(format:NSLocalizedString("Yep! I'm %@.", comment: ""), nickname),
                 title: nickname,
                 description: NSLocalizedString("From Yep, with Skills.", comment: ""),
                 thumbnail: thumbnail,
@@ -887,7 +885,7 @@ class ProfileViewController: SegueViewController {
             )
             
             let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-
+            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
             self.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
@@ -962,13 +960,17 @@ class ProfileViewController: SegueViewController {
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBack:")
+        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ProfileViewController.back(_:)))
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    @objc private func popBack(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
+    @objc private func back(sender: AnyObject) {
+        if let presentingViewController = presentingViewController {
+            presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     @objc private func cleanForLogout(sender: NSNotification) {
@@ -977,6 +979,54 @@ class ProfileViewController: SegueViewController {
 
     @objc private func updateUIForUsername(sender: NSNotification) {
         updateProfileCollectionView()
+    }
+
+    private func updateFeedAttachmentsAfterUpdateFeeds() {
+
+        feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
+            if let attachment = feed.attachment {
+                if case let .Images(attachments) = attachment {
+                    return attachments.first
+                }
+            }
+
+            return nil
+        })
+
+        updateProfileCollectionView()
+    }
+    @objc private func createdFeed(sender: NSNotification) {
+
+        guard feeds != nil else {
+            return
+        }
+
+        let feed = (sender.object as! Box<DiscoveredFeed>).value
+        feeds!.insert(feed, atIndex: 0)
+
+        updateFeedAttachmentsAfterUpdateFeeds()
+    }
+
+    @objc private func deletedFeed(sender: NSNotification) {
+
+        guard feeds != nil else {
+            return
+        }
+
+        let feedID = sender.object as! String
+        var indexOfDeletedFeed: Int?
+        for (index, feed) in feeds!.enumerate() {
+            if feed.id == feedID {
+                indexOfDeletedFeed = index
+                break
+            }
+        }
+        guard let index = indexOfDeletedFeed else {
+            return
+        }
+        feeds!.removeAtIndex(index)
+
+        updateFeedAttachmentsAfterUpdateFeeds()
     }
 
     private func updateProfileCollectionView() {
@@ -1605,88 +1655,84 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SocialAccount.rawValue:
 
-            if let profileUser = profileUser {
+            guard let
+                profileUser = profileUser,
+                providerName = profileUser.providerNameWithIndexPath(indexPath),
+                socialAccount = SocialAccount(rawValue: providerName) else {
+                    break
+            }
 
-                if let providerName = profileUser.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
+            if profileUser.enabledSocialAccount(socialAccount) {
+                performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
 
-                    if profileUser.enabledSocialAccount(socialAccount) {
-                        performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+            } else {
+                guard profileUserIsMe else {
+                    break
+                }
 
-                    } else {
-                        if profileUserIsMe {
-                            
-                            afterOAuthAction = { [weak self] socialAccount in
-                                // 更新自己的 provider enabled 状态
-                                let providerName = socialAccount.rawValue
-                                
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    guard let realm = try? Realm() else {
-                                        return
-                                    }
-                                    
-                                    if let
-                                        myUserID = YepUserDefaults.userID.value,
-                                        me = userWithUserID(myUserID, inRealm: realm) {
-                                            
-                                            var haveSocialAccountProvider = false
-                                            for socialAccountProvider in me.socialAccountProviders {
-                                                if socialAccountProvider.name == providerName {
-                                                    let _ = try? realm.write {
-                                                        socialAccountProvider.enabled = true
-                                                    }
-                                                    
-                                                    haveSocialAccountProvider = true
-                                                    break
-                                                }
-                                            }
-                                            
-                                            // 如果之前没有，这就新建一个
-                                            if !haveSocialAccountProvider {
-                                                let provider = UserSocialAccountProvider()
-                                                provider.name = providerName
-                                                provider.enabled = true
-                                                
-                                                let _ = try? realm.write {
-                                                    me.socialAccountProviders.append(provider)
-                                                }
-                                            }
-                                            
-                                            self?.updateProfileCollectionView()
-                                            
-                                            // OAuth 成功后，自动跳转去显示对应的 social work
-                                            delay(1) {
-                                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
-                                            }
-                                    }
+                afterOAuthAction = { [weak self] socialAccount in
+
+                    // 更新自己的 provider enabled 状态
+                    let providerName = socialAccount.rawValue
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+
+                        guard let
+                            realm = try? Realm(),
+                            myUserID = YepUserDefaults.userID.value,
+                            me = userWithUserID(myUserID, inRealm: realm) else {
+                                return
+                        }
+
+                        var haveSocialAccountProvider = false
+                        for socialAccountProvider in me.socialAccountProviders {
+                            if socialAccountProvider.name == providerName {
+                                let _ = try? realm.write {
+                                    socialAccountProvider.enabled = true
                                 }
-                            }
-                            
-                            if isOperatingSystemAtLeastMajorVersion(9) {
-                            
-                                self.socialAccount = SocialAccount(rawValue: providerName)
-
-                                if #available(iOS 9.0, *) {
-
-                                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
-                                        performSegueWithIdentifier("presentOAuth", sender: providerName)
-                                        return
-                                    }
-
-                                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
-                                    presentViewController(safariViewController, animated: true, completion: nil)
-                                    
-                                    oAuthCompleteAction = {
-                                        safariViewController.dismissViewControllerAnimated(true, completion: nil)
-                                    }
-
-                                } else {
-                                    performSegueWithIdentifier("presentOAuth", sender: providerName)
-                                }
-                                
-                            } else {
-                                performSegueWithIdentifier("presentOAuth", sender: providerName)
+                                haveSocialAccountProvider = true
+                                break
                             }
                         }
+                        
+                        // 如果之前没有，这就新建一个
+                        if !haveSocialAccountProvider {
+                            let provider = UserSocialAccountProvider()
+                            provider.name = providerName
+                            provider.enabled = true
+                            
+                            let _ = try? realm.write {
+                                me.socialAccountProviders.append(provider)
+                            }
+                        }
+                        
+                        self?.updateProfileCollectionView()
+                        
+                        // OAuth 成功后，自动跳转去显示对应的 social work
+                        delay(1) {
+                            self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                        }
+                    }
+                }
+
+                do {
+                    self.socialAccount = SocialAccount(rawValue: providerName)
+
+                    guard let accessToken = YepUserDefaults.v1AccessToken.value else {
+                        performSegueWithIdentifier("presentOAuth", sender: providerName)
+                        return
+                    }
+
+                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
+                    presentViewController(safariViewController, animated: true, completion: nil)
+
+                    oAuthCompleteAction = {
+                        safariViewController.dismissViewControllerAnimated(true, completion: {
+                            // OAuth 成功后，自动跳转去显示对应的 social work
+                            delay(1) { [weak self] in
+                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                            }
+                        })
                     }
                 }
             }

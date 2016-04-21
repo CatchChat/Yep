@@ -42,6 +42,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
     lazy var sampleView: SampleView = {
         let view = SampleView()
         view.sampleColor = UIColor.rightWaveColor()
+        view.userInteractionEnabled = false
         return view
     }()
 
@@ -89,7 +90,7 @@ class ChatRightAudioCell: ChatRightBaseCell {
         }
 
         bubbleImageView.userInteractionEnabled = true
-        let tap = UITapGestureRecognizer(target: self, action: "tapMediaView")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightAudioCell.tapMediaView))
         bubbleImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in

@@ -18,11 +18,9 @@ class FeedConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 
-    var countOfUnreadMessages = 0 {
+    private var hasUnreadMessages: Bool = false {
         didSet {
-            let hidden = countOfUnreadMessages == 0
-
-            redDotImageView.hidden = hidden
+            redDotImageView.hidden = !hasUnreadMessages
         }
     }
 
@@ -43,10 +41,7 @@ class FeedConversationCell: UITableViewCell {
         
         mediaView.hidden = true
         
-        mediaView.imageView1.image = nil
-        mediaView.imageView2.image = nil
-        mediaView.imageView3.image = nil
-        mediaView.imageView4.image = nil
+        mediaView.clearImages()
     }
 
     func configureWithConversation(conversation: Conversation) {
@@ -57,7 +52,8 @@ class FeedConversationCell: UITableViewCell {
             return
         }
 
-        countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
+        hasUnreadMessages = conversation.hasUnreadMessages
+        //countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
         //countOfUnreadMessages = conversation.unreadMessagesCount
 
         nameLabel.text = feed.body
@@ -72,8 +68,21 @@ class FeedConversationCell: UITableViewCell {
 
             if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
+
             } else {
-                self.chatLabel.text = latestValidMessage.nicknameWithTextContent
+                if conversation.mentionedMe {
+                    let mentionedYouString = NSLocalizedString("[Mentioned you]", comment: "")
+                    let string = mentionedYouString + " " + latestValidMessage.nicknameWithTextContent
+
+                    let attributedString = NSMutableAttributedString(string: string)
+                    let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
+                    attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+
+                    self.chatLabel.attributedText = attributedString
+
+                } else {
+                    self.chatLabel.text = latestValidMessage.nicknameWithTextContent
+                }
             }
             
         } else {

@@ -72,11 +72,13 @@ struct FeedCellLayout {
         let imageView1Frame: CGRect
         let imageView2Frame: CGRect
         let imageView3Frame: CGRect
+        let imageView4Frame: CGRect
 
-        init(imageView1Frame: CGRect, imageView2Frame: CGRect, imageView3Frame: CGRect) {
+        init(imageView1Frame: CGRect, imageView2Frame: CGRect, imageView3Frame: CGRect, imageView4Frame: CGRect) {
             self.imageView1Frame = imageView1Frame
             self.imageView2Frame = imageView2Frame
             self.imageView3Frame = imageView3Frame
+            self.imageView4Frame = imageView4Frame
         }
     }
     var normalImagesLayout: NormalImagesLayout?
@@ -139,7 +141,7 @@ struct FeedCellLayout {
             if feed.imageAttachmentsCount == 1 {
                 height = FeedBiggerImageCell.heightOfFeed(feed)
 
-            } else if feed.imageAttachmentsCount <= 3 {
+            } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
                 height = FeedNormalImagesCell.heightOfFeed(feed)
 
             } else {
@@ -242,7 +244,7 @@ struct FeedCellLayout {
 
                 self.biggerImageLayout = biggerImageLayout
 
-            } else if feed.imageAttachmentsCount <= 3 {
+            } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
                 let x1 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 0
                 let imageView1Frame = CGRect(origin: CGPoint(x: x1, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
@@ -253,12 +255,15 @@ struct FeedCellLayout {
                 let x3 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 2
                 let imageView3Frame = CGRect(origin: CGPoint(x: x3, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
 
-                let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame)
+                let x4 = 65 + (YepConfig.FeedNormalImagesCell.imageSize.width + 5) * 3
+                let imageView4Frame = CGRect(origin: CGPoint(x: x4, y: beginY), size: YepConfig.FeedNormalImagesCell.imageSize)
+
+                let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1Frame, imageView2Frame: imageView2Frame, imageView3Frame: imageView3Frame, imageView4Frame: imageView4Frame)
 
                 self.normalImagesLayout = normalImagesLayout
 
             } else {
-                let height = feedAttachmentImageSize.height
+                let height = YepConfig.FeedNormalImagesCell.imageSize.height
                 let mediaCollectionViewFrame = CGRect(x: 0, y: beginY, width: screenWidth, height: height)
 
                 let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionViewFrame)
@@ -288,13 +293,10 @@ struct FeedCellLayout {
 
             if let attachment = feed.attachment {
                 if case let .Audio(audioInfo) = attachment {
-                    let timeLengthString = String(format: "%.1f\"", audioInfo.duration)
-                    let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
-
-                    let width = 7 + 30 + 5 + CGFloat(audioInfo.sampleValues.count) * 3 + 5 + rect.width + 5
+                    let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
+                    let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = beginY + 2
-
-                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 40)
+                    let voiceContainerViewFrame = CGRect(x: 65, y: y, width: width, height: 50)
 
                     let audioLayout = FeedCellLayout.AudioLayout(voiceContainerViewFrame: voiceContainerViewFrame)
 

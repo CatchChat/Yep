@@ -33,7 +33,7 @@ class SubscribeView: UIView {
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
 
-        button.addTarget(self, action: "subscribe:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SubscribeView.subscribe(_:)), forControlEvents: .TouchUpInside)
 
         return button
     }()
@@ -42,7 +42,7 @@ class SubscribeView: UIView {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
 
-        button.addTarget(self, action: "dismiss:", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(SubscribeView.dismiss(_:)), forControlEvents: .TouchUpInside)
 
         return button
     }()
@@ -72,9 +72,9 @@ class SubscribeView: UIView {
                 "horizontalLineView": horizontalLineView,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
 
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)]", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)]", options: [], metrics: nil, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
@@ -100,7 +100,7 @@ class SubscribeView: UIView {
 
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[iconImageView]-[promptLabel]-(>=10)-[subscribeButton]-[dismissButton]-(9)-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: views)
 
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[dismissButton]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[dismissButton]|", options: [], metrics: nil, views: views)
 
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)

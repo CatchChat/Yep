@@ -8,9 +8,9 @@
 
 import Foundation
 
-func println(object: Any) {
+func println(@autoclosure item: () -> Any) {
     #if DEBUG
-        Swift.print(object)
+        Swift.print(item())
     #endif
 }
 

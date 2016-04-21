@@ -36,11 +36,7 @@ class MessageTypeButton: TouchZoomButton {
     lazy var typeTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.darkGrayColor()
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 12)!
-        }
+        label.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
         label.textAlignment = .Center
         return label
     }()
@@ -50,7 +46,7 @@ class MessageTypeButton: TouchZoomButton {
 
         makeUI()
 
-        self.addTarget(self, action: "tryTapAction", forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(MessageTypeButton.tryTapAction), forControlEvents: .TouchUpInside)
     }
 
     func makeUI() {
@@ -68,7 +64,7 @@ class MessageTypeButton: TouchZoomButton {
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing] , metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

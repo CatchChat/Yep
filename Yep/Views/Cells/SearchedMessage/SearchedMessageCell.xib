@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SearchedMessageCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3HM-mx-ihg">
+                        <rect key="frame" x="15" y="20" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="pVF-EN-VgX"/>
+                            <constraint firstAttribute="width" secondItem="3HM-mx-ihg" secondAttribute="height" multiplier="1:1" id="txk-wI-tec"/>
+                        </constraints>
+                    </imageView>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="NIX" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SUa-Ue-9Oc">
+                        <rect key="frame" x="70" y="20" width="24" height="17"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How are you?" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kE0-bi-8O1">
+                        <rect key="frame" x="70" y="42" width="240" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="4:30 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORc-NZ-NTd">
+                        <rect key="frame" x="262" y="22" width="48" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ORc-NZ-NTd" secondAttribute="trailing" constant="10" id="0PS-74-hEm"/>
+                    <constraint firstItem="SUa-Ue-9Oc" firstAttribute="top" secondItem="3HM-mx-ihg" secondAttribute="top" id="9qC-d1-Z9e"/>
+                    <constraint firstItem="kE0-bi-8O1" firstAttribute="leading" secondItem="3HM-mx-ihg" secondAttribute="trailing" constant="15" id="EMK-pn-Ksa"/>
+                    <constraint firstItem="3HM-mx-ihg" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kE0-bi-8O1" secondAttribute="bottom" id="Ftj-Az-h1v"/>
+                    <constraint firstItem="SUa-Ue-9Oc" firstAttribute="leading" secondItem="3HM-mx-ihg" secondAttribute="trailing" constant="15" id="JPN-PZ-w1G"/>
+                    <constraint firstItem="kE0-bi-8O1" firstAttribute="top" secondItem="SUa-Ue-9Oc" secondAttribute="bottom" constant="5" id="ObZ-tj-SH1"/>
+                    <constraint firstAttribute="trailing" secondItem="kE0-bi-8O1" secondAttribute="trailing" constant="10" id="Xta-aP-CrD"/>
+                    <constraint firstItem="3HM-mx-ihg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="bq0-Lb-C4P"/>
+                    <constraint firstItem="ORc-NZ-NTd" firstAttribute="baseline" secondItem="SUa-Ue-9Oc" secondAttribute="baseline" id="dbG-Bs-boq"/>
+                    <constraint firstItem="3HM-mx-ihg" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="mRa-qa-SYQ"/>
+                    <constraint firstItem="ORc-NZ-NTd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SUa-Ue-9Oc" secondAttribute="trailing" constant="8" id="wMA-pm-kAL"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarImageView" destination="3HM-mx-ihg" id="C0u-8U-YFT"/>
+                <outlet property="messageLabel" destination="kE0-bi-8O1" id="cPn-G2-Rfk"/>
+                <outlet property="nicknameLabel" destination="SUa-Ue-9Oc" id="QFp-tv-rM7"/>
+                <outlet property="timeLabel" destination="ORc-NZ-NTd" id="dft-J6-thu"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

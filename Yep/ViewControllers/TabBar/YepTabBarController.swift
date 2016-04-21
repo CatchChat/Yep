@@ -41,7 +41,7 @@ class YepTabBarController: UITabBarController {
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
             if newValue {
-                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "checkDoubleTapOnFeeds:", userInfo: nil, repeats: false)
+                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapOnFeedsTimer = timer
 
             } else {
@@ -103,6 +103,27 @@ class YepTabBarController: UITabBarController {
             }
         }
     }
+
+    var isTabBarVisible: Bool {
+        return self.tabBar.frame.origin.y < CGRectGetMaxY(view.frame)
+    }
+
+    func setTabBarHidden(hidden: Bool, animated: Bool) {
+
+        guard isTabBarVisible == hidden else {
+            return
+        }
+
+        let height = self.tabBar.frame.size.height
+        let offsetY = (hidden ? height : -height)
+
+        let duration = (animated ? 0.25 : 0.0)
+
+        UIView.animateWithDuration(duration, animations: {
+            let frame = self.tabBar.frame
+            self.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+        }, completion: nil)
+    }
 }
 
 // MARK: - UITabBarControllerDelegate
@@ -146,6 +167,10 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 return
         }
 
+        if tab != .Contacts {
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
+        }
+
         // 不相等才继续，确保第一次 tap 不做事
 
         if tab != previousTab {
@@ -157,26 +182,35 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         case .Conversations:
             if let vc = nvc.topViewController as? ConversationsViewController {
-                if !vc.conversationsTableView.yep_isAtTop {
-                    vc.conversationsTableView.yep_scrollsToTop()
+                guard let scrollView = vc.conversationsTableView else {
+                    break
+                }
+                if !scrollView.yep_isAtTop {
+                    scrollView.yep_scrollsToTop()
                 }
             }
 
         case .Contacts:
             if let vc = nvc.topViewController as? ContactsViewController {
-                if !vc.contactsTableView.yep_isAtTop {
-                    vc.contactsTableView.yep_scrollsToTop()
+                guard let scrollView = vc.contactsTableView else {
+                    break
+                }
+                if !scrollView.yep_isAtTop {
+                    scrollView.yep_scrollsToTop()
                 }
             }
 
         case .Feeds:
             if let vc = nvc.topViewController as? FeedsViewController {
-                if !vc.feedsTableView.yep_isAtTop {
-                    vc.feedsTableView.yep_scrollsToTop()
+                guard let scrollView = vc.feedsTableView else {
+                    break
+                }
+                if !scrollView.yep_isAtTop {
+                    scrollView.yep_scrollsToTop()
 
                 } else {
                     if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
-                        vc.feedsTableView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                        scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
                         hasFirstTapOnFeedsWhenItIsAtTop = false
                     }
                 }
@@ -184,15 +218,21 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         case .Discover:
             if let vc = nvc.topViewController as? DiscoverViewController {
-                if !vc.discoveredUsersCollectionView.yep_isAtTop {
-                    vc.discoveredUsersCollectionView.yep_scrollsToTop()
+                guard let scrollView = vc.discoveredUsersCollectionView else {
+                    break
+                }
+                if !scrollView.yep_isAtTop {
+                    scrollView.yep_scrollsToTop()
                 }
             }
 
         case .Profile:
             if let vc = nvc.topViewController as? ProfileViewController {
-                if !vc.profileCollectionView.yep_isAtTop {
-                    vc.profileCollectionView.yep_scrollsToTop()
+                guard let scrollView = vc.profileCollectionView else {
+                    break
+                }
+                if !scrollView.yep_isAtTop {
+                    scrollView.yep_scrollsToTop()
                 }
             }
         }

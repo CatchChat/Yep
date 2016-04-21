@@ -86,7 +86,7 @@ class MediaPreviewView: UIView {
                                 }
                             })
 
-                            NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
+                            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MediaPreviewView.playerItemDidReachEnd(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: player.currentItem)
 
                             mediaControlView.playAction = { mediaControlView in
                                 player.play()
@@ -179,15 +179,15 @@ class MediaPreviewView: UIView {
             "mediaControlView": mediaControlView,
         ]
 
-        let mediaViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mediaView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let mediaViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mediaView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let mediaViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let mediaViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(mediaViewConstraintsV)
         NSLayoutConstraint.activateConstraints(mediaViewConstraintsH)
 
 
-        let mediaControlViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaControlView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let mediaControlViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaControlView]|", options: [], metrics: nil, views: viewsDictionary)
 
         let mediaControlViewConstraintHeight = NSLayoutConstraint(item: mediaControlView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 50)
 
@@ -198,10 +198,10 @@ class MediaPreviewView: UIView {
     }
 
     func addHideGesture() {
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: "hide")
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewView.hide))
         swipeUp.direction = .Up
 
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: "hide")
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewView.hide))
         swipeDown.direction = .Down
 
         addGestureRecognizer(swipeUp)

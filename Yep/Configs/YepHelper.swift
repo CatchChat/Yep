@@ -69,11 +69,15 @@ func cleanRealmAndCaches() {
 
     realm.refresh()
 
+    println("cleaned realm!")
+
     // cleam all memory caches
     
     AvatarPod.clear()
 
     ImageCache.sharedInstance.cache.removeAllObjects()
+
+    println("cleaned caches!")
 
     // clean Message File caches
 
@@ -83,11 +87,11 @@ func cleanRealmAndCaches() {
 
     NSFileManager.cleanAvatarCaches()
 
-    NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
-}
+    println("cleaned files!")
 
-func isOperatingSystemAtLeastMajorVersion(majorVersion: Int) -> Bool {
-    return NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: majorVersion, minorVersion: 0, patchVersion: 0))
+    dispatch_async(dispatch_get_main_queue()) {
+        NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
+    }
 }
 
 extension String {

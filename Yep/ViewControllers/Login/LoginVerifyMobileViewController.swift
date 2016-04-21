@@ -28,12 +28,12 @@ class LoginVerifyMobileViewController: UIViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: "next:")
+        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(LoginVerifyMobileViewController.next(_:)))
         return button
     }()
 
     private lazy var callMeTimer: NSTimer = {
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "tryCallMe:", userInfo: nil, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(LoginVerifyMobileViewController.tryCallMe(_:)), userInfo: nil, repeats: true)
         return timer
     }()
 
@@ -59,7 +59,7 @@ class LoginVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "activeAgain:", name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginVerifyMobileViewController.activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
         
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
@@ -68,7 +68,7 @@ class LoginVerifyMobileViewController: UIViewController {
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.delegate = self
-        verifyCodeTextField.addTarget(self, action: "textFieldDidChange:", forControlEvents: .EditingChanged)
+        verifyCodeTextField.addTarget(self, action: #selector(LoginVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
@@ -120,7 +120,7 @@ class LoginVerifyMobileViewController: UIViewController {
         }
 
         if (callMeInSeconds > 1) {
-            callMeInSeconds--
+            callMeInSeconds -= 1
         }
     }
 

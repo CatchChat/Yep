@@ -99,7 +99,7 @@ class FriendRequestView: UIView {
         let button = self.baseButton()
         button.setTitle(NSLocalizedString("Add", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
-        button.addTarget(self, action: "tryAddAction", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FriendRequestView.tryAddAction), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -107,7 +107,7 @@ class FriendRequestView: UIView {
         let button = self.baseButton()
         button.setTitle(NSLocalizedString("Accept", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
-        button.addTarget(self, action: "tryAcceptAction", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FriendRequestView.tryAcceptAction), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -116,7 +116,7 @@ class FriendRequestView: UIView {
         button.setTitle(NSLocalizedString("Reject", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
         button.setTitleColor(UIColor.darkGrayColor(), forState: UIControlState.Normal)
-        button.addTarget(self, action: "tryRejectAction", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FriendRequestView.tryRejectAction), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -198,16 +198,16 @@ class FriendRequestView: UIView {
 
         // visualEffectView
 
-        let visualEffectViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[visualEffectView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        let visualEffectViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[visualEffectView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[visualEffectView]|", options: [], metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[visualEffectView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(visualEffectViewConstraintH)
         NSLayoutConstraint.activateConstraints(visualEffectViewConstraintV)
 
         // containerView
 
-        let containerViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
-        let containerViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let containerViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
+        let containerViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(containerViewConstraintH)
         NSLayoutConstraint.activateConstraints(containerViewConstraintV)

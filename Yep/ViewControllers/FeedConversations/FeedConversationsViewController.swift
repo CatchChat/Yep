@@ -22,8 +22,7 @@ class FeedConversationsViewController: SegueViewController {
     }
 
     lazy var feedConversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return feedConversationsInRealm(self.realm)
     }()
 
     let feedConversationCellID = "FeedConversationCell"
@@ -61,9 +60,11 @@ class FeedConversationsViewController: SegueViewController {
             }
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadFeedConversationsTableView", name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.changedFeedConversation, object: nil)
     }
 
     var isFirstAppear = true
@@ -81,8 +82,8 @@ class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.feedConversationsTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.feedConversationsTableView.reloadData()
         }
     }
 
@@ -165,9 +166,11 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedConversationCell {
-            performSegueWithIdentifier("showConversation", sender: cell.conversation)
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            return
         }
+
+        performSegueWithIdentifier("showConversation", sender: conversation)
     }
 
     // Edit (for Delete)
@@ -176,64 +179,81 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
         return true
     }
-    
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
-        return NSLocalizedString("Unsubscribe", comment: "")
-    }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-        if editingStyle == .Delete {
-            
-            guard let conversation = feedConversations[safe: indexPath.row] else {
+        guard let conversation = feedConversations[safe: indexPath.row] else {
+            fatalError("Invalid index of feedConversations!")
+        }
+
+        let title: String = NSLocalizedString("Unsubscribe", comment: "")
+        /*
+        var title: String = NSLocalizedString("Unsubscribe", comment: "")
+        if let feed = conversation.withGroup?.withFeed {
+            if feed.deleted {
+                title = NSLocalizedString("Delete", comment: "")
+            }
+            if let creator = feed.creator where creator.isMe {
+                title = NSLocalizedString("Delete", comment: "")
+            }
+        }
+        */
+
+        let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
+
+            defer {
                 tableView.setEditing(false, animated: true)
+            }
+
+            guard let conversation = self?.feedConversations[safe: indexPath.row] else {
                 return
             }
 
-            let doDeleteConversation: () -> Void = {
-                
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    guard let realm = conversation.realm else {
-                        return
-                    }
-
-                    realm.beginWrite()
-                    
-                    deleteConversation(conversation, inRealm: realm)
-
-                    let _ = try? realm.commitWrite()
-
-                    realm.refresh()
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    
-                    delay(0.1, work: { () -> Void in
-                        tableView.setEditing(false, animated: true)
-                        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-                    })
-                }
-            }
-            
             guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
                 return
             }
-            
+
             let feedID = feed.feedID
             let feedCreatorID = feedCreator.userID
-            
+
+            let doDeleteConversation: () -> Void = {
+
+                guard let realm = conversation.realm else {
+                    return
+                }
+
+                realm.beginWrite()
+
+                deleteConversation(conversation, inRealm: realm)
+
+                let _ = try? realm.commitWrite()
+
+                realm.refresh()
+
+                tableView.beginUpdates()
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                tableView.endUpdates()
+
+                // 延迟一些再发通知，避免影响 tableView 的删除
+                delay(0.5) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
+
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+            }
+
             // 若是创建者，再询问是否删除 Feed
-            
+
             if feedCreatorID == YepUserDefaults.userID.value {
-                
+
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
-                    
+
                     doDeleteConversation()
-                    
+
                     deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                         println("deleted feed: \(feedID)")
                     })
-                    
+
                 }, cancelAction: {
                     doDeleteConversation()
                 })
@@ -242,6 +262,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 doDeleteConversation()
             }
         }
+
+        return [deleteAction]
     }
 }
 

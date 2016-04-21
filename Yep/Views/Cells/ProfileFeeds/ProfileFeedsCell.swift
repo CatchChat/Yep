@@ -23,15 +23,32 @@ class ProfileFeedsCell: UICollectionViewCell {
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
 
-    var feedAttachments: [DiscoveredAttachment]? {
+    private var enabled: Bool = false {
+        willSet {
+            if newValue {
+                iconImageView.tintColor = UIColor.yepTintColor()
+                nameLabel.textColor = UIColor.yepTintColor()
+                accessoryImageView.hidden = false
+                accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+            } else {
+                iconImageView.tintColor = SocialAccount.disabledColor
+                nameLabel.textColor = SocialAccount.disabledColor
+                accessoryImageView.hidden = true
+            }
+        }
+    }
+
+    var feedAttachments: [DiscoveredAttachment?]? {
         willSet {
             guard let _attachments = newValue else {
                 return
             }
 
+            enabled = !_attachments.isEmpty
+
             // 对于从左到右排列，且左边的最新，要处理数量不足的情况
 
-            var attachments: [DiscoveredAttachment?] = _attachments.map({ $0 })
+            var attachments = _attachments
 
             let imageViews = [
                 imageView4,
@@ -40,18 +57,24 @@ class ProfileFeedsCell: UICollectionViewCell {
                 imageView1,
             ]
 
+            let shortagesCount = max(imageViews.count - attachments.count, 0)
+
             // 不足补空
-            if attachments.count < imageViews.count {
-
-                let empty: [DiscoveredAttachment?] = Array(0..<(imageViews.count - attachments.count)).map({ _ in
-                    return nil
-                })
-
-                attachments.insertContentsOf(empty, at: 0)
+            if shortagesCount > 0 {
+                let shortages = Array<DiscoveredAttachment?>(count: shortagesCount, repeatedValue: nil)
+                attachments.insertContentsOf(shortages, at: 0)
             }
 
             for i in 0..<imageViews.count {
-                imageViews[i].image = attachments[i]?.thumbnailImage
+                if i < shortagesCount {
+                    imageViews[i].image = nil
+                } else {
+                    if let thumbnailImage = attachments[i]?.thumbnailImage {
+                        imageViews[i].image = thumbnailImage
+                    } else {
+                        imageViews[i].image = UIImage(named: "icon_feed_text")
+                    }
+                }
             }
         }
     }
@@ -59,10 +82,10 @@ class ProfileFeedsCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nameLabel.text = NSLocalizedString("Feeds", comment: "")
-        nameLabel.textColor = UIColor.yepTintColor()
+        enabled = false
 
-        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        nameLabel.text = NSLocalizedString("Feeds", comment: "")
+
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
@@ -83,7 +106,7 @@ class ProfileFeedsCell: UICollectionViewCell {
         imageView4.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment]) -> Void)?) {
+    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
 
         if let feedAttachments = feedAttachments {
             self.feedAttachments = feedAttachments
@@ -104,8 +127,7 @@ class ProfileFeedsCell: UICollectionViewCell {
                     }
 
                     return nil
-
-                }).flatMap({ $0 })
+                })
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.feedAttachments = feedAttachments

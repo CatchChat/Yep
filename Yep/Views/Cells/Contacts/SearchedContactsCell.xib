@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="SearchedContactsCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MQ0-GV-fXP">
+                        <rect key="frame" x="10" y="10" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="XQo-Ix-mET"/>
+                            <constraint firstAttribute="width" secondItem="MQ0-GV-fXP" secondAttribute="height" multiplier="1:1" id="dxG-h9-ctc"/>
+                        </constraints>
+                    </imageView>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="NIX" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vY7-bl-BsK">
+                        <rect key="frame" x="85" y="10" width="24" height="17"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="@nixzhu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tdd-dR-Fia">
+                        <rect key="frame" x="113" y="12" width="48" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Last seen just now" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8h6-tG-AMg">
+                        <rect key="frame" x="206" y="11" width="104" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <color key="textColor" white="0.0" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined 2 days ago" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbD-VB-gB8">
+                        <rect key="frame" x="85" y="32" width="225" height="15"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.5039117192" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="8h6-tG-AMg" secondAttribute="trailing" constant="10" id="GC3-56-7pE"/>
+                    <constraint firstItem="MQ0-GV-fXP" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dbD-VB-gB8" secondAttribute="bottom" id="Q0p-Zk-rjI"/>
+                    <constraint firstItem="MQ0-GV-fXP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="UBt-hI-gbQ"/>
+                    <constraint firstItem="dbD-VB-gB8" firstAttribute="trailing" secondItem="8h6-tG-AMg" secondAttribute="trailing" id="Vr1-aU-Ez8"/>
+                    <constraint firstItem="vY7-bl-BsK" firstAttribute="leading" secondItem="MQ0-GV-fXP" secondAttribute="trailing" constant="15" id="a3n-cW-qxp"/>
+                    <constraint firstItem="MQ0-GV-fXP" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="dSe-ud-GS0"/>
+                    <constraint firstItem="dbD-VB-gB8" firstAttribute="top" secondItem="vY7-bl-BsK" secondAttribute="bottom" constant="5" id="fIC-8b-569"/>
+                    <constraint firstItem="vY7-bl-BsK" firstAttribute="top" secondItem="MQ0-GV-fXP" secondAttribute="top" id="kCk-c0-1AU"/>
+                    <constraint firstItem="Tdd-dR-Fia" firstAttribute="baseline" secondItem="vY7-bl-BsK" secondAttribute="baseline" id="nt2-gn-lmd"/>
+                    <constraint firstItem="dbD-VB-gB8" firstAttribute="leading" secondItem="MQ0-GV-fXP" secondAttribute="trailing" constant="15" id="qBA-4W-aYl"/>
+                    <constraint firstItem="8h6-tG-AMg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Tdd-dR-Fia" secondAttribute="trailing" constant="6" id="tQr-Ml-n9l"/>
+                    <constraint firstItem="Tdd-dR-Fia" firstAttribute="leading" secondItem="vY7-bl-BsK" secondAttribute="trailing" constant="4" id="tTg-TY-Lce"/>
+                    <constraint firstItem="vY7-bl-BsK" firstAttribute="centerY" secondItem="8h6-tG-AMg" secondAttribute="centerY" id="yHn-oH-WyB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="avatarImageView" destination="MQ0-GV-fXP" id="OKo-78-7xc"/>
+                <outlet property="infoLabel" destination="dbD-VB-gB8" id="ASH-hf-A6A"/>
+                <outlet property="nicknameLabel" destination="vY7-bl-BsK" id="gxx-td-gWe"/>
+                <outlet property="topRightLabel" destination="8h6-tG-AMg" id="kI6-Iy-VBg"/>
+                <outlet property="usernameLabel" destination="Tdd-dR-Fia" id="dQl-dc-5g3"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

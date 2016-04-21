@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
+        <!--SearchConversationsViewController-->
+        <scene sceneID="How-3a-2v9">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchConversations" referencedIdentifier="SearchConversationsViewController" id="gGU-x0-lzR" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hvR-M8-drV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="48.5" y="-1599"/>
+        </scene>
         <!--FeedConversationsViewController-->
         <scene sceneID="IRz-xo-nL8">
             <objects>
@@ -57,6 +64,8 @@
                         <outlet property="conversationsTableView" destination="ECY-qd-LcH" id="UNW-oM-y6R"/>
                         <segue destination="4LZ-EL-DIC" kind="show" identifier="showFeedConversations" id="k6i-To-sje"/>
                         <segue destination="QZL-WJ-zdV" kind="show" identifier="showConversation" id="I5f-gX-4nB"/>
+                        <segue destination="UCf-rZ-VVt" kind="show" identifier="showProfile" id="RDj-or-85C"/>
+                        <segue destination="gGU-x0-lzR" kind="show" identifier="showSearchConversations" id="6UI-vw-uYp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -116,6 +125,8 @@
                         <outlet property="coverUnderStatusBarView" destination="G4u-1I-leN" id="mZf-ea-d2Y"/>
                         <segue destination="AZ0-Fw-rwa" kind="show" identifier="showAddFriends" id="sGo-49-lo9"/>
                         <segue destination="ud8-be-cUH" kind="show" identifier="showProfile" id="26L-0k-ELo"/>
+                        <segue destination="UVq-MX-Pso" kind="show" identifier="showSearchContacts" id="cFN-sJ-mbQ"/>
+                        <segue destination="sMY-yq-ctJ" kind="show" identifier="showConversation" id="jcS-l3-8ES"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -134,7 +145,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
                                     <size key="itemSize" width="50" height="50"/>
@@ -181,6 +192,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i6I-3Z-6M6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559" y="1077"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="UKd-3u-mzY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="UCf-rZ-VVt" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UN6-Pd-Kne" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4" y="-1357"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="8yj-GZ-bVh">
@@ -269,6 +288,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-559" y="1901"/>
+        </scene>
+        <!--SearchContactsViewController-->
+        <scene sceneID="qZ3-ft-tqL">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchContacts" referencedIdentifier="SearchContactsViewController" id="UVq-MX-Pso" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xfl-kr-yeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-15.5" y="-436"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="YLm-rK-WGS">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="sMY-yq-ctJ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hWf-Hh-dqR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-22.5" y="-356"/>
         </scene>
         <!--AddFriendsViewController-->
         <scene sceneID="xpw-2j-6I8">
@@ -359,6 +394,7 @@
                         <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
                         <segue destination="9n0-n0-AJg" kind="presentation" identifier="presentNewFeedVoiceRecord" id="xzo-eI-lqm"/>
                         <segue destination="eU6-TF-LII" kind="presentation" identifier="presentPickLocation" id="bvu-Rs-ARw"/>
+                        <segue destination="BTb-Zg-CnT" kind="show" identifier="showSearchFeeds" id="oMF-br-ZET"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -395,7 +431,7 @@
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="iL2-os-eZV" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dvB-x7-LnM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="69.5" y="385"/>
+            <point key="canvasLocation" x="69" y="237"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="P4W-XO-vZA">
@@ -403,7 +439,15 @@
                 <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="35" y="473"/>
+            <point key="canvasLocation" x="48" y="318"/>
+        </scene>
+        <!--SearchFeedsViewController-->
+        <scene sceneID="vac-Ta-f1y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchFeeds" referencedIdentifier="SearchFeedsViewController" id="BTb-Zg-CnT" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LiJ-SY-7S0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="32" y="413"/>
         </scene>
         <!--SkillHomeViewController-->
         <scene sceneID="mll-N9-alH">
@@ -460,7 +504,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="3Dc-Qq-4vY"/>
+                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="7Yg-OV-MON"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoZ-xx-fki" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -493,7 +537,7 @@
         <!--Profile-->
         <scene sceneID="E1Z-RL-QZO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dwP-GL-7hj" customClass="YepNavigationController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="icon_me" id="zZf-BL-xLF">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_me_active"/>

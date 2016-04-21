@@ -12,21 +12,22 @@ import Proposer
 
 class AddFriendsViewController: SegueViewController {
 
-    @IBOutlet private weak var addFriendsTableView: UITableView!
-
     private let addFriendSearchCellIdentifier = "AddFriendSearchCell"
     private let addFriendMoreCellIdentifier = "AddFriendMoreCell"
-    
+
+    @IBOutlet private weak var addFriendsTableView: UITableView! {
+        didSet {
+            addFriendsTableView.rowHeight = 60
+
+            addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
+            addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Add Friends", comment: "")
-
-
-        addFriendsTableView.rowHeight = 60
-
-        addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
-        addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
     }
 
     // MARK: Navigation
@@ -46,23 +47,11 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
     private enum Section: Int {
         case Search = 0
         case More
-
-        static var caseCount: Int {
-            var max: Int = 0
-            while let _ = self.init(rawValue: ++max) {}
-            return max
-        }
     }
 
     private enum More: Int, CustomStringConvertible {
         case Contacts
         //case FaceToFace
-
-        static var caseCount: Int {
-            var max: Int = 0
-            while let _ = self.init(rawValue: ++max) {}
-            return max
-        }
 
         var description: String {
             switch self {
@@ -77,7 +66,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return Section.caseCount
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,7 +76,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
 
         case Section.More.rawValue:
-            return More.caseCount
+            return 1
 
         default:
             return 0
@@ -102,7 +91,9 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
-            cell.searchTextField.becomeFirstResponder()
+            delay(0.5) {
+                cell.searchTextField.becomeFirstResponder()
+            }
 
             return cell
 

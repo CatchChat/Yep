@@ -2,28 +2,28 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "onepassword-extension~compact.png"
+      "filename" : "onepassword-extension~compact.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "onepassword-extension@2x~compact.png"
+      "filename" : "onepassword-extension@2x~compact.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "3x",
-      "filename" : "onepassword-extension@3x~compact.png"
+      "filename" : "onepassword-extension@3x~compact.png",
+      "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "onepassword-extension~regular.png"
+      "filename" : "onepassword-extension~regular.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "onepassword-extension@2x~regular.png"
+      "filename" : "onepassword-extension@2x~regular.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

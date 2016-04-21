@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -376,11 +375,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a good picture for your Avatar" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8It-jU-dm1" userLabel="Take Picture Prompt Label">
-                                <rect key="frame" x="161.5" y="334" width="278.5" height="21.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i4k-kS-w32" userLabel="Cemera Roll Button">
                                 <rect key="frame" x="170" y="499" width="60" height="66"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -424,7 +418,7 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <inset key="contentEdgeInsets" minX="0.0" minY="13" maxX="0.0" maxY="13"/>
-                                <state key="normal" title="Open Camera">
+                                <state key="normal" title="Pick Your Avatar">
                                     <color key="titleColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -436,8 +430,6 @@
                         <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="nqi-d1-G0k" firstAttribute="centerY" secondItem="2pw-VA-qDr" secondAttribute="centerY" id="3j4-0d-fOt"/>
-                            <constraint firstItem="8It-jU-dm1" firstAttribute="centerX" secondItem="AEj-wj-Yl6" secondAttribute="centerX" id="Gi2-lW-tBc"/>
-                            <constraint firstItem="8It-jU-dm1" firstAttribute="top" secondItem="AEj-wj-Yl6" secondAttribute="bottom" constant="60" id="O5p-lh-gut"/>
                             <constraint firstItem="uke-GF-N1u" firstAttribute="centerX" secondItem="nqi-d1-G0k" secondAttribute="centerX" id="OAz-6g-WOE"/>
                             <constraint firstItem="e0h-Ho-j4F" firstAttribute="top" secondItem="Z4g-rM-AaZ" secondAttribute="bottom" constant="50" id="Okw-OW-FJ5"/>
                             <constraint firstItem="nqi-d1-G0k" firstAttribute="trailing" secondItem="2pw-VA-qDr" secondAttribute="centerX" id="QZC-jz-2kN"/>
@@ -456,7 +448,6 @@
                         <outlet property="captureButton" destination="uke-GF-N1u" id="OSq-84-bd2"/>
                         <outlet property="openCameraButton" destination="nqi-d1-G0k" id="GhI-uW-eZW"/>
                         <outlet property="retakeButton" destination="2pw-VA-qDr" id="Ilk-KJ-atU"/>
-                        <outlet property="takePicturePromptLabel" destination="8It-jU-dm1" id="l9u-lB-2rc"/>
                         <segue destination="OBL-Og-6Ae" kind="show" identifier="showRegisterPickSkills" id="fwO-Qy-gTW"/>
                     </connections>
                 </viewController>

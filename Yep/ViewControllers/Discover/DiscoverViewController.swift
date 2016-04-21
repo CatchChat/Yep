@@ -18,14 +18,14 @@ var skillSizeCache = [String: CGRect]()
 
 class DiscoverViewController: BaseViewController {
 
-    @IBOutlet weak var discoveredUsersCollectionView: UICollectionView!
+    @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
     @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
     
     @IBOutlet private weak var modeButtonItem: UIBarButtonItem!
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    
+
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
@@ -49,6 +49,8 @@ class DiscoverViewController: BaseViewController {
     }
     
     private let layout = DiscoverFlowLayout()
+    
+    private let refreshControl = UIRefreshControl()
 
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
@@ -57,7 +59,7 @@ class DiscoverViewController: BaseViewController {
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
 
-            updateDiscoverUsers()
+            updateDiscoverUsers(mode: .Static)
 
             // save discoveredUserSortStyle
 
@@ -67,7 +69,38 @@ class DiscoverViewController: BaseViewController {
 
     private var discoveredUsers = [DiscoveredUser]()
 
-    private lazy var filterView: DiscoverFilterView = DiscoverFilterView()
+    private lazy var filterStyles: [DiscoveredUserSortStyle] = [
+        .Distance,
+        .LastSignIn,
+        .Default,
+    ]
+
+    private func filterItemWithSortStyle(sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
+        return .Check(
+            title: sortStyle.name,
+            titleColor: UIColor.yepTintColor(),
+            checked: sortStyle == currentSortStyle,
+            action: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.discoveredUserSortStyle = sortStyle
+                strongSelf.filterView.items = strongSelf.filterItemsWithCurrentSortStyle(strongSelf.discoveredUserSortStyle)
+                strongSelf.filterView.refreshItems()
+            }
+        )
+    }
+
+    private func filterItemsWithCurrentSortStyle(currentSortStyle: DiscoveredUserSortStyle) -> [ActionSheetView.Item] {
+        var items = filterStyles.map({
+           filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
+        })
+        items.append(.Cancel)
+        return items
+    }
+
+    private lazy var filterView: ActionSheetView = {
+        let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.discoveredUserSortStyle))
+        return view
+    }()
 
     #if DEBUG
     private lazy var discoverFPSLabel: FPSLabel = {
@@ -75,10 +108,14 @@ class DiscoverViewController: BaseViewController {
         return label
     }()
     #endif
+
+    deinit {
+        println("deinit Discover")
+    }
     
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshControl.endRefreshing()
     }
 
     override func viewDidLoad() {
@@ -118,12 +155,27 @@ class DiscoverViewController: BaseViewController {
             }
         }
 
+
+        refreshControl.tintColor = UIColor.lightGrayColor()
+        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
+        discoveredUsersCollectionView.addSubview(refreshControl)
+
         #if DEBUG
-//            view.addSubview(discoverFPSLabel)
+            //view.addSubview(discoverFPSLabel)
         #endif
     }
 
     // MARK: Actions
+
+    @objc private func refresh(sender: UIRefreshControl) {
+
+        updateDiscoverUsers(mode: .TopRefresh) {
+            dispatch_async(dispatch_get_main_queue()) {
+                sender.endRefreshing()
+            }
+        }
+    }
 
     @IBAction private func changeMode(sender: AnyObject) {
 
@@ -139,12 +191,6 @@ class DiscoverViewController: BaseViewController {
 
     @IBAction private func showFilters(sender: UIBarButtonItem) {
 
-        filterView.currentDiscoveredUserSortStyle = discoveredUserSortStyle
-        
-        filterView.filterAction = { discoveredUserSortStyle in
-            self.discoveredUserSortStyle = discoveredUserSortStyle
-        }
-
         if let window = view.window {
             filterView.showInView(window)
         }
@@ -152,7 +198,12 @@ class DiscoverViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetching = false
-    private func updateDiscoverUsers(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    private enum UpdateMode {
+        case Static
+        case TopRefresh
+        case LoadMore
+    }
+    private func updateDiscoverUsers(mode mode: UpdateMode, finish: (() -> Void)? = nil) {
 
         if isFetching {
             return
@@ -160,13 +211,13 @@ class DiscoverViewController: BaseViewController {
 
         isFetching = true
         
-        if !isLoadMore {
+        if case .Static = mode {
             activityIndicator.startAnimating()
             view.bringSubviewToFront(activityIndicator)
         }
 
-        if isLoadMore {
-            currentPageIndex++
+        if case .LoadMore = mode {
+            currentPageIndex += 1
 
         } else {
             currentPageIndex = 1
@@ -186,7 +237,7 @@ class DiscoverViewController: BaseViewController {
 
             for user in discoveredUsers {
 
-                for skill in  user.masterSkills {
+                for skill in user.masterSkills {
 
                     let skillLocalName = skill.localName ?? ""
 
@@ -210,7 +261,7 @@ class DiscoverViewController: BaseViewController {
 
                 var wayToUpdate: UICollectionView.WayToUpdate = .None
 
-                if isLoadMore {
+                if case .LoadMore = mode {
                     let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
                     strongSelf.discoveredUsers += discoveredUsers
                     let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
@@ -338,7 +389,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                     cell.loadingActivityIndicator.startAnimating()
                 }
 
-                updateDiscoverUsers(isLoadMore: true, finish: { [weak cell] in
+                updateDiscoverUsers(mode: .LoadMore, finish: { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
                 })
             }

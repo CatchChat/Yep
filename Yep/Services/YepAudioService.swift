@@ -11,6 +11,16 @@ import AVFoundation
 import AudioToolbox
 import Proposer
 
+extension AVPlayer {
+
+    var yep_playing: Bool {
+        if (rate != 0 && error == nil) {
+            return true
+        }
+        return false
+    }
+}
+
 class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
@@ -24,6 +34,22 @@ class YepAudioService: NSObject {
     var audioRecorder: AVAudioRecorder?
     
     var audioPlayer: AVAudioPlayer?
+
+    var onlineAudioPlayer: AVPlayer?
+
+    var audioPlayCurrentTime: NSTimeInterval {
+        if let audioPlayer = audioPlayer {
+            return audioPlayer.currentTime
+        }
+        return 0
+    }
+
+    var aduioOnlinePlayCurrentTime: CMTime {
+        if let onlineAudioPlayerItem = onlineAudioPlayer?.currentItem {
+            return onlineAudioPlayerItem.currentTime()
+        }
+        return CMTime()
+    }
 
     func prepareAudioRecorderWithFileURL(fileURL: NSURL, audioRecorderDelegate: AVAudioRecorderDelegate) {
 
@@ -57,7 +83,7 @@ class YepAudioService: NSObject {
 
     func startCheckRecordTimeoutTimer() {
 
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "checkRecordTimeout:", userInfo: nil, repeats: true)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(YepAudioService.checkRecordTimeout(_:)), userInfo: nil, repeats: true)
 
         checkRecordTimeoutTimer = timer
 
@@ -261,14 +287,54 @@ class YepAudioService: NSObject {
         }
     }
 
-    func resetToDefault() {
+    func playOnlineAudioWithFeedAudio(feedAudio: FeedAudio, beginFromTime time: NSTimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
+
+        guard let URL = NSURL(string: feedAudio.URLString) else {
+            return
+        }
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playAudioWithMessage setCategory failed: \(error)")
+            }
+        }
+
+        let playerItem = AVPlayerItem(URL: URL)
+        let player = AVPlayer(playerItem: playerItem)
+        player.rate = 1.0
+
+        let time = CMTime(seconds: time, preferredTimescale: 1)
+        playerItem.seekToTime(time)
+        player.play()
+
+        playingItem = .FeedAudioType(feedAudio)
+
+        success()
+
+        println("playOnlineAudioWithFeedAudio")
+
+        self.onlineAudioPlayer = player
+    }
+
+    func tryNotifyOthersOnDeactivation() {
         // playback 会导致从音乐 App 进来的时候停止音乐，所以需要重置回去
-        
+
         dispatch_async(queue) {
             let _ = try? AVAudioSession.sharedInstance().setActive(false, withOptions: AVAudioSessionSetActiveOptions.NotifyOthersOnDeactivation)
         }
+    }
 
-        playingItem = nil
+    func resetToDefault() {
+
+        tryNotifyOthersOnDeactivation()
+
+        // hack, wait for all observers of AVPlayerItemDidPlayToEndTimeNotification
+        // to handle feedAudioDidFinishPlaying (check playingFeedAudio need playingItem)
+        delay(0) { [weak self] in
+            self?.playingItem = nil
+        }
     }
 
     // MARK: Proximity
@@ -280,7 +346,7 @@ class YepAudioService: NSObject {
     override init() {
         super.init()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "proximityStateChanged", name: UIDeviceProximityStateDidChangeNotification, object: UIDevice.currentDevice())
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(YepAudioService.proximityStateChanged), name: UIDeviceProximityStateDidChangeNotification, object: UIDevice.currentDevice())
     }
 
     func proximityStateChanged() {

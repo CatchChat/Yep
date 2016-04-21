@@ -152,19 +152,19 @@
 "Face to Face" = "面对面";
 
 /* No comment provided by engineer. */
-"Failed to resend audio!\nPlease make sure your iPhone is connected to the Internet." = "重发音频失败！\n请确保您的 iPhone 已连接到互联网。";
+"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "重发音频失败！\n请确保您的设备已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend image!\nPlease make sure your iPhone is connected to the Internet." = "重发图片失败！\n请确保您的 iPhone 已连接到互联网。";
+"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "重发图片失败！\n请确保您的设备已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend location!\nPlease make sure your iPhone is connected to the Internet." = "重发位置失败！\n请确保您的 iPhone 已连接到互联网。";
+"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "重发位置失败！\n请确保您的设备已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend text!\nPlease make sure your iPhone is connected to the Internet." = "重发文字失败！\n请确保您的 iPhone 已连接到互联网。";
+"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "重发文字失败！\n请确保您的设备已连接到互联网。";
 
 /* No comment provided by engineer. */
-"Failed to resend video!\nPlease make sure your iPhone is connected to the Internet." = "重发视频失败！\n请确保您的 iPhone 已连接到互联网。";
+"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "重发视频失败！\n请确保您的设备已连接到互联网。";
 
 /* No comment provided by engineer. */
 "Failed to send audio!\nTry tap on message to resend." = "发送音频失败！\n轻按消息气泡可以重发。";
@@ -610,7 +610,7 @@
 "Set Username" = "设置用户名";
 
 /* No comment provided by engineer. */
-"Please note that you can only set username once." = "请注意，您只能设置一次用户名。";
+"Please note that you can only set username once." = "请注意，你只能设置一次用户名哦~";
 
 /* No comment provided by engineer. */
 "Set" = "设置";
@@ -732,4 +732,35 @@
 "No username" = "没有用户名";
 
 "Create feed failed!" = "创建话题失败！";
+
+"[Mentioned you]" = "[提及了你]";
+
+"Friends" = "好友";
+
+"Users" = "用户";
+
+"Messages" = "消息";
+
+"Show More" = "查看更多";
+
+"Search Feeds" = "搜索话题";
+
+"Chat Records" = "聊天记录";
+
+"%d messages" = "%d 条相关记录";
+
+"Hide these feeds" = "不看此人的话题";
+
+"Feeds by this creator will remove from your timeline." = "此人的话题将不再出现在您的时间线上";
+
+"Creators of Blocked Feeds" = "被屏蔽的话题创建者";
+"Blocked Creators" = "被屏蔽的创建者";
+"No blocked creators." = "没有被屏蔽的创建者";
+"Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了。";
+
+"Try any keywords" = "试试任意关键词";
+"iOS, Music ..." = "iOS，音乐…";
+"Book, Food ..." = "书籍，食物…";
+
+"No more results." = "没有更多搜索结果了";
 

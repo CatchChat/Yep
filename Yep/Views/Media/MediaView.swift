@@ -11,6 +11,18 @@ import AVFoundation
 
 class MediaView: UIView {
 
+    var inTapZoom: Bool = false
+    var isRoomIn: Bool = false
+    var zoomScaleBeforeZoomIn: CGFloat?
+
+    var tapToDismissAction: (() -> Void)? {
+        didSet {
+            inTapZoom = false
+            isRoomIn = false
+            zoomScaleBeforeZoomIn = nil
+        }
+    }
+
     func updateImageViewWithImage(image: UIImage) {
 
         scrollView.frame = UIScreen.mainScreen().bounds
@@ -95,6 +107,47 @@ class MediaView: UIView {
         makeUI()
 
         layer.addSublayer(videoPlayerLayer)
+
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(MediaView.doubleTapToZoom(_:)))
+        doubleTap.numberOfTapsRequired = 2
+        addGestureRecognizer(doubleTap)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(MediaView.tapToDismiss(_:)))
+        tap.requireGestureRecognizerToFail(doubleTap)
+        addGestureRecognizer(tap)
+    }
+
+    @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
+
+        inTapZoom = true
+        let zoomPoint = sender.locationInView(self)
+
+        if !isRoomIn {
+            isRoomIn = true
+            zoomScaleBeforeZoomIn = scrollView.zoomScale
+            scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
+
+        } else {
+            if let zoomScale = zoomScaleBeforeZoomIn {
+                zoomScaleBeforeZoomIn = nil
+                isRoomIn = false
+                scrollView.yep_zoomToPoint(zoomPoint, withScale: zoomScale, animated: true)
+            }
+        }
+    }
+
+    @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
+
+        if let zoomScale = zoomScaleBeforeZoomIn {
+            let quickZoomDuration: NSTimeInterval = 0.35
+            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animationDuration: quickZoomDuration, animationCurve: .EaseInOut)
+            delay(quickZoomDuration) { [weak self] in
+                self?.tapToDismissAction?()
+            }
+            
+        } else {
+            tapToDismissAction?()
+        }
     }
 
     override func layoutSubviews() {
@@ -117,17 +170,17 @@ class MediaView: UIView {
             "coverImageView": coverImageView,
         ]
 
-        let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let scrollViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(scrollViewConstraintsV)
         NSLayoutConstraint.activateConstraints(scrollViewConstraintsH)
 
 
-        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsV)
         NSLayoutConstraint.activateConstraints(coverImageViewConstraintsH)
@@ -136,9 +189,9 @@ class MediaView: UIView {
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
         NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
@@ -190,6 +243,11 @@ extension MediaView: UIScrollViewDelegate {
     }
 
     func scrollViewDidZoom(scrollView: UIScrollView) {
+        if inTapZoom {
+            inTapZoom = false
+            return
+        }
+
         if let image = image {
             recenterImage(image)
         }

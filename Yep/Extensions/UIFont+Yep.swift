@@ -54,6 +54,6 @@ extension UIFont {
     }
 
     class func feedVoiceTimeLengthFont() -> UIFont {
-        return UIFont.systemFontOfSize(15)
+        return UIFont.systemFontOfSize(12)
     }
 }

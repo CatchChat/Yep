@@ -40,10 +40,6 @@ class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/nixzhu/Navi",
         ],
         [
-            "name": "APAddressBook/Swift",
-            "URLString": "https://github.com/Alterplay/APAddressBook",
-        ],
-        [
             "name": "1PasswordExtension",
             "URLString": "https://github.com/AgileBits/onepassword-app-extension",
         ],

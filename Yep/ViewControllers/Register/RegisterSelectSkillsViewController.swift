@@ -182,7 +182,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 
                 header.annotationLabel.text = annotationText
                 
-                let tap = UITapGestureRecognizer(target: self, action: "dismiss")
+                let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.dismiss))
                 header.annotationLabel.userInteractionEnabled = true
                 header.annotationLabel.addGestureRecognizer(tap)
                 

@@ -61,11 +61,7 @@ class MediaControlView: UIView {
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 14)!
-        }
+        label.font = UIFont.systemFontOfSize(14, weight: UIFontWeightLight)
         label.textColor = UIColor.whiteColor()
         label.text = "00:42"
         return label
@@ -76,7 +72,7 @@ class MediaControlView: UIView {
         button.setImage(UIImage(named: "icon_play"), forState: .Normal)
         button.tintColor = UIColor.whiteColor()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        button.addTarget(self, action: "playOrPause", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MediaControlView.playOrPause), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -85,7 +81,7 @@ class MediaControlView: UIView {
         button.setImage(UIImage(named: "icon_more"), forState: .Normal)
         button.tintColor = UIColor.whiteColor()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
-        button.addTarget(self, action: "share", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(MediaControlView.share), forControlEvents: UIControlEvents.TouchUpInside)
         return button
     }()
 
@@ -112,7 +108,7 @@ class MediaControlView: UIView {
             "shareButton": shareButton,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[timeLable]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[timeLable]|", options: [], metrics: nil, views: viewsDictionary)
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-30-[timeLable]-(>=0)-[playButton]-(>=0)-[shareButton]|", options: [.AlignAllCenterY, .AlignAllTop, .AlignAllBottom], metrics: nil, views: viewsDictionary)
 

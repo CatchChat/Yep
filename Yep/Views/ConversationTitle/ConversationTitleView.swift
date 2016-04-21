@@ -13,24 +13,14 @@ class ConversationTitleView: UIView {
     lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(15, weight: UIFontWeightBold)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)!
-        }
-
+        label.font = UIFont.systemFontOfSize(15, weight: UIFontWeightBold)
         return label
     }()
 
     lazy var stateInfoLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
-        if #available(iOS 8.2, *) {
-            label.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
-        } else {
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 10)!
-        }
+        label.font = UIFont.systemFontOfSize(10, weight: UIFontWeightLight)
         label.textColor = UIColor.grayColor()
         return label
     }()
@@ -69,7 +59,7 @@ class ConversationTitleView: UIView {
 
         let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel(24)][stateInfoLabel(12)]", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing], metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[nameLabel]|", options: [], metrics: nil, views: viewsDictionary)
 
         NSLayoutConstraint.activateConstraints(constraintsV)
         NSLayoutConstraint.activateConstraints(constraintsH)

@@ -15,14 +15,45 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: SegueViewController {
+class ConversationsViewController: BaseViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
-    @IBOutlet weak var conversationsTableView: UITableView!
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .Minimal
+        searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.delegate = self
+        return searchBar
+    }()
+
+    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
+        return ConversationsSearchTransition()
+    }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
     private let cellIdentifier = "ConversationCell"
+
+    @IBOutlet weak var conversationsTableView: UITableView! {
+        didSet {
+            searchBar.sizeToFit()
+            conversationsTableView.tableHeaderView = searchBar
+            //conversationsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+            //println("searchBar.frame: \(searchBar.frame)")
+
+            conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
+            conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+
+            conversationsTableView.rowHeight = 80
+
+            conversationsTableView.tableFooterView = UIView()
+        }
+    }
 
     private var realm: Realm!
 
@@ -53,7 +84,7 @@ class ConversationsViewController: SegueViewController {
                 }
             }
 
-            println("unreadMessagesCount: \(unreadMessagesCount)")
+            //println("unreadMessagesCount: \(unreadMessagesCount)")
         }
     }
 
@@ -75,8 +106,7 @@ class ConversationsViewController: SegueViewController {
     #endif
 
     private lazy var conversations: Results<Conversation> = {
-        let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-        return self.realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+        return oneToOneConversationsInRealm(self.realm)
     }()
 
     private struct Listener {
@@ -96,6 +126,8 @@ class ConversationsViewController: SegueViewController {
 
         conversationsTableView?.delegate = nil
 
+        realmNotificationToken?.stop()
+
         println("deinit Conversations")
     }
 
@@ -104,18 +136,20 @@ class ConversationsViewController: SegueViewController {
 
         realm = try! Realm()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.changedConversation, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.changedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.markAsReaded, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: YepConfig.Notification.changedFeedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: YepConfig.Notification.updatedUser, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.markAsReaded, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.updatedUser, object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadConversationsTableView", name: MessageNotification.MessageStateChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: MessageNotification.MessageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -138,14 +172,6 @@ class ConversationsViewController: SegueViewController {
         }
 
         view.backgroundColor = UIColor.whiteColor()
-
-        conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
-        conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        conversationsTableView.rowHeight = 80
-        conversationsTableView.tableFooterView = UIView()
 
         noConversation = conversations.isEmpty
 
@@ -277,50 +303,70 @@ class ConversationsViewController: SegueViewController {
         }
 
         isFirstAppear = false
+
+        recoverNavigationDelegate()
     }
     
     private func askForNotification() {
 
-        if #available(iOS 9.0, *) {
-            
-            let replyAction = UIMutableUserNotificationAction()
-            replyAction.title = NSLocalizedString("Reply", comment: "")
-            replyAction.identifier = YepNotificationCommentAction
-            replyAction.activationMode = .Background
-            replyAction.behavior = .TextInput
-            replyAction.authenticationRequired = false
-            
-            let replyOKAction = UIMutableUserNotificationAction()
-            replyOKAction.title = "OK"
-            replyOKAction.identifier = YepNotificationOKAction
-            replyOKAction.activationMode = .Background
-            replyOKAction.behavior = .Default
-            replyOKAction.authenticationRequired = false
-            
-            let category = UIMutableUserNotificationCategory()
-            category.identifier = "YepMessageNotification"
-            category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
-            
-            //JPUSHService.registerForRemoteNotificationTypes(
-            APService.registerForRemoteNotificationTypes(
-                UIUserNotificationType.Badge.rawValue |
+        let replyAction = UIMutableUserNotificationAction()
+        replyAction.title = NSLocalizedString("Reply", comment: "")
+        replyAction.identifier = YepNotificationCommentAction
+        replyAction.activationMode = .Background
+        replyAction.behavior = .TextInput
+        replyAction.authenticationRequired = false
+
+        let replyOKAction = UIMutableUserNotificationAction()
+        replyOKAction.title = "OK"
+        replyOKAction.identifier = YepNotificationOKAction
+        replyOKAction.activationMode = .Background
+        replyOKAction.behavior = .Default
+        replyOKAction.authenticationRequired = false
+
+        let category = UIMutableUserNotificationCategory()
+        category.identifier = "YepMessageNotification"
+        category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
+
+        // 这里才开始向用户提示推送
+        let types = UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
-                    UIUserNotificationType.Alert.rawValue, categories: [category])
-            
-        } else {
-            // 这里才开始向用户提示推送
-            //JPUSHService.registerForRemoteNotificationTypes(
-            APService.registerForRemoteNotificationTypes(
-                UIUserNotificationType.Badge.rawValue |
-                    UIUserNotificationType.Sound.rawValue |
-                    UIUserNotificationType.Alert.rawValue, categories: nil)
-        }
+                    UIUserNotificationType.Alert.rawValue
+        //JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
+        APService.registerForRemoteNotificationTypes(types, categories: [category])
     }
 
     // MARK: Navigation
 
+    private func recoverNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showConversation" {
+
+        guard let identifier = segue.identifier else { return }
+
+        func hackNavigationDelegate() {
+            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+            originalNavigationControllerDelegate = navigationController?.delegate
+
+            navigationController?.delegate = conversationsSearchTransition
+        }
+
+        switch identifier {
+
+        case "showSearchConversations":
+
+            let vc = segue.destinationViewController as! SearchConversationsViewController
+            vc.originalNavigationControllerDelegate = navigationController?.delegate
+
+            vc.hidesBottomBarWhenPushed = true
+
+            hackNavigationDelegate()
+
+        case "showConversation":
+
             let vc = segue.destinationViewController as! ConversationViewController
 
             let conversation = sender as! Conversation
@@ -341,15 +387,54 @@ class ConversationsViewController: SegueViewController {
                     }
                 }
             }
+
+            recoverNavigationDelegate()
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let user = sender as! User
+            vc.profileUser = ProfileUser.UserType(user)
+
+            vc.setBackButtonWithTitle()
+
+            recoverNavigationDelegate()
+            
+        default:
+            break
         }
     }
 
     // MARK: Actions
 
     @objc private func reloadConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.conversationsTableView.reloadData()
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.conversationsTableView.reloadData()
         }
+    }
+
+    @objc private func reloadFeedConversationsDock() {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            let sectionIndex = Section.FeedConversation.rawValue
+            guard self?.conversationsTableView.numberOfSections ?? 0 > sectionIndex else {
+                return
+            }
+
+            self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
+        }
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension ConversationsViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+
+        performSegueWithIdentifier("showSearchConversations", sender: nil)
+
+        return false
     }
 }
 
@@ -408,15 +493,27 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
 
             // 先找最新且未读的消息
-            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: ConversationType.Group)
+            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: .Group)
             // 找不到就找最新的消息
-            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: ConversationType.Group)) {
+            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .Group)) {
 
                 if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
                     cell.chatLabel.text = placeholder
 
                 } else {
-                    cell.chatLabel.text = latestMessage.nicknameWithTextContent
+                    if mentionedMeInFeedConversationsInRealm(realm) {
+                        let mentionedYouString = NSLocalizedString("[Mentioned you]", comment: "")
+                        let string = mentionedYouString + " " + latestMessage.nicknameWithTextContent
+
+                        let attributedString = NSMutableAttributedString(string: string)
+                        let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
+                        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+
+                        cell.chatLabel.attributedText = attributedString
+
+                    } else {
+                        cell.chatLabel.text = latestMessage.nicknameWithTextContent
+                    }
                 }
 
             } else {

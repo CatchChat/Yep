@@ -24,23 +24,17 @@ class FeedView: UIView {
 
     var audioPlaying: Bool = false {
         willSet {
-            if newValue != audioPlaying {
-                if newValue {
-                    voicePlayButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
-                } else {
-                    voicePlayButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
-                }
-            }
+            self.voiceContainerView.audioPlaying = newValue
         }
     }
     var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
-            guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.feedID, inRealm: realm) else {
+            guard let feedID = feed?.feedID, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
                 return
             }
 
             if let (audioDuration, _) = feedAudio.audioMetaInfo {
-                voiceSampleView.progress = CGFloat(newValue / audioDuration)
+                self.voiceContainerView.voiceSampleView.progress = CGFloat(newValue / audioDuration)
             }
         }
     }
@@ -61,52 +55,52 @@ class FeedView: UIView {
 
     var foldProgress: CGFloat = 0 {
         willSet {
-            if newValue >= 0 && newValue <= 1 {
+            guard newValue >= 0 && newValue <= 1 else {
+                return
+            }
 
-                let normalHeight = self.normalHeight
-                let attachmentURLsIsEmpty = attachments.isEmpty
+            let normalHeight = self.normalHeight
+            let attachmentURLsIsEmpty = attachments.isEmpty
 
-                UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            UIView.animateWithDuration(0.25, delay: 0, usingSpringWithDamping: 0.75, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
 
-                    self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
-                    self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
-
-                    if newValue == 1.0 {
-                        self?.nicknameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                        self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                        self?.messageTextViewHeightConstraint.constant = 20
-                    }
-
-                    if newValue == 0.0 {
-                        self?.nicknameLabelTrailingConstraint.constant = 15
-                        self?.messageTextViewTrailingConstraint.constant = 15
-                        self?.calHeightOfMessageTextView()
-                    }
-
-
-                    self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
-
-                    self?.layoutIfNeeded()
-
-                    let foldingAlpha = (1 - newValue)
-                    self?.distanceLabel.alpha = foldingAlpha
-                    self?.mediaCollectionView.alpha = foldingAlpha
-                    self?.timeLabel.alpha = foldingAlpha
-                    self?.mediaView.alpha = newValue
-
-                    self?.messageLabel.alpha = newValue
-                    self?.messageTextView.alpha = foldingAlpha
-
-                }, completion: { _ in
-                })
+                self?.nicknameLabelCenterYConstraint.constant = -10 * newValue
+                self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                 if newValue == 1.0 {
-                    foldAction?()
+                    self?.usernameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.messageTextViewHeightConstraint.constant = 20
                 }
 
                 if newValue == 0.0 {
-                    unfoldAction?(self)
+                    self?.usernameLabelTrailingConstraint.constant = 15
+                    self?.messageTextViewTrailingConstraint.constant = 15
+                    self?.calHeightOfMessageTextView()
                 }
+
+                self?.heightConstraint?.constant = FeedView.foldHeight + (normalHeight - FeedView.foldHeight) * (1 - newValue)
+
+                self?.layoutIfNeeded()
+
+                let foldingAlpha = (1 - newValue)
+                self?.distanceLabel.alpha = foldingAlpha
+                self?.mediaCollectionView.alpha = foldingAlpha
+                self?.timeLabel.alpha = foldingAlpha
+                self?.mediaView.alpha = newValue
+
+                self?.messageLabel.alpha = newValue
+                self?.messageTextView.alpha = foldingAlpha
+
+            }, completion: { _ in
+            })
+
+            if newValue == 1.0 {
+                foldAction?()
+            }
+
+            if newValue == 0.0 {
+                unfoldAction?(self)
             }
         }
     }
@@ -118,7 +112,8 @@ class FeedView: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var nicknameLabelCenterYConstraint: NSLayoutConstraint!
-    @IBOutlet weak var nicknameLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var usernameLabelTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var dotLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
 
@@ -127,7 +122,11 @@ class FeedView: UIView {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var messageLabelTrailingConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var messageTextView: FeedTextView!
+    @IBOutlet weak var messageTextView: FeedTextView! {
+        didSet {
+            messageTextView.scrollEnabled = false
+        }
+    }
     @IBOutlet weak var messageTextViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageTextViewHeightConstraint: NSLayoutConstraint!
@@ -139,30 +138,102 @@ class FeedView: UIView {
 
     @IBOutlet weak var socialWorkImageView: UIImageView!
 
-    @IBOutlet weak var githubRepoContainerView: UIView!
-    @IBOutlet weak var githubRepoImageView: UIImageView!
-    @IBOutlet weak var githubRepoNameLabel: UILabel!
-    @IBOutlet weak var githubRepoDescriptionLabel: UILabel!
+    lazy var githubRepoContainerView: FeedGithubRepoContainerView = {
+        let view = FeedGithubRepoContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.needShowAccessoryImageView = false
 
-    @IBOutlet weak var voiceContainerView: UIView!
-    @IBOutlet weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet weak var voicePlayButton: UIButton!
-    @IBOutlet weak var voiceSampleView: SampleView!
-    @IBOutlet weak var voiceTimeLabel: UILabel!
+        view.userInteractionEnabled = false
 
-    @IBOutlet weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
 
-    @IBOutlet weak var locationContainerView: UIView!
-    @IBOutlet weak var locationMapImageView: UIImageView!
-    @IBOutlet weak var locationNameLabel: UILabel!
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+        
+        return view
+    }()
+
+    weak var voiceContainerViewWidthConstraint: NSLayoutConstraint?
+    lazy var voiceContainerView: FeedVoiceContainerView = {
+        let view = FeedVoiceContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let centerY = NSLayoutConstraint(item: view, attribute: .CenterY, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.socialWorkContainerView, attribute: .Leading, multiplier: 1.0, constant: 0)
+
+        let width = NSLayoutConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 160)
+
+        self.voiceContainerViewWidthConstraint = width
+
+        NSLayoutConstraint.activateConstraints([centerY, leading, width])
+
+        view.playOrPauseAudioAction = { [weak self] in
+            self?.playOrPauseAudio()
+        }
+
+        return view
+    }()
+
+    lazy var locationContainerView: FeedLocationContainerView = {
+        let view = FeedLocationContainerView()
+        view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
+        view.needCompressNameLabel = true
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapLocation = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapLocation(_:)))
+        view.addGestureRecognizer(tapLocation)
+
+        return view
+    }()
     
     @IBOutlet weak var socialWorkBorderImageView: UIImageView!
 
-    @IBOutlet weak var feedURLContainerView: FeedURLContainerView! {
-        didSet {
-            feedURLContainerView.compressionMode = true
-        }
-    }
+    lazy var feedURLContainerView: FeedURLContainerView = {
+        let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
+        view.compressionMode = true
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        self.socialWorkContainerView.addSubview(view)
+
+        let views = [
+            "view": view
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil, views: views)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints(constraintsV)
+
+        let tapURLInfo = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapURLInfo(_:)))
+        view.addGestureRecognizer(tapURLInfo)
+
+        return view
+    }()
     
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
@@ -203,6 +274,11 @@ class FeedView: UIView {
         }
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        println("deinit FeedView")
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -214,6 +290,9 @@ class FeedView: UIView {
         distanceLabel.textColor = UIColor.grayColor()
         timeLabel.textColor = UIColor.grayColor()
         dotLabel.textColor = UIColor.grayColor()
+
+        usernameLabel.hidden = true
+        usernameLabel.text = nil
 
         messageLabel.font = UIFont.feedMessageFont()
         messageLabel.alpha = 0
@@ -232,28 +311,25 @@ class FeedView: UIView {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
-        let tapSwitchFold = UITapGestureRecognizer(target: self, action: "switchFold:")
-        addGestureRecognizer(tapSwitchFold)
-        tapSwitchFold.delegate = self
+        let tapToggleFold = UITapGestureRecognizer(target: self, action: #selector(FeedView.toggleFold(_:)))
+        addGestureRecognizer(tapToggleFold)
+        tapToggleFold.delegate = self
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: "tapAvatar:")
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapAvatar(_:)))
         avatarImageView.userInteractionEnabled = true
         avatarImageView.addGestureRecognizer(tapAvatar)
 
-        let tapSocialWork = UITapGestureRecognizer(target: self, action: "tapSocialWork:")
+        let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapSocialWork(_:)))
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
 
-        let tapLocation = UITapGestureRecognizer(target: self, action: "tapLocation:")
-        locationContainerView.addGestureRecognizer(tapLocation)
-
-        let tapURLInfo = UITapGestureRecognizer(target: self, action: "tapURLInfo:")
-        feedURLContainerView.addGestureRecognizer(tapURLInfo)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
     }
 
-    func switchFold(sender: UITapGestureRecognizer) {
+    func toggleFold(sender: UITapGestureRecognizer) {
 
         if foldProgress == 1 {
             foldProgress = 0
+
         } else if foldProgress == 0 {
             foldProgress = 1
         }
@@ -320,8 +396,9 @@ class FeedView: UIView {
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
             nicknameLabel.text = creator.nickname
+            //usernameLabel.text = creator.mentionedUsername
         }
-        
+
         if let distance = feed.distance {
             if distance < 1 {
                 distanceLabel.text = NSLocalizedString("Nearby", comment: "")
@@ -347,16 +424,11 @@ class FeedView: UIView {
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
         case .URL:
 
             mediaCollectionView.hidden = true
             socialWorkContainerView.hidden = false
-            voiceContainerView.hidden = true
-
-            feedURLContainerView.hidden = false
 
             socialWorkBorderImageView.hidden = true
 
@@ -381,21 +453,16 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = false
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-            githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
-
-            githubRepoNameLabel.text = feed.githubRepoName
-            githubRepoDescriptionLabel.text = feed.githubRepoDescription
+            githubRepoContainerView.nameLabel.text = feed.githubRepoName
+            githubRepoContainerView.descriptionLabel.text = feed.githubRepoDescription
 
             socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         case .DribbbleShot:
 
@@ -403,10 +470,6 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = false
 
@@ -423,32 +486,36 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = false
-            locationContainerView.hidden = true
-            feedURLContainerView.hidden = true
 
             socialWorkBorderImageView.hidden = true
 
             socialWorkContainerViewHeightConstraint.constant = 44
 
-            voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-            voicePlayButton.tintColor = UIColor.lightGrayColor()
-            voicePlayButton.tintAdjustmentMode = .Normal
-            voiceTimeLabel.textColor = UIColor.lightGrayColor()
-
             if let (audioDuration, audioSampleValues) = feed.audioMetaInfo {
-                voiceSampleView.sampleColor = UIColor.leftWaveColor()
-                voiceTimeLabel.text = String(format: "%.1f\"", audioDuration)
-                voiceSampleView.samples = audioSampleValues
-                voiceSampleViewWidthConstraint.constant = CGFloat(audioSampleValues.count) * 3
+                voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
+                let timeLengthString = audioDuration.yep_feedAudioTimeLengthString
+                voiceContainerView.timeLengthLabel.text = timeLengthString
+                voiceContainerView.voiceSampleView.samples = audioSampleValues
+
+                let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioSampleValues.count, timeLengthString: timeLengthString)
+                voiceContainerViewWidthConstraint?.constant = width
             }
 
+            /*
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
                 if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
                     audioPlaying = true
 
                     audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
+                }
+            }
+            */
+
+            if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID where feedID == feed.feedID {
+                    audioPlaying = true
+
+                    audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 }
             }
 
@@ -458,24 +525,23 @@ class FeedView: UIView {
             socialWorkContainerView.hidden = false
 
             socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = false
-            feedURLContainerView.hidden = true
-
-            socialWorkBorderImageView.hidden = false
 
             if let locationCoordinate = feed.locationCoordinate {
 
-                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationNameLabel.bounds.height)
+                locationContainerView.layoutIfNeeded()
+
+                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 80 - locationContainerView.nameLabel.bounds.height)
+
                 ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
-                    self?.locationMapImageView.image = image
+                    self?.locationContainerView.mapImageView.image = image
                 })
             }
 
-            locationNameLabel.text = feed.locationName
+            locationContainerView.nameLabel.text = feed.locationName
+            locationContainerView.mapImageView.maskView = socialWorkHalfMaskImageView
 
-            locationMapImageView.maskView = socialWorkHalfMaskImageView
+            socialWorkBorderImageView.hidden = false
+            socialWorkContainerView.bringSubviewToFront(socialWorkBorderImageView)
 
         default:
             break
@@ -531,6 +597,7 @@ class FeedView: UIView {
 
     var syncPlayAudioAction: (() -> Void)?
 
+    /*
     @IBAction func playOrPauseAudio(sender: UIButton) {
 
         if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
@@ -590,10 +657,72 @@ class FeedView: UIView {
 
     func updateAudioPlaybackProgress(timer: NSTimer) {
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            let currentTime = audioPlayer.currentTime
-            audioPlayedDuration = currentTime
+        audioPlayedDuration = YepAudioService.sharedManager.audioPlayCurrentTime
+    }
+    */
+
+    private func playOrPauseAudio() {
+
+        if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            } catch let error {
+                println("playVoice setCategory failed: \(error)")
+                return
+            }
         }
+
+        guard let realm = try? Realm(), feedID = feed?.feedID, feedAudio = FeedAudio.feedAudioWithFeedID(feedID, inRealm: realm) else {
+            return
+        }
+
+        func play() {
+
+            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: self, success: { [weak self] in
+                println("playOnlineAudioWithFeedAudio success!")
+
+                if let strongSelf = self {
+
+                    strongSelf.audioPlaybackTimer?.invalidate()
+                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+
+                    YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
+
+                    strongSelf.audioPlaying = true
+
+                    strongSelf.syncPlayAudioAction?()
+                }
+            })
+        }
+
+        // 如果在播放，就暂停
+        if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+
+            onlineAudioPlayer.pause()
+
+            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                playbackTimer.invalidate()
+            }
+
+            audioPlaying = false
+
+            if let feedID = feed?.feedID, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedID {
+                YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
+
+            } else {
+                // 暂停的是别人，咱开始播放
+                play()
+            }
+            
+        } else {
+            // 直接播放
+            play()
+        }
+    }
+
+    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+
+        audioPlayedDuration = YepAudioService.sharedManager.aduioOnlinePlayCurrentTime.seconds
     }
 }
 
@@ -656,6 +785,27 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
+// MARK: Audio Finish Playing
+
+extension FeedView {
+
+    private func feedAudioDidFinishPlaying() {
+
+        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+            playbackTimer.invalidate()
+        }
+
+        audioPlayedDuration = 0
+        audioPlaying = false
+
+        YepAudioService.sharedManager.resetToDefault()
+    }
+
+    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+        feedAudioDidFinishPlaying()
+    }
+}
+
 // MARK: AVAudioPlayerDelegate
 
 extension FeedView: AVAudioPlayerDelegate {
@@ -664,14 +814,7 @@ extension FeedView: AVAudioPlayerDelegate {
 
         println("audioPlayerDidFinishPlaying \(flag)")
 
-        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
-            playbackTimer.invalidate()
-        }
-
-        audioPlayedDuration = 0
-        audioPlaying = false
-        
-        YepAudioService.sharedManager.resetToDefault()
+        feedAudioDidFinishPlaying()
     }
 }
 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Search Contacts View Controller-->
+        <scene sceneID="1ah-3N-dwb">
+            <objects>
+                <viewController storyboardIdentifier="SearchContactsViewController" id="luP-me-KuW" customClass="SearchContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="YVm-C0-FOr"/>
+                        <viewControllerLayoutGuide type="bottom" id="mrS-Rg-Ckq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zgh-J5-BVq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="Jve-rS-vtc">
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="luP-me-KuW" id="fWL-ve-yCg"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="k5R-sz-Ltl">
+                                <rect key="frame" x="0.0" y="108" width="320" height="372"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="luP-me-KuW" id="682-nP-pUP"/>
+                                    <outlet property="delegate" destination="luP-me-KuW" id="h6h-u8-j10"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4hO-Qg-96f" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="-241" y="108" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="zmk-l3-vao"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="atBottom" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4hO-Qg-96f" secondAttribute="trailing" constant="-39" id="2xG-j1-PiQ"/>
+                            <constraint firstItem="4hO-Qg-96f" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="3Db-ff-4uv"/>
+                            <constraint firstAttribute="trailing" secondItem="k5R-sz-Ltl" secondAttribute="trailing" id="J46-ok-MdL"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="YVm-C0-FOr" secondAttribute="bottom" constant="44" id="JH7-1h-kd4"/>
+                            <constraint firstItem="k5R-sz-Ltl" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="LIp-ks-OM6"/>
+                            <constraint firstAttribute="bottom" secondItem="k5R-sz-Ltl" secondAttribute="bottom" id="Pzg-PV-tq1"/>
+                            <constraint firstAttribute="trailing" secondItem="Jve-rS-vtc" secondAttribute="trailing" id="WkE-L9-E5u"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="pfQ-dj-n85"/>
+                            <constraint firstItem="k5R-sz-Ltl" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="q8N-Aa-xRG"/>
+                            <constraint firstItem="4hO-Qg-96f" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" constant="-241" id="yt4-pB-nnd"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="contactsTableView" destination="k5R-sz-Ltl" id="uVy-2j-FWD"/>
+                        <outlet property="searchBar" destination="Jve-rS-vtc" id="Wzc-eE-f05"/>
+                        <outlet property="searchBarBottomLineView" destination="4hO-Qg-96f" id="n35-Di-zur"/>
+                        <outlet property="searchBarTopConstraint" destination="JH7-1h-kd4" id="ulD-C9-XwN"/>
+                        <segue destination="tlo-MP-6no" kind="show" identifier="showProfile" id="Imv-aW-t5g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7O7-xS-Haz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="631" y="373"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="1Pg-At-NxY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="tlo-MP-6no" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cdV-Xz-zhD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1002" y="373"/>
+        </scene>
+    </scenes>
+</document>

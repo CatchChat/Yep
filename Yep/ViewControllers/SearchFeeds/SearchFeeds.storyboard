@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search Feeds View Controller-->
+        <scene sceneID="aY4-AO-Rz1">
+            <objects>
+                <viewController storyboardIdentifier="SearchFeedsViewController" id="Z31-Zx-AsW" customClass="SearchFeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xOW-7t-DLI"/>
+                        <viewControllerLayoutGuide type="bottom" id="4zU-h3-iSg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Sdg-d0-wry">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AQU-dM-Gus">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="Z31-Zx-AsW" id="gQ6-zr-QZf"/>
+                                </connections>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DZu-qf-uDw">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Z31-Zx-AsW" id="8D2-oX-lrz"/>
+                                    <outlet property="delegate" destination="Z31-Zx-AsW" id="qEq-E3-ag0"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmH-ug-Qcg" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="108" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="yML-ho-rff"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="atBottom" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="DZu-qf-uDw" firstAttribute="top" secondItem="AQU-dM-Gus" secondAttribute="bottom" id="3CV-DI-6T2"/>
+                            <constraint firstAttribute="trailing" secondItem="kmH-ug-Qcg" secondAttribute="trailing" id="5C9-gl-Trm"/>
+                            <constraint firstItem="DZu-qf-uDw" firstAttribute="bottom" secondItem="Sdg-d0-wry" secondAttribute="bottomMargin" id="7dT-nA-vD9"/>
+                            <constraint firstItem="DZu-qf-uDw" firstAttribute="leading" secondItem="Sdg-d0-wry" secondAttribute="leading" id="ChF-bK-rzq"/>
+                            <constraint firstItem="AQU-dM-Gus" firstAttribute="top" secondItem="xOW-7t-DLI" secondAttribute="bottom" constant="44" id="EcN-qI-yL7"/>
+                            <constraint firstAttribute="trailing" secondItem="DZu-qf-uDw" secondAttribute="trailing" id="Hwf-sJ-Aay"/>
+                            <constraint firstItem="kmH-ug-Qcg" firstAttribute="top" secondItem="AQU-dM-Gus" secondAttribute="bottom" id="WQd-bD-v1V"/>
+                            <constraint firstAttribute="trailing" secondItem="AQU-dM-Gus" secondAttribute="trailing" id="a3w-zl-3PQ"/>
+                            <constraint firstItem="AQU-dM-Gus" firstAttribute="leading" secondItem="Sdg-d0-wry" secondAttribute="leading" id="l3n-tK-bd5"/>
+                            <constraint firstItem="kmH-ug-Qcg" firstAttribute="leading" secondItem="Sdg-d0-wry" secondAttribute="leading" id="rMQ-ab-juG"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="feedsTableView" destination="DZu-qf-uDw" id="kFz-xM-kRU"/>
+                        <outlet property="searchBar" destination="AQU-dM-Gus" id="Pu4-V8-yek"/>
+                        <outlet property="searchBarBottomLineView" destination="kmH-ug-Qcg" id="AZV-5y-Ovd"/>
+                        <outlet property="searchBarTopConstraint" destination="EcN-qI-yL7" id="lvV-g3-bxx"/>
+                        <segue destination="y10-18-4Oi" kind="show" identifier="showConversation" id="VGK-3C-61T"/>
+                        <segue destination="kH9-u3-K7O" kind="show" identifier="showProfile" id="wPT-m6-33c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="463" y="472"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="QED-8h-2fT">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="y10-18-4Oi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ERN-h5-duE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1021" y="472"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="ZoD-Op-pbA">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="kH9-u3-K7O" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xyk-XX-5UX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="978.5" y="364"/>
+        </scene>
+    </scenes>
+</document>

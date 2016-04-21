@@ -8,9 +8,6 @@
 
 import UIKit
 
-let feedAttachmentImageSize = YepConfig.FeedNormalImagesCell.imageSize
-let feedAttachmentBiggerImageSize = YepConfig.FeedBiggerImageCell.imageSize
-
 private let feedMediaCellID = "FeedMediaCell"
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
@@ -68,7 +65,7 @@ class FeedAnyImagesCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-        let height = super.heightOfFeed(feed) + feedAttachmentImageSize.height + 15
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
 
         return ceil(height)
     }
@@ -101,7 +98,7 @@ class FeedAnyImagesCell: FeedBasicCell {
 
         } else {
             let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height = feedAttachmentImageSize.height
+            let height = YepConfig.FeedNormalImagesCell.imageSize.height
             mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
         }
 
@@ -147,7 +144,7 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        return feedAttachmentImageSize
+        return YepConfig.FeedNormalImagesCell.imageSize
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
