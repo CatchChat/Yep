@@ -765,7 +765,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                         break
                     }
 
-                    // TODO
+                    cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                     cell.tapMediaAction = tapMediaAction
                 }

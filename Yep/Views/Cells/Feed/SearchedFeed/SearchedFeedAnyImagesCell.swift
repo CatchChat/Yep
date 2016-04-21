@@ -87,6 +87,12 @@ class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
+        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+            self.attachments = attachments
+        }
+
+        let anyImagesLayout = layout.anyImagesLayout!
+        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 
