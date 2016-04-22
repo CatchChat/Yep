@@ -9,9 +9,14 @@
 import UIKit
 import MapKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
-
 class FeedLocationCell: FeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (110 + 15)
+
+        return ceil(height)
+    }
 
     var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
     
@@ -53,13 +58,6 @@ class FeedLocationCell: FeedBasicCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + (110 + 15)
-
-        return ceil(height)
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {

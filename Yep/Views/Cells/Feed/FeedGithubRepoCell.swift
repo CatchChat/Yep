@@ -12,6 +12,13 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedGithubRepoCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (80 + 15)
+
+        return ceil(height)
+    }
+
     var tapGithubRepoLinkAction: (NSURL -> Void)?
 
     lazy var logoImageView: UIImageView = {
@@ -50,13 +57,6 @@ class FeedGithubRepoCell: FeedBasicCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + (80 + 15)
-
-        return ceil(height)
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {

@@ -10,6 +10,13 @@ import UIKit
 
 class FeedBiggerImageCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
+
+        return ceil(height)
+    }
+
     var tapMediaAction: FeedTapMediaAction?
 
     lazy var biggerImageView: UIImageView = {
@@ -27,13 +34,6 @@ class FeedBiggerImageCell: FeedBasicCell {
         return imageView
     }()
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 

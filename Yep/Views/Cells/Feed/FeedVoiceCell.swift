@@ -11,6 +11,13 @@ import RealmSwift
 
 class FeedVoiceCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (50 + 15)
+
+        return ceil(height)
+    }
+
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
         view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
@@ -81,13 +88,6 @@ class FeedVoiceCell: FeedBasicCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + (50 + 15)
-
-        return ceil(height)
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {

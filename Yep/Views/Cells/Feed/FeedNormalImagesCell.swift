@@ -10,6 +10,13 @@ import UIKit
 
 class FeedNormalImagesCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
+
+        return ceil(height)
+    }
+
     var tapMediaAction: FeedTapMediaAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {
@@ -60,13 +67,6 @@ class FeedNormalImagesCell: FeedBasicCell {
         return imageView
     }()
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-    
     var imageViews: [UIImageView] = []
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

@@ -8,9 +8,14 @@
 
 import UIKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
-
 class FeedURLCell: FeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (100 + 15)
+
+        return ceil(height)
+    }
 
     var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
@@ -34,13 +39,6 @@ class FeedURLCell: FeedBasicCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + (100 + 15)
-
-        return ceil(height)
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {

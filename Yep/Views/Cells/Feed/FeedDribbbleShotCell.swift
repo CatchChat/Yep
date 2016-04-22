@@ -14,6 +14,13 @@ private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).
 
 class FeedDribbbleShotCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (dribbbleShotHeight + 15)
+
+        return ceil(height)
+    }
+
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
     var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
     
@@ -58,13 +65,6 @@ class FeedDribbbleShotCell: FeedBasicCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + (dribbbleShotHeight + 15)
-
-        return ceil(height)
     }
 
     override func prepareForReuse() {

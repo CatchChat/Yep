@@ -15,6 +15,13 @@ typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachm
 
 class FeedAnyImagesCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
+
+        return ceil(height)
+    }
+
     lazy var mediaCollectionView: UICollectionView = {
 
         let layout = UICollectionViewFlowLayout()
@@ -61,13 +68,6 @@ class FeedAnyImagesCell: FeedBasicCell {
 
             mediaCollectionView.reloadData()
         }
-    }
-
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
-        return ceil(height)
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
