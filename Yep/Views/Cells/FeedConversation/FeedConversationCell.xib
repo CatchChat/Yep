@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9060" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,14 +15,12 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeds" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gK-pe-MlO">
                         <rect key="frame" x="85" y="10" width="40.5" height="17"/>
-                        <animations/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                         <color key="textColor" white="0.24954602940000001" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do not go gentle into that good night. Old age should burn and rage at close of day." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pdh-nY-RnC">
                         <rect key="frame" x="85" y="32" width="191" height="31.5"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="T5p-uM-E6x"/>
                         </constraints>
@@ -38,11 +35,9 @@
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_topic_text" translatesAutoresizingMaskIntoConstraints="NO" id="G9V-Qw-tkM">
                         <rect key="frame" x="10" y="10" width="60" height="60"/>
-                        <animations/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o0V-gJ-vFo" customClass="FeedMediaView" customModule="Yep" customModuleProvider="target">
                         <rect key="frame" x="10" y="10" width="60" height="60"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="0ir-RM-ZAA"/>
                             <constraint firstAttribute="height" constant="60" id="cRa-n8-VhK"/>
@@ -50,7 +45,6 @@
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="ota-vy-FWR" userLabel="Accessory Image View">
                         <rect key="frame" x="299" y="30" width="11" height="20"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="11" id="Vku-Lo-FvE"/>
                             <constraint firstAttribute="height" constant="20" id="h6U-nz-SUS"/>
@@ -64,7 +58,6 @@
                         </constraints>
                     </imageView>
                 </subviews>
-                <animations/>
                 <constraints>
                     <constraint firstItem="0gK-pe-MlO" firstAttribute="top" secondItem="o0V-gJ-vFo" secondAttribute="top" id="4Lf-cL-M64"/>
                     <constraint firstItem="ota-vy-FWR" firstAttribute="leading" secondItem="lO8-DG-fPc" secondAttribute="trailing" constant="5" id="6K4-wj-0C8"/>
@@ -91,7 +84,6 @@
                     </mask>
                 </variation>
             </tableViewCellContentView>
-            <animations/>
             <inset key="separatorInset" minX="85" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="accessoryImageView" destination="ota-vy-FWR" id="Bpa-n0-tud"/>

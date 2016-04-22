@@ -17,8 +17,28 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
 
-    var conversationToShare: Conversation?
-    
+    var conversationToShare: Conversation? = nil {
+        didSet {
+            if let feed = conversationToShare?.withGroup?.withFeed {
+                
+                var discoveredAttachments = [DiscoveredAttachment]()
+                feed.attachments.forEach({ (attachment) in
+                    let discoveredAttachment = DiscoveredAttachment(metadata: attachment.metadata, URLString: attachment.URLString, image: nil)
+                    discoveredAttachments.append(discoveredAttachment)
+                })
+                let mediaView = FeedMediaView(frame: CGRect(x: 100, y: 120, width: 142, height: 142))
+                mediaView.setImagesWithAttachments(discoveredAttachments)
+                let tapp = UITapGestureRecognizer(target: self, action: #selector(ContactsViewController.tapp))
+                mediaView.addGestureRecognizer(tapp)
+                
+                view.addSubview(mediaView)
+                view.bringSubviewToFront(mediaView)
+            }
+        }
+    }
+    @objc func tapp() {
+        print("tapp")
+    }
     #if DEBUG
     private lazy var contactsFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -233,6 +253,10 @@ class ContactsViewController: BaseViewController {
             }
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversationToShare = self.conversationToShare
+            if self.conversationToShare != nil {
+
+
+            }
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
                     if user.friendState != UserFriendState.Me.rawValue {
@@ -248,7 +272,6 @@ class ContactsViewController: BaseViewController {
                             }
                         }
                         vc.conversation = user.conversation
-                        print(FeedKind(rawValue:vc.conversationToShare!.withGroup!.withFeed!.kind),"___Toshare")
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
@@ -411,27 +434,37 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-
+        
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
-
+        
         switch section {
-
+            
         case .Local:
-
+            
             if let friend = friendAtIndexPath(indexPath) {
                 searchController?.active = false
-                performSegueWithIdentifier("showProfile", sender: friend)
+                if self.conversationToShare != nil {
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("确定发送?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        
+                        self?.performSegueWithIdentifier("showConversation", sender: friend)
+                        
+                        }, cancelAction: { () -> Void in
+                            
+                    })
+                } else {
+                    performSegueWithIdentifier("showProfile", sender: friend)
+                }
             }
-
+            
         case .Online:
-
+            
             let discoveredUser = searchedUsers[indexPath.row]
             searchController?.active = false
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
-   }
+    }
 }
 
 // MARK: - UISearchResultsUpdating 
