@@ -279,6 +279,7 @@
 		50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */; };
 		50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */; };
 		50B3C9561CC9B66A00623E29 /* SearchTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9551CC9B66A00623E29 /* SearchTransition.swift */; };
+		50B3C9581CC9BA9000623E29 /* SearchTriggerRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */; };
 		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
 		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
 		50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */; };
@@ -714,6 +715,7 @@
 		50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedAnyImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsFooterView.swift; path = Views/Footers/SearchFeedsFooterView.swift; sourceTree = "<group>"; };
 		50B3C9551CC9B66A00623E29 /* SearchTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTransition.swift; path = Transitions/SearchTransition.swift; sourceTree = "<group>"; };
+		50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTriggerRepresentation.swift; path = Protocols/SearchTriggerRepresentation.swift; sourceTree = "<group>"; };
 		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
 		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedContactsCell.swift; path = Views/Cells/Contacts/SearchedContactsCell.swift; sourceTree = "<group>"; };
@@ -2342,6 +2344,7 @@
 			children = (
 				50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */,
 				50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */,
+				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -3043,6 +3046,7 @@
 				5023DE331AB688F600B3EE96 /* UIColor+Yep.swift in Sources */,
 				503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */,
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
+				50B3C9581CC9BA9000623E29 /* SearchTriggerRepresentation.swift in Sources */,
 				50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */,
 				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
