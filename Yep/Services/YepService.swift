@@ -2946,6 +2946,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
                     let _ = try? realm.write {
                         realm.add(offlineJSON, update: true)
+                        println("offline feeds \(sortStyle)")
                     }
                 }
             }
