@@ -278,6 +278,7 @@
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */; };
 		50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */; };
+		50B3C9561CC9B66A00623E29 /* SearchTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9551CC9B66A00623E29 /* SearchTransition.swift */; };
 		50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */; };
 		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
 		50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */; };
@@ -712,6 +713,7 @@
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedAnyImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsFooterView.swift; path = Views/Footers/SearchFeedsFooterView.swift; sourceTree = "<group>"; };
+		50B3C9551CC9B66A00623E29 /* SearchTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchTransition.swift; path = Transitions/SearchTransition.swift; sourceTree = "<group>"; };
 		50B6A03A1CA27A6000C460E3 /* TableSectionTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableSectionTitleView.swift; path = Views/ReusableViews/TableSectionTitle/TableSectionTitleView.swift; sourceTree = "<group>"; };
 		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedContactsCell.swift; path = Views/Cells/Contacts/SearchedContactsCell.swift; sourceTree = "<group>"; };
@@ -973,6 +975,7 @@
 				5052620E1C5202C700292C6A /* Operations */,
 				504F5E721BA034BB006CE418 /* Activities */,
 				5023DE391AB6979C00B3EE96 /* Views */,
+				50B3C9541CC9B62600623E29 /* Transitions */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
 				502AE5171AB70D72005BD199 /* Intro.storyboard */,
 				505262131C522A1E00292C6A /* Show.storyboard */,
@@ -2244,6 +2247,14 @@
 			name = Footers;
 			sourceTree = "<group>";
 		};
+		50B3C9541CC9B62600623E29 /* Transitions */ = {
+			isa = PBXGroup;
+			children = (
+				50B3C9551CC9B66A00623E29 /* SearchTransition.swift */,
+			);
+			name = Transitions;
+			sourceTree = "<group>";
+		};
 		50B6A03C1CA27A6400C460E3 /* TableSectionTitle */ = {
 			isa = PBXGroup;
 			children = (
@@ -3072,6 +3083,7 @@
 				92E0FFE71C5F38E400226B96 /* MZFayeClient.m in Sources */,
 				50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */,
 				50CB05841CC5E39A0024BE06 /* IconTitleContainerView.swift in Sources */,
+				50B3C9561CC9B66A00623E29 /* SearchTransition.swift in Sources */,
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
