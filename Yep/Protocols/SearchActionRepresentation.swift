@@ -14,6 +14,10 @@ protocol SearchActionRepresentation {
     var searchBarTopConstraint: NSLayoutConstraint! { get }
 }
 
+extension SearchConversationsViewController: SearchActionRepresentation {
+
+}
+
 extension SearchFeedsViewController: SearchActionRepresentation {
 
 }

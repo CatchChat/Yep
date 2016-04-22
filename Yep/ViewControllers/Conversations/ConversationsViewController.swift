@@ -29,8 +29,8 @@ class ConversationsViewController: BaseViewController {
     }()
 
     private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
-        return ConversationsSearchTransition()
+    private lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
@@ -351,7 +351,7 @@ class ConversationsViewController: BaseViewController {
             // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
             originalNavigationControllerDelegate = navigationController?.delegate
 
-            navigationController?.delegate = conversationsSearchTransition
+            navigationController?.delegate = searchTransition
         }
 
         switch identifier {

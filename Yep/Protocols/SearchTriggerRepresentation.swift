@@ -12,6 +12,10 @@ protocol SearchTriggerRepresentation {
 
 }
 
+extension ConversationsViewController: SearchTriggerRepresentation {
+
+}
+
 extension FeedsViewController: SearchTriggerRepresentation {
 
 }
