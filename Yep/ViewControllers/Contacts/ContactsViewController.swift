@@ -32,8 +32,8 @@ class ContactsViewController: BaseViewController {
     }
 
     private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var contactsSearchTransition: ContactsSearchTransition = {
-        return ContactsSearchTransition()
+    private lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
 //    private let keyboardMan = KeyboardMan()
@@ -222,7 +222,7 @@ class ContactsViewController: BaseViewController {
             // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
             originalNavigationControllerDelegate = navigationController?.delegate
             
-            navigationController?.delegate = contactsSearchTransition
+            navigationController?.delegate = searchTransition
         }
         
         switch identifier {

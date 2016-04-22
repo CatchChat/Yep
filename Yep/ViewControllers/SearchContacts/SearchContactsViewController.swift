@@ -13,7 +13,7 @@ import KeyboardMan
 class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var contactsSearchTransition: ContactsSearchTransition?
+    private var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -128,7 +128,7 @@ class SearchContactsViewController: SegueViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = contactsSearchTransition {
+        if let delegate = searchTransition {
             navigationController?.delegate = delegate
         }
 
@@ -183,8 +183,8 @@ class SearchContactsViewController: SegueViewController {
             
             vc.setBackButtonWithTitle()
 
-            // 记录原始的 contactsSearchTransition 以便 pop 后恢复
-            contactsSearchTransition = navigationController?.delegate as? ContactsSearchTransition
+            // 记录原始的 searchTransition 以便 pop 后恢复
+            searchTransition = navigationController?.delegate as? SearchTransition
 
             navigationController?.delegate = originalNavigationControllerDelegate
 

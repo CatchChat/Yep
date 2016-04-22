@@ -16,6 +16,10 @@ extension ConversationsViewController: SearchTriggerRepresentation {
 
 }
 
+extension ContactsViewController: SearchTriggerRepresentation {
+
+}
+
 extension FeedsViewController: SearchTriggerRepresentation {
 
 }
