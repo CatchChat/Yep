@@ -79,14 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        [
-            "Hello World!",
-            "今天晚上 Kevin 给我讲了一个故事，叫做《一只 Cat 与 Swift 的奇幻<em>之旅</em>》",
-            "<em>Love</em> you <em>love</em>, <em>hate</em> you <em>hate</em>.",
-        ].forEach({
-            $0.yep_highlightEmphasisTagWithColor(UIColor.redColor(), baseFont: UIFont.systemFontOfSize(15), baseColor: UIColor.blueColor())
-        })
-
         delay(0.5) {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
