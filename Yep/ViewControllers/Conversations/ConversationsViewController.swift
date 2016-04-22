@@ -28,9 +28,9 @@ class ConversationsViewController: BaseViewController {
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
-        return ConversationsSearchTransition()
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
@@ -304,7 +304,7 @@ class ConversationsViewController: BaseViewController {
 
         isFirstAppear = false
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
     
     private func askForNotification() {
@@ -337,22 +337,9 @@ class ConversationsViewController: BaseViewController {
 
     // MARK: Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else { return }
-
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = conversationsSearchTransition
-        }
 
         switch identifier {
 
@@ -363,7 +350,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showConversation":
 
@@ -388,7 +375,7 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showProfile":
 
@@ -399,7 +386,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
             
         default:
             break

@@ -7,13 +7,12 @@
 //
 
 import UIKit
-import KeyboardMan
 import RealmSwift
 
 class SearchConversationsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var conversationsSearchTransition: ConversationsSearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -102,8 +101,6 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
-    private let keyboardMan = KeyboardMan()
-
     private func updateForFold(fold: Bool, withCountOfItems countOfItems: Int, inSection section: Section) {
 
         let indexPaths = ((1 + Section.maxNumberOfItems)...countOfItems).map({
@@ -157,16 +154,6 @@ class SearchConversationsViewController: SegueViewController {
 
         realm = try! Realm()
 
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.resultsTableView.contentInset.bottom = keyboardHeight
-            self?.resultsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            self?.resultsTableView.contentInset.bottom = 0
-            self?.resultsTableView.scrollIndicatorInsets.bottom = 0
-        }
-
         searchBarBottomLineView.alpha = 0
     }
 
@@ -192,9 +179,7 @@ class SearchConversationsViewController: SegueViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = conversationsSearchTransition {
-            navigationController?.delegate = delegate
-        }
+        recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
@@ -212,14 +197,6 @@ class SearchConversationsViewController: SegueViewController {
             return
         }
 
-        func hackNavigationDelegate() {
-            // 记录原始的 conversationsSearchTransition 以便 pop 后恢复
-            conversationsSearchTransition = navigationController?.delegate as? ConversationsSearchTransition
-
-            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-
         switch identifier {
 
         case "showProfile":
@@ -232,7 +209,7 @@ class SearchConversationsViewController: SegueViewController {
 
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
@@ -240,7 +217,7 @@ class SearchConversationsViewController: SegueViewController {
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showSearchedUserMessages":
             let vc = segue.destinationViewController as! SearchedUserMessagesViewController
@@ -249,7 +226,7 @@ class SearchConversationsViewController: SegueViewController {
             vc.messages = userMessages.messages
             vc.keyword = keyword
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         default:
             break

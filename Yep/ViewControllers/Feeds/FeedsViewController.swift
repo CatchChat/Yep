@@ -62,9 +62,9 @@ class FeedsViewController: BaseViewController {
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var feedsSearchTransition: FeedsSearchTransition = {
-        return FeedsSearchTransition()
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
@@ -482,7 +482,7 @@ class FeedsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -826,12 +826,6 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     private var newFeedViewController: NewFeedViewController?
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -900,13 +894,6 @@ class FeedsViewController: BaseViewController {
             return self
         }
 
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = feedsSearchTransition
-        }
-
         switch identifier {
 
         case "showSearchFeeds":
@@ -916,7 +903,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showProfile":
 
@@ -943,7 +930,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showSkillHome":
 
@@ -955,7 +942,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showFeedsWithSkill":
 
@@ -977,7 +964,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showConversation":
 
@@ -1066,7 +1053,7 @@ class FeedsViewController: BaseViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "presentNewFeed":
 
@@ -1083,6 +1070,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentNewFeedVoiceRecord":
 
             guard let
@@ -1098,6 +1087,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentPickLocation":
 
             guard let
@@ -1112,6 +1103,8 @@ class FeedsViewController: BaseViewController {
             vc.preparedSkill = skill
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+
+            recoverOriginalNavigationDelegate()
 
         default:
             break

@@ -17,7 +17,7 @@ class SearchFeedsViewController: UIViewController {
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var feedsSearchTransition: FeedsSearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -266,9 +266,7 @@ class SearchFeedsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = feedsSearchTransition {
-            navigationController?.delegate = delegate
-        }
+        recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
@@ -396,14 +394,6 @@ class SearchFeedsViewController: UIViewController {
             return
         }
 
-        func hackNavigationDelegate() {
-            // 记录原始的 feedsSearchTransition 以便 pop 后恢复
-            feedsSearchTransition = navigationController?.delegate as? FeedsSearchTransition
-
-            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-        
         switch identifier {
 
         case "showProfile":
@@ -424,7 +414,7 @@ class SearchFeedsViewController: UIViewController {
 
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
 
@@ -506,7 +496,7 @@ class SearchFeedsViewController: UIViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
             
         default:
             break
