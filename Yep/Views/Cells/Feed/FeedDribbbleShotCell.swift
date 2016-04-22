@@ -73,22 +73,9 @@ class FeedDribbbleShotCell: FeedBasicCell {
         mediaContainerView.mediaImageView.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if needShowSkill, let _ = feed.skill {
-            logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
-            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
-
-        } else {
-            logoImageView.frame.origin.x = screenWidth - 18 - 15
-            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
-        }
-        nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
             if case let .Dribbble(dribbbleShot) = attachment {
@@ -127,30 +114,24 @@ class FeedDribbbleShotCell: FeedBasicCell {
             }
         }
 
-        if let dribbbleShotLayout = layoutCache.layout?.dribbbleShotLayout {
-            mediaContainerView.frame = dribbbleShotLayout.dribbbleShotContainerViewFrame
-            socialWorkBorderImageView.frame = mediaContainerView.frame
+        if needShowSkill, let _ = feed.skill {
+            logoImageView.frame.origin.x = skillButton.frame.origin.x - 10 - 18
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
 
         } else {
-            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            mediaContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
-            socialWorkBorderImageView.frame = mediaContainerView.frame
+            logoImageView.frame.origin.x = screenWidth - 18 - 15
+            logoImageView.frame.origin.y = nicknameLabel.frame.origin.y
         }
+        nicknameLabel.frame.size.width -= logoImageView.bounds.width + 10
+
+        let dribbbleShotLayout = layout.dribbbleShotLayout!
+        mediaContainerView.frame = dribbbleShotLayout.dribbbleShotContainerViewFrame
+        socialWorkBorderImageView.frame = mediaContainerView.frame
+
         mediaContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
         mediaContainerView.mediaImageView.maskView = halfMaskImageView
-
-        if layoutCache.layout == nil {
-
-            let dribbbleShotLayout = FeedCellLayout.DribbbleShotLayout(dribbbleShotContainerViewFrame: mediaContainerView.frame)
-            _newLayout?.dribbbleShotLayout = dribbbleShotLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
     }
 }
 
