@@ -8,10 +8,24 @@
 
 import UIKit
 
-protocol SearchActionRepresentation {
+protocol SearchActionRepresentation: class {
 
     var searchBar: UISearchBar! { get }
     var searchBarTopConstraint: NSLayoutConstraint! { get }
+
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate? { get }
+    var searchTransition: SearchTransition? { get set }
+}
+
+extension SearchActionRepresentation where Self: UIViewController {
+    
+    func hackNavigationDelegate() {
+        // 记录原始的 searchTransition 以便 pop 后恢复
+        searchTransition = navigationController?.delegate as? SearchTransition
+
+        println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
+        navigationController?.delegate = originalNavigationControllerDelegate
+    }
 }
 
 extension SearchConversationsViewController: SearchActionRepresentation {

@@ -13,7 +13,7 @@ import RealmSwift
 class SearchConversationsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var searchTransition: SearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -210,14 +210,6 @@ class SearchConversationsViewController: SegueViewController {
 
         guard let identifier = segue.identifier else {
             return
-        }
-
-        func hackNavigationDelegate() {
-            // 记录原始的 searchTransition 以便 pop 后恢复
-            searchTransition = navigationController?.delegate as? SearchTransition
-
-            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
-            navigationController?.delegate = originalNavigationControllerDelegate
         }
 
         switch identifier {

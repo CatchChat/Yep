@@ -13,7 +13,7 @@ import KeyboardMan
 class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var searchTransition: SearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -183,10 +183,7 @@ class SearchContactsViewController: SegueViewController {
             
             vc.setBackButtonWithTitle()
 
-            // 记录原始的 searchTransition 以便 pop 后恢复
-            searchTransition = navigationController?.delegate as? SearchTransition
-
-            navigationController?.delegate = originalNavigationControllerDelegate
+            hackNavigationDelegate()
 
         default:
             break

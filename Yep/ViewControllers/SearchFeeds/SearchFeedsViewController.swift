@@ -17,7 +17,7 @@ class SearchFeedsViewController: UIViewController {
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var searchTransition: SearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -396,14 +396,6 @@ class SearchFeedsViewController: UIViewController {
             return
         }
 
-        func hackNavigationDelegate() {
-            // 记录原始的 searchTransition 以便 pop 后恢复
-            searchTransition = navigationController?.delegate as? SearchTransition
-
-            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-        
         switch identifier {
 
         case "showProfile":
