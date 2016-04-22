@@ -43,8 +43,8 @@ class FeedMediaView: UIView {
     func setImagesWithAttachments(attachments: [DiscoveredAttachment]) {
 
         let fullRect = bounds
-        let halfRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5, height: fullRect.height)
-        let quarterRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5, height: fullRect.height * 0.5)
+        let halfRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5 - 0.5, height: fullRect.height)
+        let quarterRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5 - 0.5, height: fullRect.height * 0.5 - 0.5)
 
         hidden = (attachments.count == 0)
         
@@ -76,7 +76,7 @@ class FeedMediaView: UIView {
             }
 
             imageView2.frame = halfRect
-            imageView2.center = CGPoint(x: halfRect.width * 1.5, y: imageView2.center.y)
+            imageView2.center = CGPoint(x: halfRect.width * 1.5 + 1.0, y: imageView2.center.y)
 
             if let thumbnailImage = attachments[1].thumbnailImage {
                 imageView2.image = thumbnailImage
@@ -99,7 +99,7 @@ class FeedMediaView: UIView {
             }
 
             imageView2.frame = quarterRect
-            imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5)
+            imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5 + 1)
 
             if let thumbnailImage = attachments[1].thumbnailImage {
                 imageView2.image = thumbnailImage
@@ -109,7 +109,7 @@ class FeedMediaView: UIView {
             }
 
             imageView3.frame = halfRect
-            imageView3.center = CGPoint(x: halfRect.width * 1.5, y: imageView3.center.y)
+            imageView3.center = CGPoint(x: halfRect.width * 1.5 + 1, y: imageView3.center.y)
 
             if let thumbnailImage = attachments[2].thumbnailImage {
                 imageView3.image = thumbnailImage
@@ -134,7 +134,7 @@ class FeedMediaView: UIView {
             }
 
             imageView2.frame = quarterRect
-            imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5)
+            imageView2.center = CGPoint(x: imageView2.center.x, y: quarterRect.height * 1.5 + 1)
 
             if let thumbnailImage = attachments[1].thumbnailImage {
                 imageView2.image = thumbnailImage
@@ -144,7 +144,7 @@ class FeedMediaView: UIView {
             }
 
             imageView3.frame = quarterRect
-            imageView3.center = CGPoint(x: quarterRect.width * 1.5, y: imageView3.center.y)
+            imageView3.center = CGPoint(x: quarterRect.width * 1.5 + 1, y: imageView3.center.y)
 
             if let thumbnailImage = attachments[2].thumbnailImage {
                 imageView3.image = thumbnailImage
@@ -154,7 +154,7 @@ class FeedMediaView: UIView {
             }
 
             imageView4.frame = quarterRect
-            imageView4.center = CGPoint(x: quarterRect.width * 1.5, y: quarterRect.height * 1.5)
+            imageView4.center = CGPoint(x: quarterRect.width * 1.5 + 1, y: quarterRect.height * 1.5 + 1)
 
             if let thumbnailImage = attachments[3].thumbnailImage {
                 imageView4.image = thumbnailImage

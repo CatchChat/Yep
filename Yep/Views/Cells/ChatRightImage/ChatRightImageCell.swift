@@ -61,7 +61,7 @@ class ChatRightImageCell: ChatRightBaseCell {
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightImageCell.tapMediaView))
         messageImageView.addGestureRecognizer(tap)
-
+        
         prepareForMenuAction = { otherGesturesEnabled in
             tap.enabled = otherGesturesEnabled
         }
