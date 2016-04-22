@@ -6,8 +6,13 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol SearchTriggerRepresentation {
 
 }
+
+extension FeedsViewController: SearchTriggerRepresentation {
+
+}
+

@@ -18,13 +18,13 @@ extension SearchTransition: UINavigationControllerDelegate {
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            if (fromVC is FeedsViewController) && (toVC is SearchFeedsViewController) {
+            if (fromVC is SearchTriggerRepresentation) && (toVC is SearchActionRepresentation) {
                 isPresentation = true
                 return self
             }
 
         } else if operation == .Pop {
-            if (fromVC is SearchFeedsViewController) && (toVC is FeedsViewController) {
+            if (fromVC is SearchActionRepresentation) && (toVC is SearchTriggerRepresentation) {
                 isPresentation = false
                 return self
             }
@@ -79,7 +79,8 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! SearchFeedsViewController
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let searchActionRepresentation = fromVC as! SearchActionRepresentation
 
         let containerView = transitionContext.containerView()!
 
@@ -90,13 +91,13 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(fromView)
 
         fromView.alpha = 1
-        fromVC.searchBar.setShowsCancelButton(false, animated: true)
+        searchActionRepresentation.searchBar.setShowsCancelButton(false, animated: true)
 
         let fullDuration = transitionDuration(transitionContext)
 
         UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
 
-            fromVC.searchBarTopConstraint.constant = 44
+            searchActionRepresentation.searchBarTopConstraint.constant = 44
             fromVC.view.layoutIfNeeded()
 
         }, completion: { finished in

@@ -6,8 +6,15 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol SearchActionRepresentation {
 
+    var searchBar: UISearchBar! { get }
+    var searchBarTopConstraint: NSLayoutConstraint! { get }
 }
+
+extension SearchFeedsViewController: SearchActionRepresentation {
+
+}
+
