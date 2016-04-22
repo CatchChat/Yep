@@ -2960,18 +2960,26 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsWithKeyword(keyword: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     guard !keyword.isEmpty else {
         completion([])
         return
     }
 
-    let requestParameters: JSONDictionary = [
+    var requestParameters: JSONDictionary = [
         "q": keyword,
         "page": pageIndex,
         "per_page": perPage,
     ]
+
+    if let skillID = skillID {
+        requestParameters["skill_id"] = skillID
+    }
+
+    if let userID = userID {
+        requestParameters["user_id"] = userID
+    }
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
         //println("feedsWithKeyword \(keyword): \(data)")
