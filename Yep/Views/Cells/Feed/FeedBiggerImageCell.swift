@@ -10,6 +10,13 @@ import UIKit
 
 class FeedBiggerImageCell: FeedBasicCell {
 
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
+
+        return ceil(height)
+    }
+
     var tapMediaAction: FeedTapMediaAction?
 
     lazy var biggerImageView: UIImageView = {
@@ -27,13 +34,6 @@ class FeedBiggerImageCell: FeedBasicCell {
         return imageView
     }()
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -56,19 +56,9 @@ class FeedBiggerImageCell: FeedBasicCell {
         biggerImageView.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if let biggerImageLayout = layoutCache.layout?.biggerImageLayout {
-            biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
-
-        } else {
-            biggerImageView.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-        }
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let onlyAttachment = feed.imageAttachments?.first {
 
@@ -81,15 +71,8 @@ class FeedBiggerImageCell: FeedBasicCell {
             }
         }
 
-        if layoutCache.layout == nil {
-
-            let biggerImageLayout = FeedCellLayout.BiggerImageLayout(biggerImageViewFrame: biggerImageView.frame)
-            _newLayout?.biggerImageLayout = biggerImageLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
+        let biggerImageLayout = layout.biggerImageLayout!
+        biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
     }
 
     @objc private func tap(sender: UITapGestureRecognizer) {

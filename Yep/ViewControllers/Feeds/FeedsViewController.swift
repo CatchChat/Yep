@@ -301,10 +301,19 @@ class FeedsViewController: BaseViewController {
 
         private var feedCellLayoutHash = [String: FeedCellLayout]()
 
-        private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
+        private mutating func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout {
             let key = feed.id
 
-            return feedCellLayoutHash[key]
+            if let layout = feedCellLayoutHash[key] {
+                return layout
+
+            } else {
+                let layout = FeedCellLayout(feed: feed)
+
+                updateFeedCellLayout(layout, forFeed: feed)
+
+                return layout
+            }
         }
 
         private mutating func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
@@ -320,14 +329,8 @@ class FeedsViewController: BaseViewController {
 
         private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-            if let layout = feedCellLayoutOfFeed(feed) {
-                return layout.height
-
-            } else {
-                let layout = FeedCellLayout(feed: feed)
-                updateFeedCellLayout(layout, forFeed: feed)
-                return layout.height
-            }
+            let layout = feedCellLayoutOfFeed(feed)
+            return layout.height
         }
     }
     private static var layoutPool = LayoutPool()
@@ -1277,16 +1280,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-            let update: FeedCellLayout.Update = { newLayout in
-                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
-            }
-            let layoutCache = (layout: layout, update: update)
 
             switch feed.kind {
 
             case .Text:
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
             case .URL:
 
@@ -1294,7 +1293,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapURLInfoAction = { [weak self] URL in
                     println("tapURLInfoAction URL: \(URL)")
@@ -1339,7 +1338,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -1349,7 +1348,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -1358,7 +1357,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
                 }
@@ -1369,7 +1368,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -1381,7 +1380,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -1422,7 +1421,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 /*
                 cell.playOrPauseAudioAction = { [weak self] cell in
@@ -1560,7 +1559,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapLocationAction = { locationName, locationCoordinate in
 
