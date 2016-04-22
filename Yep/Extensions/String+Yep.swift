@@ -254,6 +254,17 @@ extension String {
 
         println("EmphasisTag keywords: \(keywords)")
 
+        guard !keywords.isEmpty else {
+            return nil
+        }
+
+        let emphasisTagExpression = try! NSRegularExpression(pattern: "</?em>", options: [.CaseInsensitive])
+        let plainText = emphasisTagExpression.stringByReplacingMatchesInString(text, options: [], range: textRange, withTemplate: "")
+
+        println("EmphasisTag plainText: \(plainText)")
+
+        //keywordExpression.replaceMatchesInString(<#T##string: NSMutableString##NSMutableString#>, options: <#T##NSMatchingOptions#>, range: <#T##NSRange#>, withTemplate: <#T##String#>)
+
         return nil
     }
 }
