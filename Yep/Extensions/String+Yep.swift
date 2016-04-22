@@ -273,6 +273,9 @@ extension String {
 
         let attributedString = NSMutableAttributedString(string: plainText)
 
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: plainTextRange)
+        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: plainTextRange)
+
         let highlightTextAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: color,
         ]
