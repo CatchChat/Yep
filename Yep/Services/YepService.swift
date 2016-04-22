@@ -3018,7 +3018,7 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHan
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?,completion: [DiscoveredFeed] -> Void) {
+func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3569,7 +3569,6 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
                     username = userInfo["username"] as? String,
                     nickname = userInfo["nickname"] as? String,
                     avatarInfo = userInfo["avatar"] as? JSONDictionary
-                    //avatarURLString = avatarInfo["thumb_url"] as? String
                 else {
                     return nil
                 }
