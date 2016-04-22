@@ -237,4 +237,23 @@ extension String {
 
         return attributedString
     }
+
+    func yep_highlightEmphasisTagWithColor(color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+
+        let text = self
+        let textRange = NSMakeRange(0, (text as NSString).length)
+
+        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+)</em>", options: [.CaseInsensitive])
+
+        let matches = keywordExpression.matchesInString(self, options: [], range: textRange)
+        let keywords: [String] = matches.map({
+            let matchRange = $0.rangeAtIndex(1)
+            let keyword = (text as NSString).substringWithRange(matchRange)
+            return keyword
+        })
+
+        println("EmphasisTag keywords: \(keywords)")
+
+        return nil
+    }
 }
