@@ -260,11 +260,28 @@ extension String {
 
         let emphasisTagExpression = try! NSRegularExpression(pattern: "</?em>", options: [.CaseInsensitive])
         let plainText = emphasisTagExpression.stringByReplacingMatchesInString(text, options: [], range: textRange, withTemplate: "")
+        let plainTextRange = NSMakeRange(0, (plainText as NSString).length)
 
         println("EmphasisTag plainText: \(plainText)")
 
-        //keywordExpression.replaceMatchesInString(<#T##string: NSMutableString##NSMutableString#>, options: <#T##NSMatchingOptions#>, range: <#T##NSRange#>, withTemplate: <#T##String#>)
+        let attributedString = NSMutableAttributedString(string: plainText)
 
-        return nil
+        let highlightTextAttributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: color,
+        ]
+
+        keywords.forEach({
+            if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
+
+                highlightExpression.enumerateMatchesInString(plainText, options: NSMatchingOptions(), range: plainTextRange, usingBlock: { result, flags, stop in
+
+                    if let result = result {
+                        attributedString.addAttributes(highlightTextAttributes, range: result.range )
+                    }
+                })
+            }
+        })
+        
+        return attributedString
     }
 }
