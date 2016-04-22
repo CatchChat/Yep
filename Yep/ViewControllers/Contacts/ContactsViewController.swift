@@ -17,28 +17,7 @@ class ContactsViewController: BaseViewController {
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
 
-    var conversationToShare: Conversation? = nil {
-        didSet {
-            if let feed = conversationToShare?.withGroup?.withFeed {
-                
-                var discoveredAttachments = [DiscoveredAttachment]()
-                feed.attachments.forEach({ (attachment) in
-                    let discoveredAttachment = DiscoveredAttachment(metadata: attachment.metadata, URLString: attachment.URLString, image: nil)
-                    discoveredAttachments.append(discoveredAttachment)
-                })
-                let mediaView = FeedMediaView(frame: CGRect(x: 100, y: 120, width: 142, height: 142))
-                mediaView.setImagesWithAttachments(discoveredAttachments)
-                let tapp = UITapGestureRecognizer(target: self, action: #selector(ContactsViewController.tapp))
-                mediaView.addGestureRecognizer(tapp)
-                
-                view.addSubview(mediaView)
-                view.bringSubviewToFront(mediaView)
-            }
-        }
-    }
-    @objc func tapp() {
-        print("tapp")
-    }
+    var conversationToShare: Conversation?
     #if DEBUG
     private lazy var contactsFPSLabel: FPSLabel = {
         let label = FPSLabel()
