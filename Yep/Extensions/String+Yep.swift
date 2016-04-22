@@ -249,12 +249,15 @@ extension String {
         let keywords: [String] = matches.map({
             let matchRange = $0.rangeAtIndex(1)
             let keyword = (text as NSString).substringWithRange(matchRange)
-            return keyword
+            return keyword.lowercaseString
         })
 
-        println("EmphasisTag keywords: \(keywords)")
+        let keywordSet = Set(keywords)
 
-        guard !keywords.isEmpty else {
+        println("EmphasisTag keywords: \(keywords)")
+        println("EmphasisTag keywordSet: \(keywordSet)")
+
+        guard !keywordSet.isEmpty else {
             return nil
         }
 
@@ -270,7 +273,7 @@ extension String {
             NSForegroundColorAttributeName: color,
         ]
 
-        keywords.forEach({
+        keywordSet.forEach({
             if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
 
                 highlightExpression.enumerateMatchesInString(plainText, options: NSMatchingOptions(), range: plainTextRange, usingBlock: { result, flags, stop in
