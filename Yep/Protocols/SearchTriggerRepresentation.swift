@@ -8,12 +8,20 @@
 
 import UIKit
 
-protocol SearchTriggerRepresentation {
+protocol SearchTriggerRepresentation: class {
 
-    var originalNavigationControllerDelegate: UINavigationControllerDelegate? { get }
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate? { get set }
+    var searchTransition: SearchTransition { get }
 }
 
 extension SearchTriggerRepresentation where Self: UIViewController {
+
+    func hackNavigationDelegate() {
+        // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
+        originalNavigationControllerDelegate = navigationController?.delegate
+
+        navigationController?.delegate = searchTransition
+    }
 
     func recoverOriginalNavigationDelegate() {
         if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {

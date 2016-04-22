@@ -32,7 +32,7 @@ class ContactsViewController: BaseViewController {
     }
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var searchTransition: SearchTransition = {
+    lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
 
@@ -211,14 +211,7 @@ class ContactsViewController: BaseViewController {
         guard let identifier = segue.identifier else {
             return
         }
-        
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-            
-            navigationController?.delegate = searchTransition
-        }
-        
+
         switch identifier {
             
         case "showConversation":
