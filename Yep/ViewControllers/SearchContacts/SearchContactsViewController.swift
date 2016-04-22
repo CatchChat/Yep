@@ -181,7 +181,7 @@ class SearchContactsViewController: SegueViewController {
             
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         default:
             break

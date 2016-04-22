@@ -222,7 +222,7 @@ class SearchConversationsViewController: SegueViewController {
 
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
             let vc = segue.destinationViewController as! ConversationViewController
@@ -230,7 +230,7 @@ class SearchConversationsViewController: SegueViewController {
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showSearchedUserMessages":
             let vc = segue.destinationViewController as! SearchedUserMessagesViewController
@@ -239,7 +239,7 @@ class SearchConversationsViewController: SegueViewController {
             vc.messages = userMessages.messages
             vc.keyword = keyword
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         default:
             break

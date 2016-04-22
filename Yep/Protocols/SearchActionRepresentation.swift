@@ -25,7 +25,7 @@ extension SearchActionRepresentation where Self: UIViewController {
         }
     }
 
-    func hackNavigationDelegate() {
+    func prepareOriginalNavigationControllerDelegate() {
         // 记录原始的 searchTransition 以便 pop 后恢复
         searchTransition = navigationController?.delegate as? SearchTransition
 

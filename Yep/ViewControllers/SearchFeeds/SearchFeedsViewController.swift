@@ -414,7 +414,7 @@ class SearchFeedsViewController: UIViewController {
 
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
 
@@ -496,7 +496,7 @@ class SearchFeedsViewController: UIViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
             
         default:
             break
