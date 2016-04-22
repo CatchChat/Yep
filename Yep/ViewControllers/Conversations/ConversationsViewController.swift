@@ -28,7 +28,7 @@ class ConversationsViewController: BaseViewController {
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
@@ -304,7 +304,7 @@ class ConversationsViewController: BaseViewController {
 
         isFirstAppear = false
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
     
     private func askForNotification() {
@@ -336,12 +336,6 @@ class ConversationsViewController: BaseViewController {
     }
 
     // MARK: Navigation
-
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
@@ -388,7 +382,7 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showProfile":
 
@@ -399,7 +393,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
             
         default:
             break

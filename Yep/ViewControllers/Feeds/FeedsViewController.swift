@@ -62,7 +62,7 @@ class FeedsViewController: BaseViewController {
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     private lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
@@ -482,7 +482,7 @@ class FeedsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -826,12 +826,6 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     private var newFeedViewController: NewFeedViewController?
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -943,7 +937,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showSkillHome":
 
@@ -955,7 +949,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showFeedsWithSkill":
 
@@ -977,7 +971,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showConversation":
 
@@ -1066,7 +1060,7 @@ class FeedsViewController: BaseViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "presentNewFeed":
 
@@ -1083,6 +1077,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentNewFeedVoiceRecord":
 
             guard let
@@ -1098,6 +1094,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentPickLocation":
 
             guard let
@@ -1112,6 +1110,8 @@ class FeedsViewController: BaseViewController {
             vc.preparedSkill = skill
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+
+            recoverOriginalNavigationDelegate()
 
         default:
             break

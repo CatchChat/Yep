@@ -10,6 +10,16 @@ import UIKit
 
 protocol SearchTriggerRepresentation {
 
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate? { get }
+}
+
+extension SearchTriggerRepresentation where Self: UIViewController {
+
+    func recoverOriginalNavigationDelegate() {
+        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
+            navigationController?.delegate = originalNavigationControllerDelegate
+        }
+    }
 }
 
 extension ConversationsViewController: SearchTriggerRepresentation {
