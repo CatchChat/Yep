@@ -903,7 +903,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showProfile":
 

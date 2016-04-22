@@ -16,7 +16,7 @@ protocol SearchTriggerRepresentation: class {
 
 extension SearchTriggerRepresentation where Self: UIViewController {
 
-    func hackNavigationDelegate() {
+    func prepareSearchTransition() {
         // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
         originalNavigationControllerDelegate = navigationController?.delegate
 

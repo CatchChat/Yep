@@ -350,7 +350,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showConversation":
 

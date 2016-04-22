@@ -268,7 +268,7 @@ class ContactsViewController: BaseViewController {
             
             vc.hidesBottomBarWhenPushed = true
             
-            hackNavigationDelegate()
+            prepareSearchTransition()
             
         default:
             break
