@@ -19,6 +19,9 @@ class SearchFeedsViewController: UIViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
+    var skill: Skill?
+    var profileUser: ProfileUser?
+
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
