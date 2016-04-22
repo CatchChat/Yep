@@ -18,7 +18,13 @@ protocol SearchActionRepresentation: class {
 }
 
 extension SearchActionRepresentation where Self: UIViewController {
-    
+
+    func recoverSearchTransition() {
+        if let delegate = searchTransition {
+            navigationController?.delegate = delegate
+        }
+    }
+
     func hackNavigationDelegate() {
         // 记录原始的 searchTransition 以便 pop 后恢复
         searchTransition = navigationController?.delegate as? SearchTransition

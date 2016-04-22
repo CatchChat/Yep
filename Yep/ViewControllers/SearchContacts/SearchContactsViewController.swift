@@ -128,9 +128,7 @@ class SearchContactsViewController: SegueViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = searchTransition {
-            navigationController?.delegate = delegate
-        }
+        recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
