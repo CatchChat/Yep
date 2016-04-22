@@ -462,22 +462,11 @@ class FeedsViewController: BaseViewController {
         #endif
     }
 
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
 
         navigationController?.setNavigationBarHidden(false, animated: false)
-
-        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
     }
-
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
