@@ -252,6 +252,10 @@ extension String {
             return keyword.lowercaseString
         })
 
+        guard !keywords.isEmpty else {
+            return nil
+        }
+
         let keywordSet = Set(keywords)
 
         println("EmphasisTag keywords: \(keywords)")
