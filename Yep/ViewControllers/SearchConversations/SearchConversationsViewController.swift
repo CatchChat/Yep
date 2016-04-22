@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import KeyboardMan
 import RealmSwift
 
 class SearchConversationsViewController: SegueViewController {
@@ -102,8 +101,6 @@ class SearchConversationsViewController: SegueViewController {
         }
     }
 
-    private let keyboardMan = KeyboardMan()
-
     private func updateForFold(fold: Bool, withCountOfItems countOfItems: Int, inSection section: Section) {
 
         let indexPaths = ((1 + Section.maxNumberOfItems)...countOfItems).map({
@@ -156,16 +153,6 @@ class SearchConversationsViewController: SegueViewController {
         resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
         realm = try! Realm()
-
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.resultsTableView.contentInset.bottom = keyboardHeight
-            self?.resultsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            self?.resultsTableView.contentInset.bottom = 0
-            self?.resultsTableView.scrollIndicatorInsets.bottom = 0
-        }
 
         searchBarBottomLineView.alpha = 0
     }

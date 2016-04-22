@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import KeyboardMan
 
 class SearchContactsViewController: SegueViewController {
 
@@ -55,8 +54,6 @@ class SearchContactsViewController: SegueViewController {
         }
     }
 
-    private let keyboardMan = KeyboardMan()
-
     private var searchTask: CancelableTask?
 
     private lazy var friends = normalFriends()
@@ -92,16 +89,6 @@ class SearchContactsViewController: SegueViewController {
         title = NSLocalizedString("Search", comment: "")
 
         contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
-
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.contactsTableView.contentInset.bottom = keyboardHeight
-            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            self?.contactsTableView.contentInset.bottom = 0
-            self?.contactsTableView.scrollIndicatorInsets.bottom = 0
-        }
 
         searchBarBottomLineView.alpha = 0
     }
