@@ -428,12 +428,6 @@ class FeedsViewController: BaseViewController {
                 }
             }
         }
-        
-        if preparedFeedsCount > 0 {
-            currentPageIndex = 2
-        } else {
-            updateFeeds()
-        }
 
         // 没有 profileUser 才设置 feedSortStyle 以请求服务器
         if profileUser == nil {
@@ -457,27 +451,22 @@ class FeedsViewController: BaseViewController {
             }
         }
 
+        if preparedFeedsCount > 0 {
+            currentPageIndex = 2
+        } else {
+            updateFeeds()
+        }
+
         #if DEBUG
             //view.addSubview(feedsFPSLabel)
         #endif
     }
 
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
 
         navigationController?.setNavigationBarHidden(false, animated: false)
-
-        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
     }
-
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
