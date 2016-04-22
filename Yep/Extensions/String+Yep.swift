@@ -237,4 +237,61 @@ extension String {
 
         return attributedString
     }
+
+    func yep_highlightEmphasisTagWithColor(color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+
+        let text = self
+        let textRange = NSMakeRange(0, (text as NSString).length)
+
+        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+?)</em>", options: [.CaseInsensitive])
+
+        let matches = keywordExpression.matchesInString(self, options: [], range: textRange)
+        let keywords: [String] = matches.map({
+            let matchRange = $0.rangeAtIndex(1)
+            let keyword = (text as NSString).substringWithRange(matchRange)
+            return keyword.lowercaseString
+        })
+
+        guard !keywords.isEmpty else {
+            return nil
+        }
+
+        let keywordSet = Set(keywords)
+
+        println("EmphasisTag keywords: \(keywords)")
+        println("EmphasisTag keywordSet: \(keywordSet)")
+
+        guard !keywordSet.isEmpty else {
+            return nil
+        }
+
+        let emphasisTagExpression = try! NSRegularExpression(pattern: "</?em>", options: [.CaseInsensitive])
+        let plainText = emphasisTagExpression.stringByReplacingMatchesInString(text, options: [], range: textRange, withTemplate: "")
+        let plainTextRange = NSMakeRange(0, (plainText as NSString).length)
+
+        println("EmphasisTag plainText: \(plainText)")
+
+        let attributedString = NSMutableAttributedString(string: plainText)
+
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: plainTextRange)
+        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: plainTextRange)
+
+        let highlightTextAttributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: color,
+        ]
+
+        keywordSet.forEach({
+            if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
+
+                highlightExpression.enumerateMatchesInString(plainText, options: NSMatchingOptions(), range: plainTextRange, usingBlock: { result, flags, stop in
+
+                    if let result = result {
+                        attributedString.addAttributes(highlightTextAttributes, range: result.range )
+                    }
+                })
+            }
+        })
+        
+        return attributedString
+    }
 }

@@ -2960,18 +2960,26 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsWithKeyword(keyword: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     guard !keyword.isEmpty else {
         completion([])
         return
     }
 
-    let requestParameters: JSONDictionary = [
+    var requestParameters: JSONDictionary = [
         "q": keyword,
         "page": pageIndex,
         "per_page": perPage,
     ]
+
+    if let skillID = skillID {
+        requestParameters["skill_id"] = skillID
+    }
+
+    if let userID = userID {
+        requestParameters["user_id"] = userID
+    }
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
         //println("feedsWithKeyword \(keyword): \(data)")
@@ -3010,7 +3018,7 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHan
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?,completion: [DiscoveredFeed] -> Void) {
+func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3561,7 +3569,6 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
                     username = userInfo["username"] as? String,
                     nickname = userInfo["nickname"] as? String,
                     avatarInfo = userInfo["avatar"] as? JSONDictionary
-                    //avatarURLString = avatarInfo["thumb_url"] as? String
                 else {
                     return nil
                 }

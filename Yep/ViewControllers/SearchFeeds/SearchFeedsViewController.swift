@@ -19,6 +19,9 @@ class SearchFeedsViewController: UIViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
+    var skill: Skill?
+    var profileUser: ProfileUser?
+
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
@@ -316,7 +319,7 @@ class SearchFeedsViewController: UIViewController {
 
         let perPage: Int = 30
 
-        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
+        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 

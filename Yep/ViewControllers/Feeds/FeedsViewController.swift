@@ -893,6 +893,9 @@ class FeedsViewController: BaseViewController {
             let vc = segue.destinationViewController as! SearchFeedsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
 
+            vc.skill = skill
+            vc.profileUser = profileUser
+
             vc.hidesBottomBarWhenPushed = true
 
             prepareSearchTransition()
