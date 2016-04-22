@@ -157,7 +157,7 @@ class LeftShareFeedCell: ChatBaseCell {
         
         self.mediaTapAction = mediaTapAction
         
-        var topOffset: CGFloat = 0
+        //var topOffset: CGFloat = 0
         
         UIView.performWithoutAnimation { [weak self] in
             self?.makeUI()
