@@ -243,7 +243,7 @@ extension String {
         let text = self
         let textRange = NSMakeRange(0, (text as NSString).length)
 
-        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+)</em>", options: [.CaseInsensitive])
+        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+?)</em>", options: [.CaseInsensitive])
 
         let matches = keywordExpression.matchesInString(self, options: [], range: textRange)
         let keywords: [String] = matches.map({
