@@ -63,8 +63,8 @@ class FeedsViewController: BaseViewController {
     }()
 
     private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var feedsSearchTransition: FeedsSearchTransition = {
-        return FeedsSearchTransition()
+    private lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
@@ -904,7 +904,7 @@ class FeedsViewController: BaseViewController {
             // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
             originalNavigationControllerDelegate = navigationController?.delegate
 
-            navigationController?.delegate = feedsSearchTransition
+            navigationController?.delegate = searchTransition
         }
 
         switch identifier {
