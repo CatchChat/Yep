@@ -62,13 +62,9 @@ class FeedLocationCell: FeedBasicCell {
         return ceil(height)
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
             if case let .Location(locationInfo) = attachment {
@@ -101,29 +97,13 @@ class FeedLocationCell: FeedBasicCell {
             }
         }
 
-        if let locationLayout = layoutCache.layout?.locationLayout {
-            locationContainerView.frame = locationLayout.locationContainerViewFrame
-            socialWorkBorderImageView.frame = locationContainerView.frame
+        let locationLayout = layout.locationLayout!
+        locationContainerView.frame = locationLayout.locationContainerViewFrame
+        socialWorkBorderImageView.frame = locationContainerView.frame
 
-        } else {
-            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            locationContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
-            socialWorkBorderImageView.frame = locationContainerView.frame
-        }
         locationContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = locationContainerView.mapImageView.bounds
         locationContainerView.mapImageView.maskView = halfMaskImageView
-
-        if layoutCache.layout == nil {
-
-            let locationLayout = FeedCellLayout.LocationLayout(locationContainerViewFrame: locationContainerView.frame)
-            _newLayout?.locationLayout = locationLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
     }
 }
