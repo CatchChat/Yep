@@ -32,5 +32,19 @@ class YepUITests: XCTestCase {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-    
+
+    func testPostTextFeed() {
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Feeds"].tap()
+        app.navigationBars["Feeds"].buttons["Add"].tap()
+        app.tables.staticTexts["Text & Photos"].tap()
+
+        let scrollViewsQuery = app.scrollViews
+        let textView = scrollViewsQuery.childrenMatchingType(.TextView).element
+        textView.tap()
+        textView.typeText("42_1984")
+        app.navigationBars["New Feed"].buttons["Post"].tap()
+    }
+
 }
