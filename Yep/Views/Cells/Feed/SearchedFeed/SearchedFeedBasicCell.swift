@@ -150,13 +150,18 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
-        let text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+        if let highlightedKeywordsBody = feed.highlightedKeywordsBody {
+            let text = "\u{200B}\(highlightedKeywordsBody)" // ref http://stackoverflow.com/a/25994821
 
-        if let attributedText = text.yep_highlightEmphasisTagWithColor(UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {
-            messageTextView.attributedText = attributedText
+            if let attributedText = text.yep_highlightEmphasisTagWithColor(UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {
+                messageTextView.attributedText = attributedText
+
+            } else {
+                messageTextView.text = text
+            }
 
         } else {
-            messageTextView.text = text
+            messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
         }
 
         // layout
