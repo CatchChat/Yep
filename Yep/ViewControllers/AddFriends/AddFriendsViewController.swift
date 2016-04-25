@@ -30,6 +30,31 @@ class AddFriendsViewController: SegueViewController {
         title = NSLocalizedString("Add Friends", comment: "")
     }
 
+    private var isFirstAppear: Bool = true
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if isFirstAppear {
+            delay(0.2) { [weak self] in
+                let searchIndexPath = NSIndexPath(forRow: 0, inSection: Section.Search.rawValue)
+                if let cell = self?.addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell {
+                    cell.searchTextField.becomeFirstResponder()
+                }
+            }
+        }
+
+        isFirstAppear = false
+    }
+
+    private func hideKeyboard() {
+
+        let searchIndexPath = NSIndexPath(forRow: 0, inSection: Section.Search.rawValue)
+        if let cell = addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell {
+            cell.searchTextField.resignFirstResponder()
+        }
+    }
+
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -91,9 +116,6 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
-            delay(0.5) {
-                cell.searchTextField.becomeFirstResponder()
-            }
 
             return cell
 
@@ -114,6 +136,8 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
+
+        hideKeyboard()
 
         if indexPath.section == Section.More.rawValue {
 
