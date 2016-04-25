@@ -266,15 +266,27 @@ extension String {
         }
 
         let emphasisTagExpression = try! NSRegularExpression(pattern: "</?em>", options: [.CaseInsensitive])
-        let plainText = emphasisTagExpression.stringByReplacingMatchesInString(text, options: [], range: textRange, withTemplate: "")
-        let plainTextRange = NSMakeRange(0, (plainText as NSString).length)
+        let encodedString = emphasisTagExpression.stringByReplacingMatchesInString(text, options: [], range: textRange, withTemplate: "")
 
-        println("EmphasisTag plainText: \(plainText)")
+        println("EmphasisTag encodedString: \(encodedString)")
 
-        let attributedString = NSMutableAttributedString(string: plainText)
+        let encodedData = encodedString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let attributedOptions: [String: AnyObject] = [
+            NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+            NSCharacterEncodingDocumentAttribute: NSUTF8StringEncoding
+        ]
+        guard let decodedString = try? NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil).string else {
+            return nil
+        }
 
-        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: plainTextRange)
-        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: plainTextRange)
+        println("EmphasisTag decodedString: \(decodedString)")
+
+        let decodedStringRange = NSMakeRange(0, (decodedString as NSString).length)
+
+        let attributedString = NSMutableAttributedString(string: decodedString)
+
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: decodedStringRange)
+        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: decodedStringRange)
 
         let highlightTextAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: color,
@@ -283,7 +295,7 @@ extension String {
         keywordSet.forEach({
             if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
 
-                highlightExpression.enumerateMatchesInString(plainText, options: NSMatchingOptions(), range: plainTextRange, usingBlock: { result, flags, stop in
+                highlightExpression.enumerateMatchesInString(decodedString, options: NSMatchingOptions(), range: decodedStringRange, usingBlock: { result, flags, stop in
 
                     if let result = result {
                         attributedString.addAttributes(highlightTextAttributes, range: result.range )
