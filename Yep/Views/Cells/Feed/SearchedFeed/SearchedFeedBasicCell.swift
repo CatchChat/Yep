@@ -151,6 +151,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         nicknameLabel.text = feed.creator.nickname
 
         if let highlightedKeywordsBody = feed.highlightedKeywordsBody {
+
             let text = "\u{200B}\(highlightedKeywordsBody)" // ref http://stackoverflow.com/a/25994821
 
             if let attributedText = text.yep_highlightEmphasisTagWithColor(UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {

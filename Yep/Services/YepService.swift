@@ -2818,7 +2818,7 @@ struct DiscoveredFeed: Hashable {
                 return nil
         }
 
-        var highlightedKeywordsBody = feedInfo["highlight"] as? String
+        let highlightedKeywordsBody = feedInfo["highlight"] as? String
 
         var groupInfo = groupInfo
 
