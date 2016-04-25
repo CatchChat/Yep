@@ -63,7 +63,7 @@ class SearchFeedsViewController: UIViewController {
                 feedsTableView.tableFooterView = footerView
 
             } else {
-                feedsTableView.tableFooterView = nil
+                feedsTableView.tableFooterView = UIView()
             }
         }
     }
