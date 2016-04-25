@@ -309,6 +309,7 @@
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
+		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
@@ -424,6 +425,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		0A8F54C11AB67D11004AD60E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
 			proxyType = 1;
@@ -744,6 +752,9 @@
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
+		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D50AC21CCE01D300FB5753 /* YepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUITests.swift; sourceTree = "<group>"; };
+		50D50AC41CCE01D300FB5753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
@@ -892,6 +903,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D50ABD1CCE01D300FB5753 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -942,6 +960,7 @@
 			children = (
 				0A8F54AD1AB67D11004AD60E /* Yep */,
 				0A8F54C31AB67D11004AD60E /* YepTests */,
+				50D50AC11CCE01D300FB5753 /* YepUITests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				59CC1DE9D59AC08247B97B4F /* Pods */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
@@ -953,6 +972,7 @@
 			children = (
 				0A8F54AB1AB67D11004AD60E /* Yep.app */,
 				0A8F54C01AB67D11004AD60E /* YepTests.xctest */,
+				50D50AC01CCE01D300FB5753 /* YepUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2335,6 +2355,15 @@
 			name = ChatLeftImage;
 			sourceTree = "<group>";
 		};
+		50D50AC11CCE01D300FB5753 /* YepUITests */ = {
+			isa = PBXGroup;
+			children = (
+				50D50AC21CCE01D300FB5753 /* YepUITests.swift */,
+				50D50AC41CCE01D300FB5753 /* Info.plist */,
+			);
+			path = YepUITests;
+			sourceTree = "<group>";
+		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -2764,6 +2793,24 @@
 			productReference = 0A8F54C01AB67D11004AD60E /* YepTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		50D50ABF1CCE01D300FB5753 /* YepUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */;
+			buildPhases = (
+				50D50ABC1CCE01D300FB5753 /* Sources */,
+				50D50ABD1CCE01D300FB5753 /* Frameworks */,
+				50D50ABE1CCE01D300FB5753 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D50AC61CCE01D300FB5753 /* PBXTargetDependency */,
+			);
+			name = YepUITests;
+			productName = YepUITests;
+			productReference = 50D50AC01CCE01D300FB5753 /* YepUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2771,7 +2818,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Catch Inc";
 				TargetAttributes = {
@@ -2797,6 +2844,10 @@
 						CreatedOnToolsVersion = 6.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D50ABF1CCE01D300FB5753 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 				};
 			};
 			buildConfigurationList = 0A8F54A61AB67D11004AD60E /* Build configuration list for PBXProject "Yep" */;
@@ -2815,6 +2866,7 @@
 			targets = (
 				0A8F54AA1AB67D11004AD60E /* Yep */,
 				0A8F54BF1AB67D11004AD60E /* YepTests */,
+				50D50ABF1CCE01D300FB5753 /* YepUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2931,6 +2983,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0A8F54BE1AB67D11004AD60E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D50ABE1CCE01D300FB5753 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3308,6 +3367,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D50ABC1CCE01D300FB5753 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3315,6 +3382,11 @@
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
 			targetProxy = 0A8F54C11AB67D11004AD60E /* PBXContainerItemProxy */;
+		};
+		50D50AC61CCE01D300FB5753 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3672,6 +3744,33 @@
 			};
 			name = Release;
 		};
+		50D50AC71CCE01D300FB5753 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nixWork.YepUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yep;
+			};
+			name = Debug;
+		};
+		50D50AC81CCE01D300FB5753 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nixWork.YepUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yep;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3701,6 +3800,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D50AC71CCE01D300FB5753 /* Debug */,
+				50D50AC81CCE01D300FB5753 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
