@@ -150,11 +150,13 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         nicknameLabel.text = feed.creator.nickname
 
+        let text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+
         if let highlightedKeywordsBody = feed.highlightedKeywordsBody {
 
-            let text = "\u{200B}\(highlightedKeywordsBody)" // ref http://stackoverflow.com/a/25994821
+            let keywordSet = highlightedKeywordsBody.yep_keywordSetOfEmphasisTags()
 
-            if let attributedText = text.yep_highlightEmphasisTagWithColor(UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {
+            if let attributedText = text.yep_highlightWithKeywordSet(keywordSet, color: UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {
                 messageTextView.attributedText = attributedText
 
             } else {
@@ -162,7 +164,7 @@ class SearchedFeedBasicCell: UITableViewCell {
             }
 
         } else {
-            messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+            messageTextView.text = text
         }
 
         // layout

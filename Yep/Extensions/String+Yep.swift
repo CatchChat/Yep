@@ -285,6 +285,7 @@ extension String {
         return attributedString
     }
 
+    /*
     func yep_highlightEmphasisTagWithColor(color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         let text = self
@@ -353,4 +354,5 @@ extension String {
         
         return attributedString
     }
+     */
 }
