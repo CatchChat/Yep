@@ -2618,6 +2618,7 @@ struct DiscoveredFeed: Hashable {
 
     let creator: DiscoveredUser
     let body: String
+    let highlightedKeywordsBody: String?
 
     struct GithubRepo {
         let ID: Int
@@ -2817,6 +2818,8 @@ struct DiscoveredFeed: Hashable {
                 return nil
         }
 
+        let highlightedKeywordsBody = feedInfo["highlight"] as? String
+
         var groupInfo = groupInfo
 
         if groupInfo == nil {
@@ -2893,7 +2896,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
     }
 }
 
@@ -2982,7 +2985,7 @@ func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIn
     }
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-        //println("feedsWithKeyword \(keyword): \(data)")
+        println("feedsWithKeyword \(requestParameters): \(data)")
         return parseFeeds(data)
     }
 
