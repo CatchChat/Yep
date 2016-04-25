@@ -25,7 +25,6 @@ class SearchFeedsViewController: UIViewController {
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
-            searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
             searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
             searchBar.returnKeyType = .Done
         }
@@ -240,6 +239,16 @@ class SearchFeedsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
+
+        if skill != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+        }
+
+        if profileUser != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds by user", comment: "")
+        }
 
         feeds = []
 

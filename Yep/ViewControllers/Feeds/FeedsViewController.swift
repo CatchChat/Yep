@@ -56,7 +56,6 @@ class FeedsViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
-        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
         searchBar.delegate = self
         return searchBar
@@ -376,6 +375,16 @@ class FeedsViewController: BaseViewController {
         }
 
         title = NSLocalizedString("Feeds", comment: "")
+
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
+
+        if skill != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+        }
+
+        if profileUser != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds by user", comment: "")
+        }
 
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         feedsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
