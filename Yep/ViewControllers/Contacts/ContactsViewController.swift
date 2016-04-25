@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 import Ruler
-import KeyboardMan
 
 class ContactsViewController: BaseViewController {
 
@@ -34,9 +33,6 @@ class ContactsViewController: BaseViewController {
     lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
-
-//    private let keyboardMan = KeyboardMan()
-//    private var normalContactsTableViewContentInsetBottom: CGFloat?
 
     private let cellIdentifier = "ContactsCell"
 
@@ -148,19 +144,6 @@ class ContactsViewController: BaseViewController {
                 self?.updateContactsTableView()
             }
         }
-
-//        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-//            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
-//            self?.contactsTableView.contentInset.bottom = keyboardHeight
-//            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-//        }
-//
-//        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-//            if let bottom = self?.normalContactsTableViewContentInsetBottom {
-//                self?.contactsTableView.contentInset.bottom = bottom
-//                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-//            }
-//        }
 
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
