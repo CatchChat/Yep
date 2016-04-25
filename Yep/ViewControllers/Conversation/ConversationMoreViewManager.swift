@@ -106,7 +106,7 @@ class ConversationMoreViewManager {
                         return true
                     }
                 ),
-                self.makeShareToContactItem(),
+                //self.makeShareToContactItem(),
                 self.updateGroupItem(group: group), // 2
                 reportItem,
                 cancelItem,
