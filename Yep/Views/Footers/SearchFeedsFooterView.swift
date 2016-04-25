@@ -67,7 +67,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]-(>=0)-|", options: [.AlignAllCenterX], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-80-[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]-(>=0)-|", options: [.AlignAllCenterX], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
