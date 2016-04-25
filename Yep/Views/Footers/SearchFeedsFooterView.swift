@@ -10,6 +10,28 @@ import UIKit
 
 class SearchFeedsFooterView: UIView {
 
+    enum Style {
+        case Init
+        case NoResults
+    }
+
+    var style: Style = .Init {
+        didSet {
+            switch style {
+            case .Init:
+                promptLabel.textColor = UIColor.darkGrayColor()
+                promptLabel.text = NSLocalizedString("Try any keywords", comment: "")
+                keywordLabelA.hidden = false
+                keywordLabelB.hidden = false
+            case .NoResults:
+                promptLabel.textColor = UIColor.yep_mangmorGrayColor()
+                promptLabel.text = NSLocalizedString("No search results.", comment: "")
+                keywordLabelA.hidden = true
+                keywordLabelB.hidden = true
+            }
+        }
+    }
+
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
@@ -44,6 +66,8 @@ class SearchFeedsFooterView: UIView {
         super.init(frame: frame)
 
         makeUI()
+
+        style = .Init
    }
     
     required init?(coder aDecoder: NSCoder) {
