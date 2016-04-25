@@ -238,6 +238,53 @@ extension String {
         return attributedString
     }
 
+    func yep_keywordSetOfEmphasisTags() -> Set<String> {
+
+        let text = self
+        let textRange = NSMakeRange(0, (text as NSString).length)
+
+        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+?)</em>", options: [.CaseInsensitive])
+
+        let matches = keywordExpression.matchesInString(self, options: [], range: textRange)
+        let keywords: [String] = matches.map({
+            let matchRange = $0.rangeAtIndex(1)
+            let keyword = (text as NSString).substringWithRange(matchRange)
+            return keyword.lowercaseString
+        })
+
+        let keywordSet = Set(keywords)
+        return keywordSet
+    }
+
+    func yep_highlightWithKeywordSet(keywordSet: Set<String>, color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+
+        let text = self
+        let textRange = NSMakeRange(0, (self as NSString).length)
+
+        let attributedString = NSMutableAttributedString(string: text)
+
+        attributedString.addAttribute(NSForegroundColorAttributeName, value: baseColor, range: textRange)
+        attributedString.addAttribute(NSFontAttributeName, value: baseFont, range: textRange)
+
+        let highlightTextAttributes: [String: AnyObject] = [
+            NSForegroundColorAttributeName: color,
+        ]
+
+        keywordSet.forEach({
+            if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
+
+                highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+
+                    if let result = result {
+                        attributedString.addAttributes(highlightTextAttributes, range: result.range )
+                    }
+                })
+            }
+        })
+
+        return attributedString
+    }
+
     func yep_highlightEmphasisTagWithColor(color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         let text = self
