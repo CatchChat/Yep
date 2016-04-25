@@ -40,10 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 默认将 Realm 放在 App Group 里
 
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
-        let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
+        let realmFileURL = directory.URLByAppendingPathComponent("db.realm")
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 31, migrationBlock: { migration, oldSchemaVersion in
-        })
+        var config = Realm.Configuration()
+        config.fileURL = realmFileURL
+        config.schemaVersion = 31
+        config.migrationBlock = { migration, oldSchemaVersion in
+        }
+
+        return config
     }
 
     enum RemoteNotificationType: String {
