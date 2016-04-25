@@ -37,22 +37,27 @@ class AddFriendsViewController: SegueViewController {
 
         if isFirstAppear {
             delay(0.2) { [weak self] in
-                let searchIndexPath = NSIndexPath(forRow: 0, inSection: Section.Search.rawValue)
-                if let cell = self?.addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell {
-                    cell.searchTextField.becomeFirstResponder()
-                }
+                 self?.tryShowKeyboard()
             }
         }
 
         isFirstAppear = false
     }
 
-    private func hideKeyboard() {
+    private var addFriendSearchCell: AddFriendSearchCell? {
 
         let searchIndexPath = NSIndexPath(forRow: 0, inSection: Section.Search.rawValue)
-        if let cell = addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell {
-            cell.searchTextField.resignFirstResponder()
-        }
+        return addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell
+    }
+
+    private func tryShowKeyboard() {
+
+        addFriendSearchCell?.searchTextField.becomeFirstResponder()
+    }
+
+    private func tryHideKeyboard() {
+
+        addFriendSearchCell?.searchTextField.resignFirstResponder()
     }
 
     // MARK: Navigation
@@ -137,7 +142,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        hideKeyboard()
+        tryHideKeyboard()
 
         if indexPath.section == Section.More.rawValue {
 
