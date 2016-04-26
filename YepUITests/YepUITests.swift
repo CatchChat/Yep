@@ -68,4 +68,18 @@ class YepUITests: XCTestCase {
         app.navigationBars["Edit Profile"].buttons["Settings"].tap()
         app.navigationBars["Settings"].buttons["Profile"].tap()
     }
+
+    func testSearchUsers() {
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Contacts"].tap()
+        app.navigationBars["Contacts"].buttons["Add"].tap()
+        
+        let textField = app.tables.childrenMatchingType(.Cell).elementBoundByIndex(0).childrenMatchingType(.TextField).element
+        textField.tap()
+        textField.typeText("kevin14")
+        app.buttons["Search"].tap()
+
+        app.tables.staticTexts["kevin14"].tap()
+    }
 }
