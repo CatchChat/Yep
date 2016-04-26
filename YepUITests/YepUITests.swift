@@ -47,4 +47,25 @@ class YepUITests: XCTestCase {
         app.navigationBars["New Feed"].buttons["Post"].tap()
     }
 
+    func testChangeNickname() {
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Profile"].tap()
+        app.buttons["icon settings"].tap()
+        
+        let tablesQuery = app.tables
+        tablesQuery.cells.elementBoundByIndex(0).tap()
+        tablesQuery.staticTexts["Nickname"].tap()
+        
+        let cell = tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(0)
+        let textField = cell.childrenMatchingType(.TextField).element
+        textField.tap()
+        textField.clearAndEnterText("NIX\(NSUUID().UUIDString.hash)")
+
+        app.buttons["Done"].tap()
+
+        app.navigationBars["Nickname"].buttons["Edit Profile"].tap()
+        app.navigationBars["Edit Profile"].buttons["Settings"].tap()
+        app.navigationBars["Settings"].buttons["Profile"].tap()
+    }
 }
