@@ -96,6 +96,7 @@ class SearchFeedsFooterView: UIView {
     }()
 
     lazy var keywordsTableView: UITableView = {
+
         let tableView = UITableView()
         tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
         tableView.dataSource = self
@@ -117,7 +118,9 @@ class SearchFeedsFooterView: UIView {
     }()
 
     @objc private func tapCoverView(sender: UITapGestureRecognizer) {
+
         coverView.hidden = true
+
         tapCoverAction?()
     }
 
@@ -179,15 +182,14 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return 10//keywords.count
+        return keywords.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
-        //let keyword = keywords[indexPath.row]
-        //cell.keywordLabel.text = keyword
-        cell.keywordLabel.text = "Hello"
+        let keyword = keywords[indexPath.row]
+        cell.keywordLabel.text = keyword
         return cell
     }
 
@@ -197,8 +199,7 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        //let keyword = keywords[indexPath.row]
-        let keyword = "Hello"
+        let keyword = keywords[indexPath.row]
         tapKeywordAction?(keyword: keyword)
     }
 }
