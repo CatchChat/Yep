@@ -12,6 +12,8 @@ import AVFoundation
 import MapKit
 import Ruler
 
+private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
+
 class SearchFeedsViewController: UIViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
@@ -50,8 +52,20 @@ class SearchFeedsViewController: UIViewController {
 
     var feeds = [DiscoveredFeed]() {
         didSet {
+
+            feedsTableView.scrollEnabled = !feeds.isEmpty
+
             if feeds.isEmpty {
-                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
+
+                footerView.tapCoverAction = { [weak self] in
+                    self?.searchBar.resignFirstResponder()
+                }
+
+                footerView.tapKeywordAction = { [weak self] keyword in
+                    self?.searchBar.text = keyword
+                    self?.triggerSearchTaskWithSearchText(keyword)
+                }
 
                 if keyword != nil {
                     footerView.style = .NoResults
@@ -104,6 +118,22 @@ class SearchFeedsViewController: UIViewController {
         }
     }
     private var searchTask: CancelableTask?
+
+    private func triggerSearchTaskWithSearchText(searchText: String) {
+
+        println("try search feeds with keyword: \(searchText)")
+
+        cancel(searchTask)
+
+        if searchText.isEmpty {
+            self.keyword = nil
+            return
+        }
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
+    }
 
     private struct LayoutPool {
 
@@ -553,18 +583,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        println("try search feeds with keyword: \(searchText)")
-
-        cancel(searchTask)
-
-        if searchText.isEmpty {
-            self.keyword = nil
-            return
-        }
-
-        searchTask = delay(0.5) { [weak self] in
-            self?.updateSearchResultsWithText(searchText)
-        }
+        triggerSearchTaskWithSearchText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

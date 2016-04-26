@@ -2985,11 +2985,24 @@ func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIn
     }
 
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-        println("feedsWithKeyword \(requestParameters): \(data)")
+        //println("feedsWithKeyword \(requestParameters): \(data)")
         return parseFeeds(data)
     }
 
     let resource = authJsonResource(path: "/v1/topics/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
+
+    let parse: JSONDictionary -> [String]? = { data in
+        println("hotWordsOfSearchFeeds: \(data)")
+        let hotWords = data["hot_words"] as? [String]
+        return hotWords
+    }
+
+    let resource = authJsonResource(path: "/v1/hot_words", method: .GET, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
