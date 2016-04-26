@@ -28,6 +28,7 @@ private class KeywordCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        selectionStyle = .None
 
         makeUI()
     }
@@ -72,6 +73,8 @@ class SearchFeedsFooterView: UIView {
             }
         }
     }
+
+    var tapKeywordAction: ((keyword: String) -> Void)?
 
     var keywords: [String] = [] {
         didSet {
@@ -153,7 +156,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-80-[promptLabel]-20-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-20-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
@@ -163,19 +166,33 @@ class SearchFeedsFooterView: UIView {
 extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+
         return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
         return 10//keywords.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
         //let keyword = keywords[indexPath.row]
         //cell.keywordLabel.text = keyword
         cell.keywordLabel.text = "Hello"
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        //let keyword = keywords[indexPath.row]
+        let keyword = "Hello"
+        tapKeywordAction?(keyword: keyword)
     }
 }
 
