@@ -10,6 +10,8 @@ import UIKit
 
 private class KeywordCell: UITableViewCell {
 
+    static let reuseIdentifier = "KeywordCell"
+
     lazy var keywordLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .Center
@@ -26,7 +28,6 @@ private class KeywordCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(keywordLabel)
 
         makeUI()
     }
@@ -36,6 +37,10 @@ private class KeywordCell: UITableViewCell {
     }
 
     func makeUI() {
+
+        contentView.addSubview(keywordLabel)
+
+        keywordLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let centerX = NSLayoutConstraint(item: keywordLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
         let centerY = NSLayoutConstraint(item: keywordLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
@@ -57,21 +62,16 @@ class SearchFeedsFooterView: UIView {
             case .Init:
                 promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Try any keywords", comment: "")
-                keywordLabelA.hidden = false
-                keywordLabelB.hidden = false
+//                keywordLabelA.hidden = false
+//                keywordLabelB.hidden = false
             case .NoResults:
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
-                keywordLabelA.hidden = true
-                keywordLabelB.hidden = true
+//                keywordLabelA.hidden = true
+//                keywordLabelB.hidden = true
             }
         }
     }
-
-    lazy var keywordsTableView: UITableView = {
-        let tableView = UITableView()
-        return tableView
-    }()
 
     lazy var promptLabel: UILabel = {
 
@@ -83,25 +83,34 @@ class SearchFeedsFooterView: UIView {
         return label
     }()
 
-    lazy var keywordLabelA: UILabel = {
-
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.yepTintColor()
-        label.textAlignment = .Center
-        label.text = NSLocalizedString("iOS, Music ...", comment: "")
-        return label
+    lazy var keywordsTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.rowHeight = 30
+        return tableView
     }()
 
-    lazy var keywordLabelB: UILabel = {
-
-        let label = UILabel()
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.yepTintColor()
-        label.textAlignment = .Center
-        label.text = NSLocalizedString("Book, Food ...", comment: "")
-        return label
-    }()
+//    lazy var keywordLabelA: UILabel = {
+//
+//        let label = UILabel()
+//        label.font = UIFont.systemFontOfSize(13)
+//        label.textColor = UIColor.yepTintColor()
+//        label.textAlignment = .Center
+//        label.text = NSLocalizedString("iOS, Music ...", comment: "")
+//        return label
+//    }()
+//
+//    lazy var keywordLabelB: UILabel = {
+//
+//        let label = UILabel()
+//        label.font = UIFont.systemFontOfSize(13)
+//        label.textColor = UIColor.yepTintColor()
+//        label.textAlignment = .Center
+//        label.text = NSLocalizedString("Book, Food ...", comment: "")
+//        return label
+//    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -116,26 +125,42 @@ class SearchFeedsFooterView: UIView {
     }
 
     func makeUI() {
+
         addSubview(promptLabel)
-        addSubview(keywordLabelA)
-        addSubview(keywordLabelB)
+        addSubview(keywordsTableView)
 
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
-        keywordLabelA.translatesAutoresizingMaskIntoConstraints = false
-        keywordLabelB.translatesAutoresizingMaskIntoConstraints = false
+        keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
             "promptLabel": promptLabel,
-            "keywordLabelA": keywordLabelA,
-            "keywordLabelB": keywordLabelB,
+            "keywordsTableView": keywordsTableView,
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-80-[promptLabel]-20-[keywordLabelA]-10-[keywordLabelB]-(>=0)-|", options: [.AlignAllCenterX], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-80-[promptLabel]-20-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
     }
 }
+
+extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
+        cell.keywordLabel.text = "Hello"
+        return cell
+    }
+}
+
 
