@@ -63,15 +63,11 @@ class SearchFeedsFooterView: UIView {
             case .Init:
                 promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Try any keywords", comment: "")
-//                keywordLabelA.hidden = false
-//                keywordLabelB.hidden = false
                 keywordsTableView.hidden = false
                 coverView.hidden = false
             case .NoResults:
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
-//                keywordLabelA.hidden = true
-//                keywordLabelB.hidden = true
                 keywordsTableView.hidden = true
                 coverView.hidden = true
             }
@@ -124,26 +120,6 @@ class SearchFeedsFooterView: UIView {
         coverView.hidden = true
         tapCoverAction?()
     }
-
-//    lazy var keywordLabelA: UILabel = {
-//
-//        let label = UILabel()
-//        label.font = UIFont.systemFontOfSize(13)
-//        label.textColor = UIColor.yepTintColor()
-//        label.textAlignment = .Center
-//        label.text = NSLocalizedString("iOS, Music ...", comment: "")
-//        return label
-//    }()
-//
-//    lazy var keywordLabelB: UILabel = {
-//
-//        let label = UILabel()
-//        label.font = UIFont.systemFontOfSize(13)
-//        label.textColor = UIColor.yepTintColor()
-//        label.textAlignment = .Center
-//        label.text = NSLocalizedString("Book, Food ...", comment: "")
-//        return label
-//    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
