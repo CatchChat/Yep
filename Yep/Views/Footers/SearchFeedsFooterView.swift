@@ -97,6 +97,8 @@ class SearchFeedsFooterView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 30
+        tableView.scrollEnabled = false
+        tableView.separatorStyle = .None
         return tableView
     }()
 
@@ -165,13 +167,14 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return keywords.count
+        return 10//keywords.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
-        let keyword = keywords[indexPath.row]
-        cell.keywordLabel.text = keyword
+        //let keyword = keywords[indexPath.row]
+        //cell.keywordLabel.text = keyword
+        cell.keywordLabel.text = "Hello"
         return cell
     }
 }

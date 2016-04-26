@@ -51,7 +51,7 @@ class SearchFeedsViewController: UIViewController {
     var feeds = [DiscoveredFeed]() {
         didSet {
             if feeds.isEmpty {
-                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 500))
 
                 if keyword != nil {
                     footerView.style = .NoResults
