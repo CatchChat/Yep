@@ -17,7 +17,7 @@ class ConversationMoreViewManager {
     var reportAction: (() -> Void)?
     var toggleBlockAction: (() -> Void)?
     var shareFeedAction: (() -> Void)?
-    var shareFeedToContactAction: (() -> Void)?
+//    var shareFeedToContactAction: (() -> Void)?
     var updateGroupAffairAction: (() -> Void)?
 
     var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
@@ -172,16 +172,16 @@ class ConversationMoreViewManager {
         )
     }
 
-    private func makeShareToContactItem() -> ActionSheetView.Item {
-        return .Default(
-            title: NSLocalizedString("Share To Contact", comment: ""),
-            titleColor: UIColor.yepTintColor(),
-            action: { [weak self] in
-                self?.shareFeedToContactAction?()
-                return false
-            }
-        )
-    }
+//    private func makeShareToContactItem() -> ActionSheetView.Item {
+//        return .Default(
+////            title: NSLocalizedString("Share To Contact", comment: ""),
+//            titleColor: UIColor.yepTintColor(),
+//            action: { [weak self] in
+//                self?.shareFeedToContactAction?()
+//                return false
+//            }
+//        )
+//    }
     
     private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
         return .Default(
