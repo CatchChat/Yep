@@ -74,6 +74,7 @@ class SearchFeedsFooterView: UIView {
         }
     }
 
+    var tapCoverAction: (() -> Void)?
     var tapKeywordAction: ((keyword: String) -> Void)?
 
     var keywords: [String] = [] {
@@ -109,8 +110,16 @@ class SearchFeedsFooterView: UIView {
 
         let view = UIView()
         view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SearchFeedsFooterView.tapCoverView(_:)))
+        view.addGestureRecognizer(tap)
         return view
     }()
+
+    @objc private func tapCoverView(sender: UITapGestureRecognizer) {
+        coverView.hidden = true
+        tapCoverAction?()
+    }
 
 //    lazy var keywordLabelA: UILabel = {
 //
