@@ -8,6 +8,42 @@
 
 import UIKit
 
+private class KeywordCell: UITableViewCell {
+
+    lazy var keywordLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .Center
+        label.textColor = UIColor.yepTintColor()
+        label.font = UIFont.systemFontOfSize(15)
+
+        label.opaque = true
+        label.backgroundColor = UIColor.whiteColor()
+        label.clipsToBounds = true
+
+        return label
+    }()
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        contentView.addSubview(keywordLabel)
+
+        makeUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func makeUI() {
+
+        let centerX = NSLayoutConstraint(item: keywordLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
+        let centerY = NSLayoutConstraint(item: keywordLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+
+        NSLayoutConstraint.activateConstraints([centerX, centerY])
+    }
+}
+
 class SearchFeedsFooterView: UIView {
 
     enum Style {
@@ -31,6 +67,11 @@ class SearchFeedsFooterView: UIView {
             }
         }
     }
+
+    lazy var keywordsTableView: UITableView = {
+        let tableView = UITableView()
+        return tableView
+    }()
 
     lazy var promptLabel: UILabel = {
 
