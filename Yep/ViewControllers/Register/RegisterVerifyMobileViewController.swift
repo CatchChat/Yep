@@ -53,7 +53,7 @@ class RegisterVerifyMobileViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.yepViewBackgroundColor()
+        view.backgroundColor = UIColor.yepViewBackgroundColor() 
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
 
@@ -89,7 +89,7 @@ class RegisterVerifyMobileViewController: SegueViewController {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-       
+
         verifyCodeTextField.becomeFirstResponder()
 
         callMeTimer.fire()
