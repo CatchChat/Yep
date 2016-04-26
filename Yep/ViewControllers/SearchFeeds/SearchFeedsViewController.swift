@@ -12,6 +12,8 @@ import AVFoundation
 import MapKit
 import Ruler
 
+private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
+
 class SearchFeedsViewController: UIViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
@@ -50,8 +52,11 @@ class SearchFeedsViewController: UIViewController {
 
     var feeds = [DiscoveredFeed]() {
         didSet {
+
+            feedsTableView.scrollEnabled = !feeds.isEmpty
+
             if feeds.isEmpty {
-                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 500))
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
                 footerView.tapCoverAction = { [weak self] in
                     self?.searchBar.resignFirstResponder()
