@@ -32,6 +32,7 @@ class AlbumListController: UITableViewController {
     let albumlistCellIdentifier = "AlbumListCell"
     
     var assetsCollection: [Album]?
+
     
     lazy var pickPhotosVC: PickPhotosViewController = {
         let vc = UIStoryboard(name: "PickPhotos", bundle: nil).instantiateViewControllerWithIdentifier("PickPhotosViewController") as! PickPhotosViewController
@@ -124,9 +125,11 @@ class AlbumListController: UITableViewController {
         
         for (_, result) in results.enumerate() {
             result.enumerateObjectsUsingBlock {  (collection, idx, stop) in
-                if let album = collection as? PHAssetCollection {
-                    let assetResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
+                if let album = collection as? PHAssetCollection{
+                    guard  album.localizedTitle !=  NSLocalizedString("Recently Deleted", comment: "") else { return }
                     
+                    let assetResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
+                   
                     var count = 0
                     switch album.assetCollectionType {
                     case .Album:
@@ -152,6 +155,7 @@ class AlbumListController: UITableViewController {
             }
 
         }
+
         return list
     }
 
