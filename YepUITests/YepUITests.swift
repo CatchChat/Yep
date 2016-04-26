@@ -82,4 +82,20 @@ class YepUITests: XCTestCase {
 
         app.tables.staticTexts["kevin14"].tap()
     }
+
+    func testSearchInContacts() {
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Contacts"].tap()
+        app.tables.searchFields["Search Friend"].tap()
+
+        let textField = app.searchFields["Search Friend"]
+        textField.tap()
+        textField.typeText("test")
+        app.buttons["Done"].tap()
+
+        app.tables.staticTexts["test"].tap()
+
+        app.navigationBars["test"].buttons["icon back"].tap()
+    }
 }
