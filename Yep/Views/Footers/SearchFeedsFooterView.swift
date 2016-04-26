@@ -73,6 +73,14 @@ class SearchFeedsFooterView: UIView {
         }
     }
 
+    var keywords: [String] = [] {
+        didSet {
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.keywordsTableView.reloadData()
+            }
+        }
+    }
+
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
@@ -118,6 +126,10 @@ class SearchFeedsFooterView: UIView {
         makeUI()
 
         style = .Init
+
+        hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
+            self?.keywords = hotwords
+        }
    }
     
     required init?(coder aDecoder: NSCoder) {
@@ -153,14 +165,14 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return keywords.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
-        cell.keywordLabel.text = "Hello"
+        let keyword = keywords[indexPath.row]
+        cell.keywordLabel.text = keyword
         return cell
     }
 }
-
 
