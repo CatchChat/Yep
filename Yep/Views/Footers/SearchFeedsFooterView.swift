@@ -105,6 +105,13 @@ class SearchFeedsFooterView: UIView {
         return tableView
     }()
 
+    lazy var coverView: UIView = {
+
+        let view = UIView()
+        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        return view
+    }()
+
 //    lazy var keywordLabelA: UILabel = {
 //
 //        let label = UILabel()
@@ -145,13 +152,16 @@ class SearchFeedsFooterView: UIView {
 
         addSubview(promptLabel)
         addSubview(keywordsTableView)
+        addSubview(coverView)
 
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
+        coverView.translatesAutoresizingMaskIntoConstraints = false
 
         let views = [
             "promptLabel": promptLabel,
             "keywordsTableView": keywordsTableView,
+            "coverView": coverView,
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
@@ -160,6 +170,14 @@ class SearchFeedsFooterView: UIView {
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
+
+        do {
+            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverView]|", options: [], metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverView]|", options: [], metrics: nil, views: views)
+
+            NSLayoutConstraint.activateConstraints(constraintsH)
+            NSLayoutConstraint.activateConstraints(constraintsV)
+        }
     }
 }
 
