@@ -81,6 +81,24 @@ class YepUITests: XCTestCase {
         app.buttons["Search"].tap()
 
         app.tables.staticTexts["kevin14"].tap()
+
+        app.navigationBars["kevin14"].buttons["icon back"].tap()
+    }
+
+    func testSearchInConversations() {
+        
+        let app = XCUIApplication()
+        let tablesQuery = app.tables
+        tablesQuery.searchFields["Search"].tap()
+
+        let textField = app.searchFields["Search"]
+        textField.tap()
+        textField.typeText("app")
+        tablesQuery.staticTexts["大家期待Pay吗？要看看相关的API了 www.apple.com/cn/apple-pay/"].tap()
+
+        app.navigationBars["Conversation"].buttons["Search"].tap()
+
+        app.buttons["Cancel"].tap()
     }
 
     func testSearchInContacts() {
@@ -97,5 +115,22 @@ class YepUITests: XCTestCase {
         app.tables.staticTexts["test"].tap()
 
         app.navigationBars["test"].buttons["icon back"].tap()
+
+        app.buttons["Cancel"].tap()
+    }
+
+    func testSearchInFeeds() {
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Feeds"].tap()
+        app.tables.searchFields["Search Feeds"].tap()
+
+        let textField = app.searchFields["Search Feeds"]
+        textField.tap()
+        textField.typeText("Hello")
+        app.buttons["Done"].tap()
+
+        app.buttons["Cancel"].tap()
     }
 }
+
