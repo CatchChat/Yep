@@ -65,11 +65,15 @@ class SearchFeedsFooterView: UIView {
                 promptLabel.text = NSLocalizedString("Try any keywords", comment: "")
 //                keywordLabelA.hidden = false
 //                keywordLabelB.hidden = false
+                keywordsTableView.hidden = false
+                coverView.hidden = false
             case .NoResults:
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
 //                keywordLabelA.hidden = true
 //                keywordLabelB.hidden = true
+                keywordsTableView.hidden = true
+                coverView.hidden = true
             }
         }
     }
