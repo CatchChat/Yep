@@ -53,6 +53,13 @@ class SearchFeedsViewController: UIViewController {
             if feeds.isEmpty {
                 let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 500))
 
+                footerView.backgroundColor = UIColor.cyanColor()
+
+                footerView.tapKeywordAction = { [weak self] keyword in
+                    self?.searchBar.text = keyword
+                    self?.triggerSearchTaskWithSearchText(keyword)
+                }
+
                 if keyword != nil {
                     footerView.style = .NoResults
                 } else {
@@ -104,6 +111,22 @@ class SearchFeedsViewController: UIViewController {
         }
     }
     private var searchTask: CancelableTask?
+
+    private func triggerSearchTaskWithSearchText(searchText: String) {
+
+        println("try search feeds with keyword: \(searchText)")
+
+        cancel(searchTask)
+
+        if searchText.isEmpty {
+            self.keyword = nil
+            return
+        }
+
+        searchTask = delay(0.5) { [weak self] in
+            self?.updateSearchResultsWithText(searchText)
+        }
+    }
 
     private struct LayoutPool {
 
@@ -553,18 +576,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        println("try search feeds with keyword: \(searchText)")
-
-        cancel(searchTask)
-
-        if searchText.isEmpty {
-            self.keyword = nil
-            return
-        }
-
-        searchTask = delay(0.5) { [weak self] in
-            self?.updateSearchResultsWithText(searchText)
-        }
+        triggerSearchTaskWithSearchText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
