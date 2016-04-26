@@ -62,7 +62,7 @@ class SearchFeedsFooterView: UIView {
             switch style {
             case .Init:
                 promptLabel.textColor = UIColor.darkGrayColor()
-                promptLabel.text = NSLocalizedString("Try any keywords", comment: "")
+                promptLabel.text = NSLocalizedString("Try keywords", comment: "")
                 keywordsTableView.hidden = false
                 coverView.hidden = false
             case .NoResults:
