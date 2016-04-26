@@ -2994,6 +2994,19 @@ func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIn
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
+
+    let parse: JSONDictionary -> [String]? = { data in
+        let hotWords = data["hot_words"] as? [String]
+        println("hotWordsOfSearchFeeds: \(hotWords)")
+        return hotWords
+    }
+
+    let resource = authJsonResource(path: "/v1/hot_words", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 func feedWithSharedToken(token: String, failureHandler: FailureHandler?, completion: DiscoveredFeed -> Void) {
 
     let requestParameters: JSONDictionary = [
