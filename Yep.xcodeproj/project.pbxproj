@@ -248,6 +248,7 @@
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
 		509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509B120E1C436E7C0000BE71 /* MentionView.swift */; };
+		509F12951CCF14130073CB42 /* XCUIElement+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F12941CCF14130073CB42 /* XCUIElement+Yep.swift */; };
 		50A0E3011C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */; };
 		50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */; };
 		50A640E01B6F38CF0050E4A3 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */; };
@@ -309,6 +310,7 @@
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
+		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
@@ -424,6 +426,13 @@
 
 /* Begin PBXContainerItemProxy section */
 		0A8F54C11AB67D11004AD60E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
 			proxyType = 1;
@@ -683,6 +692,7 @@
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
 		509B120E1C436E7C0000BE71 /* MentionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MentionView.swift; path = Views/Mention/MentionView.swift; sourceTree = "<group>"; };
+		509F12941CCF14130073CB42 /* XCUIElement+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "XCUIElement+Yep.swift"; path = "Extensions/XCUIElement+Yep.swift"; sourceTree = "<group>"; };
 		50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CLLocationCoordinate2D+Yep.swift"; path = "Extensions/CLLocationCoordinate2D+Yep.swift"; sourceTree = "<group>"; };
 		50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscribeView.swift; path = Views/Subscribe/SubscribeView.swift; sourceTree = "<group>"; };
 		50A640DF1B6F38CF0050E4A3 /* NotificationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationsViewController.swift; path = ViewControllers/Notifications/NotificationsViewController.swift; sourceTree = "<group>"; };
@@ -744,6 +754,9 @@
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
+		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D50AC21CCE01D300FB5753 /* YepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUITests.swift; sourceTree = "<group>"; };
+		50D50AC41CCE01D300FB5753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
@@ -892,6 +905,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D50ABD1CCE01D300FB5753 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -942,6 +962,7 @@
 			children = (
 				0A8F54AD1AB67D11004AD60E /* Yep */,
 				0A8F54C31AB67D11004AD60E /* YepTests */,
+				50D50AC11CCE01D300FB5753 /* YepUITests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				59CC1DE9D59AC08247B97B4F /* Pods */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
@@ -953,6 +974,7 @@
 			children = (
 				0A8F54AB1AB67D11004AD60E /* Yep.app */,
 				0A8F54C01AB67D11004AD60E /* YepTests.xctest */,
+				50D50AC01CCE01D300FB5753 /* YepUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2095,6 +2117,14 @@
 			name = Mention;
 			sourceTree = "<group>";
 		};
+		509F12961CCF14190073CB42 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				509F12941CCF14130073CB42 /* XCUIElement+Yep.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		50A1FA771C0D47D900EEDA74 /* Subscribe */ = {
 			isa = PBXGroup;
 			children = (
@@ -2333,6 +2363,16 @@
 				50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */,
 			);
 			name = ChatLeftImage;
+			sourceTree = "<group>";
+		};
+		50D50AC11CCE01D300FB5753 /* YepUITests */ = {
+			isa = PBXGroup;
+			children = (
+				50D50AC21CCE01D300FB5753 /* YepUITests.swift */,
+				509F12961CCF14190073CB42 /* Extensions */,
+				50D50AC41CCE01D300FB5753 /* Info.plist */,
+			);
+			path = YepUITests;
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
@@ -2764,6 +2804,24 @@
 			productReference = 0A8F54C01AB67D11004AD60E /* YepTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		50D50ABF1CCE01D300FB5753 /* YepUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */;
+			buildPhases = (
+				50D50ABC1CCE01D300FB5753 /* Sources */,
+				50D50ABD1CCE01D300FB5753 /* Frameworks */,
+				50D50ABE1CCE01D300FB5753 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D50AC61CCE01D300FB5753 /* PBXTargetDependency */,
+			);
+			name = YepUITests;
+			productName = YepUITests;
+			productReference = 50D50AC01CCE01D300FB5753 /* YepUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2771,7 +2829,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Catch Inc";
 				TargetAttributes = {
@@ -2797,6 +2855,10 @@
 						CreatedOnToolsVersion = 6.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D50ABF1CCE01D300FB5753 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 				};
 			};
 			buildConfigurationList = 0A8F54A61AB67D11004AD60E /* Build configuration list for PBXProject "Yep" */;
@@ -2815,6 +2877,7 @@
 			targets = (
 				0A8F54AA1AB67D11004AD60E /* Yep */,
 				0A8F54BF1AB67D11004AD60E /* YepTests */,
+				50D50ABF1CCE01D300FB5753 /* YepUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2931,6 +2994,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0A8F54BE1AB67D11004AD60E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D50ABE1CCE01D300FB5753 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3308,6 +3378,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D50ABC1CCE01D300FB5753 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				509F12951CCF14130073CB42 /* XCUIElement+Yep.swift in Sources */,
+				50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -3315,6 +3394,11 @@
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
 			targetProxy = 0A8F54C11AB67D11004AD60E /* PBXContainerItemProxy */;
+		};
+		50D50AC61CCE01D300FB5753 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3672,6 +3756,33 @@
 			};
 			name = Release;
 		};
+		50D50AC71CCE01D300FB5753 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nixWork.YepUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yep;
+			};
+			name = Debug;
+		};
+		50D50AC81CCE01D300FB5753 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nixWork.YepUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yep;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -3698,6 +3809,15 @@
 			buildConfigurations = (
 				0A8F54CE1AB67D11004AD60E /* Debug */,
 				0A8F54CF1AB67D11004AD60E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D50AC71CCE01D300FB5753 /* Debug */,
+				50D50AC81CCE01D300FB5753 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
