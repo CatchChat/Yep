@@ -60,7 +60,7 @@ class YepUITests: XCTestCase {
         let cell = tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(0)
         let textField = cell.childrenMatchingType(.TextField).element
         textField.tap()
-        textField.clearAndEnterText("NIX\(NSUUID().UUIDString.hash)")
+        textField.clearAndEnterText("NIX\(abs(NSUUID().UUIDString.hash))")
 
         app.buttons["Done"].tap()
 
@@ -94,9 +94,11 @@ class YepUITests: XCTestCase {
         let textField = app.searchFields["Search"]
         textField.tap()
         textField.typeText("app")
-        tablesQuery.staticTexts["大家期待Pay吗？要看看相关的API了 www.apple.com/cn/apple-pay/"].tap()
+        app.buttons["Done"].tap()
 
-        app.navigationBars["Conversation"].buttons["Search"].tap()
+        //tablesQuery.staticTexts["大家期待Pay吗？要看看相关的API了 www.apple.com/cn/apple-pay/"].tap()
+
+        //app.navigationBars["Conversation"].buttons["Search"].tap()
 
         app.buttons["Cancel"].tap()
     }
