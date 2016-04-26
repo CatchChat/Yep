@@ -2997,7 +2997,7 @@ func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIn
 func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
 
     let parse: JSONDictionary -> [String]? = { data in
-        println("hotWordsOfSearchFeeds: \(data)")
+        //println("hotWordsOfSearchFeeds: \(data)")
         let hotWords = data["hot_words"] as? [String]
         return hotWords
     }
