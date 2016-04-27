@@ -3,7 +3,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#ifndef DEBUG
 #import "APService.h"
+#endif
 //#import "JPUSHService.h"
 #import "MZFayeClient.h"
 #import <BuddyBuildSDK/BuddyBuildSDK.h>

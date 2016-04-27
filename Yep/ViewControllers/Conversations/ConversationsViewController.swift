@@ -331,8 +331,11 @@ class ConversationsViewController: BaseViewController {
         let types = UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue
+
+        #if !DEBUG
         //JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
         APService.registerForRemoteNotificationTypes(types, categories: [category])
+        #endif
     }
 
     // MARK: Navigation

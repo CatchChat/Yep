@@ -84,6 +84,8 @@
 		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
 		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
 		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
+		5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC1C1CD095E100DFCB71 /* YepTests.swift */; };
+		5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC241CD0960200DFCB71 /* SyncTests.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
@@ -424,6 +426,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5017FC1F1CD095E100DFCB71 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
 		50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
@@ -520,6 +529,10 @@
 		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
 		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
 		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
+		5017FC1A1CD095E100DFCB71 /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5017FC1C1CD095E100DFCB71 /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
+		5017FC1E1CD095E100DFCB71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5017FC241CD0960200DFCB71 /* SyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTests.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
@@ -890,6 +903,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5017FC171CD095E100DFCB71 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D50ABD1CCE01D300FB5753 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -947,6 +967,7 @@
 			children = (
 				0A8F54AD1AB67D11004AD60E /* Yep */,
 				50D50AC11CCE01D300FB5753 /* YepUITests */,
+				5017FC1B1CD095E100DFCB71 /* YepTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				59CC1DE9D59AC08247B97B4F /* Pods */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
@@ -958,6 +979,7 @@
 			children = (
 				0A8F54AB1AB67D11004AD60E /* Yep.app */,
 				50D50AC01CCE01D300FB5753 /* YepUITests.xctest */,
+				5017FC1A1CD095E100DFCB71 /* YepTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1198,6 +1220,16 @@
 				501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */,
 			);
 			name = ChatLeftSocialWork;
+			sourceTree = "<group>";
+		};
+		5017FC1B1CD095E100DFCB71 /* YepTests */ = {
+			isa = PBXGroup;
+			children = (
+				5017FC1C1CD095E100DFCB71 /* YepTests.swift */,
+				5017FC241CD0960200DFCB71 /* SyncTests.swift */,
+				5017FC1E1CD095E100DFCB71 /* Info.plist */,
+			);
+			path = YepTests;
 			sourceTree = "<group>";
 		};
 		502048251B0F1BB8002EBFC7 /* SearchedUsers */ = {
@@ -2755,6 +2787,24 @@
 			productReference = 0A8F54AB1AB67D11004AD60E /* Yep.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5017FC191CD095E100DFCB71 /* YepTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5017FC231CD095E100DFCB71 /* Build configuration list for PBXNativeTarget "YepTests" */;
+			buildPhases = (
+				5017FC161CD095E100DFCB71 /* Sources */,
+				5017FC171CD095E100DFCB71 /* Frameworks */,
+				5017FC181CD095E100DFCB71 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5017FC201CD095E100DFCB71 /* PBXTargetDependency */,
+			);
+			name = YepTests;
+			productName = YepTests;
+			productReference = 5017FC1A1CD095E100DFCB71 /* YepTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		50D50ABF1CCE01D300FB5753 /* YepUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */;
@@ -2802,6 +2852,10 @@
 							};
 						};
 					};
+					5017FC191CD095E100DFCB71 = {
+						CreatedOnToolsVersion = 7.3;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 					50D50ABF1CCE01D300FB5753 = {
 						CreatedOnToolsVersion = 7.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
@@ -2824,6 +2878,7 @@
 			targets = (
 				0A8F54AA1AB67D11004AD60E /* Yep */,
 				50D50ABF1CCE01D300FB5753 /* YepUITests */,
+				5017FC191CD095E100DFCB71 /* YepTests */,
 			);
 		};
 /* End PBXProject section */
@@ -2936,6 +2991,13 @@
 				501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */,
 				502B605B1BD1102B00D9C17E /* TitleCell.xib in Resources */,
 				5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5017FC181CD095E100DFCB71 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3309,6 +3371,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5017FC161CD095E100DFCB71 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */,
+				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D50ABC1CCE01D300FB5753 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3321,6 +3392,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5017FC201CD095E100DFCB71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 5017FC1F1CD095E100DFCB71 /* PBXContainerItemProxy */;
+		};
 		50D50AC61CCE01D300FB5753 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
@@ -3649,6 +3725,35 @@
 			};
 			name = Release;
 		};
+		5017FC211CD095E100DFCB71 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.YepTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		5017FC221CD095E100DFCB71 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.YepTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 		50D50AC71CCE01D300FB5753 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3696,6 +3801,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		5017FC231CD095E100DFCB71 /* Build configuration list for PBXNativeTarget "YepTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5017FC211CD095E100DFCB71 /* Debug */,
+				5017FC221CD095E100DFCB71 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */ = {
 			isa = XCConfigurationList;
