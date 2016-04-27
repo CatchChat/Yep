@@ -248,6 +248,7 @@
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
 		509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509B120E1C436E7C0000BE71 /* MentionView.swift */; };
+		509B28031CD057DD0049F9A7 /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509B28021CD057DD0049F9A7 /* SyncTests.swift */; };
 		509F12951CCF14130073CB42 /* XCUIElement+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509F12941CCF14130073CB42 /* XCUIElement+Yep.swift */; };
 		50A0E3011C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */; };
 		50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */; };
@@ -692,6 +693,7 @@
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
 		509B120E1C436E7C0000BE71 /* MentionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MentionView.swift; path = Views/Mention/MentionView.swift; sourceTree = "<group>"; };
+		509B28021CD057DD0049F9A7 /* SyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTests.swift; sourceTree = "<group>"; };
 		509F12941CCF14130073CB42 /* XCUIElement+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "XCUIElement+Yep.swift"; path = "Extensions/XCUIElement+Yep.swift"; sourceTree = "<group>"; };
 		50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CLLocationCoordinate2D+Yep.swift"; path = "Extensions/CLLocationCoordinate2D+Yep.swift"; sourceTree = "<group>"; };
 		50A1FA751C0D47D300EEDA74 /* SubscribeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubscribeView.swift; path = Views/Subscribe/SubscribeView.swift; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54C61AB67D11004AD60E /* YepTests.swift */,
+				509B28021CD057DD0049F9A7 /* SyncTests.swift */,
 				0A8F54C41AB67D11004AD60E /* Supporting Files */,
 			);
 			path = YepTests;
@@ -3374,6 +3377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				509B28031CD057DD0049F9A7 /* SyncTests.swift in Sources */,
 				0A8F54C71AB67D11004AD60E /* YepTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
