@@ -17,7 +17,7 @@ class SyncTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("x")
+        let expectation = expectationWithDescription("sync friendships")
 
         syncFriendshipsAndDoFurtherAction {
             expectation.fulfill()
@@ -27,4 +27,22 @@ class SyncTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testSyncGroups() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("sync groups")
+
+        syncGroupsAndDoFurtherAction {
+            expectation.fulfill()
+        }
+
+        waitForExpectationsWithTimeout(5, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
+
