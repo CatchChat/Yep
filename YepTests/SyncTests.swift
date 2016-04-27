@@ -44,5 +44,22 @@ class SyncTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testSyncUnreadMessages() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("sync unread messages")
+
+        syncUnreadMessagesAndDoFurtherAction { _ in
+            expectation.fulfill()
+        }
+
+        waitForExpectationsWithTimeout(5, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
 
