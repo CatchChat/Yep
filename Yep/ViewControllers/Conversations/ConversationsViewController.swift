@@ -332,7 +332,7 @@ class ConversationsViewController: BaseViewController {
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue
 
-        #if !DEBUG
+        #if JPUSH
         //JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
         APService.registerForRemoteNotificationTypes(types, categories: [category])
         #endif

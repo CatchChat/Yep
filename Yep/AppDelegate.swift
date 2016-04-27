@@ -88,7 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
-            #if !DEBUG
+            #if JPUSH
             /*
             #if STAGING
                 let apsForProduction = false
@@ -246,7 +246,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
-        #if !DEBUG
+        #if JPUSH
         //JPUSHService.handleRemoteNotification(userInfo)
         APService.handleRemoteNotification(userInfo)
         #endif
@@ -574,7 +574,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
-        #if !DEBUG
+        #if JPUSH
         //JPUSHService.registerDeviceToken(deviceToken)
         //JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
         APService.registerDeviceToken(deviceToken)
