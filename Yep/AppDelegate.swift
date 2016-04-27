@@ -88,6 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
+            #if JPUSH
             /*
             #if STAGING
                 let apsForProduction = false
@@ -97,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
             */
             APService.setupWithOption(launchOptions)
+            #endif
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -243,8 +245,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
+
+        #if JPUSH
         //JPUSHService.handleRemoteNotification(userInfo)
         APService.handleRemoteNotification(userInfo)
+        #endif
         
         guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
             completionHandler(UIBackgroundFetchResult.NoData)
@@ -569,10 +574,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
+        #if JPUSH
         //JPUSHService.registerDeviceToken(deviceToken)
         //JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
         APService.registerDeviceToken(deviceToken)
         APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+        #endif
     }
 
     func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
