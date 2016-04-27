@@ -3,7 +3,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 def pods
-    pod 'Kanna'
+    pod 'Kanna', '1.0.2'
     pod 'Navi'
     pod 'Appsee'
     pod 'Alamofire'
