@@ -55,7 +55,7 @@ class ServerTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("get feeds with keyword")
+        let expectation = expectationWithDescription("join and leave group")
 
         feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
             if let firstFeed = feeds.first {
@@ -65,6 +65,42 @@ class ServerTests: XCTestCase {
                         expectation.fulfill()
                     })
                 })
+            }
+        }
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
+
+    func testSendMessageToGroup() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("send message to group")
+
+        feedsWithKeyword("Yep", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+
+            if let firstFeed = feeds.first {
+                let groupID = firstFeed.groupID
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    sendText("How do you do?", toRecipient: groupID, recipientType: "Circle", afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+
+                        if success {
+                            meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { yes in
+                                if yes {
+                                    leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                                    })
+
+                                    expectation.fulfill()
+                                }
+                            })
+                        }
+                    })
+                }
             }
         }
 
