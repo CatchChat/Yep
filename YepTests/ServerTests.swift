@@ -48,5 +48,29 @@ class ServerTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testJoinAndLeaveGroup() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("get feeds with keyword")
+
+        feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+            if let firstFeed = feeds.first {
+                let groupID = firstFeed.groupID
+                joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                    leaveGroup(groupID: groupID, failureHandler: nil, completion: {
+                        expectation.fulfill()
+                    })
+                })
+            }
+        }
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
 
