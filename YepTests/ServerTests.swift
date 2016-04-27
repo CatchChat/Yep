@@ -29,5 +29,24 @@ class ServerTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testGetFeedsWithKeyword() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("get feeds with keyword")
+
+        feedsWithKeyword("hello", skillID: nil, userID: nil, pageIndex: 1, perPage: 30, failureHandler: nil) { feeds in
+            if !feeds.isEmpty {
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectationsWithTimeout(5, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
 
