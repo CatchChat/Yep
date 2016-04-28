@@ -35,10 +35,13 @@ func configureDynamicShortcuts() {
 
                 let type = ShortcutType.LatestOneToOneConversation.rawValue
 
+                let latestTextMessageOrUpdatedTime = latestOneToOneConversation.latestValidMessage?.textContent ??
+                    NSDate(timeIntervalSince1970: latestOneToOneConversation.updatedUnixTime).timeAgo
+
                 let item = UIApplicationShortcutItem(
                     type: type,
                     localizedTitle: user.nickname,
-                    localizedSubtitle: latestOneToOneConversation.latestValidMessage?.textContent,
+                    localizedSubtitle: latestTextMessageOrUpdatedTime,
                     icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
                     userInfo: nil
                 )
