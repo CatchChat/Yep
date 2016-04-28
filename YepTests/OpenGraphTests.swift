@@ -33,13 +33,15 @@ class OpenGraphTests: XCTestCase {
         // 单曲
         let iTunesURL = NSURL(string: "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en")!
 
+        let queryItem = NSURLQueryItem(name: "at", value: "1010l9k7")
+
         let expectation = expectationWithDescription("iTunes open graph")
 
         openGraphWithURL(iTunesURL, failureHandler: nil) { openGraph in
 
             print("iTunes openGraph: \(openGraph)")
 
-            if openGraph.URL.absoluteString == "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en&at=1010l9k7" {
+            if openGraph.URL.yeptests_containsQueryItem(queryItem) {
                 expectation.fulfill()
             }
         }
