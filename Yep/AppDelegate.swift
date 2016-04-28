@@ -358,6 +358,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 break
             }
             tabBarVC.tab = .Feeds
+
+            if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+                if nvc.viewControllers.count > 1 {
+                    nvc.popToRootViewControllerAnimated(false)
+                }
+            }
         }
     }
 
