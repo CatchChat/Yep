@@ -136,6 +136,10 @@ class SearchFeedsViewController: SegueViewController {
         }
 
         searchTask = delay(0.5) { [weak self] in
+            if let footer = self?.feedsTableView.tableFooterView as? SearchFeedsFooterView {
+                footer.style = .Searching
+            }
+
             self?.updateSearchResultsWithText(searchText)
         }
     }
