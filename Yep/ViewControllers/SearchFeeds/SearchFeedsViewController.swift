@@ -14,7 +14,7 @@ import Ruler
 
 private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
 
-class SearchFeedsViewController: UIViewController {
+class SearchFeedsViewController: SegueViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
 

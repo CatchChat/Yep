@@ -9,7 +9,7 @@
 import XCTest
 @testable import Yep
 
-class ServerTests: XCTestCase {
+class ServiceTests: XCTestCase {
 
     func testGetHotWords() {
 
