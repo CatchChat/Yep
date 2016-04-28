@@ -127,7 +127,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             startShowStory()
         }
-        
+
+        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+            quickActionWithShortcutItem(shortcutItem)
+        }
+
         return true
     }
 
@@ -336,9 +340,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
 
-        // TODO
+        quickActionWithShortcutItem(shortcutItem)
 
         completionHandler(true)
+    }
+
+    private func quickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem) {
+
+        guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
+            return
+        }
+
+        switch shortcutType {
+        case .Feeds:
+            println("shortcutType Feeds")
+        }
     }
 
     // MARK: Open URL
