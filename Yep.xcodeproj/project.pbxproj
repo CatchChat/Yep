@@ -998,9 +998,9 @@
 			isa = PBXGroup;
 			children = (
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
+				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				507813171CD1AFB000F193AB /* Shortcuts */,
-				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				92E0FFE11C5F38E400226B96 /* Vendors */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
