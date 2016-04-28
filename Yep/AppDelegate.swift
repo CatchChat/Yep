@@ -362,6 +362,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let nvc = tabBarVC.selectedViewController as? UINavigationController {
                 if nvc.viewControllers.count > 1 {
                     nvc.popToRootViewControllerAnimated(false)
+
+                    if let vc = nvc.topViewController as? FeedsViewController {
+                        tabBarVC.tryScrollsToTopOfFeedsViewController(vc)
+                    }
                 }
             }
         }
