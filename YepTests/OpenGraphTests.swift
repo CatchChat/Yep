@@ -19,12 +19,33 @@ class OpenGraphTests: XCTestCase {
 
         openGraphWithURL(baiduURL, failureHandler: nil) { openGraph in
 
-            print("openGraph: \(openGraph)")
+            print("baidu openGraph: \(openGraph)")
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectationsWithTimeout(5, handler: nil)
 
+        XCTAssert(true, "Pass")
+    }
+
+    func testItunesOpenGraph() {
+
+        // 单曲
+        let iTunesURL = NSURL(string: "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en")!
+
+        let expectation = expectationWithDescription("iTunes open graph")
+
+        openGraphWithURL(iTunesURL, failureHandler: nil) { openGraph in
+
+            print("iTunes openGraph: \(openGraph)")
+
+            if openGraph.URL.absoluteString == "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en&at=1010l9k7" {
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+        
         XCTAssert(true, "Pass")
     }
 }
