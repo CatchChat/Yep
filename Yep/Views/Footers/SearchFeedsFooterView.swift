@@ -53,19 +53,36 @@ private class KeywordCell: UITableViewCell {
 class SearchFeedsFooterView: UIView {
 
     enum Style {
-        case Init
+        case Empty
+        case Keywords
         case NoResults
     }
 
-    var style: Style = .Init {
+    var style: Style = .Empty {
         didSet {
             switch style {
-            case .Init:
+
+            case .Empty:
+
+                promptLabel.hidden = true
+                keywordsTableView.hidden = true
+                coverView.hidden = true
+
+            case .Keywords:
+
+                promptLabel.hidden = false
                 promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Try keywords", comment: "")
                 keywordsTableView.hidden = false
                 coverView.hidden = false
+
+                hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
+                    self?.keywords = hotwords
+                }
+
             case .NoResults:
+
+                promptLabel.hidden = false
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
                 keywordsTableView.hidden = true
@@ -129,11 +146,7 @@ class SearchFeedsFooterView: UIView {
 
         makeUI()
 
-        style = .Init
-
-        hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
-            self?.keywords = hotwords
-        }
+        style = .Empty
    }
     
     required init?(coder aDecoder: NSCoder) {
