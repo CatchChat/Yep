@@ -165,20 +165,32 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
             func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
 
-                vc.performSegueWithIdentifier("showFeedConversations", sender: nil)
-
-                delay(0.25) {
-                    if let feedID = shortcutItem.userInfo?["feedID"] as? String {
-                        if let realm = try? Realm() {
-                            let feed = feedWithFeedID(feedID, inRealm: realm)
-                            if let conversation = feed?.group?.conversation {
-                                let fvc = vc.navigationController?.topViewController as? FeedConversationsViewController
-                                fvc?.performSegueWithIdentifier("showConversation", sender: conversation)
-                            }
+                if let feedID = shortcutItem.userInfo?["feedID"] as? String {
+                    if let realm = try? Realm() {
+                        let feed = feedWithFeedID(feedID, inRealm: realm)
+                        if let conversation = feed?.group?.conversation {
+                            vc.performSegueWithIdentifier("showConversation", sender: conversation)
                         }
                     }
                 }
             }
+
+//            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+//
+//                vc.performSegueWithIdentifier("showFeedConversations", sender: nil)
+//
+//                delay(2.25) {
+//                    if let feedID = shortcutItem.userInfo?["feedID"] as? String {
+//                        if let realm = try? Realm() {
+//                            let feed = feedWithFeedID(feedID, inRealm: realm)
+//                            if let conversation = feed?.group?.conversation {
+//                                let fvc = vc.navigationController?.topViewController as? FeedConversationsViewController
+//                                fvc?.performSegueWithIdentifier("showConversation", sender: conversation)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 
             if nvc.viewControllers.count > 1 {
                 nvc.popToRootViewControllerAnimated(false)
