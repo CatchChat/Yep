@@ -128,10 +128,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             startShowStory()
         }
 
-        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-            handleShortcutItem(shortcutItem)
-        }
-
         return true
     }
 
