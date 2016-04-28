@@ -76,6 +76,10 @@ class SearchFeedsFooterView: UIView {
                 keywordsTableView.hidden = false
                 coverView.hidden = false
 
+                hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
+                    self?.keywords = hotwords
+                }
+
             case .NoResults:
 
                 promptLabel.hidden = false
@@ -143,10 +147,6 @@ class SearchFeedsFooterView: UIView {
         makeUI()
 
         style = .Empty
-
-        hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
-            self?.keywords = hotwords
-        }
    }
     
     required init?(coder aDecoder: NSCoder) {
