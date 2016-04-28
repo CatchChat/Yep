@@ -55,6 +55,7 @@ class SearchFeedsFooterView: UIView {
     enum Style {
         case Empty
         case Keywords
+        case Searching
         case NoResults
     }
 
@@ -65,6 +66,8 @@ class SearchFeedsFooterView: UIView {
             case .Empty:
 
                 promptLabel.hidden = true
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = true
                 coverView.hidden = true
 
@@ -73,6 +76,9 @@ class SearchFeedsFooterView: UIView {
                 promptLabel.hidden = false
                 promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Try keywords", comment: "")
+
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = false
                 coverView.hidden = false
 
@@ -80,11 +86,23 @@ class SearchFeedsFooterView: UIView {
                     self?.keywords = hotwords
                 }
 
+            case .Searching:
+
+                promptLabel.hidden = true
+
+                activityIndicatorView.startAnimating()
+
+                keywordsTableView.hidden = true
+                coverView.hidden = true
+
             case .NoResults:
 
                 promptLabel.hidden = false
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
+
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = true
                 coverView.hidden = true
             }
@@ -110,6 +128,14 @@ class SearchFeedsFooterView: UIView {
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
         return label
+    }()
+
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
+
+        let view = UIActivityIndicatorView()
+        view.activityIndicatorViewStyle = .Gray
+        view.hidesWhenStopped = true
+        return view
     }()
 
     lazy var keywordsTableView: UITableView = {
@@ -156,10 +182,12 @@ class SearchFeedsFooterView: UIView {
     func makeUI() {
 
         addSubview(promptLabel)
+        addSubview(activityIndicatorView)
         addSubview(keywordsTableView)
         addSubview(coverView)
 
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
         coverView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -175,6 +203,13 @@ class SearchFeedsFooterView: UIView {
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
+
+        do {
+            let centerX = activityIndicatorView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
+            let centerY = activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
+
+            NSLayoutConstraint.activateConstraints([centerX, centerY])
+        }
 
         do {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverView]|", options: [], metrics: nil, views: views)
