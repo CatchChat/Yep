@@ -19,7 +19,7 @@ func configureDynamicShortcuts() {
         let item = UIApplicationShortcutItem(
             type: type,
             localizedTitle: NSLocalizedString("Feeds", comment: ""),
-            localizedSubtitle: NSLocalizedString("What's new?", comment: ""),
+            localizedSubtitle: nil,
             icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
             userInfo: nil
         )
