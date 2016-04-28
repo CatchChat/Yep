@@ -120,6 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
 
+            // dynamic shortcut items
+
+            configureDynamicShortcuts()
+
         } else {
             startShowStory()
         }
@@ -326,6 +330,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
 
         println(error.description)
+    }
+
+    // MARK: Shortcuts
+
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+
+        // TODO
+
+        completionHandler(true)
     }
 
     // MARK: Open URL

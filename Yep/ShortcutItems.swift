@@ -8,17 +8,17 @@
 
 import UIKit
 
-func shortcutItems() -> [UIApplicationShortcutItem] {
+func configureDynamicShortcuts() {
 
     let type = "com.Catch-Inc.Yep.Feeds"
     let item = UIApplicationShortcutItem(
         type: type,
-        localizedTitle: NSLocalizedString("", comment: ""),
-        localizedSubtitle: NSLocalizedString("", comment: ""),
-        icon: UIApplicationShortcutIcon(type: .Share),
+        localizedTitle: NSLocalizedString("Feeds", comment: ""),
+        localizedSubtitle: NSLocalizedString("What's new?", comment: ""),
+        icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
         userInfo: nil
     )
 
-    return [item]
+    UIApplication.sharedApplication().shortcutItems = [item]
 }
 
