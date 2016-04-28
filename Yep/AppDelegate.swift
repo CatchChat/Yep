@@ -120,10 +120,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
 
+            // dynamic shortcut items
+
+            configureDynamicShortcuts()
+
         } else {
             startShowStory()
         }
-        
+
         return true
     }
 
@@ -328,11 +332,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(error.description)
     }
 
+    // MARK: Shortcuts
+
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+
+        handleShortcutItem(shortcutItem)
+
+        completionHandler(true)
+    }
+
+    private func handleShortcutItem(shortcutItem: UIApplicationShortcutItem) {
+
+        if let window = window {
+            tryQuickActionWithShortcutItem(shortcutItem, inWindow: window)
+        }
+    }
+
     // MARK: Open URL
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
-        
         if url.absoluteString.contains("/auth/success") {
             
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 1))
