@@ -381,18 +381,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarVC.tab = .Conversations
 
             if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+
+                func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+
+                    if let userID = shortcutItem.userInfo?["userID"] as? String {
+                        if let realm = try? Realm() {
+                            let user = userWithUserID(userID, inRealm: realm)
+                            if let conversation = user?.conversation {
+                                vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                            }
+                        }
+                    }
+                }
+
                 if nvc.viewControllers.count > 1 {
                     nvc.popToRootViewControllerAnimated(false)
 
                     if let vc = nvc.topViewController as? ConversationsViewController {
-                        if let userID = shortcutItem.userInfo?["userID"] as? String {
-                            if let realm = try? Realm() {
-                                let user = userWithUserID(userID, inRealm: realm)
-                                if let conversation = user?.conversation {
-                                    vc.performSegueWithIdentifier("showConversation", sender: conversation)
-                                }
-                            }
-                        }
+                        tryShowConversationFromConversationsViewController(vc)
+                    }
+
+                } else {
+                    if let vc = nvc.topViewController as? ConversationsViewController {
+                        tryShowConversationFromConversationsViewController(vc)
                     }
                 }
             }
