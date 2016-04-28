@@ -70,7 +70,7 @@ class SearchFeedsViewController: UIViewController {
                 if keyword != nil {
                     footerView.style = .NoResults
                 } else {
-                    footerView.style = .Init
+                    footerView.style = .Keywords
                 }
 
                 feedsTableView.tableFooterView = footerView
