@@ -66,6 +66,8 @@ class SearchFeedsFooterView: UIView {
             case .Empty:
 
                 promptLabel.hidden = true
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = true
                 coverView.hidden = true
 
@@ -74,6 +76,9 @@ class SearchFeedsFooterView: UIView {
                 promptLabel.hidden = false
                 promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Try keywords", comment: "")
+
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = false
                 coverView.hidden = false
 
@@ -83,9 +88,10 @@ class SearchFeedsFooterView: UIView {
 
             case .Searching:
 
-                promptLabel.hidden = false
-                promptLabel.textColor = UIColor.darkGrayColor()
-                promptLabel.text = NSLocalizedString("Searching", comment: "")
+                promptLabel.hidden = true
+
+                activityIndicatorView.startAnimating()
+
                 keywordsTableView.hidden = true
                 coverView.hidden = true
 
@@ -94,6 +100,9 @@ class SearchFeedsFooterView: UIView {
                 promptLabel.hidden = false
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
                 promptLabel.text = NSLocalizedString("No search results.", comment: "")
+
+                activityIndicatorView.stopAnimating()
+
                 keywordsTableView.hidden = true
                 coverView.hidden = true
             }
