@@ -152,6 +152,47 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
                 }
             }
         }
+
+    case .LatestFeedConversation:
+
+        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
+            break
+        }
+
+        tabBarVC.tab = .Conversations
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+
+            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+
+                vc.performSegueWithIdentifier("showFeedConversations", sender: nil)
+
+                delay(0.25) {
+                    if let feedID = shortcutItem.userInfo?["feedID"] as? String {
+                        if let realm = try? Realm() {
+                            let feed = feedWithFeedID(feedID, inRealm: realm)
+                            if let conversation = feed?.group?.conversation {
+                                let fvc = vc.navigationController?.topViewController as? FeedConversationsViewController
+                                fvc?.performSegueWithIdentifier("showConversation", sender: conversation)
+                            }
+                        }
+                    }
+                }
+            }
+
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+
+            } else {
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+            }
+        }
     }
 }
 
