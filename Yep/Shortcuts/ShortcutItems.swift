@@ -69,7 +69,7 @@ func configureDynamicShortcuts() {
                         type: type,
                         localizedTitle: feed.creator?.nickname ?? NSLocalizedString("Feed", comment: ""),
                         localizedSubtitle: feed.body,
-                        icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
                         userInfo: ["feedID": feed.feedID]
                     )
 
