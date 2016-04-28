@@ -54,3 +54,67 @@ func configureDynamicShortcuts() {
     UIApplication.sharedApplication().shortcutItems = shortcutItems
 }
 
+func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
+
+    guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
+        return
+    }
+
+    switch shortcutType {
+
+    case .Feeds:
+
+        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
+            break
+        }
+
+        tabBarVC.tab = .Feeds
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+
+                if let vc = nvc.topViewController as? FeedsViewController {
+                    tabBarVC.tryScrollsToTopOfFeedsViewController(vc)
+                }
+            }
+        }
+
+    case .LatestOneToOneConversation:
+
+        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
+            break
+        }
+
+        tabBarVC.tab = .Conversations
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+
+            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+
+                if let userID = shortcutItem.userInfo?["userID"] as? String {
+                    if let realm = try? Realm() {
+                        let user = userWithUserID(userID, inRealm: realm)
+                        if let conversation = user?.conversation {
+                            vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                        }
+                    }
+                }
+            }
+
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+
+            } else {
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+            }
+        }
+    }
+}
+

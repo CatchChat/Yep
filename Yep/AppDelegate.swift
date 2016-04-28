@@ -129,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-            quickActionWithShortcutItem(shortcutItem)
+            handleShortcutItem(shortcutItem)
         }
 
         return true
@@ -340,73 +340,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
 
-        quickActionWithShortcutItem(shortcutItem)
+        handleShortcutItem(shortcutItem)
 
         completionHandler(true)
     }
 
-    private func quickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem) {
+    private func handleShortcutItem(shortcutItem: UIApplicationShortcutItem) {
 
-        guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
-            return
-        }
-
-        switch shortcutType {
-
-        case .Feeds:
-
-            println("shortcutType Feeds")
-            guard let tabBarVC = window?.rootViewController as? YepTabBarController else {
-                break
-            }
-
-            tabBarVC.tab = .Feeds
-
-            if let nvc = tabBarVC.selectedViewController as? UINavigationController {
-                if nvc.viewControllers.count > 1 {
-                    nvc.popToRootViewControllerAnimated(false)
-
-                    if let vc = nvc.topViewController as? FeedsViewController {
-                        tabBarVC.tryScrollsToTopOfFeedsViewController(vc)
-                    }
-                }
-            }
-
-        case .LatestOneToOneConversation:
-
-            guard let tabBarVC = window?.rootViewController as? YepTabBarController else {
-                break
-            }
-
-            tabBarVC.tab = .Conversations
-
-            if let nvc = tabBarVC.selectedViewController as? UINavigationController {
-
-                func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
-
-                    if let userID = shortcutItem.userInfo?["userID"] as? String {
-                        if let realm = try? Realm() {
-                            let user = userWithUserID(userID, inRealm: realm)
-                            if let conversation = user?.conversation {
-                                vc.performSegueWithIdentifier("showConversation", sender: conversation)
-                            }
-                        }
-                    }
-                }
-
-                if nvc.viewControllers.count > 1 {
-                    nvc.popToRootViewControllerAnimated(false)
-
-                    if let vc = nvc.topViewController as? ConversationsViewController {
-                        tryShowConversationFromConversationsViewController(vc)
-                    }
-
-                } else {
-                    if let vc = nvc.topViewController as? ConversationsViewController {
-                        tryShowConversationFromConversationsViewController(vc)
-                    }
-                }
-            }
+        if let window = window {
+            tryQuickActionWithShortcutItem(shortcutItem, inWindow: window)
         }
     }
 
