@@ -12,5 +12,6 @@ enum ShortcutType: String {
 
     case Feeds = "com.Catch-Inc.Yep.Shortcut.Feeds"
     case LatestOneToOneConversation = "com.Catch-Inc.Yep.Shortcut.LatestOneToOneConversation"
+    case LatestFeedConversation = "com.Catch-Inc.Yep.Shortcut.LatestFeedConversation"
 }
 
