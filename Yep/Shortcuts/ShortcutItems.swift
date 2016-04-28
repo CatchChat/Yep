@@ -65,10 +65,13 @@ func configureDynamicShortcuts() {
 
                     let type = ShortcutType.LatestFeedConversation.rawValue
 
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
                     let item = UIApplicationShortcutItem(
                         type: type,
-                        localizedTitle: feed.creator?.nickname ?? NSLocalizedString("Feed", comment: ""),
-                        localizedSubtitle: feed.body,
+                        localizedTitle: feed.body,
+                        localizedSubtitle: textMessageOrUpdatedTime,
                         icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
                         userInfo: ["feedID": feed.feedID]
                     )
