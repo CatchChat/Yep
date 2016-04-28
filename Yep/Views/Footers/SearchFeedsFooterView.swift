@@ -205,8 +205,10 @@ class SearchFeedsFooterView: UIView {
         NSLayoutConstraint.activateConstraints(constraintsV)
 
         do {
-            activityIndicatorView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
-            activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
+            let centerX = activityIndicatorView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
+            let centerY = activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
+
+            NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
 
         do {
