@@ -368,6 +368,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+        case .LatestOneToOneConversation:
+            break
         }
     }
 

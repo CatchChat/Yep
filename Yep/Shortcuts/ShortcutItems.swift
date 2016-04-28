@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 func configureDynamicShortcuts() {
 
@@ -14,6 +15,7 @@ func configureDynamicShortcuts() {
 
     do {
         let type = ShortcutType.Feeds.rawValue
+
         let item = UIApplicationShortcutItem(
             type: type,
             localizedTitle: NSLocalizedString("Feeds", comment: ""),
@@ -21,7 +23,29 @@ func configureDynamicShortcuts() {
             icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
             userInfo: nil
         )
+
         shortcutItems.append(item)
+    }
+
+    do {
+        if let realm = try? Realm() {
+            if let
+                latestOneToOneConversation = oneToOneConversationsInRealm(realm).first,
+                user = latestOneToOneConversation.withFriend {
+
+                let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                let item = UIApplicationShortcutItem(
+                    type: type,
+                    localizedTitle: user.nickname,
+                    localizedSubtitle: latestOneToOneConversation.latestValidMessage?.textContent,
+                    icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                    userInfo: nil
+                )
+
+                shortcutItems.append(item)
+            }
+        }
     }
 
     UIApplication.sharedApplication().shortcutItems = shortcutItems
