@@ -55,6 +55,7 @@ class SearchFeedsFooterView: UIView {
     enum Style {
         case Empty
         case Keywords
+        case Searching
         case NoResults
     }
 
@@ -79,6 +80,14 @@ class SearchFeedsFooterView: UIView {
                 hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
                     self?.keywords = hotwords
                 }
+
+            case .Searching:
+
+                promptLabel.hidden = false
+                promptLabel.textColor = UIColor.yep_mangmorGrayColor()
+                promptLabel.text = NSLocalizedString("Searching", comment: "")
+                keywordsTableView.hidden = true
+                coverView.hidden = true
 
             case .NoResults:
 
