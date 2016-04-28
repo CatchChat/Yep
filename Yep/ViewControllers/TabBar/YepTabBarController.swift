@@ -10,7 +10,7 @@ import UIKit
 
 class YepTabBarController: UITabBarController {
 
-    private enum Tab: Int {
+    enum Tab: Int {
 
         case Conversations
         case Contacts
@@ -35,7 +35,14 @@ class YepTabBarController: UITabBarController {
         }
     }
 
-    private var previousTab = Tab.Conversations
+    private var previousTab: Tab = .Conversations
+    var tab: Tab? {
+        didSet {
+            if let tab = tab {
+                self.selectedIndex = tab.rawValue
+            }
+        }
+    }
 
     private var checkDoubleTapOnFeedsTimer: NSTimer?
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {

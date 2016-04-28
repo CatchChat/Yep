@@ -354,6 +354,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         switch shortcutType {
         case .Feeds:
             println("shortcutType Feeds")
+            guard let tabBarVC = window?.rootViewController as? YepTabBarController else {
+                break
+            }
+            tabBarVC.tab = .Feeds
         }
     }
 
@@ -361,7 +365,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
-        
         if url.absoluteString.contains("/auth/success") {
             
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 1))
