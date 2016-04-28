@@ -43,7 +43,7 @@ func configureDynamicShortcuts() {
                     localizedTitle: user.nickname,
                     localizedSubtitle: latestTextMessageOrUpdatedTime,
                     icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
-                    userInfo: nil
+                    userInfo: ["userID": user.userID]
                 )
 
                 shortcutItems.append(item)

@@ -352,11 +352,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         switch shortcutType {
+
         case .Feeds:
+
             println("shortcutType Feeds")
             guard let tabBarVC = window?.rootViewController as? YepTabBarController else {
                 break
             }
+
             tabBarVC.tab = .Feeds
 
             if let nvc = tabBarVC.selectedViewController as? UINavigationController {
@@ -368,8 +371,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+
         case .LatestOneToOneConversation:
-            break
+
+            guard let tabBarVC = window?.rootViewController as? YepTabBarController else {
+                break
+            }
+
+            tabBarVC.tab = .Conversations
+
+            if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+                if nvc.viewControllers.count > 1 {
+                    nvc.popToRootViewControllerAnimated(false)
+
+                    if let vc = nvc.topViewController as? ConversationsViewController {
+                        if let userID = shortcutItem.userInfo?["userID"] as? String {
+                            if let realm = try? Realm() {
+                                let user = userWithUserID(userID, inRealm: realm)
+                                if let conversation = user?.conversation {
+                                    vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
