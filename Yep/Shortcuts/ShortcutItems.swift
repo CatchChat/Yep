@@ -29,25 +29,33 @@ func configureDynamicShortcuts() {
 
     do {
         if let realm = try? Realm() {
-            if let
-                latestOneToOneConversation = oneToOneConversationsInRealm(realm).first,
-                user = latestOneToOneConversation.withFriend {
 
-                let type = ShortcutType.LatestOneToOneConversation.rawValue
+            let oneToOneConversations = oneToOneConversationsInRealm(realm)
 
-                let latestTextMessageOrUpdatedTime = latestOneToOneConversation.latestValidMessage?.textContent ??
-                    NSDate(timeIntervalSince1970: latestOneToOneConversation.updatedUnixTime).timeAgo
+            let first = oneToOneConversations[safe: 0]
+            let second = oneToOneConversations[safe: 1]
+            let third = oneToOneConversations[safe: 2]
 
-                let item = UIApplicationShortcutItem(
-                    type: type,
-                    localizedTitle: user.nickname,
-                    localizedSubtitle: latestTextMessageOrUpdatedTime,
-                    icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
-                    userInfo: ["userID": user.userID]
-                )
+            [first, second, third].forEach({
 
-                shortcutItems.append(item)
-            }
+                if let conversation = $0, user = conversation.withFriend {
+
+                    let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: user.nickname,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                        userInfo: ["userID": user.userID]
+                    )
+                    
+                    shortcutItems.append(item)
+                }
+            })
         }
     }
 
