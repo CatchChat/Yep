@@ -19,7 +19,7 @@ func configureDynamicShortcuts() {
         let item = UIApplicationShortcutItem(
             type: type,
             localizedTitle: NSLocalizedString("Feeds", comment: ""),
-            localizedSubtitle: NSLocalizedString("What's new?", comment: ""),
+            localizedSubtitle: nil,
             icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
             userInfo: nil
         )
@@ -29,24 +29,55 @@ func configureDynamicShortcuts() {
 
     do {
         if let realm = try? Realm() {
-            if let
-                latestOneToOneConversation = oneToOneConversationsInRealm(realm).first,
-                user = latestOneToOneConversation.withFriend {
 
-                let type = ShortcutType.LatestOneToOneConversation.rawValue
+            do {
+                let oneToOneConversations = oneToOneConversationsInRealm(realm)
 
-                let latestTextMessageOrUpdatedTime = latestOneToOneConversation.latestValidMessage?.textContent ??
-                    NSDate(timeIntervalSince1970: latestOneToOneConversation.updatedUnixTime).timeAgo
+                let first = oneToOneConversations[safe: 0]
+                let second = oneToOneConversations[safe: 1]
 
-                let item = UIApplicationShortcutItem(
-                    type: type,
-                    localizedTitle: user.nickname,
-                    localizedSubtitle: latestTextMessageOrUpdatedTime,
-                    icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
-                    userInfo: ["userID": user.userID]
-                )
+                [first, second].forEach({
 
-                shortcutItems.append(item)
+                    if let conversation = $0, user = conversation.withFriend {
+
+                        let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                        let item = UIApplicationShortcutItem(
+                            type: type,
+                            localizedTitle: user.nickname,
+                            localizedSubtitle: textMessageOrUpdatedTime,
+                            icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                            userInfo: ["userID": user.userID]
+                        )
+                        
+                        shortcutItems.append(item)
+                    }
+                })
+            }
+
+            do {
+                let latest = feedConversationsInRealm(realm).first
+
+                if let conversation = latest, feed = conversation.withGroup?.withFeed {
+
+                    let type = ShortcutType.LatestFeedConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: feed.body,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
+                        userInfo: ["feedID": feed.feedID]
+                    )
+
+                    shortcutItems.append(item)
+                }
             }
         }
     }
@@ -105,6 +136,42 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
                     if let realm = try? Realm() {
                         let user = userWithUserID(userID, inRealm: realm)
                         if let conversation = user?.conversation {
+                            vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                        }
+                    }
+                }
+            }
+
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+
+            } else {
+                if let vc = nvc.topViewController as? ConversationsViewController {
+                    tryShowConversationFromConversationsViewController(vc)
+                }
+            }
+        }
+
+    case .LatestFeedConversation:
+
+        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
+            break
+        }
+
+        tabBarVC.tab = .Conversations
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+
+            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+
+                if let feedID = shortcutItem.userInfo?["feedID"] as? String {
+                    if let realm = try? Realm() {
+                        let feed = feedWithFeedID(feedID, inRealm: realm)
+                        if let conversation = feed?.group?.conversation {
                             vc.performSegueWithIdentifier("showConversation", sender: conversation)
                         }
                     }

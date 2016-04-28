@@ -120,10 +120,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
 
-            // dynamic shortcut items
-
-            configureDynamicShortcuts()
-
         } else {
             startShowStory()
         }
@@ -161,6 +157,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Resign active")
 
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+
+        // dynamic shortcut items
+
+        configureDynamicShortcuts()
+
+        // index searchable items
 
         if YepUserDefaults.isLogined {
             indexUserSearchableItems()
