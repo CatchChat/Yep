@@ -127,3 +127,8 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
     }
 }
 
+func clearDynamicShortcuts() {
+
+    UIApplication.sharedApplication().shortcutItems = nil
+}
+
