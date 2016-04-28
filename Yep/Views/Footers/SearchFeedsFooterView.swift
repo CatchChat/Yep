@@ -84,7 +84,7 @@ class SearchFeedsFooterView: UIView {
             case .Searching:
 
                 promptLabel.hidden = false
-                promptLabel.textColor = UIColor.yep_mangmorGrayColor()
+                promptLabel.textColor = UIColor.darkGrayColor()
                 promptLabel.text = NSLocalizedString("Searching", comment: "")
                 keywordsTableView.hidden = true
                 coverView.hidden = true
@@ -119,6 +119,14 @@ class SearchFeedsFooterView: UIView {
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
         return label
+    }()
+
+    lazy var activityIndicatorView: UIActivityIndicatorView = {
+
+        let view = UIActivityIndicatorView()
+        view.activityIndicatorViewStyle = .Gray
+        view.hidesWhenStopped = true
+        return view
     }()
 
     lazy var keywordsTableView: UITableView = {
@@ -165,10 +173,12 @@ class SearchFeedsFooterView: UIView {
     func makeUI() {
 
         addSubview(promptLabel)
+        addSubview(activityIndicatorView)
         addSubview(keywordsTableView)
         addSubview(coverView)
 
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
         coverView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -184,6 +194,11 @@ class SearchFeedsFooterView: UIView {
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
+
+        do {
+            activityIndicatorView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
+            activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
+        }
 
         do {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverView]|", options: [], metrics: nil, views: views)
