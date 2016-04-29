@@ -11,6 +11,11 @@ import RealmSwift
 
 func configureDynamicShortcuts() {
 
+    guard UIView().traitCollection.forceTouchCapability == .Available else {
+        UIApplication.sharedApplication().shortcutItems = nil
+        return
+    }
+
     var shortcutItems = [UIApplicationShortcutItem]()
 
     do {
