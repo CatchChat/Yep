@@ -212,6 +212,7 @@
 		5078131D1CD1E33A00F193AB /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */; };
 		5078131F1CD1EB5000F193AB /* NSURL+YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131E1CD1EB5000F193AB /* NSURL+YepTests.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
+		507813241CD2FEF400F193AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507813231CD2FEF400F193AB /* Images.xcassets */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
@@ -667,6 +668,7 @@
 		5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraphTests.swift; sourceTree = "<group>"; };
 		5078131E1CD1EB5000F193AB /* NSURL+YepTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+YepTests.swift"; path = "Extensions/NSURL+YepTests.swift"; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
+		507813231CD2FEF400F193AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
@@ -1248,6 +1250,7 @@
 				5017FC241CD0960200DFCB71 /* SyncTests.swift */,
 				5078130F1CD09FEE00F193AB /* ClearTests.swift */,
 				5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */,
+				507813231CD2FEF400F193AB /* Images.xcassets */,
 				507813201CD1EB5400F193AB /* Extensions */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
 			);
@@ -3038,6 +3041,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				507813241CD2FEF400F193AB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

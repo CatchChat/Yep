@@ -68,7 +68,7 @@ class ServiceTests: XCTestCase {
             }
         }
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectationsWithTimeout(15, handler: nil)
 
         XCTAssert(true, "Pass")
     }
@@ -103,6 +103,33 @@ class ServiceTests: XCTestCase {
                 }
             }
         }
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
+
+    func testUpdateAvatar() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("update avatar")
+
+        let bundle = NSBundle(forClass: ServiceTests.self)
+        let image = UIImage(named: "coolie", inBundle: bundle, compatibleWithTraitCollection: nil)!
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())!
+
+        updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
+            userInfo(failureHandler: nil) { myUserInfo in
+                if let avatarInfo = myUserInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
+                    if newAvatarURLString == avatarURLString {
+                        expectation.fulfill()
+                    }
+                }
+            }
+        })
 
         waitForExpectationsWithTimeout(10, handler: nil)
 
