@@ -3196,7 +3196,7 @@ func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, comp
 
             creators += page1Creators
 
-            // We have more blocked creators
+            // We have more creators
 
             var allGood = true
             let downloadGroup = dispatch_group_create()
@@ -3225,20 +3225,6 @@ func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, comp
             }
         }
     }
-
-    /*
-    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-        if let creatorInfos = data["blocked_topic_creators"] as? [JSONDictionary] {
-            let creators = creatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
-            return creators
-        }
-        return nil
-    }
-
-    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: [:], parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-     */
 }
 
 func amIBlockedFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
