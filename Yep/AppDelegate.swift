@@ -278,6 +278,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
                 }
 
+                configureDynamicShortcuts()
+
                 completionHandler(UIBackgroundFetchResult.NewData)
             }
 
@@ -317,12 +319,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             handleMessageDeletedFromServer(messageID: messageID)
 
+            configureDynamicShortcuts()
+
         case .Mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
                 }
+
+                configureDynamicShortcuts()
 
                 completionHandler(UIBackgroundFetchResult.NewData)
             })
