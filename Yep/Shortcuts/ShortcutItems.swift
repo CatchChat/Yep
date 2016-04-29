@@ -40,9 +40,9 @@ func configureDynamicShortcuts() {
 
             let first   = conversations[safe: 0]
             let second  = conversations[safe: 1]
-            let thrid   = conversations[safe: 2]
+            let third   = conversations[safe: 2]
 
-            [first, second, thrid].forEach({
+            [first, second, third].forEach({
 
                 if let conversation = $0 {
 
