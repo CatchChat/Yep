@@ -276,11 +276,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             syncUnreadMessages() {
                 dispatch_async(dispatch_get_main_queue()) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+
+                    configureDynamicShortcuts()
+
+                    completionHandler(UIBackgroundFetchResult.NewData)
                 }
-
-                configureDynamicShortcuts()
-
-                completionHandler(UIBackgroundFetchResult.NewData)
             }
 
         case .OfficialMessage:
@@ -326,11 +326,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+
+                    configureDynamicShortcuts()
+
+                    completionHandler(UIBackgroundFetchResult.NewData)
                 }
-
-                configureDynamicShortcuts()
-
-                completionHandler(UIBackgroundFetchResult.NewData)
             })
         }
     }
