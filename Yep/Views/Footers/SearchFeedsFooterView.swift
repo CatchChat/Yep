@@ -128,7 +128,7 @@ class SearchFeedsFooterView: UIView {
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(22)
+        label.font = UIFont.systemFontOfSize(20)
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
@@ -150,7 +150,7 @@ class SearchFeedsFooterView: UIView {
         tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = calculateLabelHeight(UIFont.systemFontOfSize(18)) + 15
+        tableView.rowHeight = calculateLabelHeight(UIFont.systemFontOfSize(18)) + 12
         tableView.scrollEnabled = false
         tableView.separatorStyle = .None
         return tableView
