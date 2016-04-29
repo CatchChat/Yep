@@ -36,6 +36,8 @@ func configureDynamicShortcuts() {
     do {
         if let realm = try? Realm() {
 
+            realm.refresh()
+
             let conversations = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
 
             let first   = conversations[safe: 0]
