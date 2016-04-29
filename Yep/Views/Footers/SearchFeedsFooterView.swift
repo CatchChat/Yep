@@ -126,7 +126,6 @@ class SearchFeedsFooterView: UIView {
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
-        label.sizeToFit()
         return label
     }()
 
@@ -144,7 +143,7 @@ class SearchFeedsFooterView: UIView {
         tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = calculateLabelHeight(UIFont.systemFontOfSize(18)) + 12
+        tableView.rowHeight = 36
         tableView.scrollEnabled = false
         tableView.separatorStyle = .None
         return tableView
