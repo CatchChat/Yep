@@ -68,7 +68,7 @@ class ServiceTests: XCTestCase {
             }
         }
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectationsWithTimeout(15, handler: nil)
 
         XCTAssert(true, "Pass")
     }
