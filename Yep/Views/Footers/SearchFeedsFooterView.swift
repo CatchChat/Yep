@@ -16,8 +16,7 @@ final private class KeywordCell: UITableViewCell {
         let label = UILabel()
         label.textAlignment = .Center
         label.textColor = UIColor.yepTintColor()
-        label.font = UIFont.systemFontOfSize(15)
-
+        label.font = UIFont.systemFontOfSize(18)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -123,10 +122,11 @@ class SearchFeedsFooterView: UIView {
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(17)
+        label.font = UIFont.systemFontOfSize(20)
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
+        label.sizeToFit()
         return label
     }()
 
@@ -144,7 +144,7 @@ class SearchFeedsFooterView: UIView {
         tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 30
+        tableView.rowHeight = calculateLabelHeight(UIFont.systemFontOfSize(18)) + 12
         tableView.scrollEnabled = false
         tableView.separatorStyle = .None
         return tableView
@@ -199,7 +199,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-20-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-15-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
