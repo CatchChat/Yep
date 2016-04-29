@@ -108,6 +108,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 全局的外观自定义
         customAppearce()
 
+        do {
+            let storyboard = UIStoryboard(name: "Intro", bundle: nil)
+            let rootViewController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickAvatarViewController") as! UINavigationController
+            window?.rootViewController = rootViewController
+
+            inMainStory = false
+        }
+
+        return
+
+        
         let isLogined = YepUserDefaults.isLogined
 
         if isLogined {
