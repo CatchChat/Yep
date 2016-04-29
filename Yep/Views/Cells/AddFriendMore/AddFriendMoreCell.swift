@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddFriendMoreCell: UITableViewCell {
+final class AddFriendMoreCell: UITableViewCell {
 
     @IBOutlet weak var annotationLabel: UILabel!
 

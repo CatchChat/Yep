@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RecordButton: UIButton {
+final class RecordButton: UIButton {
 
     override func intrinsicContentSize() -> CGSize {
         return CGSize(width: 100, height: 100)

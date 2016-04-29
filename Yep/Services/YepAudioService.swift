@@ -21,7 +21,7 @@ extension AVPlayer {
     }
 }
 
-class YepAudioService: NSObject {
+final class YepAudioService: NSObject {
     
     static let sharedManager = YepAudioService()
     

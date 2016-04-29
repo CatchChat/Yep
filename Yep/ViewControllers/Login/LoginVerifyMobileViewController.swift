@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class LoginVerifyMobileViewController: UIViewController {
+final class LoginVerifyMobileViewController: UIViewController {
 
     var mobile: String!
     var areaCode: String!

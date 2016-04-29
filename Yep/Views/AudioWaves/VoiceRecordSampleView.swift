@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VoiceRecordSampleCell: UICollectionViewCell {
+final class VoiceRecordSampleCell: UICollectionViewCell {
 
     var value: CGFloat = 0 {
         didSet {
@@ -99,7 +99,7 @@ class VoiceRecordSampleView: UIView {
         addSubview(sampleCollectionView)
         sampleCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "sampleCollectionView": sampleCollectionView,
         ]
 

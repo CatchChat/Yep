@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-class ConversationLayout: UICollectionViewFlowLayout {
+final class ConversationLayout: UICollectionViewFlowLayout {
 
     override func prepareLayout() {
         super.prepareLayout()

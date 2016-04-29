@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ConversationCell: UITableViewCell {
+final class ConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 

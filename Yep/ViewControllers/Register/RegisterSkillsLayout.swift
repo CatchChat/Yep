@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterSkillsLayout: UICollectionViewFlowLayout {
+final class RegisterSkillsLayout: UICollectionViewFlowLayout {
     
     var animator: UIDynamicAnimator!
     

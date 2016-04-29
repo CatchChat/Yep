@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
+final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

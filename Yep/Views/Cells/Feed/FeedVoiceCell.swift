@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class FeedVoiceCell: FeedBasicCell {
+final class FeedVoiceCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

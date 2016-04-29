@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class BottomButtonView: UIView {
+final class BottomButtonView: UIView {
 
     @IBInspectable var topLineColor: UIColor = UIColor.yepBorderColor()
     @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
@@ -50,7 +50,7 @@ class BottomButtonView: UIView {
 
         let actionButtonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
 
-        let constraints = [
+        let constraints: [NSLayoutConstraint] = [
             actionButtonCenterXConstraint,
             actionButtonCenterYConstraint,
             actionButtonWidthConstraint,

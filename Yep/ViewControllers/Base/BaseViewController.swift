@@ -31,7 +31,7 @@ class BaseViewController: SegueViewController {
         navigationController.navigationBar.barStyle = UIBarStyle.Default
         navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
 
-        let textAttributes = [
+        let textAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]

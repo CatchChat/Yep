@@ -44,7 +44,7 @@ func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
-class Listenable<T> {
+final class Listenable<T> {
     var value: T {
         didSet {
             setterAction(value)

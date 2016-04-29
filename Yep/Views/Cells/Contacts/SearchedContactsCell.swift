@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedContactsCell: UITableViewCell {
+final class SearchedContactsCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileSocialAccountGithubCell: UICollectionViewCell {
+final class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
     var githubWork: GithubWork? {
         didSet {

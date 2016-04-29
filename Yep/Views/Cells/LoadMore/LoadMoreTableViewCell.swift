@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoadMoreTableViewCell: UITableViewCell {
+final class LoadMoreTableViewCell: UITableViewCell {
 
     var isLoading: Bool = false {
         didSet {

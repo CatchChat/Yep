@@ -25,7 +25,7 @@ protocol FayeServiceDelegate: class {
 
 let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
 
-class FayeService: NSObject, MZFayeClientDelegate {
+final class FayeService: NSObject, MZFayeClientDelegate {
 
     static let sharedManager = FayeService()
 

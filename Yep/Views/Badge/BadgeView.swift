@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class BadgeView: UIView {
+final class BadgeView: UIView {
 
     enum Badge: String {
         case Palette = "palette"

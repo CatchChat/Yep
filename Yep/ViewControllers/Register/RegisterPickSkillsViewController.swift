@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterPickSkillsViewController: BaseViewController {
+final class RegisterPickSkillsViewController: BaseViewController {
 
     var isRegister = true
 

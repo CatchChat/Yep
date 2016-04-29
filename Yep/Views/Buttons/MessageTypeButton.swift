@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class MessageTypeButton: TouchZoomButton {
+final class MessageTypeButton: TouchZoomButton {
 
     @IBInspectable
     var image: UIImage = UIImage() {
@@ -57,7 +57,7 @@ class MessageTypeButton: TouchZoomButton {
         typeImageView.translatesAutoresizingMaskIntoConstraints = false
         typeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "typeImageView": typeImageView,
             "typeTitleLabel": typeTitleLabel,
         ]

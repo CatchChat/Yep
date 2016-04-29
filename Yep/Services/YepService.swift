@@ -59,7 +59,8 @@ func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
 // MARK: - Register
 
 func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
     ]
@@ -447,7 +448,7 @@ enum VerifyCodeMethod: String {
 
 func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
         "method": method.rawValue
@@ -555,7 +556,8 @@ func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: 
 }
 
 private func headBlockedUsers(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
         "per_page": 100,
     ]
@@ -570,7 +572,8 @@ private func headBlockedUsers(failureHandler failureHandler: FailureHandler?, co
 }
 
 private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -651,7 +654,7 @@ func blockedUsersByMe(failureHandler failureHandler: FailureHandler?, completion
 
 func blockUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "user_id": userID
     ]
 
@@ -714,7 +717,7 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 
 func searchUsersByMobile(mobile: String, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
     
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": mobile
     ]
     
@@ -899,7 +902,7 @@ struct FriendRequest {
 
 func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?, completion: FriendRequest.State -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "friend_id": user.userID,
     ]
 
@@ -920,7 +923,7 @@ func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?, comple
 
 func stateOfFriendRequestWithUser(user: User, failureHandler: FailureHandler?, completion: (isFriend: Bool,receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "user_id": user.userID,
     ]
 
@@ -977,7 +980,7 @@ func stateOfFriendRequestWithUser(user: User, failureHandler: FailureHandler?, c
 
 func acceptFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "id": friendRequestID,
     ]
 
@@ -1002,7 +1005,7 @@ func acceptFriendRequestWithID(friendRequestID: String, failureHandler: FailureH
 
 func rejectFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "id": friendRequestID,
     ]
 
@@ -1028,7 +1031,8 @@ func rejectFriendRequestWithID(friendRequestID: String, failureHandler: FailureH
 // MARK: - Friendships
 
 private func headFriendships(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
         "per_page": 100,
     ]
@@ -1043,7 +1047,8 @@ private func headFriendships(failureHandler failureHandler: FailureHandler?, com
 }
 
 private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1218,7 +1223,7 @@ let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
 func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
     
-    let requestParameters: [String: AnyObject] = [
+    let requestParameters: JSONDictionary = [
         "master_skills": masterSkillIDs,
         "learning_skills": learningSkillIDs,
         "sort": discoveredUserSortStyle.rawValue,
@@ -1253,7 +1258,7 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
 
 func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
-    let requestParameters: [String: AnyObject] = [
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1267,7 +1272,7 @@ func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPa
 
 func searchUsersByQ(q: String, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": q
     ]
 
@@ -1401,9 +1406,10 @@ func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHandler?,
 }
 
 func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
-        "per_page": 50,
+        "per_page": 100,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -1416,7 +1422,8 @@ func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSON
 }
 
 func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1757,7 +1764,7 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
 private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    var parameters: [String: AnyObject] = [
+    var parameters: JSONDictionary = [
         "page": 1,
         "per_page": 30,
     ]
@@ -1777,7 +1784,7 @@ private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHan
 
 private func moreUnreadMessagesAfterMessageWithID(messageID: String?, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    var parameters: [String: AnyObject] = [
+    var parameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1945,7 +1952,7 @@ enum TimeDirection {
 
 func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String]) -> Void) {
 
-    var requestParameters = [
+    var requestParameters: JSONDictionary = [
         "recipient_type": recipient.type.nameForServer,
         "recipient_id": recipient.ID,
     ]
@@ -2451,7 +2458,7 @@ func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: M
         return
     }
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "max_id": beforeMessage.messageID
     ]
 
@@ -2477,7 +2484,7 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: Failur
 
 func refreshAttachmentWithID(attachmentID: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "ids": [attachmentID],
     ]
 
@@ -3139,7 +3146,7 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
 
 private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "page": 1,
         "per_page": 30,
     ]
@@ -3155,7 +3162,7 @@ private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHa
 
 private func moreCreatorsOfBlockedFeeds(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -3554,7 +3561,7 @@ struct Feedback {
 
 func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "content": feedback.content,
         "device_info": feedback.deviceInfo,
     ]
@@ -3587,7 +3594,7 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
     dateFormatter.dateFormat = "yyyyMMdd"
     let dateString = dateFormatter.stringFromDate(NSDate())
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
         "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
         "v": dateString,
@@ -3646,7 +3653,7 @@ struct UsernamePrefixMatchedUser {
 
 func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: FailureHandler?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": usernamePrefix,
     ]
 

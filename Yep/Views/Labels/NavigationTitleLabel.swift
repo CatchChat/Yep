@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NavigationTitleLabel: UILabel {
+final class NavigationTitleLabel: UILabel {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -9,7 +9,7 @@
 import UIKit
 import MonkeyKing
 
-class WeChatActivity: AnyActivity {
+final class WeChatActivity: AnyActivity {
 
     enum Type {
 

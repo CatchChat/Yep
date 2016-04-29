@@ -11,7 +11,7 @@ import AVFoundation
 import Proposer
 import Navi
 
-class RegisterPickAvatarViewController: SegueViewController {
+final class RegisterPickAvatarViewController: SegueViewController {
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var cameraPreviewView: CameraPreviewView!

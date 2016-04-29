@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class SearchedFeedVoiceCell: SearchedFeedBasicCell {
+final class SearchedFeedVoiceCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

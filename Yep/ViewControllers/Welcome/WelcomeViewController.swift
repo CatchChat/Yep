@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WelcomeViewController: UIViewController {
+final class WelcomeViewController: UIViewController {
 
     @IBOutlet private weak var logoLabel: UILabel!
     @IBOutlet private weak var sloganLabel: UILabel!

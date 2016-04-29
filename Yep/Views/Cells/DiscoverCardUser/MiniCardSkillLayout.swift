@@ -8,11 +8,11 @@
 
 import UIKit
 
-class MiniCardSkillLayout: UICollectionViewFlowLayout {
+final class MiniCardSkillLayout: UICollectionViewFlowLayout {
 
-var scrollUpAction: ((progress: CGFloat) -> Void)?
+    var scrollUpAction: ((progress: CGFloat) -> Void)?
 
-let leftEdgeInset: CGFloat = 0
+    let leftEdgeInset: CGFloat = 0
     
     override func prepareLayout() {
         self.minimumLineSpacing = 5

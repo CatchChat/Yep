@@ -24,7 +24,7 @@ struct FeedVoice {
     let limitedSampleValues: [CGFloat]
 }
 
-class NewFeedViewController: SegueViewController {
+final class NewFeedViewController: SegueViewController {
 
     enum Attachment {
         case Default

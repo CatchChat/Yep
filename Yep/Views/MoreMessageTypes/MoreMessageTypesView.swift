@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class MoreMessageTypesView: UIView {
+final class MoreMessageTypesView: UIView {
 
     let totalHeight: CGFloat = 100 + 60 * 3
 
@@ -135,7 +135,7 @@ class MoreMessageTypesView: UIView {
         containerView.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "containerView": containerView,
             "tableView": tableView,
         ]

@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class SearchContactsViewController: SegueViewController {
+final class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?

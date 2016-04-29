@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
+final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
 
     let leftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
 

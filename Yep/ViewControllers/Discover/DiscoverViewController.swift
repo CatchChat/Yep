@@ -16,7 +16,7 @@ enum DiscoverUserMode: Int {
 
 var skillSizeCache = [String: CGRect]()
 
-class DiscoverViewController: BaseViewController {
+final class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     

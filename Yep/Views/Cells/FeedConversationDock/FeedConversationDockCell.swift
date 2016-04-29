@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedConversationDockCell: UITableViewCell {
+final class FeedConversationDockCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!

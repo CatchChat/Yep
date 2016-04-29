@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableSectionTitleView: UITableViewHeaderFooterView {
+final class TableSectionTitleView: UITableViewHeaderFooterView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -23,7 +23,7 @@ class TableSectionTitleView: UITableViewHeaderFooterView {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "titleLabel": titleLabel,
         ]
 

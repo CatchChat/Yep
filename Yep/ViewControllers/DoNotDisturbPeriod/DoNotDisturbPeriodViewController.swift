@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class DoNotDisturbPeriodViewController: UIViewController {
+final class DoNotDisturbPeriodViewController: UIViewController {
 
     var doNotDisturbPeriod = DoNotDisturbPeriod()
 

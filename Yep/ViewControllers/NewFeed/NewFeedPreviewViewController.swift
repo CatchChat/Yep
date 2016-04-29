@@ -11,7 +11,7 @@ import UIKit
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
 
-class NewFeedPreviewViewController: UIViewController {
+final class NewFeedPreviewViewController: UIViewController {
     
     @IBOutlet weak var previewCollectionView: UICollectionView!
     

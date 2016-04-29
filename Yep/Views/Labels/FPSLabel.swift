@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FPSLabel: UILabel {
+final class FPSLabel: UILabel {
 
     private var displayLink: CADisplayLink?
     private var lastTime: NSTimeInterval = 0

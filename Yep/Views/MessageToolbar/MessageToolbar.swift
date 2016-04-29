@@ -42,7 +42,7 @@ enum MessageToolbarState: Int, CustomStringConvertible {
 }
 
 @IBDesignable
-class MessageToolbar: UIToolbar {
+final class MessageToolbar: UIToolbar {
     
     var lastToolbarFrame: CGRect?
 
@@ -263,7 +263,7 @@ class MessageToolbar: UIToolbar {
         self.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "moreButton": moreButton,
             "messageTextView": messageTextView,
             "micButton": micButton,

@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class RegisterVerifyMobileViewController: SegueViewController {
+final class RegisterVerifyMobileViewController: SegueViewController {
 
     var mobile: String!
     var areaCode: String!

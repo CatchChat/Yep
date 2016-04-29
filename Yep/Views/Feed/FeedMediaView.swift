@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedMediaView: UIView {
+final class FeedMediaView: UIView {
     
     var attachmentURLs = [NSURL]()
 

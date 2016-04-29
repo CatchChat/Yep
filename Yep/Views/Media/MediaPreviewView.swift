@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class MediaPreviewView: UIView {
+final class MediaPreviewView: UIView {
 
     weak var parentViewController: UIViewController?
 
@@ -174,7 +174,7 @@ class MediaPreviewView: UIView {
         mediaView.translatesAutoresizingMaskIntoConstraints = false
         mediaControlView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "mediaView": mediaView,
             "mediaControlView": mediaControlView,
         ]

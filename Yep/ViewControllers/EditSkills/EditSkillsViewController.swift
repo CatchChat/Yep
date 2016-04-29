@@ -10,7 +10,7 @@ import UIKit
 import Ruler
 import RealmSwift
 
-class EditSkillsViewController: BaseViewController {
+final class EditSkillsViewController: BaseViewController {
 
     var skillSet: SkillSet?
     var afterChangedSkillsAction: (() -> Void)?

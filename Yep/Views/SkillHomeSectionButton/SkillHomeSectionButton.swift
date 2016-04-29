@@ -11,7 +11,7 @@ import pop
 
 let skillHeomSectionButtonLineHeight: CGFloat = 2
 
-class SkillHomeSectionButton: UIButton {
+final class SkillHomeSectionButton: UIButton {
     
     let highLight = CALayer()
     

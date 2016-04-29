@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DoNotDisturbPeriodCell: UITableViewCell {
+final class DoNotDisturbPeriodCell: UITableViewCell {
 
     @IBOutlet weak var fromPromptLabel: UILabel!
 

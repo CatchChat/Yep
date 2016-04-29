@@ -12,7 +12,7 @@ import AVFoundation
 import MapKit
 import Ruler
 
-class FeedsViewController: BaseViewController {
+final class FeedsViewController: BaseViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileColoredTitleCell: UITableViewCell {
+final class EditProfileColoredTitleCell: UITableViewCell {
 
     var coloredTitleColor: UIColor = UIColor.redColor() {
         willSet {

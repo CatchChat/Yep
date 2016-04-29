@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class RegisterPickNameViewController: BaseViewController {
+final class RegisterPickNameViewController: BaseViewController {
 
     @IBOutlet private weak var pickNamePromptLabel: UILabel!
     @IBOutlet private weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!

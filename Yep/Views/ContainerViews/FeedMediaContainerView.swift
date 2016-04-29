@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class FeedMediaContainerView: UIView {
+final class FeedMediaContainerView: UIView {
 
     var tapMediaAction: ((mediaImageView: UIImageView) -> Void)?
 
@@ -60,7 +60,7 @@ class FeedMediaContainerView: UIView {
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         linkContainerView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "backgroundImageView": backgroundImageView,
             "mediaImageView": mediaImageView,
             "horizontalLineView": horizontalLineView,

@@ -10,7 +10,7 @@ import XCTest
 @testable import Yep
 import RealmSwift
 
-class ClearTests: XCTestCase {
+final class ClearTests: XCTestCase {
 
     func testCleanRealmAndCaches() {
 

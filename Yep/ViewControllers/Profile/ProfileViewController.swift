@@ -306,7 +306,7 @@ enum ProfileUser {
     }
 }
 
-class ProfileViewController: SegueViewController {
+final class ProfileViewController: SegueViewController {
     
     private var socialAccount: SocialAccount?
 

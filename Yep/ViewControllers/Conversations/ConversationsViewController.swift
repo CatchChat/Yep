@@ -15,7 +15,7 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: BaseViewController {
+final class ConversationsViewController: BaseViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 

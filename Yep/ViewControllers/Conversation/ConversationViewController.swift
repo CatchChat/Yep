@@ -309,7 +309,7 @@ enum ConversationFeed {
     }
 }
 
-class ConversationViewController: BaseViewController {
+final class ConversationViewController: BaseViewController {
 
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
@@ -1258,7 +1258,10 @@ class ConversationViewController: BaseViewController {
 
                         println("\nComporessed \(audioSamples)")
 
-                        let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
+                        let audioMetaDataInfo = [
+                            YepConfig.MetaData.audioSamples: audioSamples,
+                            YepConfig.MetaData.audioDuration: audioDuration
+                        ]
 
                         if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
                             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
@@ -1870,7 +1873,7 @@ class ConversationViewController: BaseViewController {
 
         view.addSubview(feedView)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "feedView": feedView
         ]
 

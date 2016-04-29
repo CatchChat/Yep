@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CameraCell: UICollectionViewCell {
+final class CameraCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

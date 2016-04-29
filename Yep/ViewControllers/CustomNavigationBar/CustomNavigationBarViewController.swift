@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomNavigationBarViewController: UIViewController {
+final class CustomNavigationBarViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -21,7 +21,7 @@ class CustomNavigationBarViewController: UIViewController {
             navigationController.navigationBar.barStyle = UIBarStyle.BlackTranslucent
             navigationController.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
 
-            let textAttributes = [
+            let textAttributes: [String: AnyObject] = [
                 NSForegroundColorAttributeName: UIColor.whiteColor(),
                 NSFontAttributeName: UIFont.navigationBarTitleFont()
             ]

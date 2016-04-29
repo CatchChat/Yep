@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchSectionTitleCell: UITableViewCell {
+final class SearchSectionTitleCell: UITableViewCell {
 
     @IBOutlet weak var sectionTitleLabel: UILabel! {
         didSet {

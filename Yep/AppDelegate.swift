@@ -16,7 +16,7 @@ import Appsee
 import CoreSpotlight
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
@@ -751,14 +751,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return shadow
         }()
 
-        let textAttributes = [
+        let textAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
 
         /*
-        let barButtonTextAttributes = [
+        let barButtonTextAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
             NSFontAttributeName: UIFont.barButtonFont()
         ]

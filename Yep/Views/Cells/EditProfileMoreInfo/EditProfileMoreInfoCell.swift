@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EditProfileMoreInfoCell: UITableViewCell {
+final class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var annotationLabel: UILabel!
 

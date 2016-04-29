@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatTextIndicatorCell: UICollectionViewCell {
+final class ChatTextIndicatorCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
@@ -33,7 +33,7 @@ class ChatTextIndicatorCell: UICollectionViewCell {
         recallLabel.translatesAutoresizingMaskIntoConstraints = false
 
         do {
-            let views = [
+            let views: [String: AnyObject] = [
                 "recallLabel": recallLabel,
             ]
 

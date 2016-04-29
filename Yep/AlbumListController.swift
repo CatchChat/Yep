@@ -11,7 +11,7 @@ import Photos
 
 // @note use this model to store the album's 'result, 'count, 'name, 'startDate to avoid request and reserve too much times
 
-class Album: NSObject {
+final class Album: NSObject {
     var results: PHFetchResult?
     var count = 0
     var name: String?
@@ -21,7 +21,7 @@ class Album: NSObject {
 
 private let defaultAlbumIdentifier = "com.Yep.photoPicker"
 
-class AlbumListController: UITableViewController {
+final class AlbumListController: UITableViewController {
 
     var pickedImageSet = Set<PHAsset>()
     var pickedImages = [PHAsset]()

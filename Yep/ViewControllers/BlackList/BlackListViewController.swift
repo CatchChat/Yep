@@ -9,14 +9,14 @@
 import UIKit
 import RealmSwift
 
-class BlackListViewController: BaseViewController {
+final class BlackListViewController: BaseViewController {
 
     @IBOutlet private weak var blockedUsersTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private let cellIdentifier = "ContactsCell"
 
-    private var blockedUsers = [DiscoveredUser]() {
+    private var blockedUsers: [DiscoveredUser] = [] {
         willSet {
             if newValue.count == 0 {
                 blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))

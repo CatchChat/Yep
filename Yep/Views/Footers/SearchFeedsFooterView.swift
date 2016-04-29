@@ -8,7 +8,7 @@
 
 import UIKit
 
-private class KeywordCell: UITableViewCell {
+final private class KeywordCell: UITableViewCell {
 
     static let reuseIdentifier = "KeywordCell"
 
@@ -191,7 +191,7 @@ class SearchFeedsFooterView: UIView {
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
         coverView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "promptLabel": promptLabel,
             "keywordsTableView": keywordsTableView,
             "coverView": coverView,

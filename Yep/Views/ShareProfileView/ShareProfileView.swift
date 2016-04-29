@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShareProfileView: UIView {
+final class ShareProfileView: UIView {
 
     var progress: CGFloat = 0
     

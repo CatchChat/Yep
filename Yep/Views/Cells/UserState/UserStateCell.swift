@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UserStateCell: UITableViewCell {
+final class UserStateCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

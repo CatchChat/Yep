@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class MediaControlView: UIView {
+final class MediaControlView: UIView {
 
     enum Type {
         case Image
@@ -102,7 +102,7 @@ class MediaControlView: UIView {
         playButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "timeLable": timeLabel,
             "playButton": playButton,
             "shareButton": shareButton,

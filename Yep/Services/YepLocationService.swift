@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-class YepLocationService: NSObject, CLLocationManagerDelegate {
+final class YepLocationService: NSObject, CLLocationManagerDelegate {
 
     class func turnOn() {
         if (CLLocationManager.locationServicesEnabled()){

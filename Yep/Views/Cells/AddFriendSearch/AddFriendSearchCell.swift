@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddFriendSearchCell: UITableViewCell {
+final class AddFriendSearchCell: UITableViewCell {
 
     @IBOutlet weak var searchTextField: UITextField!
 

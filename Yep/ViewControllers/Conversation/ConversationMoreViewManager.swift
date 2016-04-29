@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ConversationMoreViewManager {
+final class ConversationMoreViewManager {
 
     var conversation: Conversation?
 

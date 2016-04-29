@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedFeedCell: UITableViewCell {
+final class SearchedFeedCell: UITableViewCell {
 
     @IBOutlet weak var mediaView: FeedMediaView!
     @IBOutlet weak var nameLabel: UILabel!

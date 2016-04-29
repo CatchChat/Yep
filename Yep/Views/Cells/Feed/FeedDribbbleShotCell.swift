@@ -12,7 +12,7 @@ import Ruler
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
-class FeedDribbbleShotCell: FeedBasicCell {
+final class FeedDribbbleShotCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

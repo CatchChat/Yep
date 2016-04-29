@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverSkillCell: UICollectionViewCell {
+final class DiscoverSkillCell: UICollectionViewCell {
 
     @IBOutlet weak var skillLabel: UILabel!
     

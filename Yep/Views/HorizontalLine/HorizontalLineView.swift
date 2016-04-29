@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class HorizontalLineView: UIView {
+final class HorizontalLineView: UIView {
 
     @IBInspectable
     var lineColor: UIColor = UIColor.yepBorderColor() {

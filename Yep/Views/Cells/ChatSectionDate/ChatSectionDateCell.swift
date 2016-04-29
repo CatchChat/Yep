@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatSectionDateCell: UICollectionViewCell {
+final class ChatSectionDateCell: UICollectionViewCell {
 
     @IBOutlet weak var sectionDateLabel: UILabel!
 
