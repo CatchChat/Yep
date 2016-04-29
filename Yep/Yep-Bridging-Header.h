@@ -5,7 +5,7 @@
 #import <UIKit/UIKit.h>
 
 #ifndef DEBUG
-#import "APService.h"
+#import <JPush-iOS-SDK/APService.h>
 //#import "JPUSHService.h"
 #endif
 
