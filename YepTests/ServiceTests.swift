@@ -108,5 +108,27 @@ class ServiceTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testUpdateAvatar() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("update avatar")
+
+        let image = UIImage(named: "coolie")!
+        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())!
+
+        updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
+            if !newAvatarURLString.isEmpty {
+                expectation.fulfill()
+            }
+        })
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
 
