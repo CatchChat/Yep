@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AlbumListCell: UITableViewCell {
+final class AlbumListCell: UITableViewCell {
 
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!

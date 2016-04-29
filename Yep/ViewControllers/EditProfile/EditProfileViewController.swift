@@ -12,7 +12,7 @@ import TPKeyboardAvoiding
 import Proposer
 import Navi
 
-class EditProfileViewController: SegueViewController {
+final class EditProfileViewController: SegueViewController {
 
     struct Notification {
         static let Logout = "LogoutNotification"

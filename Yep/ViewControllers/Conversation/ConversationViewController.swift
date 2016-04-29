@@ -309,7 +309,7 @@ enum ConversationFeed {
     }
 }
 
-class ConversationViewController: BaseViewController {
+final class ConversationViewController: BaseViewController {
 
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?

@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class BottomButtonView: UIView {
+final class BottomButtonView: UIView {
 
     @IBInspectable var topLineColor: UIColor = UIColor.yepBorderColor()
     @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale

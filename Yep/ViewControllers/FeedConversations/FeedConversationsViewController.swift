@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class FeedConversationsViewController: SegueViewController {
+final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
 

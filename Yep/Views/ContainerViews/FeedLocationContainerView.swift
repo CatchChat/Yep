@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedLocationContainerView: UIView {
+final class FeedLocationContainerView: UIView {
 
     var tapAction: (() -> Void)?
 

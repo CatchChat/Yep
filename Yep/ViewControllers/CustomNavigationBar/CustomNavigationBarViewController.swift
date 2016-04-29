@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CustomNavigationBarViewController: UIViewController {
+final class CustomNavigationBarViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

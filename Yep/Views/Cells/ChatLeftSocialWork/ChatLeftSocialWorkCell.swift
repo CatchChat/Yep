@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ChatLeftSocialWorkCell: UICollectionViewCell {
+final class ChatLeftSocialWorkCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
 

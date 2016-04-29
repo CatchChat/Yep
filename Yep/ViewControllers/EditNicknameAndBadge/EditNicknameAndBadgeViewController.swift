@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class EditNicknameAndBadgeViewController: UITableViewController {
+final class EditNicknameAndBadgeViewController: UITableViewController {
 
     @IBOutlet private weak var nicknameTextField: UITextField!
 

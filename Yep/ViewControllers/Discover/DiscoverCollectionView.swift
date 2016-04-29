@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverCollectionView: UICollectionView {
+final class DiscoverCollectionView: UICollectionView {
 
     // ref http://stackoverflow.com/questions/19483511/uirefreshcontrol-with-uicollectionview-in-ios7
     override var contentInset: UIEdgeInsets {

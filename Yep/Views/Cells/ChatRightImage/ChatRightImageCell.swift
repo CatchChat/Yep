@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatRightImageCell: ChatRightBaseCell {
+final class ChatRightImageCell: ChatRightBaseCell {
 
     lazy var messageImageView: UIImageView = {
         let imageView = UIImageView()

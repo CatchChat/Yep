@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedConversationCell: UITableViewCell {
+final class FeedConversationCell: UITableViewCell {
 
     @IBOutlet weak var mediaView: FeedMediaView!
     @IBOutlet weak var nameLabel: UILabel!

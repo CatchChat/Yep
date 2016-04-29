@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DeletedFeedConversationCell: UITableViewCell {
+final class DeletedFeedConversationCell: UITableViewCell {
 
     @IBOutlet weak var typeImageView: UIImageView!
     @IBOutlet weak var deletedPromptLabel: UILabel!

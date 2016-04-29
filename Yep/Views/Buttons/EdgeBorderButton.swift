@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EdgeBorderButton: UIButton {
+final class EdgeBorderButton: UIButton {
 
     let lineColor: UIColor = UIColor.yepBorderColor()
     let lineWidth: CGFloat = 1

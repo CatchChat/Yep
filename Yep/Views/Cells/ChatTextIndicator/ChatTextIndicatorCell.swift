@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatTextIndicatorCell: UICollectionViewCell {
+final class ChatTextIndicatorCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "skill_bubble"))

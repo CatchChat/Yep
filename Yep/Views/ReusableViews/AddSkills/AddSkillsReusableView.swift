@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class AddSkillsReusableView: UICollectionReusableView {
+final class AddSkillsReusableView: UICollectionReusableView {
     
     var skillSet: SkillSet = .Master {
         willSet {

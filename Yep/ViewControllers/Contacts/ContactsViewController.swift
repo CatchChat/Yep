@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import Ruler
 
-class ContactsViewController: BaseViewController {
+final class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 

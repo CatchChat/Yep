@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedMediaAddCell: UICollectionViewCell {
+final class FeedMediaAddCell: UICollectionViewCell {
 
     @IBOutlet weak var mediaAddImage: UIImageView!
     

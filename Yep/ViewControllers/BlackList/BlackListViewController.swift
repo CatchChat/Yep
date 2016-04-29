@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class BlackListViewController: BaseViewController {
+final class BlackListViewController: BaseViewController {
 
     @IBOutlet private weak var blockedUsersTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!

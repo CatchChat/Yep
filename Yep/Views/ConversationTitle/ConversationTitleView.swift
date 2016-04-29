@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationTitleView: UIView {
+final class ConversationTitleView: UIView {
 
     lazy var nameLabel: UILabel = {
         let label = UILabel()

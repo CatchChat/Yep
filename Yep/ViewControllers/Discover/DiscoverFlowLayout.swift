@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverFlowLayout: UICollectionViewFlowLayout {
+final class DiscoverFlowLayout: UICollectionViewFlowLayout {
     
     var userMode: DiscoverUserMode?
     

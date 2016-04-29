@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutCell: UITableViewCell {
+final class AboutCell: UITableViewCell {
 
     @IBOutlet weak var annotationLabel: UILabel!
     @IBOutlet weak var accessoryImageView: UIImageView!
@@ -18,11 +18,5 @@ class AboutCell: UITableViewCell {
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
+

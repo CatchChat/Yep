@@ -10,7 +10,7 @@ import UIKit
 import AddressBook
 import Proposer
 
-class AddFriendsViewController: SegueViewController {
+final class AddFriendsViewController: SegueViewController {
 
     private let addFriendSearchCellIdentifier = "AddFriendSearchCell"
     private let addFriendMoreCellIdentifier = "AddFriendMoreCell"

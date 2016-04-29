@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedGithubRepoContainerView: UIView {
+final class FeedGithubRepoContainerView: UIView {
 
     var tapAction: (() -> Void)?
 

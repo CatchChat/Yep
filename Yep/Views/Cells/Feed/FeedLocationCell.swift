@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class FeedLocationCell: FeedBasicCell {
+final class FeedLocationCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

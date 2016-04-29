@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class AboutViewController: SegueViewController {
+final class AboutViewController: SegueViewController {
 
     @IBOutlet private weak var appLogoImageView: UIImageView!
     @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!

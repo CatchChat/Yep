@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatTextView: UITextView {
+final class ChatTextView: UITextView {
 
     var tapMentionAction: ((username: String) -> Void)?
 

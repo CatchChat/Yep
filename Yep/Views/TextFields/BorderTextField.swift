@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class BorderTextField: UITextField {
+final class BorderTextField: UITextField {
 
     @IBInspectable var lineColor: UIColor = UIColor.yepBorderColor()
     @IBInspectable var lineWidth: CGFloat = 1 / UIScreen.mainScreen().scale

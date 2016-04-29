@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class EditSkillCell: UITableViewCell {
+final class EditSkillCell: UITableViewCell {
 
     var userSkill: UserSkill? {
         didSet {

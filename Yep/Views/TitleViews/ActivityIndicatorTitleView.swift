@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ActivityIndicatorTitleView: UIView {
+final class ActivityIndicatorTitleView: UIView {
 
     enum State {
         case Normal
