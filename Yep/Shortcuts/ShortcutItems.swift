@@ -36,6 +36,54 @@ func configureDynamicShortcuts() {
     do {
         if let realm = try? Realm() {
 
+            let conversations = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
+
+            let first   = conversations[safe: 0]
+            let second  = conversations[safe: 1]
+            let thrid   = conversations[safe: 2]
+
+            [first, second, thrid].forEach({
+
+                if let conversation = $0 {
+
+                    if let user = conversation.withFriend {
+
+                        let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                        let item = UIApplicationShortcutItem(
+                            type: type,
+                            localizedTitle: user.nickname,
+                            localizedSubtitle: textMessageOrUpdatedTime,
+                            icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                            userInfo: ["userID": user.userID]
+                        )
+                        
+                        shortcutItems.append(item)
+
+                    } else if let feed = conversation.withGroup?.withFeed {
+
+                        let type = ShortcutType.LatestFeedConversation.rawValue
+
+                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                        let item = UIApplicationShortcutItem(
+                            type: type,
+                            localizedTitle: feed.body,
+                            localizedSubtitle: textMessageOrUpdatedTime,
+                            icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
+                            userInfo: ["feedID": feed.feedID]
+                        )
+                        
+                        shortcutItems.append(item)
+                    }
+                }
+            })
+
+            /*
             do {
                 let oneToOneConversations = oneToOneConversationsInRealm(realm)
 
@@ -85,6 +133,7 @@ func configureDynamicShortcuts() {
                     shortcutItems.append(item)
                 }
             }
+             */
         }
     }
 
