@@ -36,15 +36,19 @@ func configureDynamicShortcuts() {
     do {
         if let realm = try? Realm() {
 
-            do {
-                let oneToOneConversations = oneToOneConversationsInRealm(realm)
+            realm.refresh()
 
-                let first = oneToOneConversations[safe: 0]
-                let second = oneToOneConversations[safe: 1]
+            let conversations = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
 
-                [first, second].forEach({
+            let first   = conversations[safe: 0]
+            let second  = conversations[safe: 1]
+            let third   = conversations[safe: 2]
 
-                    if let conversation = $0, user = conversation.withFriend {
+            [first, second, third].forEach({
+
+                if let conversation = $0 {
+
+                    if let user = conversation.withFriend {
 
                         let type = ShortcutType.LatestOneToOneConversation.rawValue
 
@@ -60,31 +64,26 @@ func configureDynamicShortcuts() {
                         )
                         
                         shortcutItems.append(item)
+
+                    } else if let feed = conversation.withGroup?.withFeed {
+
+                        let type = ShortcutType.LatestFeedConversation.rawValue
+
+                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                        let item = UIApplicationShortcutItem(
+                            type: type,
+                            localizedTitle: feed.body,
+                            localizedSubtitle: textMessageOrUpdatedTime,
+                            icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
+                            userInfo: ["feedID": feed.feedID]
+                        )
+                        
+                        shortcutItems.append(item)
                     }
-                })
-            }
-
-            do {
-                let latest = feedConversationsInRealm(realm).first
-
-                if let conversation = latest, feed = conversation.withGroup?.withFeed {
-
-                    let type = ShortcutType.LatestFeedConversation.rawValue
-
-                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
-                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-
-                    let item = UIApplicationShortcutItem(
-                        type: type,
-                        localizedTitle: feed.body,
-                        localizedSubtitle: textMessageOrUpdatedTime,
-                        icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
-                        userInfo: ["feedID": feed.feedID]
-                    )
-
-                    shortcutItems.append(item)
                 }
-            }
+            })
         }
     }
 
