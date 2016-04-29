@@ -43,7 +43,7 @@ class IconTitleContainerView: UIView {
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "iconImageView": iconImageView,
             "titleLabel": titleLabel,
         ]

@@ -59,7 +59,7 @@ private class MentionUserCell: UITableViewCell {
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
         mentionUsernameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "avatarImageView": avatarImageView,
             "nicknameLabel": nicknameLabel,
             "mentionUsernameLabel": mentionUsernameLabel,
@@ -148,7 +148,7 @@ class MentionView: UIView {
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "horizontalLineView": horizontalLineView,
             "tableView": tableView,
         ]

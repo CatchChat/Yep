@@ -44,7 +44,7 @@ class ConversationTitleView: UIView {
 
         helperView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "nameLabel": nameLabel,
             "stateInfoLabel": stateInfoLabel,
             "helperView": helperView,

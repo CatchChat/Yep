@@ -174,7 +174,7 @@ class MediaPreviewView: UIView {
         mediaView.translatesAutoresizingMaskIntoConstraints = false
         mediaControlView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "mediaView": mediaView,
             "mediaControlView": mediaControlView,
         ]

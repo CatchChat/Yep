@@ -164,7 +164,7 @@ class MediaView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "scrollView": scrollView,
             "imageView": imageView,
             "coverImageView": coverImageView,

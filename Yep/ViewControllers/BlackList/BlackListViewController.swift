@@ -16,7 +16,7 @@ class BlackListViewController: BaseViewController {
 
     private let cellIdentifier = "ContactsCell"
 
-    private var blockedUsers = [DiscoveredUser]() {
+    private var blockedUsers: [DiscoveredUser] = [] {
         willSet {
             if newValue.count == 0 {
                 blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))

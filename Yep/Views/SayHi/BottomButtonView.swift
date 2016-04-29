@@ -50,7 +50,7 @@ class BottomButtonView: UIView {
 
         let actionButtonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
 
-        let constraints = [
+        let constraints: [NSLayoutConstraint] = [
             actionButtonCenterXConstraint,
             actionButtonCenterYConstraint,
             actionButtonWidthConstraint,

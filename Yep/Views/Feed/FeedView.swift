@@ -148,7 +148,7 @@ class FeedView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         self.socialWorkContainerView.addSubview(view)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "view": view
         ]
 
@@ -194,7 +194,7 @@ class FeedView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         self.socialWorkContainerView.addSubview(view)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "view": view
         ]
 
@@ -219,7 +219,7 @@ class FeedView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         self.socialWorkContainerView.addSubview(view)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "view": view
         ]
 

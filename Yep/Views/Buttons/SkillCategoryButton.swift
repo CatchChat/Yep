@@ -82,7 +82,7 @@ class SkillCategoryButton: UIButton {
         categoryTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         arrowImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "categoryImageView": categoryImageView,
             "categoryTitleLabel": categoryTitleLabel,
             "arrowImageView": arrowImageView,

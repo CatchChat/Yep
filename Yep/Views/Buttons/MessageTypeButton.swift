@@ -57,7 +57,7 @@ class MessageTypeButton: TouchZoomButton {
         typeImageView.translatesAutoresizingMaskIntoConstraints = false
         typeTitleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "typeImageView": typeImageView,
             "typeTitleLabel": typeTitleLabel,
         ]

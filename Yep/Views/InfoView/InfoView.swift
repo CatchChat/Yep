@@ -45,7 +45,7 @@ class InfoView: UIView {
 
         addSubview(label)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "label": label
         ]
 

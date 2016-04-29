@@ -33,7 +33,7 @@ class ChatTextIndicatorCell: UICollectionViewCell {
         recallLabel.translatesAutoresizingMaskIntoConstraints = false
 
         do {
-            let views = [
+            let views: [String: AnyObject] = [
                 "recallLabel": recallLabel,
             ]
 

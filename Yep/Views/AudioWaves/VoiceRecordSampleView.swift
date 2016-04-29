@@ -99,7 +99,7 @@ class VoiceRecordSampleView: UIView {
         addSubview(sampleCollectionView)
         sampleCollectionView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "sampleCollectionView": sampleCollectionView,
         ]
 

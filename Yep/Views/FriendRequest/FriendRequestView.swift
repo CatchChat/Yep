@@ -191,7 +191,7 @@ class FriendRequestView: UIView {
         stateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(stateLabel)
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "visualEffectView": visualEffectView,
             "containerView": containerView,
         ]

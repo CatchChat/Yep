@@ -39,7 +39,7 @@ class ContactsViewController: BaseViewController {
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
-    private var searchedUsers = [DiscoveredUser]()
+    private var searchedUsers: [DiscoveredUser] = []
 
     private var realmNotificationToken: NotificationToken?
 
@@ -446,7 +446,7 @@ extension ContactsViewController: UISearchResultsUpdating {
 
                 // 剔除 filteredFriends 里已有的
 
-                var searchedUsers = [DiscoveredUser]()
+                var searchedUsers: [DiscoveredUser] = []
 
                 let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
 
