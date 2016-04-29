@@ -8,10 +8,11 @@
 
 import UIKit
 import RealmSwift
+import DeviceGuru
 
 func configureDynamicShortcuts() {
 
-    guard UIView().traitCollection.forceTouchCapability == .Available else {
+    guard DeviceGuru.hardware().yep_supportQuickAction else {
         UIApplication.sharedApplication().shortcutItems = nil
         return
     }
