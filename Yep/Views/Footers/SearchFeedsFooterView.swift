@@ -8,6 +8,12 @@
 
 import UIKit
 
+private func calculateLabelHeight(font: UIFont) -> CGFloat {
+    let testString = NSString(string: "Yep") //随便设的
+    let rect = testString.boundingRectWithSize(CGSize(width: UIScreen.mainScreen().bounds.width, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: [NSFontAttributeName: font], context: nil)
+    return rect.height
+}
+
 private class KeywordCell: UITableViewCell {
 
     static let reuseIdentifier = "KeywordCell"
@@ -16,8 +22,7 @@ private class KeywordCell: UITableViewCell {
         let label = UILabel()
         label.textAlignment = .Center
         label.textColor = UIColor.yepTintColor()
-        label.font = UIFont.systemFontOfSize(15)
-
+        label.font = UIFont.systemFontOfSize(18)
         label.opaque = true
         label.backgroundColor = UIColor.whiteColor()
         label.clipsToBounds = true
@@ -123,10 +128,11 @@ class SearchFeedsFooterView: UIView {
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(17)
+        label.font = UIFont.systemFontOfSize(22)
         label.textColor = UIColor.darkGrayColor()
         label.textAlignment = .Center
         label.text = NSLocalizedString("Try any keywords", comment: "")
+        label.sizeToFit()
         return label
     }()
 
@@ -144,7 +150,7 @@ class SearchFeedsFooterView: UIView {
         tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.rowHeight = 30
+        tableView.rowHeight = calculateLabelHeight(UIFont.systemFontOfSize(18)) + 15
         tableView.scrollEnabled = false
         tableView.separatorStyle = .None
         return tableView
@@ -199,7 +205,7 @@ class SearchFeedsFooterView: UIView {
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-20-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-15-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(constraintsH)
         NSLayoutConstraint.activateConstraints(constraintsV)
