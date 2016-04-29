@@ -3137,6 +3137,26 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+
+    let requestParameters = [
+        "page": 1,
+        "per_page": 30,
+    ]
+
+    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
+        if let creatorInfos = data["blocked_topic_creators"] as? [JSONDictionary] {
+            let creators = creatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+            return creators
+        }
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
     let parse: JSONDictionary -> [DiscoveredUser]? = { data in
