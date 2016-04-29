@@ -20,7 +20,7 @@ let MediaOptionsInfos: KingfisherOptionsInfo = [
     .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
 
-class YepConfig {
+final class YepConfig {
 
     static let appGroupID: String = "group.Catch-Inc.Yep"
     

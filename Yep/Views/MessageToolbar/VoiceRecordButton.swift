@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VoiceRecordButton: UIView {
+final class VoiceRecordButton: UIView {
     
     var touchesBegin: (() -> Void)?
     

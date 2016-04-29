@@ -8,7 +8,7 @@
 
 import AudioToolbox.AudioServices
 
-class YepSoundEffect: NSObject {
+final class YepSoundEffect: NSObject {
 
     var soundID: SystemSoundID?
     

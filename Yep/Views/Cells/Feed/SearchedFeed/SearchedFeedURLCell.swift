@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedFeedURLCell: SearchedFeedBasicCell {
+final class SearchedFeedURLCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

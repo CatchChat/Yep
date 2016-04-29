@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedURLCell: FeedBasicCell {
+final class FeedURLCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

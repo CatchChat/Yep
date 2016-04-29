@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedURLContainerView: UIView {
+final class FeedURLContainerView: UIView {
 
     var tapAction: (() -> Void)?
 

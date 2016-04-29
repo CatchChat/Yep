@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedVoiceContainerView: UIView {
+final class FeedVoiceContainerView: UIView {
 
     class func fullWidthWithSampleValuesCount(count: Int, timeLengthString: String) -> CGFloat {
         let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)

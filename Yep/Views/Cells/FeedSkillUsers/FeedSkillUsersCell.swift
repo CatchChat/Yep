@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedSkillUsersCell: UITableViewCell {
+final class FeedSkillUsersCell: UITableViewCell {
 
     @IBOutlet weak var promptLabel: UILabel!
 

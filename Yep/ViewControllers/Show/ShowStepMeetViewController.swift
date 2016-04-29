@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowStepMeetViewController: ShowStepViewController {
+final class ShowStepMeetViewController: ShowStepViewController {
 
     @IBOutlet private weak var yellowTriangle: UIImageView!
     @IBOutlet private weak var greenTriangle: UIImageView!

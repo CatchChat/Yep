@@ -9,7 +9,7 @@
 import UIKit
 import Contacts
 
-class FriendsInContactsViewController: BaseViewController {
+final class FriendsInContactsViewController: BaseViewController {
 
     struct Notification {
         static let NewFriends = "NewFriendsInContactsNotification"

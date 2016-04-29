@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class MediaPreviewView: UIView {
+final class MediaPreviewView: UIView {
 
     weak var parentViewController: UIViewController?
 

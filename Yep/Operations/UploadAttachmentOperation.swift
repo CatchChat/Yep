@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UploadAttachmentOperation: ConcurrentOperation {
+final class UploadAttachmentOperation: ConcurrentOperation {
 
     private let uploadAttachment: UploadAttachment
 

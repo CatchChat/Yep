@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class LoginByMobileViewController: BaseViewController {
+final class LoginByMobileViewController: BaseViewController {
 
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!

@@ -90,7 +90,7 @@ private class MentionUserCell: UITableViewCell {
     }
 }
 
-class MentionView: UIView {
+final class MentionView: UIView {
 
     static let height: CGFloat = 125
 

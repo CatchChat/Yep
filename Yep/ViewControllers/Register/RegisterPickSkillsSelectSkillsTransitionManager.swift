@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+final class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
 
     var isPresentation = false
 

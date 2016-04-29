@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class UnderLineTextField: UITextField {
+final class UnderLineTextField: UITextField {
 
     @IBInspectable var underLineColor: UIColor = UIColor.yepTintColor()
     @IBInspectable var underLineWidth: CGFloat = 1

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchTransition: NSObject {
+final class SearchTransition: NSObject {
 
     var isPresentation = true
 }

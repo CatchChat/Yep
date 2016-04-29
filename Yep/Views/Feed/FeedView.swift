@@ -12,7 +12,7 @@ import AVFoundation
 import RealmSwift
 import MapKit
 
-class FeedView: UIView {
+final class FeedView: UIView {
 
     var feed: ConversationFeed? {
         willSet {

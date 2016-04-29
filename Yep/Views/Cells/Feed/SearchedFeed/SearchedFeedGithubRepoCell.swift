@@ -10,7 +10,7 @@ import UIKit
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
-class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
+final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

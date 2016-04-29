@@ -8,7 +8,7 @@
 
 import UIKit
 
-private class KeywordCell: UITableViewCell {
+final private class KeywordCell: UITableViewCell {
 
     static let reuseIdentifier = "KeywordCell"
 

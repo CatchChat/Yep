@@ -8,7 +8,7 @@
 
 import UIKit
 
-class YepHUD: NSObject {
+final class YepHUD: NSObject {
 
     static let sharedInstance = YepHUD()
 

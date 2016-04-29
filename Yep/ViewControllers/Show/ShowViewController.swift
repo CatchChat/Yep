@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class ShowViewController: UIViewController {
+final class ShowViewController: UIViewController {
 
     @IBOutlet private weak var scrollView: UIScrollView!
 

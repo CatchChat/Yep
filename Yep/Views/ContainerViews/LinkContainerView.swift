@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LinkContainerView: UIView {
+final class LinkContainerView: UIView {
 
     var tapAction: (() -> Void)?
 

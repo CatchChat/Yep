@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class SkillCategoryButton: UIButton {
+final class SkillCategoryButton: UIButton {
 
     @IBInspectable var categoryImage: UIImage = UIImage() {
         willSet {

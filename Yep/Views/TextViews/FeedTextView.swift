@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedTextView: UITextView {
+final class FeedTextView: UITextView {
     
     override func canBecomeFirstResponder() -> Bool {
         return false

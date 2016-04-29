@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ChatRightTextCell: ChatRightBaseCell {
+class ChatRightTextCell: ChatRightBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
 

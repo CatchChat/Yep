@@ -9,7 +9,7 @@
 import XCTest
 @testable import Yep
 
-class OpenGraphTests: XCTestCase {
+final class OpenGraphTests: XCTestCase {
 
     func testBaiduOpenGraph() {
 

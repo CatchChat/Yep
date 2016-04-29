@@ -8,7 +8,7 @@
 
 import UIKit
 
-class YepWaverView: UIView {
+final class YepWaverView: UIView {
 
     var waver: Waver!
 

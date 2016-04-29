@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendRequestView: UIView {
+final class FriendRequestView: UIView {
 
     static let height: CGFloat = 60
 

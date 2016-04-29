@@ -14,7 +14,7 @@ protocol ReturnPickedPhotosDelegate: class {
     func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset])
 }
 
-class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
+final class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
 
     var images: PHFetchResult? {
         didSet {

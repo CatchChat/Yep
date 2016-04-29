@@ -10,7 +10,7 @@ import UIKit
 import MonkeyKing
 import Navi
 
-class SocialWorkGithubViewController: BaseViewController {
+final class SocialWorkGithubViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TableSectionTitleView: UITableViewHeaderFooterView {
+final class TableSectionTitleView: UITableViewHeaderFooterView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()

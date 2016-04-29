@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class InstagramMediaCell: UICollectionViewCell {
+final class InstagramMediaCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
 

@@ -9,7 +9,7 @@
 import UIKit
 import Proposer
 
-class YepAlert {
+final class YepAlert {
 
     class func alert(title title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
 

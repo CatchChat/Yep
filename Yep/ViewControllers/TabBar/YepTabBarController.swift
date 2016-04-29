@@ -8,7 +8,7 @@
 
 import UIKit
 
-class YepTabBarController: UITabBarController {
+final class YepTabBarController: UITabBarController {
 
     enum Tab: Int {
 

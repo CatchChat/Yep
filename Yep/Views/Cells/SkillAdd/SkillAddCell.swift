@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SkillAddCell: UICollectionViewCell {
+final class SkillAddCell: UICollectionViewCell {
 
     var skillSet: SkillSet = .Master
 

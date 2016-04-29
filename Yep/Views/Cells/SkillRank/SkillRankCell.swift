@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SkillRankCell: UICollectionViewCell {
+final class SkillRankCell: UICollectionViewCell {
 
     @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var rankView: RankView!

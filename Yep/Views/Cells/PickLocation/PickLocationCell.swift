@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PickLocationCell: UITableViewCell {
+final class PickLocationCell: UITableViewCell {
 
     @IBOutlet weak var iconImageView: UIImageView!
 

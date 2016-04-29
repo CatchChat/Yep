@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedUserMessagesViewController: BaseViewController {
+final class SearchedUserMessagesViewController: BaseViewController {
 
     var messages: [Message] = []
     var keyword: String? = nil

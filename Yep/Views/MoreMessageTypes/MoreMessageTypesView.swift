@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-class MoreMessageTypesView: UIView {
+final class MoreMessageTypesView: UIView {
 
     let totalHeight: CGFloat = 100 + 60 * 3
 

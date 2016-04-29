@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class RegisterPickMobileViewController: SegueViewController {
+final class RegisterPickMobileViewController: SegueViewController {
 
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!

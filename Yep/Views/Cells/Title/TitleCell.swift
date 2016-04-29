@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TitleCell: UITableViewCell {
+final class TitleCell: UITableViewCell {
 
     @IBOutlet weak var singleTitleLabel: UILabel!
 

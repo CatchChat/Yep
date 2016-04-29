@@ -8,7 +8,7 @@
 
 import UIKit
 
-class YepChildScrollView: UITableView {
+final class YepChildScrollView: UITableView {
 
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         

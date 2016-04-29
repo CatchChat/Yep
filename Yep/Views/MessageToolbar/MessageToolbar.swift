@@ -42,7 +42,7 @@ enum MessageToolbarState: Int, CustomStringConvertible {
 }
 
 @IBDesignable
-class MessageToolbar: UIToolbar {
+final class MessageToolbar: UIToolbar {
     
     var lastToolbarFrame: CGRect?
 

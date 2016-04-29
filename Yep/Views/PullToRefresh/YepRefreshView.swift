@@ -10,7 +10,7 @@ import UIKit
 
 import QuartzCore
 
-class YepShape: CAShapeLayer {
+final class YepShape: CAShapeLayer {
 
     let shapeColor = UIColor(red:0.33, green:0.71, blue:0.98, alpha:1)
 
@@ -50,7 +50,7 @@ class YepShape: CAShapeLayer {
 }
 
 
-class YepRefreshView: UIView {
+final class YepRefreshView: UIView {
     
     var shapes = [YepShape]()
     

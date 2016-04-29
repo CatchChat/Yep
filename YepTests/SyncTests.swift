@@ -9,7 +9,7 @@
 import XCTest
 @testable import Yep
 
-class SyncTests: XCTestCase {
+final class SyncTests: XCTestCase {
 
     func testSyncFriendships() {
 

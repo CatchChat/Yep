@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LeftShareFeedCell: ChatBaseCell {
+final class LeftShareFeedCell: ChatBaseCell {
 
     var mediaView:FeedMediaView?
     

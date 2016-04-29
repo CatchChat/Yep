@@ -9,7 +9,7 @@
 import UIKit
 import MonkeyKing
 
-class SocialWorkInstagramViewController: BaseViewController {
+final class SocialWorkInstagramViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?

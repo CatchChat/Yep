@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class RankView: UIView {
+final class RankView: UIView {
 
     @IBInspectable var barNumber: Int = 4
     @IBInspectable var barColor: UIColor = UIColor.yepTintColor()

@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class SampleView: UIView {
+final class SampleView: UIView {
 
     var samples: [CGFloat]?
 

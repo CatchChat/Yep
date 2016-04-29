@@ -9,7 +9,7 @@
 import UIKit
 
 //@IBDesignable
-class MediaControlView: UIView {
+final class MediaControlView: UIView {
 
     enum Type {
         case Image

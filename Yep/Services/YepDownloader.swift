@@ -10,7 +10,7 @@ import Foundation
 import RealmSwift
 import ImageIO
 
-class YepDownloader: NSObject {
+final class YepDownloader: NSObject {
 
     static let sharedDownloader = YepDownloader()
 

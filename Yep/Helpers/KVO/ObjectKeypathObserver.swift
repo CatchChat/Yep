@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ObjectKeypathObserver: NSObject {
+final class ObjectKeypathObserver: NSObject {
 
     weak var object: NSObject?
     var keypath: String

@@ -15,7 +15,7 @@ protocol PullToRefreshViewDelegate: class {
 
 private let sceneHeight: CGFloat = 80
 
-class PullToRefreshView: UIView {
+final class PullToRefreshView: UIView {
     
     var refreshView: YepRefreshView!
 
@@ -162,7 +162,7 @@ extension PullToRefreshView: UIScrollViewDelegate {
     }
 }
 
-class RefreshItem {
+final class RefreshItem {
 
     unowned var view: UIView
 

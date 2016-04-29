@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class FeedMediaContainerView: UIView {
+final class FeedMediaContainerView: UIView {
 
     var tapMediaAction: ((mediaImageView: UIImageView) -> Void)?
 

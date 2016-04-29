@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class InfoView: UIView {
+final class InfoView: UIView {
 
     var info: String?
 

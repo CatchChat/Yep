@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedUploadingErrorContainerView: UIView {
+final class FeedUploadingErrorContainerView: UIView {
 
     var retryAction: (() -> Void)?
     var deleteAction: (() -> Void)?

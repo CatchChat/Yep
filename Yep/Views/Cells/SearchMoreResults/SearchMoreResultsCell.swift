@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchMoreResultsCell: UITableViewCell {
+final class SearchMoreResultsCell: UITableViewCell {
 
     var fold: Bool = true {
         didSet {

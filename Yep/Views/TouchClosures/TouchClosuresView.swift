@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TouchClosuresView: UIView {
+final class TouchClosuresView: UIView {
 
     var touchesBeganAction: (() -> Void)?
     var touchesEndedAction: (() -> Void)?

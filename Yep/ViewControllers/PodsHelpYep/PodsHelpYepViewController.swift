@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PodsHelpYepViewController: UITableViewController {
+final class PodsHelpYepViewController: UITableViewController {
 
     private let pods: [[String: String]] = [
         [

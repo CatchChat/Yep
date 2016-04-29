@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VoiceRecordSampleCell: UICollectionViewCell {
+final class VoiceRecordSampleCell: UICollectionViewCell {
 
     var value: CGFloat = 0 {
         didSet {

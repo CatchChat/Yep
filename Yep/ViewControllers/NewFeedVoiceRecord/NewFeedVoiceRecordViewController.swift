@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class NewFeedVoiceRecordViewController: SegueViewController {
+final class NewFeedVoiceRecordViewController: SegueViewController {
 
     var preparedSkill: Skill?
 

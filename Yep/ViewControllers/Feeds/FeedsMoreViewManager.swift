@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FeedsMoreViewManager {
+final class FeedsMoreViewManager {
 
     var toggleBlockFeedsAction: (() -> Void)?
 

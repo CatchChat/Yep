@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SubscribeView: UIView {
+final class SubscribeView: UIView {
 
     static let height: CGFloat = 50
 

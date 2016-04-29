@@ -10,7 +10,7 @@ import XCTest
 @testable import Yep
 import RealmSwift
 
-class RealmTests: XCTestCase {
+final class RealmTests: XCTestCase {
 
     func testCreateMessageAndDelete() {
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IconTitleContainerView: UIView {
+final class IconTitleContainerView: UIView {
 
     var tapAction: (() -> Void)?
     
