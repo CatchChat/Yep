@@ -3137,19 +3137,94 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-        if let creatorInfos = data["blocked_topic_creators"] as? [JSONDictionary] {
-            let creators = creatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
-            return creators
-        }
-        return nil
+    let requestParameters = [
+        "page": 1,
+        "per_page": 30,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
     }
 
-    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+private func moreCreatorsOfBlockedFeeds(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    let requestParameters = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+
+    headCreatorsOfBlockedFeeds(failureHandler: failureHandler) { result in
+
+        guard let page1CreatorInfos = result["blocked_topic_creators"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        let page1Creators = page1CreatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("creatorsOfBlockedFeeds not paging info.")
+
+            completion(page1Creators)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Creators)
+
+        } else {
+            var creators = [DiscoveredUser]()
+
+            creators += page1Creators
+
+            // We have more creators
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreCreatorsOfBlockedFeeds(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    allGood = false
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentCreatorInfos = result["blocked_topic_creators"] as? [JSONDictionary] {
+                        let currentCreators = currentCreatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+                        creators += currentCreators
+                    }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(creators)
+                }
+            }
+        }
+    }
 }
 
 func amIBlockedFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
