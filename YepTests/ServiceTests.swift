@@ -135,5 +135,23 @@ class ServiceTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testGetCreatorsOfBlockedFeeds() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("get creators of blocked feeds")
+
+        creatorsOfBlockedFeeds(failureHandler: nil, completion: { creators in
+            print("creatorsOfBlockedFeeds.count: \(creators.count)")
+            expectation.fulfill()
+        })
+
+        waitForExpectationsWithTimeout(5, handler: nil)
+
+        XCTAssert(true, "Pass")
+    }
 }
 
