@@ -117,12 +117,17 @@ class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("update avatar")
 
-        let image = UIImage(named: "coolie")!
+        let bundle = NSBundle(forClass: ServiceTests.self)
+        let image = UIImage(named: "coolie", inBundle: bundle, compatibleWithTraitCollection: nil)!
         let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())!
 
         updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
-            if !newAvatarURLString.isEmpty {
-                expectation.fulfill()
+            userInfo(failureHandler: nil) { myUserInfo in
+                if let avatarInfo = myUserInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
+                    if newAvatarURLString == avatarURLString {
+                        expectation.fulfill()
+                    }
+                }
             }
         })
 
