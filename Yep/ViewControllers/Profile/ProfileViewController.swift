@@ -1048,6 +1048,19 @@ final class ProfileViewController: SegueViewController {
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
+
+                realm.beginWrite()
+                let conversation = conversationWithDiscoveredUser(discoveredUser, inRealm: realm)
+                _ = try? realm.commitWrite()
+
+                if let conversation = conversation {
+                    performSegueWithIdentifier("showConversation", sender: conversation)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                }
+
+                /*
+
                 var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
 
                 if stranger == nil {
@@ -1124,6 +1137,7 @@ final class ProfileViewController: SegueViewController {
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
+                 */
 
             case .UserType(let user):
 

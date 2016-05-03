@@ -1136,6 +1136,76 @@ func userWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> U
     return realm.objects(User).filter(predicate).first
 }
 
+func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> Conversation? {
+
+    var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
+
+    if stranger == nil {
+        let newUser = User()
+
+        newUser.userID = discoveredUser.id
+
+        newUser.friendState = UserFriendState.Stranger.rawValue
+
+        realm.add(newUser)
+
+        stranger = newUser
+    }
+
+    guard let user = stranger else {
+        return nil
+    }
+
+    // 更新用户信息
+
+    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+
+    user.username = discoveredUser.username ?? ""
+
+    user.nickname = discoveredUser.nickname
+
+    if let introduction = discoveredUser.introduction {
+        user.introduction = introduction
+    }
+
+    user.avatarURLString = discoveredUser.avatarURLString
+
+    user.longitude = discoveredUser.longitude
+
+    user.latitude = discoveredUser.latitude
+
+    if let badge = discoveredUser.badge {
+        user.badge = badge
+    }
+
+    // 更新技能
+
+    user.learningSkills.removeAll()
+    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+    user.learningSkills.appendContentsOf(learningUserSkills)
+
+    user.masterSkills.removeAll()
+    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+    user.masterSkills.appendContentsOf(masterUserSkills)
+
+    // 更新 Social Account Provider
+
+    user.socialAccountProviders.removeAll()
+    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+    user.socialAccountProviders.appendContentsOf(socialAccountProviders)
+
+    if user.conversation == nil {
+        let newConversation = Conversation()
+
+        newConversation.type = ConversationType.OneToOne.rawValue
+        newConversation.withFriend = user
+
+        realm.add(newConversation)
+    }
+
+    return user.conversation
+}
+
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
