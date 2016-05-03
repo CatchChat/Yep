@@ -591,22 +591,28 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
-                tableView.setEditing(false, animated: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.setEditing(false, animated: true)
 
-                // update cell
+                    // update cell
 
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                    if let conversation = self.conversations[safe: indexPath.row] {
-                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                        cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        if let conversation = self.conversations[safe: indexPath.row] {
+                            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                        }
                     }
                 }
 
             }, afterDeleted: {
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
 
             }, orCanceled: {
-                tableView.setEditing(false, animated: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.setEditing(false, animated: true)
+                }
             })
         }
     }

@@ -385,9 +385,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 func syncMyConversations() {
 
     myConversations(failureHandler: nil) { result in
-        println("myConversations: \(result)")
+        println("myConversations")
 
         if let userInfos = result["users"] as? [JSONDictionary] {
+            println("userInfos.count: \(userInfos.count)")
             let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
 
             guard let realm = try? Realm() else {
