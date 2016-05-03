@@ -28,7 +28,7 @@ final class AboutViewController: SegueViewController {
     private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
 
     private let aboutAnnotations: [String] = [
-        NSLocalizedString("Pods help Yep", comment: ""),
+        NSLocalizedString("Pods helps Yep", comment: ""),
         NSLocalizedString("Rate Yep on App Store", comment: ""),
         NSLocalizedString("Terms of Service", comment: ""),
     ]
