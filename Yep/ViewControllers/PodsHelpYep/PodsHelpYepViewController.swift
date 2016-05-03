@@ -88,22 +88,64 @@ final class PodsHelpYepViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    enum Section: Int {
+        case Yep
+        case Pods
+    }
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pods.count
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .Yep:
+            return 1
+        case .Pods:
+            return pods.count
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath) 
 
-        let pod = pods[indexPath.row]
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        cell.textLabel?.text = pod["name"]
+        switch section {
 
-        return cell
+        case .Yep:
+            let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
+            cell.textLabel?.text = "Yep on GitHub"
+            cell.detailTextLabel?.text = "Welcome contributions!"
+            return cell
+
+        case .Pods:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
+            let pod = pods[indexPath.row]
+            cell.textLabel?.text = pod["name"]
+            return cell
+        }
+    }
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .Yep:
+            return 60
+        case .Pods:
+            return 44
+        }
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -112,12 +154,24 @@ final class PodsHelpYepViewController: UITableViewController {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        let pod = pods[indexPath.row]
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        if let
-            URLString = pod["URLString"],
-            URL = NSURL(string: URLString) {
+        switch section {
+
+        case .Yep:
+            let URL = NSURL(string: "https://github.com/CatchChat/Yep")!
+            yep_openURL(URL)
+
+        case .Pods:
+            let pod = pods[indexPath.row]
+
+            if let
+                URLString = pod["URLString"],
+                URL = NSURL(string: URLString) {
                 yep_openURL(URL)
+            }
         }
     }
 }
