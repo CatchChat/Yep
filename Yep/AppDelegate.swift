@@ -573,6 +573,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
+        syncMyConversations()
+
         refreshGroupTypeForAllGroups()
         
         syncUnreadMessages {

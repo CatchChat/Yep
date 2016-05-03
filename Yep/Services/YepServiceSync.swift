@@ -382,6 +382,13 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
+func syncMyConversations() {
+
+    myConversations(failureHandler: nil) { result in
+        println("myConversations: \(result)")
+    }
+}
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
     friendships(failureHandler: nil) { allFriendships in

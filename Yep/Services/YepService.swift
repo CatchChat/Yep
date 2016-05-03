@@ -715,7 +715,7 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 
 // MARK: - Conversations
 
-func conversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+func myConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
 
