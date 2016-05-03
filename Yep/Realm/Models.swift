@@ -1318,6 +1318,16 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
     }).count
 }
 
+func latestValidMessageInRealm(realm: Realm) -> Message? {
+
+    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
+    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
+
+    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+
+    return latestMessage
+}
+
 func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
     switch conversationType {

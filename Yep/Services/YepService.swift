@@ -1768,10 +1768,7 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
     let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
 
-    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
-    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
-
-    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    let latestMessage = latestValidMessageInRealm(realm)
 
     println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
     println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
