@@ -393,7 +393,6 @@ func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         realm.beginWrite()
 
         if let userInfos = result["users"] as? [JSONDictionary] {
-            println("myConversations userInfos.count: \(userInfos.count)")
 
             let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
 
@@ -407,7 +406,6 @@ func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         }
 
         if let groupInfos = result["circles"] as? [JSONDictionary] {
-            println("myConversations groupInfos.count: \(groupInfos.count)")
 
             groupInfos.forEach({
                 syncFeedGroupWithGroupInfo($0, inRealm: realm)
@@ -421,7 +419,6 @@ func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         var lastMessageID: String?
 
         if let messageInfos = result["messages"] as? [JSONDictionary] {
-            println("myConversations messageInfos.count: \(messageInfos.count)")
 
             messageInfos.forEach({
                 syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
@@ -449,8 +446,6 @@ func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
 
         if let lastMessageID =  lastMessageID {
             if let count = result["count"] as? Int, perPage = result["per_page"] as? Int {
-                //println("@@count: \(count)")
-                //println("perPage: \(perPage)")
                 if count > perPage {
                     syncMyConversations(maxMessageID: lastMessageID)
                 }
