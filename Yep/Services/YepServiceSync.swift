@@ -385,15 +385,15 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 func syncMyConversations() {
 
     myConversations(failureHandler: nil) { result in
-        println("myConversations")
+
+        guard let realm = try? Realm() else {
+            return
+        }
 
         if let userInfos = result["users"] as? [JSONDictionary] {
-            println("userInfos.count: \(userInfos.count)")
-            let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+            println("myConversations userInfos.count: \(userInfos.count)")
 
-            guard let realm = try? Realm() else {
-                return
-            }
+            let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
 
             realm.beginWrite()
 
@@ -403,10 +403,24 @@ func syncMyConversations() {
 
             _ = try? realm.commitWrite()
 
-            realm.refresh()
-
             dispatch_async(dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+        }
+
+        if let groupInfos = result["circles"] as? [JSONDictionary] {
+            println("myConversations groupInfos.count: \(groupInfos.count)")
+
+            realm.beginWrite()
+
+            groupInfos.forEach({
+                syncFeedGroupWithGroupInfo($0, inRealm: realm)
+            })
+
+            _ = try? realm.commitWrite()
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
             }
         }
     }
@@ -589,26 +603,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             // 增加本地没有的 Group
 
             for groupInfo in allGroups {
-
                 syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
-
-                /*
-                let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
-
-                group?.includeMe = true
-
-                //Sync Feed
-
-                if let
-                    feedInfo = groupInfo["topic"] as? JSONDictionary,
-                    feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
-                    group = group {
-                        //saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-                        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                } else {
-                    println("no sync feed from groupInfo: \(groupInfo)")
-                }
-                 */
             }
 
             let _ = try? realm.commitWrite()
