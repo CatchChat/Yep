@@ -38,6 +38,63 @@ func configureDynamicShortcuts() {
 
             realm.refresh()
 
+            let oneToOneConversations = oneToOneConversationsInRealm(realm)
+
+            let a = oneToOneConversations[safe: 0]
+            let b = oneToOneConversations[safe: 1]
+            let c = oneToOneConversations[safe: 2]
+
+            let feedConversations = feedConversationsInRealm(realm)
+
+            let d = feedConversations[safe: 0]
+            let e = feedConversations[safe: 1]
+            let f = feedConversations[safe: 2]
+
+            let conversations = [a, b, c, d, e, f].flatMap({ $0 }).sort({ $0.updatedUnixTime > $1.updatedUnixTime })
+
+            for (index, conversation) in conversations.enumerate() {
+
+                if index > 2 {
+                    break
+                }
+
+                if let user = conversation.withFriend {
+
+                    let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: user.nickname,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                        userInfo: ["userID": user.userID]
+                    )
+
+                    shortcutItems.append(item)
+
+                } else if let feed = conversation.withGroup?.withFeed {
+
+                    let type = ShortcutType.LatestFeedConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: feed.body,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
+                        userInfo: ["feedID": feed.feedID]
+                    )
+
+                    shortcutItems.append(item)
+                }
+            }
+
+            /*
             let conversations = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
 
             let first   = conversations[safe: 0]
@@ -84,6 +141,7 @@ func configureDynamicShortcuts() {
                     }
                 }
             })
+             */
         }
     }
 
