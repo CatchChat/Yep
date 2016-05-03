@@ -718,9 +718,27 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 func headConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "page": 1,
         "per_page": 100,
     ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func moreConversations(maxMessageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "per_page": 100,
+    ]
+
+    if let messageID = maxMessageID {
+        requestParameters["max_id"] = messageID
+    }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
         return data
