@@ -386,6 +386,28 @@ func syncMyConversations() {
 
     myConversations(failureHandler: nil) { result in
         println("myConversations: \(result)")
+
+        if let userInfos = result["users"] as? [JSONDictionary] {
+            let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            realm.beginWrite()
+
+            discoveredUsers.forEach({
+                _ = conversationWithDiscoveredUser($0, inRealm: realm)
+            })
+
+            _ = try? realm.commitWrite()
+
+            realm.refresh()
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+        }
     }
 }
 
