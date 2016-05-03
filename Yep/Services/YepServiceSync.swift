@@ -423,6 +423,19 @@ func syncMyConversations() {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
             }
         }
+
+        if let messageInfos = result["messages"] as? [JSONDictionary] {
+            println("myConversations messageInfos.count: \(messageInfos.count)")
+
+            realm.beginWrite()
+
+            messageInfos.forEach({
+                syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
+                }
+            })
+
+            let _ = try? realm.commitWrite()
+        }
     }
 }
 
