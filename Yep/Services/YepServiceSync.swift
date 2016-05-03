@@ -590,6 +590,9 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             for groupInfo in allGroups {
 
+                syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+                /*
                 let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
                 group?.includeMe = true
@@ -605,6 +608,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
                 } else {
                     println("no sync feed from groupInfo: \(groupInfo)")
                 }
+                 */
             }
 
             let _ = try? realm.commitWrite()
@@ -617,6 +621,25 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             
             furtherAction()
         }
+    }
+}
+
+func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+
+    let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+    group?.includeMe = true
+
+    //Sync Feed
+
+    if let
+        feedInfo = groupInfo["topic"] as? JSONDictionary,
+        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
+        group = group {
+        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+
+    } else {
+        println("no sync feed from groupInfo: \(groupInfo)")
     }
 }
 
