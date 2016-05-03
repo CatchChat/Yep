@@ -717,9 +717,15 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 
 func myConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let requestParameters: JSONDictionary = [
+    var requestParameters: JSONDictionary = [
         "per_page": 30,
     ]
+
+    if let realm = try? Realm() {
+        if let message = latestValidMessageInRealm(realm) {
+            requestParameters["max_id"] = message.messageID
+        }
+    }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
 
