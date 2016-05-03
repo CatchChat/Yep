@@ -713,6 +713,20 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+// MARK: - Conversations
+
+func conversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Contacts
 
 func searchUsersByMobile(mobile: String, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
