@@ -715,54 +715,17 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 
 // MARK: - Conversations
 
-func headConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-
-    let requestParameters: JSONDictionary = [
-        "per_page": 100,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-}
-
-func moreConversations(maxMessageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+func myConversations(maxMessageID maxMessageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     var requestParameters: JSONDictionary = [
-        "per_page": 100,
+        "per_page": 30,
     ]
 
-    if let messageID = maxMessageID {
-        requestParameters["max_id"] = messageID
+    if let maxMessageID = maxMessageID {
+        requestParameters["max_id"] = maxMessageID
     }
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-}
-
-func myConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-
-    var requestParameters: JSONDictionary = [
-        "per_page": 100,
-    ]
-
-    if let realm = try? Realm() {
-        if let message = latestValidMessageInRealm(realm) {
-            requestParameters["max_id"] = message.messageID
-        }
-    }
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-
         return data
     }
 

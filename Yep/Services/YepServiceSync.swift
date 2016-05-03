@@ -382,9 +382,9 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-func syncMyConversations() {
+func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
 
-    myConversations(failureHandler: nil) { result in
+    myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
         guard let realm = try? Realm() else {
             return
@@ -418,6 +418,8 @@ func syncMyConversations() {
             }
         }
 
+        var lastMessageID: String?
+
         if let messageInfos = result["messages"] as? [JSONDictionary] {
             println("myConversations messageInfos.count: \(messageInfos.count)")
 
@@ -434,6 +436,8 @@ func syncMyConversations() {
                     }
                 }
             })
+
+            lastMessageID = messageIDs.last
         }
 
         let _ = try? realm.commitWrite()
@@ -441,6 +445,16 @@ func syncMyConversations() {
         dispatch_async(dispatch_get_main_queue()) {
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+        }
+
+        if let lastMessageID =  lastMessageID {
+            if let count = result["count"] as? Int, perPage = result["per_page"] as? Int {
+                //println("@@count: \(count)")
+                //println("perPage: \(perPage)")
+                if count > perPage {
+                    syncMyConversations(maxMessageID: lastMessageID)
+                }
+            }
         }
 
         YepUserDefaults.syncedConversations.value = true
