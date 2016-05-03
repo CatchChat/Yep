@@ -38,52 +38,61 @@ func configureDynamicShortcuts() {
 
             realm.refresh()
 
-            let conversations = realm.objects(Conversation).sorted("updatedUnixTime", ascending: false)
+            let oneToOneConversations = oneToOneConversationsInRealm(realm)
 
-            let first   = conversations[safe: 0]
-            let second  = conversations[safe: 1]
-            let third   = conversations[safe: 2]
+            let a = oneToOneConversations[safe: 0]
+            let b = oneToOneConversations[safe: 1]
+            let c = oneToOneConversations[safe: 2]
 
-            [first, second, third].forEach({
+            let feedConversations = feedConversationsInRealm(realm)
 
-                if let conversation = $0 {
+            let d = feedConversations[safe: 0]
+            let e = feedConversations[safe: 1]
+            let f = feedConversations[safe: 2]
 
-                    if let user = conversation.withFriend {
+            let conversations = [a, b, c, d, e, f].flatMap({ $0 }).sort({ $0.updatedUnixTime > $1.updatedUnixTime })
 
-                        let type = ShortcutType.LatestOneToOneConversation.rawValue
+            for (index, conversation) in conversations.enumerate() {
 
-                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
-                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-
-                        let item = UIApplicationShortcutItem(
-                            type: type,
-                            localizedTitle: user.nickname,
-                            localizedSubtitle: textMessageOrUpdatedTime,
-                            icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
-                            userInfo: ["userID": user.userID]
-                        )
-                        
-                        shortcutItems.append(item)
-
-                    } else if let feed = conversation.withGroup?.withFeed {
-
-                        let type = ShortcutType.LatestFeedConversation.rawValue
-
-                        let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
-                            NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-
-                        let item = UIApplicationShortcutItem(
-                            type: type,
-                            localizedTitle: feed.body,
-                            localizedSubtitle: textMessageOrUpdatedTime,
-                            icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
-                            userInfo: ["feedID": feed.feedID]
-                        )
-                        
-                        shortcutItems.append(item)
-                    }
+                if index > 2 {
+                    break
                 }
-            })
+
+                if let user = conversation.withFriend {
+
+                    let type = ShortcutType.LatestOneToOneConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: user.nickname,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
+                        userInfo: ["userID": user.userID]
+                    )
+
+                    shortcutItems.append(item)
+
+                } else if let feed = conversation.withGroup?.withFeed {
+
+                    let type = ShortcutType.LatestFeedConversation.rawValue
+
+                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
+                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+
+                    let item = UIApplicationShortcutItem(
+                        type: type,
+                        localizedTitle: feed.body,
+                        localizedSubtitle: textMessageOrUpdatedTime,
+                        icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
+                        userInfo: ["feedID": feed.feedID]
+                    )
+
+                    shortcutItems.append(item)
+                }
+            }
         }
     }
 
