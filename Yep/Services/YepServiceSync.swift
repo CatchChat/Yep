@@ -434,6 +434,15 @@ func syncMyConversations() {
                 }
             })
 
+            let messageIDs: [String] = messageInfos.map({ $0["id"] as? String }).flatMap({ $0 })
+            messageIDs.forEach({
+                if let message = messageWithMessageID($0, inRealm: realm) {
+                    if let conversation = message.conversation {
+                        conversation.updatedUnixTime = message.createdUnixTime
+                    }
+                }
+            })
+
             let _ = try? realm.commitWrite()
         }
     }
@@ -961,7 +970,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
 
