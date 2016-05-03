@@ -390,18 +390,16 @@ func syncMyConversations() {
             return
         }
 
+        realm.beginWrite()
+
         if let userInfos = result["users"] as? [JSONDictionary] {
             println("myConversations userInfos.count: \(userInfos.count)")
 
             let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
 
-            realm.beginWrite()
-
             discoveredUsers.forEach({
                 _ = conversationWithDiscoveredUser($0, inRealm: realm)
             })
-
-            _ = try? realm.commitWrite()
 
             dispatch_async(dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
@@ -411,13 +409,9 @@ func syncMyConversations() {
         if let groupInfos = result["circles"] as? [JSONDictionary] {
             println("myConversations groupInfos.count: \(groupInfos.count)")
 
-            realm.beginWrite()
-
             groupInfos.forEach({
                 syncFeedGroupWithGroupInfo($0, inRealm: realm)
             })
-
-            _ = try? realm.commitWrite()
 
             dispatch_async(dispatch_get_main_queue()) {
                 NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
@@ -426,8 +420,6 @@ func syncMyConversations() {
 
         if let messageInfos = result["messages"] as? [JSONDictionary] {
             println("myConversations messageInfos.count: \(messageInfos.count)")
-
-            realm.beginWrite()
 
             messageInfos.forEach({
                 syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
@@ -442,8 +434,13 @@ func syncMyConversations() {
                     }
                 }
             })
+        }
 
-            let _ = try? realm.commitWrite()
+        let _ = try? realm.commitWrite()
+
+        dispatch_async(dispatch_get_main_queue()) {
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
         }
     }
 }
