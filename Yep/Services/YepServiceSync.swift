@@ -442,6 +442,8 @@ func syncMyConversations() {
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
         }
+
+        YepUserDefaults.syncedConversations.value = true
     }
 }
 

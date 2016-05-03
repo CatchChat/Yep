@@ -29,6 +29,8 @@ private let longitudeShiftKey = "longitudeShift"
 
 private let userLocationNameKey = "userLocationName"
 
+private let syncedConversationsKey = "syncedConversations"
+
 struct Listener<T>: Hashable {
     let name: String
 
@@ -104,6 +106,15 @@ class YepUserDefaults {
         }
     }
 
+    static var isSyncedConversations: Bool {
+
+        if let syncedConversations = YepUserDefaults.syncedConversations.value {
+            return syncedConversations
+        } else {
+            return false
+        }
+    }
+
     // MARK: ReLogin
 
     class func cleanAllUserDefaults() {
@@ -122,6 +133,7 @@ class YepUserDefaults {
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
+        syncedConversations.removeAllListeners()
 
         // reset suite
 
@@ -354,6 +366,14 @@ class YepUserDefaults {
 
         return Listenable<String?>(userLocationName) { userLocationName in
             defaults.setObject(userLocationName, forKey: userLocationNameKey)
+        }
+    }()
+
+    static var syncedConversations: Listenable<Bool?> = {
+        let syncedConversations = defaults.boolForKey(syncedConversationsKey)
+
+        return Listenable<Bool?>(syncedConversations) { syncedConversations in
+            defaults.setObject(syncedConversations, forKey: syncedConversationsKey)
         }
     }()
 }
