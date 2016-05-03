@@ -118,19 +118,34 @@ final class PodsHelpYepViewController: UITableViewController {
             fatalError()
         }
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
-
         switch section {
 
         case .Yep:
+            let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
             cell.textLabel?.text = "Yep on GitHub"
+            cell.detailTextLabel?.text = "Welcome contributions!"
+            return cell
 
         case .Pods:
+            let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
             let pod = pods[indexPath.row]
             cell.textLabel?.text = pod["name"]
+            return cell
+        }
+    }
+
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
         }
 
-        return cell
+        switch section {
+        case .Yep:
+            return 60
+        case .Pods:
+            return 44
+        }
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
