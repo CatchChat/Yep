@@ -717,12 +717,16 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
 
 func myConversations(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
+    let requestParameters: JSONDictionary = [
+        "per_page": 30,
+    ]
+
     let parse: JSONDictionary -> JSONDictionary? = { data in
 
         return data
     }
 
-    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
