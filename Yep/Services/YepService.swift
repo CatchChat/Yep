@@ -713,6 +713,27 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+// MARK: - Conversations
+
+func myConversations(maxMessageID maxMessageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "per_page": 30,
+    ]
+
+    if let maxMessageID = maxMessageID {
+        requestParameters["max_id"] = maxMessageID
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Contacts
 
 func searchUsersByMobile(mobile: String, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
@@ -1750,10 +1771,7 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
     let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
 
-    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
-    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
-
-    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    let latestMessage = latestValidMessageInRealm(realm)
 
     println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
     println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")

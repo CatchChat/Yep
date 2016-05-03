@@ -574,7 +574,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         refreshGroupTypeForAllGroups()
-        
+
+        if !YepUserDefaults.isSyncedConversations {
+            syncMyConversations()
+        }
+
         syncUnreadMessages {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
