@@ -175,6 +175,32 @@ class VerifyChangedMobileViewController: UIViewController {
         guard let verifyCode = verifyCodeTextField.text else {
             return
         }
+
+        YepHUD.showActivityIndicator()
+
+        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            YepHUD.hideActivityIndicator()
+
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.nextButton.enabled = false
+            }
+
+            let errorMessage = errorMessage ?? ""
+
+            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.verifyCodeTextField.becomeFirstResponder()
+                }
+            })
+
+        }, completion: { [weak self] in
+
+            YepHUD.hideActivityIndicator()
+
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: "", dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+        })
     }
 
     /*
