@@ -107,19 +107,27 @@ class ChangeMobileViewController: UIViewController {
 
     private func tryShowVerifyChangedMobile() {
 
-        performSegueWithIdentifier("showVerifyChangedMobile", sender: nil)
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return
+        }
+
+        performSegueWithIdentifier("showVerifyChangedMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
     }
 
-    /*
-    // MARK: - Navigation
+    // MARK: Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
+        if segue.identifier == "showVerifyChangedMobile" {
+
+            if let info = sender as? [String: String] {
+                let vc = segue.destinationViewController as! VerifyChangedMobileViewController
+
+                vc.mobile = info["mobile"]
+                vc.areaCode = info["areaCode"]
+            }
+        }
+    }
 }
 
 // MARK: - UITextFieldDelegate
