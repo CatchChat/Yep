@@ -159,6 +159,10 @@
 		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
 		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
+		505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243A71CD983160094B471 /* ChangeMobileViewController.swift */; };
+		505243AA1CD983390094B471 /* ChangeMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243A91CD983390094B471 /* ChangeMobile.storyboard */; };
+		505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */; };
+		505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */; };
 		5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E321C47A8FE0024FC63 /* libz.tbd */; };
 		505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5052620F1C52050700292C6A /* ConcurrentOperation.swift */; };
 		505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505262111C5205AB00292C6A /* UploadAttachmentOperation.swift */; };
@@ -615,6 +619,10 @@
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
+		505243A71CD983160094B471 /* ChangeMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeMobileViewController.swift; path = ViewControllers/ChangeMobile/ChangeMobileViewController.swift; sourceTree = "<group>"; };
+		505243A91CD983390094B471 /* ChangeMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ChangeMobile.storyboard; path = ViewControllers/ChangeMobile/ChangeMobile.storyboard; sourceTree = "<group>"; };
+		505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = VerifyChangedMobile.storyboard; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobile.storyboard; sourceTree = "<group>"; };
+		505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerifyChangedMobileViewController.swift; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobileViewController.swift; sourceTree = "<group>"; };
 		5052620F1C52050700292C6A /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcurrentOperation.swift; path = Operations/ConcurrentOperation.swift; sourceTree = "<group>"; };
 		505262111C5205AB00292C6A /* UploadAttachmentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadAttachmentOperation.swift; path = Operations/UploadAttachmentOperation.swift; sourceTree = "<group>"; };
 		505262141C522A1E00292C6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Show.storyboard; sourceTree = "<group>"; };
@@ -1308,6 +1316,8 @@
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
 				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
+				505243A61CD982C60094B471 /* ChangeMobile */,
+				505243AB1CD98B7D0094B471 /* VerifyChangedMobile */,
 				50A640E11B6F38D60050E4A3 /* Notifications */,
 				50A640ED1B6F4E480050E4A3 /* DoNotDisturbPeriod */,
 				503ED23B1B8ADCED0072187D /* BlackList */,
@@ -1802,6 +1812,24 @@
 				5018132B1BA3CFEF0025873C /* WeChatActivity.swift */,
 			);
 			name = Activities;
+			sourceTree = "<group>";
+		};
+		505243A61CD982C60094B471 /* ChangeMobile */ = {
+			isa = PBXGroup;
+			children = (
+				505243A71CD983160094B471 /* ChangeMobileViewController.swift */,
+				505243A91CD983390094B471 /* ChangeMobile.storyboard */,
+			);
+			name = ChangeMobile;
+			sourceTree = "<group>";
+		};
+		505243AB1CD98B7D0094B471 /* VerifyChangedMobile */ = {
+			isa = PBXGroup;
+			children = (
+				505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */,
+				505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */,
+			);
+			name = VerifyChangedMobile;
 			sourceTree = "<group>";
 		};
 		5052620E1C5202C700292C6A /* Operations */ = {
@@ -2938,6 +2966,7 @@
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
+				505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */,
 				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
@@ -2959,6 +2988,7 @@
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
 				6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */,
 				500EED9D1BF1B84A00C6BABC /* MediaPreview.storyboard in Resources */,
+				505243AA1CD983390094B471 /* ChangeMobile.storyboard in Resources */,
 				50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */,
 				50DEE0551BEA0BB200015741 /* Notifications.storyboard in Resources */,
 				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
@@ -3372,10 +3402,12 @@
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
+				505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */,
 				338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
 				50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */,
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
+				505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
 				504F5E6F1B9F1F13006CE418 /* NSURLRequest+cURL.swift in Sources */,
 				50E34C2C1CBDEC31007CAE80 /* FeedsMoreViewManager.swift in Sources */,

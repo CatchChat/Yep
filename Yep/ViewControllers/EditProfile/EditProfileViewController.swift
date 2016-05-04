@@ -24,7 +24,17 @@ final class EditProfileViewController: SegueViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    @IBOutlet private weak var mobileLabel: UILabel!
+    @IBOutlet private weak var mobileContainerView: UIStackView! {
+        didSet {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.tapMobileContainer(_:)))
+            mobileContainerView.addGestureRecognizer(tap)
+        }
+    }
+    @IBOutlet private weak var mobileLabel: UILabel! {
+        didSet {
+            mobileLabel.textColor = UIColor.yepTintColor()
+        }
+    }
 
     @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
 
@@ -76,7 +86,9 @@ final class EditProfileViewController: SegueViewController {
 
         updateAvatar() {}
 
-        mobileLabel.text = YepUserDefaults.fullPhoneNumber
+        YepUserDefaults.mobile.bindAndFireListener("") { [weak self] _ in
+            self?.mobileLabel.text = YepUserDefaults.fullPhoneNumber
+        }
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
@@ -87,6 +99,11 @@ final class EditProfileViewController: SegueViewController {
         super.viewWillDisappear(animated)
 
         view.endEditing(true)
+    }
+
+    // MARK: Unwind
+
+    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
     }
 
     // MARK: Actions
@@ -121,7 +138,6 @@ final class EditProfileViewController: SegueViewController {
                 if let strongSelf = self {
                     strongSelf.imagePicker.sourceType = .PhotoLibrary
                     strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-
                 }
             }
 
@@ -163,6 +179,24 @@ final class EditProfileViewController: SegueViewController {
         delay(0.2) { [weak self] in
             self?.imagePicker.hidesBarsOnTap = false
         }
+    }
+
+    @objc private func tapMobileContainer(sender: UITapGestureRecognizer) {
+
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { [weak self] action in
+
+            self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
+        }
+        alertController.addAction(changeMobileAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     @objc private func saveIntroduction(sender: UIBarButtonItem) {
