@@ -237,17 +237,6 @@ class User: Object {
     }
 }
 
-func ==(lhs: User, rhs: User) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-}
-
-extension User: Hashable {
-
-    override var hashValue: Int {
-        return userID.hashValue
-    }
-}
-
 // MARK: Group
 
 // Group 类型，注意：上线后若要调整，只能增加新状态
