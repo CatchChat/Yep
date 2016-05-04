@@ -3730,14 +3730,15 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
                     userID = userInfo["id"] as? String,
                     username = userInfo["username"] as? String,
                     nickname = userInfo["nickname"] as? String,
-                    avatarInfo = userInfo["avatar"] as? JSONDictionary
+                    avatarInfo = userInfo["avatar"] as? JSONDictionary,
+                    lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval
                 else {
                     return nil
                 }
 
                 let avatarURLString = avatarInfo["thumb_url"] as? String
 
-                return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString)
+                return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, lastSignInUnixTime: lastSignInUnixTime)
             }).flatMap({ $0 })
 
             return users

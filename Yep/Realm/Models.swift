@@ -774,11 +774,22 @@ class Conversation: Object {
 
     var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe }) ?? [])
+        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe })
 
-        let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+        let usernamePrefixMatchedUser = users.map({
+            UsernamePrefixMatchedUser(
+                userID: $0.userID,
+                username: $0.username,
+                nickname: $0.nickname,
+                avatarURLString: $0.avatarURLString,
+                lastSignInUnixTime: $0.lastSignInUnixTime)
+        })
 
-        return users
+        let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sort({
+            $0.lastSignInUnixTime > $1.lastSignInUnixTime
+        })
+
+        return uniqueSortedUsers
     }
 
     dynamic var type: Int = ConversationType.OneToOne.rawValue
