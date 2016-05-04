@@ -30,7 +30,11 @@ final class EditProfileViewController: SegueViewController {
             mobileContainerView.addGestureRecognizer(tap)
         }
     }
-    @IBOutlet private weak var mobileLabel: UILabel!
+    @IBOutlet private weak var mobileLabel: UILabel! {
+        didSet {
+            mobileLabel.textColor = UIColor.yepTintColor()
+        }
+    }
 
     @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
 
