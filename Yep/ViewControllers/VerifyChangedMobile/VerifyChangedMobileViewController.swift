@@ -137,23 +137,22 @@ class VerifyChangedMobileViewController: UIViewController {
             }
         }
 
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            if let errorMessage = errorMessage {
+            let errorMessage = errorMessage ?? "Error: call for verify code"
 
-                YepAlert.alertSorry(message: errorMessage, inViewController: self)
+            YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    UIView.performWithoutAnimation {
-                        self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                        self?.callMeButton.layoutIfNeeded()
-                    }
+            dispatch_async(dispatch_get_main_queue()) {
+                UIView.performWithoutAnimation {
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
             }
 
-            }, completion: { success in
-                println("resendVoiceVerifyCode \(success)")
+        }, completion: { success in
+            println("sendVerifyCodeOfNewMobile .Call \(success)")
         })
     }
 
