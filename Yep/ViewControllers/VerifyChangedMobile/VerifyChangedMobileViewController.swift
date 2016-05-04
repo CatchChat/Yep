@@ -53,7 +53,7 @@ class VerifyChangedMobileViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Mobile", comment: ""))
 
         navigationItem.rightBarButtonItem = nextButton
 
