@@ -107,6 +107,46 @@ class ChangeMobileViewController: UIViewController {
 
     private func tryShowVerifyChangedMobile() {
 
+        view.endEditing(true)
+
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return
+        }
+
+        YepHUD.showActivityIndicator()
+
+        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            YepHUD.hideActivityIndicator()
+
+            if let errorMessage = errorMessage {
+                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self?.mobileNumberTextField.becomeFirstResponder()
+                    }
+                })
+            }
+
+        }, completion: { [weak self] success in
+
+            YepHUD.hideActivityIndicator()
+
+            if success {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.showVerifyChangedMobile()
+                }
+
+            } else {
+                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                    self?.mobileNumberTextField.becomeFirstResponder()
+                })
+            }
+        })
+    }
+
+    private func showVerifyChangedMobile() {
+
         guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
             return
         }
@@ -149,7 +189,7 @@ extension ChangeMobileViewController: UITextFieldDelegate {
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
                 self.areaCodeTextFieldWidthConstraint.constant = 60
                 self.view.layoutIfNeeded()
-                }, completion: { finished in
+            }, completion: { finished in
             })
         }
     }
