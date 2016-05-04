@@ -172,7 +172,20 @@ final class EditProfileViewController: SegueViewController {
     }
 
     @objc private func tapMobileContainer(sender: UITapGestureRecognizer) {
-        println("tapMobileContainer")
+
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { action -> Void in
+            println("changeMobileAction")
+        }
+        alertController.addAction(changeMobileAction)
+
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        alertController.addAction(cancelAction)
+
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     @objc private func saveIntroduction(sender: UIBarButtonItem) {
