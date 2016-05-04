@@ -24,6 +24,7 @@ final class EditProfileViewController: SegueViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet private weak var mobileContainerView: UIStackView!
     @IBOutlet private weak var mobileLabel: UILabel!
 
     @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
