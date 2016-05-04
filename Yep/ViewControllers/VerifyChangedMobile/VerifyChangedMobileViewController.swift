@@ -206,7 +206,7 @@ class VerifyChangedMobileViewController: UIViewController {
                 }
             }
 
-            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("You have successfully updated your mobile! For now on, using the new number to login.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("You have successfully updated your mobile for Yep! For now on, using the new number to login.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: { [weak self] in
 
                 self?.performSegueWithIdentifier("unwindToEditProfile", sender: nil)
             })
