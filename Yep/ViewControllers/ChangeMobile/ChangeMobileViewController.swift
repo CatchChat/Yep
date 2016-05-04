@@ -120,27 +120,19 @@ class ChangeMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            if let errorMessage = errorMessage {
-                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.mobileNumberTextField.becomeFirstResponder()
-                    }
-                })
-            }
+            let errorMessage = errorMessage ?? NSLocalizedString("Failed to send verification code!", comment: "")
+            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                dispatch_async(dispatch_get_main_queue()) {
+                    self?.mobileNumberTextField.becomeFirstResponder()
+                }
+            })
 
-        }, completion: { [weak self] success in
+        }, completion: { [weak self] in
 
             YepHUD.hideActivityIndicator()
 
-            if success {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self?.showVerifyChangedMobile()
-                }
-
-            } else {
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
-                    self?.mobileNumberTextField.becomeFirstResponder()
-                })
+            dispatch_async(dispatch_get_main_queue()) {
+                self?.showVerifyChangedMobile()
             }
         })
     }
