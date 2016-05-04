@@ -3692,14 +3692,26 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
 
 // MARK: Mention
 
+func ==(lhs: UsernamePrefixMatchedUser, rhs: UsernamePrefixMatchedUser) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
 struct UsernamePrefixMatchedUser {
     let userID: String
     let username: String
     let nickname: String
     let avatarURLString: String?
+    let lastSignInUnixTime: NSTimeInterval
 
     var mentionUsername: String {
         return "@" + username
+    }
+}
+
+extension UsernamePrefixMatchedUser: Hashable {
+
+    var hashValue: Int {
+        return userID.hashValue
     }
 }
 
