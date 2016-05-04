@@ -96,6 +96,7 @@
                         <segue destination="yin-fx-rF6" kind="show" identifier="showEditNicknameAndBadge" id="D3C-Fh-mgy">
                             <nil key="action"/>
                         </segue>
+                        <segue destination="Ap7-oF-y1G" kind="show" identifier="showChangeMobile" id="aU7-mZ-JNe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERa-8Z-cFR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -113,7 +114,15 @@
                 <viewControllerPlaceholder storyboardName="EditNicknameAndBadge" referencedIdentifier="EditNicknameAndBadgeViewController" id="yin-fx-rF6" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hvl-rR-gPb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4828" y="-959"/>
+            <point key="canvasLocation" x="4828" y="-913"/>
+        </scene>
+        <!--ChangeMobileViewController-->
+        <scene sceneID="apQ-nR-4Q8">
+            <objects>
+                <viewControllerPlaceholder storyboardName="ChangeMobile" referencedIdentifier="ChangeMobileViewController" id="Ap7-oF-y1G" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M2U-XF-T9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4798.5" y="-1048"/>
         </scene>
     </scenes>
     <resources>

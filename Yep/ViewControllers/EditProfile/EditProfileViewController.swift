@@ -127,7 +127,6 @@ final class EditProfileViewController: SegueViewController {
                 if let strongSelf = self {
                     strongSelf.imagePicker.sourceType = .PhotoLibrary
                     strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-
                 }
             }
 
@@ -175,8 +174,9 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { action -> Void in
-            println("changeMobileAction")
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { [weak self] action in
+
+            self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
         }
         alertController.addAction(changeMobileAction)
 
