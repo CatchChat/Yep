@@ -95,6 +95,7 @@ class ChangeMobileViewController: UIViewController {
 
     private func tryShowVerifyChangedMobile() {
 
+        performSegueWithIdentifier("showVerifyChangedMobile", sender: nil)
     }
 
     /*
