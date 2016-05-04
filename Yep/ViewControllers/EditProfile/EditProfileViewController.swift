@@ -24,7 +24,12 @@ final class EditProfileViewController: SegueViewController {
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    @IBOutlet private weak var mobileContainerView: UIStackView!
+    @IBOutlet private weak var mobileContainerView: UIStackView! {
+        didSet {
+            let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.tapMobileContainer(_:)))
+            mobileContainerView.addGestureRecognizer(tap)
+        }
+    }
     @IBOutlet private weak var mobileLabel: UILabel!
 
     @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
@@ -164,6 +169,10 @@ final class EditProfileViewController: SegueViewController {
         delay(0.2) { [weak self] in
             self?.imagePicker.hidesBarsOnTap = false
         }
+    }
+
+    @objc private func tapMobileContainer(sender: UITapGestureRecognizer) {
+        println("tapMobileContainer")
     }
 
     @objc private func saveIntroduction(sender: UIBarButtonItem) {
