@@ -82,7 +82,9 @@ final class EditProfileViewController: SegueViewController {
 
         updateAvatar() {}
 
-        mobileLabel.text = YepUserDefaults.fullPhoneNumber
+        YepUserDefaults.mobile.bindAndFireListener("") { [weak self] _ in
+            self?.mobileLabel.text = YepUserDefaults.fullPhoneNumber
+        }
 
         editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
         editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
