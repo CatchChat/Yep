@@ -199,14 +199,17 @@ class VerifyChangedMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: "", dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
-
             dispatch_async(dispatch_get_main_queue()) {
                 if let strongSelf = self {
                     YepUserDefaults.areaCode.value = strongSelf.areaCode
                     YepUserDefaults.mobile.value = strongSelf.mobile
                 }
             }
+
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("You have successfully updated your mobile! For now on, using the new number to login.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+
+                self?.performSegueWithIdentifier("unwindToEditProfile", sender: nil)
+            })
         })
     }
 

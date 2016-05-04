@@ -97,6 +97,11 @@ final class EditProfileViewController: SegueViewController {
         view.endEditing(true)
     }
 
+    // MARK: Unwind
+
+    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
+    }
+
     // MARK: Actions
 
     private func updateAvatar(completion:() -> Void) {
