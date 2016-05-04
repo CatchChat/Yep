@@ -58,6 +58,18 @@ class ChangeMobileViewController: UIViewController {
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        nextButton.enabled = false
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        mobileNumberTextField.becomeFirstResponder()
+    }
+
     // MARK: Actions
 
     private func adjustAreaCodeTextFieldWidth() {
