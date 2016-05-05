@@ -36,5 +36,31 @@ final class SocialWorkTests: XCTestCase {
 
         waitForExpectationsWithTimeout(15, handler: nil)
     }
+
+    func testGetDribbbleSocialWorks() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("get dribbble social works")
+
+        tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
+
+            if let dribbbleToken = tokensOfSocialAccounts.dribbbleToken {
+                dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
+                    println("dribbbleShots count: \(dribbbleShots.count)")
+                    if !dribbbleShots.isEmpty {
+                        expectation.fulfill()
+                    }
+                })
+
+            } else {
+                expectation.fulfill()
+            }
+        })
+
+        waitForExpectationsWithTimeout(15, handler: nil)
+    }
 }
 
