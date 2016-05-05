@@ -272,26 +272,26 @@ enum ProfileUser {
         return nil
     }
 
-    func providerNameWithIndexPath(indexPath: NSIndexPath) -> String? {
+    func providerNameWithIndex(index: Int) -> String? {
 
         var providerName: String?
 
         switch self {
 
         case .DiscoveredUserType(let discoveredUser):
-            if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: indexPath.row] {
+            if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: index] {
                 providerName = provider.name
             }
 
         case .UserType(let user):
 
             if user.friendState == UserFriendState.Me.rawValue {
-                if let provider = user.socialAccountProviders[safe: indexPath.row] {
+                if let provider = user.socialAccountProviders[safe: index] {
                     providerName = provider.name
                 }
 
             } else {
-                if let provider = user.socialAccountProviders.filter("enabled = true")[safe: indexPath.row] {
+                if let provider = user.socialAccountProviders.filter("enabled = true")[safe: index] {
                     providerName = provider.name
                 }
             }
@@ -411,6 +411,7 @@ final class ProfileViewController: SegueViewController {
     private let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
     private let separationLineCellIdentifier = "ProfileSeparationLineCell"
     private let socialAccountCellIdentifier = "ProfileSocialAccountCell"
+    private let socialAccountBlogCellIdentifier = "ProfileSocialAccountBlogCell"
     private let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
     private let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
     private let feedsCellIdentifier = "ProfileFeedsCell"
@@ -683,6 +684,7 @@ final class ProfileViewController: SegueViewController {
         profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
+        profileCollectionView.registerNib(UINib(nibName: socialAccountBlogCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountBlogCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
         profileCollectionView.registerNib(UINib(nibName: feedsCellIdentifier, bundle: nil), forCellWithReuseIdentifier: feedsCellIdentifier)
@@ -1240,7 +1242,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return needSeparationLine ? 1 : 0
             
         case ProfileSection.SocialAccount.rawValue:
-            return profileUser?.providersCount ?? 0
+            return 1 + (profileUser?.providersCount ?? 0)
 
         case ProfileSection.SeparationLine2.rawValue:
             return 1
@@ -1334,7 +1336,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             
         case ProfileSection.SocialAccount.rawValue:
 
-            if let providerName = profileUser?.providerNameWithIndexPath(indexPath), socialAccount = SocialAccount(rawValue: providerName) {
+            if indexPath.item == 0 {
+
+                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountBlogCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountBlogCell
+
+                return cell
+            }
+
+            let index = indexPath.item - 1
+
+            if let providerName = profileUser?.providerNameWithIndex(index), socialAccount = SocialAccount(rawValue: providerName) {
 
                 if socialAccount == .Github {
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
@@ -1589,9 +1600,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SocialAccount.rawValue:
 
+            let index = indexPath.item - 1
+
             guard let
                 profileUser = profileUser,
-                providerName = profileUser.providerNameWithIndexPath(indexPath),
+                providerName = profileUser.providerNameWithIndex(index),
                 socialAccount = SocialAccount(rawValue: providerName) else {
                     break
             }
