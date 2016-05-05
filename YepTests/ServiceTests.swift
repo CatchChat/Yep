@@ -26,8 +26,6 @@ final class ServiceTests: XCTestCase {
         })
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testGetFeedsWithKeyword() {
@@ -45,8 +43,6 @@ final class ServiceTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testJoinAndLeaveGroup() {
@@ -69,8 +65,6 @@ final class ServiceTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(15, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testSendMessageToGroup() {
@@ -105,8 +99,6 @@ final class ServiceTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(10, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testUpdateAvatar() {
@@ -132,8 +124,6 @@ final class ServiceTests: XCTestCase {
         })
 
         waitForExpectationsWithTimeout(10, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testGetCreatorsOfBlockedFeeds() {
@@ -150,8 +140,6 @@ final class ServiceTests: XCTestCase {
         })
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testGetUsersMatchWithUsernamePrefix() {
@@ -161,6 +149,7 @@ final class ServiceTests: XCTestCase {
         }
 
         let usernamePrefix = "t"
+
         let expectation = expectationWithDescription("get users match with username prefix: \(usernamePrefix)")
 
         usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
