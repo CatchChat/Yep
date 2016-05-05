@@ -236,6 +236,8 @@ final class MessageToolbar: UIToolbar {
         return button
     }()
 
+    private var searchTask: CancelableTask?
+
     // MARK: UI
     
     override func didMoveToSuperview() {
@@ -521,6 +523,8 @@ extension MessageToolbar: UITextViewDelegate {
 
         if needDetectMention {
 
+            cancel(searchTask)
+
             // 刚刚输入 @
 
             if text.hasSuffix("@") {
@@ -529,60 +533,63 @@ extension MessageToolbar: UITextViewDelegate {
                 return
             }
 
-            // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
+            searchTask = delay(0.4) { [weak self] in
 
-            if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
+                // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
 
-                var text = text
+                if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
 
-                let beginning = textView.beginningOfDocument
-                let start = markedTextRange.start
-                let end = markedTextRange.end
-                let location = textView.offsetFromPosition(beginning, toPosition: start)
+                    var text = text
 
-                // 保证前面至少还有一个字符，for mentionNSRange
-                guard location > 0 else {
+                    let beginning = textView.beginningOfDocument
+                    let start = markedTextRange.start
+                    let end = markedTextRange.end
+                    let location = textView.offsetFromPosition(beginning, toPosition: start)
+
+                    // 保证前面至少还有一个字符，for mentionNSRange
+                    guard location > 0 else {
+                        return
+                    }
+
+                    let length = textView.offsetFromPosition(start, toPosition: end)
+                    let nsRange = NSMakeRange(location, length)
+                    let mentionNSRange = NSMakeRange(location - 1, length + 1)
+                    guard let range = text.yep_rangeFromNSRange(nsRange), mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
+                        return
+                    }
+
+                    text.removeRange(range)
+
+                    if text.hasSuffix("@") {
+                        self?.mentionUsernameRange = mentionRange
+
+                        let wordString = markedText.yep_removeAllWhitespaces
+                        println("wordString from markedText: >\(wordString)<")
+                        self?.tryMentionUserAction?(usernamePrefix: wordString)
+
+                        return
+                    }
+                }
+
+                // 正常查询 mention
+
+                let currentLetterIndex = textView.selectedRange.location - 1
+
+                if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
+                    //println("mentionWord: \(wordString), \(mentionWordRange)")
+
+                    self?.mentionUsernameRange = mentionWordRange
+
+                    let wordString = wordString.trimming(.Whitespace)
+                    self?.tryMentionUserAction?(usernamePrefix: wordString)
+
                     return
                 }
 
-                let length = textView.offsetFromPosition(start, toPosition: end)
-                let nsRange = NSMakeRange(location, length)
-                let mentionNSRange = NSMakeRange(location - 1, length + 1)
-                guard let range = text.yep_rangeFromNSRange(nsRange), mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
-                    return
-                }
+                // 都没有就放弃
 
-                text.removeRange(range)
-
-                if text.hasSuffix("@") {
-                    mentionUsernameRange = mentionRange
-
-                    let wordString = markedText.yep_removeAllWhitespaces
-                    println("wordString from markedText: >\(wordString)<")
-                    tryMentionUserAction?(usernamePrefix: wordString)
-
-                    return
-                }
+                self?.giveUpMentionUserAction?()
             }
-
-            // 正常查询 mention
-
-            let currentLetterIndex = textView.selectedRange.location - 1
-
-            if let (wordString, mentionWordRange) = text.yep_mentionWordInIndex(currentLetterIndex) {
-                //println("mentionWord: \(wordString), \(mentionWordRange)")
-
-                mentionUsernameRange = mentionWordRange
-
-                let wordString = wordString.trimming(.Whitespace)
-                tryMentionUserAction?(usernamePrefix: wordString)
-
-                return
-            }
-
-            // 都没有就放弃
-
-            giveUpMentionUserAction?()
         }
     }
 }
