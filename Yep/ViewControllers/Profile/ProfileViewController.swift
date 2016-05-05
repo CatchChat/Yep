@@ -1628,6 +1628,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                 if let blogURL = profileUser?.blogURL {
 
+                } else {
+                    YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: NSLocalizedString("example.com", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                        let blogURLString = text
+
+                        updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                        }, completion: { success in
+                        })
+                        
+                    }, cancelAction: {
+                    })
                 }
 
                 break
