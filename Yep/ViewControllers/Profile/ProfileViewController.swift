@@ -157,6 +157,28 @@ enum ProfileUser {
         return avatarURLString
     }
 
+    var blogURL: NSURL? {
+
+        var blogURLString: String? = nil
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            blogURLString = discoveredUser.blogURLString
+
+        case .UserType(let user):
+            if !user.blogURLString.isEmpty {
+                blogURLString = user.blogURLString
+            }
+        }
+
+        if let blogURLString = blogURLString {
+            return NSURL(string: blogURLString)
+        }
+
+        return nil
+    }
+
     var isMe: Bool {
 
         switch self {
@@ -1603,6 +1625,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         case ProfileSection.SocialAccount.rawValue:
 
             if indexPath.item == 0 {
+
+                if let blogURL = profileUser?.blogURL {
+
+                }
 
                 break
             }
