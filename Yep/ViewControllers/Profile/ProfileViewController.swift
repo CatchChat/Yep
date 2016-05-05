@@ -1340,6 +1340,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountBlogCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountBlogCell
 
+                cell.configureWithProfileUser(profileUser)
+
                 return cell
             }
 

@@ -21,7 +21,22 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
+        iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
+        accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
+
+        accessoryImageView.hidden = true
     }
 
+    func configureWithProfileUser(profileUser: ProfileUser?) {
+
+        iconImageView.image = UIImage(named: "icon_dribbble")
+        nameLabel.text = "Blog"
+
+        iconImageView.tintColor = SocialAccount.disabledColor
+        nameLabel.textColor = SocialAccount.disabledColor
+        blogLabel.textColor = SocialAccount.disabledColor
+    }
 }
+
