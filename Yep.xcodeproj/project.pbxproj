@@ -202,6 +202,8 @@
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
 		506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */; };
 		506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */; };
+		506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */; };
+		506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */; };
 		506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */; };
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
@@ -662,6 +664,8 @@
 		506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAnnotationHeader.swift; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.swift; sourceTree = "<group>"; };
 		506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillAnnotationHeader.xib; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.xib; sourceTree = "<group>"; };
 		506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsSelectSkillsTransitionManager.swift; path = ViewControllers/Register/RegisterPickSkillsSelectSkillsTransitionManager.swift; sourceTree = "<group>"; };
+		506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
+		506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
 		506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTypeButton.swift; path = Views/Buttons/MessageTypeButton.swift; sourceTree = "<group>"; };
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
@@ -1254,10 +1258,12 @@
 			children = (
 				5017FC1C1CD095E100DFCB71 /* YepTests.swift */,
 				507813131CD0B0CF00F193AB /* ServiceTests.swift */,
+				506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */,
 				507813111CD0A45800F193AB /* RealmTests.swift */,
 				5017FC241CD0960200DFCB71 /* SyncTests.swift */,
 				5078130F1CD09FEE00F193AB /* ClearTests.swift */,
 				5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */,
+				506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */,
 				507813231CD2FEF400F193AB /* Images.xcassets */,
 				507813201CD1EB5400F193AB /* Extensions */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
@@ -3455,6 +3461,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */,
+				506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */,
+				506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */,
 				507813101CD09FEE00F193AB /* ClearTests.swift in Sources */,
 				507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,

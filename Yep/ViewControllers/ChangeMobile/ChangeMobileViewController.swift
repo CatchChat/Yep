@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class ChangeMobileViewController: UIViewController {
+final class ChangeMobileViewController: UIViewController {
 
     @IBOutlet private weak var changeMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var changeMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
