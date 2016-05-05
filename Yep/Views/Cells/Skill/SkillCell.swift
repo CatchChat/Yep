@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SkillCell: UICollectionViewCell {
+final class SkillCell: UICollectionViewCell {
 
     static let height: CGFloat = 24
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FriendRequestView: UIView {
+final class FriendRequestView: UIView {
 
     static let height: CGFloat = 60
 
@@ -191,7 +191,7 @@ class FriendRequestView: UIView {
         stateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(stateLabel)
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "visualEffectView": visualEffectView,
             "containerView": containerView,
         ]

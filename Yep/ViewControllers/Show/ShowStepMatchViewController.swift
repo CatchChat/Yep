@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowStepMatchViewController: ShowStepViewController {
+final class ShowStepMatchViewController: ShowStepViewController {
 
     @IBOutlet private weak var camera: UIImageView!
     @IBOutlet private weak var pen: UIImageView!

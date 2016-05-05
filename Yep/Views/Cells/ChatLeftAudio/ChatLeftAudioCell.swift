@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatLeftAudioCell: ChatBaseCell {
+final class ChatLeftAudioCell: ChatBaseCell {
 
     var message: Message?
 

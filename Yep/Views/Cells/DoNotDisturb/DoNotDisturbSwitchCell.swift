@@ -1,14 +1,14 @@
 //
 //  DoNotDisturbSwitchCell.swift
-//  
+//  Yep
 //
 //  Created by NIX on 15/8/3.
-//
+//  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class DoNotDisturbSwitchCell: UITableViewCell {
+final class DoNotDisturbSwitchCell: UITableViewCell {
 
 
     @IBOutlet weak var promptLabel: UILabel!

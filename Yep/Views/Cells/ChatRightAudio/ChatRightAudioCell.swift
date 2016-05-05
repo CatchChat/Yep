@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatRightAudioCell: ChatRightBaseCell {
+final class ChatRightAudioCell: ChatRightBaseCell {
 
     var audioPlayedDuration: Double = 0 {
         willSet {

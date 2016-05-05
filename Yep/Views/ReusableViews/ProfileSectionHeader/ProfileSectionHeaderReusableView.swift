@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileSectionHeaderReusableView: UICollectionReusableView {
+final class ProfileSectionHeaderReusableView: UICollectionReusableView {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var titleLabelLeadingConstraint: NSLayoutConstraint!

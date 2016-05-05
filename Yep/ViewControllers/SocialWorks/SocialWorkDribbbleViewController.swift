@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import MonkeyKing
 
-class SocialWorkDribbbleViewController: BaseViewController {
+final class SocialWorkDribbbleViewController: BaseViewController {
 
     var socialAccount: SocialAccount?
     var profileUser: ProfileUser?

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MediaViewCell: UICollectionViewCell {
+final class MediaViewCell: UICollectionViewCell {
 
     @IBOutlet weak var mediaView: MediaView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!

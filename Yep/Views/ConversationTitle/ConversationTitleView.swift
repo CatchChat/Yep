@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversationTitleView: UIView {
+final class ConversationTitleView: UIView {
 
     lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -44,7 +44,7 @@ class ConversationTitleView: UIView {
 
         helperView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "nameLabel": nameLabel,
             "stateInfoLabel": stateInfoLabel,
             "helperView": helperView,

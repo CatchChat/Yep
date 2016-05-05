@@ -226,7 +226,7 @@ enum ConversationFeed {
 
         return nil
     }
-
+    
     var locationName: String? {
 
         switch self {
@@ -309,11 +309,15 @@ enum ConversationFeed {
     }
 }
 
-class ConversationViewController: BaseViewController {
+final class ConversationViewController: BaseViewController {
 
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
-    var conversationToShare: Conversation?
+    var conversationToShare: Conversation? = nil {
+        didSet {
+            print( "didset___")
+        }
+    }
     
     private var recipient: Recipient?
 
@@ -436,14 +440,14 @@ class ConversationViewController: BaseViewController {
             self?.toggleBlock()
         }
         
-        manager.shareFeedToContactAction = { [weak self] in
-                manager.moreView.hide()
-
-            if let conversation = self?.conversation.withGroup?.conversation {
-//            let vc = UIStoryboard(name: "Contacts", bundle: nil).instantiateViewControllerWithIdentifier("ContactsViewController") as? ContactsViewController
-            self?.performSegueWithIdentifier("showContacts", sender: Box(conversation))
-            }
-        }
+//        manager.shareFeedToContactAction = { [weak self] in
+//                manager.moreView.hide()
+//
+//            if let conversation = self?.conversation.withGroup?.conversation {
+////            let vc = UIStoryboard(name: "Contacts", bundle: nil).instantiateViewControllerWithIdentifier("ContactsViewController") as? ContactsViewController
+//            self?.performSegueWithIdentifier("showContacts", sender: Box(conversation))
+//            }
+//        }
         
         manager.shareFeedAction = { [weak self] in
             guard let
@@ -699,6 +703,8 @@ class ConversationViewController: BaseViewController {
     private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
     private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
     private let chatLeftShareFeedCellIdentifier = "LeftShareFeedCell"
+    private let chatRightShareFeedCellIdentifier = "RightShareFeedCell"
+
 
     private struct Listener {
         static let Avatar = "ConversationViewController"
@@ -972,11 +978,11 @@ class ConversationViewController: BaseViewController {
         super.viewWillAppear(animated)
 
         if isFirstAppear {
-
             if let feed = conversation.withGroup?.withFeed {
                 conversationFeed = ConversationFeed.FeedType(feed)
             }
 
+//        println(conversationFeed,"___conversationFeed")// 私聊时此项为空
             if let conversationFeed = conversationFeed {
                 makeFeedViewWithFeed(conversationFeed)
                 tryFoldFeedView()
@@ -1252,7 +1258,10 @@ class ConversationViewController: BaseViewController {
 
                         println("\nComporessed \(audioSamples)")
 
-                        let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: audioSamples, YepConfig.MetaData.audioDuration: audioDuration]
+                        let audioMetaDataInfo = [
+                            YepConfig.MetaData.audioSamples: audioSamples,
+                            YepConfig.MetaData.audioDuration: audioDuration
+                        ]
 
                         if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
                             let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
@@ -1864,7 +1873,7 @@ class ConversationViewController: BaseViewController {
 
         view.addSubview(feedView)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "feedView": feedView
         ]
 
@@ -2057,7 +2066,9 @@ class ConversationViewController: BaseViewController {
 
         case MessageMediaType.SocialWork.rawValue:
             height = 135
-
+        
+        case MessageMediaType.ShareFeed.rawValue:
+            height = 60
         default:
             height = 20
         }
@@ -3828,7 +3839,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftSocialWorkCellIdentifier, forIndexPath: indexPath) as! ChatLeftSocialWorkCell
                     return cell
-
+                    
+//                case MessageMediaType.ShareFeed.rawValue:
+//                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftShareFeedCellIdentifier, forIndexPath: indexPath) as! LeftShareFeedCell
+//                    return cell
+                    
                 default:
 
                     if message.deletedByCreator {
@@ -3870,7 +3885,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
                     return cell
-
+                
+//                case MessageMediaType.ShareFeed.rawValue:
+//
+//                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightShareFeedCellIdentifier, forIndexPath:indexPath) as! RightShareFeedCell
+//                    return cell
+                    
                 default:
 
                     if message.openGraphInfo != nil {
@@ -4078,6 +4098,15 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             self?.performSegueWithIdentifier("presentNewFeed", sender: socialWork)
                         }
                     }
+//                case MessageMediaType.ShareFeed.rawValue:
+//                    
+//                    if let cell = cell as? LeftShareFeedCell {
+//                        cell.configureWithMessage(message, collectionView: collectionView, indexPath: indexPath) { [weak self] in
+//                            let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+//                            vc.conversation = self?.conversationToShare
+//                            self?.navigationController?.pushViewController(vc, animated: true)
+//                        }
+//                    }
 
                 default:
 
@@ -4278,10 +4307,43 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     mapItem.openInMapsWithLaunchOptions(nil)
                                 }
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                            
+                            }, collectionView: collectionView, indexPath: indexPath)
                     }
-
+                    
+//                case MessageMediaType.ShareFeed.rawValue:
+                    
+//                    if let cell = cell as? RightShareFeedCell {
+//                        cell.configureWithMessage(message, collectionView: collectionView, indexPath: indexPath) { [weak self] in
+//                            
+//                            if message.sendState == MessageSendState.Failed.rawValue {
+//                                
+//                                YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend Feed?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+//                                    
+//                                    resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
+//                                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+//                                        
+//                                        self?.promptSendMessageFailed(
+//                                            reason: reason,
+//                                            errorMessage: errorMessage,
+//                                            reserveErrorMessage: NSLocalizedString("Failed to resend feed!\nPlease make sure your device is connected to the Internet.", comment: "")
+//                                        )
+//                                        
+//                                        }, completion: { success in
+//                                            println("resendFeed: \(success)")
+//                                    })
+//                                    
+//                                    }, cancelAction: {
+//                                })
+//                                
+//                            } else {
+//                                let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+//                                vc.conversation = self?.conversationToShare
+//                                self?.navigationController?.pushViewController(vc, animated: true)
+//                            }
+//                        }
+//                    }
+                    
                 default:
 
                     let mediaTapAction: () -> Void = { [weak self] in

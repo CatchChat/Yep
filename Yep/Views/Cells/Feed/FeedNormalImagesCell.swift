@@ -8,7 +8,14 @@
 
 import UIKit
 
-class FeedNormalImagesCell: FeedBasicCell {
+final class FeedNormalImagesCell: FeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
+
+        return ceil(height)
+    }
 
     var tapMediaAction: FeedTapMediaAction?
 
@@ -60,13 +67,6 @@ class FeedNormalImagesCell: FeedBasicCell {
         return imageView
     }()
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-    
     var imageViews: [UIImageView] = []
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -99,31 +99,13 @@ class FeedNormalImagesCell: FeedBasicCell {
         imageView4.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if let normalImagesLayout = layoutCache.layout?.normalImagesLayout {
-            imageView1.frame = normalImagesLayout.imageView1Frame
-            imageView2.frame = normalImagesLayout.imageView2Frame
-            imageView3.frame = normalImagesLayout.imageView3Frame
-            imageView4.frame = normalImagesLayout.imageView4Frame
-
-        } else {
-            imageViews.forEach({
-                $0.frame.origin.y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            })
-        }
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachments = feed.imageAttachments {
-
             for i in 0..<imageViews.count {
-
                 if let attachment = attachments[safe: i] {
-
                     if attachment.isTemporary {
                         imageViews[i].image = attachment.image
 
@@ -140,15 +122,11 @@ class FeedNormalImagesCell: FeedBasicCell {
             }
         }
 
-        if layoutCache.layout == nil {
-
-            let normalImagesLayout = FeedCellLayout.NormalImagesLayout(imageView1Frame: imageView1.frame, imageView2Frame: imageView2.frame, imageView3Frame: imageView3.frame, imageView4Frame: imageView4.frame)
-            _newLayout?.normalImagesLayout = normalImagesLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
+        let normalImagesLayout = layout.normalImagesLayout!
+        imageView1.frame = normalImagesLayout.imageView1Frame
+        imageView2.frame = normalImagesLayout.imageView2Frame
+        imageView3.frame = normalImagesLayout.imageView3Frame
+        imageView4.frame = normalImagesLayout.imageView4Frame
     }
 
     @objc private func tap(sender: UITapGestureRecognizer) {

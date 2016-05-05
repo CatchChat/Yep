@@ -398,10 +398,12 @@ extension UIImage {
 
         CGContextDrawImage(bitmapContext, drawTransposed ? transposedRect : newRect, CGImage)
 
-        let newCGImage = CGBitmapContextCreateImage(bitmapContext)!
-        let newImage = UIImage(CGImage: newCGImage)
+        if let newCGImage = CGBitmapContextCreateImage(bitmapContext) {
+            let newImage = UIImage(CGImage: newCGImage)
+            return newImage
+        }
 
-        return newImage
+        return nil
     }
 
     func transformForOrientationWithSize(size: CGSize) -> CGAffineTransform {

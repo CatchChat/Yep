@@ -10,7 +10,7 @@ import UIKit
 
 private let feedMediaCellID = "FeedMediaCell"
 
-class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
+final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 

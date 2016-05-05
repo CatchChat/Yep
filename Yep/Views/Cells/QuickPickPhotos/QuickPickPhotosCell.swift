@@ -10,7 +10,7 @@ import UIKit
 import Photos
 import Proposer
 
-class QuickPickPhotosCell: UITableViewCell {
+final class QuickPickPhotosCell: UITableViewCell {
 
     @IBOutlet weak var photosCollectionView: UICollectionView!
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SkillCategoryCell: UICollectionViewCell {
+final class SkillCategoryCell: UICollectionViewCell {
 
     static let skillCategoryButtonWidth: CGFloat = 280//CGRectGetWidth(UIScreen.mainScreen().bounds) - 20 * 2
     static let skillCategoryButtonHeight: CGFloat = 60

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewFeedPreviewCell: UICollectionViewCell {
+final class NewFeedPreviewCell: UICollectionViewCell {
 
     @IBOutlet weak var image: UIImageView!
     

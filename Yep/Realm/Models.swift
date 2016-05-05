@@ -237,17 +237,6 @@ class User: Object {
     }
 }
 
-func ==(lhs: User, rhs: User) -> Bool {
-    return lhs.hashValue == rhs.hashValue
-}
-
-extension User: Hashable {
-
-    override var hashValue: Int {
-        return userID.hashValue
-    }
-}
-
 // MARK: Group
 
 // Group 类型，注意：上线后若要调整，只能增加新状态
@@ -785,11 +774,22 @@ class Conversation: Object {
 
     var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let userSet = Set<User>(messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe }) ?? [])
+        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe })
 
-        let users = Array<User>(userSet).sort({ $0.lastSignInUnixTime > $1.lastSignInUnixTime }).map({ UsernamePrefixMatchedUser(userID: $0.userID, username: $0.username, nickname: $0.nickname, avatarURLString: $0.avatarURLString) })
+        let usernamePrefixMatchedUser = users.map({
+            UsernamePrefixMatchedUser(
+                userID: $0.userID,
+                username: $0.username,
+                nickname: $0.nickname,
+                avatarURLString: $0.avatarURLString,
+                lastSignInUnixTime: $0.lastSignInUnixTime)
+        })
 
-        return users
+        let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sort({
+            $0.lastSignInUnixTime > $1.lastSignInUnixTime
+        })
+
+        return uniqueSortedUsers
     }
 
     dynamic var type: Int = ConversationType.OneToOne.rawValue
@@ -1136,6 +1136,76 @@ func userWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> U
     return realm.objects(User).filter(predicate).first
 }
 
+func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> Conversation? {
+
+    var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
+
+    if stranger == nil {
+        let newUser = User()
+
+        newUser.userID = discoveredUser.id
+
+        newUser.friendState = UserFriendState.Stranger.rawValue
+
+        realm.add(newUser)
+
+        stranger = newUser
+    }
+
+    guard let user = stranger else {
+        return nil
+    }
+
+    // 更新用户信息
+
+    user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
+
+    user.username = discoveredUser.username ?? ""
+
+    user.nickname = discoveredUser.nickname
+
+    if let introduction = discoveredUser.introduction {
+        user.introduction = introduction
+    }
+
+    user.avatarURLString = discoveredUser.avatarURLString
+
+    user.longitude = discoveredUser.longitude
+
+    user.latitude = discoveredUser.latitude
+
+    if let badge = discoveredUser.badge {
+        user.badge = badge
+    }
+
+    // 更新技能
+
+    user.learningSkills.removeAll()
+    let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
+    user.learningSkills.appendContentsOf(learningUserSkills)
+
+    user.masterSkills.removeAll()
+    let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
+    user.masterSkills.appendContentsOf(masterUserSkills)
+
+    // 更新 Social Account Provider
+
+    user.socialAccountProviders.removeAll()
+    let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
+    user.socialAccountProviders.appendContentsOf(socialAccountProviders)
+
+    if user.conversation == nil {
+        let newConversation = Conversation()
+
+        newConversation.type = ConversationType.OneToOne.rawValue
+        newConversation.withFriend = user
+
+        realm.add(newConversation)
+    }
+
+    return user.conversation
+}
+
 func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
@@ -1246,6 +1316,16 @@ func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
             return false
         }
     }).count
+}
+
+func latestValidMessageInRealm(realm: Realm) -> Message? {
+
+    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
+    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
+
+    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+
+    return latestMessage
 }
 
 func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {

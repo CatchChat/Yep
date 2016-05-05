@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Waver: UIView {
+final class Waver: UIView {
     
     var displayLink: CADisplayLink!
     

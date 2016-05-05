@@ -12,6 +12,20 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 class FeedBasicCell: UITableViewCell {
 
+    static let messageTextViewMaxWidth: CGFloat = {
+        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        return maxWidth
+    }()
+
+    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+
+        let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15 + 17 + 15
+
+        return ceil(height)
+    }
+
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -162,8 +176,6 @@ class FeedBasicCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-//        separatorInset = UIEdgeInsets(top: 0, left: 65, bottom: 0, right: 0)
-
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(skillButton)
@@ -177,20 +189,6 @@ class FeedBasicCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
-        return maxWidth
-    }()
-
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
-
-        let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15 + 17 + 15
-
-        return ceil(height)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -208,61 +206,17 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    private func calHeightOfMessageTextView() {
-
-        let rect = messageTextView.text.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
-
-        messageTextView.frame.size.height = ceil(rect.height)
-    }
-
-    func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         self.feed = feed
-
-        let layout = layoutCache.layout
-
-        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
-
-        //println("messageTextView.text: >>>\(messageTextView.text)<<<")
-
-        if let basicLayout = layout?.basicLayout {
-            messageTextView.frame = basicLayout.messageTextViewFrame
-        } else {
-            calHeightOfMessageTextView()
-        }
-
-        if needShowSkill, let skill = feed.skill {
-            skillButton.setTitle(skill.localName, forState: .Normal)
-            skillButton.hidden = false
-
-            if let basicLayout = layout?.basicLayout {
-                skillButton.frame = basicLayout.skillButtonFrame
-                nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
-
-            } else {
-                let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
-
-                let skillButtonWidth = ceil(rect.width) + 20
-
-                skillButton.frame = CGRect(x: screenWidth - skillButtonWidth - 15, y: 19, width: skillButtonWidth, height: 22)
-
-                nicknameLabel.frame.size.width = screenWidth - 65 - skillButtonWidth - 20 - 10 - 15
-            }
-
-        } else {
-            skillButton.hidden = true
-
-            if let basicLayout = layout?.basicLayout {
-                nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
-            } else {
-                nicknameLabel.frame.size.width = screenWidth - 65 - 15
-            }
-        }
 
         let plainAvatar = PlainAvatar(avatarURLString: feed.creator.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
         nicknameLabel.text = feed.creator.nickname
+
+        messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
+        //println("messageTextView.text: >>>\(messageTextView.text)<<<")
 
         if needShowDistance {
             leftBottomLabel.text = feed.timeAndDistanceString
@@ -275,34 +229,25 @@ class FeedBasicCell: UITableViewCell {
         messageCountLabel.text = messagesCountString
         messagesCountEqualsZero = (feed.messagesCount == 0)
 
-        if let basicLayout = layout?.basicLayout {
-            leftBottomLabel.frame = basicLayout.leftBottomLabelFrame
-            messageCountLabel.frame = basicLayout.messageCountLabelFrame
-            discussionImageView.frame = basicLayout.discussionImageViewFrame
+        let basicLayout = layout.basicLayout
+        messageTextView.frame = basicLayout.messageTextViewFrame
+
+        if needShowSkill, let skill = feed.skill {
+            skillButton.setTitle(skill.localName, forState: .Normal)
+            skillButton.hidden = false
+
+            skillButton.frame = basicLayout.skillButtonFrame
+            nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
 
         } else {
-            leftBottomLabel.frame.origin.y = contentView.bounds.height - leftBottomLabel.frame.height - 15
+            skillButton.hidden = true
 
-            //let rect = messagesCountString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.bottomLabelsTextAttributes, context: nil)
-
-            //let width = ceil(rect.width)
-            let width: CGFloat = 30
-            messageCountLabel.frame = CGRect(x: screenWidth - width - 45 - 8, y: leftBottomLabel.frame.origin.y, width: width, height: 19)
-
-            discussionImageView.frame = CGRect(x: screenWidth - 30 - 15, y: leftBottomLabel.frame.origin.y - 1, width: 30, height: 19)
+            nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
         }
 
-        if layoutCache.layout == nil {
-
-            var nicknameLabelFrame = nicknameLabel.frame
-            nicknameLabelFrame.size.width = screenWidth - 65 - 15
-
-            let basicLayout = FeedCellLayout.BasicLayout(avatarImageViewFrame: avatarImageView.frame, nicknameLabelFrame: nicknameLabelFrame, skillButtonFrame: skillButton.frame, messageTextViewFrame: messageTextView.frame, leftBottomLabelFrame: leftBottomLabel.frame, messageCountLabelFrame: messageCountLabel.frame, discussionImageViewFrame: discussionImageView.frame)
-
-            let newLayout = FeedCellLayout(height: contentView.bounds.height, basicLayout: basicLayout)
-
-            layoutCache.update(layout: newLayout)
-        }
+        leftBottomLabel.frame = basicLayout.leftBottomLabelFrame
+        messageCountLabel.frame = basicLayout.messageCountLabelFrame
+        discussionImageView.frame = basicLayout.discussionImageViewFrame
 
         do {
             if let message = feed.uploadingErrorMessage {
@@ -343,6 +288,5 @@ class FeedBasicCell: UITableViewCell {
 
         tapSkillAction?(self)
     }
-    
 }
 

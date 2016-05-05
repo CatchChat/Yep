@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DiscoverNormalUserCell: UICollectionViewCell {
+final class DiscoverNormalUserCell: UICollectionViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     

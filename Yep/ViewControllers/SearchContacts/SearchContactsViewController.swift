@@ -8,12 +8,11 @@
 
 import UIKit
 import RealmSwift
-import KeyboardMan
 
-class SearchContactsViewController: SegueViewController {
+final class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var contactsSearchTransition: ContactsSearchTransition?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -55,8 +54,6 @@ class SearchContactsViewController: SegueViewController {
         }
     }
 
-    private let keyboardMan = KeyboardMan()
-
     private var searchTask: CancelableTask?
 
     private lazy var friends = normalFriends()
@@ -93,16 +90,6 @@ class SearchContactsViewController: SegueViewController {
 
         contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
-        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-            self?.contactsTableView.contentInset.bottom = keyboardHeight
-            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-        }
-
-        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-            self?.contactsTableView.contentInset.bottom = 0
-            self?.contactsTableView.scrollIndicatorInsets.bottom = 0
-        }
-
         searchBarBottomLineView.alpha = 0
     }
 
@@ -128,9 +115,7 @@ class SearchContactsViewController: SegueViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = contactsSearchTransition {
-            navigationController?.delegate = delegate
-        }
+        recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
@@ -183,10 +168,7 @@ class SearchContactsViewController: SegueViewController {
             
             vc.setBackButtonWithTitle()
 
-            // 记录原始的 contactsSearchTransition 以便 pop 后恢复
-            contactsSearchTransition = navigationController?.delegate as? ContactsSearchTransition
-
-            navigationController?.delegate = originalNavigationControllerDelegate
+            prepareOriginalNavigationControllerDelegate()
 
         default:
             break

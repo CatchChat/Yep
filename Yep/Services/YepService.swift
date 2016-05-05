@@ -59,7 +59,8 @@ func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
 // MARK: - Register
 
 func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
     ]
@@ -447,7 +448,7 @@ enum VerifyCodeMethod: String {
 
 func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
         "method": method.rawValue
@@ -458,6 +459,40 @@ func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMe
     }
 
     let resource = jsonResource(path: "/v1/sms_verification_codes", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func sendVerifyCodeOfNewMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+        "method": method.rawValue,
+    ]
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/user/send_update_mobile_code", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func comfirmNewMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "mobile": mobile,
+        "phone_code": areaCode,
+        "token": verifyCode,
+    ]
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/user/update_mobile", method: .PATCH, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -555,7 +590,8 @@ func enableNotificationFromCircleWithCircleID(circleID: String, failureHandler: 
 }
 
 private func headBlockedUsers(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
         "per_page": 100,
     ]
@@ -570,7 +606,8 @@ private func headBlockedUsers(failureHandler failureHandler: FailureHandler?, co
 }
 
 private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -651,7 +688,7 @@ func blockedUsersByMe(failureHandler failureHandler: FailureHandler?, completion
 
 func blockUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "user_id": userID
     ]
 
@@ -710,11 +747,32 @@ func settingsForGroup(groupID groupID: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+// MARK: - Conversations
+
+func myConversations(maxMessageID maxMessageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "per_page": 30,
+    ]
+
+    if let maxMessageID = maxMessageID {
+        requestParameters["max_id"] = maxMessageID
+    }
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/conversations", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Contacts
 
 func searchUsersByMobile(mobile: String, failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
     
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": mobile
     ]
     
@@ -899,7 +957,7 @@ struct FriendRequest {
 
 func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?, completion: FriendRequest.State -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "friend_id": user.userID,
     ]
 
@@ -920,7 +978,7 @@ func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?, comple
 
 func stateOfFriendRequestWithUser(user: User, failureHandler: FailureHandler?, completion: (isFriend: Bool,receivedFriendRequestSate: FriendRequest.State, receivedFriendRequestID: String, sentFriendRequestState: FriendRequest.State) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "user_id": user.userID,
     ]
 
@@ -977,7 +1035,7 @@ func stateOfFriendRequestWithUser(user: User, failureHandler: FailureHandler?, c
 
 func acceptFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "id": friendRequestID,
     ]
 
@@ -1002,7 +1060,7 @@ func acceptFriendRequestWithID(friendRequestID: String, failureHandler: FailureH
 
 func rejectFriendRequestWithID(friendRequestID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "id": friendRequestID,
     ]
 
@@ -1028,7 +1086,8 @@ func rejectFriendRequestWithID(friendRequestID: String, failureHandler: FailureH
 // MARK: - Friendships
 
 private func headFriendships(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
         "per_page": 100,
     ]
@@ -1043,7 +1102,8 @@ private func headFriendships(failureHandler failureHandler: FailureHandler?, com
 }
 
 private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1218,7 +1278,7 @@ let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
 func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [String], discoveredUserSortStyle: DiscoveredUserSortStyle, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
     
-    let requestParameters: [String: AnyObject] = [
+    let requestParameters: JSONDictionary = [
         "master_skills": masterSkillIDs,
         "learning_skills": learningSkillIDs,
         "sort": discoveredUserSortStyle.rawValue,
@@ -1253,7 +1313,7 @@ func discoverUsers(masterSkillIDs masterSkillIDs: [String], learningSkillIDs: [S
 
 func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
-    let requestParameters: [String: AnyObject] = [
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1267,7 +1327,7 @@ func discoverUsersWithSkill(skillID: String, ofSkillSet skillSet: SkillSet, inPa
 
 func searchUsersByQ(q: String, failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": q
     ]
 
@@ -1401,9 +1461,10 @@ func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHandler?,
 }
 
 func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": 1,
-        "per_page": 50,
+        "per_page": 100,
     ]
 
     let parse: JSONDictionary -> JSONDictionary? = { data in
@@ -1416,7 +1477,8 @@ func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSON
 }
 
 func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-    let requestParameters = [
+
+    let requestParameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1743,10 +1805,7 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
     let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
 
-    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
-    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
-
-    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    let latestMessage = latestValidMessageInRealm(realm)
 
     println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
     println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
@@ -1757,7 +1816,7 @@ func unreadMessages(failureHandler failureHandler: FailureHandler?, completion: 
 
 private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    var parameters: [String: AnyObject] = [
+    var parameters: JSONDictionary = [
         "page": 1,
         "per_page": 30,
     ]
@@ -1777,7 +1836,7 @@ private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHan
 
 private func moreUnreadMessagesAfterMessageWithID(messageID: String?, inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    var parameters: [String: AnyObject] = [
+    var parameters: JSONDictionary = [
         "page": page,
         "per_page": perPage,
     ]
@@ -1945,7 +2004,7 @@ enum TimeDirection {
 
 func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String]) -> Void) {
 
-    var requestParameters = [
+    var requestParameters: JSONDictionary = [
         "recipient_type": recipient.type.nameForServer,
         "recipient_id": recipient.ID,
     ]
@@ -2451,7 +2510,7 @@ func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: M
         return
     }
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "max_id": beforeMessage.messageID
     ]
 
@@ -2477,7 +2536,7 @@ func deleteMessageFromServer(messageID messageID: String, failureHandler: Failur
 
 func refreshAttachmentWithID(attachmentID: String, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "ids": [attachmentID],
     ]
 
@@ -2618,6 +2677,7 @@ struct DiscoveredFeed: Hashable {
 
     let creator: DiscoveredUser
     let body: String
+    let highlightedKeywordsBody: String?
 
     struct GithubRepo {
         let ID: Int
@@ -2817,6 +2877,8 @@ struct DiscoveredFeed: Hashable {
                 return nil
         }
 
+        let highlightedKeywordsBody = feedInfo["highlight"] as? String
+
         var groupInfo = groupInfo
 
         if groupInfo == nil {
@@ -2893,7 +2955,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
     }
 }
 
@@ -2946,6 +3008,7 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
 
                     let _ = try? realm.write {
                         realm.add(offlineJSON, update: true)
+                        println("offline feeds \(sortStyle)")
                     }
                 }
             }
@@ -2959,25 +3022,46 @@ func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageInd
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsWithKeyword(keyword: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     guard !keyword.isEmpty else {
         completion([])
         return
     }
 
-    let requestParameters: JSONDictionary = [
+    var requestParameters: JSONDictionary = [
         "q": keyword,
         "page": pageIndex,
         "per_page": perPage,
     ]
 
+    if let skillID = skillID {
+        requestParameters["skill_id"] = skillID
+    }
+
+    if let userID = userID {
+        requestParameters["user_id"] = userID
+    }
+
     let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-        //println("feedsWithKeyword \(keyword): \(data)")
+        //println("feedsWithKeyword \(requestParameters): \(data)")
         return parseFeeds(data)
     }
 
     let resource = authJsonResource(path: "/v1/topics/search", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
+
+    let parse: JSONDictionary -> [String]? = { data in
+        //println("hotWordsOfSearchFeeds: \(data)")
+        let hotWords = data["hot_words"] as? [String]
+        return hotWords
+    }
+
+    let resource = authJsonResource(path: "/v1/hot_words", method: .GET, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -3009,7 +3093,7 @@ func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHan
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?,completion: [DiscoveredFeed] -> Void) {
+func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3112,19 +3196,94 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
-    let parse: JSONDictionary -> [DiscoveredUser]? = { data in
-        if let creatorInfos = data["blocked_topic_creators"] as? [JSONDictionary] {
-            let creators = creatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
-            return creators
-        }
-        return nil
+    let requestParameters: JSONDictionary = [
+        "page": 1,
+        "per_page": 30,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
     }
 
-    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+private func moreCreatorsOfBlockedFeeds(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "page": page,
+        "per_page": perPage,
+    ]
+
+    let parse: JSONDictionary -> JSONDictionary? = { data in
+        return data
+    }
+
+    let resource = authJsonResource(path: "/v1/blocked_topic_creators", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func creatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: [DiscoveredUser] -> Void) {
+
+    headCreatorsOfBlockedFeeds(failureHandler: failureHandler) { result in
+
+        guard let page1CreatorInfos = result["blocked_topic_creators"] as? [JSONDictionary] else {
+            completion([])
+            return
+        }
+
+        let page1Creators = page1CreatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+
+        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
+
+            println("creatorsOfBlockedFeeds not paging info.")
+
+            completion(page1Creators)
+            return
+        }
+
+        if count <= currentPage * perPage {
+            completion(page1Creators)
+
+        } else {
+            var creators = [DiscoveredUser]()
+
+            creators += page1Creators
+
+            // We have more creators
+
+            var allGood = true
+            let downloadGroup = dispatch_group_create()
+
+            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
+                dispatch_group_enter(downloadGroup)
+
+                moreCreatorsOfBlockedFeeds(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
+                    allGood = false
+                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    dispatch_group_leave(downloadGroup)
+
+                }, completion: { result in
+                    if let currentCreatorInfos = result["blocked_topic_creators"] as? [JSONDictionary] {
+                        let currentCreators = currentCreatorInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+                        creators += currentCreators
+                    }
+                    dispatch_group_leave(downloadGroup)
+                })
+            }
+
+            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
+                if allGood {
+                    completion(creators)
+                }
+            }
+        }
+    }
 }
 
 func amIBlockedFeedsFromCreator(userID userID: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
@@ -3454,7 +3613,7 @@ struct Feedback {
 
 func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "content": feedback.content,
         "device_info": feedback.deviceInfo,
     ]
@@ -3487,7 +3646,7 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
     dateFormatter.dateFormat = "yyyyMMdd"
     let dateString = dateFormatter.stringFromDate(NSDate())
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "client_id": "NFMF2UV2X5BCADG2T5FE3BIORDPEDJA5JZVDWF0XXAZUX2AS",
         "client_secret": "UOGE0SCBWHV2JFXD5AFAIHOVTUSBQ3ERH4ALHU3WU3BSR4CN",
         "v": dateString,
@@ -3533,20 +3692,32 @@ func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D, failu
 
 // MARK: Mention
 
+func ==(lhs: UsernamePrefixMatchedUser, rhs: UsernamePrefixMatchedUser) -> Bool {
+    return lhs.hashValue == rhs.hashValue
+}
+
 struct UsernamePrefixMatchedUser {
     let userID: String
     let username: String
     let nickname: String
     let avatarURLString: String?
+    let lastSignInUnixTime: NSTimeInterval
 
     var mentionUsername: String {
         return "@" + username
     }
 }
 
+extension UsernamePrefixMatchedUser: Hashable {
+
+    var hashValue: Int {
+        return userID.hashValue
+    }
+}
+
 func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: FailureHandler?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "q": usernamePrefix,
     ]
 
@@ -3560,14 +3731,13 @@ func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler: Failur
                     username = userInfo["username"] as? String,
                     nickname = userInfo["nickname"] as? String,
                     avatarInfo = userInfo["avatar"] as? JSONDictionary
-                    //avatarURLString = avatarInfo["thumb_url"] as? String
                 else {
                     return nil
                 }
 
                 let avatarURLString = avatarInfo["thumb_url"] as? String
 
-                return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString)
+                return UsernamePrefixMatchedUser(userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, lastSignInUnixTime: 0)
             }).flatMap({ $0 })
 
             return users

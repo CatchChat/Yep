@@ -12,7 +12,7 @@ import Ruler
 let registerPickSkillsLayoutLeftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 40, 40).value
 let registerPickSkillsLayoutRightEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
 
-class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
+final class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let layoutAttributes = super.layoutAttributesForElementsInRect(rect)

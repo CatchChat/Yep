@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileLayout: UICollectionViewFlowLayout {
+final class ProfileLayout: UICollectionViewFlowLayout {
 
     var scrollUpAction: ((progress: CGFloat) -> Void)?
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SkillAnnotationHeader: UICollectionReusableView {
+final class SkillAnnotationHeader: UICollectionReusableView {
 
     @IBOutlet weak var annotationLabel: UILabel!
 }

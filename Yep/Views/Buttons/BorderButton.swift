@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class BorderButton: UIButton {
+final class BorderButton: UIButton {
 
     @IBInspectable var cornerRadius: CGFloat = 6
     @IBInspectable var borderColor: UIColor = UIColor.yepTintColor()

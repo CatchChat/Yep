@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedGithubRepoContainerView: UIView {
+final class FeedGithubRepoContainerView: UIView {
 
     var tapAction: (() -> Void)?
 
@@ -74,7 +74,7 @@ class FeedGithubRepoContainerView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "backgroundImageView": backgroundImageView,
             "iconImageView": iconImageView,
             "nameLabel": nameLabel,

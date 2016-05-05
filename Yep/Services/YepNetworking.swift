@@ -190,7 +190,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     }
 
     #if DEBUG
-    //println(request.cURLCommandLineWithSession(session))
+    println(request.cURLCommandLineWithSession(session))
     #endif
 
     let _failure: FailureHandler

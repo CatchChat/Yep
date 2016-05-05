@@ -8,7 +8,7 @@
 
 import UIKit
 
-class YepNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
+final class YepNavigationController: UINavigationController, UIGestureRecognizerDelegate, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()

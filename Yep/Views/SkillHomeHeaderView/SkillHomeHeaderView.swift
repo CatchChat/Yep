@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class SkillHomeHeaderView: UIView {
+final class SkillHomeHeaderView: UIView {
 
     var skillCategory: SkillCell.Skill.Category = .Art
     var skillCoverURLString: String? {

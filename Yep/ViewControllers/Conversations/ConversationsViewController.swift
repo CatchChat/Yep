@@ -15,7 +15,7 @@ import Proposer
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-class ConversationsViewController: BaseViewController {
+final class ConversationsViewController: BaseViewController {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
@@ -28,9 +28,9 @@ class ConversationsViewController: BaseViewController {
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var conversationsSearchTransition: ConversationsSearchTransition = {
-        return ConversationsSearchTransition()
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedConversationDockCellID = "FeedConversationDockCell"
@@ -304,7 +304,7 @@ class ConversationsViewController: BaseViewController {
 
         isFirstAppear = false
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
     
     private func askForNotification() {
@@ -331,28 +331,18 @@ class ConversationsViewController: BaseViewController {
         let types = UIUserNotificationType.Badge.rawValue |
                     UIUserNotificationType.Sound.rawValue |
                     UIUserNotificationType.Alert.rawValue
+
+        #if JPUSH
         //JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
         APService.registerForRemoteNotificationTypes(types, categories: [category])
+        #endif
     }
 
     // MARK: Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else { return }
-
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = conversationsSearchTransition
-        }
 
         switch identifier {
 
@@ -363,7 +353,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showConversation":
 
@@ -388,7 +378,7 @@ class ConversationsViewController: BaseViewController {
                 }
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showProfile":
 
@@ -399,7 +389,7 @@ class ConversationsViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
             
         default:
             break
@@ -601,22 +591,28 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
-                tableView.setEditing(false, animated: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.setEditing(false, animated: true)
 
-                // update cell
+                    // update cell
 
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                    if let conversation = self.conversations[safe: indexPath.row] {
-                        let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
-                        cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        if let conversation = self.conversations[safe: indexPath.row] {
+                            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                            cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
+                        }
                     }
                 }
 
             }, afterDeleted: {
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
 
             }, orCanceled: {
-                tableView.setEditing(false, animated: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    tableView.setEditing(false, animated: true)
+                }
             })
         }
     }

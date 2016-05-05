@@ -9,16 +9,14 @@
 import UIKit
 import RealmSwift
 import Ruler
-import KeyboardMan
 
-class ContactsViewController: BaseViewController {
+final class ContactsViewController: BaseViewController {
 
     @IBOutlet weak var contactsTableView: UITableView!
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
 
     var conversationToShare: Conversation?
-    
     #if DEBUG
     private lazy var contactsFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -31,20 +29,17 @@ class ContactsViewController: BaseViewController {
         return searchController?.active ?? false
     }
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var contactsSearchTransition: ContactsSearchTransition = {
-        return ContactsSearchTransition()
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
-
-//    private let keyboardMan = KeyboardMan()
-//    private var normalContactsTableViewContentInsetBottom: CGFloat?
 
     private let cellIdentifier = "ContactsCell"
 
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
-    private var searchedUsers = [DiscoveredUser]()
+    private var searchedUsers: [DiscoveredUser] = []
 
     private var realmNotificationToken: NotificationToken?
 
@@ -150,19 +145,6 @@ class ContactsViewController: BaseViewController {
             }
         }
 
-//        keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
-//            self?.normalContactsTableViewContentInsetBottom = self?.contactsTableView.contentInset.bottom
-//            self?.contactsTableView.contentInset.bottom = keyboardHeight
-//            self?.contactsTableView.scrollIndicatorInsets.bottom = keyboardHeight
-//        }
-//
-//        keyboardMan.animateWhenKeyboardDisappear = { [weak self] _ in
-//            if let bottom = self?.normalContactsTableViewContentInsetBottom {
-//                self?.contactsTableView.contentInset.bottom = bottom
-//                self?.contactsTableView.scrollIndicatorInsets.bottom = bottom
-//            }
-//        }
-
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
@@ -171,7 +153,7 @@ class ContactsViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
 
     // MARK: Actions
@@ -206,25 +188,12 @@ class ContactsViewController: BaseViewController {
 
     // MARK: Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         guard let identifier = segue.identifier else {
             return
         }
-        
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-            
-            navigationController?.delegate = contactsSearchTransition
-        }
-        
+
         switch identifier {
             
         case "showConversation":
@@ -233,6 +202,10 @@ class ContactsViewController: BaseViewController {
             }
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversationToShare = self.conversationToShare
+            if self.conversationToShare != nil {
+
+
+            }
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
                     if user.friendState != UserFriendState.Me.rawValue {
@@ -248,11 +221,12 @@ class ContactsViewController: BaseViewController {
                             }
                         }
                         vc.conversation = user.conversation
-                        print(FeedKind(rawValue:vc.conversationToShare!.withGroup!.withFeed!.kind),"___Toshare")
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                     }
                 }
             }
+
+            recoverOriginalNavigationDelegate()
             
         case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
@@ -270,7 +244,7 @@ class ContactsViewController: BaseViewController {
             
             vc.setBackButtonWithTitle()
             
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
             
         case "showSearchContacts":
             
@@ -279,7 +253,7 @@ class ContactsViewController: BaseViewController {
             
             vc.hidesBottomBarWhenPushed = true
             
-            hackNavigationDelegate()
+            prepareSearchTransition()
             
         default:
             break
@@ -411,27 +385,37 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         defer {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
-
+        
         guard let section = Section(rawValue: indexPath.section) else {
             return
         }
-
+        
         switch section {
-
+            
         case .Local:
-
+            
             if let friend = friendAtIndexPath(indexPath) {
                 searchController?.active = false
-                performSegueWithIdentifier("showProfile", sender: friend)
+                if self.conversationToShare != nil {
+                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("确定发送?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                        
+                        self?.performSegueWithIdentifier("showConversation", sender: friend)
+                        
+                        }, cancelAction: { () -> Void in
+                            
+                    })
+                } else {
+                    performSegueWithIdentifier("showProfile", sender: friend)
+                }
             }
-
+            
         case .Online:
-
+            
             let discoveredUser = searchedUsers[indexPath.row]
             searchController?.active = false
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
-   }
+    }
 }
 
 // MARK: - UISearchResultsUpdating 
@@ -462,7 +446,7 @@ extension ContactsViewController: UISearchResultsUpdating {
 
                 // 剔除 filteredFriends 里已有的
 
-                var searchedUsers = [DiscoveredUser]()
+                var searchedUsers: [DiscoveredUser] = []
 
                 let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
 

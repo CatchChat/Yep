@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoadMoreCollectionViewCell: UICollectionViewCell {
+final class LoadMoreCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
     

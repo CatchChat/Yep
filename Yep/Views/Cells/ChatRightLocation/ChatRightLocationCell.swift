@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class ChatRightLocationCell: ChatRightBaseCell {
+final class ChatRightLocationCell: ChatRightBaseCell {
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()

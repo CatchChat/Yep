@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileFeedsCell: UICollectionViewCell {
+final class ProfileFeedsCell: UICollectionViewCell {
 
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var iconImageViewLeadingConstraint: NSLayoutConstraint!

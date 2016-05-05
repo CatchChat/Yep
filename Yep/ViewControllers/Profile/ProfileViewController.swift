@@ -306,7 +306,7 @@ enum ProfileUser {
     }
 }
 
-class ProfileViewController: SegueViewController {
+final class ProfileViewController: SegueViewController {
     
     private var socialAccount: SocialAccount?
 
@@ -1048,81 +1048,15 @@ class ProfileViewController: SegueViewController {
             switch profileUser {
 
             case .DiscoveredUserType(let discoveredUser):
-                var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
 
-                if stranger == nil {
-                    let newUser = User()
+                realm.beginWrite()
+                let conversation = conversationWithDiscoveredUser(discoveredUser, inRealm: realm)
+                _ = try? realm.commitWrite()
 
-                    newUser.userID = discoveredUser.id
+                if let conversation = conversation {
+                    performSegueWithIdentifier("showConversation", sender: conversation)
 
-                    newUser.friendState = UserFriendState.Stranger.rawValue
-
-                    let _ = try? realm.write {
-                        realm.add(newUser)
-                    }
-
-                    stranger = newUser
-                }
-
-                if let user = stranger {
-
-                    let _ = try? realm.write {
-
-                        // 更新用户信息
-
-                        user.lastSignInUnixTime = discoveredUser.lastSignInUnixTime
-
-                        user.username = discoveredUser.username ?? ""
-
-                        user.nickname = discoveredUser.nickname
-
-                        if let introduction = discoveredUser.introduction {
-                            user.introduction = introduction
-                        }
-                        
-                        user.avatarURLString = discoveredUser.avatarURLString
-
-                        user.longitude = discoveredUser.longitude
-
-                        user.latitude = discoveredUser.latitude
-
-                        if let badge = discoveredUser.badge {
-                            user.badge = badge
-                        }
-
-                        // 更新技能
-
-                        user.learningSkills.removeAll()
-                        let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
-                        user.learningSkills.appendContentsOf(learningUserSkills)
-
-                        user.masterSkills.removeAll()
-                        let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
-                        user.masterSkills.appendContentsOf(masterUserSkills)
-
-                        // 更新 Social Account Provider
-
-                        user.socialAccountProviders.removeAll()
-                        let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
-                        user.socialAccountProviders.appendContentsOf(socialAccountProviders)
-                    }
-
-                    if user.conversation == nil {
-                        let newConversation = Conversation()
-
-                        newConversation.type = ConversationType.OneToOne.rawValue
-                        newConversation.withFriend = user
-
-                        let _ = try? realm.write {
-                            realm.add(newConversation)
-                        }
-                    }
-
-                    if let conversation = user.conversation {
-                        performSegueWithIdentifier("showConversation", sender: conversation)
-                        
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-                    }
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
                 }
 
             case .UserType(let user):

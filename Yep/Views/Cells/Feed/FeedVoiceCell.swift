@@ -9,7 +9,14 @@
 import UIKit
 import RealmSwift
 
-class FeedVoiceCell: FeedBasicCell {
+final class FeedVoiceCell: FeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (50 + 15)
+
+        return ceil(height)
+    }
 
     lazy var voiceContainerView: FeedVoiceContainerView = {
         let view = FeedVoiceContainerView()
@@ -83,19 +90,9 @@ class FeedVoiceCell: FeedBasicCell {
         // Configure the view for the selected state
     }
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        let height = super.heightOfFeed(feed) + (50 + 15)
-
-        return ceil(height)
-    }
-
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
-
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
             if case let .Audio(audioInfo) = attachment {
@@ -106,14 +103,8 @@ class FeedVoiceCell: FeedBasicCell {
                 let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                 voiceContainerView.timeLengthLabel.text = timeLengthString
 
-                if let audioLayout = layoutCache.layout?.audioLayout {
-                    voiceContainerView.frame = audioLayout.voiceContainerViewFrame
-
-                } else {
-                    let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
-                    let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15 + 2
-                    voiceContainerView.frame = CGRect(x: 65, y: y, width: width, height: 50)
-                }
+                let audioLayout = layout.audioLayout!
+                voiceContainerView.frame = audioLayout.voiceContainerViewFrame
 
                 if let realm = try? Realm() {
 
@@ -186,16 +177,6 @@ class FeedVoiceCell: FeedBasicCell {
                         }
                     }
                 }
-            }
-        }
-
-        if layoutCache.layout == nil {
-
-            let audioLayout = FeedCellLayout.AudioLayout(voiceContainerViewFrame: voiceContainerView.frame)
-            _newLayout?.audioLayout = audioLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
             }
         }
     }

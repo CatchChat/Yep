@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class CreatorsOfBlockedFeedsViewController: BaseViewController {
+final class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
     @IBOutlet private weak var blockedCreatorsTableView: UITableView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!

@@ -382,6 +382,80 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
+func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
+
+    myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        realm.beginWrite()
+
+        if let userInfos = result["users"] as? [JSONDictionary] {
+
+            let discoveredUsers = userInfos.map({ parseDiscoveredUser($0) }).flatMap({ $0 })
+
+            discoveredUsers.forEach({
+                _ = conversationWithDiscoveredUser($0, inRealm: realm)
+            })
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            }
+        }
+
+        if let groupInfos = result["circles"] as? [JSONDictionary] {
+
+            groupInfos.forEach({
+                syncFeedGroupWithGroupInfo($0, inRealm: realm)
+            })
+
+            dispatch_async(dispatch_get_main_queue()) {
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+            }
+        }
+
+        var lastMessageID: String?
+
+        if let messageInfos = result["messages"] as? [JSONDictionary] {
+
+            messageInfos.forEach({
+                syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
+                }
+            })
+
+            let messageIDs: [String] = messageInfos.map({ $0["id"] as? String }).flatMap({ $0 })
+            messageIDs.forEach({
+                if let message = messageWithMessageID($0, inRealm: realm) {
+                    if let conversation = message.conversation {
+                        conversation.updatedUnixTime = message.createdUnixTime
+                    }
+                }
+            })
+
+            lastMessageID = messageIDs.last
+        }
+
+        let _ = try? realm.commitWrite()
+
+        dispatch_async(dispatch_get_main_queue()) {
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+        }
+
+        if let lastMessageID =  lastMessageID {
+            if let count = result["count"] as? Int, perPage = result["per_page"] as? Int {
+                if count > perPage {
+                    syncMyConversations(maxMessageID: lastMessageID)
+                }
+            }
+        }
+
+        YepUserDefaults.syncedConversations.value = true
+    }
+}
+
 func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
     friendships(failureHandler: nil) { allFriendships in
@@ -559,22 +633,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             // 增加本地没有的 Group
 
             for groupInfo in allGroups {
-
-                let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
-
-                group?.includeMe = true
-
-                //Sync Feed
-
-                if let
-                    feedInfo = groupInfo["topic"] as? JSONDictionary,
-                    feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
-                    group = group {
-                        //saveFeedWithFeedDataWithFullGroup(feedData, group: group, inRealm: realm)
-                        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                } else {
-                    println("no sync feed from groupInfo: \(groupInfo)")
-                }
+                syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
             }
 
             let _ = try? realm.commitWrite()
@@ -587,6 +646,25 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             
             furtherAction()
         }
+    }
+}
+
+func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+
+    let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
+
+    group?.includeMe = true
+
+    //Sync Feed
+
+    if let
+        feedInfo = groupInfo["topic"] as? JSONDictionary,
+        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
+        group = group {
+        saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
+
+    } else {
+        println("no sync feed from groupInfo: \(groupInfo)")
     }
 }
 
@@ -900,7 +978,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)? ) {
+func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
 

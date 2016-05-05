@@ -12,7 +12,7 @@ import AVFoundation
 import MapKit
 import Ruler
 
-class FeedsViewController: BaseViewController {
+final class FeedsViewController: BaseViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
 
@@ -56,15 +56,14 @@ class FeedsViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
-        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
         searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()
 
-    private var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private lazy var feedsSearchTransition: FeedsSearchTransition = {
-        return FeedsSearchTransition()
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    lazy var searchTransition: SearchTransition = {
+        return SearchTransition()
     }()
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
@@ -301,10 +300,19 @@ class FeedsViewController: BaseViewController {
 
         private var feedCellLayoutHash = [String: FeedCellLayout]()
 
-        private func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout? {
+        private mutating func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout {
             let key = feed.id
 
-            return feedCellLayoutHash[key]
+            if let layout = feedCellLayoutHash[key] {
+                return layout
+
+            } else {
+                let layout = FeedCellLayout(feed: feed)
+
+                updateFeedCellLayout(layout, forFeed: feed)
+
+                return layout
+            }
         }
 
         private mutating func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
@@ -320,14 +328,8 @@ class FeedsViewController: BaseViewController {
 
         private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
-            if let layout = feedCellLayoutOfFeed(feed) {
-                return layout.height
-
-            } else {
-                let layout = FeedCellLayout(feed: feed)
-                updateFeedCellLayout(layout, forFeed: feed)
-                return layout.height
-            }
+            let layout = feedCellLayoutOfFeed(feed)
+            return layout.height
         }
     }
     private static var layoutPool = LayoutPool()
@@ -373,6 +375,16 @@ class FeedsViewController: BaseViewController {
         }
 
         title = NSLocalizedString("Feeds", comment: "")
+
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
+
+        if skill != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+        }
+
+        if profileUser != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds by user", comment: "")
+        }
 
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         feedsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
@@ -428,12 +440,6 @@ class FeedsViewController: BaseViewController {
                 }
             }
         }
-        
-        if preparedFeedsCount > 0 {
-            currentPageIndex = 2
-        } else {
-            updateFeeds()
-        }
 
         // 没有 profileUser 才设置 feedSortStyle 以请求服务器
         if profileUser == nil {
@@ -457,32 +463,27 @@ class FeedsViewController: BaseViewController {
             }
         }
 
+        if preparedFeedsCount > 0 {
+            currentPageIndex = 2
+        } else {
+            updateFeeds()
+        }
+
         #if DEBUG
             //view.addSubview(feedsFPSLabel)
         #endif
     }
 
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        /*
-        // 尝试恢复原始的 NavigationControllerDelegate，如果自定义 push 了才需要
-        if let delegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = delegate
-            navigationControllerDelegate = nil
-        }
-        */
 
         navigationController?.setNavigationBarHidden(false, animated: false)
-
-        //tabBarController?.tabBar.hidden = (skill == nil && profileUser == nil) ? false : true
     }
-
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        recoverNavigationDelegate()
+        recoverOriginalNavigationDelegate()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -826,12 +827,6 @@ class FeedsViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    private func recoverNavigationDelegate() {
-        if let originalNavigationControllerDelegate = originalNavigationControllerDelegate {
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-    }
-
     private var newFeedViewController: NewFeedViewController?
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -900,13 +895,6 @@ class FeedsViewController: BaseViewController {
             return self
         }
 
-        func hackNavigationDelegate() {
-            // 在自定义 push 之前，记录原始的 NavigationControllerDelegate 以便 pop 后恢复
-            originalNavigationControllerDelegate = navigationController?.delegate
-
-            navigationController?.delegate = feedsSearchTransition
-        }
-
         switch identifier {
 
         case "showSearchFeeds":
@@ -914,9 +902,12 @@ class FeedsViewController: BaseViewController {
             let vc = segue.destinationViewController as! SearchFeedsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
 
+            vc.skill = skill
+            vc.profileUser = profileUser
+
             vc.hidesBottomBarWhenPushed = true
 
-            hackNavigationDelegate()
+            prepareSearchTransition()
 
         case "showProfile":
 
@@ -943,7 +934,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showSkillHome":
 
@@ -955,7 +946,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showFeedsWithSkill":
 
@@ -977,7 +968,7 @@ class FeedsViewController: BaseViewController {
 
             vc.hidesBottomBarWhenPushed = true
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "showConversation":
 
@@ -1066,7 +1057,7 @@ class FeedsViewController: BaseViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            recoverNavigationDelegate()
+            recoverOriginalNavigationDelegate()
 
         case "presentNewFeed":
 
@@ -1083,6 +1074,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentNewFeedVoiceRecord":
 
             guard let
@@ -1098,6 +1091,8 @@ class FeedsViewController: BaseViewController {
             vc.afterCreatedFeedAction = afterCreatedFeedAction
             vc.getFeedsViewController = getFeedsViewController
 
+            recoverOriginalNavigationDelegate()
+
         case "presentPickLocation":
 
             guard let
@@ -1112,6 +1107,8 @@ class FeedsViewController: BaseViewController {
             vc.preparedSkill = skill
 
             vc.afterCreatedFeedAction = afterCreatedFeedAction
+
+            recoverOriginalNavigationDelegate()
 
         default:
             break
@@ -1295,16 +1292,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-            let update: FeedCellLayout.Update = { newLayout in
-                FeedsViewController.layoutPool.updateFeedCellLayout(newLayout, forFeed: feed)
-            }
-            let layoutCache = (layout: layout, update: update)
 
             switch feed.kind {
 
             case .Text:
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
             case .URL:
 
@@ -1312,7 +1305,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapURLInfoAction = { [weak self] URL in
                     println("tapURLInfoAction URL: \(URL)")
@@ -1357,7 +1350,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -1367,7 +1360,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
 
@@ -1376,7 +1369,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         break
                     }
 
-                    cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
                 }
@@ -1387,7 +1380,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapGithubRepoLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -1399,7 +1392,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapDribbbleShotLinkAction = { [weak self] URL in
                     self?.yep_openURL(URL)
@@ -1440,7 +1433,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 /*
                 cell.playOrPauseAudioAction = { [weak self] cell in
@@ -1578,7 +1571,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     break
                 }
 
-                cell.configureWithFeed(feed, layoutCache: layoutCache, needShowSkill: needShowSkill)
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                 cell.tapLocationAction = { locationName, locationCoordinate in
 

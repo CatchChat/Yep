@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class InfoView: UIView {
+final class InfoView: UIView {
 
     var info: String?
 
@@ -45,7 +45,7 @@ class InfoView: UIView {
 
         addSubview(label)
 
-        let views = [
+        let views: [String: AnyObject] = [
             "label": label
         ]
 

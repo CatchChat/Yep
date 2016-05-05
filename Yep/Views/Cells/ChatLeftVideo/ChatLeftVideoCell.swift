@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChatLeftVideoCell: ChatBaseCell {
+final class ChatLeftVideoCell: ChatBaseCell {
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()

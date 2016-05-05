@@ -62,7 +62,7 @@ struct DoNotDisturbPeriod {
     }
 }
 
-class NotificationsViewController: SegueViewController {
+final class NotificationsViewController: SegueViewController {
 
     @IBOutlet private weak var tableView: UITableView!
 

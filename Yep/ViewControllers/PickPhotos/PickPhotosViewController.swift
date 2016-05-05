@@ -14,11 +14,14 @@ protocol ReturnPickedPhotosDelegate: class {
     func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset])
 }
 
-class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
+final class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
 
     var images: PHFetchResult? {
         didSet {
             collectionView?.reloadData()
+            guard let images = images, collectionView = collectionView else { return }
+            
+            collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: images.count - 1, inSection: 0), atScrollPosition: .CenteredVertically, animated: false)
         }
     }
     var imagesDidFetch: Bool = false
@@ -41,8 +44,8 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
 
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
+        automaticallyAdjustsScrollViewInsets = false
         collectionView?.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
-        
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 
             let width: CGFloat = Ruler<CGFloat>.iPhoneVertical(77.5, 77.5, 92.5, 102).value
@@ -52,7 +55,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
             let gap: CGFloat = Ruler<CGFloat>.iPhoneHorizontal(1, 1, 1).value
             layout.minimumInteritemSpacing = gap
             layout.minimumLineSpacing = gap
-            layout.sectionInset = UIEdgeInsets(top: gap, left: gap, bottom: gap, right: gap)
+            layout.sectionInset = UIEdgeInsets(top: gap + 64, left: gap, bottom: gap, right: gap)
         }
         
         let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
@@ -64,7 +67,7 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         if !imagesDidFetch {
             let options = PHFetchOptions()
             options.sortDescriptors = [
-                NSSortDescriptor(key: "creationDate", ascending: false)
+                NSSortDescriptor(key: "creationDate", ascending: true)
             ]
             images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
         }
@@ -85,16 +88,18 @@ class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChange
         
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
-    
+
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
- 
+        
         guard let images = images else { return }
+        
         imageCacheController = ImageCacheController(imageManager: imageManager, images: images, preheatSize: 1)
         
         navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
-
+    
     // MARK: Actions
     
     func back(sender: UIBarButtonItem) {
@@ -262,4 +267,5 @@ extension PickPhotosViewController: UIGestureRecognizerDelegate {
         }
         return false
     }
+    
 }

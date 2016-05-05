@@ -49,9 +49,11 @@ func cancel(cancelableTask: CancelableTask?) {
 
 func unregisterThirdPartyPush() {
     dispatch_async(dispatch_get_main_queue()) {
+        #if JPUSH
         //JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
         APService.setAlias(nil, callbackSelector: nil, object: nil)
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        #endif
     }
 }
 
@@ -88,6 +90,10 @@ func cleanRealmAndCaches() {
     NSFileManager.cleanAvatarCaches()
 
     println("cleaned files!")
+
+    // clean shortcuts
+
+    clearDynamicShortcuts()
 
     dispatch_async(dispatch_get_main_queue()) {
         NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)

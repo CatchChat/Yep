@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsMoreCell: UITableViewCell {
+final class SettingsMoreCell: UITableViewCell {
 
     @IBOutlet weak var annotationLabel: UILabel!
 

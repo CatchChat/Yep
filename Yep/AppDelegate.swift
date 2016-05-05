@@ -16,7 +16,7 @@ import Appsee
 import CoreSpotlight
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
@@ -40,10 +40,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 默认将 Realm 放在 App Group 里
 
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
-        let realmPath = directory.URLByAppendingPathComponent("db.realm").path!
+        let realmFileURL = directory.URLByAppendingPathComponent("db.realm")
 
-        return Realm.Configuration(path: realmPath, schemaVersion: 31, migrationBlock: { migration, oldSchemaVersion in
-        })
+        var config = Realm.Configuration()
+        config.fileURL = realmFileURL
+        config.schemaVersion = 31
+        config.migrationBlock = { migration, oldSchemaVersion in
+        }
+
+        return config
     }
 
     enum RemoteNotificationType: String {
@@ -83,6 +88,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
+            #if JPUSH
             /*
             #if STAGING
                 let apsForProduction = false
@@ -92,6 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
             */
             APService.setupWithOption(launchOptions)
+            #endif
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -99,8 +106,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
         // 全局的外观自定义
-        customAppearance()
-
+        customAppearce()
+        
         let isLogined = YepUserDefaults.isLogined
 
         if isLogined {
@@ -116,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             startShowStory()
         }
-        
+
         return true
     }
 
@@ -150,6 +157,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("Resign active")
 
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+
+        // dynamic shortcut items
+
+        configureDynamicShortcuts()
+
+        // index searchable items
 
         if YepUserDefaults.isLogined {
             indexUserSearchableItems()
@@ -238,8 +251,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
+
+        #if JPUSH
         //JPUSHService.handleRemoteNotification(userInfo)
         APService.handleRemoteNotification(userInfo)
+        #endif
         
         guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
             completionHandler(UIBackgroundFetchResult.NoData)
@@ -260,9 +276,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             syncUnreadMessages() {
                 dispatch_async(dispatch_get_main_queue()) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
-                }
 
-                completionHandler(UIBackgroundFetchResult.NewData)
+                    configureDynamicShortcuts()
+
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                }
             }
 
         case .OfficialMessage:
@@ -301,14 +319,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             handleMessageDeletedFromServer(messageID: messageID)
 
+            configureDynamicShortcuts()
+
         case .Mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
                     NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
-                }
 
-                completionHandler(UIBackgroundFetchResult.NewData)
+                    configureDynamicShortcuts()
+
+                    completionHandler(UIBackgroundFetchResult.NewData)
+                }
             })
         }
     }
@@ -318,11 +340,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println(error.description)
     }
 
+    // MARK: Shortcuts
+
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+
+        handleShortcutItem(shortcutItem)
+
+        completionHandler(true)
+    }
+
+    private func handleShortcutItem(shortcutItem: UIApplicationShortcutItem) {
+
+        if let window = window {
+            tryQuickActionWithShortcutItem(shortcutItem, inWindow: window)
+        }
+    }
+
     // MARK: Open URL
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
 
-        
         if url.absoluteString.contains("/auth/success") {
             
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 1))
@@ -537,7 +574,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         refreshGroupTypeForAllGroups()
-        
+
+        if !YepUserDefaults.isSyncedConversations {
+            syncMyConversations()
+        }
+
         syncUnreadMessages {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
@@ -564,10 +605,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
+        #if JPUSH
         //JPUSHService.registerDeviceToken(deviceToken)
         //JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
         APService.registerDeviceToken(deviceToken)
         APService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector:nil, object: nil)
+        #endif
     }
 
     func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
@@ -689,7 +732,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func customAppearance() {
+    private func customAppearce() {
 
         window?.backgroundColor = UIColor.whiteColor()
 
@@ -712,14 +755,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return shadow
         }()
 
-        let textAttributes = [
+        let textAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
 
         /*
-        let barButtonTextAttributes = [
+        let barButtonTextAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
             NSFontAttributeName: UIFont.barButtonFont()
         ]

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShowStepGeniusViewController: ShowStepViewController {
+final class ShowStepGeniusViewController: ShowStepViewController {
 
     @IBOutlet private weak var rightPurpleDot: UIImageView!
     @IBOutlet private weak var leftGreenDot: UIImageView!

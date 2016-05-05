@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SendingMessagePool {
+final class SendingMessagePool {
 
     private static var sharedPool = SendingMessagePool()
 

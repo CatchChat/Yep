@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedMessageCell: UITableViewCell {
+final class SearchedMessageCell: UITableViewCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nicknameLabel: UILabel!

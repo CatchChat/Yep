@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - ActionSheetDefaultCell
 
-private class ActionSheetDefaultCell: UITableViewCell {
+final private class ActionSheetDefaultCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -54,7 +54,7 @@ private class ActionSheetDefaultCell: UITableViewCell {
 
 // MARK: - ActionSheetDetailCell
 
-private class ActionSheetDetailCell: UITableViewCell {
+final private class ActionSheetDetailCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -79,7 +79,7 @@ private class ActionSheetDetailCell: UITableViewCell {
 
 // MARK: - ActionSheetSwitchCell
 
-private class ActionSheetSwitchCell: UITableViewCell {
+final private class ActionSheetSwitchCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -126,7 +126,7 @@ private class ActionSheetSwitchCell: UITableViewCell {
 
 // MARK: - ActionSheetSubtitleSwitchCell
 
-private class ActionSheetSubtitleSwitchCell: UITableViewCell {
+final private class ActionSheetSubtitleSwitchCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -204,7 +204,7 @@ private class ActionSheetSubtitleSwitchCell: UITableViewCell {
     }
 }
 
-private class ActionSheetCheckCell: UITableViewCell {
+final private class ActionSheetCheckCell: UITableViewCell {
 
     class var reuseIdentifier: String {
         return "\(self)"
@@ -259,7 +259,7 @@ private class ActionSheetCheckCell: UITableViewCell {
 
 // MARK: - ActionSheetView
 
-class ActionSheetView: UIView {
+final class ActionSheetView: UIView {
 
     enum Item {
         case Default(title: String, titleColor: UIColor, action: () -> Bool)
@@ -343,7 +343,7 @@ class ActionSheetView: UIView {
         containerView.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "containerView": containerView,
             "tableView": tableView,
         ]

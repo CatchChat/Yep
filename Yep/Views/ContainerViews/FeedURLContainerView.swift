@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FeedURLContainerView: UIView {
+final class FeedURLContainerView: UIView {
 
     var tapAction: (() -> Void)?
 
@@ -93,7 +93,7 @@ class FeedURLContainerView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views = [
+        let views: [String: AnyObject] = [
             "backgroundImageView": backgroundImageView,
             "siteNameLabel": siteNameLabel,
             "titleLabel": titleLabel,
@@ -114,7 +114,7 @@ class FeedURLContainerView: UIView {
         do {
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
 
-            let metrics = [
+            let metrics: [String: AnyObject] = [
                 "top": compressionMode ? 4 : 8,
                 "gap": compressionMode ? 4 : 8,
                 "bottom": compressionMode ? 4 : 8,
@@ -126,7 +126,7 @@ class FeedURLContainerView: UIView {
         }
 
         do {
-            let metrics = [
+            let metrics: [String: AnyObject] = [
                 "imageSize": compressionMode ? 35 : 40,
             ]
 

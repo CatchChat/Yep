@@ -152,8 +152,16 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         let text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
 
-        if let keyword = keyword {
-            messageTextView.attributedText = text.yep_hightlightSearchKeyword(keyword, baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor())
+        if let highlightedKeywordsBody = feed.highlightedKeywordsBody {
+
+            let keywordSet = highlightedKeywordsBody.yep_keywordSetOfEmphasisTags()
+
+            if let attributedText = text.yep_highlightWithKeywordSet(keywordSet, color: UIColor.yepTintColor(), baseFont: UIFont.feedMessageFont(), baseColor: UIColor.yepMessageColor()) {
+                messageTextView.attributedText = attributedText
+
+            } else {
+                messageTextView.text = text
+            }
 
         } else {
             messageTextView.text = text

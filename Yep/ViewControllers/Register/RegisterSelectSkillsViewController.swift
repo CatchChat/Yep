@@ -9,7 +9,7 @@
 import UIKit
 import pop
 
-class RegisterSelectSkillsViewController: UIViewController {
+final class RegisterSelectSkillsViewController: UIViewController {
 
     var annotationText: String = ""
     var selectSkillAction: ((skill: Skill, selected: Bool) -> Bool)?

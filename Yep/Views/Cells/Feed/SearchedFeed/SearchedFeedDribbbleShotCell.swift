@@ -11,7 +11,7 @@ import Ruler
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
-class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
+final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
 
     static let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 

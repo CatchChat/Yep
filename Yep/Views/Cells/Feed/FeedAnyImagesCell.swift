@@ -13,7 +13,14 @@ private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
 
-class FeedAnyImagesCell: FeedBasicCell {
+final class FeedAnyImagesCell: FeedBasicCell {
+
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
+
+        return ceil(height)
+    }
 
     lazy var mediaCollectionView: UICollectionView = {
 
@@ -63,13 +70,6 @@ class FeedAnyImagesCell: FeedBasicCell {
         }
     }
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
-
-        let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
-        return ceil(height)
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -86,35 +86,16 @@ class FeedAnyImagesCell: FeedBasicCell {
         attachments = []
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            _newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if let anyImagesLayout = layoutCache.layout?.anyImagesLayout {
-            mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
-
-        } else {
-            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height = YepConfig.FeedNormalImagesCell.imageSize.height
-            mediaCollectionView.frame = CGRect(x: 0, y: y, width: screenWidth, height: height)
-        }
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment, case let .Images(attachments) = attachment {
             self.attachments = attachments
         }
 
-        if layoutCache.layout == nil {
-
-            let anyImagesLayout = FeedCellLayout.AnyImagesLayout(mediaCollectionViewFrame: mediaCollectionView.frame)
-            _newLayout?.anyImagesLayout = anyImagesLayout
-
-            if let newLayout = _newLayout {
-                layoutCache.update(layout: newLayout)
-            }
-        }
+        let anyImagesLayout = layout.anyImagesLayout!
+        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 

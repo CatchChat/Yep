@@ -11,7 +11,7 @@ import Photos
 
 // @note use this model to store the album's 'result, 'count, 'name, 'startDate to avoid request and reserve too much times
 
-class Album: NSObject {
+final class Album: NSObject {
     var results: PHFetchResult?
     var count = 0
     var name: String?
@@ -21,7 +21,7 @@ class Album: NSObject {
 
 private let defaultAlbumIdentifier = "com.Yep.photoPicker"
 
-class AlbumListController: UITableViewController {
+final class AlbumListController: UITableViewController {
 
     var pickedImageSet = Set<PHAsset>()
     var pickedImages = [PHAsset]()
@@ -32,6 +32,7 @@ class AlbumListController: UITableViewController {
     let albumlistCellIdentifier = "AlbumListCell"
     
     var assetsCollection: [Album]?
+
     
     lazy var pickPhotosVC: PickPhotosViewController = {
         let vc = UIStoryboard(name: "PickPhotos", bundle: nil).instantiateViewControllerWithIdentifier("PickPhotosViewController") as! PickPhotosViewController
@@ -124,9 +125,11 @@ class AlbumListController: UITableViewController {
         
         for (_, result) in results.enumerate() {
             result.enumerateObjectsUsingBlock {  (collection, idx, stop) in
-                if let album = collection as? PHAssetCollection {
-                    let assetResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
+                if let album = collection as? PHAssetCollection{
+                    guard  album.localizedTitle !=  NSLocalizedString("Recently Deleted", comment: "") else { return }
                     
+                    let assetResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
+                   
                     var count = 0
                     switch album.assetCollectionType {
                     case .Album:
@@ -152,6 +155,7 @@ class AlbumListController: UITableViewController {
             }
 
         }
+
         return list
     }
 

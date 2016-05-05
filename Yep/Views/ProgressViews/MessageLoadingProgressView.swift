@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MessageLoadingProgressView: UIView {
+final class MessageLoadingProgressView: UIView {
 
     var progress: Double = 0.0 {
         didSet {

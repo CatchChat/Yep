@@ -21,7 +21,7 @@ enum PreviewMedia {
     case WebImage(imageURL: NSURL, linkURL: NSURL)
 }
 
-class MediaPreviewViewController: UIViewController {
+final class MediaPreviewViewController: UIViewController {
 
     var previewMedias: [PreviewMedia] = []
     var startIndex: Int = 0

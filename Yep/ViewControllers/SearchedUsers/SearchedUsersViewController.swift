@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchedUsersViewController: BaseViewController {
+final class SearchedUsersViewController: BaseViewController {
 
     var searchText = "NIX"
 

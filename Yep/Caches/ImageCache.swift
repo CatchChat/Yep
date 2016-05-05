@@ -11,7 +11,7 @@ import RealmSwift
 import MapKit
 import Kingfisher
 
-class ImageCache {
+final class ImageCache {
 
     static let sharedInstance = ImageCache()
 

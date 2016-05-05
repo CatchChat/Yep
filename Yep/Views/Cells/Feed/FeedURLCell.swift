@@ -8,9 +8,14 @@
 
 import UIKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+final class FeedURLCell: FeedBasicCell {
 
-class FeedURLCell: FeedBasicCell {
+    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+
+        let height = super.heightOfFeed(feed) + (100 + 15)
+
+        return ceil(height)
+    }
 
     var tapURLInfoAction: ((URL: NSURL) -> Void)?
 
@@ -36,28 +41,9 @@ class FeedURLCell: FeedBasicCell {
         // Configure the view for the selected state
     }
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
-        let height = super.heightOfFeed(feed) + (100 + 15)
-
-        return ceil(height)
-    }
-
-    override func configureWithFeed(feed: DiscoveredFeed, layoutCache: FeedCellLayout.Cache, needShowSkill: Bool) {
-
-        //var _newLayout: FeedCellLayout?
-        super.configureWithFeed(feed, layoutCache: (layout: layoutCache.layout, update: { newLayout in
-            //_newLayout = newLayout
-        }), needShowSkill: needShowSkill)
-
-        if let _URLLayout = layoutCache.layout?._URLLayout {
-            feedURLContainerView.frame = _URLLayout.URLContainerViewFrame
-
-        } else {
-            let y = messageTextView.frame.origin.y + messageTextView.frame.height + 15
-            let height: CGFloat = leftBottomLabel.frame.origin.y - y - 15
-            feedURLContainerView.frame = CGRect(x: 65, y: y, width: screenWidth - 65 - 60, height: height)
-        }
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
             if case let .URL(openGraphInfo) = attachment {
@@ -69,6 +55,9 @@ class FeedURLCell: FeedBasicCell {
                 }
             }
         }
+
+        let _URLLayout = layout._URLLayout!
+        feedURLContainerView.frame = _URLLayout.URLContainerViewFrame
     }
 }
 

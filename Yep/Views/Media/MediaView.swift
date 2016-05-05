@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class MediaView: UIView {
+final class MediaView: UIView {
 
     var inTapZoom: Bool = false
     var isRoomIn: Bool = false
@@ -164,7 +164,7 @@ class MediaView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary = [
+        let viewsDictionary: [String: AnyObject] = [
             "scrollView": scrollView,
             "imageView": imageView,
             "coverImageView": coverImageView,

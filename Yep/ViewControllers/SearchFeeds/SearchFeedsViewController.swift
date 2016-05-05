@@ -12,17 +12,21 @@ import AVFoundation
 import MapKit
 import Ruler
 
-class SearchFeedsViewController: UIViewController {
+private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
+
+final class SearchFeedsViewController: SegueViewController {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    private var feedsSearchTransition: FeedsSearchTransition?
+    var searchTransition: SearchTransition?
+
+    var skill: Skill?
+    var profileUser: ProfileUser?
 
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
-            searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
             searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
             searchBar.returnKeyType = .Done
         }
@@ -48,11 +52,36 @@ class SearchFeedsViewController: UIViewController {
 
     var feeds = [DiscoveredFeed]() {
         didSet {
+
+            feedsTableView.scrollEnabled = !feeds.isEmpty
+
             if feeds.isEmpty {
-                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
+
+                footerView.tapCoverAction = { [weak self] in
+                    self?.searchBar.resignFirstResponder()
+                }
+
+                footerView.tapKeywordAction = { [weak self] keyword in
+                    self?.searchBar.text = keyword
+                    self?.triggerSearchTaskWithSearchText(keyword)
+                }
+
+                if keyword != nil {
+                    footerView.style = .NoResults
+
+                } else {
+                    if skill != nil || profileUser != nil {
+                        footerView.style = .Empty
+                    } else {
+                        footerView.style = .Keywords
+                    }
+                }
+
                 feedsTableView.tableFooterView = footerView
+
             } else {
-                feedsTableView.tableFooterView = nil
+                feedsTableView.tableFooterView = UIView()
             }
         }
     }
@@ -94,6 +123,26 @@ class SearchFeedsViewController: UIViewController {
         }
     }
     private var searchTask: CancelableTask?
+
+    private func triggerSearchTaskWithSearchText(searchText: String) {
+
+        println("try search feeds with keyword: \(searchText)")
+
+        cancel(searchTask)
+
+        if searchText.isEmpty {
+            self.keyword = nil
+            return
+        }
+
+        searchTask = delay(0.5) { [weak self] in
+            if let footer = self?.feedsTableView.tableFooterView as? SearchFeedsFooterView {
+                footer.style = .Searching
+            }
+
+            self?.updateSearchResultsWithText(searchText)
+        }
+    }
 
     private struct LayoutPool {
 
@@ -230,6 +279,16 @@ class SearchFeedsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
+
+        if skill != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+        }
+
+        if profileUser != nil {
+            searchBar.placeholder = NSLocalizedString("Search feeds by user", comment: "")
+        }
+
         feeds = []
 
         searchBarBottomLineView.alpha = 0
@@ -266,9 +325,7 @@ class SearchFeedsViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if let delegate = feedsSearchTransition {
-            navigationController?.delegate = delegate
-        }
+        recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 0
@@ -318,7 +375,7 @@ class SearchFeedsViewController: UIViewController {
 
         let perPage: Int = 30
 
-        feedsWithKeyword(keyword, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
+        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -396,14 +453,6 @@ class SearchFeedsViewController: UIViewController {
             return
         }
 
-        func hackNavigationDelegate() {
-            // 记录原始的 feedsSearchTransition 以便 pop 后恢复
-            feedsSearchTransition = navigationController?.delegate as? FeedsSearchTransition
-
-            println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
-            navigationController?.delegate = originalNavigationControllerDelegate
-        }
-        
         switch identifier {
 
         case "showProfile":
@@ -424,7 +473,7 @@ class SearchFeedsViewController: UIViewController {
 
             vc.setBackButtonWithTitle()
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
 
@@ -506,7 +555,7 @@ class SearchFeedsViewController: UIViewController {
                 strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
-            hackNavigationDelegate()
+            prepareOriginalNavigationControllerDelegate()
             
         default:
             break
@@ -543,18 +592,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        println("try search feeds with keyword: \(searchText)")
-
-        cancel(searchTask)
-
-        if searchText.isEmpty {
-            self.keyword = nil
-            return
-        }
-
-        searchTask = delay(0.5) { [weak self] in
-            self?.updateSearchResultsWithText(searchText)
-        }
+        triggerSearchTaskWithSearchText(searchText)
     }
 
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {

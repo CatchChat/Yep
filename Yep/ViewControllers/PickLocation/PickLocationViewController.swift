@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import Proposer
 
-class PickLocationViewController: SegueViewController {
+final class PickLocationViewController: SegueViewController {
 
     enum Purpose {
         case Message

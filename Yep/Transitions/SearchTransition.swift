@@ -1,30 +1,30 @@
 //
-//  ConversationsSearchTransition.swift
+//  SearchTransition.swift
 //  Yep
 //
-//  Created by NIX on 16/4/1.
+//  Created by NIX on 16/4/22.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import UIKit
 
-class ConversationsSearchTransition: NSObject {
+final class SearchTransition: NSObject {
 
     var isPresentation = true
 }
 
-extension ConversationsSearchTransition: UINavigationControllerDelegate {
+extension SearchTransition: UINavigationControllerDelegate {
 
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         if operation == .Push {
-            if (fromVC is ConversationsViewController) && (toVC is SearchConversationsViewController) {
+            if (fromVC is SearchTriggerRepresentation) && (toVC is SearchActionRepresentation) {
                 isPresentation = true
                 return self
             }
 
         } else if operation == .Pop {
-            if (fromVC is SearchConversationsViewController) && (toVC is ConversationsViewController) {
+            if (fromVC is SearchActionRepresentation) && (toVC is SearchTriggerRepresentation) {
                 isPresentation = false
                 return self
             }
@@ -34,7 +34,7 @@ extension ConversationsSearchTransition: UINavigationControllerDelegate {
     }
 }
 
-extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
+extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
 
@@ -57,7 +57,7 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchConversationsViewController
+        //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchFeedsViewController
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
@@ -79,7 +79,8 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
 
     private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! SearchConversationsViewController
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let searchActionRepresentation = fromVC as! SearchActionRepresentation
 
         let containerView = transitionContext.containerView()!
 
@@ -90,23 +91,24 @@ extension ConversationsSearchTransition: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(fromView)
 
         fromView.alpha = 1
-        fromVC.searchBar.setShowsCancelButton(false, animated: true)
+        searchActionRepresentation.searchBar.setShowsCancelButton(false, animated: true)
 
         let fullDuration = transitionDuration(transitionContext)
 
         UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
 
-            fromVC.searchBarTopConstraint.constant = 44
+            searchActionRepresentation.searchBarTopConstraint.constant = 44
             fromVC.view.layoutIfNeeded()
 
         }, completion: { finished in
 
             UIView.animateWithDuration(fullDuration * 0.4, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
                 fromView.alpha = 0
-
+                
             }, completion: { finished in
                 transitionContext.completeTransition(true)
             })
         })
     }
 }
+

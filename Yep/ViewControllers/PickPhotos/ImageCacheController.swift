@@ -9,7 +9,7 @@
 import Foundation
 import Photos
 
-class ImageCacheController {
+final class ImageCacheController {
 
     private var cachedIndices = NSIndexSet()
     var cachePreheatSize: Int
