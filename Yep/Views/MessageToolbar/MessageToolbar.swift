@@ -533,7 +533,7 @@ extension MessageToolbar: UITextViewDelegate {
                 return
             }
 
-            searchTask = delay(0.5) { [weak self] in
+            searchTask = delay(0.4) { [weak self] in
 
                 // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
 
