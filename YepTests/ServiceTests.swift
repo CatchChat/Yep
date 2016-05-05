@@ -160,5 +160,26 @@ final class ServiceTests: XCTestCase {
 
         waitForExpectationsWithTimeout(5, handler: nil)
     }
+
+    func testGetMyConversations() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let expectation = expectationWithDescription("get my conversations")
+
+        myConversations(maxMessageID: nil, failureHandler: nil) { result in
+
+            if
+                let userInfos = result["users"] as? [JSONDictionary] where !userInfos.isEmpty,
+                let groupInfos = result["circles"] as? [JSONDictionary] where !groupInfos.isEmpty,
+                let messageInfos = result["messages"] as? [JSONDictionary] where !messageInfos.isEmpty {
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
 }
 
