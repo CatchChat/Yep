@@ -38,6 +38,16 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         iconImageView.tintColor = SocialAccount.disabledColor
         nameLabel.textColor = SocialAccount.disabledColor
         blogLabel.textColor = SocialAccount.disabledColor
+
+        if let blogURL = profileUser?.blogURL {
+
+            blogLabel.text = blogURL.absoluteString
+
+            iconImageView.tintColor = UIColor.yepTintColor()
+            nameLabel.textColor = UIColor.yepTintColor()
+
+            accessoryImageView.hidden = false
+        }
     }
 }
 
