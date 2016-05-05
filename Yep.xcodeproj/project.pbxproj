@@ -204,6 +204,8 @@
 		506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */; };
 		506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */; };
 		506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */; };
+		506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */; };
+		506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */; };
 		506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */; };
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
@@ -666,6 +668,8 @@
 		506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsSelectSkillsTransitionManager.swift; path = ViewControllers/Register/RegisterPickSkillsSelectSkillsTransitionManager.swift; sourceTree = "<group>"; };
 		506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
 		506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
+		506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountBlogCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.swift; sourceTree = "<group>"; };
+		506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountBlogCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.xib; sourceTree = "<group>"; };
 		506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTypeButton.swift; path = Views/Buttons/MessageTypeButton.swift; sourceTree = "<group>"; };
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
@@ -1065,6 +1069,8 @@
 			children = (
 				0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */,
 				0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */,
+				506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */,
+				506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */,
 				5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */,
 				5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */,
 				5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */,
@@ -3059,6 +3065,7 @@
 				50008D3B1CAE537400245296 /* SearchedFeedCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
 				50E34C281CBB8A49007CAE80 /* SearchFeeds.storyboard in Resources */,
+				506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */,
 				50F5AF961BBBCDA30033C9BC /* FeedMediaAddCell.xib in Resources */,
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */,
@@ -3228,6 +3235,7 @@
 				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
 				508A084E1C166EBA000A3305 /* CLPlacemark+Yep.swift in Sources */,
 				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
+				506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */,
 				50008D321CAE0D9A00245296 /* SearchConversationsViewController.swift in Sources */,
 				50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
