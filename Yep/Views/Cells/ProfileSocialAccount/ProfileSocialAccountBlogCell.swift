@@ -10,6 +10,15 @@ import UIKit
 
 class ProfileSocialAccountBlogCell: UICollectionViewCell {
 
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var iconImageViewLeadingConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var blogLabel: UILabel!
+
+    @IBOutlet weak var accessoryImageView: UIImageView!
+    @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
