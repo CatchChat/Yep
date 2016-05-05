@@ -523,6 +523,8 @@ extension MessageToolbar: UITextViewDelegate {
 
         if needDetectMention {
 
+            cancel(searchTask)
+
             // 刚刚输入 @
 
             if text.hasSuffix("@") {
@@ -530,8 +532,6 @@ extension MessageToolbar: UITextViewDelegate {
                 initMentionUserAction?()
                 return
             }
-
-            cancel(searchTask)
 
             searchTask = delay(0.5) { [weak self] in
 
