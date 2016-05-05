@@ -153,5 +153,23 @@ final class ServiceTests: XCTestCase {
 
         XCTAssert(true, "Pass")
     }
+
+    func testGetUsersMatchWithUsernamePrefix() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
+
+        let usernamePrefix = "t"
+        let expectation = expectationWithDescription("get users match with username prefix: \(usernamePrefix)")
+
+        usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
+            if !users.isEmpty {
+                expectation.fulfill()
+            }
+        }
+
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
 }
 
