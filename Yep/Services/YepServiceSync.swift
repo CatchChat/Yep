@@ -66,6 +66,10 @@ func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm rea
         if let badge = discoveredUser.badge {
             user.badge = badge
         }
+
+        if let blogURLString = discoveredUser.blogURLString {
+            user.blogURLString = blogURLString
+        }
     }
 
     return user

@@ -1602,6 +1602,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case ProfileSection.SocialAccount.rawValue:
 
+            if indexPath.item == 0 {
+
+                break
+            }
+
             let index = indexPath.item - 1
 
             guard let
