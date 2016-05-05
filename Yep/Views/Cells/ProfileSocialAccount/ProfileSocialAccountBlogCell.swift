@@ -26,13 +26,14 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
+        iconImageView.image = UIImage(named: "icon_blog")
+        nameLabel.text = "Blog"
+        blogLabel.text = nil
+
         accessoryImageView.hidden = true
     }
 
     func configureWithProfileUser(profileUser: ProfileUser?) {
-
-        iconImageView.image = UIImage(named: "icon_dribbble")
-        nameLabel.text = "Blog"
 
         iconImageView.tintColor = SocialAccount.disabledColor
         nameLabel.textColor = SocialAccount.disabledColor
