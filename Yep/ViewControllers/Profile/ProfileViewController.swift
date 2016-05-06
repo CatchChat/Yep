@@ -321,11 +321,6 @@ enum ProfileUser {
 
         return providerName
     }
-
-    var needSeparationLine: Bool {
-
-        return providersCount > 0
-    }
 }
 
 final class ProfileViewController: SegueViewController {
@@ -393,6 +388,11 @@ final class ProfileViewController: SegueViewController {
     private var numberOfItemsInSectionSocialAccount: Int {
 
         return (profileUser?.providersCount ?? 0)
+    }
+
+    private var needSeparationLine: Bool {
+
+        return (numberOfItemsInSectionBlog > 0) || (numberOfItemsInSectionSocialAccount > 0)
     }
 
     private var insetForSectionBlog: UIEdgeInsets {
@@ -1324,7 +1324,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return 1
 
         case .SeparationLine:
-            let needSeparationLine = profileUser?.needSeparationLine ?? false
             return needSeparationLine ? 1 : 0
 
         case .Blog:
