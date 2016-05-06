@@ -216,9 +216,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     private enum InfoRow: Int {
-        case Username = 0
+        case Username
         case Nickname
         case Intro
+        case Blog
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -227,28 +228,37 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case Section.Info.rawValue:
-            return 3
+        case .Info:
+            return 4
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
             return 1
-
-        default:
-            return 0
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch infoRow {
+
+            case .Username:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
@@ -277,7 +287,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case InfoRow.Nickname.rawValue:
+            case .Nickname:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
@@ -307,7 +317,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case InfoRow.Intro.rawValue:
+            case .Intro:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
 
@@ -353,36 +363,45 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            default:
-                return UITableViewCell()
+            case .Blog:
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+
+                cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
+
+                return cell
             }
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
             let cell = tableView.dequeueReusableCellWithIdentifier(editProfileColoredTitleCellIdentifier) as! EditProfileColoredTitleCell
             cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
             cell.coloredTitleColor = UIColor.redColor()
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch infoRow {
+
+            case .Username:
                 return 60
 
-            case InfoRow.Nickname.rawValue:
+            case .Nickname:
                 return 60
 
-            case InfoRow.Intro.rawValue:
+            case .Intro:
 
                 let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
                 let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
@@ -393,15 +412,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 
                 return max(height, 120)
 
-            default:
-                return 0
+            case .Blog:
+                return 80
             }
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
             return 60
-
-        default:
-            return 0
         }
     }
 
@@ -411,13 +427,21 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch infoRow {
+
+            case .Username:
 
                 guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: try! Realm()) else {
                     break
@@ -465,14 +489,14 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }, cancelAction: {
                 })
 
-            case InfoRow.Nickname.rawValue:
+            case .Nickname:
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
 
             default:
                 break
             }
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
 
@@ -496,9 +520,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             }, cancelAction: { () -> Void in
             })
-
-        default:
-            break
         }
     }
 }
