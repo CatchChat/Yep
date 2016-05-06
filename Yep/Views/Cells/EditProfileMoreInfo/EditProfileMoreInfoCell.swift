@@ -24,8 +24,14 @@ final class EditProfileMoreInfoCell: UITableViewCell {
         selectionStyle = .None
 
         infoTextView.font = YepConfig.EditProfile.infoFont
+
+        infoTextView.autocapitalizationType = .None
+        infoTextView.autocorrectionType = .No
+        infoTextView.spellCheckingType = .No
+
         infoTextView.textContainer.lineFragmentPadding = 0
         infoTextView.textContainerInset = UIEdgeInsetsZero
+
         infoTextView.delegate = self
     }
 
