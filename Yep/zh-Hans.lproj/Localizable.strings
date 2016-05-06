@@ -778,4 +778,8 @@
 "Submit" = "提交";
 "You have successfully updated your mobile for Yep! For now on, using the new number to login." = "您已成功更新您的Yep手机号！以后您可使用新号码进行登录。";
 
+"Set Blog" = "设置博客";
+"Input your blog's URL." = "请输入您博客的URL地址。";
+"Set blog failed!" = "设置博客失败！";
+"Blog" = "博客";
 
