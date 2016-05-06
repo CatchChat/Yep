@@ -64,6 +64,7 @@ final class EditProfileViewController: SegueViewController {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
+        static let Blog = "EditProfileLessInfoCell.Blog"
     }
 
     deinit {
@@ -368,6 +369,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
 
+                YepUserDefaults.blogURLString.bindAndFireListener(Listener.Blog) { [weak cell] blogURLString in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell?.infoTextView.text = blogURLString ?? NSLocalizedString("Set blog URL here.", comment: "")
+                    }
+                }
+
                 return cell
             }
 
@@ -413,7 +420,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return max(height, 120)
 
             case .Blog:
-                return 80
+                return 120
             }
 
         case .LogOut:
