@@ -14,6 +14,7 @@ final class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var infoTextView: UITextView!
 
+    var infoTextViewBeginEditingAction: ((infoTextView: UITextView) -> Void)?
     var infoTextViewIsDirtyAction: (Bool -> Void)?
     var infoTextViewDidEndEditingAction: (String -> Void)?
 
@@ -40,10 +41,7 @@ extension EditProfileMoreInfoCell: UITextViewDelegate {
 
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
 
-        // 初次设置前，清空 placeholder
-        if YepUserDefaults.introduction.value == nil {
-            textView.text = ""
-        }
+        infoTextViewBeginEditingAction?(infoTextView: textView)
 
         return true
     }

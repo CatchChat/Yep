@@ -346,6 +346,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
+                cell.infoTextViewBeginEditingAction = { infoTextView in
+                    // 初次设置前，清空 placeholder
+                    if YepUserDefaults.introduction.value == nil {
+                        infoTextView.text = ""
+                    }
+                }
+
                 cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
                     self?.navigationItem.rightBarButtonItem = self?.doneButton
                     self?.doneButton.enabled = isDirty
@@ -388,6 +395,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 YepUserDefaults.blogURLString.bindAndFireListener(Listener.Blog) { [weak cell] blogURLString in
                     dispatch_async(dispatch_get_main_queue()) {
                         cell?.infoTextView.text = blogURLString ?? NSLocalizedString("Set blog URL here.", comment: "")
+                    }
+                }
+
+                cell.infoTextViewBeginEditingAction = { infoTextView in
+                    // 初次设置前，清空 placeholder
+                    if YepUserDefaults.blogURLString.value == nil {
+                        infoTextView.text = ""
                     }
                 }
 
