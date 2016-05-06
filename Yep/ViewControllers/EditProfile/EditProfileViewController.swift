@@ -49,6 +49,12 @@ final class EditProfileViewController: SegueViewController {
         let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.save(_:)))
         return button
     }()
+    private var isDirty: Bool = false {
+        didSet {
+            navigationItem.rightBarButtonItem = doneButton
+            doneButton.enabled = isDirty
+        }
+    }
 
     private let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     private let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
@@ -219,6 +225,7 @@ final class EditProfileViewController: SegueViewController {
     @objc private func save(sender: UIBarButtonItem) {
 
         view.endEditing(true)
+        isDirty = false
     }
 }
 
@@ -351,8 +358,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
                 cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
-                    self?.navigationItem.rightBarButtonItem = self?.doneButton
-                    self?.doneButton.enabled = isDirty
+                    self?.isDirty = isDirty
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
@@ -403,8 +409,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
                 cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
-                    self?.navigationItem.rightBarButtonItem = self?.doneButton
-                    self?.doneButton.enabled = isDirty
+                    self?.isDirty = isDirty
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newBlogURLString in
