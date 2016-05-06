@@ -405,6 +405,38 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
+                cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
+                    self?.navigationItem.rightBarButtonItem = self?.doneButton
+                    self?.doneButton.enabled = isDirty
+                }
+
+                cell.infoTextViewDidEndEditingAction = { [weak self] newBlogURLString in
+                    self?.doneButton.enabled = false
+
+                    if let oldBlogURLString = YepUserDefaults.blogURLString.value {
+                        if oldBlogURLString == newBlogURLString {
+                            return
+                        }
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    updateMyselfWithInfo(["website_url": newBlogURLString], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.blogURLString.value = newBlogURLString
+
+                            self?.editProfileTableView.reloadData()
+                        }
+                        
+                        YepHUD.hideActivityIndicator()
+                    })
+                }
+
                 return cell
             }
 
