@@ -46,7 +46,7 @@ final class EditProfileViewController: SegueViewController {
     }()
 
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.saveIntroduction(_:)))
+        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.save(_:)))
         return button
     }()
 
@@ -216,12 +216,9 @@ final class EditProfileViewController: SegueViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    @objc private func saveIntroduction(sender: UIBarButtonItem) {
+    @objc private func save(sender: UIBarButtonItem) {
 
-        let introductionCellIndexPath = NSIndexPath(forRow: InfoRow.Intro.rawValue, inSection: Section.Info.rawValue)
-        if let introductionCell = editProfileTableView.cellForRowAtIndexPath(introductionCellIndexPath) as? EditProfileMoreInfoCell {
-            introductionCell.infoTextView.resignFirstResponder()
-        }
+        view.endEditing(true)
     }
 }
 
