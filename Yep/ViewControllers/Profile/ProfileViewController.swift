@@ -594,13 +594,19 @@ final class ProfileViewController: SegueViewController {
         let nickname: String
         let introduction: String
         let avatar: String
+        let blog: String
     }
 
     private lazy var listener: Listener = {
 
         let suffix = NSUUID().UUIDString
 
-        return Listener(nickname: "Profile.Title" + suffix, introduction: "Profile.introductionText" + suffix, avatar: "Profile.Avatar" + suffix)
+        return Listener(
+            nickname: "Profile.Title" + suffix,
+            introduction: "Profile.introductionText" + suffix,
+            avatar: "Profile.Avatar" + suffix,
+            blog: "Profile.Blog" + suffix
+        )
     }()
 
     // MARK: Life cycle
@@ -611,6 +617,7 @@ final class ProfileViewController: SegueViewController {
         YepUserDefaults.nickname.removeListenerWithName(listener.nickname)
         YepUserDefaults.introduction.removeListenerWithName(listener.introduction)
         YepUserDefaults.avatarURLString.removeListenerWithName(listener.avatar)
+        YepUserDefaults.blogURLString.removeListenerWithName(listener.blog)
 
         profileCollectionView?.delegate = nil
 
@@ -809,6 +816,10 @@ final class ProfileViewController: SegueViewController {
                             }
                         }
                     }
+
+                    YepUserDefaults.blogURLString.bindListener(listener.blog, action: { [weak self] _ in
+                        self?.updateProfileCollectionView()
+                    })
 
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: EditProfileViewController.Notification.NewUsername, object: nil)
                 }
@@ -1700,7 +1711,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUser.isMe {
 
-                if let blogURL = profileUser.blogURL {
+                if let blogURLString = YepUserDefaults.blogURLString.value, blogURL = NSURL(string: blogURLString) {
                     yep_openURL(blogURL)
 
                 } else {
