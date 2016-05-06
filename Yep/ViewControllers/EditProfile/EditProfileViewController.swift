@@ -62,7 +62,19 @@ final class EditProfileViewController: SegueViewController {
         return YepUserDefaults.blogURLString.value ?? NSLocalizedString("Set blog URL here.", comment: "")
     }
 
-    private let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
+    private let infoAttributes = [NSFontAttributeName: YepConfig.EditProfile.infoFont]
+
+    func heightOfCellForMoreInfo(info: String) -> CGFloat {
+
+        let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
+        let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.infoInset
+
+        let rect = info.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: infoAttributes, context: nil)
+
+        let height = 20 + 22 + 10 + ceil(rect.height) + 20
+
+        return max(height, 120)
+    }
 
     private struct Listener {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
@@ -413,26 +425,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return 60
 
             case .Intro:
-
-                let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
-                let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
-
-                let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
-
-                let height = 20 + 22 + 10 + ceil(rect.height) + 20
-                
-                return max(height, 120)
+                return heightOfCellForMoreInfo(introduction)
 
             case .Blog:
-
-                let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
-                let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
-
-                let rect = blogURLString.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
-
-                let height = 20 + 22 + 10 + ceil(rect.height) + 20
-
-                return max(height, 120)
+                return heightOfCellForMoreInfo(blogURLString)
             }
 
         case .LogOut:

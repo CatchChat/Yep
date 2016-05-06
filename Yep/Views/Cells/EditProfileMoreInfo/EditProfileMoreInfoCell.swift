@@ -22,7 +22,7 @@ final class EditProfileMoreInfoCell: UITableViewCell {
 
         selectionStyle = .None
 
-        infoTextView.font = YepConfig.EditProfile.introFont
+        infoTextView.font = YepConfig.EditProfile.infoFont
         infoTextView.textContainer.lineFragmentPadding = 0
         infoTextView.textContainerInset = UIEdgeInsetsZero
         infoTextView.delegate = self
