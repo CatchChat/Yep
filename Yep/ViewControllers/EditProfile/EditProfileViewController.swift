@@ -225,7 +225,10 @@ final class EditProfileViewController: SegueViewController {
     @objc private func save(sender: UIBarButtonItem) {
 
         view.endEditing(true)
-        isDirty = false
+
+        delay(0) { [weak self] in
+            self?.isDirty = false
+        }
     }
 }
 
@@ -370,6 +373,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         }
                     }
 
+                    guard self?.isDirty ?? false else {
+                        return
+                    }
+
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
@@ -419,6 +426,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         if oldBlogURLString == newBlogURLString {
                             return
                         }
+                    }
+
+                    guard self?.isDirty ?? false else {
+                        return
                     }
 
                     YepHUD.showActivityIndicator()
