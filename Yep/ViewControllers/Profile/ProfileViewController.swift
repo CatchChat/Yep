@@ -1717,14 +1717,22 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 } else {
                     YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: "example.com", oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
+                        YepHUD.showActivityIndicator()
+                        
                         let blogURLString = text
 
                         updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+
+                            YepHUD.hideActivityIndicator()
+
                             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
                         }, completion: { success in
+
+                            YepHUD.hideActivityIndicator()
+
                             dispatch_async(dispatch_get_main_queue()) {
                                 YepUserDefaults.blogURLString.value = blogURLString
                             }
