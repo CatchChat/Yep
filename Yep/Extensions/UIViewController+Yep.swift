@@ -129,8 +129,13 @@ extension UIViewController {
 
     func yep_openURL(URL: NSURL) {
 
-        let safariViewController = SFSafariViewController(URL: URL)
-        presentViewController(safariViewController, animated: true, completion: nil)
+        if let validSchemeURL = URL.yep_validSchemeURL {
+            let safariViewController = SFSafariViewController(URL: validSchemeURL)
+            presentViewController(safariViewController, animated: true, completion: nil)
+
+        } else {
+            YepAlert.alertSorry(message: "Invalid URL!", inViewController: self)
+        }
     }
 }
 
