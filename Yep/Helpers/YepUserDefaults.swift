@@ -16,6 +16,7 @@ private let nicknameKey = "nickname"
 private let introductionKey = "introduction"
 private let avatarURLStringKey = "avatarURLString"
 private let badgeKey = "badge"
+private let blogURLStringKey = "blogURLString"
 private let pusherIDKey = "pusherID"
 
 private let areaCodeKey = "areaCode"
@@ -125,6 +126,7 @@ class YepUserDefaults {
         introduction.removeAllListeners()
         avatarURLString.removeAllListeners()
         badge.removeAllListeners()
+        blogURLString.removeAllListeners()
         pusherID.removeAllListeners()
         areaCode.removeAllListeners()
         mobile.removeAllListeners()
@@ -280,6 +282,27 @@ class YepUserDefaults {
                     let _ = try? realm.write {
                         me.badge = badge
                     }
+            }
+        }
+    }()
+
+    static var blogURLString: Listenable<String?> = {
+        let blogURLString = defaults.stringForKey(blogURLStringKey)
+
+        return Listenable<String?>(blogURLString) { blogURLString in
+            defaults.setObject(blogURLString, forKey: blogURLStringKey)
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            if let
+                blogURLString = blogURLString,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.blogURLString = blogURLString
+                }
             }
         }
     }()
