@@ -377,6 +377,54 @@ final class ProfileViewController: SegueViewController {
         }
     }
 
+    private var numberOfItemsInSectionBlog: Int {
+
+        if profileUserIsMe {
+            return 1
+        } else {
+            if let _ = profileUser?.blogURL {
+                return 1
+            } else {
+                return 0
+            }
+        }
+    }
+
+    private var numberOfItemsInSectionSocialAccount: Int {
+
+        return (profileUser?.providersCount ?? 0)
+    }
+
+    private var insetForSectionBlog: UIEdgeInsets {
+
+        if numberOfItemsInSectionBlog > 0 {
+            if numberOfItemsInSectionSocialAccount > 0 {
+                return UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0)
+            } else {
+                return UIEdgeInsets(top: 30, left: 0, bottom: 40, right: 0)
+            }
+        } else {
+            return UIEdgeInsetsZero
+        }
+    }
+
+    private var insetForSectionSocialAccount: UIEdgeInsets {
+
+        if numberOfItemsInSectionBlog > 0 {
+            if numberOfItemsInSectionSocialAccount > 0 {
+                return UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)
+            } else {
+                return UIEdgeInsetsZero
+            }
+        } else {
+            if numberOfItemsInSectionSocialAccount > 0 {
+                return UIEdgeInsets(top: 30, left: 0, bottom: 30, right: 0)
+            } else {
+                return UIEdgeInsetsZero
+            }
+        }
+    }
+
     private lazy var shareView: ShareProfileView = {
         let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         share.alpha = 0
@@ -678,7 +726,7 @@ final class ProfileViewController: SegueViewController {
             profileLayout.scrollUpAction = { [weak self] progress in
 
                 if let strongSelf = self {
-                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                    let indexPath = NSIndexPath(forItem: 0, inSection: Section.Header.rawValue)
                     
                     if let coverCell = strongSelf.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
                         
@@ -752,7 +800,7 @@ final class ProfileViewController: SegueViewController {
 
                     YepUserDefaults.avatarURLString.bindListener(listener.avatar) { [weak self] avatarURLString in
                         dispatch_async(dispatch_get_main_queue()) {
-                            let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Header.rawValue)
+                            let indexPath = NSIndexPath(forItem: 0, inSection: Section.Header.rawValue)
                             if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
                                 if let avatarURLString = avatarURLString {
                                     cell.blurredAvatarImage = nil // need reblur
@@ -822,7 +870,7 @@ final class ProfileViewController: SegueViewController {
 
                 YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
 
-                    let indexPath = NSIndexPath(forItem: 0, inSection: ProfileSection.Footer.rawValue)
+                    let indexPath = NSIndexPath(forItem: 0, inSection: Section.Footer.rawValue)
                     if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileFooterCell {
                         cell.location = newLocation
                     }
@@ -1228,12 +1276,13 @@ final class ProfileViewController: SegueViewController {
 
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
-    enum ProfileSection: Int {
-        case Header = 0
+    enum Section: Int {
+        case Header
         case Footer
         case Master
         case Learning
         case SeparationLine
+        case Blog
         case SocialAccount
         case SeparationLine2
         case Feeds
@@ -1245,43 +1294,51 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case ProfileSection.Header.rawValue:
+        case .Header:
             return 1
 
-        case ProfileSection.Master.rawValue:
+        case .Master:
             return profileUser?.masterSkillsCount ?? 0
 
-        case ProfileSection.Learning.rawValue:
+        case .Learning:
             return profileUser?.learningSkillsCount ?? 0
 
-        case ProfileSection.Footer.rawValue:
+        case .Footer:
             return 1
 
-        case ProfileSection.SeparationLine.rawValue:
+        case .SeparationLine:
             let needSeparationLine = profileUser?.needSeparationLine ?? false
             return needSeparationLine ? 1 : 0
-            
-        case ProfileSection.SocialAccount.rawValue:
-            return 1 + (profileUser?.providersCount ?? 0)
 
-        case ProfileSection.SeparationLine2.rawValue:
+        case .Blog:
+            return numberOfItemsInSectionBlog
+
+        case .SocialAccount:
+            return numberOfItemsInSectionSocialAccount
+
+        case .SeparationLine2:
             return 1
 
-        case ProfileSection.Feeds.rawValue:
+        case .Feeds:
             return 1
-
-        default:
-            return 0
         }
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case ProfileSection.Header.rawValue:
+        switch section {
+
+        case .Header:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
 
             if let profileUser = profileUser {
@@ -1305,7 +1362,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case ProfileSection.Master.rawValue:
+        case .Master:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
@@ -1324,7 +1381,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case ProfileSection.Learning.rawValue:
+        case .Learning:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
@@ -1343,7 +1400,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case ProfileSection.Footer.rawValue:
+        case .Footer:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
 
             if let profileUser = profileUser {
@@ -1352,22 +1409,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case ProfileSection.SeparationLine.rawValue:
+        case .SeparationLine:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
             return cell
-            
-        case ProfileSection.SocialAccount.rawValue:
 
-            if indexPath.item == 0 {
+        case .Blog:
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountBlogCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountBlogCell
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountBlogCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountBlogCell
+            cell.configureWithProfileUser(profileUser)
 
-                cell.configureWithProfileUser(profileUser)
+            return cell
 
-                return cell
-            }
+        case .SocialAccount:
 
-            let index = indexPath.item - 1
+            let index = indexPath.item
 
             if let providerName = profileUser?.providerNameWithIndex(index), socialAccount = SocialAccount(rawValue: providerName) {
 
@@ -1422,11 +1477,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
             return cell
 
-        case ProfileSection.SeparationLine2.rawValue:
+        case .SeparationLine2:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
             return cell
 
-        case ProfileSection.Feeds.rawValue:
+        case .Feeds:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
 
             cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
@@ -1434,10 +1489,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 self?.feedAttachments = feedAttachments
             })
 
-            return cell
-
-        default:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
             return cell
         }
     }
@@ -1448,12 +1499,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
 
-            switch indexPath.section {
+            guard let section = Section(rawValue: indexPath.section) else {
+                fatalError()
+            }
 
-            case ProfileSection.Master.rawValue:
+            switch section {
+
+            case .Master:
                 header.titleLabel.text = SkillSet.Master.name
 
-            case ProfileSection.Learning.rawValue:
+            case .Learning:
                 header.titleLabel.text = SkillSet.Learning.name
 
             default:
@@ -1466,12 +1521,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     let skillSet: SkillSet
 
-                    switch indexPath.section {
+                    switch section {
 
-                    case ProfileSection.Master.rawValue:
+                    case .Master:
                         skillSet = .Master
 
-                    case ProfileSection.Learning.rawValue:
+                    case .Learning:
                         skillSet = .Learning
 
                     default:
@@ -1495,47 +1550,54 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case ProfileSection.Header.rawValue:
+        case .Header:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
 
-        case ProfileSection.Master.rawValue:
+        case .Master:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 15, right: sectionRightEdgeInset)
 
-        case ProfileSection.Learning.rawValue:
+        case .Learning:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
-        case ProfileSection.Footer.rawValue:
+        case .Footer:
             return UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
             
-        case ProfileSection.SeparationLine.rawValue:
+        case .SeparationLine:
             return UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
 
-        case ProfileSection.SocialAccount.rawValue:
-            let inset: CGFloat = (profileUser?.providersCount ?? 0) > 0 ? 30 : 0
-            return UIEdgeInsets(top: inset, left: 0, bottom: inset, right: 0)
+        case .Blog:
+            return insetForSectionBlog
 
-        case ProfileSection.SeparationLine2.rawValue:
+        case .SocialAccount:
+            return insetForSectionSocialAccount
+
+        case .SeparationLine2:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
-        case ProfileSection.Feeds.rawValue:
+        case .Feeds:
             return UIEdgeInsets(top: 30, left: 0, bottom: 30, right: 0)
-
-        default:
-            return UIEdgeInsetsZero
         }
     }
 
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case ProfileSection.Header.rawValue:
+        switch section {
+
+        case .Header:
 
             return CGSize(width: collectionViewWidth, height: collectionViewWidth * profileAvatarAspectRatio)
 
-        case ProfileSection.Master.rawValue:
+        case .Master:
 
             let skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
 
@@ -1543,7 +1605,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
-        case ProfileSection.Learning.rawValue:
+        case .Learning:
 
             let skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
 
@@ -1551,23 +1613,23 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
-        case ProfileSection.Footer.rawValue:
+        case .Footer:
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
-        case ProfileSection.SeparationLine.rawValue:
-            return CGSize(width: collectionViewWidth, height: 1)
-            
-        case ProfileSection.SocialAccount.rawValue:
-            return CGSize(width: collectionViewWidth, height: (profileUser?.providersCount ?? 0) > 0 ? 40 : 0)
-
-        case ProfileSection.SeparationLine2.rawValue:
+        case .SeparationLine:
             return CGSize(width: collectionViewWidth, height: 1)
 
-        case ProfileSection.Feeds.rawValue:
+        case .Blog:
+            return CGSize(width: collectionViewWidth, height: numberOfItemsInSectionBlog > 0 ? 40 : 0)
+
+        case .SocialAccount:
+            return CGSize(width: collectionViewWidth, height: numberOfItemsInSectionSocialAccount > 0 ? 40 : 0)
+
+        case .SeparationLine2:
+            return CGSize(width: collectionViewWidth, height: 1)
+
+        case .Feeds:
             return CGSize(width: collectionViewWidth, height: 40)
-
-        default:
-            return CGSizeZero
         }
     }
 
@@ -1577,16 +1639,20 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSizeZero
         }
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         let normalHeight: CGFloat = 40
 
         if profileUser.isMe {
 
             switch section {
 
-            case ProfileSection.Master.rawValue:
+            case .Master:
                 return CGSizeMake(collectionViewWidth, normalHeight)
 
-            case ProfileSection.Learning.rawValue:
+            case .Learning:
                 return CGSizeMake(collectionViewWidth, normalHeight)
 
             default:
@@ -1596,11 +1662,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         } else {
             switch section {
 
-            case ProfileSection.Master.rawValue:
+            case .Master:
                 let height: CGFloat = (profileUser.masterSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
                 return CGSizeMake(collectionViewWidth, height)
 
-            case ProfileSection.Learning.rawValue:
+            case .Learning:
                 let height: CGFloat = (profileUser.learningSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
                 return CGSizeMake(collectionViewWidth, height)
                 
@@ -1616,53 +1682,54 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case ProfileSection.Learning.rawValue, ProfileSection.Master.rawValue:
+        switch section {
+
+        case .Learning, .Master:
             // do in SkillCell's tapAction
             break
 
-        case ProfileSection.SocialAccount.rawValue:
+        case .Blog:
 
-            if indexPath.item == 0 {
-
-                guard let profileUser = profileUser else {
-                    break
-                }
-
-                if profileUser.isMe {
-
-                    if let blogURL = profileUser.blogURL {
-                        yep_openURL(blogURL)
-
-                    } else {
-                        YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: NSLocalizedString("example.com", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
-
-                            let blogURLString = text
-
-                            updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
-                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
-
-                            }, completion: { success in
-
-                            })
-                            
-                        }, cancelAction: {
-                        })
-                    }
-
-                } else {
-                    if let blogURL = profileUser.blogURL {
-                        yep_openURL(blogURL)
-                    }
-                }
-
+            guard let profileUser = profileUser else {
                 break
             }
 
-            let index = indexPath.item - 1
+            if profileUser.isMe {
+
+                if let blogURL = profileUser.blogURL {
+                    yep_openURL(blogURL)
+
+                } else {
+                    YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: NSLocalizedString("example.com", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+
+                        let blogURLString = text
+
+                        updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                            }, completion: { success in
+
+                        })
+
+                    }, cancelAction: {
+                    })
+                }
+                
+            } else {
+                if let blogURL = profileUser.blogURL {
+                    yep_openURL(blogURL)
+                }
+            }
+                
+        case .SocialAccount:
+
+            let index = indexPath.item
 
             guard let
                 profileUser = profileUser,
@@ -1746,9 +1813,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 }
             }
 
-        case ProfileSection.Feeds.rawValue:
+        case .Feeds:
+
             guard let profileUser = profileUser else {
-                return
+                break
             }
 
             let info: [String: AnyObject] = [
