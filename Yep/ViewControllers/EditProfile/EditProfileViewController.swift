@@ -70,14 +70,14 @@ final class EditProfileViewController: SegueViewController {
 
     private let infoAttributes = [NSFontAttributeName: YepConfig.EditProfile.infoFont]
 
-    func heightOfCellForMoreInfo(info: String) -> CGFloat {
+    private func heightOfCellForMoreInfo(info: String) -> CGFloat {
 
-        let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
-        let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.infoInset
+        let tableViewWidth: CGFloat = CGRectGetWidth(editProfileTableView.bounds)
+        let introLabelMaxWidth: CGFloat = tableViewWidth - YepConfig.EditProfile.infoInset
 
-        let rect = info.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: infoAttributes, context: nil)
+        let rect: CGRect = info.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: infoAttributes, context: nil)
 
-        let height = 20 + 22 + 10 + ceil(rect.height) + 20
+        let height: CGFloat = 20 + 22 + 10 + ceil(rect.height) + 20
 
         return max(height, 120)
     }
