@@ -46,9 +46,15 @@ final class EditProfileViewController: SegueViewController {
     }()
 
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.saveIntroduction(_:)))
+        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.save(_:)))
         return button
     }()
+    private var isDirty: Bool = false {
+        didSet {
+            navigationItem.rightBarButtonItem = doneButton
+            doneButton.enabled = isDirty
+        }
+    }
 
     private let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     private let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
@@ -58,12 +64,29 @@ final class EditProfileViewController: SegueViewController {
         return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
     }
 
-    private let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
+    private var blogURLString: String {
+        return YepUserDefaults.blogURLString.value ?? NSLocalizedString("Set blog URL here.", comment: "")
+    }
+
+    private let infoAttributes = [NSFontAttributeName: YepConfig.EditProfile.infoFont]
+
+    func heightOfCellForMoreInfo(info: String) -> CGFloat {
+
+        let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
+        let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.infoInset
+
+        let rect = info.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: infoAttributes, context: nil)
+
+        let height = 20 + 22 + 10 + ceil(rect.height) + 20
+
+        return max(height, 120)
+    }
 
     private struct Listener {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
+        static let Blog = "EditProfileLessInfoCell.Blog"
     }
 
     deinit {
@@ -199,11 +222,12 @@ final class EditProfileViewController: SegueViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
 
-    @objc private func saveIntroduction(sender: UIBarButtonItem) {
+    @objc private func save(sender: UIBarButtonItem) {
 
-        let introductionCellIndexPath = NSIndexPath(forRow: InfoRow.Intro.rawValue, inSection: Section.Info.rawValue)
-        if let introductionCell = editProfileTableView.cellForRowAtIndexPath(introductionCellIndexPath) as? EditProfileMoreInfoCell {
-            introductionCell.infoTextView.resignFirstResponder()
+        view.endEditing(true)
+
+        delay(0) { [weak self] in
+            self?.isDirty = false
         }
     }
 }
@@ -216,9 +240,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     private enum InfoRow: Int {
-        case Username = 0
+        case Username
         case Nickname
         case Intro
+        case Blog
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -227,28 +252,37 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case Section.Info.rawValue:
-            return 3
+        case .Info:
+            return 4
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
             return 1
-
-        default:
-            return 0
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch infoRow {
+
+            case .Username:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
@@ -277,7 +311,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case InfoRow.Nickname.rawValue:
+            case .Nickname:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
 
@@ -307,7 +341,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case InfoRow.Intro.rawValue:
+            case .Intro:
 
                 let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
 
@@ -319,9 +353,15 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
+                cell.infoTextViewBeginEditingAction = { infoTextView in
+                    // 初次设置前，清空 placeholder
+                    if YepUserDefaults.introduction.value == nil {
+                        infoTextView.text = ""
+                    }
+                }
+
                 cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
-                    self?.navigationItem.rightBarButtonItem = self?.doneButton
-                    self?.doneButton.enabled = isDirty
+                    self?.isDirty = isDirty
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
@@ -331,6 +371,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         if oldIntroduction == newIntroduction {
                             return
                         }
+                    }
+
+                    guard self?.isDirty ?? false else {
+                        return
                     }
 
                     YepHUD.showActivityIndicator()
@@ -353,55 +397,101 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            default:
-                return UITableViewCell()
+            case .Blog:
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+
+                cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
+
+                YepUserDefaults.blogURLString.bindAndFireListener(Listener.Blog) { [weak cell] blogURLString in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        cell?.infoTextView.text = blogURLString ?? NSLocalizedString("Set blog URL here.", comment: "")
+                    }
+                }
+
+                cell.infoTextViewBeginEditingAction = { infoTextView in
+                    // 初次设置前，清空 placeholder
+                    if YepUserDefaults.blogURLString.value == nil {
+                        infoTextView.text = ""
+                    }
+                }
+
+                cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
+                    self?.isDirty = isDirty
+                }
+
+                cell.infoTextViewDidEndEditingAction = { [weak self] newBlogURLString in
+                    self?.doneButton.enabled = false
+
+                    if let oldBlogURLString = YepUserDefaults.blogURLString.value {
+                        if oldBlogURLString == newBlogURLString {
+                            return
+                        }
+                    }
+
+                    guard self?.isDirty ?? false else {
+                        return
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    updateMyselfWithInfo(["website_url": newBlogURLString], failureHandler: { (reason, errorMessage) in
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        YepHUD.hideActivityIndicator()
+
+                    }, completion: { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            YepUserDefaults.blogURLString.value = newBlogURLString
+
+                            self?.editProfileTableView.reloadData()
+                        }
+                        
+                        YepHUD.hideActivityIndicator()
+                    })
+                }
+
+                return cell
             }
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
             let cell = tableView.dequeueReusableCellWithIdentifier(editProfileColoredTitleCellIdentifier) as! EditProfileColoredTitleCell
             cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
             cell.coloredTitleColor = UIColor.redColor()
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
-                return 60
-
-            case InfoRow.Nickname.rawValue:
-                return 60
-
-            case InfoRow.Intro.rawValue:
-
-                let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
-                let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
-
-                let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
-
-                let height = 20 + 22 + 10 + ceil(rect.height) + 20
-                
-                return max(height, 120)
-
-            default:
-                return 0
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
             }
 
-        case Section.LogOut.rawValue:
-            return 60
+            switch infoRow {
 
-        default:
-            return 0
+            case .Username:
+                return 60
+
+            case .Nickname:
+                return 60
+
+            case .Intro:
+                return heightOfCellForMoreInfo(introduction)
+
+            case .Blog:
+                return heightOfCellForMoreInfo(blogURLString)
+            }
+
+        case .LogOut:
+            return 60
         }
     }
 
@@ -411,13 +501,21 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.Info.rawValue:
+        switch section {
 
-            switch indexPath.row {
+        case .Info:
 
-            case InfoRow.Username.rawValue:
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch infoRow {
+
+            case .Username:
 
                 guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: try! Realm()) else {
                     break
@@ -465,14 +563,14 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }, cancelAction: {
                 })
 
-            case InfoRow.Nickname.rawValue:
+            case .Nickname:
                 performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
 
             default:
                 break
             }
 
-        case Section.LogOut.rawValue:
+        case .LogOut:
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
 
@@ -496,9 +594,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             }, cancelAction: { () -> Void in
             })
-
-        default:
-            break
         }
     }
 }

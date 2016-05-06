@@ -29,7 +29,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
             if let layoutAttributes = layoutAttributes {
                 for attributes in layoutAttributes {
-                    if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                    if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
                         var frame = attributes.frame
                         frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
                         frame.origin.y = CGRectGetMinY(frame) - deltaY
@@ -50,7 +50,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
                 if let layoutAttributes = layoutAttributes {
                     for attributes in layoutAttributes {
-                        if attributes.indexPath.section == ProfileViewController.ProfileSection.Header.rawValue {
+                        if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
                             var frame = attributes.frame
                             frame.origin.y = deltaY - coverHideHeight
                             attributes.frame = frame
@@ -111,7 +111,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             for attributes in rowCollection {
                 var itemFrame = attributes.frame
 
-                if attributes.representedElementCategory == .Cell && (attributes.indexPath.section == ProfileViewController.ProfileSection.Master.rawValue || attributes.indexPath.section == ProfileViewController.ProfileSection.Learning.rawValue) {
+                if attributes.representedElementCategory == .Cell && (attributes.indexPath.section == ProfileViewController.Section.Master.rawValue || attributes.indexPath.section == ProfileViewController.Section.Learning.rawValue) {
                     if CGRectEqualToRect(previousFrame, CGRectZero) {
                         itemFrame.origin.x = leftEdgeInset
                     } else {

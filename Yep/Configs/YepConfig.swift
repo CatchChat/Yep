@@ -146,11 +146,11 @@ final class YepConfig {
 
     struct EditProfile {
 
-        static let introFont: UIFont = {
+        static let infoFont: UIFont = {
             return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
         }()
 
-        static let introInset: CGFloat = 20 + 20
+        static let infoInset: CGFloat = 20 + 20
     }
 
     struct SocialWorkGithub {

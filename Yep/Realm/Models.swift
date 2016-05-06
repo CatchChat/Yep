@@ -138,6 +138,7 @@ class User: Object {
     dynamic var avatarURLString: String = ""
     dynamic var avatar: Avatar?
     dynamic var badge: String = ""
+    dynamic var blogURLString: String = ""
 
     override class func indexedProperties() -> [String] {
         return ["userID"]
@@ -1178,6 +1179,10 @@ func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRealm real
         user.badge = badge
     }
 
+    if let blogURLString = discoveredUser.blogURLString {
+        user.blogURLString = blogURLString
+    }
+
     // 更新技能
 
     user.learningSkills.removeAll()
@@ -1853,6 +1858,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
         if let badge = userInfo["badge"] as? String {
             user.badge = badge
+        }
+
+        if let blogURLString = userInfo["website_url"] as? String {
+            user.blogURLString = blogURLString
         }
 
         // 更新技能

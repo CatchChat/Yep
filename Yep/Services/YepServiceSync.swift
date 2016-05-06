@@ -66,6 +66,10 @@ func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm rea
         if let badge = discoveredUser.badge {
             user.badge = badge
         }
+
+        if let blogURLString = discoveredUser.blogURLString {
+            user.blogURLString = blogURLString
+        }
     }
 
     return user
@@ -365,6 +369,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                     if let badge = friendInfo["badge"] as? String {
                         YepUserDefaults.badge.value = badge
+                    }
+
+                    if let blogURLString = friendInfo["website_url"] as? String {
+                        YepUserDefaults.blogURLString.value = blogURLString
                     }
 
                     if let areaCode = friendInfo["phone_code"] as? String {

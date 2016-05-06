@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ProfileSocialAccountBlogCell" customModule="Yep" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="354" height="107"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="354" height="107"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JOv-2D-54q" userLabel="Icon Image View">
+                        <rect key="frame" x="28" y="42" width="24" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="JOv-2D-54q" secondAttribute="height" multiplier="1:1" id="8Ej-dx-j7D"/>
+                            <constraint firstAttribute="width" constant="24" id="PVu-D3-Lql"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="nixBlog" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhB-kg-5rJ" userLabel="Name Label">
+                        <rect key="frame" x="67" y="45" width="50" height="18"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="5iZ-Qn-lkm">
+                        <rect key="frame" x="308" y="47" width="8" height="13"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX' Blog" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ajy-gv-M48">
+                        <rect key="frame" x="222" y="43" width="71" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="5iZ-Qn-lkm" firstAttribute="leading" secondItem="Ajy-gv-M48" secondAttribute="trailing" constant="15" id="YgG-Mg-yzv"/>
+                <constraint firstAttribute="trailing" secondItem="5iZ-Qn-lkm" secondAttribute="trailing" constant="38" id="aGa-Ze-Mha"/>
+                <constraint firstItem="JOv-2D-54q" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="cWE-Mu-3sv"/>
+                <constraint firstItem="Ajy-gv-M48" firstAttribute="centerY" secondItem="5iZ-Qn-lkm" secondAttribute="centerY" id="fs7-UD-GiE"/>
+                <constraint firstItem="Ajy-gv-M48" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VhB-kg-5rJ" secondAttribute="trailing" constant="20" id="gnb-Ab-utm"/>
+                <constraint firstItem="JOv-2D-54q" firstAttribute="centerY" secondItem="VhB-kg-5rJ" secondAttribute="centerY" id="hAH-Zz-EO8"/>
+                <constraint firstItem="VhB-kg-5rJ" firstAttribute="leading" secondItem="JOv-2D-54q" secondAttribute="trailing" constant="15" id="hi1-sb-FHb"/>
+                <constraint firstItem="JOv-2D-54q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="28" id="lf3-Bc-2aR"/>
+                <constraint firstItem="5iZ-Qn-lkm" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="vhc-3x-kbf"/>
+            </constraints>
+            <connections>
+                <outlet property="accessoryImageView" destination="5iZ-Qn-lkm" id="mKy-Aw-51R"/>
+                <outlet property="accessoryImageViewTrailingConstraint" destination="aGa-Ze-Mha" id="vL2-ch-emi"/>
+                <outlet property="blogLabel" destination="Ajy-gv-M48" id="4LG-WL-Q3l"/>
+                <outlet property="iconImageView" destination="JOv-2D-54q" id="tHH-JY-UFk"/>
+                <outlet property="iconImageViewLeadingConstraint" destination="lf3-Bc-2aR" id="LOI-km-P7V"/>
+                <outlet property="nameLabel" destination="VhB-kg-5rJ" id="rib-iE-b28"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="icon_accessory_mini" width="8" height="13"/>
+    </resources>
+</document>
