@@ -58,6 +58,10 @@ final class EditProfileViewController: SegueViewController {
         return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
     }
 
+    private var blogURLString: String {
+        return YepUserDefaults.blogURLString.value ?? NSLocalizedString("Set blog URL here.", comment: "")
+    }
+
     private let introAttributes = [NSFontAttributeName: YepConfig.EditProfile.introFont]
 
     private struct Listener {
@@ -420,7 +424,15 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return max(height, 120)
 
             case .Blog:
-                return 120
+
+                let tableViewWidth = CGRectGetWidth(editProfileTableView.bounds)
+                let introLabelMaxWidth = tableViewWidth - YepConfig.EditProfile.introInset
+
+                let rect = blogURLString.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
+
+                let height = 20 + 22 + 10 + ceil(rect.height) + 20
+
+                return max(height, 120)
             }
 
         case .LogOut:
