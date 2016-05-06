@@ -1860,6 +1860,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
             user.badge = badge
         }
 
+        if let blogURLString = userInfo["website_url"] as? String {
+            user.blogURLString = blogURLString
+        }
+
         // 更新技能
 
         if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
