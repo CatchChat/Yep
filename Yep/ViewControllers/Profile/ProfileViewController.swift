@@ -1713,8 +1713,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
-                            }, completion: { success in
-
+                        }, completion: { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.blogURLString.value = blogURLString
+                            }
                         })
 
                     }, cancelAction: {
