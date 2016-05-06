@@ -33,20 +33,35 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         accessoryImageView.hidden = true
     }
 
+    var blogURLString: String? {
+
+        didSet {
+            if let blogURLString = blogURLString {
+
+                blogLabel.text = blogURLString
+
+                iconImageView.tintColor = UIColor.yepTintColor()
+                nameLabel.textColor = UIColor.yepTintColor()
+                blogLabel.textColor = SocialAccount.disabledColor
+
+                accessoryImageView.hidden = false
+
+            } else {
+                iconImageView.tintColor = SocialAccount.disabledColor
+                nameLabel.textColor = SocialAccount.disabledColor
+                blogLabel.textColor = SocialAccount.disabledColor
+                
+                accessoryImageView.hidden = true
+            }
+        }
+    }
+
     func configureWithProfileUser(profileUser: ProfileUser?) {
 
-        iconImageView.tintColor = SocialAccount.disabledColor
-        nameLabel.textColor = SocialAccount.disabledColor
-        blogLabel.textColor = SocialAccount.disabledColor
-
-        if let blogURL = profileUser?.blogURL {
-
-            blogLabel.text = blogURL.absoluteString
-
-            iconImageView.tintColor = UIColor.yepTintColor()
-            nameLabel.textColor = UIColor.yepTintColor()
-
-            accessoryImageView.hidden = false
+        if profileUser?.isMe ?? false {
+            blogURLString = YepUserDefaults.blogURLString.value
+        } else {
+            blogURLString = profileUser?.blogURL?.absoluteString
         }
     }
 }
