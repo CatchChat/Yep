@@ -206,6 +206,7 @@
 		506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */; };
 		506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */; };
 		506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */; };
+		506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01F81CE029B100B3867D /* UploadContactsMaker.swift */; };
 		506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */; };
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
@@ -669,6 +670,7 @@
 		506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
 		506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountBlogCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.swift; sourceTree = "<group>"; };
 		506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountBlogCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.xib; sourceTree = "<group>"; };
+		506D01F81CE029B100B3867D /* UploadContactsMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadContactsMaker.swift; path = Helpers/UploadContactsMaker.swift; sourceTree = "<group>"; };
 		506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTypeButton.swift; path = Views/Buttons/MessageTypeButton.swift; sourceTree = "<group>"; };
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
@@ -1653,6 +1655,7 @@
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
 				6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */,
 				5038071F1BD9EEFC0068345E /* YepMedia.swift */,
+				506D01F81CE029B100B3867D /* UploadContactsMaker.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -3179,6 +3182,7 @@
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
 				500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */,
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
+				506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */,
 				50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */,
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
