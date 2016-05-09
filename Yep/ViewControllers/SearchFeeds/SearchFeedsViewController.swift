@@ -48,7 +48,22 @@ final class SearchFeedsViewController: SegueViewController {
     private let searchedFeedURLCellID = "SearchedFeedURLCell"
     private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
 
-    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+    private lazy var searchFeedsFooterView: SearchFeedsFooterView = {
+
+        let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
+
+        footerView.tapKeywordAction = { [weak self] keyword in
+
+            self?.searchBar.text = keyword
+
+            self?.isKeywordHotWord = true
+            self?.triggerSearchTaskWithSearchText(keyword)
+
+            self?.searchBar.resignFirstResponder()
+        }
+
+        return footerView
+    }()
 
     var feeds = [DiscoveredFeed]() {
         didSet {
@@ -56,30 +71,19 @@ final class SearchFeedsViewController: SegueViewController {
             feedsTableView.scrollEnabled = !feeds.isEmpty
 
             if feeds.isEmpty {
-                let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
-
-                footerView.tapKeywordAction = { [weak self] keyword in
-
-                    self?.searchBar.text = keyword
-
-                    self?.isKeywordHotWord = true
-                    self?.triggerSearchTaskWithSearchText(keyword)
-
-                    self?.searchBar.resignFirstResponder()
-                }
 
                 if keyword != nil {
-                    footerView.style = .NoResults
+                    searchFeedsFooterView.style = .NoResults
 
                 } else {
                     if skill != nil || profileUser != nil {
-                        footerView.style = .Empty
+                        searchFeedsFooterView.style = .Empty
                     } else {
-                        footerView.style = .Keywords
+                        searchFeedsFooterView.style = .Keywords
                     }
                 }
 
-                feedsTableView.tableFooterView = footerView
+                feedsTableView.tableFooterView = searchFeedsFooterView
 
             } else {
                 feedsTableView.tableFooterView = UIView()
