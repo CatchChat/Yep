@@ -216,6 +216,11 @@ final class EditProfileViewController: SegueViewController {
         }
         alertController.addAction(changeMobileAction)
 
+        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
+
+        }
+        alertController.addAction(uploadContactsAction)
+
         let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         }
