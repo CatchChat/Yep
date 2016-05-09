@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+#if !JPUSH
+    
 import XCTest
 @testable import Yep
 
@@ -182,4 +184,6 @@ final class ServiceTests: XCTestCase {
         waitForExpectationsWithTimeout(10, handler: nil)
     }
 }
+
+#endif
 

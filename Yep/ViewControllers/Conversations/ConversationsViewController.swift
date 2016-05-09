@@ -333,8 +333,7 @@ final class ConversationsViewController: BaseViewController {
                     UIUserNotificationType.Alert.rawValue
 
         #if JPUSH
-        //JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
-        APService.registerForRemoteNotificationTypes(types, categories: [category])
+        JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
         #endif
     }
 

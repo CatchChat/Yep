@@ -5,8 +5,7 @@
 #import <UIKit/UIKit.h>
 
 #ifndef DEBUG
-#import <JPush-iOS-SDK/APService.h>
-//#import "JPUSHService.h"
+#import <JPush/JPUSHService.h>
 #endif
 
 #import "MZFayeClient.h"
