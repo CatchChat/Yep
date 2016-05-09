@@ -4,9 +4,9 @@
 
 #import <UIKit/UIKit.h>
 
-//#ifndef DEBUG
+#ifndef DEBUG
 #import <JPush/JPUSHService.h>
-//#endif
+#endif
 
 #import "MZFayeClient.h"
 #import <BuddyBuildSDK/BuddyBuildSDK.h>
