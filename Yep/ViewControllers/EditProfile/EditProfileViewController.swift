@@ -86,12 +86,14 @@ final class EditProfileViewController: SegueViewController {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
+        static let Mobile = "EditProfileLessInfoCell.Mobile"
         static let Blog = "EditProfileLessInfoCell.Blog"
     }
 
     deinit {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+        YepUserDefaults.mobile.removeListenerWithName(Listener.Mobile)
         YepUserDefaults.badge.removeListenerWithName(Listener.Badge)
 
         editProfileTableView?.delegate = nil
@@ -109,7 +111,7 @@ final class EditProfileViewController: SegueViewController {
 
         updateAvatar() {}
 
-        YepUserDefaults.mobile.bindAndFireListener("") { [weak self] _ in
+        YepUserDefaults.mobile.bindAndFireListener(Listener.Mobile) { [weak self] _ in
             self?.mobileLabel.text = YepUserDefaults.fullPhoneNumber
         }
 
