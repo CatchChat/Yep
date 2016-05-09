@@ -58,13 +58,14 @@ final class SearchFeedsViewController: SegueViewController {
             if feeds.isEmpty {
                 let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
-                footerView.tapCoverAction = { [weak self] in
-                    self?.searchBar.resignFirstResponder()
-                }
-
                 footerView.tapKeywordAction = { [weak self] keyword in
+
                     self?.searchBar.text = keyword
+
+                    self?.isKeywordHotWord = true
                     self?.triggerSearchTaskWithSearchText(keyword)
+
+                    self?.searchBar.resignFirstResponder()
                 }
 
                 if keyword != nil {
@@ -111,6 +112,8 @@ final class SearchFeedsViewController: SegueViewController {
             feedsTableView.keyboardDismissMode = .OnDrag
         }
     }
+
+    private var isKeywordHotWord: Bool = false
 
     private var keyword: String? {
         didSet {
@@ -580,17 +583,31 @@ extension SearchFeedsViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 
         searchBar.text = nil
-        searchBar.resignFirstResponder()
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarBottomLineView.alpha = 0
-        }, completion: { finished in
-        })
+        if isKeywordHotWord {
+            isKeywordHotWord = false
 
-        navigationController?.popViewControllerAnimated(true)
+            keyword = nil
+            feeds = []
+            feedsTableView.reloadData()
+
+            searchBar.becomeFirstResponder()
+
+        } else {
+            searchBar.resignFirstResponder()
+
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+                self?.searchBarBottomLineView.alpha = 0
+            }, completion: { finished in
+            })
+
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        isKeywordHotWord = false
 
         triggerSearchTaskWithSearchText(searchText)
     }

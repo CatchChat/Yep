@@ -68,7 +68,6 @@ class SearchFeedsFooterView: UIView {
                 activityIndicatorView.stopAnimating()
 
                 keywordsTableView.hidden = true
-                coverView.hidden = true
 
             case .Keywords:
 
@@ -79,7 +78,6 @@ class SearchFeedsFooterView: UIView {
                 activityIndicatorView.stopAnimating()
 
                 keywordsTableView.hidden = false
-                coverView.hidden = false
 
                 hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
                     self?.keywords = hotwords
@@ -92,7 +90,6 @@ class SearchFeedsFooterView: UIView {
                 activityIndicatorView.startAnimating()
 
                 keywordsTableView.hidden = true
-                coverView.hidden = true
 
             case .NoResults:
 
@@ -103,12 +100,10 @@ class SearchFeedsFooterView: UIView {
                 activityIndicatorView.stopAnimating()
 
                 keywordsTableView.hidden = true
-                coverView.hidden = true
             }
         }
     }
 
-    var tapCoverAction: (() -> Void)?
     var tapKeywordAction: ((keyword: String) -> Void)?
 
     var keywords: [String] = [] {
@@ -149,23 +144,6 @@ class SearchFeedsFooterView: UIView {
         return tableView
     }()
 
-    lazy var coverView: UIView = {
-
-        let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(SearchFeedsFooterView.tapCoverView(_:)))
-        view.addGestureRecognizer(tap)
-        return view
-    }()
-
-    @objc private func tapCoverView(sender: UITapGestureRecognizer) {
-
-        coverView.hidden = true
-
-        tapCoverAction?()
-    }
-
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -183,17 +161,14 @@ class SearchFeedsFooterView: UIView {
         addSubview(promptLabel)
         addSubview(activityIndicatorView)
         addSubview(keywordsTableView)
-        addSubview(coverView)
 
         promptLabel.translatesAutoresizingMaskIntoConstraints = false
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
-        coverView.translatesAutoresizingMaskIntoConstraints = false
 
         let views: [String: AnyObject] = [
             "promptLabel": promptLabel,
             "keywordsTableView": keywordsTableView,
-            "coverView": coverView,
         ]
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
@@ -208,14 +183,6 @@ class SearchFeedsFooterView: UIView {
             let centerY = activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
 
             NSLayoutConstraint.activateConstraints([centerX, centerY])
-        }
-
-        do {
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverView]|", options: [], metrics: nil, views: views)
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverView]|", options: [], metrics: nil, views: views)
-
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV)
         }
     }
 }
