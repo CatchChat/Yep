@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+#if !JPUSH
+    
 import XCTest
 @testable import Yep
 import RealmSwift
@@ -51,4 +53,6 @@ final class ClearTests: XCTestCase {
         }
     }
 }
+
+#endif
 

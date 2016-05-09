@@ -6,6 +6,8 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+#if !JPUSH
+
 import XCTest
 
 final class YepTests: XCTestCase {
@@ -33,3 +35,6 @@ final class YepTests: XCTestCase {
     }
     
 }
+
+#endif
+
