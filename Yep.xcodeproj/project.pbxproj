@@ -3658,7 +3658,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
 				);
 				OTHER_LDFLAGS = (
@@ -3749,7 +3748,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Yep/JPush",
 					"$(PROJECT_DIR)/Yep",
 				);
 				OTHER_LDFLAGS = (
