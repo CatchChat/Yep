@@ -41,7 +41,6 @@ final class ContactsViewController: BaseViewController {
 
     private var searchedUsers: [DiscoveredUser] = []
 
-    //private var realmNotificationToken: NotificationToken?
     private var friendsNotificationToken: NotificationToken?
 
     private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
@@ -67,7 +66,6 @@ final class ContactsViewController: BaseViewController {
 
         contactsTableView?.delegate = nil
 
-        //realmNotificationToken?.stop()
         friendsNotificationToken?.stop()
 
         // ref http://stackoverflow.com/a/33281648
@@ -150,14 +148,6 @@ final class ContactsViewController: BaseViewController {
                 fatalError("\(error)")
             }
         })
-
-//        realmNotificationToken = friends.realm?.addNotificationBlock { [weak self] notification, realm in
-//            if let strongSelf = self {
-//                strongSelf.noContacts = strongSelf.friends.isEmpty
-//            }
-//            
-//            self?.updateContactsTableView()
-//        }
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
