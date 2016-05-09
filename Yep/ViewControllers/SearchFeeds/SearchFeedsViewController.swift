@@ -59,10 +59,12 @@ final class SearchFeedsViewController: SegueViewController {
                 let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
                 footerView.tapKeywordAction = { [weak self] keyword in
-                    self?.isHotWord = true
 
                     self?.searchBar.text = keyword
+
+                    self?.isHotWord = true
                     self?.triggerSearchTaskWithSearchText(keyword)
+
                     self?.searchBar.resignFirstResponder()
                 }
 
@@ -126,8 +128,6 @@ final class SearchFeedsViewController: SegueViewController {
     private var searchTask: CancelableTask?
 
     private func triggerSearchTaskWithSearchText(searchText: String) {
-
-        isHotWord = false
 
         println("try search feeds with keyword: \(searchText)")
 
@@ -585,8 +585,11 @@ extension SearchFeedsViewController: UISearchBarDelegate {
         searchBar.text = nil
 
         if isHotWord {
-            keyword = nil
+            isHotWord = false
+
             feeds = []
+            feedsTableView.reloadData()
+
             searchBar.becomeFirstResponder()
 
         } else {
@@ -602,6 +605,8 @@ extension SearchFeedsViewController: UISearchBarDelegate {
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+
+        isHotWord = false
 
         triggerSearchTaskWithSearchText(searchText)
     }
