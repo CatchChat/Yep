@@ -352,7 +352,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         // messages
         do {
             let filteredUserMessages: [UserMessages] = users.map({
-                let messages = $0.messages
+                let messages = $0.messages.map({ $0 })
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContainsString(searchText) })

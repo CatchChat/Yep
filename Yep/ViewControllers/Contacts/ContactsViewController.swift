@@ -41,7 +41,7 @@ final class ContactsViewController: BaseViewController {
 
     private var searchedUsers: [DiscoveredUser] = []
 
-    private var realmNotificationToken: NotificationToken?
+    private var friendsNotificationToken: NotificationToken?
 
     private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
 
@@ -66,7 +66,7 @@ final class ContactsViewController: BaseViewController {
 
         contactsTableView?.delegate = nil
 
-        realmNotificationToken?.stop()
+        friendsNotificationToken?.stop()
 
         // ref http://stackoverflow.com/a/33281648
         if let superView = searchController?.view.superview {
@@ -125,13 +125,29 @@ final class ContactsViewController: BaseViewController {
 
         noContacts = friends.isEmpty
 
-        realmNotificationToken = friends.realm?.addNotificationBlock { [weak self] notification, realm in
-            if let strongSelf = self {
-                strongSelf.noContacts = strongSelf.friends.isEmpty
+        friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+
+            guard let tableView = self?.contactsTableView else {
+                return
             }
-            
-            self?.updateContactsTableView()
-        }
+
+            switch change {
+
+            case .Initial:
+                tableView.reloadData()
+
+            case .Update(_, let deletions, let insertions, let modifications):
+                let section = Section.Local.rawValue
+                tableView.beginUpdates()
+                tableView.insertRowsAtIndexPaths(insertions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
+                tableView.deleteRowsAtIndexPaths(deletions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
+                tableView.reloadRowsAtIndexPaths(modifications.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
+                tableView.endUpdates()
+
+            case .Error(let error):
+                fatalError("\(error)")
+            }
+        })
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
