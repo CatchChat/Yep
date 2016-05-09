@@ -79,8 +79,13 @@ class SearchFeedsFooterView: UIView {
 
                 keywordsTableView.hidden = false
 
-                hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
-                    self?.keywords = hotwords
+                if keywords.isEmpty {
+                    hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
+                        self?.keywords = hotwords
+                    }
+
+                } else {
+                    reloadKeywordsTableView()
                 }
 
             case .Searching:
@@ -108,9 +113,7 @@ class SearchFeedsFooterView: UIView {
 
     var keywords: [String] = [] {
         didSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.keywordsTableView.reloadData()
-            }
+            reloadKeywordsTableView()
         }
     }
 
@@ -156,7 +159,13 @@ class SearchFeedsFooterView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func makeUI() {
+    private func reloadKeywordsTableView() {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.keywordsTableView.reloadData()
+        }
+    }
+
+    private func makeUI() {
 
         addSubview(promptLabel)
         addSubview(activityIndicatorView)
