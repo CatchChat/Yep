@@ -34,7 +34,8 @@ class Avatar: Object {
     dynamic var roundNano: NSData = NSData() // 40
 
     var user: User? {
-        let users = linkingObjects(User.self, forProperty: "avatar")
+        //let users = linkingObjects(User.self, forProperty: "avatar")
+        let users = LinkingObjects(fromType: User.self, property: "avatar")
         return users.first
     }
 }
@@ -44,9 +45,10 @@ class UserSkillCategory: Object {
     dynamic var name: String = ""
     dynamic var localName: String = ""
 
-    var skills: [UserSkill] {
-        return linkingObjects(UserSkill.self, forProperty: "category")
-    }
+    let skills = LinkingObjects(fromType: UserSkill.self, property: "category")
+//    var skills: [UserSkill] {
+//        return linkingObjects(UserSkill.self, forProperty: "category")
+//    }
 }
 
 class UserSkill: Object {
@@ -65,13 +67,15 @@ class UserSkill: Object {
     dynamic var localName: String = ""
     dynamic var coverURLString: String = ""
 
-    var learningUsers: [User] {
-        return linkingObjects(User.self, forProperty: "learningSkills")
-    }
+    let learningUsers = LinkingObjects(fromType: User.self, property: "learningSkills")
+//    var learningUsers: [User] {
+//        return linkingObjects(User.self, forProperty: "learningSkills")
+//    }
 
-    var masterUsers: [User] {
-        return linkingObjects(User.self, forProperty: "masterSkills")
-    }
+    let masterUsers = LinkingObjects(fromType: User.self, property: "masterSkills")
+//    var masterUsers: [User] {
+//        return linkingObjects(User.self, forProperty: "masterSkills")
+//    }
 }
 
 class UserSocialAccountProvider: Object {
@@ -168,26 +172,31 @@ class User: Object {
     var masterSkills = List<UserSkill>()
     var socialAccountProviders = List<UserSocialAccountProvider>()
 
-    var messages: [Message] {
-        return linkingObjects(Message.self, forProperty: "fromFriend")
-    }
+    let messages = LinkingObjects(fromType: Message.self, property: "fromFriend")
+//    var messages: [Message] {
+//        return linkingObjects(Message.self, forProperty: "fromFriend")
+//    }
 
     var conversation: Conversation? {
-        let conversations = linkingObjects(Conversation.self, forProperty: "withFriend")
+        //let conversations = linkingObjects(Conversation.self, forProperty: "withFriend")
+        let conversations = LinkingObjects(fromType: Conversation.self, property: "withFriend")
         return conversations.first
     }
 
-    var ownedGroups: [Group] {
-        return linkingObjects(Group.self, forProperty: "owner")
-    }
+    let ownedGroups = LinkingObjects(fromType: Group.self, property: "owner")
+//    var ownedGroups: [Group] {
+//        return linkingObjects(Group.self, forProperty: "owner")
+//    }
 
-    var belongsToGroups: [Group] {
-        return linkingObjects(Group.self, forProperty: "members")
-    }
+    let belongsToGroups = LinkingObjects(fromType: Group.self, property: "members")
+//    var belongsToGroups: [Group] {
+//        return linkingObjects(Group.self, forProperty: "members")
+//    }
 
-    var createdFeeds: [Feed] {
-        return linkingObjects(Feed.self, forProperty: "creator")
-    }
+    let createdFeeds = LinkingObjects(fromType: Feed.self, property: "creator")
+//    var createdFeeds: [Feed] {
+//        return linkingObjects(Feed.self, forProperty: "creator")
+//    }
 
     var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
@@ -262,7 +271,8 @@ class Group: Object {
     dynamic var includeMe: Bool = false
 
     var conversation: Conversation? {
-        let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
+        //let conversations = linkingObjects(Conversation.self, forProperty: "withGroup")
+        let conversations = LinkingObjects(fromType: Conversation.self, property: "withGroup")
         return conversations.first
     }
 
@@ -801,9 +811,10 @@ class Conversation: Object {
 
     dynamic var draft: Draft?
 
-    var messages: [Message] {
-        return linkingObjects(Message.self, forProperty: "conversation")
-    }
+    let messages = LinkingObjects(fromType: Message.self, property: "conversation")
+//    var messages: [Message] {
+//        return linkingObjects(Message.self, forProperty: "conversation")
+//    }
 
     dynamic var unreadMessagesCount: Int = 0
     dynamic var hasUnreadMessages: Bool = false
@@ -844,7 +855,8 @@ class FeedAudio: Object {
     dynamic var fileName: String = ""
 
     var belongToFeed: Feed? {
-        return linkingObjects(Feed.self, forProperty: "audio").first
+        //return linkingObjects(Feed.self, forProperty: "audio").first
+        return LinkingObjects(fromType: Feed.self, property: "audio").first
     }
 
     class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
@@ -889,12 +901,14 @@ class OpenGraphInfo: Object {
     dynamic var infoDescription: String = ""
     dynamic var thumbnailImageURLString: String = ""
 
-    var messages: [Message] {
-        return linkingObjects(Message.self, forProperty: "openGraphInfo")
-    }
-    var feeds: [Feed] {
-        return linkingObjects(Feed.self, forProperty: "openGraphInfo")
-    }
+    let messages = LinkingObjects(fromType: Message.self, property: "openGraphInfo")
+//    var messages: [Message] {
+//        return linkingObjects(Message.self, forProperty: "openGraphInfo")
+//    }
+    let feeds = LinkingObjects(fromType: Feed.self, property: "openGraphInfo")
+//    var feeds: [Feed] {
+//        return linkingObjects(Feed.self, forProperty: "openGraphInfo")
+//    }
 
     override class func primaryKey() -> String? {
         return "URLString"
@@ -1903,7 +1917,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
     if keepHiddenMessages {
         messages = conversation.messages.filter({ $0.hidden == false })
     } else {
-        messages = conversation.messages
+        messages = conversation.messages.map({ $0 })
     }
 
     // delete attachments of messages
