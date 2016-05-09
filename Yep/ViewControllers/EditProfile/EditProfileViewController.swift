@@ -218,6 +218,15 @@ final class EditProfileViewController: SegueViewController {
 
         let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
 
+            let propose: Propose = {
+                proposeToAccess(.Contacts, agreed: { [weak self] in
+
+                }, rejected: { [weak self] in
+                    self?.alertCanNotAccessContacts()
+                })
+            }
+
+            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
         }
         alertController.addAction(uploadContactsAction)
 
