@@ -61,6 +61,7 @@ final class SearchFeedsViewController: SegueViewController {
                 footerView.tapKeywordAction = { [weak self] keyword in
                     self?.searchBar.text = keyword
                     self?.triggerSearchTaskWithSearchText(keyword)
+                    self?.searchBar.resignFirstResponder()
                 }
 
                 if keyword != nil {
