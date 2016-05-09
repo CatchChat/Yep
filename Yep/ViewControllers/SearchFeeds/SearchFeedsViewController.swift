@@ -56,7 +56,7 @@ final class SearchFeedsViewController: SegueViewController {
 
             self?.searchBar.text = keyword
 
-            self?.isKeywordHotWord = true
+            self?.isKeywordHot = true
             self?.triggerSearchTaskWithSearchText(keyword)
 
             self?.searchBar.resignFirstResponder()
@@ -115,7 +115,7 @@ final class SearchFeedsViewController: SegueViewController {
         }
     }
 
-    private var isKeywordHotWord: Bool = false
+    private var isKeywordHot: Bool = false
 
     private var keyword: String? {
         didSet {
@@ -586,8 +586,8 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
         searchBar.text = nil
 
-        if isKeywordHotWord {
-            isKeywordHotWord = false
+        if isKeywordHot {
+            isKeywordHot = false
 
             keyword = nil
             feeds = []
@@ -609,7 +609,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
 
-        isKeywordHotWord = false
+        isKeywordHot = false
 
         triggerSearchTaskWithSearchText(searchText)
     }
