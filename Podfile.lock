@@ -13,7 +13,7 @@ PODS:
   - MonkeyKing (0.0.2)
   - Navi (0.4.2)
   - pop (1.0.9)
-  - Proposer (0.8.0)
+  - Proposer (0.9.0)
   - Realm (0.101.0):
     - Realm/Headers (= 0.101.0)
   - Realm/Headers (0.101.0)
@@ -59,7 +59,7 @@ SPEC CHECKSUMS:
   MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Proposer: 17cd7fd2509b0d8d7c9e33815d648087c7dcaa81
+  Proposer: 231565a8b6bbb1816f3670d6471e6a84e582c80c
   Realm: b21596d6d7e1c054f6fae967d27263d2593ca309
   RealmSwift: 5247501bcd68b9db3a718cba808e1ce45ba67034
   Ruler: 51bd16cc00638702ef71713f80073588a6c7e682
