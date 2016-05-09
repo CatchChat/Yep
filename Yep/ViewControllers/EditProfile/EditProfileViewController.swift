@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import TPKeyboardAvoiding
 import Proposer
+import Contacts
 import Navi
 
 final class EditProfileViewController: SegueViewController {
@@ -55,6 +56,38 @@ final class EditProfileViewController: SegueViewController {
             doneButton.enabled = isDirty
         }
     }
+
+    private lazy var contacts: [CNContact] = {
+
+        let contactStore = CNContactStore()
+
+        guard let containers = try? contactStore.containersMatchingPredicate(nil) else {
+            println("Error fetching containers")
+            return []
+        }
+
+        let keysToFetch = [
+            CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),
+            CNContactPhoneNumbersKey,
+        ]
+
+        var results: [CNContact] = []
+
+        containers.forEach({
+
+            let fetchPredicate = CNContact.predicateForContactsInContainerWithIdentifier($0.identifier)
+
+            do {
+                let containerResults = try contactStore.unifiedContactsMatchingPredicate(fetchPredicate, keysToFetch: keysToFetch)
+                results.appendContentsOf(containerResults)
+
+            } catch {
+                println("Error fetching results for container")
+            }
+        })
+        
+        return results
+    }()
 
     private let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
     private let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
@@ -132,6 +165,35 @@ final class EditProfileViewController: SegueViewController {
     }
 
     // MARK: Actions
+
+    private func uploadContacts() {
+
+        var uploadContacts = [UploadContact]()
+
+        for contact in contacts {
+
+            guard let compositeName = CNContactFormatter.stringFromContact(contact, style: .FullName) else {
+                continue
+            }
+
+            let phoneNumbers = contact.phoneNumbers
+            for phoneNumber in phoneNumbers {
+                let number = (phoneNumber.value as! CNPhoneNumber).stringValue
+                let uploadContact: UploadContact = ["name": compositeName , "number": number]
+                uploadContacts.append(uploadContact)
+            }
+        }
+
+        println("uploadContacts.count: \(uploadContacts.count)")
+
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.activityIndicator.startAnimating()
+        }
+
+        friendsInContacts(uploadContacts, failureHandler: nil, completion: { discoveredUsers in
+            println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
+        })
+    }
 
     private func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
@@ -220,6 +282,7 @@ final class EditProfileViewController: SegueViewController {
 
             let propose: Propose = {
                 proposeToAccess(.Contacts, agreed: { [weak self] in
+                    self?.uploadContacts()
 
                 }, rejected: { [weak self] in
                     self?.alertCanNotAccessContacts()
