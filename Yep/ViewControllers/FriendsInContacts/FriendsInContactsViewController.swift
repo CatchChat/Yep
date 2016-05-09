@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Contacts
 
 final class FriendsInContactsViewController: BaseViewController {
 
@@ -29,38 +28,6 @@ final class FriendsInContactsViewController: BaseViewController {
     }
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-
-    private lazy var contacts: [CNContact] = {
-
-        let contactStore = CNContactStore()
-
-        guard let containers = try? contactStore.containersMatchingPredicate(nil) else {
-            println("Error fetching containers")
-            return []
-        }
-
-        let keysToFetch = [
-            CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),
-            CNContactPhoneNumbersKey,
-        ]
-
-        var results: [CNContact] = []
-
-        containers.forEach({
-
-            let fetchPredicate = CNContact.predicateForContactsInContainerWithIdentifier($0.identifier)
-
-            do {
-                let containerResults = try contactStore.unifiedContactsMatchingPredicate(fetchPredicate, keysToFetch: keysToFetch)
-                results.appendContentsOf(containerResults)
-
-            } catch {
-                println("Error fetching results for container")
-            }
-        })
-
-        return results
-    }()
 
     private var discoveredUsers = [DiscoveredUser]() {
         didSet {
@@ -91,21 +58,7 @@ final class FriendsInContactsViewController: BaseViewController {
 
     func uploadContactsToMatchNewFriends() {
 
-        var uploadContacts = [UploadContact]()
-
-        for contact in contacts {
-
-            guard let compositeName = CNContactFormatter.stringFromContact(contact, style: .FullName) else {
-                continue
-            }
-
-            let phoneNumbers = contact.phoneNumbers
-            for phoneNumber in phoneNumbers {
-                let number = (phoneNumber.value as! CNPhoneNumber).stringValue
-                let uploadContact: UploadContact = ["name": compositeName , "number": number]
-                uploadContacts.append(uploadContact)
-            }
-        }
+        let uploadContacts = UploadContactsMaker.make()
 
         //println("uploadContacts: \(uploadContacts)")
         println("uploadContacts.count: \(uploadContacts.count)")

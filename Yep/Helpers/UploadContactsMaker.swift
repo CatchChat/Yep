@@ -56,7 +56,10 @@ class UploadContactsMaker {
             let phoneNumbers = contact.phoneNumbers
             for phoneNumber in phoneNumbers {
                 let number = (phoneNumber.value as! CNPhoneNumber).stringValue
-                let uploadContact: UploadContact = ["name": compositeName , "number": number]
+                let uploadContact: UploadContact = [
+                    "name": compositeName,
+                    "number": number
+                ]
                 uploadContacts.append(uploadContact)
             }
         }
