@@ -184,13 +184,17 @@ final class EditProfileViewController: SegueViewController {
             }
         }
 
+        YepHUD.showActivityIndicator()
+
         println("uploadContacts.count: \(uploadContacts.count)")
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
-            self?.activityIndicator.startAnimating()
-        }
+        friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+            YepHUD.hideActivityIndicator()
 
-        friendsInContacts(uploadContacts, failureHandler: nil, completion: { discoveredUsers in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+        }, completion: { discoveredUsers in
+            YepHUD.hideActivityIndicator()
             println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
         })
     }
