@@ -68,8 +68,6 @@ final class SearchFeedsViewController: SegueViewController {
     var feeds = [DiscoveredFeed]() {
         didSet {
 
-            feedsTableView.scrollEnabled = !feeds.isEmpty
-
             if feeds.isEmpty {
 
                 if keyword != nil {
