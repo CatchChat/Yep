@@ -58,10 +58,6 @@ final class SearchFeedsViewController: SegueViewController {
             if feeds.isEmpty {
                 let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
-                footerView.tapCoverAction = { [weak self] in
-                    self?.searchBar.resignFirstResponder()
-                }
-
                 footerView.tapKeywordAction = { [weak self] keyword in
                     self?.searchBar.text = keyword
                     self?.triggerSearchTaskWithSearchText(keyword)
