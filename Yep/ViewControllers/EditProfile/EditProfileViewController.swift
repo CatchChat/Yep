@@ -146,9 +146,11 @@ final class EditProfileViewController: SegueViewController {
 
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-        }, completion: { discoveredUsers in
+        }, completion: { [weak self] discoveredUsers in
             YepHUD.hideActivityIndicator()
             println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
+
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Yep will match friends from your contacts for you.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
         })
     }
 
