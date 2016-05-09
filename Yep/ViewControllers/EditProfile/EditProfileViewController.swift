@@ -86,12 +86,14 @@ final class EditProfileViewController: SegueViewController {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
+        static let Mobile = "EditProfileLessInfoCell.Mobile"
         static let Blog = "EditProfileLessInfoCell.Blog"
     }
 
     deinit {
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
         YepUserDefaults.introduction.removeListenerWithName(Listener.Introduction)
+        YepUserDefaults.mobile.removeListenerWithName(Listener.Mobile)
         YepUserDefaults.badge.removeListenerWithName(Listener.Badge)
 
         editProfileTableView?.delegate = nil
@@ -109,7 +111,7 @@ final class EditProfileViewController: SegueViewController {
 
         updateAvatar() {}
 
-        YepUserDefaults.mobile.bindAndFireListener("") { [weak self] _ in
+        YepUserDefaults.mobile.bindAndFireListener(Listener.Mobile) { [weak self] _ in
             self?.mobileLabel.text = YepUserDefaults.fullPhoneNumber
         }
 
@@ -130,6 +132,27 @@ final class EditProfileViewController: SegueViewController {
     }
 
     // MARK: Actions
+
+    private func uploadContacts() {
+
+        let uploadContacts = UploadContactsMaker.make()
+
+        YepHUD.showActivityIndicator()
+
+        println("uploadContacts.count: \(uploadContacts.count)")
+
+        friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
+            YepHUD.hideActivityIndicator()
+
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+        }, completion: { [weak self] discoveredUsers in
+            YepHUD.hideActivityIndicator()
+            println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
+
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Yep will match friends from your contacts for you.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+        })
+    }
 
     private func updateAvatar(completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
@@ -213,6 +236,21 @@ final class EditProfileViewController: SegueViewController {
             self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
         }
         alertController.addAction(changeMobileAction)
+
+        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
+
+            let propose: Propose = {
+                proposeToAccess(.Contacts, agreed: { [weak self] in
+                    self?.uploadContacts()
+
+                }, rejected: { [weak self] in
+                    self?.alertCanNotAccessContacts()
+                })
+            }
+
+            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
+        }
+        alertController.addAction(uploadContactsAction)
 
         let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)

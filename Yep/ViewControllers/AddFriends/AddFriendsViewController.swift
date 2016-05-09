@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AddressBook
 import Proposer
 
 final class AddFriendsViewController: SegueViewController {
