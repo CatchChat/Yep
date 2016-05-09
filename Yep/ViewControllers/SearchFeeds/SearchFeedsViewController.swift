@@ -59,6 +59,8 @@ final class SearchFeedsViewController: SegueViewController {
                 let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
                 footerView.tapKeywordAction = { [weak self] keyword in
+                    self?.isHotWord = true
+
                     self?.searchBar.text = keyword
                     self?.triggerSearchTaskWithSearchText(keyword)
                     self?.searchBar.resignFirstResponder()
@@ -109,6 +111,8 @@ final class SearchFeedsViewController: SegueViewController {
         }
     }
 
+    private var isHotWord: Bool = false
+
     private var keyword: String? {
         didSet {
             if keyword == nil {
@@ -122,6 +126,8 @@ final class SearchFeedsViewController: SegueViewController {
     private var searchTask: CancelableTask?
 
     private func triggerSearchTaskWithSearchText(searchText: String) {
+
+        isHotWord = false
 
         println("try search feeds with keyword: \(searchText)")
 
@@ -577,14 +583,22 @@ extension SearchFeedsViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
 
         searchBar.text = nil
-        searchBar.resignFirstResponder()
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarBottomLineView.alpha = 0
-        }, completion: { finished in
-        })
+        if isHotWord {
+            keyword = nil
+            feeds = []
+            searchBar.becomeFirstResponder()
 
-        navigationController?.popViewControllerAnimated(true)
+        } else {
+            searchBar.resignFirstResponder()
+
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+                self?.searchBarBottomLineView.alpha = 0
+            }, completion: { finished in
+            })
+
+            navigationController?.popViewControllerAnimated(true)
+        }
     }
 
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
