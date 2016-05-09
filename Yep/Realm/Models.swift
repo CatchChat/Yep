@@ -33,8 +33,9 @@ class Avatar: Object {
     dynamic var roundMini: NSData = NSData() // 60
     dynamic var roundNano: NSData = NSData() // 40
 
+    let users = LinkingObjects(fromType: User.self, property: "avatar")
     var user: User? {
-        return LinkingObjects(fromType: User.self, property: "avatar").first
+        return users.first
     }
 }
 
@@ -162,8 +163,9 @@ class User: Object {
 
     let messages = LinkingObjects(fromType: Message.self, property: "fromFriend")
 
+    let conversations = LinkingObjects(fromType: Conversation.self, property: "withFriend")
     var conversation: Conversation? {
-        return LinkingObjects(fromType: Conversation.self, property: "withFriend").first
+        return conversations.first
     }
 
     let ownedGroups = LinkingObjects(fromType: Group.self, property: "owner")
@@ -242,8 +244,9 @@ class Group: Object {
 
     dynamic var includeMe: Bool = false
 
+    let conversations = LinkingObjects(fromType: Conversation.self, property: "withGroup")
     var conversation: Conversation? {
-        return LinkingObjects(fromType: Conversation.self, property: "withGroup").first
+        return conversations.first
     }
 
     // 级联删除关联的数据对象
