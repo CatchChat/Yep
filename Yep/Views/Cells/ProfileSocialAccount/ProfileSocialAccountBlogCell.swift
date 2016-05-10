@@ -33,12 +33,12 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         accessoryImageView.hidden = true
     }
 
-    var blogURLString: String? {
+    var blogString: String? {
 
         didSet {
-            blogLabel.text = blogURLString
+            blogLabel.text = blogString
 
-            if let _ = blogURLString {
+            if let _ = blogString {
 
                 iconImageView.tintColor = UIColor.yepTintColor()
                 nameLabel.textColor = UIColor.yepTintColor()
@@ -59,16 +59,10 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
     func configureWithProfileUser(profileUser: ProfileUser?) {
 
         if profileUser?.isMe ?? false {
-
-            if let string = YepUserDefaults.blogURLString.value where !string.isEmpty {
-                blogURLString = string
-
-            } else {
-                blogURLString = nil
-            }
+            blogString = YepUserDefaults.blogString
 
         } else {
-            blogURLString = profileUser?.blogURL?.absoluteString
+            blogString = profileUser?.blogTitle ?? profileUser?.blogURL?.absoluteString
         }
     }
 }

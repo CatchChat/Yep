@@ -117,6 +117,25 @@ class YepUserDefaults {
         }
     }
 
+    static var blogString: String? {
+
+        if let blogURLString = YepUserDefaults.blogURLString.value, blogTitle = YepUserDefaults.blogTitle.value {
+
+            guard !blogURLString.isEmpty else {
+                return nil
+            }
+
+            if !blogTitle.isEmpty {
+                return blogTitle
+
+            } else {
+                return blogURLString
+            }
+        }
+
+        return nil
+    }
+
     // MARK: ReLogin
 
     class func cleanAllUserDefaults() {
