@@ -19,6 +19,8 @@ final class FunctionTests: XCTestCase {
             let url = NSURL(string: "twitter.com/nixzhu")!
             let validSchemeURL = url.yep_validSchemeURL
             XCTAssertNotNil(validSchemeURL)
+
+            XCTAssertEqual(validSchemeURL!.scheme, "http")
         }
 
         do {
