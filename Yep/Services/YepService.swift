@@ -1152,6 +1152,7 @@ struct DiscoveredUser: Hashable {
     let avatarURLString: String
     let badge: String?
     let blogURLString: String?
+    let blogTitle: String?
 
     let createdUnixTime: NSTimeInterval
     let lastSignInUnixTime: NSTimeInterval
@@ -1197,7 +1198,7 @@ struct DiscoveredUser: Hashable {
 
     static func fromUser(user: User) -> DiscoveredUser {
 
-        return DiscoveredUser(id: user.userID, username: user.username, nickname: user.nickname, introduction: user.introduction, avatarURLString: user.avatarURLString, badge: user.badge, blogURLString: user.blogURLString, createdUnixTime: user.createdUnixTime, lastSignInUnixTime: user.lastSignInUnixTime, longitude: user.longitude, latitude: user.latitude, distance: 0, masterSkills: [], learningSkills: [], socialAccountProviders: [], recently_updated_provider: nil)
+        return DiscoveredUser(id: user.userID, username: user.username, nickname: user.nickname, introduction: user.introduction, avatarURLString: user.avatarURLString, badge: user.badge, blogURLString: user.blogURLString, blogTitle: user.blogTitle, createdUnixTime: user.createdUnixTime, lastSignInUnixTime: user.lastSignInUnixTime, longitude: user.longitude, latitude: user.latitude, distance: 0, masterSkills: [], learningSkills: [], socialAccountProviders: [], recently_updated_provider: nil)
     }
 }
 
@@ -1221,6 +1222,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
             let introduction = userInfo["introduction"] as? String
             let badge = userInfo["badge"] as? String
             let blogURLString = userInfo["website_url"] as? String
+            let blogTitle = userInfo["website_title"] as? String
             let distance = userInfo["distance"] as? Double
 
             var masterSkills: [Skill] = []
@@ -1248,7 +1250,7 @@ let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo in
                 recently_updated_provider = updated_provider
             }
 
-        let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, blogURLString: blogURLString, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders, recently_updated_provider: recently_updated_provider)
+        let discoverUser = DiscoveredUser(id: id, username: username, nickname: nickname, introduction: introduction, avatarURLString: avatarURLString, badge: badge, blogURLString: blogURLString, blogTitle: blogTitle, createdUnixTime: createdUnixTime, lastSignInUnixTime: lastSignInUnixTime, longitude: longitude, latitude: latitude, distance: distance, masterSkills: masterSkills, learningSkills: learningSkills, socialAccountProviders: socialAccountProviders, recently_updated_provider: recently_updated_provider)
 
             return discoverUser
     }

@@ -1842,6 +1842,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
             user.blogURLString = blogURLString
         }
 
+        if let blogTitle = userInfo["website_title"] as? String {
+            user.blogTitle = blogTitle
+        }
+
         // 更新技能
 
         if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {

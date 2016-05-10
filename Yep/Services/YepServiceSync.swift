@@ -375,6 +375,10 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                         YepUserDefaults.blogURLString.value = blogURLString
                     }
 
+                    if let blogTitle = friendInfo["website_title"] as? String {
+                        YepUserDefaults.blogTitle.value = blogTitle
+                    }
+
                     if let areaCode = friendInfo["phone_code"] as? String {
                         YepUserDefaults.areaCode.value = areaCode
                     }
