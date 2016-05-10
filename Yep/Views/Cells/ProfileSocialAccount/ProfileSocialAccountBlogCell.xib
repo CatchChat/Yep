@@ -23,27 +23,31 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="nixBlog" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhB-kg-5rJ" userLabel="Name Label">
                         <rect key="frame" x="67" y="45" width="50" height="18"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="5iZ-Qn-lkm">
                         <rect key="frame" x="308" y="47" width="8" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="BTP-zU-fta"/>
+                            <constraint firstAttribute="width" constant="8" id="FFi-Ri-gxy"/>
+                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX' Blog" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ajy-gv-M48">
-                        <rect key="frame" x="222" y="43" width="71" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <rect key="frame" x="238" y="45" width="60" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="5iZ-Qn-lkm" firstAttribute="leading" secondItem="Ajy-gv-M48" secondAttribute="trailing" constant="15" id="YgG-Mg-yzv"/>
+                <constraint firstItem="5iZ-Qn-lkm" firstAttribute="leading" secondItem="Ajy-gv-M48" secondAttribute="trailing" constant="10" id="YgG-Mg-yzv"/>
                 <constraint firstAttribute="trailing" secondItem="5iZ-Qn-lkm" secondAttribute="trailing" constant="38" id="aGa-Ze-Mha"/>
                 <constraint firstItem="JOv-2D-54q" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="cWE-Mu-3sv"/>
                 <constraint firstItem="Ajy-gv-M48" firstAttribute="centerY" secondItem="5iZ-Qn-lkm" secondAttribute="centerY" id="fs7-UD-GiE"/>
-                <constraint firstItem="Ajy-gv-M48" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VhB-kg-5rJ" secondAttribute="trailing" constant="20" id="gnb-Ab-utm"/>
+                <constraint firstItem="Ajy-gv-M48" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="VhB-kg-5rJ" secondAttribute="trailing" constant="15" id="gnb-Ab-utm"/>
                 <constraint firstItem="JOv-2D-54q" firstAttribute="centerY" secondItem="VhB-kg-5rJ" secondAttribute="centerY" id="hAH-Zz-EO8"/>
                 <constraint firstItem="VhB-kg-5rJ" firstAttribute="leading" secondItem="JOv-2D-54q" secondAttribute="trailing" constant="15" id="hi1-sb-FHb"/>
                 <constraint firstItem="JOv-2D-54q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="28" id="lf3-Bc-2aR"/>

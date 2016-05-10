@@ -23,7 +23,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lMb-I3-vEz" userLabel="Name Label">
                         <rect key="frame" x="77" y="53" width="37" height="18"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_repo" translatesAutoresizingMaskIntoConstraints="NO" id="ul5-ZC-9eP" userLabel="Repos Image View">
@@ -43,6 +43,10 @@
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="CR7-72-b7M">
                         <rect key="frame" x="361" y="55" width="8" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="5zN-ik-LJR"/>
+                            <constraint firstAttribute="width" constant="8" id="nMA-9T-ESZ"/>
+                        </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_stars" translatesAutoresizingMaskIntoConstraints="NO" id="dPn-N6-z84" userLabel="Stars Image View">
                         <rect key="frame" x="294" y="52" width="20" height="19"/>

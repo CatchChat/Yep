@@ -23,7 +23,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sof-ns-iri" userLabel="Name Label">
                         <rect key="frame" x="77" y="45" width="37" height="18"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ajW-JH-Ato" userLabel="Image View 3">
@@ -49,6 +49,10 @@
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="k0W-jb-dBy">
                         <rect key="frame" x="308" y="47" width="8" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="ceI-qA-Nqh"/>
+                            <constraint firstAttribute="width" constant="8" id="hWh-9N-XJ8"/>
+                        </constraints>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -65,7 +69,7 @@
                 <constraint firstItem="rgR-HE-TH9" firstAttribute="centerY" secondItem="Sof-ns-iri" secondAttribute="centerY" id="a73-bL-kgd"/>
                 <constraint firstItem="T7K-fi-YkH" firstAttribute="leading" secondItem="ajW-JH-Ato" secondAttribute="trailing" constant="6" id="f7I-Sp-1bG"/>
                 <constraint firstItem="8bD-nc-pyr" firstAttribute="leading" secondItem="T7K-fi-YkH" secondAttribute="trailing" constant="6" id="lpb-cN-vfy"/>
-                <constraint firstItem="k0W-jb-dBy" firstAttribute="centerY" secondItem="8bD-nc-pyr" secondAttribute="centerY" constant="-0.5" id="zmi-p2-488"/>
+                <constraint firstItem="k0W-jb-dBy" firstAttribute="centerY" secondItem="8bD-nc-pyr" secondAttribute="centerY" id="zmi-p2-488"/>
             </constraints>
             <size key="customSize" width="354" height="107"/>
             <connections>
