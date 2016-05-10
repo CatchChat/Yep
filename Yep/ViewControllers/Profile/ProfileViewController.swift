@@ -1752,6 +1752,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                                     YepHUD.hideActivityIndicator()
 
                                     dispatch_async(dispatch_get_main_queue()) {
+                                        YepUserDefaults.blogTitle.value = title
                                         YepUserDefaults.blogURLString.value = blogURLString
                                     }
                                 })
