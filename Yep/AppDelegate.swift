@@ -44,7 +44,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         var config = Realm.Configuration()
         config.fileURL = realmFileURL
-        config.schemaVersion = 32
+        config.schemaVersion = 33
         config.migrationBlock = { migration, oldSchemaVersion in
         }
 

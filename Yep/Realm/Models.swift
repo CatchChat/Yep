@@ -132,6 +132,7 @@ class User: Object {
     dynamic var avatar: Avatar?
     dynamic var badge: String = ""
     dynamic var blogURLString: String = ""
+    dynamic var blogTitle: String = ""
 
     override class func indexedProperties() -> [String] {
         return ["userID"]
