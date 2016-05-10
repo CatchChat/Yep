@@ -1710,7 +1710,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUser.isMe {
 
-                if let blogURLString = YepUserDefaults.blogURLString.value, blogURL = NSURL(string: blogURLString) {
+                if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString) {
                     yep_openURL(blogURL)
 
                 } else {
