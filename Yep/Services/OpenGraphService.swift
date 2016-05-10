@@ -239,9 +239,9 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
         guard error == nil else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: nil)
+                failureHandler(reason: .Other(error), errorMessage: "Request failed!")
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: nil)
+                defaultFailureHandler(reason: .Other(error), errorMessage: "Request failed!")
             }
 
             return
@@ -250,15 +250,15 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
         guard let HTMLString = response.result.value, data = response.data else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data")
+                failureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data!")
             } else {
-                defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data")
+                defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data!")
             }
 
             return
         }
 
-        println("\n titleOfURL: \(URL)\n\(HTMLString)")
+        println("\ntitleOfURL: \(URL)\n\(HTMLString)")
 
         // 编码转换
         let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
@@ -268,9 +268,9 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
             title = doc.head?.css("title").first?.text where !title.isEmpty else {
 
                 if let failureHandler = failureHandler {
-                    failureHandler(reason: .CouldNotParseJSON, errorMessage: "No title")
+                    failureHandler(reason: .CouldNotParseJSON, errorMessage: "No title!")
                 } else {
-                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No title")
+                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No title!")
                 }
 
                 return

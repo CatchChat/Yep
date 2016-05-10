@@ -1718,7 +1718,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                         let blogURLString = text
 
-                        if let blogURL = NSURL(string: blogURLString) {
+                        if let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL {
 
                             YepHUD.showActivityIndicator()
 
@@ -1728,9 +1728,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                YepAlert.alertSorry(message: NSLocalizedString("No title for blog!", comment: ""), inViewController: self)
+                                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
                                 
                             }, completion: { title in
+
+                                println("title: \(title)")
 
                                 updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
 
