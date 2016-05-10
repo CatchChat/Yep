@@ -230,7 +230,7 @@ private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: 
     return newHTMLString
 }
 
-func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, completion: OpenGraph -> Void) {
+func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
@@ -239,7 +239,57 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         guard error == nil else {
 
             if let failureHandler = failureHandler {
-                failureHandler(.Other(error), nil)
+                failureHandler(reason: .Other(error), errorMessage: nil)
+            } else {
+                defaultFailureHandler(reason: .Other(error), errorMessage: nil)
+            }
+
+            return
+        }
+
+        guard let HTMLString = response.result.value, data = response.data else {
+
+            if let failureHandler = failureHandler {
+                failureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data")
+            } else {
+                defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data")
+            }
+
+            return
+        }
+
+        println("\n titleOfURL: \(URL)\n\(HTMLString)")
+
+        // 编码转换
+        let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
+
+        guard let
+            doc = Kanna.HTML(html: newHTMLString, encoding: NSUTF8StringEncoding),
+            title = doc.head?.css("title").first?.text where !title.isEmpty else {
+
+                if let failureHandler = failureHandler {
+                    failureHandler(reason: .CouldNotParseJSON, errorMessage: "No title")
+                } else {
+                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No title")
+                }
+
+                return
+        }
+
+        completion(title: title)
+    })
+}
+
+func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
+
+    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
+
+        let error = response.result.error
+
+        guard error == nil else {
+
+            if let failureHandler = failureHandler {
+                failureHandler(reason: .Other(error), errorMessage: nil)
             } else {
                 defaultFailureHandler(reason: .Other(error), errorMessage: nil)
             }
@@ -378,7 +428,7 @@ func openGraphWithURL(URL: NSURL, failureHandler: ((Reason, String?) -> Void)?, 
         }
 
         if let failureHandler = failureHandler {
-            failureHandler(.CouldNotParseJSON, nil)
+            failureHandler(reason: .CouldNotParseJSON, errorMessage: nil)
         } else {
             defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: nil)
         }
