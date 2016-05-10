@@ -119,13 +119,13 @@ class YepUserDefaults {
 
     static var blogString: String? {
 
-        if let blogURLString = YepUserDefaults.blogURLString.value, blogTitle = YepUserDefaults.blogTitle.value {
+        if let blogURLString = YepUserDefaults.blogURLString.value {
 
             guard !blogURLString.isEmpty else {
                 return nil
             }
 
-            if !blogTitle.isEmpty {
+            if let blogTitle = YepUserDefaults.blogTitle.value where !blogTitle.isEmpty {
                 return blogTitle
 
             } else {
