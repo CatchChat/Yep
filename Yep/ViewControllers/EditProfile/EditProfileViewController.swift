@@ -416,7 +416,21 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
 
                     if newIntroduction.isEmpty {
-                        YepUserDefaults.introduction.value = nil
+
+                        YepHUD.showActivityIndicator()
+
+                        updateMyselfWithInfo(["introduction": ""], failureHandler: { (reason, errorMessage) in
+                            YepHUD.hideActivityIndicator()
+
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        }, completion: { success in
+                            YepHUD.hideActivityIndicator()
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.introduction.value = nil
+                            }
+                        })
 
                         return
                     }
@@ -475,8 +489,27 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
 
                     if newBlogURLString.isEmpty {
-                        YepUserDefaults.blogTitle.value = nil
-                        YepUserDefaults.blogURLString.value = nil
+
+                        YepHUD.showActivityIndicator()
+
+                        let info: JSONDictionary = [
+                            "website_url": "",
+                            "website_title": "",
+                        ]
+
+                        updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
+                            YepHUD.hideActivityIndicator()
+
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        }, completion: { success in
+                            YepHUD.hideActivityIndicator()
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.blogTitle.value = nil
+                                YepUserDefaults.blogURLString.value = nil
+                            }
+                        })
 
                         return
                     }

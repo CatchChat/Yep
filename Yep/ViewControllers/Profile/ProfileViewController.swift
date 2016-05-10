@@ -532,7 +532,7 @@ final class ProfileViewController: SegueViewController {
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
                         dispatch_async(dispatch_get_main_queue()) {
-                            self?.introductionText = introduction ?? ""
+                            self?.introductionText = introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
                             self?.updateProfileCollectionView()
                         }
                     }
