@@ -1746,13 +1746,13 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
                                 
-                            }, completion: { title in
+                            }, completion: { blogTitle in
 
-                                println("title: \(title)")
+                                println("blogTitle: \(blogTitle)")
 
                                 let info: JSONDictionary = [
                                     "website_url": blogURLString,
-                                    "website_title": title,
+                                    "website_title": blogTitle,
                                 ]
 
                                 updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
@@ -1768,7 +1768,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                                     YepHUD.hideActivityIndicator()
 
                                     dispatch_async(dispatch_get_main_queue()) {
-                                        YepUserDefaults.blogTitle.value = title
+                                        YepUserDefaults.blogTitle.value = blogTitle
                                         YepUserDefaults.blogURLString.value = blogURLString
                                     }
                                 })

@@ -470,22 +470,43 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
-                    YepHUD.showActivityIndicator()
+                    if let blogURL = NSURL(string: newBlogURLString)?.yep_validSchemeNetworkURL {
+                        YepHUD.showActivityIndicator()
 
-                    updateMyselfWithInfo(["website_url": newBlogURLString], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
 
-                        YepHUD.hideActivityIndicator()
+                            YepHUD.hideActivityIndicator()
 
-                    }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.blogURLString.value = newBlogURLString
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                            self?.editProfileTableView.reloadData()
-                        }
-                        
-                        YepHUD.hideActivityIndicator()
-                    })
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                        }, completion: { blogTitle in
+
+                            println("blogTitle: \(blogTitle)")
+
+                            let info: JSONDictionary = [
+                                "website_url": newBlogURLString,
+                                "website_title": blogTitle,
+                            ]
+
+                            updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
+                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                                YepHUD.hideActivityIndicator()
+
+                            }, completion: { success in
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    YepUserDefaults.blogTitle.value = blogTitle
+                                    YepUserDefaults.blogURLString.value = newBlogURLString
+
+                                    self?.editProfileTableView.reloadData()
+                                }
+                                
+                                YepHUD.hideActivityIndicator()
+                            })
+                        })
+                    }
                 }
 
                 return cell
