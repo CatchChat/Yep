@@ -143,18 +143,18 @@ extension NSURL {
     var yep_validSchemeURL: NSURL? {
 
         if self.scheme.isEmpty {
+
             guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
                 return nil
             }
 
             URLComponents.scheme = "http"
 
-            if let URL = URLComponents.URL {
-                return URL
-            }
-        }
+            return URLComponents.URL
 
-        return nil
+        } else {
+            return self
+        }
     }
 }
 
