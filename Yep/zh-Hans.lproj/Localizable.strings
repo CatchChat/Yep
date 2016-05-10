@@ -785,4 +785,5 @@
 "Input your blog's URL." = "请输入您博客的URL地址。";
 "Set blog failed!" = "设置博客失败！";
 "Blog" = "博客";
+"Invalid URL!" = "无效的URL！";
 

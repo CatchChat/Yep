@@ -134,7 +134,7 @@ extension UIViewController {
             presentViewController(safariViewController, animated: true, completion: nil)
 
         } else {
-            YepAlert.alertSorry(message: "Invalid URL scheme!", inViewController: self)
+            YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
         }
     }
 }
