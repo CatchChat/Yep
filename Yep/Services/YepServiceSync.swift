@@ -359,7 +359,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                         YepUserDefaults.nickname.value = nickname
                     }
 
-                    if let introduction = friendInfo["introduction"] as? String {
+                    if let introduction = friendInfo["introduction"] as? String where !introduction.isEmpty {
                         YepUserDefaults.introduction.value = introduction
                     }
 
@@ -371,11 +371,11 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                         YepUserDefaults.badge.value = badge
                     }
 
-                    if let blogURLString = friendInfo["website_url"] as? String {
+                    if let blogURLString = friendInfo["website_url"] as? String where !blogURLString.isEmpty {
                         YepUserDefaults.blogURLString.value = blogURLString
                     }
 
-                    if let blogTitle = friendInfo["website_title"] as? String {
+                    if let blogTitle = friendInfo["website_title"] as? String where !blogTitle.isEmpty {
                         YepUserDefaults.blogTitle.value = blogTitle
                     }
 
