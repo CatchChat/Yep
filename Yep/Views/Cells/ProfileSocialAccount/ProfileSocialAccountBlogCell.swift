@@ -36,9 +36,9 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
     var blogURLString: String? {
 
         didSet {
-            if let blogURLString = blogURLString {
+            blogLabel.text = blogURLString
 
-                blogLabel.text = blogURLString
+            if let _ = blogURLString {
 
                 iconImageView.tintColor = UIColor.yepTintColor()
                 nameLabel.textColor = UIColor.yepTintColor()
