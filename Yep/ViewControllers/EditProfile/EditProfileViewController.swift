@@ -415,6 +415,26 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
+                    if newIntroduction.isEmpty {
+
+                        YepHUD.showActivityIndicator()
+
+                        updateMyselfWithInfo(["introduction": ""], failureHandler: { (reason, errorMessage) in
+                            YepHUD.hideActivityIndicator()
+
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        }, completion: { success in
+                            YepHUD.hideActivityIndicator()
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.introduction.value = nil
+                            }
+                        })
+
+                        return
+                    }
+
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
@@ -425,8 +445,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.introduction.value = newIntroduction
-
-                            self?.editProfileTableView.reloadData()
                         }
 
                         YepHUD.hideActivityIndicator()
@@ -470,21 +488,73 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
+                    if newBlogURLString.isEmpty {
+
+                        YepHUD.showActivityIndicator()
+
+                        let info: JSONDictionary = [
+                            "website_url": "",
+                            "website_title": "",
+                        ]
+
+                        updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
+                            YepHUD.hideActivityIndicator()
+
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        }, completion: { success in
+                            YepHUD.hideActivityIndicator()
+
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.blogTitle.value = nil
+                                YepUserDefaults.blogURLString.value = nil
+                            }
+                        })
+
+                        return
+                    }
+
+                    guard let blogURL = NSURL(string: newBlogURLString)?.yep_validSchemeNetworkURL else {
+                        YepUserDefaults.blogTitle.value = nil
+                        YepUserDefaults.blogURLString.value = nil
+
+                        YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+
+                        return
+                    }
+
                     YepHUD.showActivityIndicator()
 
-                    updateMyselfWithInfo(["website_url": newBlogURLString], failureHandler: { (reason, errorMessage) in
+                    titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
+
+                        YepHUD.hideActivityIndicator()
+
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepHUD.hideActivityIndicator()
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
-                    }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.blogURLString.value = newBlogURLString
+                    }, completion: { blogTitle in
 
-                            self?.editProfileTableView.reloadData()
-                        }
-                        
-                        YepHUD.hideActivityIndicator()
+                        println("blogTitle: \(blogTitle)")
+
+                        let info: JSONDictionary = [
+                            "website_url": newBlogURLString,
+                            "website_title": blogTitle,
+                        ]
+
+                        updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                            YepHUD.hideActivityIndicator()
+
+                        }, completion: { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.blogTitle.value = blogTitle
+                                YepUserDefaults.blogURLString.value = newBlogURLString
+                            }
+                            
+                            YepHUD.hideActivityIndicator()
+                        })
                     })
                 }
 

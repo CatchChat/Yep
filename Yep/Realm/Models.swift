@@ -132,6 +132,7 @@ class User: Object {
     dynamic var avatar: Avatar?
     dynamic var badge: String = ""
     dynamic var blogURLString: String = ""
+    dynamic var blogTitle: String = ""
 
     override class func indexedProperties() -> [String] {
         return ["userID"]
@@ -1839,6 +1840,10 @@ func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, 
 
         if let blogURLString = userInfo["website_url"] as? String {
             user.blogURLString = blogURLString
+        }
+
+        if let blogTitle = userInfo["website_title"] as? String {
+            user.blogTitle = blogTitle
         }
 
         // 更新技能

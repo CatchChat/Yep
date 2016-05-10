@@ -179,6 +179,22 @@ enum ProfileUser {
         return nil
     }
 
+    var blogTitle: String? {
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.blogTitle
+
+        case .UserType(let user):
+            if !user.blogTitle.isEmpty {
+                return user.blogTitle
+            }
+        }
+
+        return nil
+    }
+
     var isMe: Bool {
 
         switch self {
@@ -516,10 +532,8 @@ final class ProfileViewController: SegueViewController {
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
                         dispatch_async(dispatch_get_main_queue()) {
-                            if let introduction = introduction {
-                                self?.introductionText = introduction
-                                self?.updateProfileCollectionView()
-                            }
+                            self?.introductionText = introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
+                            self?.updateProfileCollectionView()
                         }
                     }
                 }
@@ -1300,7 +1314,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 8
+        return 9
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1716,25 +1730,60 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 } else {
                     YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: "example.com", oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
-                        YepHUD.showActivityIndicator()
-                        
                         let blogURLString = text
 
-                        updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+                        if blogURLString.isEmpty {
+                            YepUserDefaults.blogTitle.value = nil
+                            YepUserDefaults.blogURLString.value = nil
+
+                            return
+                        }
+
+                        guard let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+                            YepUserDefaults.blogTitle.value = nil
+                            YepUserDefaults.blogURLString.value = nil
+
+                            YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+                            
+                            return
+                        }
+
+                        YepHUD.showActivityIndicator()
+
+                        titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
 
                             YepHUD.hideActivityIndicator()
 
                             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+                            
+                        }, completion: { blogTitle in
 
-                        }, completion: { success in
+                            println("blogTitle: \(blogTitle)")
 
-                            YepHUD.hideActivityIndicator()
+                            let info: JSONDictionary = [
+                                "website_url": blogURLString,
+                                "website_title": blogTitle,
+                            ]
 
-                            dispatch_async(dispatch_get_main_queue()) {
-                                YepUserDefaults.blogURLString.value = blogURLString
-                            }
+                            updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
+
+                                YepHUD.hideActivityIndicator()
+
+                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                            }, completion: { success in
+
+                                YepHUD.hideActivityIndicator()
+
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    YepUserDefaults.blogTitle.value = blogTitle
+                                    YepUserDefaults.blogURLString.value = blogURLString
+                                }
+                            })
                         })
 
                     }, cancelAction: {

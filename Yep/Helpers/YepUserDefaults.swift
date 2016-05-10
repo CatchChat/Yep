@@ -17,6 +17,7 @@ private let introductionKey = "introduction"
 private let avatarURLStringKey = "avatarURLString"
 private let badgeKey = "badge"
 private let blogURLStringKey = "blogURLString"
+private let blogTitleKey = "blogTitle"
 private let pusherIDKey = "pusherID"
 
 private let areaCodeKey = "areaCode"
@@ -116,6 +117,25 @@ class YepUserDefaults {
         }
     }
 
+    static var blogString: String? {
+
+        if let blogURLString = YepUserDefaults.blogURLString.value {
+
+            guard !blogURLString.isEmpty else {
+                return nil
+            }
+
+            if let blogTitle = YepUserDefaults.blogTitle.value where !blogTitle.isEmpty {
+                return blogTitle
+
+            } else {
+                return blogURLString
+            }
+        }
+
+        return nil
+    }
+
     // MARK: ReLogin
 
     class func cleanAllUserDefaults() {
@@ -127,6 +147,7 @@ class YepUserDefaults {
         avatarURLString.removeAllListeners()
         badge.removeAllListeners()
         blogURLString.removeAllListeners()
+        blogTitle.removeAllListeners()
         pusherID.removeAllListeners()
         areaCode.removeAllListeners()
         mobile.removeAllListeners()
@@ -302,6 +323,27 @@ class YepUserDefaults {
                 me = userWithUserID(myUserID, inRealm: realm) {
                 let _ = try? realm.write {
                     me.blogURLString = blogURLString
+                }
+            }
+        }
+    }()
+
+    static var blogTitle: Listenable<String?> = {
+        let blogTitle = defaults.stringForKey(blogTitleKey)
+
+        return Listenable<String?>(blogTitle) { blogTitle in
+            defaults.setObject(blogTitle, forKey: blogTitleKey)
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            if let
+                blogTitle = blogTitle,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.blogTitle = blogTitle
                 }
             }
         }
