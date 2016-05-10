@@ -59,7 +59,14 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
     func configureWithProfileUser(profileUser: ProfileUser?) {
 
         if profileUser?.isMe ?? false {
-            blogURLString = YepUserDefaults.blogURLString.value
+
+            if let string = YepUserDefaults.blogURLString.value where !string.isEmpty {
+                blogURLString = string
+
+            } else {
+                blogURLString = nil
+            }
+
         } else {
             blogURLString = profileUser?.blogURL?.absoluteString
         }
