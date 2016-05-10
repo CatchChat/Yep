@@ -1734,46 +1734,59 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                         let blogURLString = text
 
-                        if let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL {
+                        if blogURLString.isEmpty {
+                            YepUserDefaults.blogTitle.value = nil
+                            YepUserDefaults.blogURLString.value = nil
 
-                            YepHUD.showActivityIndicator()
+                            return
+                        }
 
-                            titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
+                        guard let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+                            YepUserDefaults.blogTitle.value = nil
+                            YepUserDefaults.blogURLString.value = nil
+
+                            YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+                            
+                            return
+                        }
+
+                        YepHUD.showActivityIndicator()
+
+                        titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
+
+                            YepHUD.hideActivityIndicator()
+
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+                            
+                        }, completion: { blogTitle in
+
+                            println("blogTitle: \(blogTitle)")
+
+                            let info: JSONDictionary = [
+                                "website_url": blogURLString,
+                                "website_title": blogTitle,
+                            ]
+
+                            updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
-                                
-                            }, completion: { blogTitle in
 
-                                println("blogTitle: \(blogTitle)")
+                            }, completion: { success in
 
-                                let info: JSONDictionary = [
-                                    "website_url": blogURLString,
-                                    "website_title": blogTitle,
-                                ]
+                                YepHUD.hideActivityIndicator()
 
-                                updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
-
-                                    YepHUD.hideActivityIndicator()
-
-                                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
-
-                                }, completion: { success in
-
-                                    YepHUD.hideActivityIndicator()
-
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        YepUserDefaults.blogTitle.value = blogTitle
-                                        YepUserDefaults.blogURLString.value = blogURLString
-                                    }
-                                })
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    YepUserDefaults.blogTitle.value = blogTitle
+                                    YepUserDefaults.blogURLString.value = blogURLString
+                                }
                             })
-                        }
+                        })
 
                     }, cancelAction: {
                     })
