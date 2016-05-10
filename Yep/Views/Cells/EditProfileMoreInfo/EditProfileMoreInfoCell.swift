@@ -15,7 +15,7 @@ final class EditProfileMoreInfoCell: UITableViewCell {
     @IBOutlet weak var infoTextView: UITextView!
 
     var infoTextViewBeginEditingAction: ((infoTextView: UITextView) -> Void)?
-    var infoTextViewIsDirtyAction: (Bool -> Void)?
+    var infoTextViewIsDirtyAction: (() -> Void)?
     var infoTextViewDidEndEditingAction: (String -> Void)?
 
     override func awakeFromNib() {
@@ -49,8 +49,7 @@ extension EditProfileMoreInfoCell: UITextViewDelegate {
 
     func textViewDidChange(textView: UITextView) {
 
-        let isDirty = NSString(string: textView.text).length > 0
-        infoTextViewIsDirtyAction?(isDirty)
+        infoTextViewIsDirtyAction?()
     }
 
     func textViewDidEndEditing(textView: UITextView) {

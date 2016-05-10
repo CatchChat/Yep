@@ -141,6 +141,7 @@
 		503807201BD9EEFC0068345E /* YepMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038071F1BD9EEFC0068345E /* YepMedia.swift */; };
 		503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503807211BDA18040068345E /* FeedSkillUsersCell.swift */; };
 		503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503807221BDA18040068345E /* FeedSkillUsersCell.xib */; };
+		50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50390F0E1CE174180090A08C /* FunctionTests.swift */; };
 		50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50392CCF1B393FF60009D647 /* SkillAddCell.swift */; };
 		50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50392CD01B393FF60009D647 /* SkillAddCell.xib */; };
 		5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */; };
@@ -605,6 +606,7 @@
 		5038071F1BD9EEFC0068345E /* YepMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepMedia.swift; path = Helpers/YepMedia.swift; sourceTree = "<group>"; };
 		503807211BDA18040068345E /* FeedSkillUsersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillUsersCell.swift; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.swift; sourceTree = "<group>"; };
 		503807221BDA18040068345E /* FeedSkillUsersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedSkillUsersCell.xib; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.xib; sourceTree = "<group>"; };
+		50390F0E1CE174180090A08C /* FunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionTests.swift; sourceTree = "<group>"; };
 		50392CCF1B393FF60009D647 /* SkillAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAddCell.swift; path = Views/Cells/SkillAdd/SkillAddCell.swift; sourceTree = "<group>"; };
 		50392CD01B393FF60009D647 /* SkillAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillAddCell.xib; path = Views/Cells/SkillAdd/SkillAddCell.xib; sourceTree = "<group>"; };
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
@@ -1269,6 +1271,7 @@
 				5078130F1CD09FEE00F193AB /* ClearTests.swift */,
 				5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */,
 				506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */,
+				50390F0E1CE174180090A08C /* FunctionTests.swift */,
 				507813231CD2FEF400F193AB /* Images.xcassets */,
 				507813201CD1EB5400F193AB /* Extensions */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
@@ -3465,6 +3468,7 @@
 				506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */,
 				507813101CD09FEE00F193AB /* ClearTests.swift in Sources */,
 				507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */,
+				50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
 				5078131D1CD1E33A00F193AB /* OpenGraphTests.swift in Sources */,
 				5078131F1CD1EB5000F193AB /* NSURL+YepTests.swift in Sources */,
