@@ -398,8 +398,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
-                cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
-                    self?.isDirty = isDirty
+                cell.infoTextViewIsDirtyAction = { [weak self] in
+                    self?.isDirty = true
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
@@ -453,8 +453,8 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
-                cell.infoTextViewIsDirtyAction = { [weak self] isDirty in
-                    self?.isDirty = isDirty
+                cell.infoTextViewIsDirtyAction = { [weak self] in
+                    self?.isDirty = true
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newBlogURLString in
