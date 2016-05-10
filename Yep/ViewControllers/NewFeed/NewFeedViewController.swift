@@ -925,7 +925,10 @@ final class NewFeedViewController: SegueViewController {
             let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+            let audioMetaDataInfo = [
+                YepConfig.MetaData.audioDuration: audioDuration,
+                YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues,
+            ]
 
             var metaDataString = ""
             if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {

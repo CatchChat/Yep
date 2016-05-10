@@ -1259,8 +1259,8 @@ final class ConversationViewController: BaseViewController {
                         println("\nComporessed \(audioSamples)")
 
                         let audioMetaDataInfo = [
+                            YepConfig.MetaData.audioDuration: audioDuration,
                             YepConfig.MetaData.audioSamples: audioSamples,
-                            YepConfig.MetaData.audioDuration: audioDuration
                         ]
 
                         if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
