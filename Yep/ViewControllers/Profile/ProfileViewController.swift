@@ -1716,28 +1716,38 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 } else {
                     YepAlert.textInput(title: NSLocalizedString("Set Blog", comment: ""), message: NSLocalizedString("Input your blog's URL.", comment: ""), placeholder: "example.com", oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
 
-
                         let blogURLString = text
 
                         if let blogURL = NSURL(string: blogURLString) {
 
                             YepHUD.showActivityIndicator()
 
-                            updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+                            titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+                                YepAlert.alertSorry(message: NSLocalizedString("No title for blog!", comment: ""), inViewController: self)
+                                
+                            }, completion: { title in
 
-                            }, completion: { success in
+                                updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
 
-                                YepHUD.hideActivityIndicator()
+                                    YepHUD.hideActivityIndicator()
 
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    YepUserDefaults.blogURLString.value = blogURLString
-                                }
+                                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                                }, completion: { success in
+
+                                    YepHUD.hideActivityIndicator()
+
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        YepUserDefaults.blogURLString.value = blogURLString
+                                    }
+                                })
                             })
                         }
 
