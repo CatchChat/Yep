@@ -415,6 +415,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
+                    if newIntroduction.isEmpty {
+                        YepUserDefaults.introduction.value = nil
+
+                        return
+                    }
+
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
@@ -425,8 +431,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     }, completion: { success in
                         dispatch_async(dispatch_get_main_queue()) {
                             YepUserDefaults.introduction.value = newIntroduction
-
-                            self?.editProfileTableView.reloadData()
                         }
 
                         YepHUD.hideActivityIndicator()
@@ -514,8 +518,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                             dispatch_async(dispatch_get_main_queue()) {
                                 YepUserDefaults.blogTitle.value = blogTitle
                                 YepUserDefaults.blogURLString.value = newBlogURLString
-
-                                self?.editProfileTableView.reloadData()
                             }
                             
                             YepHUD.hideActivityIndicator()
