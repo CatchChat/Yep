@@ -179,6 +179,22 @@ enum ProfileUser {
         return nil
     }
 
+    var blogTitle: String? {
+
+        switch self {
+
+        case .DiscoveredUserType(let discoveredUser):
+            return discoveredUser.blogTitle
+
+        case .UserType(let user):
+            if !user.blogTitle.isEmpty {
+                return user.blogTitle
+            }
+        }
+
+        return nil
+    }
+
     var isMe: Bool {
 
         switch self {
