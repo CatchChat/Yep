@@ -1734,7 +1734,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                                 println("title: \(title)")
 
-                                updateMyselfWithInfo(["website_url": blogURLString], failureHandler: { [weak self] reason, errorMessage in
+                                let info: JSONDictionary = [
+                                    "website_url": blogURLString,
+                                    "website_title": title,
+                                ]
+
+                                updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
 
                                     YepHUD.hideActivityIndicator()
 

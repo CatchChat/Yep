@@ -258,7 +258,7 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
             return
         }
 
-        println("\ntitleOfURL: \(URL)\n\(HTMLString)")
+        //println("\ntitleOfURL: \(URL)\n\(HTMLString)")
 
         // 编码转换
         let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
