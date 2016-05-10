@@ -13,11 +13,11 @@ import XCTest
 
 final class FunctionTests: XCTestCase {
 
-    func testValidSchemeURL() {
+    func testValidSchemeNetworkURL() {
 
         do {
             let url = NSURL(string: "twitter.com/nixzhu")!
-            let validSchemeURL = url.yep_validSchemeURL
+            let validSchemeURL = url.yep_validSchemeNetworkURL
             XCTAssertNotNil(validSchemeURL)
 
             XCTAssertEqual(validSchemeURL!.scheme, "http")
@@ -25,8 +25,14 @@ final class FunctionTests: XCTestCase {
 
         do {
             let url = NSURL(string: "http://blog.zhowkev.in")!
-            let validSchemeURL = url.yep_validSchemeURL
+            let validSchemeURL = url.yep_validSchemeNetworkURL
             XCTAssertNotNil(validSchemeURL)
+        }
+
+        do {
+            let url = NSURL(string: "ftp://test.com")!
+            let validSchemeURL = url.yep_validSchemeNetworkURL
+            XCTAssertEqual(validSchemeURL, nil)
         }
     }
 }

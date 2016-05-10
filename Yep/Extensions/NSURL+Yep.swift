@@ -140,9 +140,19 @@ extension NSURL {
 
 extension NSURL {
 
-    var yep_validSchemeURL: NSURL? {
+    var yep_isNetworkURL: Bool {
 
-        if self.scheme.isEmpty {
+        switch scheme {
+        case "http", "https":
+            return true
+        default:
+            return false
+        }
+    }
+
+    var yep_validSchemeNetworkURL: NSURL? {
+
+        if scheme.isEmpty {
 
             guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
                 return nil
@@ -153,7 +163,12 @@ extension NSURL {
             return URLComponents.URL
 
         } else {
-            return self
+            if yep_isNetworkURL {
+                return self
+
+            } else {
+                return nil
+            }
         }
     }
 }
