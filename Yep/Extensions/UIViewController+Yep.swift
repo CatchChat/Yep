@@ -129,8 +129,8 @@ extension UIViewController {
 
     func yep_openURL(URL: NSURL) {
 
-        if let validSchemeURL = URL.yep_validSchemeURL {
-            let safariViewController = SFSafariViewController(URL: validSchemeURL)
+        if let URL = URL.yep_validSchemeNetworkURL {
+            let safariViewController = SFSafariViewController(URL: URL)
             presentViewController(safariViewController, animated: true, completion: nil)
 
         } else {
