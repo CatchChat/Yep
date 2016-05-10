@@ -239,9 +239,9 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
         guard error == nil else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: "Request failed!")
+                failureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Request failed!", comment: ""))
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: "Request failed!")
+                defaultFailureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Request failed!", comment: ""))
             }
 
             return
@@ -268,9 +268,9 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
             title = doc.head?.css("title").first?.text where !title.isEmpty else {
 
                 if let failureHandler = failureHandler {
-                    failureHandler(reason: .CouldNotParseJSON, errorMessage: "No title!")
+                    failureHandler(reason: .CouldNotParseJSON, errorMessage: NSLocalizedString("No title for URL!", comment: ""))
                 } else {
-                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No title!")
+                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: NSLocalizedString("No title for URL!", comment: ""))
                 }
 
                 return
