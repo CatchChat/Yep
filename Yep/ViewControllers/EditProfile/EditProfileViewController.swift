@@ -470,43 +470,57 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
-                    if let blogURL = NSURL(string: newBlogURLString)?.yep_validSchemeNetworkURL {
-                        YepHUD.showActivityIndicator()
+                    if newBlogURLString.isEmpty {
+                        YepUserDefaults.blogTitle.value = nil
+                        YepUserDefaults.blogURLString.value = nil
 
-                        titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
+                        return
+                    }
+
+                    guard let blogURL = NSURL(string: newBlogURLString)?.yep_validSchemeNetworkURL else {
+                        YepUserDefaults.blogTitle.value = nil
+                        YepUserDefaults.blogURLString.value = nil
+
+                        YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+
+                        return
+                    }
+
+                    YepHUD.showActivityIndicator()
+
+                    titleOfURL(blogURL, failureHandler: { [weak self] reason, errorMessage in
+
+                        YepHUD.hideActivityIndicator()
+
+                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+
+                    }, completion: { blogTitle in
+
+                        println("blogTitle: \(blogTitle)")
+
+                        let info: JSONDictionary = [
+                            "website_url": newBlogURLString,
+                            "website_title": blogTitle,
+                        ]
+
+                        updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
+                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        }, completion: { success in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                YepUserDefaults.blogTitle.value = blogTitle
+                                YepUserDefaults.blogURLString.value = newBlogURLString
 
-                            YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
-
-                        }, completion: { blogTitle in
-
-                            println("blogTitle: \(blogTitle)")
-
-                            let info: JSONDictionary = [
-                                "website_url": newBlogURLString,
-                                "website_title": blogTitle,
-                            ]
-
-                            updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
-                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                                YepHUD.hideActivityIndicator()
-
-                            }, completion: { success in
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    YepUserDefaults.blogTitle.value = blogTitle
-                                    YepUserDefaults.blogURLString.value = newBlogURLString
-
-                                    self?.editProfileTableView.reloadData()
-                                }
-                                
-                                YepHUD.hideActivityIndicator()
-                            })
+                                self?.editProfileTableView.reloadData()
+                            }
+                            
+                            YepHUD.hideActivityIndicator()
                         })
-                    }
+                    })
                 }
 
                 return cell
