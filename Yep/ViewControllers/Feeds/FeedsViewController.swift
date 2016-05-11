@@ -1718,7 +1718,18 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return false
 
         case .Feed:
-            return true
+            let feed = feeds[indexPath.item]
+
+            if feed.skill != nil {
+                return true
+
+            } else {
+                if feed.creator.id == YepUserDefaults.userID.value {
+                    return false
+                } else {
+                    return true
+                }
+            }
 
         case .LoadMore:
             return false
@@ -1752,10 +1763,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             let feed = feeds[indexPath.item]
-            if feed.creator.id == YepUserDefaults.userID.value {
-                return [recommendAction]
+
+            if feed.skill != nil {
+                if feed.creator.id == YepUserDefaults.userID.value {
+                    return [recommendAction]
+                } else {
+                    return [reportAction, recommendAction]
+                }
+
             } else {
-                return [reportAction, recommendAction]
+                if feed.creator.id == YepUserDefaults.userID.value {
+                    return []
+                } else {
+                    return [reportAction]
+                }
             }
         }
 
