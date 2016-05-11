@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7XE-TR-Yc9">
-                        <rect key="frame" x="10" y="7" width="300" height="29"/>
+                        <rect key="frame" x="15" y="7" width="290" height="29"/>
                         <segments>
                             <segment title="First"/>
                             <segment title="Second"/>
@@ -22,9 +22,9 @@
                     </segmentedControl>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="7XE-TR-Yc9" secondAttribute="trailing" constant="10" id="0HQ-4I-4J7"/>
+                    <constraint firstAttribute="trailing" secondItem="7XE-TR-Yc9" secondAttribute="trailing" constant="15" id="0HQ-4I-4J7"/>
                     <constraint firstItem="7XE-TR-Yc9" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="BN9-iX-2hQ"/>
-                    <constraint firstItem="7XE-TR-Yc9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="kdt-9Z-LRW"/>
+                    <constraint firstItem="7XE-TR-Yc9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="kdt-9Z-LRW"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
