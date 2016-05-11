@@ -239,20 +239,20 @@ final class EditProfileViewController: SegueViewController {
         }
         alertController.addAction(changeMobileAction)
 
-        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
-
-            let propose: Propose = {
-                proposeToAccess(.Contacts, agreed: { [weak self] in
-                    self?.uploadContacts()
-
-                }, rejected: { [weak self] in
-                    self?.alertCanNotAccessContacts()
-                })
-            }
-
-            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
-        }
-        alertController.addAction(uploadContactsAction)
+//        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
+//
+//            let propose: Propose = {
+//                proposeToAccess(.Contacts, agreed: { [weak self] in
+//                    self?.uploadContacts()
+//
+//                }, rejected: { [weak self] in
+//                    self?.alertCanNotAccessContacts()
+//                })
+//            }
+//
+//            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
+//        }
+//        alertController.addAction(uploadContactsAction)
 
         let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
