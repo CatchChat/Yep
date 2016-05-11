@@ -26,8 +26,6 @@ final class OpenGraphTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testItunesOpenGraph() {
@@ -49,8 +47,24 @@ final class OpenGraphTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(10, handler: nil)
-        
-        XCTAssert(true, "Pass")
+    }
+
+    func testGetTitleOfURL() {
+
+        let URL = NSURL(string: "https://github.com")!
+
+        let expectation = expectationWithDescription("get title of URL: \(URL)")
+
+        titleOfURL(URL, failureHandler: nil, completion: { title in
+
+            print("title: \(title)")
+
+            if !title.isEmpty {
+                expectation.fulfill()
+            }
+        })
+
+        waitForExpectationsWithTimeout(10, handler: nil)
     }
 }
 

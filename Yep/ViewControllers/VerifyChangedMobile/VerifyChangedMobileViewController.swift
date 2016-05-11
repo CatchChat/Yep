@@ -90,6 +90,12 @@ final class VerifyChangedMobileViewController: UIViewController {
         callMeTimer.fire()
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
     // MARK: Actions
 
     @objc private func activeAgain(notification: NSNotification) {

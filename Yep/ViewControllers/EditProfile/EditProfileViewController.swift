@@ -123,6 +123,8 @@ final class EditProfileViewController: SegueViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
+        isDirty = false
+
         view.endEditing(true)
     }
 
@@ -237,20 +239,20 @@ final class EditProfileViewController: SegueViewController {
         }
         alertController.addAction(changeMobileAction)
 
-        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
-
-            let propose: Propose = {
-                proposeToAccess(.Contacts, agreed: { [weak self] in
-                    self?.uploadContacts()
-
-                }, rejected: { [weak self] in
-                    self?.alertCanNotAccessContacts()
-                })
-            }
-
-            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
-        }
-        alertController.addAction(uploadContactsAction)
+//        let uploadContactsAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Upload Contacts", comment: ""), style: .Default) { [weak self] action in
+//
+//            let propose: Propose = {
+//                proposeToAccess(.Contacts, agreed: { [weak self] in
+//                    self?.uploadContacts()
+//
+//                }, rejected: { [weak self] in
+//                    self?.alertCanNotAccessContacts()
+//                })
+//            }
+//
+//            self?.showProposeMessageIfNeedForContactsAndTryPropose(propose)
+//        }
+//        alertController.addAction(uploadContactsAction)
 
         let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -531,7 +533,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("Invalid URL!", comment: ""), confirmTitle: NSLocalizedString("Modify", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak cell] in
+
+                            cell?.infoTextView.becomeFirstResponder()
+
+                        }, cancelAction: {
+                        })
 
                     }, completion: { blogTitle in
 
