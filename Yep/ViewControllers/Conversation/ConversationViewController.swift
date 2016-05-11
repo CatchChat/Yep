@@ -2500,17 +2500,18 @@ final class ConversationViewController: BaseViewController {
 
     @objc private func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
 
-        println("messagesMarkAsReadByRecipient object: \(notifictaion.object)")
+        //println("messagesMarkAsReadByRecipient object: \(notifictaion.object)")
 
         guard let
             messageDataInfo = notifictaion.object as? [String: AnyObject],
             lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
             lastReadMessageID = messageDataInfo["last_read_id"] as? String,
-            recipientType = messageDataInfo["recipient_type"] as? String,
+            //recipientType = messageDataInfo["recipient_type"] as? String,
             recipientID = messageDataInfo["recipient_id"] as? String else {
                 return
         }
 
+        /*
         println("lastReadMessageID: \(lastReadMessageID), \(lastReadUnixTime)")
         println("recipient_id: \(recipientID), \(recipientType)")
         println("recipient: \(recipient)")
@@ -2518,8 +2519,11 @@ final class ConversationViewController: BaseViewController {
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
         }
+         */
 
-        
+        if recipientID == YepUserDefaults.userID.value {
+            markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
+        }
     }
 
     @objc private func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
