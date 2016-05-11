@@ -1718,12 +1718,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             return false
 
         case .Feed:
-            let feed = feeds[indexPath.item]
-            if feed.creator.id == YepUserDefaults.userID.value {
-                return false
-            } else {
-                return true
-            }
+            return true
 
         case .LoadMore:
             return false
@@ -1756,7 +1751,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.setEditing(false, animated: true)
             }
 
-            return [reportAction, recommendAction]
+            let feed = feeds[indexPath.item]
+            if feed.creator.id == YepUserDefaults.userID.value {
+                return [recommendAction]
+            } else {
+                return [reportAction, recommendAction]
+            }
         }
 
         return nil
