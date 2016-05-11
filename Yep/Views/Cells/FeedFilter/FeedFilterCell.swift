@@ -10,10 +10,27 @@ import UIKit
 
 class FeedFilterCell: UITableViewCell {
 
+    enum Option: Int {
+        case Recommendation
+        case Lately
+
+        var title: String {
+            switch self {
+            case .Recommendation:
+                return NSLocalizedString("Recommendation", comment: "")
+            case .Lately:
+                return NSLocalizedString("Lately", comment: "")
+            }
+        }
+    }
+
     @IBOutlet weak var segmentedControl: UISegmentedControl! {
         didSet {
-            segmentedControl.setTitle(NSLocalizedString("Recommendation", comment: ""), forSegmentAtIndex: 0)
-            segmentedControl.setTitle(NSLocalizedString("Lately", comment: ""), forSegmentAtIndex: 1)
+            segmentedControl.removeAllSegments()
+            (0..<2).forEach({
+                let option = Option(rawValue: $0)
+                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
+            })
         }
     }
 
