@@ -1161,7 +1161,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .SkillUsers:
             return (skill == nil) ? 0 : 1
         case .Filter:
-            return 1
+            return (skill == nil) ? 0 : 1
         case .UploadingFeed:
             return uploadingFeeds.count
         case .Feed:
