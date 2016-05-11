@@ -531,7 +531,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("Invalid URL!", comment: ""), confirmTitle: NSLocalizedString("Change", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak cell] in
+
+                            cell?.infoTextView.becomeFirstResponder()
+
+                        }, cancelAction: {
+                        })
 
                     }, completion: { blogTitle in
 
