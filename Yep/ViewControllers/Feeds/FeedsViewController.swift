@@ -67,6 +67,7 @@ final class FeedsViewController: BaseViewController {
     }()
 
     private let feedSkillUsersCellID = "FeedSkillUsersCell"
+    private let feedFilterCellID = "FeedFilterCell"
     private let feedBasicCellID = "FeedBasicCell"
     private let feedBiggerImageCellID = "FeedBiggerImageCell"
     private let feedNormalImagesCellID = "FeedNormalImagesCell"
@@ -90,6 +91,7 @@ final class FeedsViewController: BaseViewController {
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
             feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
+            feedsTableView.registerNib(UINib(nibName: feedFilterCellID, bundle: nil), forCellReuseIdentifier: feedFilterCellID)
 
             feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
             feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
@@ -918,6 +920,8 @@ final class FeedsViewController: BaseViewController {
                 switch section {
                 case .SkillUsers:
                     break
+                case .Filter:
+                    break
                 case .UploadingFeed:
                     let discoveredUser = uploadingFeeds[indexPath.row].creator
                     vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
@@ -956,6 +960,8 @@ final class FeedsViewController: BaseViewController {
 
                 switch section {
                 case .SkillUsers:
+                    break
+                case .Filter:
                     break
                 case .UploadingFeed:
                     vc.skill = uploadingFeeds[indexPath.row].skill
@@ -1134,6 +1140,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
+        case Filter
         case UploadingFeed
         case Feed
         case LoadMore
@@ -1141,7 +1148,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 4
+        return 5
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1153,6 +1160,8 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case .SkillUsers:
             return (skill == nil) ? 0 : 1
+        case .Filter:
+            return 1
         case .UploadingFeed:
             return uploadingFeeds.count
         case .Feed:
@@ -1221,6 +1230,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .SkillUsers:
 
             let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+            return cell
+
+        case .Filter:
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(feedFilterCellID) as! FeedFilterCell
             return cell
 
         case .UploadingFeed:
@@ -1596,6 +1610,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.configureWithFeeds(feeds)
 
+        case .Filter:
+            break
+
         case .UploadingFeed:
 
             let feed = uploadingFeeds[indexPath.row]
@@ -1658,6 +1675,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .SkillUsers:
             return 70
 
+        case .Filter:
+            return 60
+
         case .UploadingFeed:
             let feed = uploadingFeeds[indexPath.row]
             return FeedsViewController.layoutPool.heightOfFeed(feed)
@@ -1690,6 +1710,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .SkillUsers:
             performSegueWithIdentifier("showSkillHome", sender: nil)
 
+        case .Filter:
+            break
+
         case .UploadingFeed:
             break
 
@@ -1712,6 +1735,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
 
         case .SkillUsers:
+            return false
+
+        case .Filter:
             return false
 
         case .UploadingFeed:
