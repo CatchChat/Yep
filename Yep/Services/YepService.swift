@@ -2356,6 +2356,8 @@ func sendMessage(message: Message, inFilePath filePath: String?, orFileData file
 
             createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
 
+                println("send messageID: \(messageID), \(NSDate().timeIntervalSince1970)")
+
                 dispatch_async(dispatch_get_main_queue()) {
                     let realm = message.realm
 
