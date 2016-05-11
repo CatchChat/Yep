@@ -1174,6 +1174,9 @@ final class ConversationViewController: BaseViewController {
 
                 if let withFriend = self?.conversation.withFriend {
 
+                    println("try sendText to User: \(withFriend.userID)")
+                    println("my userID: \(YepUserDefaults.userID.value)")
+
                     sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
@@ -2515,6 +2518,8 @@ final class ConversationViewController: BaseViewController {
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
         }
+
+        
     }
 
     @objc private func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
