@@ -1747,7 +1747,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.setEditing(false, animated: true)
             }
 
-            return [reportAction]
+            let recommendAction = UITableViewRowAction(style: .Normal, title: NSLocalizedString("Recommend", comment: "")) { [weak self] action, indexPath in
+
+                if let feed = self?.feeds[indexPath.row] {
+                    // TODO: recommend feed
+                }
+
+                tableView.setEditing(false, animated: true)
+            }
+
+            return [reportAction, recommendAction]
         }
 
         return nil
