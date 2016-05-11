@@ -10,7 +10,12 @@ import UIKit
 
 class FeedFilterCell: UITableViewCell {
 
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet weak var segmentedControl: UISegmentedControl! {
+        didSet {
+            segmentedControl.setTitle(NSLocalizedString("Recommendation", comment: ""), forSegmentAtIndex: 0)
+            segmentedControl.setTitle(NSLocalizedString("Lately", comment: ""), forSegmentAtIndex: 1)
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
