@@ -70,6 +70,12 @@ final class ChangeMobileViewController: UIViewController {
         mobileNumberTextField.becomeFirstResponder()
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
+    }
+
     // MARK: Actions
 
     private func adjustAreaCodeTextFieldWidth() {
