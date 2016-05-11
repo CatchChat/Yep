@@ -881,7 +881,7 @@ final class ProfileViewController: SegueViewController {
 
                 // try update blog title
 
-                if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString) {
+                if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL {
 
                     titleOfURL(blogURL, failureHandler: nil, completion: { blogTitle in
 
@@ -901,6 +901,9 @@ final class ProfileViewController: SegueViewController {
                                     YepUserDefaults.blogURLString.value = blogURLString
                                 }
                             })
+
+                        } else {
+                            println("not need update blogTitle")
                         }
                     })
                 }
