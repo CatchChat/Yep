@@ -123,6 +123,8 @@ final class EditProfileViewController: SegueViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
+        isDirty = false
+
         view.endEditing(true)
     }
 
