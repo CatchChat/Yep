@@ -17,7 +17,7 @@ final class YepAlert {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action in
                 if let dismissAction = dismissAction {
                     dismissAction()
                 }
@@ -42,12 +42,12 @@ final class YepAlert {
 
             let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
-            alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            alertController.addTextFieldWithConfigurationHandler { textField in
                 textField.placeholder = placeholder
                 textField.text = oldText
             }
 
-            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action -> Void in
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action in
                 if let finishedAction = finishedAction {
                     if let textField = alertController.textFields?.first, text = textField.text {
                         finishedAction(text: text)
@@ -68,20 +68,19 @@ final class YepAlert {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-            alertController.addTextFieldWithConfigurationHandler { (textField) -> Void in
+            alertController.addTextFieldWithConfigurationHandler { textField in
                 textField.placeholder = placeholder
                 textField.text = oldText
                 textField.addTarget(self, action: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), forControlEvents: .EditingChanged)
             }
 
-            
-            let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
+            let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action in
                 cancelAction?()
             }
             
             alertController.addAction(_cancelAction)
             
-            let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
                 if let textField = alertController.textFields?.first, text = textField.text {
                     
                     confirmAction?(text: text)
@@ -107,12 +106,12 @@ final class YepAlert {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action -> Void in
+            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action in
                 cancelAction()
             }
             alertController.addAction(cancelAction)
 
-            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action -> Void in
+            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
                 confirmAction()
             }
             alertController.addAction(confirmAction)
@@ -120,7 +119,6 @@ final class YepAlert {
             viewController?.presentViewController(alertController, animated: true, completion: nil)
         }
     }
-
 }
 
 extension UIViewController {
@@ -156,7 +154,7 @@ extension UIViewController {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
-                }, cancelAction: {
+            }, cancelAction: {
             })
         }
     }
@@ -184,7 +182,6 @@ extension UIViewController {
             })
         }
     }
-
 
     func showProposeMessageIfNeedForContactsAndTryPropose(propose: Propose) {
 
