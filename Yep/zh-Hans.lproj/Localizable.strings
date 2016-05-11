@@ -787,5 +787,6 @@
 "Set blog failed!" = "设置Blog失败！";
 "Invalid URL!" = "无效的URL！";
 "Request failed!" = "请求失败！";
+"Modify" = "修改";
 "No title for URL!" = "此URL没有标题！";
 

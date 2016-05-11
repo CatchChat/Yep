@@ -531,7 +531,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("Invalid URL!", comment: ""), confirmTitle: NSLocalizedString("Change", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak cell] in
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("Invalid URL!", comment: ""), confirmTitle: NSLocalizedString("Modify", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak cell] in
 
                             cell?.infoTextView.becomeFirstResponder()
 
