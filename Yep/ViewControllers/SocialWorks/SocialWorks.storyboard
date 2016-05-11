@@ -31,8 +31,8 @@
                                                 <constraint firstAttribute="width" constant="60" id="Tqt-2n-PQr"/>
                                             </constraints>
                                         </imageView>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="3sU-6o-s6t">
-                                            <rect key="frame" x="198" y="141" width="205" height="56"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="3sU-6o-s6t">
+                                            <rect key="frame" x="203" y="141" width="195" height="56"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jsg-he-VGb">
                                                     <rect key="frame" x="0.0" y="0.0" width="55" height="56"/>
@@ -52,7 +52,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="PG1-St-BUh">
-                                                    <rect key="frame" x="75" y="0.0" width="55" height="56"/>
+                                                    <rect key="frame" x="70" y="0.0" width="55" height="56"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="465" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CwA-ha-Lhd" userLabel="Stars Count Label">
                                                             <rect key="frame" x="0.0" y="0.0" width="55" height="34"/>
@@ -69,7 +69,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8ta-4Q-XSF">
-                                                    <rect key="frame" x="150" y="0.0" width="55" height="56"/>
+                                                    <rect key="frame" x="140" y="0.0" width="55" height="56"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eBc-Vb-JBj" userLabel="Following Count Label">
                                                             <rect key="frame" x="0.0" y="0.0" width="55" height="34"/>
@@ -91,7 +91,7 @@
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="Jsg-he-VGb" firstAttribute="top" secondItem="LF4-yt-FbA" secondAttribute="bottom" constant="35" id="3z1-VQ-zYC"/>
-                                        <constraint firstItem="3sU-6o-s6t" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NHv-fl-tJf" secondAttribute="leading" constant="15" id="dhi-lc-CET"/>
+                                        <constraint firstItem="3sU-6o-s6t" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NHv-fl-tJf" secondAttribute="leading" constant="5" id="dhi-lc-CET"/>
                                         <constraint firstAttribute="centerX" secondItem="LF4-yt-FbA" secondAttribute="centerX" id="tot-tb-jAn"/>
                                         <constraint firstItem="3sU-6o-s6t" firstAttribute="centerX" secondItem="LF4-yt-FbA" secondAttribute="centerX" id="uEl-Xb-dvo"/>
                                         <constraint firstItem="LF4-yt-FbA" firstAttribute="top" secondItem="NHv-fl-tJf" secondAttribute="top" constant="46" id="yjN-Hd-io7"/>
