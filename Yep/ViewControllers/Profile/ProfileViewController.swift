@@ -1772,7 +1772,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             YepUserDefaults.blogTitle.value = nil
                             YepUserDefaults.blogURLString.value = nil
 
-                            YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+                            YepAlert.alertSorry(message: NSLocalizedString("You have entered an invalid URL!", comment: ""), inViewController: self)
                             
                             return
                         }
