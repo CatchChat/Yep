@@ -1174,6 +1174,9 @@ final class ConversationViewController: BaseViewController {
 
                 if let withFriend = self?.conversation.withFriend {
 
+                    println("try sendText to User: \(withFriend.userID)")
+                    println("my userID: \(YepUserDefaults.userID.value)")
+
                     sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                         dispatch_async(dispatch_get_main_queue()) {
@@ -2495,16 +2498,22 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func messagesMarkAsReadByRecipient(notifictaion: NSNotification) {
+    @objc private func messagesMarkAsReadByRecipient(notification: NSNotification) {
 
         guard let
-            messageDataInfo = notifictaion.object as? [String: AnyObject],
+            messageDataInfo = notification.object as? [String: AnyObject],
             lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
             lastReadMessageID = messageDataInfo["last_read_id"] as? String,
             recipientType = messageDataInfo["recipient_type"] as? String,
             recipientID = messageDataInfo["recipient_id"] as? String else {
                 return
         }
+
+        /*
+        println("lastReadMessageID: \(lastReadMessageID), \(lastReadUnixTime)")
+        println("recipient_id: \(recipientID), \(recipientType)")
+        println("recipient: \(recipient)")
+         */
 
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)

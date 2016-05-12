@@ -139,7 +139,15 @@ final class FayeService: NSObject, MZFayeClientDelegate {
                             recipientID = messageDataInfo["recipient_id"] as? String {
                                 
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: ["last_read_at": lastReadAt, "last_read_id": lastReadMessageID, "recipient_type": recipientType, "recipient_id": recipientID])
+
+                                    let object = [
+                                        "last_read_at": lastReadAt,
+                                        "last_read_id": lastReadMessageID,
+                                        "recipient_type": recipientType,
+                                        "recipient_id": recipientID,
+                                    ]
+
+                                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageBatchMarkAsRead, object: object)
                                    //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                                 }
                         }

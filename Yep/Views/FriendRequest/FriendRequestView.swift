@@ -243,6 +243,7 @@ final class FriendRequestView: UIView {
             // addButton
 
             addButton.translatesAutoresizingMaskIntoConstraints = false
+            addButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
             containerView.addSubview(addButton)
 
             let addButtonTrailing = NSLayoutConstraint(item: addButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
@@ -262,6 +263,7 @@ final class FriendRequestView: UIView {
             // acceptButton
 
             acceptButton.translatesAutoresizingMaskIntoConstraints = false
+            acceptButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
             containerView.addSubview(acceptButton)
 
             let acceptButtonTrailing = NSLayoutConstraint(item: acceptButton, attribute: .Trailing, relatedBy: .Equal, toItem: containerView, attribute: .Trailing, multiplier: 1, constant: -YepConfig.chatCellGapBetweenWallAndAvatar())
@@ -272,6 +274,7 @@ final class FriendRequestView: UIView {
             // rejectButton
 
             rejectButton.translatesAutoresizingMaskIntoConstraints = false
+            rejectButton.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
             containerView.addSubview(rejectButton)
 
             let rejectButtonRight = NSLayoutConstraint(item: rejectButton, attribute: .Right, relatedBy: .Equal, toItem: acceptButton, attribute: .Left, multiplier: 1, constant: -8)
