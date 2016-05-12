@@ -520,7 +520,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         YepUserDefaults.blogTitle.value = nil
                         YepUserDefaults.blogURLString.value = nil
 
-                        YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: NSLocalizedString("You have entered an invalid URL!", comment: ""), inViewController: self)
 
                         return
                     }
@@ -533,11 +533,9 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("Invalid URL!", comment: ""), confirmTitle: NSLocalizedString("Modify", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak cell] in
+                        YepAlert.alert(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("You have entered an invalid URL!", comment: ""), dismissTitle: NSLocalizedString("Modify", comment: ""), inViewController: self, withDismissAction: { [weak cell] in
 
                             cell?.infoTextView.becomeFirstResponder()
-
-                        }, cancelAction: {
                         })
 
                     }, completion: { blogTitle in

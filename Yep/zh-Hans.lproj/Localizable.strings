@@ -786,7 +786,8 @@
 "Input your blog's URL." = "请输入您Blog的URL地址。";
 "Set blog failed!" = "设置Blog失败！";
 "Invalid URL!" = "无效的URL！";
-"Request failed!" = "请求失败！";
+"You have entered an invalid URL!" = "您输入了无效的URL！";
+"Get title of URL failed!" = "获取URL标题失败！";
 "Modify" = "修改";
 "No title for URL!" = "此URL没有标题！";
 

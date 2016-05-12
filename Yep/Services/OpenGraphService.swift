@@ -239,9 +239,9 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
         guard error == nil else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Request failed!", comment: ""))
+                failureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Get title of URL failed!", comment: ""))
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Request failed!", comment: ""))
+                defaultFailureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Get title of URL failed!", comment: ""))
             }
 
             return
