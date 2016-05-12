@@ -130,7 +130,7 @@ final class FayeService: NSObject, MZFayeClientDelegate {
 
                     if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
 
-                        println("Faye Read: \(messageDataInfo)")
+                        //println("Faye Read: \(messageDataInfo)")
                         
                         if let
                             lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
