@@ -27,7 +27,8 @@ final class MediaView: UIView {
 
         scrollView.frame = UIScreen.mainScreen().bounds
 
-        let size = image.size
+        //let size = image.size
+        let size = CGSize(width: floor(image.size.width), height: floor(image.size.height))
         imageView.frame = CGRect(origin: CGPointZero, size: size)
 
         setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
