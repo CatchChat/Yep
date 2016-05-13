@@ -12,13 +12,13 @@ import AVFoundation
 final class MediaView: UIView {
 
     var inTapZoom: Bool = false
-    var isRoomIn: Bool = false
+    var isZoomIn: Bool = false
     var zoomScaleBeforeZoomIn: CGFloat?
 
     var tapToDismissAction: (() -> Void)? {
         didSet {
             inTapZoom = false
-            isRoomIn = false
+            isZoomIn = false
             zoomScaleBeforeZoomIn = nil
         }
     }
@@ -27,7 +27,10 @@ final class MediaView: UIView {
 
         scrollView.frame = UIScreen.mainScreen().bounds
 
-        let size = image.size
+        //let size = image.size
+        let size = CGSize(width: floor(image.size.width), height: floor(image.size.height))
+        //println("size: \(size)")
+
         imageView.frame = CGRect(origin: CGPointZero, size: size)
 
         setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
@@ -39,7 +42,7 @@ final class MediaView: UIView {
 
         recenterImage(image)
 
-        //println("\n\n\n")
+        scrollView.scrollEnabled = false
     }
 
     var image: UIImage? {
@@ -122,16 +125,20 @@ final class MediaView: UIView {
         inTapZoom = true
         let zoomPoint = sender.locationInView(self)
 
-        if !isRoomIn {
-            isRoomIn = true
+        if !isZoomIn {
+            isZoomIn = true
             zoomScaleBeforeZoomIn = scrollView.zoomScale
             scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
+
+            scrollView.scrollEnabled = true
 
         } else {
             if let zoomScale = zoomScaleBeforeZoomIn {
                 zoomScaleBeforeZoomIn = nil
-                isRoomIn = false
+                isZoomIn = false
                 scrollView.yep_zoomToPoint(zoomPoint, withScale: zoomScale, animated: true)
+
+                scrollView.scrollEnabled = false
             }
         }
     }
@@ -250,6 +257,10 @@ extension MediaView: UIScrollViewDelegate {
 
         if let image = image {
             recenterImage(image)
+
+            zoomScaleBeforeZoomIn = scrollView.minimumZoomScale
+            isZoomIn = !(scrollView.zoomScale == scrollView.minimumZoomScale)
+            scrollView.scrollEnabled = isZoomIn
         }
     }
 }
