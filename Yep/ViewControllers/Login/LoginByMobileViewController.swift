@@ -116,12 +116,23 @@ final class LoginByMobileViewController: BaseViewController {
 
             YepHUD.hideActivityIndicator()
 
-            if let errorMessage = errorMessage {
-                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.mobileNumberTextField.becomeFirstResponder()
-                    }
+            if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == .NotYetRegistered {
+
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), "+\(areaCode) \(mobile)"), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+
+                    self?.performSegueWithIdentifier("showRegisterPickName", sender: ["mobile" : mobile, "areaCode": areaCode])
+
+                }, cancelAction: {
                 })
+
+            } else {
+                if let errorMessage = errorMessage {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.mobileNumberTextField.becomeFirstResponder()
+                        }
+                    })
+                }
             }
 
         }, completion: { [weak self] success in
@@ -152,7 +163,14 @@ final class LoginByMobileViewController: BaseViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showLoginVerifyMobile" {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showLoginVerifyMobile":
 
             if let info = sender as? [String: String] {
                 let vc = segue.destinationViewController as! LoginVerifyMobileViewController
@@ -160,6 +178,18 @@ final class LoginByMobileViewController: BaseViewController {
                 vc.mobile = info["mobile"]
                 vc.areaCode = info["areaCode"]
             }
+
+        case "showRegisterPickName":
+
+            if let info = sender as? [String: String] {
+                let vc = segue.destinationViewController as! RegisterPickNameViewController
+
+                vc.mobile = info["mobile"]
+                vc.areaCode = info["areaCode"]
+            }
+
+        default:
+            break
         }
     }
 

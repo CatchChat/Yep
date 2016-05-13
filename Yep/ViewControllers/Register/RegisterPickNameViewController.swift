@@ -11,6 +11,9 @@ import Ruler
 
 final class RegisterPickNameViewController: BaseViewController {
 
+    var mobile: String?
+    var areaCode: String?
+
     @IBOutlet private weak var pickNamePromptLabel: UILabel!
     @IBOutlet private weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
@@ -118,6 +121,28 @@ final class RegisterPickNameViewController: BaseViewController {
         YepUserDefaults.nickname.value = nickname
 
         performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
+    }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showRegisterPickMobile":
+
+            let vc = segue.destinationViewController as! RegisterPickMobileViewController
+
+            vc.mobile = mobile
+            vc.areaCode = areaCode
+
+        default:
+            break
+        }
     }
 }
 

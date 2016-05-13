@@ -11,6 +11,9 @@ import Ruler
 
 final class RegisterPickMobileViewController: SegueViewController {
 
+    var mobile: String?
+    var areaCode: String?
+    
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
@@ -36,13 +39,14 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
-        areaCodeTextField.text = NSTimeZone.areaCode
+        areaCodeTextField.text = areaCode ?? NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
 
         areaCodeTextField.delegate = self
         areaCodeTextField.addTarget(self, action: #selector(RegisterPickMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
 
         //mobileNumberTextField.placeholder = ""
+        mobileNumberTextField.text = mobile
         mobileNumberTextField.backgroundColor = UIColor.whiteColor()
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
@@ -51,7 +55,9 @@ final class RegisterPickMobileViewController: SegueViewController {
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
-        nextButton.enabled = false
+        if mobile == nil {
+            nextButton.enabled = false
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
