@@ -46,6 +46,7 @@ public struct Resource<A>: CustomStringConvertible {
 public enum ErrorCode: String {
     case BlockedByRecipient = "rejected_your_message"
     case NotYetRegistered = "not_yet_registered"
+    case UserWasBlocked = "user_was_blocked"
 }
 
 public enum Reason: CustomStringConvertible {
