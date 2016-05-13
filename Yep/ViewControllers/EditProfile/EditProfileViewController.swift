@@ -49,6 +49,7 @@ final class EditProfileViewController: SegueViewController {
         let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.save(_:)))
         return button
     }()
+    private var giveUpEditing: Bool = false
     private var isDirty: Bool = false {
         didSet {
             navigationItem.rightBarButtonItem = doneButton
@@ -123,7 +124,7 @@ final class EditProfileViewController: SegueViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        isDirty = false
+        giveUpEditing = true
 
         view.endEditing(true)
     }
@@ -405,6 +406,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newIntroduction in
+
+                    guard !(self?.giveUpEditing ?? true) else {
+                        return
+                    }
+
                     self?.doneButton.enabled = false
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
@@ -478,6 +484,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 }
 
                 cell.infoTextViewDidEndEditingAction = { [weak self] newBlogURLString in
+
+                    guard !(self?.giveUpEditing ?? true) else {
+                        return
+                    }
+
                     self?.doneButton.enabled = false
 
                     if let oldBlogURLString = YepUserDefaults.blogURLString.value {
