@@ -14,18 +14,6 @@ final private class KeywordCell: UITableViewCell {
 
     static let reuseIdentifier = "KeywordCell"
 
-//    lazy var keywordLabel: UILabel = {
-//        let label = UILabel()
-//        label.textAlignment = .Center
-//        label.textColor = UIColor.yepTintColor()
-//        label.font = UIFont.systemFontOfSize(18)
-//        label.opaque = true
-//        label.backgroundColor = UIColor.whiteColor()
-//        label.clipsToBounds = true
-//
-//        return label
-//    }()
-
     var keyword: String? {
         didSet {
             keywordButton.setTitle(keyword, forState: .Normal)
@@ -59,9 +47,6 @@ final private class KeywordCell: UITableViewCell {
         contentView.addSubview(keywordButton)
 
         keywordButton.translatesAutoresizingMaskIntoConstraints = false
-
-//        let centerX = NSLayoutConstraint(item: keywordButton, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-//        let centerY = NSLayoutConstraint(item: keywordButton, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
         let leading = keywordButton.leadingAnchor.constraintGreaterThanOrEqualToAnchor(contentView.leadingAnchor, constant: 15)
         let centerX = keywordButton.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor)
@@ -241,9 +226,8 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
-        let keyword = keywords[indexPath.row]
-        //cell.keywordLabel.text = keyword
 
+        let keyword = keywords[indexPath.row]
         cell.keyword = keyword
 
         cell.tapKeywordAction = { [weak self] keyword in
@@ -252,15 +236,5 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
-
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//
-//        defer {
-//            tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//        }
-//
-//        let keyword = keywords[indexPath.row]
-//        tapKeywordAction?(keyword: keyword)
-//    }
 }
 
