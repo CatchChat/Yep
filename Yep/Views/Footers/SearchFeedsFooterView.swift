@@ -27,7 +27,7 @@ final private class KeywordCell: UITableViewCell {
     lazy var keywordButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFontOfSize(18)
-        button.titleLabel?.textColor = UIColor.yepTintColor()
+        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         return button
     }()
 
@@ -49,12 +49,16 @@ final private class KeywordCell: UITableViewCell {
 
         keywordButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let centerX = NSLayoutConstraint(item: keywordButton, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-        let centerY = NSLayoutConstraint(item: keywordButton, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+//        let centerX = NSLayoutConstraint(item: keywordButton, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
+//        let centerY = NSLayoutConstraint(item: keywordButton, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
 
-        keywordButton.widthAnchor.constraintGreaterThanOrEqualToConstant(60)
+        let leading = keywordButton.leadingAnchor.constraintGreaterThanOrEqualToAnchor(contentView.leadingAnchor, constant: 15)
+        let centerX = keywordButton.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor)
+        let centerY = keywordButton.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
+        let width = keywordButton.widthAnchor.constraintGreaterThanOrEqualToConstant(60)
+        let height = keywordButton.heightAnchor.constraintEqualToAnchor(contentView.heightAnchor)
 
-        NSLayoutConstraint.activateConstraints([centerX, centerY])
+        NSLayoutConstraint.activateConstraints([leading, centerX, centerY, width, height])
     }
 }
 
