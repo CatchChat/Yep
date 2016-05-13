@@ -189,9 +189,6 @@
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="horizontalInset">
-                                        <real key="value" value="12"/>
-                                    </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="leftTextInset">
                                         <real key="value" value="32"/>
                                     </userDefinedRuntimeAttribute>

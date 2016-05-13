@@ -118,7 +118,7 @@ final class LoginByMobileViewController: BaseViewController {
 
             if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == .NotYetRegistered {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("This number not yet registered! Would you like to register it now?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), "+\(areaCode) \(mobile)"), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
 
                     self?.performSegueWithIdentifier("showRegisterPickName", sender: nil)
 
