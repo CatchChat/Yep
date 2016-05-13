@@ -121,6 +121,12 @@ final class EditProfileViewController: SegueViewController {
         editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        giveUpEditing = false
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
