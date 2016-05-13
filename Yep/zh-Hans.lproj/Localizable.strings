@@ -504,6 +504,8 @@
 /* No comment provided by engineer. */
 "What's your number?" = "您的手机号码？";
 
+"This number (%@) not yet registered! Would you like to register it now?" = "此号码（%@）还未注册Yep！您想现在注册吗？";
+
 /* No comment provided by engineer. */
 "Yep" = "Yep";
 
