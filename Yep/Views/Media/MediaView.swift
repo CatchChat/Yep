@@ -258,7 +258,9 @@ extension MediaView: UIScrollViewDelegate {
         if let image = image {
             recenterImage(image)
 
-            scrollView.scrollEnabled = !(scrollView.zoomScale == scrollView.minimumZoomScale)
+            zoomScaleBeforeZoomIn = scrollView.minimumZoomScale
+            isZoomIn = !(scrollView.zoomScale == scrollView.minimumZoomScale)
+            scrollView.scrollEnabled = isZoomIn
         }
     }
 }
