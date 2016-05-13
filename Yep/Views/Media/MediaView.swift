@@ -81,7 +81,6 @@ final class MediaView: UIView {
 
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-        //scrollView.scrollEnabled = false
 
         return scrollView
     }()
@@ -258,6 +257,8 @@ extension MediaView: UIScrollViewDelegate {
 
         if let image = image {
             recenterImage(image)
+
+            scrollView.scrollEnabled = !(scrollView.zoomScale == scrollView.minimumZoomScale)
         }
     }
 }
