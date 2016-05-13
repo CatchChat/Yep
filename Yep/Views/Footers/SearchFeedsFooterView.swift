@@ -10,18 +10,24 @@ import UIKit
 
 final private class KeywordCell: UITableViewCell {
 
+    var tapKeywordAction: ((keyword: String) -> Void)?
+
     static let reuseIdentifier = "KeywordCell"
 
-    lazy var keywordLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .Center
-        label.textColor = UIColor.yepTintColor()
-        label.font = UIFont.systemFontOfSize(18)
-        label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
-        label.clipsToBounds = true
+    var keyword: String? {
+        didSet {
+            keywordButton.setTitle(keyword, forState: .Normal)
+        }
+    }
 
-        return label
+    lazy var keywordButton: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFontOfSize(18)
+        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+
+        button.addTarget(self, action: #selector(KeywordCell.tapKeyword), forControlEvents: .TouchUpInside)
+
+        return button
     }()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -38,14 +44,23 @@ final private class KeywordCell: UITableViewCell {
 
     func makeUI() {
 
-        contentView.addSubview(keywordLabel)
+        contentView.addSubview(keywordButton)
 
-        keywordLabel.translatesAutoresizingMaskIntoConstraints = false
+        keywordButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let centerX = NSLayoutConstraint(item: keywordLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-        let centerY = NSLayoutConstraint(item: keywordLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let leading = keywordButton.leadingAnchor.constraintGreaterThanOrEqualToAnchor(contentView.leadingAnchor, constant: 15)
+        let centerX = keywordButton.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor)
+        let centerY = keywordButton.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
+        let width = keywordButton.widthAnchor.constraintGreaterThanOrEqualToConstant(60)
+        let height = keywordButton.heightAnchor.constraintEqualToAnchor(contentView.heightAnchor)
 
-        NSLayoutConstraint.activateConstraints([centerX, centerY])
+        NSLayoutConstraint.activateConstraints([leading, centerX, centerY, width, height])
+    }
+
+    @objc private func tapKeyword() {
+        if let keyword = keyword {
+            tapKeywordAction?(keyword: keyword)
+        }
     }
 }
 
@@ -211,19 +226,15 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
+
         let keyword = keywords[indexPath.row]
-        cell.keywordLabel.text = keyword
-        return cell
-    }
+        cell.keyword = keyword
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
-        defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        cell.tapKeywordAction = { [weak self] keyword in
+            self?.tapKeywordAction?(keyword: keyword)
         }
 
-        let keyword = keywords[indexPath.row]
-        tapKeywordAction?(keyword: keyword)
+        return cell
     }
 }
 
