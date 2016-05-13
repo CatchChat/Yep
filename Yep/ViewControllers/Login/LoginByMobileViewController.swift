@@ -116,12 +116,21 @@ final class LoginByMobileViewController: BaseViewController {
 
             YepHUD.hideActivityIndicator()
 
-            if let errorMessage = errorMessage {
-                YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        self?.mobileNumberTextField.becomeFirstResponder()
-                    }
+            if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == .NotYetRegistered {
+
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("This number not yet registered! Would you like to register it now?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { 
+
+                }, cancelAction: {
                 })
+
+            } else {
+                if let errorMessage = errorMessage {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self?.mobileNumberTextField.becomeFirstResponder()
+                        }
+                    })
+                }
             }
 
         }, completion: { [weak self] success in
