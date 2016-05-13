@@ -124,6 +124,7 @@ class SearchFeedsFooterView: UIView {
         }
     }
 
+    var tapBlankAction: (() -> Void)?
     var tapKeywordAction: ((keyword: String) -> Void)?
 
     var keywords: [String] = [] {
@@ -167,6 +168,9 @@ class SearchFeedsFooterView: UIView {
 
         makeUI()
 
+        let tap = UITapGestureRecognizer(target: self, action: #selector(SearchFeedsFooterView.tapBlank(_:)))
+        addGestureRecognizer(tap)
+
         style = .Empty
    }
     
@@ -208,6 +212,11 @@ class SearchFeedsFooterView: UIView {
 
             NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
+    }
+
+    @objc private func tapBlank(sender: UITapGestureRecognizer) {
+
+        tapBlankAction?()
     }
 }
 

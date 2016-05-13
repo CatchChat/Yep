@@ -62,6 +62,11 @@ final class SearchFeedsViewController: SegueViewController {
             self?.searchBar.resignFirstResponder()
         }
 
+        footerView.tapBlankAction = { [weak self] in
+
+            self?.searchBar.resignFirstResponder()
+        }
+
         return footerView
     }()
 
