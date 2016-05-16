@@ -1814,7 +1814,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.setEditing(false, animated: true)
             }
 
-            if feed.skill != nil {
+            if (YepUserDefaults.admin.value == true) && (feed.skill != nil) {
                 if feed.creator.id == YepUserDefaults.userID.value {
                     return [recommendAction]
                 } else {
