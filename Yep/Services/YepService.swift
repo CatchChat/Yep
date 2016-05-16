@@ -2838,6 +2838,7 @@ struct DiscoveredFeed: Hashable {
     let skill: Skill?
     let groupID: String
     var messagesCount: Int
+    var recommended: Bool
 
     var uploadingErrorMessage: String? = nil
 
@@ -2879,7 +2880,8 @@ struct DiscoveredFeed: Hashable {
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
             body = feedInfo["body"] as? String,
-            messagesCount = feedInfo["message_count"] as? Int else {
+            messagesCount = feedInfo["message_count"] as? Int,
+            recommended = feedInfo["recommended"] as? Bool else {
                 return nil
         }
 
@@ -2961,7 +2963,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, recommended: recommended, uploadingErrorMessage: nil)
     }
 }
 
