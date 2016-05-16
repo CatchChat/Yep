@@ -3204,6 +3204,17 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+func recommendFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> ()? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/admin/topics/\(feedID)/recommend", method: .PATCH, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 private func headCreatorsOfBlockedFeeds(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     let requestParameters: JSONDictionary = [
