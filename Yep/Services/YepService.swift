@@ -2562,6 +2562,7 @@ enum FeedSortStyle: String {
     case Distance = "distance"
     case Time = "time"
     case Match = "default"
+    case Recommended = "recommended"
     
     var name: String {
         switch self {
@@ -2571,6 +2572,8 @@ enum FeedSortStyle: String {
             return NSLocalizedString("Time", comment: "")
         case .Match:
             return NSLocalizedString("Match", comment: "")
+        case .Recommended:
+            return NSLocalizedString("Recommended", comment: "")
         }
     }
     
@@ -2586,6 +2589,8 @@ enum FeedSortStyle: String {
             return true
         case .Match:
             return false
+        case .Recommended:
+            return true
         }
     }
 }
