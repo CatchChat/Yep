@@ -19,6 +19,7 @@ private let badgeKey = "badge"
 private let blogURLStringKey = "blogURLString"
 private let blogTitleKey = "blogTitle"
 private let pusherIDKey = "pusherID"
+private let adminKey = "admin"
 
 private let areaCodeKey = "areaCode"
 private let mobileKey = "mobile"
@@ -149,6 +150,7 @@ class YepUserDefaults {
         blogURLString.removeAllListeners()
         blogTitle.removeAllListeners()
         pusherID.removeAllListeners()
+        admin.removeAllListeners()
         areaCode.removeAllListeners()
         mobile.removeAllListeners()
         discoveredUserSortStyle.removeAllListeners()
@@ -367,6 +369,14 @@ class YepUserDefaults {
                         }
                     }
             }
+        }
+    }()
+
+    static var admin: Listenable<Bool?> = {
+        let admin = defaults.boolForKey(adminKey)
+
+        return Listenable<Bool?>(admin) { admin in
+            defaults.setObject(admin, forKey: adminKey)
         }
     }()
 
