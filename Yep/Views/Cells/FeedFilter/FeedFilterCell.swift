@@ -11,13 +11,13 @@ import UIKit
 class FeedFilterCell: UITableViewCell {
 
     enum Option: Int {
-        case Recommendation
+        case Recommended
         case Lately
 
         var title: String {
             switch self {
-            case .Recommendation:
-                return NSLocalizedString("Recommendation", comment: "")
+            case .Recommended:
+                return NSLocalizedString("Recommended", comment: "")
             case .Lately:
                 return NSLocalizedString("Lately", comment: "")
             }
@@ -36,7 +36,8 @@ class FeedFilterCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        segmentedControl.selectedSegmentIndex = Option.Recommended.rawValue
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
