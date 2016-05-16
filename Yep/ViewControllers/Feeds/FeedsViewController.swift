@@ -559,6 +559,7 @@ final class FeedsViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
+    private var filterOption: FeedFilterCell.Option?
     enum UpdateFeedsMode {
         case Top
         case LoadMore
@@ -1611,7 +1612,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configureWithFeeds(feeds)
 
         case .Filter:
-            break
+
+            guard let cell = cell as? FeedFilterCell else {
+                break
+            }
+
+            cell.chooseOptionAction = { [weak self] option in
+                self?.filterOption = option
+            }
 
         case .UploadingFeed:
 
