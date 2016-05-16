@@ -399,6 +399,9 @@ final class FeedsViewController: BaseViewController {
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
+
+            filterOption = .Recommended
+
             // Add to Me
             
             if let skillID = skill?.id {
@@ -702,8 +705,19 @@ final class FeedsViewController: BaseViewController {
 
         } else {
             var feedSortStyle = self.feedSortStyle
+
             if skill != nil {
-                feedSortStyle = .Time
+                if let filterOption = filterOption {
+                    switch filterOption {
+                    case .Recommended:
+                        feedSortStyle = .Recommended
+                    case .Lately:
+                        feedSortStyle = .Time
+                    }
+
+                } else {
+                    feedSortStyle = .Time
+                }
             }
 
             let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
