@@ -793,3 +793,8 @@
 "Modify" = "修改";
 "No title for URL!" = "此URL没有标题！";
 
+"Recommend" = "推荐";
+"Cancel\nRecommended" = "取消\n推荐";
+"Recommend feed failed!" = "推荐话题失败！";
+"Cancel recommended feed failed!" = "取消推荐话题失败！";
+
