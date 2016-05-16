@@ -1792,8 +1792,16 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 if feed.recommended {
                     // TODO
+
                 } else {
-                    // TODO
+                    recommendFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
+
+                        let message = errorMessage ?? NSLocalizedString("Recommend feed failed!", comment: "")
+                        YepAlert.alertSorry(message: message, inViewController: self)
+
+                    }, completion: { [weak self] in
+                        self?.feeds[indexPath.row].recommended = true
+                    })
                 }
 
                 tableView.setEditing(false, animated: true)
