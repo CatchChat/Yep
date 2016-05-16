@@ -562,7 +562,11 @@ final class FeedsViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
-    private var filterOption: FeedFilterCell.Option?
+    private var filterOption: FeedFilterCell.Option? {
+        didSet {
+            updateFeeds()
+        }
+    }
     enum UpdateFeedsMode {
         case Top
         case LoadMore
