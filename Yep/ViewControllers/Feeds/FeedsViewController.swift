@@ -1779,16 +1779,25 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.setEditing(false, animated: true)
             }
 
-            let recommendAction = UITableViewRowAction(style: .Normal, title: NSLocalizedString("Recommend", comment: "")) { [weak self] action, indexPath in
+            let feed = feeds[indexPath.row]
 
-                if let feed = self?.feeds[indexPath.row] {
-                    // TODO: recommend feed
+            let recommendTitle: String
+            if feed.recommended {
+                recommendTitle = NSLocalizedString("Cancel\nRecommended", comment: "")
+            } else {
+                recommendTitle = NSLocalizedString("Recommend", comment: "")
+            }
+
+            let recommendAction = UITableViewRowAction(style: .Normal, title: recommendTitle) { [weak self] action, indexPath in
+
+                if feed.recommended {
+                    // TODO
+                } else {
+                    // TODO
                 }
 
                 tableView.setEditing(false, animated: true)
             }
-
-            let feed = feeds[indexPath.item]
 
             if feed.skill != nil {
                 if feed.creator.id == YepUserDefaults.userID.value {
