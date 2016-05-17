@@ -82,6 +82,76 @@ public class FayeClient {
 
         return FayeClient(serverURL: serverURL)
     }
+}
 
+private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
+private let FayeClientBayeuxConnectionTypeCallbackPolling = "callback-polling"
+private let FayeClientBayeuxConnectionTypeIFrame = "iframe";
+private let FayeClientBayeuxConnectionTypeWebSocket = "websocket"
+
+private let FayeClientBayeuxChannelHandshake = "/meta/handshake"
+private let FayeClientBayeuxChannelConnect = "/meta/connect"
+private let FayeClientBayeuxChannelDisconnect = "/meta/disconnect"
+private let FayeClientBayeuxChannelSubscribe = "/meta/subscribe"
+private let FayeClientBayeuxChannelUnsubscribe = "/meta/unsubscribe"
+
+private let FayeClientBayeuxVersion = "1.0"
+private let FayeClientBayeuxMinimumVersion = "1.0beta"
+
+private let FayeClientBayeuxMessageChannelKey = "channel"
+private let FayeClientBayeuxMessageClientIdKey = "clientId"
+private let FayeClientBayeuxMessageIdKey = "id"
+private let FayeClientBayeuxMessageDataKey = "data"
+private let FayeClientBayeuxMessageSubscriptionKey = "subscription"
+private let FayeClientBayeuxMessageExtensionKey = "ext"
+private let FayeClientBayeuxMessageVersionKey = "version"
+private let FayeClientBayeuxMessageMinimuVersionKey = "minimumVersion"
+private let FayeClientBayeuxMessageSupportedConnectionTypesKey = "supportedConnectionTypes"
+private let FayeClientBayeuxMessageConnectionTypeKey = "connectionType"
+
+// MARK: - Bayeux procotol messages
+
+extension FayeClient {
+
+    func sendBayeuxHandshakeMessage() {
+
+        let supportedConnectionTypes: [String] = [
+            FayeClientBayeuxConnectionTypeLongPolling,
+            FayeClientBayeuxConnectionTypeCallbackPolling,
+            FayeClientBayeuxConnectionTypeIFrame,
+            FayeClientBayeuxConnectionTypeWebSocket,
+        ]
+
+        var message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelHandshake,
+            FayeClientBayeuxMessageVersionKey: FayeClientBayeuxVersion,
+            FayeClientBayeuxMessageMinimuVersionKey: FayeClientBayeuxMinimumVersion,
+            FayeClientBayeuxMessageSupportedConnectionTypesKey: supportedConnectionTypes
+        ]
+
+        if let `extension` = channelExtensions["connect"] {
+            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        }
+
+        writeMessage(message)
+    }
+}
+
+// MARK: - SRWebSocket
+
+extension FayeClient {
+
+    func writeMessage(message: [String: AnyObject]) {
+
+        do {
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: NSJSONWritingOptions(rawValue: 0))
+
+            let jsonString = String(data: jsonData, encoding: NSUTF8StringEncoding)
+            webSocket?.send(jsonString)
+
+        } catch _ {
+            delegate?.fayeClient(self, didFailDeserializeMessage: message)
+        }
+    }
 }
 
