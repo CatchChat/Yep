@@ -35,6 +35,7 @@ public class FayeClient {
     public private(set) var openSubscriptionSet: Set<String> = []
 
     private var pendingChannelSubscriptionSet: Set<String> = []
+    private var openChannelSubscriptionSet: Set<String> = []
     private var subscribedChannels: [String: AnyObject] = [:]
     private var privateChannels: [String: AnyObject] = [:]
     private var channelExtensions: [String: AnyObject] = [:]
@@ -219,6 +220,12 @@ extension FayeClient {
         }
 
         writeMessage(message)
+    }
+
+    func clearSubscriptions() {
+
+        pendingChannelSubscriptionSet.removeAll()
+        openChannelSubscriptionSet.removeAll()
     }
 }
 
