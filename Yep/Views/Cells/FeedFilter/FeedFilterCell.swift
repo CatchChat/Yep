@@ -10,6 +10,14 @@ import UIKit
 
 class FeedFilterCell: UITableViewCell {
 
+    var currentOption: Option? {
+        didSet {
+            if let option = currentOption {
+                segmentedControl.selectedSegmentIndex = option.rawValue
+            }
+        }
+    }
+
     var chooseOptionAction: ((option: Option) -> Void)?
 
     enum Option: Int {
