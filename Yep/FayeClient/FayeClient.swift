@@ -110,6 +110,8 @@ private let FayeClientBayeuxMessageMinimuVersionKey = "minimumVersion"
 private let FayeClientBayeuxMessageSupportedConnectionTypesKey = "supportedConnectionTypes"
 private let FayeClientBayeuxMessageConnectionTypeKey = "connectionType"
 
+private let FayeClientWebSocketErrorDomain = "com.nixWork.FayeClient.Error"
+
 // MARK: - Bayeux procotol messages
 
 extension FayeClient {
@@ -192,6 +194,32 @@ extension FayeClient {
 
         writeMessage(message)
     }
+
+    func sendBayeuxPublishMessage(messageInfo: [String: AnyObject], withMessageUniqueID messageID: String, toChannel channel: String, usingExtension extension: [String: AnyObject]?) {
+
+        guard isConnected && isWebSocketOpen else {
+            didFailWithMessage("FayeClient not connected to server.")
+            return
+        }
+
+        var message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: channel,
+            FayeClientBayeuxMessageClientIdKey: clientID,
+            FayeClientBayeuxMessageDataKey: messageInfo,
+            FayeClientBayeuxMessageIdKey: messageID,
+        ]
+
+        if let `extension` = `extension` {
+            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+
+        } else {
+            if let `extension` = channelExtensions[channel] {
+                message[FayeClientBayeuxMessageExtensionKey] = `extension`
+            }
+        }
+
+        writeMessage(message)
+    }
 }
 
 // MARK: - SRWebSocket
@@ -213,6 +241,12 @@ extension FayeClient {
 
             completion?(finish: false)
         }
+    }
+
+    func didFailWithMessage(message: String) {
+
+        let error = NSError(domain: FayeClientWebSocketErrorDomain, code: -100, userInfo: [NSLocalizedDescriptionKey: message])
+        delegate?.fayeClient(self, didFailWithError: error)
     }
 }
 
