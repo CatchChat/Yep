@@ -8,6 +8,7 @@
 
 import Foundation
 import SocketRocket
+import Base64
 
 public protocol FayeClientDelegate: class {
 
@@ -84,6 +85,39 @@ public class FayeClient {
 
         return FayeClient(serverURL: serverURL)
     }
+}
+
+// MARK: - Helpers
+
+extension FayeClient {
+
+    func generateUniqueMessageID() -> String {
+
+        sentMessageCount += 1
+        return ("\(sentMessageCount)" as NSString).base64String()
+    }
+}
+
+// MARK: - Public methods
+
+extension FayeClient {
+
+    public func setExtension(extension: [String: AnyObject], forChannel channel: String) {
+
+        channelExtensions[channel] = `extension`
+    }
+
+    public func removeExtensionForChannel(channel: String) {
+
+        channelExtensions.removeValueForKey(channel)
+    }
+
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String) {
+
+        let messageID = generateUniqueMessageID()
+        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: nil)
+    }
+
 }
 
 private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
