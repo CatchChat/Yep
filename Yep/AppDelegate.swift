@@ -579,6 +579,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             syncFriendshipsAndDoFurtherAction {
                 syncGroupsAndDoFurtherAction {
                     syncSocialWorksToMessagesForYepTeam()
+
+                    syncMyInfoAndDoFurtherAction {
+                    }
                 }
             }
         }

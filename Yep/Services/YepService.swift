@@ -2562,6 +2562,7 @@ enum FeedSortStyle: String {
     case Distance = "distance"
     case Time = "time"
     case Match = "default"
+    case Recommended = "recommended"
     
     var name: String {
         switch self {
@@ -2571,6 +2572,8 @@ enum FeedSortStyle: String {
             return NSLocalizedString("Time", comment: "")
         case .Match:
             return NSLocalizedString("Match", comment: "")
+        case .Recommended:
+            return NSLocalizedString("Recommended", comment: "")
         }
     }
     
@@ -2586,6 +2589,8 @@ enum FeedSortStyle: String {
             return true
         case .Match:
             return false
+        case .Recommended:
+            return true
         }
     }
 }
@@ -2838,6 +2843,7 @@ struct DiscoveredFeed: Hashable {
     let skill: Skill?
     let groupID: String
     var messagesCount: Int
+    var recommended: Bool
 
     var uploadingErrorMessage: String? = nil
 
@@ -2879,7 +2885,8 @@ struct DiscoveredFeed: Hashable {
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
             body = feedInfo["body"] as? String,
-            messagesCount = feedInfo["message_count"] as? Int else {
+            messagesCount = feedInfo["message_count"] as? Int,
+            recommended = feedInfo["recommended"] as? Bool else {
                 return nil
         }
 
@@ -2961,7 +2968,7 @@ struct DiscoveredFeed: Hashable {
             skill = Skill.fromJSONDictionary(skillInfo)
         }
 
-        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: id, allowComment: allowComment, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: body, highlightedKeywordsBody: highlightedKeywordsBody, attachment: attachment, distance: distance, skill: skill, groupID: groupID, messagesCount: messagesCount, recommended: recommended, uploadingErrorMessage: nil)
     }
 }
 
@@ -3198,6 +3205,28 @@ func deleteFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, compl
     }
 
     let resource = authJsonResource(path: "/v1/topics/\(feedID)", method: .DELETE, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func recommendFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> ()? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/admin/topics/\(feedID)/recommend", method: .PATCH, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+func cancelRecommendedFeedWithFeedID(feedID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> ()? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/admin/topics/\(feedID)/cancel_recommended", method: .PATCH, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }

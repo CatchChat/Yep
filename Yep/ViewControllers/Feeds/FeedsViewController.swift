@@ -399,6 +399,9 @@ final class FeedsViewController: BaseViewController {
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
+
+            filterOption = .Recommended
+
             // Add to Me
             
             if let skillID = skill?.id {
@@ -559,6 +562,11 @@ final class FeedsViewController: BaseViewController {
 
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
+    private var filterOption: FeedFilterCell.Option? {
+        didSet {
+            updateFeeds()
+        }
+    }
     enum UpdateFeedsMode {
         case Top
         case LoadMore
@@ -701,8 +709,19 @@ final class FeedsViewController: BaseViewController {
 
         } else {
             var feedSortStyle = self.feedSortStyle
+
             if skill != nil {
-                feedSortStyle = .Time
+                if let filterOption = filterOption {
+                    switch filterOption {
+                    case .Recommended:
+                        feedSortStyle = .Recommended
+                    case .Lately:
+                        feedSortStyle = .Time
+                    }
+
+                } else {
+                    feedSortStyle = .Time
+                }
             }
 
             let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
@@ -1611,7 +1630,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configureWithFeeds(feeds)
 
         case .Filter:
-            break
+
+            guard let cell = cell as? FeedFilterCell else {
+                break
+            }
+
+            cell.chooseOptionAction = { [weak self] option in
+                self?.filterOption = option
+            }
 
         case .UploadingFeed:
 
@@ -1779,18 +1805,42 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 tableView.setEditing(false, animated: true)
             }
 
-            let recommendAction = UITableViewRowAction(style: .Normal, title: NSLocalizedString("Recommend", comment: "")) { [weak self] action, indexPath in
+            let feed = feeds[indexPath.row]
 
-                if let feed = self?.feeds[indexPath.row] {
-                    // TODO: recommend feed
+            let recommendTitle: String
+            if feed.recommended {
+                recommendTitle = NSLocalizedString("Cancel\nRecommended", comment: "")
+            } else {
+                recommendTitle = NSLocalizedString("Recommend", comment: "")
+            }
+
+            let recommendAction = UITableViewRowAction(style: .Normal, title: recommendTitle) { [weak self] action, indexPath in
+
+                if feed.recommended {
+                    cancelRecommendedFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
+
+                        let message = errorMessage ?? NSLocalizedString("Cancel recommended feed failed!", comment: "")
+                        YepAlert.alertSorry(message: message, inViewController: self)
+                        
+                    }, completion: { [weak self] in
+                        self?.feeds[indexPath.row].recommended = false
+                    })
+
+                } else {
+                    recommendFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
+
+                        let message = errorMessage ?? NSLocalizedString("Recommend feed failed!", comment: "")
+                        YepAlert.alertSorry(message: message, inViewController: self)
+
+                    }, completion: { [weak self] in
+                        self?.feeds[indexPath.row].recommended = true
+                    })
                 }
 
                 tableView.setEditing(false, animated: true)
             }
 
-            let feed = feeds[indexPath.item]
-
-            if feed.skill != nil {
+            if (YepUserDefaults.admin.value == true) && (feed.skill != nil) {
                 if feed.creator.id == YepUserDefaults.userID.value {
                     return [recommendAction]
                 } else {

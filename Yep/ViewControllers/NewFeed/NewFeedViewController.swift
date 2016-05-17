@@ -623,7 +623,7 @@ final class NewFeedViewController: SegueViewController {
             break
         }
 
-        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, highlightedKeywordsBody: nil, attachment: feedAttachment, distance: 0, skill: pickedSkill, groupID: "", messagesCount: 0, uploadingErrorMessage: nil)
+        return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, highlightedKeywordsBody: nil, attachment: feedAttachment, distance: 0, skill: pickedSkill, groupID: "", messagesCount: 0, recommended: false, uploadingErrorMessage: nil)
     }
 
     @objc private func post(sender: UIBarButtonItem) {

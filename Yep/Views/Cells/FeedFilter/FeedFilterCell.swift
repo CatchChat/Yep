@@ -10,14 +10,16 @@ import UIKit
 
 class FeedFilterCell: UITableViewCell {
 
+    var chooseOptionAction: ((option: Option) -> Void)?
+
     enum Option: Int {
-        case Recommendation
+        case Recommended
         case Lately
 
         var title: String {
             switch self {
-            case .Recommendation:
-                return NSLocalizedString("Recommendation", comment: "")
+            case .Recommended:
+                return NSLocalizedString("Recommended", comment: "")
             case .Lately:
                 return NSLocalizedString("Lately", comment: "")
             }
@@ -36,7 +38,10 @@ class FeedFilterCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        segmentedControl.selectedSegmentIndex = Option.Recommended.rawValue
+
+        segmentedControl.addTarget(self, action: #selector(FeedFilterCell.chooseOption(_:)), forControlEvents: .ValueChanged)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -44,5 +49,14 @@ class FeedFilterCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    @objc private func chooseOption(sender: UISegmentedControl) {
+
+        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
+            return
+        }
+
+        chooseOptionAction?(option: option)
+    }
 }
+
