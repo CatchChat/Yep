@@ -126,7 +126,22 @@ extension FayeClient {
             FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelHandshake,
             FayeClientBayeuxMessageVersionKey: FayeClientBayeuxVersion,
             FayeClientBayeuxMessageMinimuVersionKey: FayeClientBayeuxMinimumVersion,
-            FayeClientBayeuxMessageSupportedConnectionTypesKey: supportedConnectionTypes
+            FayeClientBayeuxMessageSupportedConnectionTypesKey: supportedConnectionTypes,
+        ]
+
+        if let `extension` = channelExtensions["handshake"] {
+            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        }
+
+        writeMessage(message)
+    }
+
+    func sendBayeuxConnectMessage() {
+
+        var message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelConnect,
+            FayeClientBayeuxMessageClientIdKey: clientID,
+            FayeClientBayeuxMessageConnectionTypeKey: FayeClientBayeuxConnectionTypeWebSocket,
         ]
 
         if let `extension` = channelExtensions["connect"] {
