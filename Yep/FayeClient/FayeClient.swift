@@ -118,6 +118,11 @@ extension FayeClient {
         sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: nil)
     }
 
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]) {
+
+        let messageID = generateUniqueMessageID()
+        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
+    }
 }
 
 private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
