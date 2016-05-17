@@ -181,6 +181,17 @@ extension FayeClient {
             }
         }
     }
+
+    func sendBayeuxUnsubscribeMessageWithChannel(channel: String) {
+
+        let message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelUnsubscribe,
+            FayeClientBayeuxMessageClientIdKey: clientID,
+            FayeClientBayeuxMessageSubscriptionKey: channel,
+        ]
+
+        writeMessage(message)
+    }
 }
 
 // MARK: - SRWebSocket
