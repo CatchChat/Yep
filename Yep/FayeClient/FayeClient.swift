@@ -34,6 +34,7 @@ public class FayeClient {
     public private(set) var pendingSubscriptionSet: Set<String> = []
     public private(set) var openSubscriptionSet: Set<String> = []
 
+    private var pendingChannelSubscriptionSet: Set<String> = []
     private var subscribedChannels: [String: AnyObject] = [:]
     private var privateChannels: [String: AnyObject] = [:]
     private var channelExtensions: [String: AnyObject] = [:]
@@ -160,13 +161,33 @@ extension FayeClient {
 
         writeMessage(message)
     }
+
+    func sendBayeuxSubscribeMessageWithChannel(channel: String) {
+
+        var message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelSubscribe,
+            FayeClientBayeuxMessageClientIdKey: clientID,
+            FayeClientBayeuxMessageSubscriptionKey: channel,
+        ]
+
+        if let `extension` = channelExtensions[channel] {
+            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        }
+
+        writeMessage(message) { [weak self] finish in
+
+            if finish {
+                self?.pendingChannelSubscriptionSet.insert(channel)
+            }
+        }
+    }
 }
 
 // MARK: - SRWebSocket
 
 extension FayeClient {
 
-    func writeMessage(message: [String: AnyObject]) {
+    func writeMessage(message: [String: AnyObject], completion: ((finish: Bool) -> Void)? = nil) {
 
         do {
             let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: NSJSONWritingOptions(rawValue: 0))
@@ -174,8 +195,12 @@ extension FayeClient {
             let jsonString = String(data: jsonData, encoding: NSUTF8StringEncoding)
             webSocket?.send(jsonString)
 
+            completion?(finish: true)
+
         } catch _ {
             delegate?.fayeClient(self, didFailDeserializeMessage: message)
+
+            completion?(finish: false)
         }
     }
 }
