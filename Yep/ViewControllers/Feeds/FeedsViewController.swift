@@ -1680,12 +1680,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             println("load more feeds")
 
-            if !cell.loadingActivityIndicator.isAnimating() {
-                cell.loadingActivityIndicator.startAnimating()
+            if !cell.isLoading {
+                cell.isLoading = true
             }
 
             updateFeeds(mode: .LoadMore, finish: { [weak cell] in
-                cell?.loadingActivityIndicator.stopAnimating()
+                cell?.isLoading = false
             })
         }
     }
