@@ -678,7 +678,7 @@ func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm)
         saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
 
     } else {
-        println("no sync feed from groupInfo: \(groupInfo)")
+        println("no sync feed from groupInfo: \(groupInfo["id"])")
     }
 }
 
