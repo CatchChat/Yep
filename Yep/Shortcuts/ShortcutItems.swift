@@ -105,19 +105,19 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
         return
     }
 
+    guard let tabBarVC = window.rootViewController as? YepTabBarController else {
+        return
+    }
+
+    if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+        if nvc.viewControllers.count > 1 {
+            nvc.popToRootViewControllerAnimated(false)
+        }
+    }
+
     switch shortcutType {
 
     case .Feeds:
-
-        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
-            break
-        }
-
-        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
-            if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
-            }
-        }
 
         tabBarVC.tab = .Feeds
 
@@ -141,16 +141,6 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
         }
 
     case .LatestOneToOneConversation:
-
-        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
-            break
-        }
-
-        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
-            if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
-            }
-        }
 
         tabBarVC.tab = .Conversations
 
@@ -183,16 +173,6 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
         }
 
     case .LatestFeedConversation:
-
-        guard let tabBarVC = window.rootViewController as? YepTabBarController else {
-            break
-        }
-
-        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
-            if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
-            }
-        }
 
         tabBarVC.tab = .Conversations
 
