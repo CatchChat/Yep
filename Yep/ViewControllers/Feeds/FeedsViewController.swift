@@ -620,6 +620,12 @@ final class FeedsViewController: BaseViewController {
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
+                if case .Top = mode where feeds.isEmpty {
+                    self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
+                } else {
+                    self?.feedsTableView.tableFooterView = UIView()
+                }
+
                 self?.canLoadMore = (feeds.count == perPage)
 
                 self?.isFetchingFeeds = false
