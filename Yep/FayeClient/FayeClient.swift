@@ -150,6 +150,16 @@ extension FayeClient {
 
         writeMessage(message)
     }
+
+    func sendBayeuxDisconnectMessage() {
+
+        let message: [String: AnyObject] = [
+            FayeClientBayeuxMessageChannelKey: FayeClientBayeuxChannelDisconnect,
+            FayeClientBayeuxMessageClientIdKey: clientID,
+        ]
+
+        writeMessage(message)
+    }
 }
 
 // MARK: - SRWebSocket
