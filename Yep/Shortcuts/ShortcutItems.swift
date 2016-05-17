@@ -113,6 +113,12 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
             break
         }
 
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+            }
+        }
+
         tabBarVC.tab = .Feeds
 
         if let nvc = tabBarVC.selectedViewController as? UINavigationController {
@@ -138,6 +144,12 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
         guard let tabBarVC = window.rootViewController as? YepTabBarController else {
             break
+        }
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+            }
         }
 
         tabBarVC.tab = .Conversations
@@ -174,6 +186,12 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
         guard let tabBarVC = window.rootViewController as? YepTabBarController else {
             break
+        }
+
+        if let nvc = tabBarVC.selectedViewController as? UINavigationController {
+            if nvc.viewControllers.count > 1 {
+                nvc.popToRootViewControllerAnimated(false)
+            }
         }
 
         tabBarVC.tab = .Conversations
