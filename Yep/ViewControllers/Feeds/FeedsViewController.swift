@@ -560,6 +560,7 @@ final class FeedsViewController: BaseViewController {
         }
     }
 
+    private var canLoadMore: Bool = false
     private var currentPageIndex = 1
     private var isFetchingFeeds = false
     private var filterOption: FeedFilterCell.Option? {
@@ -586,6 +587,7 @@ final class FeedsViewController: BaseViewController {
 
         switch mode {
         case .Top:
+            canLoadMore = true
             currentPageIndex = 1
         case .LoadMore:
             currentPageIndex += 1
@@ -605,6 +607,8 @@ final class FeedsViewController: BaseViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
+        let perPage = 20
+
         let completion: [DiscoveredFeed] -> Void = { feeds in
 
             println("new feeds.count: \(feeds.count)")
@@ -615,6 +619,8 @@ final class FeedsViewController: BaseViewController {
             */
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                self?.canLoadMore = (feeds.count == perPage)
 
                 self?.isFetchingFeeds = false
 
@@ -701,8 +707,6 @@ final class FeedsViewController: BaseViewController {
                 }
             }
         }
-
-        let perPage = 20
 
         if let profileUser = profileUser {
             feedsOfUser(profileUser.userID, pageIndex: currentPageIndex, perPage: (preparedFeedsCount > 0) ? preparedFeedsCount : perPage, failureHandler: failureHandler, completion: completion)
@@ -1675,6 +1679,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .LoadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
+                break
+            }
+
+            guard canLoadMore else {
+                cell.isLoading = false
                 break
             }
 
