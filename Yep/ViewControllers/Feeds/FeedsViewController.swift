@@ -1646,6 +1646,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
             cell.chooseOptionAction = { [weak self] option in
+                self?.feeds = []
+                self?.feedsTableView.reloadData()
+
                 self?.filterOption = option
             }
 
