@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct FayeMessage {
+public struct FayeMessage {
 
     let ID: String
     let channel: String

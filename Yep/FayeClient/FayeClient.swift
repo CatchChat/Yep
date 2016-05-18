@@ -23,6 +23,8 @@ public protocol FayeClientDelegate: class {
     func fayeClient(client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
+public typealias FayeClientPrivateHandler = (message: FayeMessage) -> Void
+
 public class FayeClient {
 
     public private(set) var webSocket: SRWebSocket?
@@ -38,7 +40,7 @@ public class FayeClient {
     private var pendingChannelSubscriptionSet: Set<String> = []
     private var openChannelSubscriptionSet: Set<String> = []
     private var subscribedChannels: [String: AnyObject] = [:]
-    private var privateChannels: [String: AnyObject] = [:]
+    private var privateChannels: [String: FayeClientPrivateHandler] = [:]
     private var channelExtensions: [String: AnyObject] = [:]
 
     public private(set) var extensions: [String: AnyObject] = [:]
@@ -118,9 +120,18 @@ extension FayeClient {
         sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: nil)
     }
 
-    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]) {
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]?) {
 
         let messageID = generateUniqueMessageID()
+        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
+    }
+
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]?, usingBlock subscriptionHandler: FayeClientPrivateHandler) {
+
+        let messageID = generateUniqueMessageID()
+
+        privateChannels[messageID] = subscriptionHandler
+
         sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
     }
 }
