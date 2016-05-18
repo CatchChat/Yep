@@ -78,6 +78,14 @@ public class FayeClient: NSObject {
         return true
     }
 
+    deinit {
+        subscribedChannels.removeAll()
+        clearSubscriptions()
+
+        invalidateReconnectTimer()
+        disconnectFromWebSocket()
+    }
+
     public override init() {
         super.init()
     }
