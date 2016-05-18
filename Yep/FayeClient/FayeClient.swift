@@ -301,6 +301,44 @@ extension FayeClient {
     }
 }
 
+// MARK: - Private methods
+
+extension FayeClient {
+
+    @objc private func reconnectTimer(timer: NSTimer) {
+
+        if isConnected {
+            invalidateReconnectTimer()
+
+        } else {
+
+            if shouldRetryConnection && retryAttempt < maximumRetryAttempts {
+                retryAttempt += 1
+
+                connect()
+
+            } else {
+                invalidateReconnectTimer()
+            }
+        }
+    }
+
+    private func invalidateReconnectTimer() {
+
+        reconnectTimer?.invalidate()
+        reconnectTimer = nil
+    }
+
+    private func reconnect() {
+
+        guard shouldRetryConnection && retryAttempt < maximumRetryAttempts else {
+            return
+        }
+
+        reconnectTimer = NSTimer.scheduledTimerWithTimeInterval(retryInterval, target: self, selector: #selector(FayeClient.reconnectTimer(_:)), userInfo: nil, repeats: false)
+    }
+}
+
 // MARK: - SRWebSocket
 
 extension FayeClient {
@@ -315,8 +353,8 @@ extension FayeClient {
 
             completion?(finish: true)
 
-        } catch _ {
-            delegate?.fayeClient(self, didFailDeserializeMessage: message)
+        } catch let error as NSError {
+            delegate?.fayeClient(self, didFailDeserializeMessage: message, withError: error)
 
             completion?(finish: false)
         }
@@ -346,13 +384,18 @@ extension FayeClient {
     }
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
-
+        // TODO: handleFayeMessages
     }
 }
 
 // MARK: - SRWebSocketDelegate
 
 extension FayeClient: SRWebSocketDelegate {
+
+    public func webSocketDidOpen(webSocket: SRWebSocket!) {
+
+        sendBayeuxHandshakeMessage()
+    }
 
     public func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
 
@@ -372,6 +415,18 @@ extension FayeClient: SRWebSocketDelegate {
             delegate?.fayeClient(self, didFailDeserializeMessage: [:], withError: error)
         }
     }
+
+    public func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
+
+        connected = false
+
+        clearSubscriptions()
+
+        delegate?.fayeClient(self, didFailWithError: error)
+
+        reconnect()
+    }
+
 
 }
 
