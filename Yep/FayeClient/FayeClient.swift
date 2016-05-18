@@ -444,6 +444,20 @@ extension FayeClient {
                     didFailWithMessage(message)
                 }
 
+            case FayeClientBayeuxChannelSubscribe:
+
+                pendingChannelSubscriptionSet.remove(fayeMessage.subscription)
+
+                if fayeMessage.successful {
+                    openChannelSubscriptionSet.insert(fayeMessage.subscription)
+
+                    delegate?.fayeClient(self, didSubscribeToChannel: fayeMessage.subscription)
+
+                } else {
+                    let message = String(format: "Faye client couldn't subscribe channel %@ with server. %@", fayeMessage.subscription, fayeMessage.error ?? "")
+                    didFailWithMessage(message)
+                }
+
             default:
                 break
             }
