@@ -218,7 +218,6 @@
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
 		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
-		5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076C5691AC46B9F00B22952 /* FayeService.swift */; };
 		507813101CD09FEE00F193AB /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078130F1CD09FEE00F193AB /* ClearTests.swift */; };
 		507813121CD0A45800F193AB /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813111CD0A45800F193AB /* RealmTests.swift */; };
 		507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813131CD0B0CF00F193AB /* ServiceTests.swift */; };
@@ -686,7 +685,6 @@
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
 		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
-		5076C5691AC46B9F00B22952 /* FayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeService.swift; path = Services/FayeService.swift; sourceTree = "<group>"; };
 		5078130F1CD09FEE00F193AB /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
 		507813111CD0A45800F193AB /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		507813131CD0B0CF00F193AB /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
@@ -1614,7 +1612,6 @@
 				502AE5281AB81076005BD199 /* YepService.swift */,
 				50E114F81ABC137A00F13000 /* YepServiceSync.swift */,
 				50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */,
-				5076C5691AC46B9F00B22952 /* FayeService.swift */,
 				503075FB1CEC0E51007E7E90 /* YepFayeService.swift */,
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
@@ -3353,7 +3350,6 @@
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				50390F131CE2D71B0090A08C /* FeedFilterCell.swift in Sources */,
 				502AE5271AB72D06005BD199 /* YepNetworking.swift in Sources */,
-				5076C56A1AC46B9F00B22952 /* FayeService.swift in Sources */,
 				505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */,
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
 				848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */,
