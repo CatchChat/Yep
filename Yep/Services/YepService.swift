@@ -2885,10 +2885,11 @@ struct DiscoveredFeed: Hashable {
             updatedUnixTime = feedInfo["updated_at"] as? NSTimeInterval,
             creatorInfo = feedInfo["user"] as? JSONDictionary,
             body = feedInfo["body"] as? String,
-            messagesCount = feedInfo["message_count"] as? Int,
-            recommended = feedInfo["recommended"] as? Bool else {
+            messagesCount = feedInfo["message_count"] as? Int else {
                 return nil
         }
+
+        let recommended = (feedInfo["recommended"] as? Bool) ?? false
 
         let highlightedKeywordsBody = feedInfo["highlight"] as? String
 
