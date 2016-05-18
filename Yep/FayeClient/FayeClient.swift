@@ -305,6 +305,17 @@ extension FayeClient {
 
 extension FayeClient {
 
+    private func subscribePendingSubscriptions() {
+
+        for channel in subscribedChannels.keys {
+
+            if !pendingChannelSubscriptionSet.contains(channel) && !openChannelSubscriptionSet.contains(channel) {
+                sendBayeuxSubscribeMessageWithChannel(channel)
+            }
+        }
+
+    }
+
     @objc private func reconnectTimer(timer: NSTimer) {
 
         if isConnected {
@@ -384,7 +395,31 @@ extension FayeClient {
     }
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
-        // TODO: handleFayeMessages
+
+        let fayeMessages = messages.map({ FayeMessage.messageFromDictionary($0) }).flatMap({ $0 })
+
+        fayeMessages.forEach({ fayeMessage in
+
+            switch fayeMessage.channel {
+
+            case FayeClientBayeuxChannelHandshake:
+
+                if fayeMessage.successful {
+                    retryAttempt = 0
+                    clientID = fayeMessage.clientID
+                    connected = true
+
+                    delegate?.fayeClient(self, didConnectToURL: serverURL)
+
+                    sendBayeuxConnectMessage()
+                    subscribePendingSubscriptions()
+                }
+
+            default:
+                break
+            }
+        })
+
     }
 }
 
