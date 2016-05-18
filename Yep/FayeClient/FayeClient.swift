@@ -34,11 +34,6 @@ public class FayeClient: NSObject {
 
     public private(set) var sentMessageCount: Int = 0
 
-    //public private(set) var pendingSubscriptionSet: Set<String> = []
-    //public private(set) var openSubscriptionSet: Set<String> = []
-    //public private(set) var subscriptionSet: Set<String> = []
-    //public private(set) var extensions: [String: AnyObject] = [:]
-
     private var pendingChannelSubscriptionSet: Set<String> = []
     private var openChannelSubscriptionSet: Set<String> = []
     private var subscribedChannels: [String: FayeClientSubscriptionHandler] = [:]
@@ -58,7 +53,6 @@ public class FayeClient: NSObject {
         return connected
     }
 
-    //private var webSocketOpen: Bool = false
     private var isWebSocketOpen: Bool {
 
         if let webSocket = webSocket {
@@ -68,7 +62,6 @@ public class FayeClient: NSObject {
         return false
     }
 
-    //private var webSocketClosed: Bool = false
     private var isWebSocketClosed: Bool {
 
         if let webSocket = webSocket {
