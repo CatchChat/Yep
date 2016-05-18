@@ -12,7 +12,7 @@ public struct FayeMessage {
 
     let ID: String?
     let channel: String
-    let clientID: String
+    let clientID: String?
     let successful: Bool
     let authSuccessful: Bool?
     let version: String
@@ -29,12 +29,12 @@ public struct FayeMessage {
 
         let ID = info["id"] as? String
         guard let channel = info["channel"] as? String else { return nil }
-        guard let clientID = info["clientId"] as? String else { return nil }
-        guard let successful = info["successful"] as? Bool else { return nil }
-        let authSuccessful = info["authSuccessful"] as? Bool
-        guard let version = info["version"] as? String else { return nil }
+        let clientID = info["clientId"] as? String 
+        let successful = (info["successful"] as? Bool) ?? false
+        let authSuccessful = (info["authSuccessful"] as? Bool) ?? false
+        let version = info["version"] as? String ?? "1.0"
         let minimumVersion = info["minimumVersion"] as? String
-        guard let supportedConnectionTypes = info["supportedConnectionTypes"] as? [String] else { return nil }
+        let supportedConnectionTypes = (info["supportedConnectionTypes"] as? [String]) ?? []
         let advice = (info["advice"] as? [String: AnyObject]) ?? [:]
         let error = info["error"] as? String
         let subscription = info["subscription"] as? String
