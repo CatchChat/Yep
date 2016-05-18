@@ -19,7 +19,7 @@ public protocol FayeClientDelegate: class {
     func fayeClient(client: FayeClient, didUnsubscribeFromChannel channel: String)
 
     func fayeClient(client: FayeClient, didFailWithError error: NSError?)
-    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject], withError error: NSError?)
+    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: NSError?)
     func fayeClient(client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
@@ -49,7 +49,7 @@ public class FayeClient: NSObject {
     public weak var delegate: FayeClientDelegate?
 
     private var connected: Bool = false
-    private var isConnected: Bool {
+    public var isConnected: Bool {
         return connected
     }
 
@@ -79,7 +79,7 @@ public class FayeClient: NSObject {
         disconnectFromWebSocket()
     }
 
-    public override init() {
+    private override init() {
         super.init()
     }
 
@@ -440,6 +440,7 @@ extension FayeClient {
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
 
+        println("handleFayeMessages: \(messages)")
         let fayeMessages = messages.map({ FayeMessage.messageFromDictionary($0) }).flatMap({ $0 })
 
         fayeMessages.forEach({ fayeMessage in
@@ -490,29 +491,29 @@ extension FayeClient {
 
             case FayeClientBayeuxChannelSubscribe:
 
-                pendingChannelSubscriptionSet.remove(fayeMessage.subscription)
+                pendingChannelSubscriptionSet.remove(fayeMessage.subscription!)
 
                 if fayeMessage.successful {
-                    openChannelSubscriptionSet.insert(fayeMessage.subscription)
+                    openChannelSubscriptionSet.insert(fayeMessage.subscription!)
 
-                    delegate?.fayeClient(self, didSubscribeToChannel: fayeMessage.subscription)
+                    delegate?.fayeClient(self, didSubscribeToChannel: fayeMessage.subscription!)
 
                 } else {
-                    let message = String(format: "Faye client couldn't subscribe channel %@ with server. %@", fayeMessage.subscription, fayeMessage.error ?? "")
+                    let message = String(format: "Faye client couldn't subscribe channel %@ with server. %@", fayeMessage.subscription!, fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
             case FayeClientBayeuxChannelUnsubscribe:
 
                 if fayeMessage.successful {
-                    subscribedChannels.removeValueForKey(fayeMessage.subscription)
-                    pendingChannelSubscriptionSet.remove(fayeMessage.subscription)
-                    openChannelSubscriptionSet.remove(fayeMessage.subscription)
+                    subscribedChannels.removeValueForKey(fayeMessage.subscription!)
+                    pendingChannelSubscriptionSet.remove(fayeMessage.subscription!)
+                    openChannelSubscriptionSet.remove(fayeMessage.subscription!)
 
-                    delegate?.fayeClient(self, didUnsubscribeFromChannel: fayeMessage.subscription)
+                    delegate?.fayeClient(self, didUnsubscribeFromChannel: fayeMessage.subscription!)
 
                 } else {
-                    let message = String(format: "Faye client couldn't unsubscribe channel %@ with server. %@", fayeMessage.subscription, fayeMessage.error ?? "")
+                    let message = String(format: "Faye client couldn't unsubscribe channel %@ with server. %@", fayeMessage.subscription!, fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
@@ -531,7 +532,7 @@ extension FayeClient {
                     // No match for channel
                     print("fayeMessage: \(fayeMessage)")
 
-                    if let handler = privateChannels[fayeMessage.ID] {
+                    if let messageID = fayeMessage.ID, handler = privateChannels[messageID] {
                         handler(message: fayeMessage)
                     }
                 }
@@ -564,7 +565,7 @@ extension FayeClient: SRWebSocketDelegate {
             }
 
         } catch let error as NSError {
-            delegate?.fayeClient(self, didFailDeserializeMessage: [:], withError: error)
+            delegate?.fayeClient(self, didFailDeserializeMessage: nil, withError: error)
         }
     }
 

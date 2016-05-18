@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
+/*
+
 import Foundation
 import RealmSwift
 
@@ -417,4 +419,4 @@ final class FayeService: NSObject, MZFayeClientDelegate {
     }
      */
 }
-
+*/

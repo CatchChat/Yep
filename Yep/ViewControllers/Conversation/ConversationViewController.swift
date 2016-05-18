@@ -1129,7 +1129,7 @@ final class ConversationViewController: BaseViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
         setNeedsStatusBarAppearanceUpdate()
 
-        FayeService.sharedManager.delegate = self
+        YepFayeService.sharedManager.delegate = self
 
         // 进来时就尽快标记已读
 
@@ -1544,7 +1544,7 @@ final class ConversationViewController: BaseViewController {
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
 
-        FayeService.sharedManager.delegate = nil
+        YepFayeService.sharedManager.delegate = nil
         checkTypingStatusTimer?.invalidate()
         checkTypingStatusTimer = nil // 及时释放
 
@@ -2473,7 +2473,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func trySendInstantMessageWithType(type: FayeService.InstantStateType) {
+    private func trySendInstantMessageWithType(type: YepFayeService.InstantStateType) {
 
         guard let _ = self.conversation.withFriend else {
             return
@@ -2489,8 +2489,8 @@ final class ConversationViewController: BaseViewController {
             "recipient_id": recipient.ID,
         ]
 
-        if FayeService.sharedManager.client.connected {
-            FayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
+        if YepFayeService.sharedManager.client.isConnected {
+            YepFayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
                 println("Send \(type) \(success)")
             })
         }
@@ -4614,9 +4614,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
 // MARK: FayeServiceDelegate
 
-extension ConversationViewController: FayeServiceDelegate {
+extension ConversationViewController: YepFayeServiceDelegate {
 
-    func fayeRecievedInstantStateType(instantStateType: FayeService.InstantStateType, userID: String) {
+    func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String) {
 
         if let withFriend = conversation.withFriend {
 
