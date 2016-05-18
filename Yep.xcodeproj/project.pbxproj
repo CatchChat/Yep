@@ -135,6 +135,8 @@
 		502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */; };
 		502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606D1BD6567600D9C17E /* AvatarStyles.swift */; };
 		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
+		503075F81CEB032A007E7E90 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F71CEB032A007E7E90 /* FayeMessage.swift */; };
+		503075FA1CEB0A7C007E7E90 /* FayeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F91CEB0A7C007E7E90 /* FayeClient.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
@@ -602,6 +604,8 @@
 		502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlainAvatar.swift; path = Caches/PlainAvatar.swift; sourceTree = "<group>"; };
 		502B606D1BD6567600D9C17E /* AvatarStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarStyles.swift; path = Caches/AvatarStyles.swift; sourceTree = "<group>"; };
 		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
+		503075F71CEB032A007E7E90 /* FayeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeMessage.swift; path = FayeClient/FayeMessage.swift; sourceTree = "<group>"; };
+		503075F91CEB0A7C007E7E90 /* FayeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeClient.swift; path = FayeClient/FayeClient.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
@@ -1031,6 +1035,7 @@
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				507813171CD1AFB000F193AB /* Shortcuts */,
+				503075F41CEB02C3007E7E90 /* FayeClient */,
 				92E0FFE11C5F38E400226B96 /* Vendors */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
@@ -1740,6 +1745,15 @@
 				502B60631BD1208E00D9C17E /* CameraCell.xib */,
 			);
 			name = Camera;
+			sourceTree = "<group>";
+		};
+		503075F41CEB02C3007E7E90 /* FayeClient */ = {
+			isa = PBXGroup;
+			children = (
+				503075F71CEB032A007E7E90 /* FayeMessage.swift */,
+				503075F91CEB0A7C007E7E90 /* FayeClient.swift */,
+			);
+			name = FayeClient;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -3270,6 +3284,7 @@
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
 				338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
+				503075F81CEB032A007E7E90 /* FayeMessage.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
@@ -3426,6 +3441,7 @@
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
+				503075FA1CEB0A7C007E7E90 /* FayeClient.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */,
 				338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */,
