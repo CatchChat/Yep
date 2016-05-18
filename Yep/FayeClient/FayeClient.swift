@@ -415,7 +415,7 @@ extension FayeClient {
                     subscribePendingSubscriptions()
 
                 } else {
-                    let message = String(format: "Faye client couldn't handshake with server. %@", fayeMessage.error!)
+                    let message = String(format: "Faye client couldn't handshake with server. %@", fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
@@ -426,7 +426,21 @@ extension FayeClient {
                     sendBayeuxConnectMessage()
 
                 } else {
-                    let message = String(format: "Faye client couldn't handshake with server. %@", fayeMessage.error!)
+                    let message = String(format: "Faye client couldn't connect to server. %@", fayeMessage.error ?? "")
+                    didFailWithMessage(message)
+                }
+
+            case FayeClientBayeuxChannelDisconnect:
+
+                if fayeMessage.successful {
+                    disconnectFromWebSocket()
+                    connected = false
+                    clearSubscriptions()
+
+                    delegate?.fayeClient(self, didDisconnectWithError: nil)
+
+                } else {
+                    let message = String(format: "Faye client couldn't disconnect from server. %@", fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
