@@ -34,17 +34,16 @@ public class FayeClient: NSObject {
 
     public private(set) var sentMessageCount: Int = 0
 
-    //public private(set) var subscriptionSet: Set<String> = []
     //public private(set) var pendingSubscriptionSet: Set<String> = []
     //public private(set) var openSubscriptionSet: Set<String> = []
+    //public private(set) var subscriptionSet: Set<String> = []
+    //public private(set) var extensions: [String: AnyObject] = [:]
 
     private var pendingChannelSubscriptionSet: Set<String> = []
     private var openChannelSubscriptionSet: Set<String> = []
     private var subscribedChannels: [String: FayeClientSubscriptionHandler] = [:]
     private var privateChannels: [String: FayeClientPrivateHandler] = [:]
     private var channelExtensions: [String: AnyObject] = [:]
-
-    public private(set) var extensions: [String: AnyObject] = [:]
 
     public var shouldRetryConnection: Bool = true
     public var retryInterval: NSTimeInterval = 1
@@ -59,14 +58,24 @@ public class FayeClient: NSObject {
         return connected
     }
 
-    private var webSocketOpen: Bool = false
+    //private var webSocketOpen: Bool = false
     private var isWebSocketOpen: Bool {
-        return webSocketOpen
+
+        if let webSocket = webSocket {
+            return webSocket.readyState == .OPEN
+        }
+
+        return false
     }
 
-    private var webSocketClosed: Bool = false
+    //private var webSocketClosed: Bool = false
     private var isWebSocketClosed: Bool {
-        return webSocketClosed
+
+        if let webSocket = webSocket {
+            return webSocket.readyState == .CLOSED
+        }
+
+        return true
     }
 
     public override init() {
