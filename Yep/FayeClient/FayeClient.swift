@@ -198,6 +198,15 @@ extension FayeClient {
         }
     }
 
+    public func unsubscribeFromChannel(channel: String) {
+
+        subscribedChannels.removeValueForKey(channel)
+        pendingChannelSubscriptionSet.remove(channel)
+
+        if isConnected {
+            sendBayeuxUnsubscribeMessageWithChannel(channel)
+        }
+    }
 }
 
 private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
