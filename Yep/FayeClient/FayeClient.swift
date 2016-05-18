@@ -34,9 +34,9 @@ public class FayeClient: NSObject {
 
     public private(set) var sentMessageCount: Int = 0
 
-    public private(set) var subscriptionSet: Set<String> = []
-    public private(set) var pendingSubscriptionSet: Set<String> = []
-    public private(set) var openSubscriptionSet: Set<String> = []
+    //public private(set) var subscriptionSet: Set<String> = []
+    //public private(set) var pendingSubscriptionSet: Set<String> = []
+    //public private(set) var openSubscriptionSet: Set<String> = []
 
     private var pendingChannelSubscriptionSet: Set<String> = []
     private var openChannelSubscriptionSet: Set<String> = []
