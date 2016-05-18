@@ -23,6 +23,7 @@ public protocol FayeClientDelegate: class {
     func fayeClient(client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
+public typealias FayeClientSubscriptionHandler = (message: [String: AnyObject]) -> Void
 public typealias FayeClientPrivateHandler = (message: FayeMessage) -> Void
 
 public class FayeClient: NSObject {
@@ -39,7 +40,7 @@ public class FayeClient: NSObject {
 
     private var pendingChannelSubscriptionSet: Set<String> = []
     private var openChannelSubscriptionSet: Set<String> = []
-    private var subscribedChannels: [String: AnyObject] = [:]
+    private var subscribedChannels: [String: FayeClientSubscriptionHandler] = [:]
     private var privateChannels: [String: FayeClientPrivateHandler] = [:]
     private var channelExtensions: [String: AnyObject] = [:]
 
@@ -472,12 +473,27 @@ extension FayeClient {
                     didFailWithMessage(message)
                 }
 
-
             default:
-                break
+
+                if openChannelSubscriptionSet.contains(fayeMessage.channel) {
+
+                    if let handler = subscribedChannels[fayeMessage.channel] {
+                        handler(message: fayeMessage.data)
+
+                    } else {
+                        delegate?.fayeClient(self, didReceiveMessage: fayeMessage.data, fromChannel: fayeMessage.channel)
+                    }
+
+                } else {
+                    // No match for channel
+                    print("fayeMessage: \(fayeMessage)")
+
+                    if let handler = privateChannels[fayeMessage.ID] {
+                        handler(message: fayeMessage)
+                    }
+                }
             }
         })
-
     }
 }
 
