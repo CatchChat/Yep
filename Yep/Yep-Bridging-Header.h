@@ -8,5 +8,4 @@
 #import <JPush/JPUSHService.h>
 #endif
 
-#import "MZFayeClient.h"
 #import <BuddyBuildSDK/BuddyBuildSDK.h>

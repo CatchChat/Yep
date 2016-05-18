@@ -597,9 +597,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        dispatch_async(fayeQueue) {
-            YepFayeService.sharedManager.tryStartConnect()
-        }
+        YepFayeService.sharedManager.tryStartConnect()
     }
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {

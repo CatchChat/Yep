@@ -23,7 +23,7 @@ protocol YepFayeServiceDelegate: class {
     */
 }
 
-let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
+private let fayeQueue = dispatch_queue_create("com.Yep.fayeQueue", DISPATCH_QUEUE_SERIAL)
 
 final class YepFayeService: NSObject {
 
