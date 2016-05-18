@@ -85,18 +85,31 @@ extension YepFayeService {
 
     func tryStartConnect() {
 
-        guard let userID = YepUserDefaults.userID.value, personalChannel = personalChannelWithUserID(userID) else {
-            println("FayeClient startConnect failed, not userID or personalChannel!")
-            return
+        dispatch_async(fayeQueue) { [weak self] in
+
+            guard let userID = YepUserDefaults.userID.value, personalChannel = self?.personalChannelWithUserID(userID) else {
+                println("FayeClient startConnect failed, not userID or personalChannel!")
+                return
+            }
+
+            println("Faye will subscribe \(personalChannel)")
+
+            self?.prepareForChannel("connect")
+            self?.prepareForChannel("handshake")
+            self?.prepareForChannel(personalChannel)
+
+            self?.client.connect()
         }
+    }
 
-        println("Faye will subscribe \(personalChannel)")
-
-        prepareForChannel("connect")
-        prepareForChannel("handshake")
-        prepareForChannel(personalChannel)
+    private func subscribeChannel() {
 
         dispatch_async(fayeQueue) { [weak self] in
+
+            guard let userID = YepUserDefaults.userID.value, personalChannel = self?.personalChannelWithUserID(userID) else {
+                println("FayeClient startConnect failed, not userID or personalChannel!")
+                return
+            }
 
             self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
                 println("subscribeToChannel: \(data)")
@@ -163,7 +176,7 @@ extension YepFayeService {
                     }
 
                 case .MessageDeleted:
-
+                    
                     guard let
                         messageInfo = messageInfo["message"] as? JSONDictionary,
                         messageID = messageInfo["id"] as? String
@@ -174,8 +187,6 @@ extension YepFayeService {
                     handleMessageDeletedFromServer(messageID: messageID)
                 }
             })
-
-            self?.client.connect()
         }
     }
 
@@ -314,6 +325,8 @@ extension YepFayeService: FayeClientDelegate {
     func fayeClient(client: FayeClient, didConnectToURL URL: NSURL) {
 
         println("fayeClient didConnectToURL \(URL)")
+
+        subscribeChannel()
     }
 
     func fayeClient(client: FayeClient, didDisconnectWithError error: NSError?) {
