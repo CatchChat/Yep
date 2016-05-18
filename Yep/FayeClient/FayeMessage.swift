@@ -14,7 +14,7 @@ public struct FayeMessage {
     let channel: String
     let clientID: String?
     let successful: Bool
-    let authSuccessful: Bool?
+    let authSuccessful: Bool
     let version: String
     let minimunVersion: String?
     let supportedConnectionTypes: [String]

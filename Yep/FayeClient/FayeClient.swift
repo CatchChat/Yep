@@ -440,7 +440,7 @@ extension FayeClient {
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
 
-        println("handleFayeMessages: \(messages)")
+        //println("handleFayeMessages: \(messages)")
         let fayeMessages = messages.map({ FayeMessage.messageFromDictionary($0) }).flatMap({ $0 })
 
         fayeMessages.forEach({ fayeMessage in
