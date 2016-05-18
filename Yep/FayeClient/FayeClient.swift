@@ -19,7 +19,7 @@ public protocol FayeClientDelegate: class {
     func fayeClient(client: FayeClient, didUnsubscribeFromChannel channel: String)
 
     func fayeClient(client: FayeClient, didFailWithError error: NSError?)
-    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject])
+    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject], withError error: NSError?)
     func fayeClient(client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
@@ -344,5 +344,34 @@ extension FayeClient {
         let error = NSError(domain: FayeClientWebSocketErrorDomain, code: -100, userInfo: [NSLocalizedDescriptionKey: message])
         delegate?.fayeClient(self, didFailWithError: error)
     }
+
+    func handleFayeMessages(messages: [[String: AnyObject]]) {
+
+    }
+}
+
+// MARK: - SRWebSocketDelegate
+
+extension FayeClient: SRWebSocketDelegate {
+
+    public func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
+
+        let messageData: NSData
+        if let messageString = message as? String {
+            messageData = messageString.dataUsingEncoding(NSUTF8StringEncoding)!
+        } else {
+            messageData = message as! NSData
+        }
+
+        do {
+            if let messages = try NSJSONSerialization.JSONObjectWithData(messageData, options: NSJSONReadingOptions(rawValue: 0)) as? [[String: AnyObject]] {
+                handleFayeMessages(messages)
+            }
+
+        } catch let error as NSError {
+            delegate?.fayeClient(self, didFailDeserializeMessage: [:], withError: error)
+        }
+    }
+
 }
 
