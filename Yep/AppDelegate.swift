@@ -598,7 +598,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         dispatch_async(fayeQueue) {
-            FayeService.sharedManager.tryStartConnect()
+            YepFayeService.sharedManager.tryStartConnect()
         }
     }
 

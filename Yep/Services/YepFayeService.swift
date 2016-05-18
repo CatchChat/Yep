@@ -99,18 +99,18 @@ extension YepFayeService {
         dispatch_async(fayeQueue) { [weak self] in
 
             self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
-                //println("subscribeToChannel: \(data)")
+                println("subscribeToChannel: \(data)")
 
                 let messageInfo: JSONDictionary = data
                 guard let
                     messageTypeString = messageInfo["message_type"] as? String,
-                    messageType = FayeService.MessageType(rawValue: messageTypeString)
+                    messageType = MessageType(rawValue: messageTypeString)
                     else {
                         println("Faye recieved unknown message type")
                         return
                 }
 
-                //println("messageType: \(messageType)")
+                println("messageType: \(messageType)")
 
                 switch messageType {
 
@@ -174,7 +174,7 @@ extension YepFayeService {
                     handleMessageDeletedFromServer(messageID: messageID)
                 }
             })
-            
+
             self?.client.connect()
         }
     }
