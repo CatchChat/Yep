@@ -19,7 +19,7 @@ public protocol FayeClientDelegate: class {
     func fayeClient(client: FayeClient, didUnsubscribeFromChannel channel: String)
 
     func fayeClient(client: FayeClient, didFailWithError error: NSError?)
-    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject], withError error: NSError?)
+    func fayeClient(client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: NSError?)
     func fayeClient(client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
@@ -564,7 +564,7 @@ extension FayeClient: SRWebSocketDelegate {
             }
 
         } catch let error as NSError {
-            delegate?.fayeClient(self, didFailDeserializeMessage: [:], withError: error)
+            delegate?.fayeClient(self, didFailDeserializeMessage: nil, withError: error)
         }
     }
 

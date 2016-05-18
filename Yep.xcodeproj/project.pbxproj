@@ -137,6 +137,7 @@
 		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
 		503075F81CEB032A007E7E90 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F71CEB032A007E7E90 /* FayeMessage.swift */; };
 		503075FA1CEB0A7C007E7E90 /* FayeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F91CEB0A7C007E7E90 /* FayeClient.swift */; };
+		503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075FB1CEC0E51007E7E90 /* YepFayeService.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
@@ -606,6 +607,7 @@
 		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
 		503075F71CEB032A007E7E90 /* FayeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeMessage.swift; path = FayeClient/FayeMessage.swift; sourceTree = "<group>"; };
 		503075F91CEB0A7C007E7E90 /* FayeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeClient.swift; path = FayeClient/FayeClient.swift; sourceTree = "<group>"; };
+		503075FB1CEC0E51007E7E90 /* YepFayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepFayeService.swift; path = Services/YepFayeService.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
@@ -1620,6 +1622,7 @@
 				50E114F81ABC137A00F13000 /* YepServiceSync.swift */,
 				50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */,
 				5076C5691AC46B9F00B22952 /* FayeService.swift */,
+				503075FB1CEC0E51007E7E90 /* YepFayeService.swift */,
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
 				0A3E60661ACCAECE003DC853 /* YepLocationService.swift */,
@@ -3386,6 +3389,7 @@
 				50E1CE8E1BE0BFF00025B933 /* MediaViewCell.swift in Sources */,
 				50DEE0311BE339B000015741 /* LoadMoreTableViewCell.swift in Sources */,
 				50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */,
+				503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
