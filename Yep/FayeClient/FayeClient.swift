@@ -180,6 +180,23 @@ extension FayeClient {
         sendBayeuxDisconnectMessage()
     }
 
+    public func subscribeToChannel(channel: String) {
+
+        subscribeToChannel(channel, usingBlock: nil)
+    }
+
+    public func subscribeToChannel(channel: String, usingBlock subscriptionHandler: FayeClientSubscriptionHandler?) {
+
+        if let subscriptionHandler = subscriptionHandler {
+            subscribedChannels[channel] = subscriptionHandler
+        } else {
+            subscribedChannels.removeValueForKey(channel)
+        }
+
+        if isConnected {
+            sendBayeuxSubscribeMessageWithChannel(channel)
+        }
+    }
 
 }
 
