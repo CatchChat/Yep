@@ -134,6 +134,28 @@ extension FayeClient {
 
         sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
     }
+
+    public func connectToURL(serverURL: NSURL) -> Bool {
+
+        if isConnected || isWebSocketOpen {
+            return false
+        }
+
+        self.serverURL = serverURL
+
+        return connect()
+    }
+
+    public func connect() -> Bool {
+
+        if isConnected || isWebSocketOpen {
+            return false
+        }
+
+        connectToWebSocket()
+
+        return true
+    }
 }
 
 private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
@@ -298,6 +320,23 @@ extension FayeClient {
 
             completion?(finish: false)
         }
+    }
+
+    func connectToWebSocket() {
+
+        disconnectFromWebSocket()
+
+        let request = NSURLRequest(URL: serverURL)
+        webSocket = SRWebSocket(URLRequest: request)
+        webSocket?.delegate = self
+        webSocket?.open()
+    }
+
+    func disconnectFromWebSocket() {
+
+        webSocket?.delegate = nil
+        webSocket?.close()
+        webSocket = nil
     }
 
     func didFailWithMessage(message: String) {
