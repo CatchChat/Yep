@@ -612,11 +612,6 @@ final class FeedsViewController: BaseViewController {
         let completion: [DiscoveredFeed] -> Void = { feeds in
 
             println("new feeds.count: \(feeds.count)")
-            /*
-            feeds.forEach({
-                println("feedID: \($0.id)")
-            })
-            */
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
