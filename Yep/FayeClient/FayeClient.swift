@@ -458,6 +458,21 @@ extension FayeClient {
                     didFailWithMessage(message)
                 }
 
+            case FayeClientBayeuxChannelUnsubscribe:
+
+                if fayeMessage.successful {
+                    subscribedChannels.removeValueForKey(fayeMessage.subscription)
+                    pendingChannelSubscriptionSet.remove(fayeMessage.subscription)
+                    openChannelSubscriptionSet.remove(fayeMessage.subscription)
+
+                    delegate?.fayeClient(self, didUnsubscribeFromChannel: fayeMessage.subscription)
+
+                } else {
+                    let message = String(format: "Faye client couldn't unsubscribe channel %@ with server. %@", fayeMessage.subscription, fayeMessage.error ?? "")
+                    didFailWithMessage(message)
+                }
+
+
             default:
                 break
             }
