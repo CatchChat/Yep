@@ -413,6 +413,21 @@ extension FayeClient {
 
                     sendBayeuxConnectMessage()
                     subscribePendingSubscriptions()
+
+                } else {
+                    let message = String(format: "Faye client couldn't handshake with server. %@", fayeMessage.error!)
+                    didFailWithMessage(message)
+                }
+
+            case FayeClientBayeuxChannelConnect:
+
+                if fayeMessage.successful {
+                    connected = true
+                    sendBayeuxConnectMessage()
+
+                } else {
+                    let message = String(format: "Faye client couldn't handshake with server. %@", fayeMessage.error!)
+                    didFailWithMessage(message)
                 }
 
             default:
