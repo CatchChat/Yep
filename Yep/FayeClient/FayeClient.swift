@@ -25,7 +25,7 @@ public protocol FayeClientDelegate: class {
 
 public typealias FayeClientPrivateHandler = (message: FayeMessage) -> Void
 
-public class FayeClient {
+public class FayeClient: NSObject {
 
     public private(set) var webSocket: SRWebSocket?
     public private(set)var serverURL: NSURL!
@@ -68,8 +68,8 @@ public class FayeClient {
         return webSocketClosed
     }
 
-    public init() {
-
+    public override init() {
+        super.init()
     }
 
     public convenience init(serverURL: NSURL) {
@@ -427,6 +427,16 @@ extension FayeClient: SRWebSocketDelegate {
         reconnect()
     }
 
+    public func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
 
+        connected = false
+
+        clearSubscriptions()
+
+        let error = NSError(domain: FayeClientWebSocketErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: reason])
+        delegate?.fayeClient(self, didDisconnectWithError: error)
+
+        reconnect()
+    }
 }
 
