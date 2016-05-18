@@ -174,6 +174,13 @@ extension FayeClient {
 
         return true
     }
+
+    public func disconnect() {
+
+        sendBayeuxDisconnectMessage()
+    }
+
+
 }
 
 private let FayeClientBayeuxConnectionTypeLongPolling = "long-polling"
