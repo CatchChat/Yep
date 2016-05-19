@@ -291,7 +291,8 @@ extension YepFayeService {
         }
         */
 
-        dispatch_async(realmQueue) {
+        dispatch_async(dispatch_get_main_queue()) {
+        //dispatch_async(realmQueue) {
             
             guard let realm = try? Realm() else {
                 return
@@ -307,6 +308,8 @@ extension YepFayeService {
             }
 
             let _ = try? realm.commitWrite()
+
+            //realm.refresh()
 
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
             /*
