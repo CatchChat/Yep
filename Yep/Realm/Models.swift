@@ -1903,9 +1903,11 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
     // delete conversation from server
 
-    if let recipient = conversation.recipient {
+    let recipient = conversation.recipient
+
+    if let recipient = recipient where recipient.type == .OneToOne {
         deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
-            println("deleteConversationWithRecipient")
+            println("deleteConversationWithRecipient \(recipient)")
         })
     }
 
@@ -1929,6 +1931,12 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
         } else {
             println("deleteConversation, not need leave group: \(groupID)")
+
+            if let recipient = recipient where recipient.type == .Group {
+                deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                    println("deleteConversationWithRecipient \(recipient)")
+                })
+            }
         }
 
         realm.delete(group)
