@@ -4,8 +4,6 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef DEBUG
 #import <JPush/JPUSHService.h>
-#endif
 
 #import <BuddyBuildSDK/BuddyBuildSDK.h>

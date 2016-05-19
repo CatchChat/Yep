@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-#if !JPUSH
-    
 import XCTest
 @testable import Yep
 import CoreLocation
@@ -30,6 +28,4 @@ final class ThirdPartyServiceTests: XCTestCase {
         waitForExpectationsWithTimeout(10, handler: nil)
     }
 }
-
-#endif
 

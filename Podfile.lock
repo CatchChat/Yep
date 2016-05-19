@@ -14,11 +14,11 @@ PODS:
   - Navi (0.4.2)
   - pop (1.0.9)
   - Proposer (0.9.0)
-  - Realm (0.102.1):
-    - Realm/Headers (= 0.102.1)
-  - Realm/Headers (0.102.1)
-  - RealmSwift (0.102.1):
-    - Realm (= 0.102.1)
+  - Realm (0.103.0):
+    - Realm/Headers (= 0.103.0)
+  - Realm/Headers (0.103.0)
+  - RealmSwift (0.103.0):
+    - Realm (= 0.103.0)
   - Ruler (0.7.0)
   - SocketRocket (0.5.1)
   - TPKeyboardAvoiding (1.3)
@@ -60,10 +60,12 @@ SPEC CHECKSUMS:
   Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Proposer: 231565a8b6bbb1816f3670d6471e6a84e582c80c
-  Realm: 5254be610db3e5024879684717bf038990bb59ec
-  RealmSwift: 3e24e6bcf56d98ccc134f4909e00839b81a659af
+  Realm: 99c44c3a9e075638478d4134e28d9026a6de07c4
+  RealmSwift: daaa1789eb581f2f8c2a05a25f463a6f70df5a5f
   Ruler: 51bd16cc00638702ef71713f80073588a6c7e682
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: b0c6acc28f4edd5de39488d26b0a80cec5ddd68b
+
+COCOAPODS: 1.0.0

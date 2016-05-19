@@ -28,4 +28,6 @@ target 'Yep' do
     pods
 end
 
-
+target 'YepTests' do
+    pods
+end
