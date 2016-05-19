@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-#if !JPUSH
-    
 import XCTest
 @testable import Yep
 
@@ -64,6 +62,4 @@ final class SyncTests: XCTestCase {
         XCTAssert(true, "Pass")
     }
 }
-
-#endif
 

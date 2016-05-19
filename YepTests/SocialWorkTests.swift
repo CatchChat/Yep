@@ -6,8 +6,6 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-#if !JPUSH
-    
 import XCTest
 @testable import Yep
 
@@ -65,6 +63,4 @@ final class SocialWorkTests: XCTestCase {
         waitForExpectationsWithTimeout(15, handler: nil)
     }
 }
-
-#endif
 
