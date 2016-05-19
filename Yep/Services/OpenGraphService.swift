@@ -6,6 +6,7 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+import YepNetworking
 import Alamofire
 import Kanna
 

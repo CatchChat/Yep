@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public enum Method: String, CustomStringConvertible {
     case OPTIONS = "OPTIONS"
@@ -28,7 +28,7 @@ public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
     let requestBody: NSData?
-    let headers: [String:String]
+    let headers: [String: String]
     let parse: NSData -> A?
 
     public var description: String {
@@ -40,6 +40,14 @@ public struct Resource<A>: CustomStringConvertible {
         }
 
         return "Resource(Method: \(method), path: \(path), headers: \(headers), requestBody: \(decodeRequestBody))"
+    }
+
+    public init(path: String, method: Method, requestBody: NSData?, headers: [String: String], parse: NSData -> A?) {
+        self.path = path
+        self.method = method
+        self.requestBody = requestBody
+        self.headers = headers
+        self.parse = parse
     }
 }
 
@@ -71,11 +79,11 @@ public enum Reason: CustomStringConvertible {
 
 public typealias FailureHandler = (reason: Reason, errorMessage: String?) -> Void
 
-let defaultFailureHandler: FailureHandler = { reason, errorMessage in
-    println("\n***************************** YepNetworking Failure *****************************")
-    println("Reason: \(reason)")
+public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
+    print("\n***************************** YepNetworking Failure *****************************")
+    print("Reason: \(reason)")
     if let errorMessage = errorMessage {
-        println("errorMessage: >>>\(errorMessage)<<<\n")
+        print("errorMessage: >>>\(errorMessage)<<<\n")
     }
 }
 
@@ -115,18 +123,6 @@ var yepNetworkActivityCount = 0 {
 
 private let yepSuccessStatusCodeRange: Range<Int> = 200..<300
 
-#if STAGING
-class SessionDelegate: NSObject, NSURLSessionDelegate {
-
-    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-
-        completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
-    }
-}
-
-let _sessionDelegate = SessionDelegate()
-#endif
-
 public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>?, failure: FailureHandler?, completion: A -> Void) {
 
     guard let resource = resource else {
@@ -134,12 +130,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         return
     }
 
-#if STAGING
-    let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-    let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
-#else
     let session = NSURLSession.sharedSession()
-#endif
 
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
@@ -167,7 +158,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     func handleParameters() {
         if needEncodesParametersForMethod(resource.method) {
             guard let URL = request.URL else {
-                println("Invalid URL of request: \(request)")
+                print("Invalid URL of request: \(request)")
                 return
             }
 
@@ -192,7 +183,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     }
 
     #if DEBUG
-    println(request.cURLCommandLineWithSession(session))
+    print(request.cURLCommandLineWithSession(session))
     #endif
 
     let _failure: FailureHandler
@@ -216,43 +207,37 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
 
                     } else {
                         let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
-                        println(dataString)
+                        print(dataString)
                         
                         _failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
-                        println("\(resource)\n")
-                        println(request.cURLCommandLine)
+                        print("\(resource)\n")
+                        print(request.cURLCommandLine)
                     }
 
                 } else {
                     _failure(reason: .NoData, errorMessage: errorMessageInData(data))
-                    println("\(resource)\n")
-                    println(request.cURLCommandLine)
+                    print("\(resource)\n")
+                    print(request.cURLCommandLine)
                 }
 
             } else {
                 let errorCode = errorCodeInData(data)
                 _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessage: errorMessageInData(data))
-                println("\(resource)\n")
-                println(request.cURLCommandLine)
+                print("\(resource)\n")
+                print(request.cURLCommandLine)
 
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
 
-                if httpResponse.statusCode == 401 {
-
-                    // 确保是自家服务
-                    if let requestHost = request.URL?.host where requestHost == yepBaseURL.host {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.maybeUserNeedRelogin()
-                        }
-                    }
+                if let host = request.URL?.host {
+                    Manager.authFailedAction?(statusCode: httpResponse.statusCode, host: host)
                 }
             }
 
         } else {
             _failure(reason: .Other(error), errorMessage: errorMessageInData(data))
-            println("\(resource)")
-            println(request.cURLCommandLine)
+            print("\(resource)")
+            print(request.cURLCommandLine)
         }
 
         dispatch_async(dispatch_get_main_queue()) {
@@ -282,7 +267,7 @@ func errorMessageInData(data: NSData?) -> String? {
 func errorCodeInData(data: NSData?) -> ErrorCode? {
     if let data = data {
         if let json = decodeJSON(data) {
-            println("error json: \(json)")
+            print("error json: \(json)")
             if let errorCodeString = json["code"] as? String {
                 return ErrorCode(rawValue: errorCodeString)
             }
@@ -296,7 +281,7 @@ func errorCodeInData(data: NSData?) -> ErrorCode? {
 
 public typealias JSONDictionary = [String: AnyObject]
 
-func decodeJSON(data: NSData) -> JSONDictionary? {
+public func decodeJSON(data: NSData) -> JSONDictionary? {
 
     if data.length > 0 {
         guard let result = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
@@ -316,7 +301,7 @@ func decodeJSON(data: NSData) -> JSONDictionary? {
     }
 }
 
-func encodeJSON(dict: JSONDictionary) -> NSData? {
+public func encodeJSON(dict: JSONDictionary) -> NSData? {
     return dict.count > 0 ? (try? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions())) : nil
 }
 
@@ -325,10 +310,12 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
 }
 
 public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A>? {
-    guard let token = YepUserDefaults.v1AccessToken.value else {
-        println("No token for auth")
+
+    guard let token = Manager.accessToken?() else {
+        print("No token for auth")
         return nil
     }
+
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 

@@ -11,15 +11,15 @@ import Foundation
 // ref https://github.com/dduan/cURLLook
 // modify for Yep
 
-public extension NSURLRequest {
+extension NSURLRequest {
 
-    public var cURLCommandLine: String {
+    var cURLCommandLine: String {
         get {
             return cURLCommandLineWithSession(nil)
         }
     }
 
-    public func cURLCommandLineWithSession(session: NSURLSession?, credential: NSURLCredential? = nil) -> String {
+    func cURLCommandLineWithSession(session: NSURLSession?, credential: NSURLCredential? = nil) -> String {
 
         var components = ["\ncurl -i"]
 

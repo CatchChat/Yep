@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import RealmSwift
 import MapKit
+import RealmSwift
+import YepNetworking
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
@@ -1800,7 +1801,7 @@ func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? 
 
 // MARK: Update with info
 
-func updateUserWithUserID(userID: String, useUserInfo userInfo: JSONDictionary, inRealm realm: Realm) {
+func updateUserWithUserID(userID: String, useUserInfo userInfo: [String: AnyObject], inRealm realm: Realm) {
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
