@@ -123,18 +123,6 @@ var yepNetworkActivityCount = 0 {
 
 private let yepSuccessStatusCodeRange: Range<Int> = 200..<300
 
-#if STAGING
-class SessionDelegate: NSObject, NSURLSessionDelegate {
-
-    func URLSession(session: NSURLSession, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential?) -> Void) {
-
-        completionHandler(.UseCredential, NSURLCredential(forTrust: challenge.protectionSpace.serverTrust!))
-    }
-}
-
-let _sessionDelegate = SessionDelegate()
-#endif
-
 public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>?, failure: FailureHandler?, completion: A -> Void) {
 
     guard let resource = resource else {
@@ -142,12 +130,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
         return
     }
 
-#if STAGING
-    let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-    let session = NSURLSession(configuration: sessionConfig, delegate: _sessionDelegate, delegateQueue: nil)
-#else
     let session = NSURLSession.sharedSession()
-#endif
 
     let url = baseURL.URLByAppendingPathComponent(resource.path)
     let request = NSMutableURLRequest(URL: url)
