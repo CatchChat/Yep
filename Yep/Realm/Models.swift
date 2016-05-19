@@ -1943,6 +1943,13 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
 
     let delete: () -> Void = {
+
+        if let recipient = conversation.recipient {
+            deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                println("deleteConversationWithRecipient: \(recipient)")
+            })
+        }
+
         realm.beginWrite()
         deleteConversation(conversation, inRealm: realm)
         let _ = try? realm.commitWrite()
