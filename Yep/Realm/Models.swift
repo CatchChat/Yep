@@ -1952,7 +1952,7 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
 
         if let recipient = conversation.recipient {
             deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
-                println("deleteConversationWithRecipient: \(recipient)")
+                println("tryDeleteOrClearHistoryOfConversation deleteConversationWithRecipient: \(recipient)")
             })
         }
 
