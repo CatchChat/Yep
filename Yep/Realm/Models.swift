@@ -1901,15 +1901,17 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
     clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
+    // delete conversation from server
+
+    if let recipient = conversation.recipient {
+        deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+            println("deleteConversationWithRecipient")
+        })
+    }
+
     // delete conversation, finally
 
     if let group = conversation.withGroup {
-
-        if let recipient = conversation.recipient {
-            deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
-                println("deleteConversationWithRecipient")
-            })
-        }
 
         if let feed = conversation.withGroup?.withFeed {
 
