@@ -1907,7 +1907,7 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
         if let recipient = conversation.recipient {
             deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
-                println("deleteConversation deleteConversationWithRecipient")
+                println("deleteConversationWithRecipient")
             })
         }
 
@@ -1949,13 +1949,6 @@ func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewCon
     }
 
     let delete: () -> Void = {
-
-        if let recipient = conversation.recipient {
-            deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
-                println("tryDeleteOrClearHistoryOfConversation deleteConversationWithRecipient: \(recipient)")
-            })
-        }
-
         realm.beginWrite()
         deleteConversation(conversation, inRealm: realm)
         let _ = try? realm.commitWrite()
