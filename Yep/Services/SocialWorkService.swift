@@ -8,12 +8,13 @@
 
 import Foundation
 import RealmSwift
+import YepNetworking
 
 private let githubBaseURL = NSURL(string: "https://api.github.com")!
 private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
 private let instagramBaseURL = NSURL(string: "https://api.instagram.com")!
 
-private func githubResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func githubResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
 
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {
@@ -32,7 +33,7 @@ private func githubResource<A>(token token: String, path: String, method: Method
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func dribbbleResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func dribbbleResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
 
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {
@@ -51,7 +52,7 @@ private func dribbbleResource<A>(token token: String, path: String, method: Meth
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func instagramResource<A>(token token: String, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func instagramResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
 
     let jsonParse: NSData -> A? = { data in
         if let json = decodeJSON(data) {

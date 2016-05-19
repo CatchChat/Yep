@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepNetworking
 import Fabric
 import AVFoundation
 import RealmSwift

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import YepNetworking
 
 final class UploadAttachmentOperation: ConcurrentOperation {
 

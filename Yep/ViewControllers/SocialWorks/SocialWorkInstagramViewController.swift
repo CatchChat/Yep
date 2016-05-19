@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepNetworking
 import MonkeyKing
 
 final class SocialWorkInstagramViewController: BaseViewController {

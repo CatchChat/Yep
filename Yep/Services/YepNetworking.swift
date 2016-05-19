@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
+/*
 import UIKit
 
 public enum Method: String, CustomStringConvertible {
@@ -358,4 +359,4 @@ public func jsonResource<A>(token token: String?, path: String, method: Method, 
 
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
-
+*/

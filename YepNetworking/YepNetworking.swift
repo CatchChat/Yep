@@ -6,12 +6,6 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-#if STAGING
-let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
-#else
-let yepBaseURL = NSURL(string: "https://api.soyep.com")!
-#endif
-
 import Foundation
 
 public enum Method: String, CustomStringConvertible {
@@ -34,7 +28,7 @@ public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
     let requestBody: NSData?
-    let headers: [String:String]
+    let headers: [String: String]
     let parse: NSData -> A?
 
     public var description: String {
@@ -46,6 +40,14 @@ public struct Resource<A>: CustomStringConvertible {
         }
 
         return "Resource(Method: \(method), path: \(path), headers: \(headers), requestBody: \(decodeRequestBody))"
+    }
+
+    public init(path: String, method: Method, requestBody: NSData?, headers: [String: String], parse: NSData -> A?) {
+        self.path = path
+        self.method = method
+        self.requestBody = requestBody
+        self.headers = headers
+        self.parse = parse
     }
 }
 
@@ -77,7 +79,7 @@ public enum Reason: CustomStringConvertible {
 
 public typealias FailureHandler = (reason: Reason, errorMessage: String?) -> Void
 
-let defaultFailureHandler: FailureHandler = { reason, errorMessage in
+public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     print("\n***************************** YepNetworking Failure *****************************")
     print("Reason: \(reason)")
     if let errorMessage = errorMessage {
@@ -308,7 +310,7 @@ func errorCodeInData(data: NSData?) -> ErrorCode? {
 
 public typealias JSONDictionary = [String: AnyObject]
 
-func decodeJSON(data: NSData) -> JSONDictionary? {
+public func decodeJSON(data: NSData) -> JSONDictionary? {
 
     if data.length > 0 {
         guard let result = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
@@ -328,7 +330,7 @@ func decodeJSON(data: NSData) -> JSONDictionary? {
     }
 }
 
-func encodeJSON(dict: JSONDictionary) -> NSData? {
+public func encodeJSON(dict: JSONDictionary) -> NSData? {
     return dict.count > 0 ? (try? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions())) : nil
 }
 

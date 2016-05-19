@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import YepNetworking
 
 enum DiscoverUserMode: Int {
     case Normal = 0
