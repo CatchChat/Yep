@@ -281,19 +281,9 @@ extension YepFayeService {
                 return
             }
         }
-        /*
-        // 如果消息来自自己，而且本地已有（可见是原始发送者），那就不用同步了
-
-        if isMessageSendFromMe() {
-            if let messageID = messageInfo["id"] as? String, _ = messageWithMessageID(messageID, inRealm: realm) {
-                return
-            }
-        }
-        */
 
         dispatch_async(dispatch_get_main_queue()) {
-        //dispatch_async(realmQueue) {
-            
+
             guard let realm = try? Realm() else {
                 return
             }
@@ -308,8 +298,6 @@ extension YepFayeService {
             }
 
             let _ = try? realm.commitWrite()
-
-            //realm.refresh()
 
             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
             /*
