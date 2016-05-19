@@ -12,7 +12,7 @@ import MapKit
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-let realmQueue = dispatch_queue_create("com.YourApp.YourQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
+let realmQueue = dispatch_queue_create("com.Yep.realmQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
 
 // MARK: User
 
@@ -362,7 +362,7 @@ enum MessageMediaType: Int, CustomStringConvertible {
         case .SocialWork:
             return NSLocalizedString("[Social Work]", comment: "")
         default:
-            return NSLocalizedString("All message read", comment: "")
+            return NSLocalizedString("All messages read.", comment: "")
         }
     }
 }
@@ -1901,6 +1901,16 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
     clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
+    // delete conversation from server
+
+    let recipient = conversation.recipient
+
+    if let recipient = recipient where recipient.type == .OneToOne {
+        deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+            println("deleteConversationWithRecipient \(recipient)")
+        })
+    }
+
     // delete conversation, finally
 
     if let group = conversation.withGroup {
@@ -1921,6 +1931,12 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
         } else {
             println("deleteConversation, not need leave group: \(groupID)")
+
+            if let recipient = recipient where recipient.type == .Group {
+                deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                    println("deleteConversationWithRecipient \(recipient)")
+                })
+            }
         }
 
         realm.delete(group)

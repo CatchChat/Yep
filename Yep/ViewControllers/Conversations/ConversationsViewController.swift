@@ -587,7 +587,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 tableView.setEditing(false, animated: true)
                 return
             }
-            
+
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
                 dispatch_async(dispatch_get_main_queue()) {
