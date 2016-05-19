@@ -13,8 +13,8 @@ public class Manager {
     private init() {
     }
 
-    public static var authFailedAction: ((statusCode: Int, host: String) -> Void)?
+    public static var accessToken: (() -> String?)?
 
-    public static var accessToken: (() -> String)?
+    public static var authFailedAction: ((statusCode: Int, host: String) -> Void)?
 }
 

@@ -83,6 +83,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
+        YepNetworking.Manager.accessToken = {
+            return YepUserDefaults.v1AccessToken.value
+        }
+
+        YepNetworking.Manager.authFailedAction = { statusCode, host in
+            if statusCode == 401 {
+                // 确保是自家服务
+                if host == yepBaseURL.host {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.maybeUserNeedRelogin()
+                    }
+                }
+            }
+        }
+
         cacheInAdvance()
 
         delay(0.5) {
