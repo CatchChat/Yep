@@ -586,6 +586,7 @@ extension FayeClient: SRWebSocketDelegate {
 
         clearSubscriptions()
 
+        let reason: String = reason ?? "Unknown Reason"
         let error = NSError(domain: FayeClientWebSocketErrorDomain, code: code, userInfo: [NSLocalizedDescriptionKey: reason])
         delegate?.fayeClient(self, didDisconnectWithError: error)
 
