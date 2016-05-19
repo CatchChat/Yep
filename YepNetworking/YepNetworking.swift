@@ -6,7 +6,13 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-import UIKit
+#if STAGING
+let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
+#else
+let yepBaseURL = NSURL(string: "https://api.soyep.com")!
+#endif
+
+import Foundation
 
 public enum Method: String, CustomStringConvertible {
     case OPTIONS = "OPTIONS"
@@ -238,6 +244,11 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
 
+                if let host = request.URL?.host {
+                    Manager.authFailedAction?(statusCode: httpResponse.statusCode, host: host)
+                }
+
+                /*
                 if httpResponse.statusCode == 401 {
 
                     // 确保是自家服务
@@ -247,6 +258,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         }
                     }
                 }
+                 */
             }
 
         } else {
@@ -325,10 +337,17 @@ public func jsonResource<A>(path path: String, method: Method, requestParameters
 }
 
 public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A>? {
+
+    guard let token = Manager.accessToken?() else {
+        print("No token for auth")
+        return nil
+    }
+    /*
     guard let token = YepUserDefaults.v1AccessToken.value else {
         print("No token for auth")
         return nil
     }
+     */
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 

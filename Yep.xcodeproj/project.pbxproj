@@ -338,6 +338,7 @@
 		50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50D3A3391CEDB23E00E59470 /* YepNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3381CEDB23E00E59470 /* YepNetworking.swift */; };
 		50D3A33B1CEDB31A00E59470 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */; };
+		50D3A33E1CEDB4CA00E59470 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A33D1CEDB4CA00E59470 /* Manager.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
@@ -849,6 +850,7 @@
 		50D3A32C1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D3A3381CEDB23E00E59470 /* YepNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepNetworking.swift; sourceTree = "<group>"; };
 		50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
+		50D3A33D1CEDB4CA00E59470 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2539,7 +2541,8 @@
 			children = (
 				50D3A31C1CEDB1C600E59470 /* YepNetworking.h */,
 				50D3A3381CEDB23E00E59470 /* YepNetworking.swift */,
-				50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */,
+				50D3A33D1CEDB4CA00E59470 /* Manager.swift */,
+				50D3A33C1CEDB37000E59470 /* Extensions */,
 				50D3A31E1CEDB1C600E59470 /* Info.plist */,
 			);
 			path = YepNetworking;
@@ -2552,6 +2555,14 @@
 				50D3A32C1CEDB1C600E59470 /* Info.plist */,
 			);
 			path = YepNetworkingTests;
+			sourceTree = "<group>";
+		};
+		50D3A33C1CEDB37000E59470 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		50D50AC11CCE01D300FB5753 /* YepUITests */ = {
@@ -3699,6 +3710,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50D3A33B1CEDB31A00E59470 /* NSURLRequest+cURL.swift in Sources */,
+				50D3A33E1CEDB4CA00E59470 /* Manager.swift in Sources */,
 				50D3A3391CEDB23E00E59470 /* YepNetworking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
