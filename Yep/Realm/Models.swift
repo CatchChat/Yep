@@ -1905,6 +1905,12 @@ func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLe
 
     if let group = conversation.withGroup {
 
+        if let recipient = conversation.recipient {
+            deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                println("deleteConversation deleteConversationWithRecipient")
+            })
+        }
+
         if let feed = conversation.withGroup?.withFeed {
 
             feed.cascadeDeleteInRealm(realm)
