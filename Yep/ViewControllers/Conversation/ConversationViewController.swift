@@ -2489,9 +2489,9 @@ final class ConversationViewController: BaseViewController {
             "recipient_id": recipient.ID,
         ]
 
-        if YepFayeService.sharedManager.client.isConnected {
+        if YepFayeService.sharedManager.fayeClient.isConnected {
             YepFayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
-                println("Send \(type) \(success)")
+                println("sent \(type) \(success)")
             })
         }
     }
