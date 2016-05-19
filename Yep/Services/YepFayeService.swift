@@ -10,10 +10,7 @@ import Foundation
 import RealmSwift
 
 protocol YepFayeServiceDelegate: class {
-    /**
-    * Current Typing Status
-    *
-    */
+
     func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String)
 
     /*
@@ -41,19 +38,16 @@ final class YepFayeService: NSObject {
         case Audio
 
         var description: String {
-
             switch self {
-
             case .Text:
                 return NSLocalizedString("typing", comment: "")
-
             case .Audio:
                 return NSLocalizedString("recording", comment: "")
             }
         }
     }
 
-    let client: FayeClient = {
+    let fayeClient: FayeClient = {
         let client = FayeClient(serverURL: fayeBaseURL)
         return client
     }()
@@ -68,7 +62,7 @@ final class YepFayeService: NSObject {
 
         super.init()
 
-        client.delegate = self
+        fayeClient.delegate = self
     }
 }
 
@@ -79,7 +73,7 @@ extension YepFayeService {
     func prepareForChannel(channel: String) {
 
         if let extensionData = extensionData() {
-            client.setExtension(extensionData, forChannel: channel)
+            fayeClient.setExtension(extensionData, forChannel: channel)
         }
     }
 
@@ -98,7 +92,7 @@ extension YepFayeService {
             self?.prepareForChannel("handshake")
             self?.prepareForChannel(personalChannel)
 
-            self?.client.connect()
+            self?.fayeClient.connect()
         }
     }
 
@@ -107,11 +101,11 @@ extension YepFayeService {
         dispatch_async(fayeQueue) { [weak self] in
 
             guard let userID = YepUserDefaults.userID.value, personalChannel = self?.personalChannelWithUserID(userID) else {
-                println("FayeClient startConnect failed, not userID or personalChannel!")
+                println("FayeClient subscribeChannel failed, not userID or personalChannel!")
                 return
             }
 
-            self?.client.subscribeToChannel(personalChannel, usingBlock: { data in
+            self?.fayeClient.subscribeToChannel(personalChannel) { data in
                 println("subscribeToChannel: \(data)")
 
                 let messageInfo: JSONDictionary = data
@@ -123,7 +117,7 @@ extension YepFayeService {
                         return
                 }
 
-                println("messageType: \(messageType)")
+                //println("messageType: \(messageType)")
 
                 switch messageType {
 
@@ -186,7 +180,7 @@ extension YepFayeService {
                     
                     handleMessageDeletedFromServer(messageID: messageID)
                 }
-            })
+            }
         }
     }
 
@@ -206,7 +200,7 @@ extension YepFayeService {
                 "message": message
             ]
 
-            self.client.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
+            self.fayeClient.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
 
                 println("sendInstantMessage \(message.successful)")
 

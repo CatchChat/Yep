@@ -2475,6 +2475,10 @@ final class ConversationViewController: BaseViewController {
 
     private func trySendInstantMessageWithType(type: YepFayeService.InstantStateType) {
 
+        guard YepFayeService.sharedManager.fayeClient.isConnected else {
+            return
+        }
+
         guard let _ = self.conversation.withFriend else {
             return
         }
@@ -2489,10 +2493,8 @@ final class ConversationViewController: BaseViewController {
             "recipient_id": recipient.ID,
         ]
 
-        if YepFayeService.sharedManager.client.isConnected {
-            YepFayeService.sharedManager.sendInstantMessage(instantMessage, completion: { success in
-                println("Send \(type) \(success)")
-            })
+        YepFayeService.sharedManager.sendInstantMessage(instantMessage) { success in
+            println("sendInstantMessage \(type) \(success)")
         }
     }
 
