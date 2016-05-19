@@ -232,18 +232,6 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                 if let host = request.URL?.host {
                     Manager.authFailedAction?(statusCode: httpResponse.statusCode, host: host)
                 }
-
-                /*
-                if httpResponse.statusCode == 401 {
-
-                    // 确保是自家服务
-                    if let requestHost = request.URL?.host where requestHost == yepBaseURL.host {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.maybeUserNeedRelogin()
-                        }
-                    }
-                }
-                 */
             }
 
         } else {
@@ -327,12 +315,7 @@ public func authJsonResource<A>(path path: String, method: Method, requestParame
         print("No token for auth")
         return nil
     }
-    /*
-    guard let token = YepUserDefaults.v1AccessToken.value else {
-        print("No token for auth")
-        return nil
-    }
-     */
+
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
