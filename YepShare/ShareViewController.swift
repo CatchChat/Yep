@@ -9,6 +9,7 @@
 import UIKit
 import Social
 import MobileCoreServices.UTType
+import YepNetworking
 
 class ShareViewController: SLComposeServiceViewController {
 
@@ -50,6 +51,14 @@ class ShareViewController: SLComposeServiceViewController {
             }
 
             let message = (self?.contentText ?? "") + " " + URL.absoluteString
+
+            YepNetworking.Manager.accessToken = {
+                let appGroupID: String = "group.Catch-Inc.Yep"
+                let userDefaults = NSUserDefaults(suiteName: appGroupID)
+                let v1AccessTokenKey = "v1AccessToken"
+                let token = userDefaults?.stringForKey(v1AccessTokenKey)
+                return token
+            }
 
             createFeedWithKind(.Text, message: message, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
                 print("share created feed: \(feed)")
