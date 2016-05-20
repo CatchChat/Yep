@@ -234,6 +234,7 @@
 		507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */; };
 		507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */; };
 		507DCEA11CEED554006D43F7 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA01CEED554006D43F7 /* Service.swift */; };
+		507DCEA31CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
@@ -806,6 +807,7 @@
 		507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+OpenGraph.swift"; path = "Extensions/String+OpenGraph.swift"; sourceTree = "<group>"; };
 		507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraph.swift"; path = "Extensions/NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
 		507DCEA01CEED554006D43F7 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraphTests.swift"; path = "Extensions/NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
@@ -2235,6 +2237,7 @@
 			isa = PBXGroup;
 			children = (
 				507DCE8C1CEED2C4006D43F7 /* OpenGraphTests.swift */,
+				507DCEA41CEEDDFD006D43F7 /* Extensions */,
 				507DCE8E1CEED2C4006D43F7 /* Info.plist */,
 			);
 			path = OpenGraphTests;
@@ -2245,6 +2248,14 @@
 			children = (
 				507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */,
 				507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		507DCEA41CEEDDFD006D43F7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4085,6 +4096,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				507DCE8D1CEED2C4006D43F7 /* OpenGraphTests.swift in Sources */,
+				507DCEA31CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
