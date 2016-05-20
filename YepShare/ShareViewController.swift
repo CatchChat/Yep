@@ -36,6 +36,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         let URLTypeIdentifier = kUTTypeURL as String
+
         guard itemProvider.hasItemConformingToTypeIdentifier(URLTypeIdentifier) else {
             return
         }
@@ -50,21 +51,7 @@ class ShareViewController: SLComposeServiceViewController {
                 return
             }
 
-            let message = (self?.contentText ?? "") + " " + URL.absoluteString
-
-            YepNetworking.Manager.accessToken = {
-                let appGroupID: String = "group.Catch-Inc.Yep"
-                let userDefaults = NSUserDefaults(suiteName: appGroupID)
-                let v1AccessTokenKey = "v1AccessToken"
-                let token = userDefaults?.stringForKey(v1AccessTokenKey)
-                return token
-            }
-
-            createFeedWithKind(.Text, message: message, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
-                print("share created feed: \(feed)")
-
-                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
-            }
+            self?.postFeed(message: self?.contentText, URL: URL)
         }
     }
 
@@ -73,4 +60,22 @@ class ShareViewController: SLComposeServiceViewController {
         return []
     }
 
+    private func postFeed(message message: String?, URL: NSURL) {
+
+        let message = (message ?? "") + " " + URL.absoluteString
+
+        YepNetworking.Manager.accessToken = {
+            let appGroupID: String = "group.Catch-Inc.Yep"
+            let userDefaults = NSUserDefaults(suiteName: appGroupID)
+            let v1AccessTokenKey = "v1AccessToken"
+            let token = userDefaults?.stringForKey(v1AccessTokenKey)
+            return token
+        }
+
+        createFeedWithKind(.Text, message: message, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
+            print("share created feed: \(feed)")
+
+            self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+        }
+    }
 }
