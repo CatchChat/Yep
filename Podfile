@@ -33,3 +33,8 @@ target 'Yep' do
     end
 end
 
+target 'FayeClient' do
+    pod 'SocketRocket'
+    pod 'Base64'
+end
+
