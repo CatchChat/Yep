@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import MobileCoreServices.UTType
 
 class ShareViewController: SLComposeServiceViewController {
 
@@ -20,7 +21,42 @@ class ShareViewController: SLComposeServiceViewController {
         // This is called after the user selects Post. Do the upload of contentText and/or NSExtensionContext attachments.
     
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
-        self.extensionContext!.completeRequestReturningItems([], completionHandler: nil)
+
+        guard !(contentText ?? "").isEmpty else {
+            return
+        }
+
+        guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
+            return
+        }
+
+        guard let itemProvider = item.attachments?.first as? NSItemProvider else {
+            return
+        }
+
+        let URLTypeIdentifier = kUTTypeURL as String
+        guard itemProvider.hasItemConformingToTypeIdentifier(URLTypeIdentifier) else {
+            return
+        }
+
+        itemProvider.loadItemForTypeIdentifier(URLTypeIdentifier, options: nil) { [weak self] secureCoding, error in
+
+            guard error == nil else {
+                return
+            }
+
+            guard let URL = secureCoding as? NSURL else {
+                return
+            }
+
+            let message = (self?.contentText ?? "") + " " + URL.absoluteString
+
+            createFeedWithKind(.Text, message: message, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
+                print("share created feed: \(feed)")
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            }
+        }
     }
 
     override func configurationItems() -> [AnyObject]! {
