@@ -9,7 +9,7 @@
 import Foundation
 import Kanna
 
-struct OpenGraph {
+public struct OpenGraph {
 
     enum Kind {
         case Default

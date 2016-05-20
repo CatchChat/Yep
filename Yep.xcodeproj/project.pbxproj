@@ -232,6 +232,7 @@
 		507DCE9A1CEED2FA006D43F7 /* OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE991CEED2FA006D43F7 /* OpenGraph.swift */; };
 		507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */; };
 		507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */; };
+		507DCEA11CEED554006D43F7 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA01CEED554006D43F7 /* Service.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
@@ -802,6 +803,7 @@
 		507DCE991CEED2FA006D43F7 /* OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraph.swift; sourceTree = "<group>"; };
 		507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+OpenGraph.swift"; path = "Extensions/String+OpenGraph.swift"; sourceTree = "<group>"; };
 		507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraph.swift"; path = "Extensions/NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
+		507DCEA01CEED554006D43F7 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
@@ -2217,6 +2219,7 @@
 			children = (
 				507DCE7E1CEED2C3006D43F7 /* OpenGraph.h */,
 				507DCE991CEED2FA006D43F7 /* OpenGraph.swift */,
+				507DCEA01CEED554006D43F7 /* Service.swift */,
 				507DCE9B1CEED336006D43F7 /* Extensions */,
 				507DCE801CEED2C3006D43F7 /* Info.plist */,
 			);
@@ -4031,6 +4034,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */,
+				507DCEA11CEED554006D43F7 /* Service.swift in Sources */,
 				507DCE9A1CEED2FA006D43F7 /* OpenGraph.swift in Sources */,
 				507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */,
 			);
