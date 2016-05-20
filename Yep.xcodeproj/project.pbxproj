@@ -103,6 +103,7 @@
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
+		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
@@ -695,6 +696,7 @@
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
 		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
+		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
 		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -1789,6 +1791,14 @@
 			name = Caches;
 			sourceTree = "<group>";
 		};
+		5025547F1CEEFCEB0003E1B5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				502554801CEEFD150003E1B5 /* String+YepShare.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		502AE51C1AB70DE5005BD199 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
@@ -2286,6 +2296,7 @@
 				5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */,
 				507DCEB81CEEEA47006D43F7 /* Service.swift */,
 				507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */,
+				5025547F1CEEFCEB0003E1B5 /* Extensions */,
 				507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */,
 				507DCEB01CEEE2DC006D43F7 /* Info.plist */,
 			);
@@ -4172,6 +4183,7 @@
 			files = (
 				507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */,
 				507DCEB91CEEEA47006D43F7 /* Service.swift in Sources */,
+				502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4649,6 +4661,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4677,6 +4690,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

@@ -10,6 +10,7 @@ import UIKit
 import Social
 import MobileCoreServices.UTType
 import YepNetworking
+import OpenGraph
 
 class ShareViewController: SLComposeServiceViewController {
 
@@ -62,20 +63,57 @@ class ShareViewController: SLComposeServiceViewController {
 
     private func postFeed(message message: String?, URL: NSURL) {
 
-        let message = (message ?? "") + " " + URL.absoluteString
+        var kind: FeedKind = .Text
 
-        YepNetworking.Manager.accessToken = {
-            let appGroupID: String = "group.Catch-Inc.Yep"
-            let userDefaults = NSUserDefaults(suiteName: appGroupID)
-            let v1AccessTokenKey = "v1AccessToken"
-            let token = userDefaults?.stringForKey(v1AccessTokenKey)
-            return token
-        }
+        var attachments: [JSONDictionary]?
 
-        createFeedWithKind(.Text, message: message, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
-            print("share created feed: \(feed)")
+        let parseOpenGraphGroup = dispatch_group_create()
 
-            self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+        dispatch_group_enter(parseOpenGraphGroup)
+
+        openGraphWithURL(URL, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            dispatch_async(dispatch_get_main_queue()) {
+                dispatch_group_leave(parseOpenGraphGroup)
+            }
+
+        }, completion: { openGraph in
+
+            kind = .URL
+
+            let URLInfo = [
+                "url": openGraph.URL.absoluteString,
+                "site_name": (openGraph.siteName ?? "").yepshare_truncatedForFeed,
+                "title": (openGraph.title ?? "").yepshare_truncatedForFeed,
+                "description": (openGraph.description ?? "").yepshare_truncatedForFeed,
+                "image_url": openGraph.previewImageURLString ?? "",
+            ]
+
+            attachments = [URLInfo]
+
+            dispatch_async(dispatch_get_main_queue()) {
+                dispatch_group_leave(parseOpenGraphGroup)
+            }
+        })
+
+        dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
+
+            let message = (message ?? "") + " " + URL.absoluteString
+
+            YepNetworking.Manager.accessToken = {
+                let appGroupID: String = "group.Catch-Inc.Yep"
+                let userDefaults = NSUserDefaults(suiteName: appGroupID)
+                let v1AccessTokenKey = "v1AccessToken"
+                let token = userDefaults?.stringForKey(v1AccessTokenKey)
+                return token
+            }
+
+            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
+                print("share created feed: \(feed)")
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            }
         }
     }
 }
