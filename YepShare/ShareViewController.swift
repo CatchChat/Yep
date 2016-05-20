@@ -25,34 +25,50 @@ class ShareViewController: SLComposeServiceViewController {
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
 
         guard !(contentText ?? "").isEmpty else {
+
+            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             return
         }
 
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
+
+            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             return
         }
 
         guard let itemProvider = item.attachments?.first as? NSItemProvider else {
+
+            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             return
         }
 
         let URLTypeIdentifier = kUTTypeURL as String
 
         guard itemProvider.hasItemConformingToTypeIdentifier(URLTypeIdentifier) else {
+
+            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             return
         }
 
         itemProvider.loadItemForTypeIdentifier(URLTypeIdentifier, options: nil) { [weak self] secureCoding, error in
 
             guard error == nil else {
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
                 return
             }
 
             guard let URL = secureCoding as? NSURL else {
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
                 return
             }
 
-            self?.postFeed(message: self?.contentText, URL: URL)
+            self?.postFeed(message: self?.contentText, URL: URL) { finish in
+                print("postFeed finish: \(finish)")
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            }
         }
     }
 
@@ -61,7 +77,7 @@ class ShareViewController: SLComposeServiceViewController {
         return []
     }
 
-    private func postFeed(message message: String?, URL: NSURL) {
+    private func postFeed(message message: String?, URL: NSURL, completion: (finish: Bool) -> Void) {
 
         var kind: FeedKind = .Text
 
@@ -109,11 +125,21 @@ class ShareViewController: SLComposeServiceViewController {
                 return token
             }
 
-            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: nil) { [weak self] feed in
+            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: false)
+                }
+                
+            }, completion: { feed in
                 print("share created feed: \(feed)")
 
-                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
-            }
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: true)
+                }
+            })
         }
     }
 }
+
