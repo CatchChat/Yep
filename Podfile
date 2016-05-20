@@ -43,3 +43,14 @@ target 'OpenGraph' do
     pod 'Kanna', '1.0.2'
 end
 
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        case target
+        when 'Alamofire', 'Kanna'
+            target.build_configurations.each do |config|
+                config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
+            end
+        end
+    end
+end
+
