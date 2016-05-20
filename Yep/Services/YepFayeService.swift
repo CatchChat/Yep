@@ -9,6 +9,7 @@
 import Foundation
 import RealmSwift
 import YepNetworking
+import FayeClient
 
 protocol YepFayeServiceDelegate: class {
 

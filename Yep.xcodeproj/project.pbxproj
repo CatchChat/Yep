@@ -134,8 +134,6 @@
 		502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */; };
 		502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606D1BD6567600D9C17E /* AvatarStyles.swift */; };
 		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
-		503075F81CEB032A007E7E90 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F71CEB032A007E7E90 /* FayeMessage.swift */; };
-		503075FA1CEB0A7C007E7E90 /* FayeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075F91CEB0A7C007E7E90 /* FayeClient.swift */; };
 		503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075FB1CEC0E51007E7E90 /* YepFayeService.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
@@ -337,6 +335,13 @@
 		50D3A3391CEDB23E00E59470 /* YepNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3381CEDB23E00E59470 /* YepNetworking.swift */; };
 		50D3A33B1CEDB31A00E59470 /* NSURLRequest+cURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */; };
 		50D3A33E1CEDB4CA00E59470 /* Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A33D1CEDB4CA00E59470 /* Manager.swift */; };
+		50D3A3471CEE9A2000E59470 /* FayeClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A3461CEE9A2000E59470 /* FayeClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50D3A34E1CEE9A2000E59470 /* FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */; };
+		50D3A3551CEE9A2000E59470 /* FayeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3541CEE9A2000E59470 /* FayeClientTests.swift */; };
+		50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */; };
+		50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50D3A3621CEE9A6300E59470 /* FayeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3611CEE9A6300E59470 /* FayeClient.swift */; };
+		50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
@@ -435,6 +440,7 @@
 		6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E301C47A8EE0024FC63 /* CoreData.framework */; };
 		6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E341C47A9060024FC63 /* libsqlite3.tbd */; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
+		6DF8536A1896EE17A9799AE6 /* Pods_FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F9026880FED211156FBB93 /* Pods_FayeClient.framework */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
 		84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C431B8592120071130D /* ShowStepGeniusViewController.swift */; };
@@ -481,6 +487,27 @@
 			remoteGlobalIDString = 50D3A3191CEDB1C500E59470;
 			remoteInfo = YepNetworking;
 		};
+		50D3A34F1CEE9A2000E59470 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D3A3431CEE9A2000E59470;
+			remoteInfo = FayeClient;
+		};
+		50D3A3511CEE9A2000E59470 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D3A3571CEE9A2000E59470 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D3A3431CEE9A2000E59470;
+			remoteInfo = FayeClient;
+		};
 		50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
@@ -497,6 +524,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -506,6 +534,7 @@
 
 /* Begin PBXFileReference section */
 		00E9240F12DD22E06A35F782 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.release.xcconfig"; sourceTree = "<group>"; };
 		0A0A11811AE389380008772C /* RegisterSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSkillsLayout.swift; path = ViewControllers/Register/RegisterSkillsLayout.swift; sourceTree = "<group>"; };
 		0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeViewController.swift; path = ViewControllers/SkillHome/SkillHomeViewController.swift; sourceTree = "<group>"; };
 		0A1CAC6F1AFA481600826B45 /* SkillHomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeHeaderView.swift; path = Views/SkillHomeHeaderView/SkillHomeHeaderView.swift; sourceTree = "<group>"; };
@@ -541,6 +570,7 @@
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
 		18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.debug.xcconfig"; sourceTree = "<group>"; };
+		18F9026880FED211156FBB93 /* Pods_FayeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FayeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		33180F5B1CC9C58100CACF38 /* DataSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSample.swift; sourceTree = "<group>"; };
 		336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftShareFeedCell.swift; sourceTree = "<group>"; };
 		336563F91CCF300200598378 /* RightShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightShareFeedCell.swift; sourceTree = "<group>"; };
@@ -643,8 +673,6 @@
 		502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlainAvatar.swift; path = Caches/PlainAvatar.swift; sourceTree = "<group>"; };
 		502B606D1BD6567600D9C17E /* AvatarStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarStyles.swift; path = Caches/AvatarStyles.swift; sourceTree = "<group>"; };
 		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
-		503075F71CEB032A007E7E90 /* FayeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeMessage.swift; path = FayeClient/FayeMessage.swift; sourceTree = "<group>"; };
-		503075F91CEB0A7C007E7E90 /* FayeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FayeClient.swift; path = FayeClient/FayeClient.swift; sourceTree = "<group>"; };
 		503075FB1CEC0E51007E7E90 /* YepFayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepFayeService.swift; path = Services/YepFayeService.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
@@ -847,6 +875,14 @@
 		50D3A3381CEDB23E00E59470 /* YepNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepNetworking.swift; sourceTree = "<group>"; };
 		50D3A33A1CEDB31A00E59470 /* NSURLRequest+cURL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURLRequest+cURL.swift"; path = "Extensions/NSURLRequest+cURL.swift"; sourceTree = "<group>"; };
 		50D3A33D1CEDB4CA00E59470 /* Manager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manager.swift; sourceTree = "<group>"; };
+		50D3A3441CEE9A2000E59470 /* FayeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FayeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D3A3461CEE9A2000E59470 /* FayeClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FayeClient.h; sourceTree = "<group>"; };
+		50D3A3481CEE9A2000E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D3A34D1CEE9A2000E59470 /* FayeClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FayeClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D3A3541CEE9A2000E59470 /* FayeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FayeClientTests.swift; sourceTree = "<group>"; };
+		50D3A3561CEE9A2000E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D3A3611CEE9A6300E59470 /* FayeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FayeClient.swift; sourceTree = "<group>"; };
+		50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FayeMessage.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -960,6 +996,7 @@
 		848806B21B7B0230000C5424 /* Yep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Yep.entitlements; sourceTree = "<group>"; };
 		848806B51B7B4F53000C5424 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = ViewControllers/Show/ShowViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
+		AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.debug.xcconfig"; sourceTree = "<group>"; };
 		E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.release.xcconfig"; sourceTree = "<group>"; };
 		E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -974,6 +1011,7 @@
 				6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
+				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
 				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
@@ -1011,6 +1049,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D3A3401CEE9A2000E59470 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DF8536A1896EE17A9799AE6 /* Pods_FayeClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D3A34A1CEE9A2000E59470 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D3A34E1CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1074,6 +1128,8 @@
 				5017FC1B1CD095E100DFCB71 /* YepTests */,
 				50D3A31B1CEDB1C600E59470 /* YepNetworking */,
 				50D3A3291CEDB1C600E59470 /* YepNetworkingTests */,
+				50D3A3451CEE9A2000E59470 /* FayeClient */,
+				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
 				EBAA6F3706BE77C1153E7B42 /* Pods */,
@@ -1088,6 +1144,8 @@
 				5017FC1A1CD095E100DFCB71 /* YepTests.xctest */,
 				50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */,
 				50D3A3231CEDB1C600E59470 /* YepNetworkingTests.xctest */,
+				50D3A3441CEE9A2000E59470 /* FayeClient.framework */,
+				50D3A34D1CEE9A2000E59470 /* FayeClientTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1099,7 +1157,6 @@
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				507813171CD1AFB000F193AB /* Shortcuts */,
-				503075F41CEB02C3007E7E90 /* FayeClient */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				50E114F51ABBF9D100F13000 /* Realm */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
@@ -1806,15 +1863,6 @@
 				502B60631BD1208E00D9C17E /* CameraCell.xib */,
 			);
 			name = Camera;
-			sourceTree = "<group>";
-		};
-		503075F41CEB02C3007E7E90 /* FayeClient */ = {
-			isa = PBXGroup;
-			children = (
-				503075F71CEB032A007E7E90 /* FayeMessage.swift */,
-				503075F91CEB0A7C007E7E90 /* FayeClient.swift */,
-			);
-			name = FayeClient;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -2559,6 +2607,26 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		50D3A3451CEE9A2000E59470 /* FayeClient */ = {
+			isa = PBXGroup;
+			children = (
+				50D3A3461CEE9A2000E59470 /* FayeClient.h */,
+				50D3A3611CEE9A6300E59470 /* FayeClient.swift */,
+				50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */,
+				50D3A3481CEE9A2000E59470 /* Info.plist */,
+			);
+			path = FayeClient;
+			sourceTree = "<group>";
+		};
+		50D3A3531CEE9A2000E59470 /* FayeClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				50D3A3541CEE9A2000E59470 /* FayeClientTests.swift */,
+				50D3A3561CEE9A2000E59470 /* Info.plist */,
+			);
+			path = FayeClientTests;
+			sourceTree = "<group>";
+		};
 		50D50AC11CCE01D300FB5753 /* YepUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2843,6 +2911,7 @@
 				4C73250AC8BB116924CA11C0 /* QuartzCore.framework */,
 				E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */,
 				EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */,
+				18F9026880FED211156FBB93 /* Pods_FayeClient.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2936,6 +3005,8 @@
 				450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */,
 				18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */,
 				E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */,
+				AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */,
+				01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2948,6 +3019,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D3A3411CEE9A2000E59470 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D3A3471CEE9A2000E59470 /* FayeClient.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2971,6 +3050,7 @@
 			);
 			dependencies = (
 				50D3A32E1CEDB1C600E59470 /* PBXTargetDependency */,
+				50D3A3581CEE9A2000E59470 /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3035,6 +3115,45 @@
 			productReference = 50D3A3231CEDB1C600E59470 /* YepNetworkingTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		50D3A3431CEE9A2000E59470 /* FayeClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D3A35F1CEE9A2000E59470 /* Build configuration list for PBXNativeTarget "FayeClient" */;
+			buildPhases = (
+				382A054462C43D71D2E70C7B /* 📦 Check Pods Manifest.lock */,
+				50D3A33F1CEE9A2000E59470 /* Sources */,
+				50D3A3401CEE9A2000E59470 /* Frameworks */,
+				50D3A3411CEE9A2000E59470 /* Headers */,
+				50D3A3421CEE9A2000E59470 /* Resources */,
+				4CCAF4911E129AB192895FD4 /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FayeClient;
+			productName = FayeClient;
+			productReference = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		50D3A34C1CEE9A2000E59470 /* FayeClientTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D3A3601CEE9A2000E59470 /* Build configuration list for PBXNativeTarget "FayeClientTests" */;
+			buildPhases = (
+				50D3A3491CEE9A2000E59470 /* Sources */,
+				50D3A34A1CEE9A2000E59470 /* Frameworks */,
+				50D3A34B1CEE9A2000E59470 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D3A3501CEE9A2000E59470 /* PBXTargetDependency */,
+				50D3A3521CEE9A2000E59470 /* PBXTargetDependency */,
+			);
+			name = FayeClientTests;
+			productName = FayeClientTests;
+			productReference = 50D3A34D1CEE9A2000E59470 /* FayeClientTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		50D50ABF1CCE01D300FB5753 /* YepUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */;
@@ -3094,6 +3213,14 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D3A3431CEE9A2000E59470 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					50D3A34C1CEE9A2000E59470 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 					50D50ABF1CCE01D300FB5753 = {
 						CreatedOnToolsVersion = 7.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
@@ -3119,6 +3246,8 @@
 				5017FC191CD095E100DFCB71 /* YepTests */,
 				50D3A3191CEDB1C500E59470 /* YepNetworking */,
 				50D3A3221CEDB1C600E59470 /* YepNetworkingTests */,
+				50D3A3431CEE9A2000E59470 /* FayeClient */,
+				50D3A34C1CEE9A2000E59470 /* FayeClientTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3259,6 +3388,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D3A3421CEE9A2000E59470 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D3A34B1CEE9A2000E59470 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D50ABE1CCE01D300FB5753 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3310,6 +3453,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Yep/Pods-Yep-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		382A054462C43D71D2E70C7B /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4CCAF4911E129AB192895FD4 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4DDE400635267914FACD3BFE /* 📦 Check Pods Manifest.lock */ = {
@@ -3476,7 +3649,6 @@
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
 				338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */,
 				5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */,
-				503075F81CEB032A007E7E90 /* FayeMessage.swift in Sources */,
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
@@ -3631,7 +3803,6 @@
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
-				503075FA1CEB0A7C007E7E90 /* FayeClient.swift in Sources */,
 				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */,
 				338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */,
@@ -3715,6 +3886,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D3A33F1CEE9A2000E59470 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */,
+				50D3A3621CEE9A6300E59470 /* FayeClient.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D3A3491CEE9A2000E59470 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D3A3551CEE9A2000E59470 /* FayeClientTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D50ABC1CCE01D300FB5753 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3746,6 +3934,21 @@
 			isa = PBXTargetDependency;
 			target = 50D3A3191CEDB1C500E59470 /* YepNetworking */;
 			targetProxy = 50D3A32D1CEDB1C600E59470 /* PBXContainerItemProxy */;
+		};
+		50D3A3501CEE9A2000E59470 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D3A3431CEE9A2000E59470 /* FayeClient */;
+			targetProxy = 50D3A34F1CEE9A2000E59470 /* PBXContainerItemProxy */;
+		};
+		50D3A3521CEE9A2000E59470 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D3A3511CEE9A2000E59470 /* PBXContainerItemProxy */;
+		};
+		50D3A3581CEE9A2000E59470 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D3A3431CEE9A2000E59470 /* FayeClient */;
+			targetProxy = 50D3A3571CEE9A2000E59470 /* PBXContainerItemProxy */;
 		};
 		50D50AC61CCE01D300FB5753 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3903,7 +4106,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3994,7 +4197,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4186,6 +4389,87 @@
 			};
 			name = Release;
 		};
+		50D3A35B1CEE9A2000E59470 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FayeClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClient";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		50D3A35C1CEE9A2000E59470 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = FayeClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClient";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		50D3A35D1CEE9A2000E59470 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = FayeClientTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClientTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		50D3A35E1CEE9A2000E59470 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = FayeClientTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClientTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 		50D50AC71CCE01D300FB5753 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4250,6 +4534,7 @@
 				50D3A3321CEDB1C600E59470 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50D3A3371CEDB1C600E59470 /* Build configuration list for PBXNativeTarget "YepNetworkingTests" */ = {
 			isa = XCConfigurationList;
@@ -4258,6 +4543,25 @@
 				50D3A3341CEDB1C600E59470 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D3A35F1CEE9A2000E59470 /* Build configuration list for PBXNativeTarget "FayeClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D3A35B1CEE9A2000E59470 /* Debug */,
+				50D3A35C1CEE9A2000E59470 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D3A3601CEE9A2000E59470 /* Build configuration list for PBXNativeTarget "FayeClientTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D3A35D1CEE9A2000E59470 /* Debug */,
+				50D3A35E1CEE9A2000E59470 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50D50AC91CCE01D300FB5753 /* Build configuration list for PBXNativeTarget "YepUITests" */ = {
 			isa = XCConfigurationList;
