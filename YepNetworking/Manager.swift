@@ -16,5 +16,7 @@ public class Manager {
     public static var accessToken: (() -> String?)?
 
     public static var authFailedAction: ((statusCode: Int, host: String) -> Void)?
+
+    public static var networkActivityCountChangedAction: ((count: Int) -> Void)?
 }
 
