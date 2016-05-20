@@ -1,3 +1,4 @@
+
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 use_frameworks!
@@ -26,8 +27,9 @@ end
 
 target 'Yep' do
     pods
+
+    target 'YepTests' do
+        inherit! :search_paths
+    end
 end
 
-target 'YepTests' do
-    pods
-end
