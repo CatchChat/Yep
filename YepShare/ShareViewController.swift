@@ -115,7 +115,12 @@ class ShareViewController: SLComposeServiceViewController {
 
         dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
 
-            let message = (message ?? "") + " " + URL.absoluteString
+            let body: String
+            if let message = message where !message.isEmpty {
+                body = message + " " + URL.absoluteString
+            } else {
+                body = URL.absoluteString
+            }
 
             YepNetworking.Manager.accessToken = {
                 let appGroupID: String = "group.Catch-Inc.Yep"
@@ -125,16 +130,14 @@ class ShareViewController: SLComposeServiceViewController {
                 return token
             }
 
-            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+            createFeedWithKind(kind, message: body, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(finish: false)
                 }
                 
-            }, completion: { feed in
-                print("share created feed: \(feed)")
-
+            }, completion: { _ in
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(finish: true)
                 }
