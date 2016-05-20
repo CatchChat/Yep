@@ -117,7 +117,7 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
 
 var yepNetworkActivityCount = 0 {
     didSet {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = (yepNetworkActivityCount > 0)
+        Manager.networkActivityCountChangedAction?(count: yepNetworkActivityCount)
     }
 }
 

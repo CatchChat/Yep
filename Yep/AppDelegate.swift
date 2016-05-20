@@ -98,6 +98,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+        YepNetworking.Manager.networkActivityCountChangedAction = { count in
+            dispatch_async(dispatch_get_main_queue()) {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
+            }
+        }
+
         cacheInAdvance()
 
         delay(0.5) {
