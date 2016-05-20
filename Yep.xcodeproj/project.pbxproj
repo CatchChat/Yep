@@ -233,6 +233,9 @@
 		507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */; };
 		507DCEA11CEED554006D43F7 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA01CEED554006D43F7 /* Service.swift */; };
 		507DCEA31CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */; };
+		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
+		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
+		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
@@ -495,6 +498,13 @@
 			remoteGlobalIDString = 507DCE7B1CEED2C2006D43F7;
 			remoteInfo = OpenGraph;
 		};
+		507DCEB11CEEE2DC006D43F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 507DCEA81CEEE2DC006D43F7;
+			remoteInfo = YepShare;
+		};
 		50D3A3251CEDB1C600E59470 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
@@ -547,6 +557,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		507DCEB71CEEE2DC006D43F7 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D3A3361CEDB1C600E59470 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -803,6 +824,10 @@
 		507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraph.swift"; path = "Extensions/NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
 		507DCEA01CEED554006D43F7 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraphTests.swift"; path = "Extensions/NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
+		507DCEA91CEEE2DC006D43F7 /* YepShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		507DCEB01CEEE2DC006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
@@ -1095,6 +1120,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		507DCEA61CEEE2DC006D43F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D3A3161CEDB1C500E59470 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1182,6 +1214,7 @@
 			isa = PBXGroup;
 			children = (
 				0A8F54AD1AB67D11004AD60E /* Yep */,
+				507DCEAA1CEEE2DC006D43F7 /* YepShare */,
 				50D50AC11CCE01D300FB5753 /* YepUITests */,
 				5017FC1B1CD095E100DFCB71 /* YepTests */,
 				50D3A31B1CEDB1C600E59470 /* YepNetworking */,
@@ -1208,6 +1241,7 @@
 				50D3A34D1CEE9A2000E59470 /* FayeClientTests.xctest */,
 				507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */,
 				507DCE851CEED2C3006D43F7 /* OpenGraphTests.xctest */,
+				507DCEA91CEEE2DC006D43F7 /* YepShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2243,6 +2277,16 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		507DCEAA1CEEE2DC006D43F7 /* YepShare */ = {
+			isa = PBXGroup;
+			children = (
+				507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */,
+				507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */,
+				507DCEB01CEEE2DC006D43F7 /* Info.plist */,
+			);
+			path = YepShare;
+			sourceTree = "<group>";
+		};
 		5080EB1D1B93F440006F3C2D /* PodsHelpYep */ = {
 			isa = PBXGroup;
 			children = (
@@ -3146,6 +3190,7 @@
 				33F6785C6C02AA0DB7E99163 /* 📦 Embed Pods Frameworks */,
 				DD2CB34EB87D7BB2872EB3E1 /* 📦 Copy Pods Resources */,
 				50D3A3361CEDB1C600E59470 /* Embed Frameworks */,
+				507DCEB71CEEE2DC006D43F7 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -3153,6 +3198,7 @@
 				50D3A32E1CEDB1C600E59470 /* PBXTargetDependency */,
 				50D3A3581CEE9A2000E59470 /* PBXTargetDependency */,
 				507DCE901CEED2C4006D43F7 /* PBXTargetDependency */,
+				507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3218,6 +3264,23 @@
 			productName = OpenGraphTests;
 			productReference = 507DCE851CEED2C3006D43F7 /* OpenGraphTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		507DCEA81CEEE2DC006D43F7 /* YepShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 507DCEB61CEEE2DC006D43F7 /* Build configuration list for PBXNativeTarget "YepShare" */;
+			buildPhases = (
+				507DCEA51CEEE2DC006D43F7 /* Sources */,
+				507DCEA61CEEE2DC006D43F7 /* Frameworks */,
+				507DCEA71CEEE2DC006D43F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YepShare;
+			productName = YepShare;
+			productReference = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		50D3A3191CEDB1C500E59470 /* YepNetworking */ = {
 			isa = PBXNativeTarget;
@@ -3354,6 +3417,10 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					507DCEA81CEEE2DC006D43F7 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
 					50D3A3191CEDB1C500E59470 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = TKRALRXCKN;
@@ -3399,6 +3466,7 @@
 				50D3A34C1CEE9A2000E59470 /* FayeClientTests */,
 				507DCE7B1CEED2C2006D43F7 /* OpenGraph */,
 				507DCE841CEED2C3006D43F7 /* OpenGraphTests */,
+				507DCEA81CEEE2DC006D43F7 /* YepShare */,
 			);
 		};
 /* End PBXProject section */
@@ -3536,6 +3604,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		507DCEA71CEEE2DC006D43F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4080,6 +4156,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		507DCEA51CEEE2DC006D43F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		50D3A3151CEDB1C500E59470 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4146,6 +4230,11 @@
 			isa = PBXTargetDependency;
 			target = 507DCE7B1CEED2C2006D43F7 /* OpenGraph */;
 			targetProxy = 507DCE8F1CEED2C4006D43F7 /* PBXContainerItemProxy */;
+		};
+		507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 507DCEA81CEEE2DC006D43F7 /* YepShare */;
+			targetProxy = 507DCEB11CEEE2DC006D43F7 /* PBXContainerItemProxy */;
 		};
 		50D3A3261CEDB1C600E59470 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4233,6 +4322,14 @@
 				505C338E1BAA92CD00E044E2 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				507DCEAE1CEEE2DC006D43F7 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -4333,7 +4430,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4424,7 +4521,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4615,6 +4712,37 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
+		507DCEB41CEEE2DC006D43F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		507DCEB51CEEE2DC006D43F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = YepShare/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -4852,6 +4980,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		507DCEB61CEEE2DC006D43F7 /* Build configuration list for PBXNativeTarget "YepShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				507DCEB41CEEE2DC006D43F7 /* Debug */,
+				507DCEB51CEEE2DC006D43F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		50D3A3351CEDB1C600E59470 /* Build configuration list for PBXNativeTarget "YepNetworking" */ = {
 			isa = XCConfigurationList;
