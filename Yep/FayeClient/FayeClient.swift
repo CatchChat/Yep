@@ -5,7 +5,7 @@
 //  Created by NIX on 16/5/17.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
-
+/*
 import Foundation
 import SocketRocket
 import Base64
@@ -597,4 +597,4 @@ extension FayeClient: SRWebSocketDelegate {
         reconnect()
     }
 }
-
+*/

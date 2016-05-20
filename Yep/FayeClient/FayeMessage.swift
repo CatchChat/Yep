@@ -5,7 +5,7 @@
 //  Created by NIX on 16/5/17.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
-
+/*
 import Foundation
 
 public struct FayeMessage {
@@ -50,4 +50,4 @@ public struct FayeMessage {
         return FayeMessage(ID: ID, channel: channel, clientID: clientID, successful: successful, authSuccessful: authSuccessful, version: version, minimunVersion: minimumVersion, supportedConnectionTypes: supportedConnectionTypes, advice: advice, error: error, subscription: subscription, timestamp: timestamp, data: data, ext: ext)
     }
 }
-
+*/
