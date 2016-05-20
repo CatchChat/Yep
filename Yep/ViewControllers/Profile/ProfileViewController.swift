@@ -11,6 +11,7 @@ import SafariServices
 import CoreLocation
 import RealmSwift
 import YepNetworking
+import OpenGraph
 import MonkeyKing
 import Navi
 import Kingfisher

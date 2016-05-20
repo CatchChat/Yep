@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Yep
+@testable import OpenGraph
 
 final class OpenGraphTests: XCTestCase {
 

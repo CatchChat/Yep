@@ -11,6 +11,7 @@ import CoreLocation
 import MobileCoreServices
 import Photos
 import YepNetworking
+import OpenGraph
 import Proposer
 import RealmSwift
 import Kingfisher

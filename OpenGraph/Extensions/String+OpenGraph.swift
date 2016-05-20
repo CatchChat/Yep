@@ -35,21 +35,47 @@ extension String {
 
 extension String {
 
-    // iTunes
+    var opengraph_embeddedURLs: [NSURL] {
 
-    var yep_iTunesArtworkID: String? {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+            return []
+        }
 
-        if let artworkID = queryItemForKey("i")?.value {
-            return artworkID
+        var URLs = [NSURL]()
 
-        } else {
-            if let artworkID = lastPathComponent?.stringByReplacingOccurrencesOfString("id", withString: "") {
-                return artworkID
+        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+
+            if let URL = result?.URL {
+                URLs.append(URL)
             }
         }
 
-        return nil
+        return URLs
     }
 
+    var opengraph_firstImageURL: NSURL? {
+
+        let URLs = opengraph_embeddedURLs
+
+        guard !URLs.isEmpty else {
+            return nil
+        }
+
+        let imageExtentions = [
+            "png",
+            "jpg",
+            "jpeg",
+        ]
+
+        for URL in URLs {
+            if let pathExtension = URL.pathExtension?.lowercaseString {
+                if imageExtentions.contains(pathExtension) {
+                    return URL
+                }
+            }
+        }
+        
+        return nil
+    }
 }
 

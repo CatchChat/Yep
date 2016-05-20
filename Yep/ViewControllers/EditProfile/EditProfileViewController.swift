@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import YepNetworking
+import OpenGraph
 import TPKeyboardAvoiding
 import Proposer
 import Navi

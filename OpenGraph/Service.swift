@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import YepNetworking
 import Alamofire
+import Kanna
 
-func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
+public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
@@ -59,7 +61,7 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
     })
 }
 
-func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
+public func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
@@ -282,7 +284,7 @@ private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCount
 
     Alamofire.request(.GET, lookUpURLString).responseJSON { response in
 
-        println("iTunesLookupWithID \(lookupID): \(response)")
+        print("iTunesLookupWithID \(lookupID): \(response)")
 
         guard
             let info = response.result.value as? JSONDictionary,

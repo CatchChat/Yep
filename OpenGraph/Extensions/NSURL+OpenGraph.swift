@@ -10,6 +10,24 @@ import Foundation
 
 extension NSURL {
 
+    private var opengraph_allQueryItems: [NSURLQueryItem] {
+
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+            return queryItems
+        }
+
+        return []
+    }
+
+    private func opengraph_queryItemForKey(key: String) -> NSURLQueryItem? {
+
+        let predicate = NSPredicate(format: "name=%@", key)
+        return (opengraph_allQueryItems as NSArray).filteredArrayUsingPredicate(predicate).first as? NSURLQueryItem
+    }
+}
+
+extension NSURL {
+
     var opengraph_appleAllianceURL: NSURL {
 
         guard self.opengraph_isAppleiTunesURL else {
@@ -33,6 +51,20 @@ extension NSURL {
         }
 
         return resultURL
+    }
+
+    var yep_iTunesArtworkID: String? {
+
+        if let artworkID = opengraph_queryItemForKey("i")?.value {
+            return artworkID
+
+        } else {
+            if let artworkID = lastPathComponent?.stringByReplacingOccurrencesOfString("id", withString: "") {
+                return artworkID
+            }
+        }
+
+        return nil
     }
     
     enum AppleOnlineStoreHost: String {

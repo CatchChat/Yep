@@ -20,18 +20,18 @@ public struct OpenGraph {
 
     var kind: Kind = .Default
 
-    var URL: NSURL
+    public var URL: NSURL
 
-    var siteName: String?
+    public var siteName: String?
 
-    var title: String?
-    var description: String?
+    public var title: String?
+    public var description: String?
 
-    var previewImageURLString: String?
-    var previewVideoURLString: String?
-    var previewAudioURLString: String?
+    public var previewImageURLString: String?
+    public var previewVideoURLString: String?
+    public var previewAudioURLString: String?
 
-    var isValid: Bool {
+    public var isValid: Bool {
 
         guard
             let siteName = siteName?.opengraph_trimming(.WhitespaceAndNewline) where !siteName.isEmpty,
@@ -149,7 +149,7 @@ public struct OpenGraph {
                 }
 
                 if openGraph.previewImageURLString == nil {
-                    openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
+                    openGraph.previewImageURLString = HTMLString.opengraph_firstImageURL?.absoluteString
                 }
 
                 // 特别再补救一次 description
@@ -161,9 +161,9 @@ public struct OpenGraph {
 
                 // 再去除字符串中的换行
 
-                openGraph.siteName = openGraph.siteName?.yep_removeAllNewLines
-                openGraph.title = openGraph.title?.yep_removeAllNewLines
-                openGraph.description = openGraph.description?.yep_removeAllNewLines
+                openGraph.siteName = openGraph.siteName?.opengraph_removeAllNewLines
+                openGraph.title = openGraph.title?.opengraph_removeAllNewLines
+                openGraph.description = openGraph.description?.opengraph_removeAllNewLines
             }
 
             return openGraph
@@ -172,3 +172,4 @@ public struct OpenGraph {
         return nil
     }
 }
+
