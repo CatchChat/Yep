@@ -1,13 +1,13 @@
 //
 //  OpenGraphTests.swift
-//  Yep
+//  OpenGraphTests
 //
-//  Created by NIX on 16/4/28.
+//  Created by NIX on 16/5/20.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
 import XCTest
-@testable import Yep
+@testable import OpenGraph
 
 final class OpenGraphTests: XCTestCase {
 
@@ -39,7 +39,7 @@ final class OpenGraphTests: XCTestCase {
 
             print("iTunes openGraph: \(openGraph)")
 
-            if openGraph.URL.yeptests_containsQueryItem(queryItem) {
+            if openGraph.URL.opengraphtests_containsQueryItem(queryItem) {
                 expectation.fulfill()
             }
         }
@@ -61,8 +61,7 @@ final class OpenGraphTests: XCTestCase {
                 expectation.fulfill()
             }
         })
-
+        
         waitForExpectationsWithTimeout(10, handler: nil)
     }
 }
-

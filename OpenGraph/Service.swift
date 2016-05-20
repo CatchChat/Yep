@@ -1,237 +1,17 @@
 //
-//  OpenGraphService.swift
+//  Service.swift
 //  Yep
 //
-//  Created by nixzhu on 16/1/12.
+//  Created by NIX on 16/5/20.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+import Foundation
 import YepNetworking
 import Alamofire
 import Kanna
 
-struct OpenGraph {
-
-    enum Kind {
-        case Default
-        case AppleMusic
-        case AppleMovie
-        case AppleEBook
-    }
-
-    var kind: Kind = .Default
-
-    var URL: NSURL
-
-    var siteName: String?
-
-    var title: String?
-    var description: String?
-
-    var previewImageURLString: String?
-    var previewVideoURLString: String?
-    var previewAudioURLString: String?
-
-    var isValid: Bool {
-
-        guard
-            let siteName = siteName?.trimming(.WhitespaceAndNewline) where !siteName.isEmpty,
-            let title = title?.trimming(.WhitespaceAndNewline) where !title.isEmpty,
-            let description = description?.trimming(.WhitespaceAndNewline) where !description.isEmpty,
-            let _ = previewImageURLString
-        else {
-            return false
-        }
-
-        return true
-    }
-
-    struct AppleMusic {
-        var artistName: String?
-
-        var artworkURLString30: String?
-        var artworkURLString60: String?
-        var artworkURLString100: String?
-        var artworkURLString160: String?
-
-        var collectionType: String?
-        var collectionName: String?
-        var collectionViewURLString: String?
-
-        var trackTimeMillis: Int?
-        var trackViewURLString: String?
-    }
-    var appleMusic: AppleMusic?
-
-    struct AppleMovie {
-
-        var artistName: String?
-
-        var artworkURLString30: String?
-        var artworkURLString60: String?
-        var artworkURLString100: String?
-
-        var shortDescription: String?
-        var longDescription: String?
-
-        var trackTimeMillis: Int?
-        var trackViewURLString: String?
-    }
-    var appleMovie: AppleMovie?
-
-    struct AppleEBook {
-
-        var artistName: String?
-
-        var artworkURLString60: String?
-        var artworkURLString100: String?
-
-        var description: String?
-
-        var trackName: String?  // book name
-        var trackViewURLString: String?
-    }
-    var appleEBook: AppleEBook?
-
-    init(URL: NSURL) {
-        self.URL = URL.yep_appleAllianceURL
-    }
-
-    static func fromHTMLString(HTMLString: String, forURL URL: NSURL) -> OpenGraph? {
-
-        if let doc = Kanna.HTML(html: HTMLString, encoding: NSUTF8StringEncoding) {
-
-            var openGraph = OpenGraph(URL: URL)
-
-            if let metaSet = doc.head?.css("meta") {
-
-                var openGraphInfo = [String: String]()
-
-                for meta in metaSet {
-                    if let property = meta["property"]?.lowercaseString {
-                        if property.hasPrefix("og:") {
-                            if let content = meta["content"] {
-                                openGraphInfo[property] = content
-                            }
-                        }
-                    }
-                }
-
-                openGraph.siteName = openGraphInfo["og:site_name"]
-
-                openGraph.title = openGraphInfo["og:title"]
-                openGraph.description = openGraphInfo["og:description"]
-
-                openGraph.previewImageURLString = openGraphInfo["og:image"]
-
-                // 若缺失某些`og:`标签，再做补救
-
-                if openGraph.siteName == nil {
-                    openGraph.siteName = URL.host
-                }
-
-                if openGraph.title == nil {
-                    if let title = doc.head?.css("title").first?.text where !title.isEmpty {
-                        openGraph.title = title
-                    }
-                }
-
-                if openGraph.description == nil {
-                    for meta in metaSet {
-                        if let name = meta["name"]?.lowercaseString {
-                            if name == "description" {
-                                if let description = meta["content"] where !description.isEmpty {
-                                    openGraph.description = description
-                                    break
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if openGraph.previewImageURLString == nil {
-                    openGraph.previewImageURLString = HTMLString.yep_firstImageURL?.absoluteString
-                }
-
-                // 特别再补救一次 description
-
-                if openGraph.description == nil {
-                    let firstParagraph = doc.body?.css("p").first?.text
-                    openGraph.description = firstParagraph
-                }
-
-                // 再去除字符串中的换行
-
-                openGraph.siteName = openGraph.siteName?.yep_removeAllNewLines
-                openGraph.title = openGraph.title?.yep_removeAllNewLines
-                openGraph.description = openGraph.description?.yep_removeAllNewLines
-            }
-
-            return openGraph
-        }
-
-        return nil
-    }
-}
-
-// ref http://a4esl.org/c/charset.html
-private enum WeirdCharset: String {
-    // China
-    case GB2312 = "GB2312"
-    case GBK = "GBK"
-    case GB18030 = "GB18030"
-
-    // Taiwan, HongKong ...
-    case BIG5 = "BIG5"
-    case BIG5HKSCS = "BIG5-HKSCS"
-
-    // Korean
-    case EUCKR = "EUC-KR"
-}
-
-private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
-
-    let pattern = "charset=([A-Za-z0-9\\-]+)"
-
-    guard let
-        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
-        result = charsetRegex.firstMatchInString(HTMLString, options: [.ReportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
-    else {
-        return HTMLString
-    }
-
-    let charsetStringRange = result.rangeAtIndex(1)
-    let charsetString = (HTMLString as NSString).substringWithRange(charsetStringRange).uppercaseString
-
-    guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
-        return HTMLString
-    }
-
-    let encoding: NSStringEncoding
-
-    switch weirdCharset {
-
-    case .GB2312, .GBK, .GB18030:
-        let china = CFStringEncodings.GB_18030_2000
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
-
-    case .BIG5, .BIG5HKSCS:
-        let taiwan = CFStringEncodings.Big5_HKSCS_1999
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
-
-    case .EUCKR:
-        let korean = CFStringEncodings.EUC_KR
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue))
-    }
-
-    guard let newHTMLString = String(data: data, encoding: encoding) else {
-        return HTMLString
-    }
-
-    return newHTMLString
-}
-
-func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
+public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
@@ -281,7 +61,7 @@ func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title:
     })
 }
 
-func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
+public func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
 
     Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
@@ -436,6 +216,63 @@ func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: O
     })
 }
 
+// ref http://a4esl.org/c/charset.html
+private enum WeirdCharset: String {
+    // China
+    case GB2312 = "GB2312"
+    case GBK = "GBK"
+    case GB18030 = "GB18030"
+
+    // Taiwan, HongKong ...
+    case BIG5 = "BIG5"
+    case BIG5HKSCS = "BIG5-HKSCS"
+
+    // Korean
+    case EUCKR = "EUC-KR"
+}
+
+private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
+
+    let pattern = "charset=([A-Za-z0-9\\-]+)"
+
+    guard let
+        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
+        result = charsetRegex.firstMatchInString(HTMLString, options: [.ReportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
+    else {
+        return HTMLString
+    }
+
+    let charsetStringRange = result.rangeAtIndex(1)
+    let charsetString = (HTMLString as NSString).substringWithRange(charsetStringRange).uppercaseString
+
+    guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
+        return HTMLString
+    }
+
+    let encoding: NSStringEncoding
+
+    switch weirdCharset {
+
+    case .GB2312, .GBK, .GB18030:
+        let china = CFStringEncodings.GB_18030_2000
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+
+    case .BIG5, .BIG5HKSCS:
+        let taiwan = CFStringEncodings.Big5_HKSCS_1999
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
+
+    case .EUCKR:
+        let korean = CFStringEncodings.EUC_KR
+        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue))
+    }
+
+    guard let newHTMLString = String(data: data, encoding: encoding) else {
+        return HTMLString
+    }
+
+    return newHTMLString
+}
+
 private enum iTunesCountry: String {
     case China = "cn"
     case USA = "us"
@@ -447,7 +284,7 @@ private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCount
 
     Alamofire.request(.GET, lookUpURLString).responseJSON { response in
 
-        println("iTunesLookupWithID \(lookupID): \(response)")
+        print("iTunesLookupWithID \(lookupID): \(response)")
 
         guard
             let info = response.result.value as? JSONDictionary,

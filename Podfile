@@ -38,3 +38,8 @@ target 'FayeClient' do
     pod 'Base64'
 end
 
+target 'OpenGraph' do
+    pod 'Alamofire'
+    pod 'Kanna', '1.0.2'
+end
+
