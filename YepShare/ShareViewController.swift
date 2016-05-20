@@ -15,6 +15,15 @@ import OpenGraph
 class ShareViewController: SLComposeServiceViewController {
 
     override func isContentValid() -> Bool {
+
+        YepNetworking.Manager.accessToken = {
+            let appGroupID: String = "group.Catch-Inc.Yep"
+            let userDefaults = NSUserDefaults(suiteName: appGroupID)
+            let v1AccessTokenKey = "v1AccessToken"
+            let token = userDefaults?.stringForKey(v1AccessTokenKey)
+            return token
+        }
+
         return true
     }
 
@@ -36,7 +45,13 @@ class ShareViewController: SLComposeServiceViewController {
 
         guard itemProvider.hasItemConformingToTypeIdentifier(URLTypeIdentifier) else {
 
-            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            postFeed(message: contentText, URL: nil) { [weak self] finish in
+
+                print("postFeed onlyText finish: \(finish)")
+
+                self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            }
+
             return
         }
 
@@ -54,8 +69,9 @@ class ShareViewController: SLComposeServiceViewController {
                 return
             }
 
-            self?.postFeed(message: self?.contentText, URL: URL) { finish in
-                print("postFeed finish: \(finish)")
+            self?.postFeed(message: self?.contentText, URL: URL) { [weak self] finish in
+
+                print("postFeed URL finish: \(finish)")
 
                 self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             }
@@ -67,7 +83,31 @@ class ShareViewController: SLComposeServiceViewController {
         return []
     }
 
-    private func postFeed(message message: String?, URL: NSURL, completion: (finish: Bool) -> Void) {
+    private func postFeed(message message: String?, URL: NSURL?, completion: (finish: Bool) -> Void) {
+
+        guard let URL = URL else {
+
+            if let body = message where !body.isEmpty {
+
+                createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(finish: false)
+                    }
+
+                }, completion: { _ in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(finish: true)
+                    }
+                })
+
+            } else {
+                completion(finish: false)
+            }
+
+            return
+        }
 
         var kind: FeedKind = .Text
 
@@ -110,14 +150,6 @@ class ShareViewController: SLComposeServiceViewController {
                 body = message + " " + URL.absoluteString
             } else {
                 body = URL.absoluteString
-            }
-
-            YepNetworking.Manager.accessToken = {
-                let appGroupID: String = "group.Catch-Inc.Yep"
-                let userDefaults = NSUserDefaults(suiteName: appGroupID)
-                let v1AccessTokenKey = "v1AccessToken"
-                let token = userDefaults?.stringForKey(v1AccessTokenKey)
-                return token
             }
 
             createFeedWithKind(kind, message: body, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
