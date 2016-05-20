@@ -220,8 +220,6 @@
 		507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813131CD0B0CF00F193AB /* ServiceTests.swift */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
-		5078131D1CD1E33A00F193AB /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */; };
-		5078131F1CD1EB5000F193AB /* NSURL+YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131E1CD1EB5000F193AB /* NSURL+YepTests.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
 		507813241CD2FEF400F193AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507813231CD2FEF400F193AB /* Images.xcassets */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
@@ -792,8 +790,6 @@
 		507813131CD0B0CF00F193AB /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
-		5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraphTests.swift; sourceTree = "<group>"; };
-		5078131E1CD1EB5000F193AB /* NSURL+YepTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+YepTests.swift"; path = "Extensions/NSURL+YepTests.swift"; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
 		507813231CD2FEF400F193AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
@@ -1466,11 +1462,9 @@
 				507813111CD0A45800F193AB /* RealmTests.swift */,
 				5017FC241CD0960200DFCB71 /* SyncTests.swift */,
 				5078130F1CD09FEE00F193AB /* ClearTests.swift */,
-				5078131C1CD1E33A00F193AB /* OpenGraphTests.swift */,
 				506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */,
 				50390F0E1CE174180090A08C /* FunctionTests.swift */,
 				507813231CD2FEF400F193AB /* Images.xcassets */,
-				507813201CD1EB5400F193AB /* Extensions */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
 			);
 			path = YepTests;
@@ -2203,14 +2197,6 @@
 				507813181CD1B01A00F193AB /* ShortcutItems.swift */,
 			);
 			name = Shortcuts;
-			sourceTree = "<group>";
-		};
-		507813201CD1EB5400F193AB /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				5078131E1CD1EB5000F193AB /* NSURL+YepTests.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		507CF1691AFC84AA00E261B4 /* CustomNavigationBar */ = {
@@ -4074,8 +4060,6 @@
 				507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */,
 				50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
-				5078131D1CD1E33A00F193AB /* OpenGraphTests.swift in Sources */,
-				5078131F1CD1EB5000F193AB /* NSURL+YepTests.swift in Sources */,
 				507813121CD0A45800F193AB /* RealmTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
