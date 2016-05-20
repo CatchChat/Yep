@@ -343,6 +343,7 @@
 		50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */; };
 		50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A3441CEE9A2000E59470 /* FayeClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50D3A3621CEE9A6300E59470 /* FayeClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3611CEE9A6300E59470 /* FayeClient.swift */; };
+		50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */; };
 		50D45FC31C44D2300044C95A /* OpenGraphService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D45FC21C44D2300044C95A /* OpenGraphService.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
@@ -882,6 +883,7 @@
 		50D3A3541CEE9A2000E59470 /* FayeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FayeClientTests.swift; sourceTree = "<group>"; };
 		50D3A3561CEE9A2000E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D3A3611CEE9A6300E59470 /* FayeClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FayeClient.swift; sourceTree = "<group>"; };
+		50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FayeMessage.swift; sourceTree = "<group>"; };
 		50D45FC21C44D2300044C95A /* OpenGraphService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphService.swift; path = Services/OpenGraphService.swift; sourceTree = "<group>"; };
 		50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaControlView.swift; path = Views/Media/MediaControlView.swift; sourceTree = "<group>"; };
 		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2619,6 +2621,7 @@
 			children = (
 				50D3A3461CEE9A2000E59470 /* FayeClient.h */,
 				50D3A3611CEE9A6300E59470 /* FayeClient.swift */,
+				50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */,
 				50D3A3481CEE9A2000E59470 /* Info.plist */,
 			);
 			path = FayeClient;
@@ -3863,6 +3866,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */,
 				50D3A3621CEE9A6300E59470 /* FayeClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
