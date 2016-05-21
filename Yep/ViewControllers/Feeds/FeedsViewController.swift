@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import YepNetworking
 import AVFoundation
 import MapKit
 import Ruler

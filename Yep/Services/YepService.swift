@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import YepNetworking
 import RealmSwift
 import CoreLocation
 import Alamofire

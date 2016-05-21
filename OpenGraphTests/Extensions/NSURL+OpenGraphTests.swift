@@ -1,8 +1,8 @@
 //
-//  NSURL+YepTests.swift
+//  NSURL+OpenGraphTests.swift
 //  Yep
 //
-//  Created by NIX on 16/4/28.
+//  Created by NIX on 16/5/20.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 
 extension NSURL {
 
-    private var yeptests_queryItems: [NSURLQueryItem] {
+    private var opengraphtests_queryItems: [NSURLQueryItem] {
 
         if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
             return queryItems
@@ -19,9 +19,9 @@ extension NSURL {
         return []
     }
 
-    func yeptests_containsQueryItem(queryItem: NSURLQueryItem) -> Bool {
+    func opengraphtests_containsQueryItem(queryItem: NSURLQueryItem) -> Bool {
 
-        return yeptests_queryItems.contains(queryItem)
+        return opengraphtests_queryItems.contains(queryItem)
     }
 }
 

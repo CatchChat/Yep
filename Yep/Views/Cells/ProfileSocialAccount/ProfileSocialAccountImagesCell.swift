@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepNetworking
 import Kingfisher
 
 final class ProfileSocialAccountImagesCell: UICollectionViewCell {

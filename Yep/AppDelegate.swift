@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepNetworking
 import Fabric
 import AVFoundation
 import RealmSwift
@@ -81,6 +82,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         BuddyBuildSDK.setup()
 
         Realm.Configuration.defaultConfiguration = realmConfig()
+
+        configureYepNetworkingManager()
 
         cacheInAdvance()
 
@@ -614,6 +617,30 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Private
+
+    private func configureYepNetworkingManager() {
+
+        YepNetworking.Manager.accessToken = {
+            return YepUserDefaults.v1AccessToken.value
+        }
+
+        YepNetworking.Manager.authFailedAction = { statusCode, host in
+            if statusCode == 401 {
+                // 确保是自家服务
+                if host == yepBaseURL.host {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.maybeUserNeedRelogin()
+                    }
+                }
+            }
+        }
+
+        YepNetworking.Manager.networkActivityCountChangedAction = { count in
+            dispatch_async(dispatch_get_main_queue()) {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
+            }
+        }
+    }
 
     private func tryReplyText(text: String, withUserInfo userInfo: [NSObject: AnyObject]) {
 

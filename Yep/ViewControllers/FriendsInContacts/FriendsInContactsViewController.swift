@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
 

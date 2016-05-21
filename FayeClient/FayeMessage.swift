@@ -13,7 +13,7 @@ public struct FayeMessage {
     let ID: String?
     let channel: String
     let clientID: String?
-    let successful: Bool
+    public let successful: Bool
     let authSuccessful: Bool
     let version: String
     let minimunVersion: String?

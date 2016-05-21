@@ -16,10 +16,6 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://realm.io",
         ],
         [
-            "name": "MZFayeClient",
-            "URLString": "https://github.com/m1entus/MZFayeClient",
-        ],
-        [
             "name": "Proposer",
             "URLString": "https://github.com/nixzhu/Proposer",
         ],
