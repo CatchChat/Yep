@@ -23,6 +23,7 @@ def pods
     pod 'MonkeyKing', '0.0.2'
     pod 'JPush'
     pod 'Fabric'
+    pod 'BuddyBuildSDK'
 end
 
 target 'Yep' do
