@@ -20,10 +20,8 @@ final class Box<T> {
 
 func unregisterThirdPartyPush() {
     dispatch_async(dispatch_get_main_queue()) {
-        #if JPUSH
         JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        #endif
     }
 }
 

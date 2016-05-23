@@ -95,14 +95,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
-            #if JPUSH
             #if STAGING
                 let apsForProduction = false
             #else
                 let apsForProduction = true
             #endif
             JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
-            #endif
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -256,10 +254,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
-        #if JPUSH
         JPUSHService.handleRemoteNotification(userInfo)
-        #endif
-        
+
         guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
             completionHandler(UIBackgroundFetchResult.NoData)
             return
@@ -609,10 +605,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
-        #if JPUSH
         JPUSHService.registerDeviceToken(deviceToken)
         JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: nil, object: nil)
-        #endif
     }
 
     func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
