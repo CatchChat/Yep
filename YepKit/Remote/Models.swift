@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Persistence
 
 public enum SocialAccount: String {
 

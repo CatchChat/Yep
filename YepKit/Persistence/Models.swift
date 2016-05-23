@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import YepConfig
-import YepUserDefaults
 import YepNetworking
 import RealmSwift
 

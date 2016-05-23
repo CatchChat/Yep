@@ -33,10 +33,6 @@ target 'Yep' do
     end
 end
 
-target 'YepUserDefaults' do
-    pod 'RealmSwift'
-end
-
 target 'YepConfig' do
     pod 'Ruler'
     pod 'Kingfisher'
@@ -52,12 +48,8 @@ target 'OpenGraph' do
     pod 'Kanna', '1.0.2'
 end
 
-target 'Remote' do
-    pod 'RealmSwift'
+target 'YepKit' do
     pod 'Alamofire'
-end
-
-target 'Persistence' do
     pod 'RealmSwift'
 end
 

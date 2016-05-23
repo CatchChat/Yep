@@ -9,7 +9,6 @@
 import Foundation
 import CoreLocation
 import YepConfig
-import YepUserDefaults
 import YepNetworking
 import RealmSwift
 import Alamofire

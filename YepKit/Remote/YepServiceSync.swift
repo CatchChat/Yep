@@ -8,7 +8,6 @@
 
 import Foundation
 import YepNetworking
-import Remote
 import RealmSwift
 
 enum MessageAge: String {
