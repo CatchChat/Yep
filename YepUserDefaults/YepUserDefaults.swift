@@ -9,6 +9,7 @@
 import UIKit
 import CoreSpotlight
 import YepConfig
+import Persistence
 import RealmSwift
 
 private let v1AccessTokenKey = "v1AccessToken"
@@ -184,9 +185,15 @@ class YepUserDefaults {
 
         CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
+        guard Config.inMainStory?() ?? false else {
+            return
+        }
+
+        /*
         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
             return
         }
+         */
 
         unregisterThirdPartyPush()
 

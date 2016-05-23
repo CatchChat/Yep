@@ -20,9 +20,9 @@ let MediaOptionsInfos: KingfisherOptionsInfo = [
     .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
 
-final class YepConfig {
+final public class YepConfig {
 
-    static let appGroupID: String = "group.Catch-Inc.Yep"
+    public static let appGroupID: String = "group.Catch-Inc.Yep"
     
     static let minMessageTextLabelWidth: CGFloat = 20.0
     
