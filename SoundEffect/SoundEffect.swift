@@ -15,16 +15,22 @@ final public class SoundEffect: NSObject {
     public init(soundName: String) {
         super.init()
 
+        guard !soundName.isEmpty else {
+            fatalError("SoundEffect: no soundName!")
+        }
+
         let bundle = NSBundle(forClass: SoundEffect.self)
 
-        if let fileURL = bundle.URLForResource(soundName, withExtension: "caf") {
-            var theSoundID: SystemSoundID = 0
-            let error = AudioServicesCreateSystemSoundID(fileURL, &theSoundID)
-            if (error == kAudioServicesNoError) {
-                soundID = theSoundID
-            } else {
-                fatalError("SoundEffect init failed!")
-            }
+        guard let fileURL = bundle.URLForResource(soundName, withExtension: "caf") else {
+            fatalError("SoundEffect: file no found!")
+        }
+
+        var theSoundID: SystemSoundID = 0
+        let error = AudioServicesCreateSystemSoundID(fileURL, &theSoundID)
+        if (error == kAudioServicesNoError) {
+            soundID = theSoundID
+        } else {
+            fatalError("SoundEffect: init failed!")
         }
     }
 
