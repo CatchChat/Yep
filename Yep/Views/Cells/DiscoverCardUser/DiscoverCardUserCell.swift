@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 import Navi
 
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]

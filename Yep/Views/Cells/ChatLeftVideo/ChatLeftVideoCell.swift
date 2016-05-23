@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepConfig
 
 final class ChatLeftVideoCell: ChatBaseCell {
 

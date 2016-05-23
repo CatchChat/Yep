@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 final class SkillCell: UICollectionViewCell {
 
@@ -31,47 +32,13 @@ final class SkillCell: UICollectionViewCell {
         }
     }
 
-    class Skill: NSObject {
-        let ID: String
-        let localName: String
-        let coverURLString: String?
-
-        enum Category: String {
-            case Art = "Art"
-            case Technology = "Technology"
-            case Sport = "Sport"
-            case LifeStyle = "Life Style"
-
-            var gradientImage: UIImage? {
-                switch self {
-                case .Art:
-                    return UIImage(named: "gradient_art")
-                case .Technology:
-                    return UIImage(named: "gradient_tech")
-                case .Sport:
-                    return UIImage(named: "gradient_sport")
-                case .LifeStyle:
-                    return UIImage(named: "gradient_life")
-                }
-            }
-        }
-        let category: Category
-
-        init(ID: String, localName: String, coverURLString: String?, category: Category?) {
-            self.ID = ID
-            self.localName = localName
-            self.coverURLString = coverURLString
-            self.category = category ?? .Art
-        }
-    }
-
-    var skill: Skill? {
+    var skill: SkillCellSkill? {
         willSet {
             skillLabel.text = newValue?.localName
         }
     }
 
-    var tapAction: ((skill: Skill) -> Void)?
+    var tapAction: ((skill: SkillCellSkill) -> Void)?
 
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tapped = true

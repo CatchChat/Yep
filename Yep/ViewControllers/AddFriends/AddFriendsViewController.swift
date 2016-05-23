@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 import Proposer
 
 final class AddFriendsViewController: SegueViewController {

@@ -88,7 +88,7 @@ final class ContactsCell: UITableViewCell {
 
         joinedDateLabel.text = discoveredUser.introduction
 
-        if let distance = discoveredUser.distance?.format(".1") {
+        if let distance = discoveredUser.distance?.yep_format(".1") {
             lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         } else {
             lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
@@ -111,7 +111,7 @@ final class ContactsCell: UITableViewCell {
 
         joinedDateLabel.text = discoveredUser.introduction
 
-        if let distance = discoveredUser.distance?.format(".1") {
+        if let distance = discoveredUser.distance?.yep_format(".1") {
             lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         } else {
             lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"

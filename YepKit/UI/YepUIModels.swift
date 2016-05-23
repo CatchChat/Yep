@@ -403,13 +403,18 @@ public enum PickLocationViewControllerLocation {
     public struct Info {
         public let coordinate: CLLocationCoordinate2D
         public var name: String?
+
+        public init(coordinate: CLLocationCoordinate2D, name: String?) {
+            self.coordinate = coordinate
+            self.name = name
+        }
     }
 
     case Default(info: Info)
     case Picked(info: Info)
     case Selected(info: Info)
 
-    var info: Info {
+    public var info: Info {
         switch self {
         case .Default(let locationInfo):
             return locationInfo
@@ -420,7 +425,7 @@ public enum PickLocationViewControllerLocation {
         }
     }
 
-    var isPicked: Bool {
+    public var isPicked: Bool {
         switch self {
         case .Picked:
             return true

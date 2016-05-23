@@ -49,8 +49,8 @@ final class PickLocationViewController: SegueViewController {
         didSet {
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
-                    if case .Default = location {
-                        var info = PickLocationViewControllerLocation.Info
+                    if case .Default(let info) = location {
+                        var info = info
                         info.name = placemark.yep_autoName
                         self.location = .Default(info: info)
                     }
@@ -65,8 +65,8 @@ final class PickLocationViewController: SegueViewController {
         didSet {
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
-                    if case .Picked = location {
-                        var info = PickLocationViewControllerLocation.Info
+                    if case .Picked(let info) = location {
+                        var info = info
                         info.name = placemark.yep_autoName
                         self.location = .Picked(info: info)
                     }
@@ -168,7 +168,7 @@ final class PickLocationViewController: SegueViewController {
 
             let vc = segue.destinationViewController as! NewFeedViewController
 
-            let location = (sender as! Box<Location>).value
+            let location = (sender as! Box<PickLocationViewControllerLocation>).value
 
             vc.attachment = .Location(location)
 
@@ -203,7 +203,7 @@ final class PickLocationViewController: SegueViewController {
                 if let sendLocationAction = self.sendLocationAction {
 
                     if let location = self.location {
-                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info)
+                        sendLocationAction(locationInfo: location.info)
 
                     } else {
                         sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: self.fixedCenterCoordinate, name: nil))
@@ -217,7 +217,7 @@ final class PickLocationViewController: SegueViewController {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
 
             } else {
-                let _location = Location.Default(info: PickLocationViewControllerLocation.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
+                let _location = PickLocationViewControllerLocation.Default(info: PickLocationViewControllerLocation.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
                 performSegueWithIdentifier("showNewFeed", sender: Box(_location))
             }

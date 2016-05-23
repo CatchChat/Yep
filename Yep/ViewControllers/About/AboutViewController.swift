@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepConfig
 import Ruler
 
 final class AboutViewController: SegueViewController {

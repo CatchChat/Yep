@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 

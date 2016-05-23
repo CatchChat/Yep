@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 import AVFoundation
 
 final class MediaPreviewView: UIView {

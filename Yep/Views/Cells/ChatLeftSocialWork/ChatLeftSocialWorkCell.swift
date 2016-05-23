@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepConfig
 import Kingfisher
 
 final class ChatLeftSocialWorkCell: UICollectionViewCell {

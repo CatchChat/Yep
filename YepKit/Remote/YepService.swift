@@ -176,6 +176,14 @@ public struct Skill: Hashable {
     public let localName: String
     public let coverURLString: String?
 
+    public init(category: SkillCategory?, id: String, name: String, localName: String, coverURLString: String?) {
+        self.category = category
+        self.id = id
+        self.name = name
+        self.localName = localName
+        self.coverURLString = coverURLString
+    }
+
     public var hashValue: Int {
         return id.hashValue
     }
@@ -860,7 +868,7 @@ public enum ReportReason {
     case Scams
     case Other(String)
 
-    var type: Int {
+    public var type: Int {
         switch self {
         case .Porno:
             return 0
@@ -873,7 +881,7 @@ public enum ReportReason {
         }
     }
 
-    var description: String {
+    public var description: String {
         switch self {
         case .Porno:
             return NSLocalizedString("Porno", comment: "")
@@ -2771,6 +2779,14 @@ public struct DiscoveredFeed: Hashable {
         public let duration: NSTimeInterval
         public let sampleValues: [CGFloat]
 
+        public init(feedID: String, URLString: String, metaData: NSData, duration: NSTimeInterval, sampleValues: [CGFloat]) {
+            self.feedID = feedID
+            self.URLString = URLString
+            self.metaData = metaData
+            self.duration = duration
+            self.sampleValues = sampleValues
+        }
+
         public static func fromJSONDictionary(json: JSONDictionary, feedID: String) -> AudioInfo? {
             guard let
                 fileInfo = json["file"] as? JSONDictionary,
@@ -2897,6 +2913,25 @@ public struct DiscoveredFeed: Hashable {
         } else {
             return timeString
         }
+    }
+
+    public init(id: String, allowComment: Bool, kind: FeedKind, createdUnixTime: NSTimeInterval, updatedUnixTime: NSTimeInterval, creator: DiscoveredUser, body: String, highlightedKeywordsBody: String?, attachment: Attachment?, distance: Double?, skill: Skill?, groupID: String, messagesCount: Int, recommended: Bool, uploadingErrorMessage: String?) {
+
+        self.id = id
+        self.allowComment = allowComment
+        self.kind = kind
+        self.createdUnixTime = createdUnixTime
+        self.updatedUnixTime = updatedUnixTime
+        self.creator = creator
+        self.body = body
+        self.highlightedKeywordsBody = highlightedKeywordsBody
+        self.attachment = attachment
+        self.distance = distance
+        self.skill = skill
+        self.groupID = groupID
+        self.messagesCount = messagesCount
+        self.recommended = recommended
+        self.uploadingErrorMessage = uploadingErrorMessage
     }
 
     public static func fromFeedInfo(feedInfo: JSONDictionary, groupInfo: JSONDictionary?) -> DiscoveredFeed? {
@@ -3672,6 +3707,11 @@ public enum SocialWork {
 public struct Feedback {
     public let content: String
     public let deviceInfo: String
+
+    public init(content: String, deviceInfo: String) {
+        self.content = content
+        self.deviceInfo = deviceInfo
+    }
 }
 
 public func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: Bool -> Void) {

@@ -8,9 +8,10 @@
 
 import Foundation
 
-extension Double {
+public extension Double {
 
-    func yep_format(f: String) -> String {
+    public func yep_format(f: String) -> String {
         return NSString(format: "%\(f)f", self) as String
     }
 }
+
