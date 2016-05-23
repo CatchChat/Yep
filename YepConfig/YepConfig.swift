@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import Ruler
 import CoreLocation
+import Ruler
 import Kingfisher
 
 let avatarFadeTransitionDuration: NSTimeInterval = 0.0
