@@ -9,7 +9,7 @@
 import UIKit
 import CoreSpotlight
 import YepConfig
-//import Persistence
+import Persistence
 import RealmSwift
 
 private let v1AccessTokenKey = "v1AccessToken"

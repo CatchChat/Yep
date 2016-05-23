@@ -80,7 +80,6 @@
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
 		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
-		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
 		5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC1C1CD095E100DFCB71 /* YepTests.swift */; };
 		5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC241CD0960200DFCB71 /* SyncTests.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
@@ -211,6 +210,15 @@
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
 		5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */; };
 		5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */; };
+		5056EA7D1CF2C39600FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		5056EA7E1CF2C39C00FDE07E /* Persistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71901CF29E1100822B91 /* Persistence.framework */; };
+		5056EA7F1CF2C3EF00FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		5056EA801CF2C3F200FDE07E /* YepUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504FD0601CF2B3C800D77D6F /* YepUserDefaults.framework */; };
+		5056EA811CF2C3F700FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		5056EA821CF2C3FC00FDE07E /* Persistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71901CF29E1100822B91 /* Persistence.framework */; };
+		5056EA831CF2C41C00FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		5056EA841CF2C42000FDE07E /* YepUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504FD0601CF2B3C800D77D6F /* YepUserDefaults.framework */; };
+		5056EA851CF2C42600FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
 		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
@@ -268,6 +276,7 @@
 		5086662C1CF2B4B0006BC4EB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662A1CF2B4B0006BC4EB /* Config.swift */; };
 		5086662D1CF2B4B0006BC4EB /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */; };
 		5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662E1CF2BC3F006BC4EB /* Models.swift */; };
+		508666311CF2BE17006BC4EB /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508666301CF2BE17006BC4EB /* SocialWorkService.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -786,7 +795,6 @@
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
 		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
-		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
 		5017FC1A1CD095E100DFCB71 /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5017FC1C1CD095E100DFCB71 /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
 		5017FC1E1CD095E100DFCB71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -984,6 +992,7 @@
 		5086662A1CF2B4B0006BC4EB /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepUserDefaults.swift; sourceTree = "<group>"; };
 		5086662E1CF2BC3F006BC4EB /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		508666301CF2BE17006BC4EB /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkService.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -1270,6 +1279,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5056EA851CF2C42600FDE07E /* YepNetworking.framework in Frameworks */,
+				5056EA841CF2C42000FDE07E /* YepUserDefaults.framework in Frameworks */,
+				5056EA831CF2C41C00FDE07E /* YepConfig.framework in Frameworks */,
 				85B66D5DD6477D40ECF49A93 /* Pods_Persistence.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1286,6 +1298,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5056EA821CF2C3FC00FDE07E /* Persistence.framework in Frameworks */,
+				5056EA811CF2C3F700FDE07E /* YepNetworking.framework in Frameworks */,
+				5056EA801CF2C3F200FDE07E /* YepUserDefaults.framework in Frameworks */,
+				5056EA7F1CF2C3EF00FDE07E /* YepConfig.framework in Frameworks */,
 				72121DBB1B4DF3EEDA484F85 /* Pods_Remote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1318,6 +1334,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5056EA7E1CF2C39C00FDE07E /* Persistence.framework in Frameworks */,
+				5056EA7D1CF2C39600FDE07E /* YepConfig.framework in Frameworks */,
 				BB3797BE2994630D0583AF83 /* Pods_YepUserDefaults.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1445,10 +1463,10 @@
 				5017FC1B1CD095E100DFCB71 /* YepTests */,
 				503E72091CF2A59200822B91 /* YepConfig */,
 				503E72171CF2A59200822B91 /* YepConfigTests */,
-				504FD0611CF2B3CA00D77D6F /* YepUserDefaults */,
-				504FD06F1CF2B3CC00D77D6F /* YepUserDefaultsTests */,
 				50D3A31B1CEDB1C600E59470 /* YepNetworking */,
 				50D3A3291CEDB1C600E59470 /* YepNetworkingTests */,
+				504FD0611CF2B3CA00D77D6F /* YepUserDefaults */,
+				504FD06F1CF2B3CC00D77D6F /* YepUserDefaultsTests */,
 				503E71BF1CF2A24500822B91 /* Remote */,
 				503E71CD1CF2A24500822B91 /* RemoteTests */,
 				503E71911CF29E1200822B91 /* Persistence */,
@@ -2081,7 +2099,6 @@
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
 				0A3E60661ACCAECE003DC853 /* YepLocationService.swift */,
-				5016901B1BFB22180096C4F9 /* SocialWorkService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -2286,6 +2303,7 @@
 				5086662E1CF2BC3F006BC4EB /* Models.swift */,
 				503E71DB1CF2A2E200822B91 /* YepService.swift */,
 				503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */,
+				508666301CF2BE17006BC4EB /* SocialWorkService.swift */,
 				503E71C21CF2A24500822B91 /* Info.plist */,
 			);
 			path = Remote;
@@ -4748,7 +4766,6 @@
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */,
 				6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */,
-				5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */,
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
 				50F6D32E1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
@@ -4902,6 +4919,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */,
+				508666311CF2BE17006BC4EB /* SocialWorkService.swift in Sources */,
 				503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */,
 				503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */,
 			);

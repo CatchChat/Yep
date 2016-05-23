@@ -69,12 +69,12 @@ private func instagramResource<A>(token token: String, path: String, method: Yep
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-enum SocialWorkPiece {
+public enum SocialWorkPiece {
     case Github(GithubRepo)
     case Dribbble(DribbbleShot)
     case Instagram(InstagramMedia)
 
-    var messageSocialWorkType: MessageSocialWorkType {
+    public var messageSocialWorkType: MessageSocialWorkType {
         switch self {
         case .Github:
             return MessageSocialWorkType.GithubRepo
@@ -85,7 +85,7 @@ enum SocialWorkPiece {
         }
     }
 
-    var messageID: String {
+    public var messageID: String {
         switch self {
         case .Github(let repo):
             return "github_repo_\(repo.ID)"
@@ -99,19 +99,19 @@ enum SocialWorkPiece {
 
 // MARK: Github Repo
 
-struct GithubRepo {
-    let ID: Int
-    let name: String
-    let fullName: String
-    let URLString: String
-    let description: String
+public struct GithubRepo {
+    public let ID: Int
+    public let name: String
+    public let fullName: String
+    public let URLString: String
+    public let description: String
 
-    let createdAt: NSDate
+    public let createdAt: NSDate
 }
 
 // ref https://developer.github.com/v3/
 
-func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [GithubRepo] -> Void) {
+public func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [GithubRepo] -> Void) {
 
     let requestParameters = [
         "type": "owner",
@@ -172,28 +172,28 @@ func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> V
 
 // MARK: Dribbble Shot
 
-struct DribbbleShot {
-    let ID: Int
-    let title: String
-    let description: String?
-    let htmlURLString: String
+public struct DribbbleShot {
+    public let ID: Int
+    public let title: String
+    public let description: String?
+    public let htmlURLString: String
 
-    struct Images {
-        let hidpi: String?
-        let normal: String
-        let teaser: String
+    public struct Images {
+        public let hidpi: String?
+        public let normal: String
+        public let teaser: String
     }
-    let images: Images
+    public let images: Images
 
-    let likesCount: Int
-    let commentsCount: Int
+    public let likesCount: Int
+    public let commentsCount: Int
 
-    let createdAt: NSDate
+    public let createdAt: NSDate
 }
 
 // ref http://developer.dribbble.com/v1/
 
-func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DribbbleShot] -> Void) {
+public func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DribbbleShot] -> Void) {
 
     let requestParameters = [
         "timeframe": "month",
@@ -253,28 +253,28 @@ func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) ->
 
 // MARK: Instagram Media
 
-struct InstagramMedia {
-    let ID: String
-    let linkURLString: String
+public struct InstagramMedia {
+    public let ID: String
+    public let linkURLString: String
 
-    struct Images {
-        let lowResolution: String
-        let standardResolution: String
-        let thumbnail: String
+    public struct Images {
+        public let lowResolution: String
+        public let standardResolution: String
+        public let thumbnail: String
     }
-    let images: Images
+    public let images: Images
 
-    let likesCount: Int
-    let commentsCount: Int
+    public let likesCount: Int
+    public let commentsCount: Int
 
-    let username: String
+    public let username: String
 
-    let createdAt: NSDate
+    public let createdAt: NSDate
 }
 
 // ref https://instagram.com/developer/endpoints/users/
 
-func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [InstagramMedia] -> Void) {
+public func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [InstagramMedia] -> Void) {
 
     let requestParameters = [
         "access_token": token,
@@ -339,7 +339,7 @@ func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) 
 
 // MARK: Sync
 
-func syncSocialWorksToMessagesForYepTeam() {
+public func syncSocialWorksToMessagesForYepTeam() {
 
     tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
         //println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
