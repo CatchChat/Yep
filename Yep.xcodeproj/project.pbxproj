@@ -244,7 +244,6 @@
 		507DCE7F1CEED2C3006D43F7 /* OpenGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 507DCE7E1CEED2C3006D43F7 /* OpenGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		507DCE861CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; };
 		507DCE8D1CEED2C4006D43F7 /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE8C1CEED2C4006D43F7 /* OpenGraphTests.swift */; };
-		507DCE911CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; };
 		507DCE921CEED2C4006D43F7 /* OpenGraph.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		507DCE9A1CEED2FA006D43F7 /* OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE991CEED2FA006D43F7 /* OpenGraph.swift */; };
 		507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */; };
@@ -799,17 +798,9 @@
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
-		503E71921CF29E1200822B91 /* Persistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Persistence.h; sourceTree = "<group>"; };
-		503E71941CF29E1200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		503E71A01CF29E1200822B91 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
-		503E71A21CF29E1200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503E71B31CF2A1EC00822B91 /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSearch.swift; path = Spotlight/FeedSearch.swift; sourceTree = "<group>"; };
 		503E71B41CF2A1EC00822B91 /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchableItemType.swift; path = Spotlight/SearchableItemType.swift; sourceTree = "<group>"; };
 		503E71B51CF2A1EC00822B91 /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearch.swift; path = Spotlight/UserSearch.swift; sourceTree = "<group>"; };
-		503E71C01CF2A24500822B91 /* Remote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Remote.h; sourceTree = "<group>"; };
-		503E71C21CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		503E71CE1CF2A24500822B91 /* RemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteTests.swift; sourceTree = "<group>"; };
-		503E71D01CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503E72081CF2A59200822B91 /* YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E720A1CF2A59200822B91 /* YepConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepConfig.h; sourceTree = "<group>"; };
 		503E720C1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -829,10 +820,6 @@
 		504F41561AD4D35400FBB19A /* ProfileLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileLayout.swift; path = ViewControllers/Profile/ProfileLayout.swift; sourceTree = "<group>"; };
 		504F41581AD5028200FBB19A /* SkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillCell.swift; path = Views/Cells/Skill/SkillCell.swift; sourceTree = "<group>"; };
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
-		504FD0621CF2B3CA00D77D6F /* YepUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepUserDefaults.h; sourceTree = "<group>"; };
-		504FD0641CF2B3CB00D77D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		504FD0701CF2B3CC00D77D6F /* YepUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUserDefaultsTests.swift; sourceTree = "<group>"; };
-		504FD0721CF2B3CC00D77D6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
@@ -1197,7 +1184,6 @@
 				F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */,
 				5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
-				507DCE911CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */,
 				27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */,
 				B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */,
 				9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */,
@@ -1366,12 +1352,6 @@
 				50D3A3291CEDB1C600E59470 /* YepNetworkingTests */,
 				5056EA8C1CF2C55200FDE07E /* YepKit */,
 				5056EA9A1CF2C55200FDE07E /* YepKitTests */,
-				504FD0611CF2B3CA00D77D6F /* YepUserDefaults */,
-				504FD06F1CF2B3CC00D77D6F /* YepUserDefaultsTests */,
-				503E71BF1CF2A24500822B91 /* Remote */,
-				503E71CD1CF2A24500822B91 /* RemoteTests */,
-				503E71911CF29E1200822B91 /* Persistence */,
-				503E719F1CF29E1200822B91 /* PersistenceTests */,
 				50D3A3451CEE9A2000E59470 /* FayeClient */,
 				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
 				507DCE7D1CEED2C3006D43F7 /* OpenGraph */,
@@ -2174,42 +2154,6 @@
 			name = Conversation;
 			sourceTree = "<group>";
 		};
-		503E71911CF29E1200822B91 /* Persistence */ = {
-			isa = PBXGroup;
-			children = (
-				503E71921CF29E1200822B91 /* Persistence.h */,
-				503E71941CF29E1200822B91 /* Info.plist */,
-			);
-			path = Persistence;
-			sourceTree = "<group>";
-		};
-		503E719F1CF29E1200822B91 /* PersistenceTests */ = {
-			isa = PBXGroup;
-			children = (
-				503E71A01CF29E1200822B91 /* PersistenceTests.swift */,
-				503E71A21CF29E1200822B91 /* Info.plist */,
-			);
-			path = PersistenceTests;
-			sourceTree = "<group>";
-		};
-		503E71BF1CF2A24500822B91 /* Remote */ = {
-			isa = PBXGroup;
-			children = (
-				503E71C01CF2A24500822B91 /* Remote.h */,
-				503E71C21CF2A24500822B91 /* Info.plist */,
-			);
-			path = Remote;
-			sourceTree = "<group>";
-		};
-		503E71CD1CF2A24500822B91 /* RemoteTests */ = {
-			isa = PBXGroup;
-			children = (
-				503E71CE1CF2A24500822B91 /* RemoteTests.swift */,
-				503E71D01CF2A24500822B91 /* Info.plist */,
-			);
-			path = RemoteTests;
-			sourceTree = "<group>";
-		};
 		503E72091CF2A59200822B91 /* YepConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -2273,24 +2217,6 @@
 				5018132B1BA3CFEF0025873C /* WeChatActivity.swift */,
 			);
 			name = Activities;
-			sourceTree = "<group>";
-		};
-		504FD0611CF2B3CA00D77D6F /* YepUserDefaults */ = {
-			isa = PBXGroup;
-			children = (
-				504FD0621CF2B3CA00D77D6F /* YepUserDefaults.h */,
-				504FD0641CF2B3CB00D77D6F /* Info.plist */,
-			);
-			path = YepUserDefaults;
-			sourceTree = "<group>";
-		};
-		504FD06F1CF2B3CC00D77D6F /* YepUserDefaultsTests */ = {
-			isa = PBXGroup;
-			children = (
-				504FD0701CF2B3CC00D77D6F /* YepUserDefaultsTests.swift */,
-				504FD0721CF2B3CC00D77D6F /* Info.plist */,
-			);
-			path = YepUserDefaultsTests;
 			sourceTree = "<group>";
 		};
 		505243A61CD982C60094B471 /* ChangeMobile */ = {
