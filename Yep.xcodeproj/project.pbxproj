@@ -219,6 +219,11 @@
 		5056EA831CF2C41C00FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
 		5056EA841CF2C42000FDE07E /* YepUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 504FD0601CF2B3C800D77D6F /* YepUserDefaults.framework */; };
 		5056EA851CF2C42600FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5056EA8D1CF2C55200FDE07E /* YepKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		5056EA9C1CF2C55200FDE07E /* YepKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */; };
+		5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
 		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
@@ -598,6 +603,27 @@
 			remoteGlobalIDString = 504FD05F1CF2B3C800D77D6F;
 			remoteInfo = YepUserDefaults;
 		};
+		5056EA961CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5056EA8A1CF2C55100FDE07E;
+			remoteInfo = YepKit;
+		};
+		5056EA981CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		5056EA9E1CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5056EA8A1CF2C55100FDE07E;
+			remoteInfo = YepKit;
+		};
 		507DCE871CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
@@ -697,6 +723,7 @@
 			files = (
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
+				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
 				504FD0761CF2B3CC00D77D6F /* YepUserDefaults.framework in Embed Frameworks */,
 				503E71A61CF29E1200822B91 /* Persistence.framework in Embed Frameworks */,
 				507DCE921CEED2C4006D43F7 /* OpenGraph.framework in Embed Frameworks */,
@@ -932,6 +959,12 @@
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
 		5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountImagesCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.swift; sourceTree = "<group>"; };
 		5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountImagesCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.xib; sourceTree = "<group>"; };
+		5056EA8B1CF2C55100FDE07E /* YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5056EA8D1CF2C55200FDE07E /* YepKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepKit.h; sourceTree = "<group>"; };
+		5056EA8F1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5056EA941CF2C55200FDE07E /* YepKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepKitTests.swift; sourceTree = "<group>"; };
+		5056EA9D1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
 		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		505C338E1BAA92CD00E044E2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1256,6 +1289,7 @@
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
 				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
 				F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */,
+				5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 				503E71A51CF29E1200822B91 /* Persistence.framework in Frameworks */,
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
 				504FD0751CF2B3CC00D77D6F /* YepUserDefaults.framework in Frameworks */,
@@ -1345,6 +1379,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				504FD06A1CF2B3CC00D77D6F /* YepUserDefaults.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA871CF2C55100FDE07E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA911CF2C55200FDE07E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1465,6 +1514,8 @@
 				503E72171CF2A59200822B91 /* YepConfigTests */,
 				50D3A31B1CEDB1C600E59470 /* YepNetworking */,
 				50D3A3291CEDB1C600E59470 /* YepNetworkingTests */,
+				5056EA8C1CF2C55200FDE07E /* YepKit */,
+				5056EA9A1CF2C55200FDE07E /* YepKitTests */,
 				504FD0611CF2B3CA00D77D6F /* YepUserDefaults */,
 				504FD06F1CF2B3CC00D77D6F /* YepUserDefaultsTests */,
 				503E71BF1CF2A24500822B91 /* Remote */,
@@ -1502,6 +1553,8 @@
 				503E72111CF2A59200822B91 /* YepConfigTests.xctest */,
 				504FD0601CF2B3C800D77D6F /* YepUserDefaults.framework */,
 				504FD0691CF2B3CB00D77D6F /* YepUserDefaultsTests.xctest */,
+				5056EA8B1CF2C55100FDE07E /* YepKit.framework */,
+				5056EA941CF2C55200FDE07E /* YepKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2500,6 +2553,48 @@
 				50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */,
 			);
 			name = ChatSectionDate;
+			sourceTree = "<group>";
+		};
+		5056EA8C1CF2C55200FDE07E /* YepKit */ = {
+			isa = PBXGroup;
+			children = (
+				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
+				5056EAA81CF2C57100FDE07E /* UserDefaults */,
+				5056EAAA1CF2C58B00FDE07E /* Remote */,
+				5056EAA91CF2C58800FDE07E /* Persistence */,
+				5056EA8F1CF2C55200FDE07E /* Info.plist */,
+			);
+			path = YepKit;
+			sourceTree = "<group>";
+		};
+		5056EA9A1CF2C55200FDE07E /* YepKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */,
+				5056EA9D1CF2C55200FDE07E /* Info.plist */,
+			);
+			path = YepKitTests;
+			sourceTree = "<group>";
+		};
+		5056EAA81CF2C57100FDE07E /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UserDefaults;
+			sourceTree = "<group>";
+		};
+		5056EAA91CF2C58800FDE07E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Persistence;
+			sourceTree = "<group>";
+		};
+		5056EAAA1CF2C58B00FDE07E /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Remote;
 			sourceTree = "<group>";
 		};
 		505EC8191ADF8155001D27E0 /* SkillCategory */ = {
@@ -3540,6 +3635,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5056EA881CF2C55100FDE07E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		507DCE791CEED2C2006D43F7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -3592,6 +3695,7 @@
 				503E71D21CF2A24500822B91 /* PBXTargetDependency */,
 				503E721C1CF2A59200822B91 /* PBXTargetDependency */,
 				504FD0741CF2B3CC00D77D6F /* PBXTargetDependency */,
+				5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3773,6 +3877,43 @@
 			name = YepUserDefaultsTests;
 			productName = YepUserDefaultsTests;
 			productReference = 504FD0691CF2B3CB00D77D6F /* YepUserDefaultsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5056EA8A1CF2C55100FDE07E /* YepKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5056EAA21CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKit" */;
+			buildPhases = (
+				5056EA861CF2C55100FDE07E /* Sources */,
+				5056EA871CF2C55100FDE07E /* Frameworks */,
+				5056EA881CF2C55100FDE07E /* Headers */,
+				5056EA891CF2C55100FDE07E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YepKit;
+			productName = YepKit;
+			productReference = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5056EA931CF2C55200FDE07E /* YepKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */;
+			buildPhases = (
+				5056EA901CF2C55200FDE07E /* Sources */,
+				5056EA911CF2C55200FDE07E /* Frameworks */,
+				5056EA921CF2C55200FDE07E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5056EA971CF2C55200FDE07E /* PBXTargetDependency */,
+				5056EA991CF2C55200FDE07E /* PBXTargetDependency */,
+			);
+			name = YepKitTests;
+			productName = YepKitTests;
+			productReference = 5056EA941CF2C55200FDE07E /* YepKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		507DCE7B1CEED2C2006D43F7 /* OpenGraph */ = {
@@ -3990,6 +4131,14 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					5056EA8A1CF2C55100FDE07E = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					5056EA931CF2C55200FDE07E = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 					507DCE7B1CEED2C2006D43F7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = TKRALRXCKN;
@@ -4061,6 +4210,8 @@
 				503E72101CF2A59200822B91 /* YepConfigTests */,
 				504FD05F1CF2B3C800D77D6F /* YepUserDefaults */,
 				504FD0681CF2B3CB00D77D6F /* YepUserDefaultsTests */,
+				5056EA8A1CF2C55100FDE07E /* YepKit */,
+				5056EA931CF2C55200FDE07E /* YepKitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -4237,6 +4388,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		504FD0671CF2B3CB00D77D6F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA891CF2C55100FDE07E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA921CF2C55200FDE07E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4969,6 +5134,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5056EA861CF2C55100FDE07E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA901CF2C55200FDE07E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA9C1CF2C55200FDE07E /* YepKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		507DCE771CEED2C2006D43F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5110,6 +5290,21 @@
 			isa = PBXTargetDependency;
 			target = 504FD05F1CF2B3C800D77D6F /* YepUserDefaults */;
 			targetProxy = 504FD0731CF2B3CC00D77D6F /* PBXContainerItemProxy */;
+		};
+		5056EA971CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5056EA8A1CF2C55100FDE07E /* YepKit */;
+			targetProxy = 5056EA961CF2C55200FDE07E /* PBXContainerItemProxy */;
+		};
+		5056EA991CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 5056EA981CF2C55200FDE07E /* PBXContainerItemProxy */;
+		};
+		5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5056EA8A1CF2C55100FDE07E /* YepKit */;
+			targetProxy = 5056EA9E1CF2C55200FDE07E /* PBXContainerItemProxy */;
 		};
 		507DCE881CEED2C4006D43F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5853,6 +6048,82 @@
 			};
 			name = Release;
 		};
+		5056EAA31CF2C55200FDE07E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5056EAA41CF2C55200FDE07E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5056EAA61CF2C55200FDE07E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		5056EAA71CF2C55200FDE07E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 		507DCE931CEED2C4006D43F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
@@ -6259,6 +6530,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		5056EAA21CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5056EAA31CF2C55200FDE07E /* Debug */,
+				5056EAA41CF2C55200FDE07E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5056EAA61CF2C55200FDE07E /* Debug */,
+				5056EAA71CF2C55200FDE07E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		507DCE971CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraph" */ = {
 			isa = XCConfigurationList;
