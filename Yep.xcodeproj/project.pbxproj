@@ -382,6 +382,7 @@
 		50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F241CF2F8B00018D91F /* RealmTests.swift */; };
 		50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F261CF2F95D0018D91F /* ClearTests.swift */; };
 		50D84F551CF306D00018D91F /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F541CF306D00018D91F /* YepSoundEffect.swift */; };
+		50D84F571CF307F60018D91F /* SoundEffectConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F561CF307F60018D91F /* SoundEffectConfig.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -1050,6 +1051,7 @@
 		50D84F241CF2F8B00018D91F /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		50D84F261CF2F95D0018D91F /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
 		50D84F541CF306D00018D91F /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
+		50D84F561CF307F60018D91F /* SoundEffectConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectConfig.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -2319,6 +2321,7 @@
 			isa = PBXGroup;
 			children = (
 				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
+				50D84F561CF307F60018D91F /* SoundEffectConfig.swift */,
 				50D84F0E1CF2DE9C0018D91F /* Caches */,
 				50D84F0D1CF2DB4A0018D91F /* Helpers */,
 				50D84F041CF2D9FB0018D91F /* Spotlight */,
@@ -4650,6 +4653,7 @@
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
+				50D84F571CF307F60018D91F /* SoundEffectConfig.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
 				50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */,
 			);

@@ -85,6 +85,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
+        configureSoundEffects()
         configureYepUserDefaults()
         configureYepNetworkingManager()
 
@@ -620,6 +621,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Private
+
+    private lazy var sendMessageSoundEffect: YepSoundEffect = {
+        return  YepSoundEffect(soundName: "bub3")
+    }()
+
+    private func configureSoundEffects() {
+
+        SoundEffectConfig.sentMessageSoundEffectAction = { [weak self] in
+
+            self?.sendMessageSoundEffect.play()
+        }
+    }
 
     private func configureYepUserDefaults() {
 
