@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 public enum MessageToolbarState: Int, CustomStringConvertible {
 
@@ -396,3 +397,36 @@ public enum ProfileUser {
         return providerName
     }
 }
+
+public enum PickLocationViewControllerLocation {
+
+    public struct Info {
+        public let coordinate: CLLocationCoordinate2D
+        public var name: String?
+    }
+
+    case Default(info: Info)
+    case Picked(info: Info)
+    case Selected(info: Info)
+
+    var info: Info {
+        switch self {
+        case .Default(let locationInfo):
+            return locationInfo
+        case .Picked(let locationInfo):
+            return locationInfo
+        case .Selected(let locationInfo):
+            return locationInfo
+        }
+    }
+
+    var isPicked: Bool {
+        switch self {
+        case .Picked:
+            return true
+        default:
+            return false
+        }
+    }
+}
+

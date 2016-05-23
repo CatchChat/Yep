@@ -84,39 +84,7 @@ final class PickLocationViewController: SegueViewController {
 
     private let pickLocationCellIdentifier = "PickLocationCell"
 
-    enum Location {
-
-        struct Info {
-            let coordinate: CLLocationCoordinate2D
-            var name: String?
-        }
-
-        case Default(info: Info)
-        case Picked(info: Info)
-        case Selected(info: Info)
-
-        var info: Info {
-            switch self {
-            case .Default(let locationInfo):
-                return locationInfo
-            case .Picked(let locationInfo):
-                return locationInfo
-            case .Selected(let locationInfo):
-                return locationInfo
-            }
-        }
-
-        var isPicked: Bool {
-            switch self {
-            case .Picked:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-
-    private var location: Location? {
+    private var location: PickLocationViewControllerLocation? {
         willSet {
             if let _ = newValue {
                 doneButton.enabled = true

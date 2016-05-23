@@ -32,7 +32,7 @@ final class NewFeedViewController: SegueViewController {
         case Default
         case SocialWork(MessageSocialWork)
         case Voice(FeedVoice)
-        case Location(PickLocationViewController.Location)
+        case Location(PickLocationViewControllerLocation)
 
         var needPrepare: Bool {
             switch self {
