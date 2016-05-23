@@ -11,12 +11,12 @@ import YepConfig
 import YepNetworking
 import RealmSwift
 
-enum MessageAge: String {
+public enum MessageAge: String {
     case Old
     case New
 }
 
-func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
+public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
         dispatch_async(dispatch_get_main_queue()) {
@@ -29,7 +29,7 @@ func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], 
     }
 }
 
-func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
+public func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
     
     var user = userWithUserID(discoveredUser.id, inRealm: realm)
 
@@ -77,7 +77,7 @@ func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm rea
     return user
 }
 
-func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
+public func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
 
     var userSkills = [UserSkill]()
 
@@ -99,7 +99,7 @@ func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
     })
 }
 
-func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment]) -> [Attachment]{
+public func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment]) -> [Attachment]{
 
     return discoverAttachments.map({ discoverAttachment -> Attachment? in
         
@@ -113,7 +113,7 @@ func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachme
     }).filter({ $0 != nil }).map({ discoverAttachment in discoverAttachment! })
 }
 
-func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
+public func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
 
     return skills.map({ skill -> UserSkill? in
 
@@ -165,7 +165,7 @@ func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] 
     }).filter({ $0 != nil }).map({ skill in skill! })
 }
 
-func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
+public func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
     return socialAccountProviders.map({ _provider -> UserSocialAccountProvider in
         let provider = UserSocialAccountProvider()
         provider.name = _provider.name
@@ -175,7 +175,7 @@ func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders
     })
 }
 
-func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
+public func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
     var userSkills = [UserSkill]()
 
     for skillInfo in skillsData {
@@ -238,7 +238,7 @@ func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm
     return userSkills
 }
 
-func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
+public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -398,7 +398,7 @@ func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
+public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
 
     myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
@@ -472,7 +472,7 @@ func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
     }
 }
 
-func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
+public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
     friendships(failureHandler: nil) { allFriendships in
         //println("\n allFriendships: \(allFriendships)")
@@ -581,7 +581,7 @@ func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
+public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
     groups(failureHandler: nil) { allGroups in
 
@@ -665,7 +665,7 @@ func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
 
     let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
@@ -684,7 +684,7 @@ func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm)
     }
 }
 
-func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
+public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
 
     if let groupID = groupInfo["id"] as? String {
         
@@ -840,7 +840,7 @@ func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> 
 
 var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 
-func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
+public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
 
     isFetchingUnreadMessages.value = true
 
@@ -897,7 +897,7 @@ func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) 
     }
 }
 
-func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
+public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
     //println("messageInfo: \(messageInfo)")
 
@@ -994,7 +994,7 @@ func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSOND
     }
 }
 
-func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
+public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
 
