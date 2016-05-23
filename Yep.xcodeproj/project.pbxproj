@@ -363,6 +363,19 @@
 		50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
+		50D84ECB1CF2CB120018D91F /* OpenGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D84ECA1CF2CB120018D91F /* OpenGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50D84ED21CF2CB120018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84ED91CF2CB120018D91F /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */; };
+		50D84EDD1CF2CB120018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50D84EE51CF2CB1C0018D91F /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		50D84EE81CF2CBD60018D91F /* OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EE61CF2CBD60018D91F /* OpenGraph.swift */; };
+		50D84EE91CF2CBD60018D91F /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EE71CF2CBD60018D91F /* Service.swift */; };
+		50D84EED1CF2CBDE0018D91F /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */; };
+		50D84EEE1CF2CBDE0018D91F /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */; };
+		50D84EF11CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */; };
+		50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
@@ -473,6 +486,7 @@
 		9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */; };
 		B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C73250AC8BB116924CA11C0 /* QuartzCore.framework */; };
 		D480A202231A9FB9D421BECF /* Pods_YepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */; };
+		DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */; };
 		F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -582,6 +596,27 @@
 			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
 			remoteInfo = Yep;
 		};
+		50D84ED31CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84EC71CF2CB110018D91F;
+			remoteInfo = OpenGraph;
+		};
+		50D84ED51CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D84EDB1CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84EC71CF2CB110018D91F;
+			remoteInfo = OpenGraph;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -602,6 +637,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
@@ -993,6 +1029,17 @@
 		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D50AC21CCE01D300FB5753 /* YepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUITests.swift; sourceTree = "<group>"; };
 		50D50AC41CCE01D300FB5753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84EC81CF2CB110018D91F /* OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84ECA1CF2CB120018D91F /* OpenGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGraph.h; sourceTree = "<group>"; };
+		50D84ECC1CF2CB120018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenGraphTests.swift; sourceTree = "<group>"; };
+		50D84EDA1CF2CB120018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84EE61CF2CBD60018D91F /* OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraph.swift; sourceTree = "<group>"; };
+		50D84EE71CF2CBD60018D91F /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
+		50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+OpenGraph.swift"; sourceTree = "<group>"; };
+		50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
@@ -1127,6 +1174,7 @@
 				5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */,
 				6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */,
 				503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */,
+				50D84EDD1CF2CB120018D91F /* OpenGraph.framework in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
 				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
@@ -1194,6 +1242,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
+				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1232,6 +1282,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84EC41CF2CB110018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84EE51CF2CB1C0018D91F /* YepNetworking.framework in Frameworks */,
+				DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECE1CF2CB120018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ED21CF2CB120018D91F /* OpenGraph.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,6 +1362,8 @@
 				5056EA9A1CF2C55200FDE07E /* YepKitTests */,
 				50D3A3451CEE9A2000E59470 /* FayeClient */,
 				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
+				50D84EC91CF2CB120018D91F /* OpenGraph */,
+				50D84ED71CF2CB120018D91F /* OpenGraphTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
 				EBAA6F3706BE77C1153E7B42 /* Pods */,
@@ -1316,6 +1385,8 @@
 				503E72111CF2A59200822B91 /* YepConfigTests.xctest */,
 				5056EA8B1CF2C55100FDE07E /* YepKit.framework */,
 				5056EA941CF2C55200FDE07E /* YepKitTests.xctest */,
+				50D84EC81CF2CB110018D91F /* OpenGraph.framework */,
+				50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2881,6 +2952,45 @@
 			path = YepUITests;
 			sourceTree = "<group>";
 		};
+		50D84EC91CF2CB120018D91F /* OpenGraph */ = {
+			isa = PBXGroup;
+			children = (
+				50D84ECA1CF2CB120018D91F /* OpenGraph.h */,
+				50D84EE61CF2CBD60018D91F /* OpenGraph.swift */,
+				50D84EE71CF2CBD60018D91F /* Service.swift */,
+				50D84EEA1CF2CBDE0018D91F /* Extensions */,
+				50D84ECC1CF2CB120018D91F /* Info.plist */,
+			);
+			path = OpenGraph;
+			sourceTree = "<group>";
+		};
+		50D84ED71CF2CB120018D91F /* OpenGraphTests */ = {
+			isa = PBXGroup;
+			children = (
+				50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */,
+				50D84EEF1CF2CC1B0018D91F /* Extensions */,
+				50D84EDA1CF2CB120018D91F /* Info.plist */,
+			);
+			path = OpenGraphTests;
+			sourceTree = "<group>";
+		};
+		50D84EEA1CF2CBDE0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */,
+				50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EEF1CF2CC1B0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -3306,6 +3416,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84EC51CF2CB110018D91F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ECB1CF2CB120018D91F /* OpenGraph.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -3331,6 +3449,7 @@
 				507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */,
 				503E721C1CF2A59200822B91 /* PBXTargetDependency */,
 				5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */,
+				50D84EDC1CF2CB120018D91F /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3547,6 +3666,45 @@
 			productReference = 50D50AC01CCE01D300FB5753 /* YepUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		50D84EC71CF2CB110018D91F /* OpenGraph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84EDF1CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraph" */;
+			buildPhases = (
+				6E22B6077A8F649855AE7F4D /* 📦 Check Pods Manifest.lock */,
+				50D84EC31CF2CB110018D91F /* Sources */,
+				50D84EC41CF2CB110018D91F /* Frameworks */,
+				50D84EC51CF2CB110018D91F /* Headers */,
+				50D84EC61CF2CB110018D91F /* Resources */,
+				917B07C2E22A500319343A7C /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenGraph;
+			productName = OpenGraph;
+			productReference = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		50D84ED01CF2CB120018D91F /* OpenGraphTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84EE21CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraphTests" */;
+			buildPhases = (
+				50D84ECD1CF2CB120018D91F /* Sources */,
+				50D84ECE1CF2CB120018D91F /* Frameworks */,
+				50D84ECF1CF2CB120018D91F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D84ED41CF2CB120018D91F /* PBXTargetDependency */,
+				50D84ED61CF2CB120018D91F /* PBXTargetDependency */,
+			);
+			name = OpenGraphTests;
+			productName = OpenGraphTests;
+			productReference = 50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3625,6 +3783,14 @@
 						CreatedOnToolsVersion = 7.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D84EC71CF2CB110018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					50D84ED01CF2CB120018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 				};
 			};
 			buildConfigurationList = 0A8F54A61AB67D11004AD60E /* Build configuration list for PBXProject "Yep" */;
@@ -3653,6 +3819,8 @@
 				503E72101CF2A59200822B91 /* YepConfigTests */,
 				5056EA8A1CF2C55100FDE07E /* YepKit */,
 				5056EA931CF2C55200FDE07E /* YepKitTests */,
+				50D84EC71CF2CB110018D91F /* OpenGraph */,
+				50D84ED01CF2CB120018D91F /* OpenGraphTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3850,6 +4018,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84EC61CF2CB110018D91F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECF1CF2CB120018D91F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -3956,6 +4138,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6E22B6077A8F649855AE7F4D /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		766FC356FEADE5B194CEFEA6 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3984,6 +4181,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		917B07C2E22A500319343A7C /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		934D8FF18CD160D16B979AFB /* 📦 Check Pods Manifest.lock */ = {
@@ -4453,6 +4665,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84EC31CF2CB110018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84EED1CF2CBDE0018D91F /* NSURL+OpenGraph.swift in Sources */,
+				50D84EE81CF2CBD60018D91F /* OpenGraph.swift in Sources */,
+				50D84EE91CF2CBD60018D91F /* Service.swift in Sources */,
+				50D84EEE1CF2CBDE0018D91F /* String+OpenGraph.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECD1CF2CB120018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ED91CF2CB120018D91F /* OpenGraphTests.swift in Sources */,
+				50D84EF11CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4530,6 +4762,21 @@
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
 			targetProxy = 50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */;
+		};
+		50D84ED41CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84EC71CF2CB110018D91F /* OpenGraph */;
+			targetProxy = 50D84ED31CF2CB120018D91F /* PBXContainerItemProxy */;
+		};
+		50D84ED61CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D84ED51CF2CB120018D91F /* PBXContainerItemProxy */;
+		};
+		50D84EDC1CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84EC71CF2CB110018D91F /* OpenGraph */;
+			targetProxy = 50D84EDB1CF2CB120018D91F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4690,7 +4937,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4781,7 +5028,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5278,6 +5525,89 @@
 			};
 			name = Release;
 		};
+		50D84EE01CF2CB120018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		50D84EE11CF2CB120018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		50D84EE31CF2CB120018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		50D84EE41CF2CB120018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5394,6 +5724,24 @@
 			buildConfigurations = (
 				50D50AC71CCE01D300FB5753 /* Debug */,
 				50D50AC81CCE01D300FB5753 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D84EDF1CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84EE01CF2CB120018D91F /* Debug */,
+				50D84EE11CF2CB120018D91F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D84EE21CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraphTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84EE31CF2CB120018D91F /* Debug */,
+				50D84EE41CF2CB120018D91F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
