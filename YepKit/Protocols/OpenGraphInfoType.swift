@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol OpenGraphInfoType {
+public protocol OpenGraphInfoType {
 
     var URL: NSURL { get }
 
@@ -17,4 +17,5 @@ protocol OpenGraphInfoType {
     var infoDescription: String { get }
     var thumbnailImageURLString: String { get }
 }
+
 

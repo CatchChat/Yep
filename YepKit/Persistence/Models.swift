@@ -899,9 +899,9 @@ public class OpenGraphInfo: Object {
     }
 }
 
-extension OpenGraphInfo: OpenGraphInfoType {
+public extension OpenGraphInfo: OpenGraphInfoType {
 
-    var URL: NSURL {
+    public var URL: NSURL {
         return NSURL(string: URLString)!
     }
 }
