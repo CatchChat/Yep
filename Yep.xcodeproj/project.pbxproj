@@ -380,6 +380,7 @@
 		50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */; };
 		50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F121CF2DF790018D91F /* NSDate+Extension.swift */; };
 		50D84F151CF2DF790018D91F /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */; };
+		50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F161CF2DFF50018D91F /* Double+Yep.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -1047,6 +1048,7 @@
 		50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
 		50D84F121CF2DF790018D91F /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		50D84F161CF2DFF50018D91F /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -2993,6 +2995,7 @@
 			children = (
 				50D84F111CF2DF790018D91F /* NSDate+TimeAgo */,
 				50D84EF51CF2D4790018D91F /* Array+Yep.swift */,
+				50D84F161CF2DFF50018D91F /* Double+Yep.swift */,
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
 				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
@@ -4637,6 +4640,7 @@
 			files = (
 				5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */,
 				50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */,
+				50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */,
 				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
 				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,

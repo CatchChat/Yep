@@ -2882,7 +2882,7 @@ public struct DiscoveredFeed: Hashable {
             if distance < 1 {
                 distanceString = NSLocalizedString("Nearby", comment: "")
             } else {
-                distanceString = "\(distance.format(".1")) km"
+                distanceString = "\(distance.yep_format(".1")) km"
             }
         }
 
