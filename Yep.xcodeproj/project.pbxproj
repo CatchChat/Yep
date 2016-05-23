@@ -378,6 +378,7 @@
 		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
 		50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */; };
 		50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */; };
+		50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -1043,6 +1044,7 @@
 		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUIModels.swift; path = UI/YepUIModels.swift; sourceTree = "<group>"; };
 		50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
+		50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -2999,6 +3001,7 @@
 				50D84EF51CF2D4790018D91F /* Array+Yep.swift */,
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
+				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4628,6 +4631,7 @@
 				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
+				50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
