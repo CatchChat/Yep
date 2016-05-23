@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import RealmSwift
 import YepNetworking
+import YepUserDefaults
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)

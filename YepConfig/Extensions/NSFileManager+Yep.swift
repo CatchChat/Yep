@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum FileExtension: String {
+public enum FileExtension: String {
     case JPEG = "jpg"
     case MP4 = "mp4"
     case M4A = "m4a"

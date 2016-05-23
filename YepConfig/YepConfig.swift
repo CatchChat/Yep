@@ -24,17 +24,17 @@ final public class YepConfig {
 
     public static let appGroupID: String = "group.Catch-Inc.Yep"
     
-    static let minMessageTextLabelWidth: CGFloat = 20.0
+    public static let minMessageTextLabelWidth: CGFloat = 20.0
     
-    static let minMessageSampleViewWidth: CGFloat = 25.0
+    public static let minMessageSampleViewWidth: CGFloat = 25.0
     
-    static let skillHomeHeaderViewHeight: CGFloat = 114.0
+    public static let skillHomeHeaderViewHeight: CGFloat = 114.0
     
-    static let skillHomeHeaderButtonHeight: CGFloat = 50.0
+    public static let skillHomeHeaderButtonHeight: CGFloat = 50.0
     
-    static let maxFeedTextLength: Int = 300
+    public static let maxFeedTextLength: Int = 300
     
-    class func clientType() -> Int {
+    public class func clientType() -> Int {
         // TODO: clientType
         
         #if DEBUG
@@ -44,270 +44,270 @@ final public class YepConfig {
         #endif
     }
 
-    static let termsURLString = "http://privacy.soyep.com"
-    static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
+    public static let termsURLString = "http://privacy.soyep.com"
+    public static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
 
-    static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
+    public static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
 
-    static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
+    public static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
 
-    struct Notification {
-        static let markAsReaded = "YepConfig.Notification.markAsReaded"
-        static let changedConversation = "YepConfig.Notification.changedConversation"
-        static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
-        static let newMessages = "YepConfig.Notification.newMessages"
-        static let deletedMessages = "YepConfig.Notification.deletedMessages"
-        static let updatedUser = "YepConfig.Notification.updatedUser"
-        static let OAuthResult = "YepConfig.Notification.OAuthResult"
-        static let createdFeed = "YepConfig.Notification.createdFeed"
-        static let deletedFeed = "YepConfig.Notification.deletedFeed"
-        static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
-        static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
+    public struct Notification {
+        public static let markAsReaded = "YepConfig.Notification.markAsReaded"
+        public static let changedConversation = "YepConfig.Notification.changedConversation"
+        public static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
+        public static let newMessages = "YepConfig.Notification.newMessages"
+        public static let deletedMessages = "YepConfig.Notification.deletedMessages"
+        public static let updatedUser = "YepConfig.Notification.updatedUser"
+        public static let OAuthResult = "YepConfig.Notification.OAuthResult"
+        public static let createdFeed = "YepConfig.Notification.createdFeed"
+        public static let deletedFeed = "YepConfig.Notification.deletedFeed"
+        public static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
+        public static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
     }
 
-    struct Message {
+    public struct Message {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
-        static let localNewerTimeInterval: NSTimeInterval = 0.001
-        static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
+        public static let localNewerTimeInterval: NSTimeInterval = 0.001
+        public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
     }
 
-    class func getScreenRect() -> CGRect {
+    public class func getScreenRect() -> CGRect {
         return UIScreen.mainScreen().bounds
     }
 
-    class func verifyCodeLength() -> Int {
+    public class func verifyCodeLength() -> Int {
         return 4
     }
 
-    class func callMeInSeconds() -> Int {
+    public class func callMeInSeconds() -> Int {
         return 60
     }
 
-    class func avatarMaxSize() -> CGSize {
+    public class func avatarMaxSize() -> CGSize {
         return CGSize(width: 414, height: 414)
     }
 
-    class func chatCellAvatarSize() -> CGFloat {
+    public class func chatCellAvatarSize() -> CGFloat {
         return 40.0
     }
 
-    class func chatCellGapBetweenTextContentLabelAndAvatar() -> CGFloat {
+    public class func chatCellGapBetweenTextContentLabelAndAvatar() -> CGFloat {
         return 23
     }
 
-    class func chatCellGapBetweenWallAndAvatar() -> CGFloat {
+    public class func chatCellGapBetweenWallAndAvatar() -> CGFloat {
         return 15
     }
 
-    class func chatTextGapBetweenWallAndContentLabel() -> CGFloat {
+    public class func chatTextGapBetweenWallAndContentLabel() -> CGFloat {
         return 50
     }
 
-    class func avatarCompressionQuality() -> CGFloat {
+    public class func avatarCompressionQuality() -> CGFloat {
         return 0.7
     }
 
-    class func messageImageCompressionQuality() -> CGFloat {
+    public class func messageImageCompressionQuality() -> CGFloat {
         return 0.95
     }
 
-    class func audioSampleWidth() -> CGFloat {
+    public class func audioSampleWidth() -> CGFloat {
         return 2
     }
 
-    class func audioSampleGap() -> CGFloat {
+    public class func audioSampleGap() -> CGFloat {
         return 1
     }
 
-    class func editProfileAvatarSize() -> CGFloat {
+    public class func editProfileAvatarSize() -> CGFloat {
         return 100
     }
 
-    struct AudioRecord {
-        static let shortestDuration: NSTimeInterval = 1.0
-        static let longestDuration: NSTimeInterval = 60
+    public struct AudioRecord {
+        public static let shortestDuration: NSTimeInterval = 1.0
+        public static let longestDuration: NSTimeInterval = 60
     }
 
-    struct Profile {
-        static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
-        static let rightEdgeInset: CGFloat = leftEdgeInset
-        static let introductionLabelFont = UIFont.systemFontOfSize(14)
+    public struct Profile {
+        public static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
+        public static let rightEdgeInset: CGFloat = leftEdgeInset
+        public static let introductionLabelFont = UIFont.systemFontOfSize(14)
     }
     
-    struct Settings {
-        static let userCellAvatarSize: CGFloat = 80
+    public struct Settings {
+        public static let userCellAvatarSize: CGFloat = 80
 
-        static let introFont: UIFont = {
+        public static let introFont: UIFont = {
             return UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
         }()
 
-        static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
+        public static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
     }
 
-    struct EditProfile {
+    public struct EditProfile {
 
-        static let infoFont: UIFont = {
+        public static let infoFont: UIFont = {
             return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
         }()
 
-        static let infoInset: CGFloat = 20 + 20
+        public static let infoInset: CGFloat = 20 + 20
     }
 
-    struct SocialWorkGithub {
-        struct Repo {
-            static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 40, 40).value
-            static let rightEdgeInset: CGFloat = leftEdgeInset
+    public struct SocialWorkGithub {
+        public struct Repo {
+            public static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 40, 40).value
+            public static let rightEdgeInset: CGFloat = leftEdgeInset
         }
     }
 
-    struct ContactsCell {
+    public struct ContactsCell {
         static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
     }
 
-    struct SearchTableView {
+    public struct SearchTableView {
         static let separatorColor = UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1)
         static let backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
     }
 
-    struct SearchedItemCell {
-        static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+    public struct SearchedItemCell {
+        public static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
 
-        static let nicknameFont = UIFont.systemFontOfSize(14, weight: UIFontWeightMedium)
-        static let nicknameColor = UIColor.darkGrayColor()
-        static let usernameFont = UIFont.systemFontOfSize(12)
-        static let usernameColor = UIColor.lightGrayColor()
-        static let messageFont = UIFont.systemFontOfSize(12)
-        static let messageColor = UIColor.yep_mangmorGrayColor()
-        static let logoTintColor = UIColor.yep_mangmorGrayColor()
+        public static let nicknameFont = UIFont.systemFontOfSize(14, weight: UIFontWeightMedium)
+        public static let nicknameColor = UIColor.darkGrayColor()
+        public static let usernameFont = UIFont.systemFontOfSize(12)
+        public static let usernameColor = UIColor.lightGrayColor()
+        public static let messageFont = UIFont.systemFontOfSize(12)
+        public static let messageColor = UIColor.yep_mangmorGrayColor()
+        public static let logoTintColor = UIColor.yep_mangmorGrayColor()
     }
 
-    struct ConversationCell {
-        static let avatarSize: CGFloat = 60
+    public struct ConversationCell {
+        public static let avatarSize: CGFloat = 60
     }
 
-    struct ChatCell {
+    public struct ChatCell {
         
-        static let marginTopForGroup: CGFloat = 22
-        static let nameLabelHeightForGroup: CGFloat = 17
+        public static let marginTopForGroup: CGFloat = 22
+        public static let nameLabelHeightForGroup: CGFloat = 17
 
-        static let magicWidth: CGFloat = 4
+        public static let magicWidth: CGFloat = 4
 
-        static let lineSpacing: CGFloat = 5
+        public static let lineSpacing: CGFloat = 5
 
-        static let minTextWidth: CGFloat = 17
+        public static let minTextWidth: CGFloat = 17
         
-        static let gapBetweenDotImageViewAndBubble: CGFloat = 13
+        public static let gapBetweenDotImageViewAndBubble: CGFloat = 13
 
-        static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
+        public static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
 
-        static let playImageViewXOffset: CGFloat = 3
+        public static let playImageViewXOffset: CGFloat = 3
 
-        static let locationNameLabelHeight: CGFloat = 20
+        public static let locationNameLabelHeight: CGFloat = 20
 
-        static let mediaPreferredWidth: CGFloat = Ruler.iPhoneHorizontal(192, 225, 250).value
-        static let mediaPreferredHeight: CGFloat = Ruler.iPhoneHorizontal(208, 244, 270).value
+        public static let mediaPreferredWidth: CGFloat = Ruler.iPhoneHorizontal(192, 225, 250).value
+        public static let mediaPreferredHeight: CGFloat = Ruler.iPhoneHorizontal(208, 244, 270).value
 
-        static let mediaMinWidth: CGFloat = 60
-        static let mediaMinHeight: CGFloat = 45
+        public static let mediaMinWidth: CGFloat = 60
+        public static let mediaMinHeight: CGFloat = 45
 
-        static let imageMaxWidth: CGFloat = Ruler.iPhoneHorizontal(230, 260, 300).value
+        public static let imageMaxWidth: CGFloat = Ruler.iPhoneHorizontal(230, 260, 300).value
 
-        static let centerXOffset: CGFloat = 4
+        public static let centerXOffset: CGFloat = 4
         
-        static let bubbleCornerRadius: CGFloat = 18
+        public static let bubbleCornerRadius: CGFloat = 18
 
-        static let imageAppearDuration: NSTimeInterval = 0.1
+        public static let imageAppearDuration: NSTimeInterval = 0.1
 
-        static let textAttributes:[String: NSObject] = [
+        public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
         ]
     }
 
-    struct FeedMedia {
-        static let backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
+    public struct FeedMedia {
+        public static let backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
     }
 
-    struct FeedBasicCell {
-        static let textAttributes:[String: NSObject] = [
+    public struct FeedBasicCell {
+        public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]
 
-        static let skillTextAttributes:[String: NSObject] = [
+        public static let skillTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedSkillFont(),
         ]
 
-        static let voiceTimeLengthTextAttributes:[String: NSObject] = [
+        public static let voiceTimeLengthTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
         ]
 
-        static let bottomLabelsTextAttributes:[String: NSObject] = [
+        public static let bottomLabelsTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedBottomLabelsFont(),
         ]
     }
 
-    struct FeedBiggerImageCell {
-        static let imageSize: CGSize = CGSize(width: 160, height: 160)
+    public struct FeedBiggerImageCell {
+        public static let imageSize: CGSize = CGSize(width: 160, height: 160)
     }
 
-    struct FeedNormalImagesCell {
-        static let imageSize: CGSize = CGSize(width: 80, height: 80)
+    public struct FeedNormalImagesCell {
+        public static let imageSize: CGSize = CGSize(width: 80, height: 80)
     }
 
-    struct SearchedFeedNormalImagesCell {
-        static let imageSize: CGSize = CGSize(width: 70, height: 70)
+    public struct SearchedFeedNormalImagesCell {
+        public static let imageSize: CGSize = CGSize(width: 70, height: 70)
     }
 
-    struct FeedView {
-        static let textAttributes:[String: NSObject] = [
+    public struct FeedView {
+        public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]
     }
 
-    struct MetaData {
-        static let audioDuration = "audio_duration"
-        static let audioSamples = "audio_samples"
+    public struct MetaData {
+        public static let audioDuration = "audio_duration"
+        public static let audioSamples = "audio_samples"
 
-        static let imageWidth = "image_width"
-        static let imageHeight = "image_height"
+        public static let imageWidth = "image_width"
+        public static let imageHeight = "image_height"
 
-        static let videoWidth = "video_width"
-        static let videoHeight = "video_height"
+        public static let videoWidth = "video_width"
+        public static let videoHeight = "video_height"
 
-        static let thumbnailString = "thumbnail_string"
-        static let blurredThumbnailString = "blurred_thumbnail_string"
+        public static let thumbnailString = "thumbnail_string"
+        public static let blurredThumbnailString = "blurred_thumbnail_string"
 
-        static let thumbnailMaxSize: CGFloat = 60
+        public static let thumbnailMaxSize: CGFloat = 60
     }
 
-    struct Media {
-        static let imageWidth: CGFloat = 2048
-        static let imageHeight: CGFloat = 2048
+    public struct Media {
+        public static let imageWidth: CGFloat = 2048
+        public static let imageHeight: CGFloat = 2048
 
-        static let miniImageWidth: CGFloat = 200
-        static let miniImageHeight: CGFloat = 200
+        public static let miniImageWidth: CGFloat = 200
+        public static let miniImageHeight: CGFloat = 200
     }
 
-    struct Feedback {
-        static let bottomMargin: CGFloat = Ruler.iPhoneVertical(10, 20, 40, 40).value
+    public struct Feedback {
+        public static let bottomMargin: CGFloat = Ruler.iPhoneVertical(10, 20, 40, 40).value
     }
 
-    struct Location {
-        static let distanceThreshold: CLLocationDistance = 500
+    public struct Location {
+        public static let distanceThreshold: CLLocationDistance = 500
     }
 
-    struct ChinaSocialNetwork {
+    public struct ChinaSocialNetwork {
 
-        struct WeChat {
+        public struct WeChat {
 
-            static let appID = "wx10f099f798871364"
+            public static let appID = "wx10f099f798871364"
 
-            static let sessionType = "com.Catch-Inc.Yep.WeChat.Session"
-            static let sessionTitle = NSLocalizedString("WeChat Session", comment: "")
-            static let sessionImage = UIImage(named: "wechat_session")!
+            public static let sessionType = "com.Catch-Inc.Yep.WeChat.Session"
+            public static let sessionTitle = NSLocalizedString("WeChat Session", comment: "")
+            public static let sessionImage = UIImage(named: "wechat_session")!
 
-            static let timelineType = "com.Catch-Inc.Yep.WeChat.Timeline"
-            static let timelineTitle = NSLocalizedString("WeChat Timeline", comment: "")
-            static let timelineImage = UIImage(named: "wechat_timeline")!
+            public static let timelineType = "com.Catch-Inc.Yep.WeChat.Timeline"
+            public static let timelineTitle = NSLocalizedString("WeChat Timeline", comment: "")
+            public static let timelineImage = UIImage(named: "wechat_timeline")!
         }
     }
 }
