@@ -1601,6 +1601,13 @@ public struct UploadAttachment {
     public let fileExtension: FileExtension
 
     public let metaDataString: String?
+
+    public init(type: Type, source: Source, fileExtension: FileExtension, metaDataString: String?) {
+        self.type = type
+        self.source = source
+        self.fileExtension = fileExtension
+        self.metaDataString = metaDataString
+    }
 }
 
 public struct UploadedAttachment {
@@ -3199,7 +3206,7 @@ public enum FeedKind: String {
     case DribbbleShot = "dribbble"
     //case InstagramMedia = "instagram"
 
-    var accountName: String? {
+    public var accountName: String? {
         switch self {
         case .GithubRepo: return "github"
         case .DribbbleShot: return "dribbble"
@@ -3208,7 +3215,7 @@ public enum FeedKind: String {
         }
     }
 
-    var needBackgroundUpload: Bool {
+    public var needBackgroundUpload: Bool {
         switch self {
         case .Image:
             return true
@@ -3219,7 +3226,7 @@ public enum FeedKind: String {
         }
     }
 
-    var needParseOpenGraph: Bool {
+    public var needParseOpenGraph: Bool {
         switch self {
         case .Text:
             return true
