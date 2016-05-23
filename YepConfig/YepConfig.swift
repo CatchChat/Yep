@@ -69,6 +69,11 @@ final public class YepConfig {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
         public static let localNewerTimeInterval: NSTimeInterval = 0.001
         public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
+
+        public struct Notification {
+            static let MessageStateChanged = "MessageStateChangedNotification"
+            static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
+        }
     }
 
     public class func getScreenRect() -> CGRect {

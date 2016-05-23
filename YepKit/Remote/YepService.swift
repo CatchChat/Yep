@@ -2347,7 +2347,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
                 message.sendState = MessageSendState.Failed.rawValue
             }
 
-            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
         }
 
     }, completion: completion)
@@ -2391,7 +2391,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                     completion(success: true)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
                 }
             })
 
@@ -2422,7 +2422,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                             completion(success: true)
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
                         }
                     })
                 }
@@ -2464,7 +2464,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                     message.sendState = MessageSendState.NotSend.rawValue
                 }
 
-                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
             }
 
             // also, if resend failed, we need set MessageSendState
@@ -2481,7 +2481,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                         message.sendState = MessageSendState.Failed.rawValue
                     }
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
                 }
             }
 
