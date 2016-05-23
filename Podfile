@@ -13,7 +13,7 @@ def pods
     pod 'KeyboardMan'
     pod 'Ruler'
     pod 'Proposer'
-#   pod 'FXBlurView'
+    pod 'FXBlurView'
     pod 'Kingfisher'
     pod 'TPKeyboardAvoiding'
     pod 'pop'
@@ -22,7 +22,7 @@ def pods
     pod 'RealmSwift'
     pod 'MonkeyKing', '0.0.2'
     pod 'JPush'
-#    pod 'Fabric'
+    pod 'Fabric'
 end
 
 target 'Yep' do
