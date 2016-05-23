@@ -15,17 +15,17 @@ let kWeek = kDay * 7
 let kMonth = kDay * 31
 let kYear = kDay * 365
 
+private class NIX {
+}
+
 func NSDateTimeAgoLocalizedStrings(key: String) -> String {
 
-    let resourceURL = NSBundle.mainBundle().resourceURL
-    let URL = resourceURL?.URLByAppendingPathComponent("NSDateTimeAgo.bundle")
-    let bundle = NSBundle(URL: URL!)
+    //let resourceURL = NSBundle.mainBundle().resourceURL
+    //let URL = resourceURL?.URLByAppendingPathComponent("NSDateTimeAgo.bundle")
+    //let bundle = NSBundle(URL: URL!)
+    let bundle = NSBundle(forClass: NIX.self)
 
-//    let resourcePath = NSBundle.mainBundle().resourcePath
-//    let path = resourcePath?.stringByAppendingPathComponent("NSDateTimeAgo.bundle")
-//    let bundle = NSBundle(path: path!)
-
-    return NSLocalizedString(key, tableName: "NSDateTimeAgo", bundle: bundle!, comment: "")
+    return NSLocalizedString(key, tableName: "NSDateTimeAgo", bundle: bundle, comment: "")
 }
 
 public extension NSDate {
