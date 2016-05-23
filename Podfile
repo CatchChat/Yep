@@ -43,6 +43,10 @@ target 'OpenGraph' do
     pod 'Kanna', '1.0.2'
 end
 
+target 'Persistence' do
+    pod 'RealmSwift'
+end
+
 # make sure 'Alamofire', 'Kanna' allow app extension api only
 
 post_install do |installer|
