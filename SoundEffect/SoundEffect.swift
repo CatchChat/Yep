@@ -14,8 +14,10 @@ final public class SoundEffect: NSObject {
     
     public init(soundName: String) {
         super.init()
-        
-        if let fileURL = NSBundle.mainBundle().URLForResource(soundName, withExtension: "caf") {
+
+        let bundle = NSBundle(forClass: SoundEffect.self)
+
+        if let fileURL = bundle.URLForResource(soundName, withExtension: "caf") {
             var theSoundID: SystemSoundID = 0
             let error = AudioServicesCreateSystemSoundID(fileURL, &theSoundID)
             if (error == kAudioServicesNoError) {

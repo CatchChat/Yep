@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import YepConfig
 import YepNetworking
+import SoundEffect
 import RealmSwift
 import Alamofire
 
@@ -2226,7 +2227,7 @@ public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControlle
     createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-//let afterCreatedMessageSoundEffect: YepSoundEffect = YepSoundEffect(soundName: "bub3")
+let sendMessageSoundEffect: SoundEffect = SoundEffect(soundName: "send_message")
 
 public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
@@ -2347,7 +2348,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     afterCreatedMessage(message)
 
     // 做个音效
-    //afterCreatedMessageSoundEffect.play()
+    sendMessageSoundEffect.play()
 
     // 下面开始真正的消息发送
     sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in

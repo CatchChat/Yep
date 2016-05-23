@@ -387,6 +387,7 @@
 		50D84F471CF2FFA70018D91F /* SoundEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; };
 		50D84F481CF2FFA70018D91F /* SoundEffect.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50D84F501CF2FFF00018D91F /* SoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */; };
+		50D84F531CF301AF0018D91F /* SoundEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -1084,6 +1085,7 @@
 		50D84F421CF2FFA70018D91F /* SoundEffectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEffectTests.swift; sourceTree = "<group>"; };
 		50D84F441CF2FFA70018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffect.swift; sourceTree = "<group>"; };
+		50D84F521CF300C10018D91F /* send_message.caf */ = {isa = PBXFileReference; lastKnownFileType = file; name = send_message.caf; path = Sounds/send_message.caf; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -1268,6 +1270,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D84F531CF301AF0018D91F /* SoundEffect.framework in Frameworks */,
 				5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */,
 				5056EAB91CF2C70D00FDE07E /* YepConfig.framework in Frameworks */,
 				5671D29D0D3FE393D5BDC74A /* Pods_YepKit.framework in Frameworks */,
@@ -3115,6 +3118,7 @@
 			children = (
 				50D84F341CF2FFA60018D91F /* SoundEffect.h */,
 				50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */,
+				50D84F511CF300740018D91F /* Sounds */,
 				50D84F361CF2FFA60018D91F /* Info.plist */,
 			);
 			path = SoundEffect;
@@ -3127,6 +3131,14 @@
 				50D84F441CF2FFA70018D91F /* Info.plist */,
 			);
 			path = SoundEffectTests;
+			sourceTree = "<group>";
+		};
+		50D84F511CF300740018D91F /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F521CF300C10018D91F /* send_message.caf */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
