@@ -17,8 +17,8 @@ import Alamofire
 public let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
 public let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
-public let yepBaseURL = NSURL(string: "")!
-public let fayeBaseURL = NSURL(string: "")!
+public let yepBaseURL = NSURL(string: "https://api.soyep.com")!
+public let fayeBaseURL = NSURL(string: "wss://faye.catchchatchina.com/faye")!
 #endif
 
 func println(@autoclosure item: () -> Any) {
