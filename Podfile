@@ -56,12 +56,16 @@ end
 # make sure 'Alamofire', 'Kanna' allow app extension api only
 
 post_install do |installer|
+    puts 'Allow app extension api only:'
     installer.pods_project.targets.each do |target|
-        case target
+        case target.name
         when 'Alamofire', 'Kanna'
             target.build_configurations.each do |config|
                 config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
+                puts 'X...' + target.name
             end
+        else
+            puts 'O...' + target.name
         end
     end
 end
