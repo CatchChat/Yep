@@ -51,7 +51,7 @@ func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
-final class Listenable<T> {
+final public class Listenable<T> {
     var value: T {
         didSet {
             setterAction(value)
@@ -67,19 +67,19 @@ final class Listenable<T> {
 
     var listenerSet = Set<Listener<T>>()
 
-    func bindListener(name: String, action: Listener<T>.Action) {
+    public func bindListener(name: String, action: Listener<T>.Action) {
         let listener = Listener(name: name, action: action)
 
         listenerSet.insert(listener)
     }
 
-    func bindAndFireListener(name: String, action: Listener<T>.Action) {
+    public func bindAndFireListener(name: String, action: Listener<T>.Action) {
         bindListener(name, action: action)
 
         action(value)
     }
 
-    func removeListenerWithName(name: String) {
+    public func removeListenerWithName(name: String) {
         for listener in listenerSet {
             if listener.name == name {
                 listenerSet.remove(listener)
@@ -88,21 +88,21 @@ final class Listenable<T> {
         }
     }
 
-    func removeAllListeners() {
+    public func removeAllListeners() {
         listenerSet.removeAll(keepCapacity: false)
     }
 
-    init(_ v: T, setterAction action: SetterAction) {
+    public init(_ v: T, setterAction action: SetterAction) {
         value = v
         setterAction = action
     }
 }
 
-class YepUserDefaults {
+final public class YepUserDefaults {
 
     static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
 
-    static var isLogined: Bool {
+    public static var isLogined: Bool {
 
         if let _ = YepUserDefaults.v1AccessToken.value {
             return true
@@ -111,7 +111,7 @@ class YepUserDefaults {
         }
     }
 
-    static var isSyncedConversations: Bool {
+    public static var isSyncedConversations: Bool {
 
         if let syncedConversations = YepUserDefaults.syncedConversations.value {
             return syncedConversations
@@ -120,7 +120,7 @@ class YepUserDefaults {
         }
     }
 
-    static var blogString: String? {
+    public static var blogString: String? {
 
         if let blogURLString = YepUserDefaults.blogURLString.value {
 
@@ -141,7 +141,7 @@ class YepUserDefaults {
 
     // MARK: ReLogin
 
-    class func cleanAllUserDefaults() {
+    public class func cleanAllUserDefaults() {
 
         v1AccessToken.removeAllListeners()
         userID.removeAllListeners()
@@ -177,7 +177,7 @@ class YepUserDefaults {
         standardUserDefaults.synchronize()
     }
 
-    class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
+    public class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
 
         guard v1AccessToken.value != nil else {
             return
@@ -194,7 +194,7 @@ class YepUserDefaults {
         confirm()
     }
 
-    static var v1AccessToken: Listenable<String?> = {
+    public static var v1AccessToken: Listenable<String?> = {
         let v1AccessToken = defaults.stringForKey(v1AccessTokenKey)
 
         return Listenable<String?>(v1AccessToken) { v1AccessToken in
@@ -204,7 +204,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var userID: Listenable<String?> = {
+    public static var userID: Listenable<String?> = {
         let userID = defaults.stringForKey(userIDKey)
 
         return Listenable<String?>(userID) { userID in
@@ -212,7 +212,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var nickname: Listenable<String?> = {
+    public static var nickname: Listenable<String?> = {
         let nickname = defaults.stringForKey(nicknameKey)
 
         return Listenable<String?>(nickname) { nickname in
@@ -233,7 +233,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var introduction: Listenable<String?> = {
+    public static var introduction: Listenable<String?> = {
         let introduction = defaults.stringForKey(introductionKey)
 
         return Listenable<String?>(introduction) { introduction in
@@ -254,7 +254,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var avatarURLString: Listenable<String?> = {
+    public static var avatarURLString: Listenable<String?> = {
         let avatarURLString = defaults.stringForKey(avatarURLStringKey)
 
         return Listenable<String?>(avatarURLString) { avatarURLString in
@@ -275,7 +275,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var badge: Listenable<String?> = {
+    public static var badge: Listenable<String?> = {
         let badge = defaults.stringForKey(badgeKey)
 
         return Listenable<String?>(badge) { badge in
@@ -296,7 +296,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var blogURLString: Listenable<String?> = {
+    public static var blogURLString: Listenable<String?> = {
         let blogURLString = defaults.stringForKey(blogURLStringKey)
 
         return Listenable<String?>(blogURLString) { blogURLString in
@@ -317,7 +317,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var blogTitle: Listenable<String?> = {
+    public static var blogTitle: Listenable<String?> = {
         let blogTitle = defaults.stringForKey(blogTitleKey)
 
         return Listenable<String?>(blogTitle) { blogTitle in
@@ -338,7 +338,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var pusherID: Listenable<String?> = {
+    public static var pusherID: Listenable<String?> = {
         let pusherID = defaults.stringForKey(pusherIDKey)
 
         return Listenable<String?>(pusherID) { pusherID in
@@ -351,7 +351,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var admin: Listenable<Bool?> = {
+    public static var admin: Listenable<Bool?> = {
         let admin = defaults.boolForKey(adminKey)
 
         return Listenable<Bool?>(admin) { admin in
@@ -359,7 +359,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var areaCode: Listenable<String?> = {
+    public static var areaCode: Listenable<String?> = {
         let areaCode = defaults.stringForKey(areaCodeKey)
 
         return Listenable<String?>(areaCode) { areaCode in
@@ -367,7 +367,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var mobile: Listenable<String?> = {
+    public static var mobile: Listenable<String?> = {
         let mobile = defaults.stringForKey(mobileKey)
 
         return Listenable<String?>(mobile) { mobile in
@@ -375,7 +375,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var fullPhoneNumber: String? {
+    public static var fullPhoneNumber: String? {
         if let areaCode = areaCode.value, mobile = mobile.value {
             return "+" + areaCode + " " + mobile
         }
@@ -383,7 +383,7 @@ class YepUserDefaults {
         return nil
     }
 
-    static var discoveredUserSortStyle: Listenable<String?> = {
+    public static var discoveredUserSortStyle: Listenable<String?> = {
         let discoveredUserSortStyle = defaults.stringForKey(discoveredUserSortStyleKey)
 
         return Listenable<String?>(discoveredUserSortStyle) { discoveredUserSortStyle in
@@ -391,7 +391,7 @@ class YepUserDefaults {
         }
     }()
     
-    static var feedSortStyle: Listenable<String?> = {
+    public static var feedSortStyle: Listenable<String?> = {
         let feedSortStyle = defaults.stringForKey(feedSortStyleKey)
         
         return Listenable<String?>(feedSortStyle) { feedSortStyle in
@@ -399,7 +399,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var latitudeShift: Listenable<Double?> = {
+    public static var latitudeShift: Listenable<Double?> = {
         let latitudeShift = defaults.doubleForKey(latitudeShiftKey)
 
         return Listenable<Double?>(latitudeShift) { latitudeShift in
@@ -407,7 +407,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var longitudeShift: Listenable<Double?> = {
+    public static var longitudeShift: Listenable<Double?> = {
         let longitudeShift = defaults.doubleForKey(longitudeShiftKey)
 
         return Listenable<Double?>(longitudeShift) { longitudeShift in
@@ -415,7 +415,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var userLocationName: Listenable<String?> = {
+    public static var userLocationName: Listenable<String?> = {
         let userLocationName = defaults.stringForKey(userLocationNameKey)
 
         return Listenable<String?>(userLocationName) { userLocationName in
@@ -423,7 +423,7 @@ class YepUserDefaults {
         }
     }()
 
-    static var syncedConversations: Listenable<Bool?> = {
+    public static var syncedConversations: Listenable<Bool?> = {
         let syncedConversations = defaults.boolForKey(syncedConversationsKey)
 
         return Listenable<Bool?>(syncedConversations) { syncedConversations in
