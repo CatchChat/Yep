@@ -197,7 +197,7 @@
 		5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
 		5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAB1CF2C6A200FDE07E /* Models.swift */; };
-		5056EAB11CF2C6B000FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAD1CF2C6B000FDE07E /* Models.swift */; };
+		5056EAB11CF2C6B000FDE07E /* UIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAD1CF2C6B000FDE07E /* UIModels.swift */; };
 		5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */; };
 		5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAF1CF2C6B000FDE07E /* YepService.swift */; };
 		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
@@ -859,7 +859,7 @@
 		5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepKitTests.swift; sourceTree = "<group>"; };
 		5056EA9D1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5056EAAB1CF2C6A200FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Persistence/Models.swift; sourceTree = "<group>"; };
-		5056EAAD1CF2C6B000FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Remote/Models.swift; sourceTree = "<group>"; };
+		5056EAAD1CF2C6B000FDE07E /* UIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIModels.swift; path = Remote/UIModels.swift; sourceTree = "<group>"; };
 		5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Remote/SocialWorkService.swift; sourceTree = "<group>"; };
 		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
 		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
@@ -2367,7 +2367,7 @@
 		5056EAAA1CF2C58B00FDE07E /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				5056EAAD1CF2C6B000FDE07E /* Models.swift */,
+				5056EAAD1CF2C6B000FDE07E /* UIModels.swift */,
 				5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */,
 				5056EAAF1CF2C6B000FDE07E /* YepService.swift */,
 				5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */,
@@ -4597,7 +4597,7 @@
 				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
-				5056EAB11CF2C6B000FDE07E /* Models.swift in Sources */,
+				5056EAB11CF2C6B000FDE07E /* UIModels.swift in Sources */,
 				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
 			);
