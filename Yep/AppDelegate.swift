@@ -623,7 +623,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Private
 
     private lazy var sendMessageSoundEffect: YepSoundEffect = {
-        return  YepSoundEffect(soundName: "bub3")
+        return YepSoundEffect(soundName: "bub3")
     }()
 
     private func configureSoundEffects() {
