@@ -381,6 +381,12 @@
 		50D84F231CF2F8750018D91F /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */; };
 		50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F241CF2F8B00018D91F /* RealmTests.swift */; };
 		50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F261CF2F95D0018D91F /* ClearTests.swift */; };
+		50D84F351CF2FFA60018D91F /* SoundEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D84F341CF2FFA60018D91F /* SoundEffect.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50D84F3C1CF2FFA70018D91F /* SoundEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; };
+		50D84F431CF2FFA70018D91F /* SoundEffectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F421CF2FFA70018D91F /* SoundEffectTests.swift */; };
+		50D84F471CF2FFA70018D91F /* SoundEffect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; };
+		50D84F481CF2FFA70018D91F /* SoundEffect.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50D84F501CF2FFF00018D91F /* SoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -621,6 +627,27 @@
 			remoteGlobalIDString = 50D84EC71CF2CB110018D91F;
 			remoteInfo = OpenGraph;
 		};
+		50D84F3D1CF2FFA70018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84F311CF2FFA60018D91F;
+			remoteInfo = SoundEffect;
+		};
+		50D84F3F1CF2FFA70018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D84F451CF2FFA70018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84F311CF2FFA60018D91F;
+			remoteInfo = SoundEffect;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -642,6 +669,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
+				50D84F481CF2FFA70018D91F /* SoundEffect.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
@@ -1049,6 +1077,13 @@
 		50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
 		50D84F241CF2F8B00018D91F /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		50D84F261CF2F95D0018D91F /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
+		50D84F321CF2FFA60018D91F /* SoundEffect.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SoundEffect.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84F341CF2FFA60018D91F /* SoundEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
+		50D84F361CF2FFA60018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84F3B1CF2FFA60018D91F /* SoundEffectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoundEffectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84F421CF2FFA70018D91F /* SoundEffectTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEffectTests.swift; sourceTree = "<group>"; };
+		50D84F441CF2FFA70018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffect.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -1198,6 +1233,7 @@
 				5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
 				27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */,
+				50D84F471CF2FFA70018D91F /* SoundEffect.framework in Frameworks */,
 				B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */,
 				9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */,
 				50D3A32F1CEDB1C600E59470 /* YepNetworking.framework in Frameworks */,
@@ -1310,6 +1346,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84F2E1CF2FFA60018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84F381CF2FFA60018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84F3C1CF2FFA70018D91F /* SoundEffect.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1363,6 +1414,8 @@
 				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
 				50D84EC91CF2CB120018D91F /* OpenGraph */,
 				50D84ED71CF2CB120018D91F /* OpenGraphTests */,
+				50D84F331CF2FFA60018D91F /* SoundEffect */,
+				50D84F411CF2FFA70018D91F /* SoundEffectTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
 				EBAA6F3706BE77C1153E7B42 /* Pods */,
@@ -1386,6 +1439,8 @@
 				5056EA941CF2C55200FDE07E /* YepKitTests.xctest */,
 				50D84EC81CF2CB110018D91F /* OpenGraph.framework */,
 				50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */,
+				50D84F321CF2FFA60018D91F /* SoundEffect.framework */,
+				50D84F3B1CF2FFA60018D91F /* SoundEffectTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3055,6 +3110,25 @@
 			path = "Extensions/NSDate+TimeAgo";
 			sourceTree = "<group>";
 		};
+		50D84F331CF2FFA60018D91F /* SoundEffect */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F341CF2FFA60018D91F /* SoundEffect.h */,
+				50D84F4F1CF2FFF00018D91F /* SoundEffect.swift */,
+				50D84F361CF2FFA60018D91F /* Info.plist */,
+			);
+			path = SoundEffect;
+			sourceTree = "<group>";
+		};
+		50D84F411CF2FFA70018D91F /* SoundEffectTests */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F421CF2FFA70018D91F /* SoundEffectTests.swift */,
+				50D84F441CF2FFA70018D91F /* Info.plist */,
+			);
+			path = SoundEffectTests;
+			sourceTree = "<group>";
+		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -3477,6 +3551,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84F2F1CF2FFA60018D91F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84F351CF2FFA60018D91F /* SoundEffect.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -3503,6 +3585,7 @@
 				503E721C1CF2A59200822B91 /* PBXTargetDependency */,
 				5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */,
 				50D84EDC1CF2CB120018D91F /* PBXTargetDependency */,
+				50D84F461CF2FFA70018D91F /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3758,6 +3841,43 @@
 			productReference = 50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		50D84F311CF2FFA60018D91F /* SoundEffect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84F4D1CF2FFA70018D91F /* Build configuration list for PBXNativeTarget "SoundEffect" */;
+			buildPhases = (
+				50D84F2D1CF2FFA60018D91F /* Sources */,
+				50D84F2E1CF2FFA60018D91F /* Frameworks */,
+				50D84F2F1CF2FFA60018D91F /* Headers */,
+				50D84F301CF2FFA60018D91F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SoundEffect;
+			productName = SoundEffect;
+			productReference = 50D84F321CF2FFA60018D91F /* SoundEffect.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		50D84F3A1CF2FFA60018D91F /* SoundEffectTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84F4E1CF2FFA70018D91F /* Build configuration list for PBXNativeTarget "SoundEffectTests" */;
+			buildPhases = (
+				50D84F371CF2FFA60018D91F /* Sources */,
+				50D84F381CF2FFA60018D91F /* Frameworks */,
+				50D84F391CF2FFA60018D91F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D84F3E1CF2FFA70018D91F /* PBXTargetDependency */,
+				50D84F401CF2FFA70018D91F /* PBXTargetDependency */,
+			);
+			name = SoundEffectTests;
+			productName = SoundEffectTests;
+			productReference = 50D84F3B1CF2FFA60018D91F /* SoundEffectTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3844,6 +3964,14 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D84F311CF2FFA60018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					50D84F3A1CF2FFA60018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 				};
 			};
 			buildConfigurationList = 0A8F54A61AB67D11004AD60E /* Build configuration list for PBXProject "Yep" */;
@@ -3874,6 +4002,8 @@
 				5056EA931CF2C55200FDE07E /* YepKitTests */,
 				50D84EC71CF2CB110018D91F /* OpenGraph */,
 				50D84ED01CF2CB120018D91F /* OpenGraphTests */,
+				50D84F311CF2FFA60018D91F /* SoundEffect */,
+				50D84F3A1CF2FFA60018D91F /* SoundEffectTests */,
 			);
 		};
 /* End PBXProject section */
@@ -4079,6 +4209,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		50D84ECF1CF2CB120018D91F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84F301CF2FFA60018D91F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84F391CF2FFA60018D91F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4742,6 +4886,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84F2D1CF2FFA60018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84F501CF2FFF00018D91F /* SoundEffect.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84F371CF2FFA60018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84F431CF2FFA70018D91F /* SoundEffectTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4834,6 +4994,21 @@
 			isa = PBXTargetDependency;
 			target = 50D84EC71CF2CB110018D91F /* OpenGraph */;
 			targetProxy = 50D84EDB1CF2CB120018D91F /* PBXContainerItemProxy */;
+		};
+		50D84F3E1CF2FFA70018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84F311CF2FFA60018D91F /* SoundEffect */;
+			targetProxy = 50D84F3D1CF2FFA70018D91F /* PBXContainerItemProxy */;
+		};
+		50D84F401CF2FFA70018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D84F3F1CF2FFA70018D91F /* PBXContainerItemProxy */;
+		};
+		50D84F461CF2FFA70018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84F311CF2FFA60018D91F /* SoundEffect */;
+			targetProxy = 50D84F451CF2FFA70018D91F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4994,7 +5169,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5085,7 +5260,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5665,6 +5840,85 @@
 			};
 			name = Release;
 		};
+		50D84F491CF2FFA70018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SoundEffect/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.SoundEffect";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		50D84F4A1CF2FFA70018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SoundEffect/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.SoundEffect";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		50D84F4B1CF2FFA70018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = SoundEffectTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.SoundEffectTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		50D84F4C1CF2FFA70018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = SoundEffectTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.SoundEffectTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -5802,6 +6056,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		50D84F4D1CF2FFA70018D91F /* Build configuration list for PBXNativeTarget "SoundEffect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84F491CF2FFA70018D91F /* Debug */,
+				50D84F4A1CF2FFA70018D91F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		50D84F4E1CF2FFA70018D91F /* Build configuration list for PBXNativeTarget "SoundEffectTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84F4B1CF2FFA70018D91F /* Debug */,
+				50D84F4C1CF2FFA70018D91F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
