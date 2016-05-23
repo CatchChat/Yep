@@ -10,8 +10,9 @@ import UIKit
 import SafariServices
 import CoreLocation
 import RealmSwift
+import YepConfig
 import YepNetworking
-import Remote
+import YepKit
 import OpenGraph
 import MonkeyKing
 import Navi

@@ -11,11 +11,11 @@ import CoreLocation
 import Ruler
 import Kingfisher
 
-let avatarFadeTransitionDuration: NSTimeInterval = 0.0
-let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
-let imageFadeTransitionDuration: NSTimeInterval = 0.2
+public let avatarFadeTransitionDuration: NSTimeInterval = 0.0
+public let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
+public let imageFadeTransitionDuration: NSTimeInterval = 0.2
 
-let MediaOptionsInfos: KingfisherOptionsInfo = [
+public let MediaOptionsInfos: KingfisherOptionsInfo = [
     .BackgroundDecode,
     .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
 ]
@@ -166,12 +166,12 @@ final public class YepConfig {
     }
 
     public struct ContactsCell {
-        static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
+        public static let separatorInset = UIEdgeInsets(top: 0, left: 85, bottom: 0, right: 0)
     }
 
     public struct SearchTableView {
-        static let separatorColor = UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1)
-        static let backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
+        public static let separatorColor = UIColor(red: 245/255.0, green: 245/255.0, blue: 245/255.0, alpha: 1)
+        public static let backgroundColor = UIColor(red: 250/255.0, green: 250/255.0, blue: 250/255.0, alpha: 1)
     }
 
     public struct SearchedItemCell {

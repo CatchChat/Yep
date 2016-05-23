@@ -10,6 +10,8 @@ import UIKit
 import CoreLocation
 import MobileCoreServices.UTType
 import Photos
+import YepKit
+import YepConfig
 import YepNetworking
 import OpenGraph
 import Proposer

@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import MapKit
+import YepKit
 import YepConfig
 import RealmSwift
 import Kingfisher
@@ -404,7 +405,7 @@ final class FeedView: UIView {
             if distance < 1 {
                 distanceLabel.text = NSLocalizedString("Nearby", comment: "")
             } else {
-                distanceLabel.text = "\(distance.format(".1")) km"
+                distanceLabel.text = "\(distance.yep_format(".1")) km"
             }
         }
 

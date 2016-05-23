@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 
 private let feedMediaCellID = "FeedMediaCell"
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
