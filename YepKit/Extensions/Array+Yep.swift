@@ -6,9 +6,10 @@
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
-extension Array {
+public extension Array {
 
-    subscript (safe index: Int) -> Element? {
+    public subscript (safe index: Int) -> Element? {
         return index >= 0 && index < count ? self[index] : nil
     }
 }
+

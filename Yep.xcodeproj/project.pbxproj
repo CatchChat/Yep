@@ -75,7 +75,6 @@
 		501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501138301BCB62A20055A014 /* FeedConversationCell.xib */; };
 		5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */; };
 		5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */; };
-		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
 		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
@@ -313,7 +312,6 @@
 		50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B22E451C588B6200219625 /* CGImage+Yep.swift */; };
 		50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */; };
 		50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */; };
-		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */; };
 		50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */; };
@@ -376,6 +374,9 @@
 		50D84EF11CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */; };
 		50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF51CF2D4790018D91F /* Array+Yep.swift */; };
+		50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */; };
+		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
@@ -732,7 +733,6 @@
 		501138301BCB62A20055A014 /* FeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationCell.xib; path = Views/Cells/FeedConversation/FeedConversationCell.xib; sourceTree = "<group>"; };
 		5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileFeedsCell.swift; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.swift; sourceTree = "<group>"; };
 		5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFeedsCell.xib; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.xib; sourceTree = "<group>"; };
-		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
 		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
@@ -975,7 +975,6 @@
 		50B22E451C588B6200219625 /* CGImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGImage+Yep.swift"; path = "Extensions/CGImage+Yep.swift"; sourceTree = "<group>"; };
 		50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedTextView.swift; path = Views/TextViews/FeedTextView.swift; sourceTree = "<group>"; };
 		50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMessageTypesView.swift; path = Views/MoreMessageTypes/MoreMessageTypesView.swift; sourceTree = "<group>"; };
-		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedAnyImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsFooterView.swift; path = Views/Footers/SearchFeedsFooterView.swift; sourceTree = "<group>"; };
@@ -1040,6 +1039,9 @@
 		50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
 		50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+OpenGraph.swift"; sourceTree = "<group>"; };
 		50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
+		50D84EF51CF2D4790018D91F /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
+		50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Realm+Yep.swift"; path = "Extensions/Realm+Yep.swift"; sourceTree = "<group>"; };
+		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
@@ -1771,8 +1773,6 @@
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
 				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
-				501560D61B427FD6000933F0 /* Results+Yep.swift */,
-				50B38FB61B69CD960064C132 /* Array+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
@@ -2333,6 +2333,7 @@
 				5056EAA81CF2C57100FDE07E /* UserDefaults */,
 				5056EAAA1CF2C58B00FDE07E /* Remote */,
 				5056EAA91CF2C58800FDE07E /* Persistence */,
+				50D84EF41CF2D45B0018D91F /* Extensions */,
 				5056EA8F1CF2C55200FDE07E /* Info.plist */,
 			);
 			path = YepKit;
@@ -2989,6 +2990,16 @@
 				50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EF41CF2D45B0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EF51CF2D4790018D91F /* Array+Yep.swift */,
+				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
+				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
@@ -4314,7 +4325,6 @@
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
 				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
-				501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */,
 				0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */,
 				50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */,
 				50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */,
@@ -4489,7 +4499,6 @@
 				50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */,
 				50E34C1B1CB60475007CAE80 /* UISearchBar+Yep.swift in Sources */,
 				505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */,
-				50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */,
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
@@ -4594,10 +4603,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */,
+				50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */,
 				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
+				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
 				5056EAB11CF2C6B000FDE07E /* UIModels.swift in Sources */,
+				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
 				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
 			);

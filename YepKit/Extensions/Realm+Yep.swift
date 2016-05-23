@@ -1,5 +1,5 @@
 //
-//  Results+Yep.swift
+//  Realm+Yep.swift
 //  Yep
 //
 //  Created by NIX on 15/6/30.
@@ -8,16 +8,17 @@
 
 import RealmSwift
 
-extension Results {
+public extension Results {
 
-    subscript (safe index: Int) -> T? {
+    public subscript (safe index: Int) -> T? {
         return (index >= 0 && index < count) ? self[index] : nil
     }
 }
 
-extension List {
+public extension List {
 
-    subscript (safe index: Int) -> T? {
+    public subscript (safe index: Int) -> T? {
         return (index >= 0 && index < count) ? self[index] : nil
     }
 }
+
