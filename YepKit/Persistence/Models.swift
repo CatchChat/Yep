@@ -55,7 +55,7 @@ public class UserSkill: Object {
 
     var skillCategory: SkillCellSkill.Category? {
         if let category = category {
-            return SkillCell.Skill.Category(rawValue: category.name)
+            return SkillCellSkill.Category(rawValue: category.name)
         }
         return nil
     }
@@ -899,7 +899,7 @@ public class OpenGraphInfo: Object {
     }
 }
 
-public extension OpenGraphInfo: OpenGraphInfoType {
+extension OpenGraphInfo: OpenGraphInfoType {
 
     public var URL: NSURL {
         return NSURL(string: URLString)!

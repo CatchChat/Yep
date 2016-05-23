@@ -8,18 +8,18 @@
 
 import CoreSpotlight
 
-enum SearchableItemType: String {
+public enum SearchableItemType: String {
 
     case User
     case Feed
 }
 
-func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {
+public func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {
 
     return "\(itemType)/\(itemID)"
 }
 
-func searchableItem(searchableItemID searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
+public func searchableItem(searchableItemID searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
 
     let parts = searchableItemID.componentsSeparatedByString("/")
 
@@ -34,7 +34,7 @@ func searchableItem(searchableItemID searchableItemID: String) -> (itemType: Sea
     return (itemType: itemType, itemID: parts[1])
 }
 
-func deleteSearchableItems(searchableItemType itemType: SearchableItemType, itemIDs: [String]) {
+public func deleteSearchableItems(searchableItemType itemType: SearchableItemType, itemIDs: [String]) {
 
     guard !itemIDs.isEmpty else {
         return

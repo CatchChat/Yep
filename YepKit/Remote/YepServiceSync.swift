@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import YepConfig
 import YepNetworking
 import RealmSwift
 
