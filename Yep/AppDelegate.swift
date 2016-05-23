@@ -629,7 +629,24 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 // 确保是自家服务
                 if host == yepBaseURL.host {
                     dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.maybeUserNeedRelogin()
+                        YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
+                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+                                return true
+                            }
+                            return false
+
+                        }, confirm: {
+                            unregisterThirdPartyPush()
+
+                            cleanRealmAndCaches()
+
+                            if let rootViewController = appDelegate.window?.rootViewController {
+                                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+                                    
+                                    appDelegate.startShowStory()
+                                })
+                            }
+                        })
                     }
                 }
             }

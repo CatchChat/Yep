@@ -9,7 +9,7 @@
 import UIKit
 import CoreSpotlight
 import YepConfig
-import Persistence
+//import Persistence
 import RealmSwift
 
 private let v1AccessTokenKey = "v1AccessToken"
@@ -177,7 +177,7 @@ class YepUserDefaults {
         standardUserDefaults.synchronize()
     }
 
-    class func maybeUserNeedRelogin() {
+    class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
 
         guard v1AccessToken.value != nil else {
             return
@@ -185,28 +185,13 @@ class YepUserDefaults {
 
         CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
 
-        guard Config.inMainStory?() ?? false else {
+        guard prerequisites() else {
             return
         }
-
-        /*
-        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-            return
-        }
-         */
-
-        unregisterThirdPartyPush()
 
         cleanAllUserDefaults()
 
-        cleanRealmAndCaches()
-
-        if let rootViewController = appDelegate.window?.rootViewController {
-            YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
-
-                appDelegate.startShowStory()
-            })
-        }
+        confirm()
     }
 
     static var v1AccessToken: Listenable<String?> = {
