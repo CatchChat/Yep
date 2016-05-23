@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 public extension String {
 
@@ -15,3 +16,23 @@ public extension String {
     }
 }
 
+
+public extension String {
+
+    public func yep_mentionedMeInRealm(realm: Realm) -> Bool {
+
+        guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: realm) else {
+            return false
+        }
+
+        let username = me.username
+
+        if !username.isEmpty {
+            if self.containsString("@\(username)") {
+                return true
+            }
+        }
+        
+        return false
+    }
+}

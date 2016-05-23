@@ -2013,9 +2013,9 @@ public struct Recipient {
 
 public enum TimeDirection {
 
-    public case Future(minMessageID: String)
-    public case Past(maxMessageID: String)
-    public case None
+    case Future(minMessageID: String)
+    case Past(maxMessageID: String)
+    case None
 
     public var messageAge: MessageAge {
         switch self {

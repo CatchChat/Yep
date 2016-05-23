@@ -8,7 +8,6 @@
 
 import CoreSpotlight
 import MobileCoreServices.UTType
-import Persistence
 
 let userDomainIdentifier = "Catch-Inc.Yep.User"
 

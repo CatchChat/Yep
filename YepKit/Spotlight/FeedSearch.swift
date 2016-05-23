@@ -8,7 +8,6 @@
 
 import CoreSpotlight
 import MobileCoreServices.UTType
-import Persistence
 
 let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
 
