@@ -267,6 +267,7 @@
 		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
 		5086662C1CF2B4B0006BC4EB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662A1CF2B4B0006BC4EB /* Config.swift */; };
 		5086662D1CF2B4B0006BC4EB /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */; };
+		5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662E1CF2BC3F006BC4EB /* Models.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -982,6 +983,7 @@
 		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
 		5086662A1CF2B4B0006BC4EB /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepUserDefaults.swift; sourceTree = "<group>"; };
+		5086662E1CF2BC3F006BC4EB /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -2281,6 +2283,7 @@
 			isa = PBXGroup;
 			children = (
 				503E71C01CF2A24500822B91 /* Remote.h */,
+				5086662E1CF2BC3F006BC4EB /* Models.swift */,
 				503E71DB1CF2A2E200822B91 /* YepService.swift */,
 				503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */,
 				503E71C21CF2A24500822B91 /* Info.plist */,
@@ -4898,6 +4901,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */,
 				503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */,
 				503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */,
 			);

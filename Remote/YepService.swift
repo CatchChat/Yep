@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import YepConfig
 import YepUserDefaults
 import YepNetworking
 import RealmSwift
@@ -20,6 +21,12 @@ public let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/fa
 public let yepBaseURL = NSURL(string: "")!
 public let fayeBaseURL = NSURL(string: "")!
 #endif
+
+func println(@autoclosure item: () -> Any) {
+    #if DEBUG
+        Swift.print(item())
+    #endif
+}
 
 // Models
 
@@ -1833,7 +1840,7 @@ public func unreadMessages(failureHandler failureHandler: FailureHandler?, compl
     unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
 
-public private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
+private func headUnreadMessagesAfterMessageWithID(messageID: String?, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
 
     var parameters: JSONDictionary = [
         "page": 1,
