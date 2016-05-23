@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import YepKit
 
 final class ChatRightLocationCell: ChatRightBaseCell {
 

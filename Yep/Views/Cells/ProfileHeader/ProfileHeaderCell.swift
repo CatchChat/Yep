@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import YepKit
 import FXBlurView
 import Proposer
 import Navi

@@ -195,7 +195,7 @@
 		5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */; };
 		5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAF1CF2C6B000FDE07E /* YepService.swift */; };
 		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
-		5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB51CF2C6BF00FDE07E /* Config.swift */; };
+		5056EAB71CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */; };
 		5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */; };
 		5056EAB91CF2C70D00FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
 		5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
@@ -861,7 +861,7 @@
 		5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Remote/SocialWorkService.swift; sourceTree = "<group>"; };
 		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
 		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
-		5056EAB51CF2C6BF00FDE07E /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Config.swift; path = UserDefaults/Config.swift; sourceTree = "<group>"; };
+		5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaultsConfig.swift; path = UserDefaults/YepUserDefaultsConfig.swift; sourceTree = "<group>"; };
 		5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = UserDefaults/YepUserDefaults.swift; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
 		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2350,7 +2350,7 @@
 		5056EAA81CF2C57100FDE07E /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
-				5056EAB51CF2C6BF00FDE07E /* Config.swift */,
+				5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */,
 				5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */,
 			);
 			name = UserDefaults;
@@ -3022,8 +3022,8 @@
 		50D84F041CF2D9FB0018D91F /* Spotlight */ = {
 			isa = PBXGroup;
 			children = (
-				50D84F051CF2D9FB0018D91F /* FeedSearch.swift */,
 				50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */,
+				50D84F051CF2D9FB0018D91F /* FeedSearch.swift */,
 				50D84F071CF2D9FB0018D91F /* UserSearch.swift */,
 			);
 			path = Spotlight;
@@ -4649,7 +4649,7 @@
 				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
 				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
 				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
-				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
+				5056EAB71CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
 				50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,

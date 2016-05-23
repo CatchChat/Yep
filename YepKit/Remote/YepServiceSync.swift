@@ -838,7 +838,7 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
     return nil
 }
 
-var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
+public var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 
 public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
 

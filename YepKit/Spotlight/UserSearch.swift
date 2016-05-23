@@ -9,12 +9,12 @@
 import CoreSpotlight
 import MobileCoreServices.UTType
 
-let userDomainIdentifier = "Catch-Inc.Yep.User"
+public let userDomainIdentifier = "Catch-Inc.Yep.User"
 
 @available(iOS 9.0, *)
-extension User {
+public extension User {
 
-    var attributeSet: CSSearchableItemAttributeSet {
+    public var attributeSet: CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
         attributeSet.title = compositedName
         attributeSet.contentDescription = introduction

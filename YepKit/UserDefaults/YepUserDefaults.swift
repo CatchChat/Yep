@@ -201,7 +201,7 @@ final public class YepUserDefaults {
         return Listenable<String?>(v1AccessToken) { v1AccessToken in
             defaults.setObject(v1AccessToken, forKey: v1AccessTokenKey)
 
-            Config.updatedAccessTokenAction?()
+            YepUserDefaultsConfig.updatedAccessTokenAction?()
         }
     }()
 
@@ -347,7 +347,7 @@ final public class YepUserDefaults {
 
             // 注册推送的好时机
             if let pusherID = pusherID {
-                Config.updatedPusherIDAction?(pusherID: pusherID)
+                YepUserDefaultsConfig.updatedPusherIDAction?(pusherID: pusherID)
             }
         }
     }()

@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepConfig
 import YepNetworking
 import Fabric
 import AVFoundation
@@ -622,7 +623,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func configureYepUserDefaults() {
 
-        YepUserDefaults.Config.updatedAccessTokenAction = {
+        YepUserDefaultsConfig.updatedAccessTokenAction = {
 
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                 // 注册或初次登录时同步数据的好时机
@@ -633,7 +634,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        YepUserDefaults.Config.updatedPusherIDAction = { pusherID in
+        YepUserDefaultsConfig.updatedPusherIDAction = { pusherID in
             
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                 if appDelegate.notRegisteredPush {
@@ -668,6 +669,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                             unregisterThirdPartyPush()
 
                             cleanRealmAndCaches()
+
+                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+                                return
+                            }
 
                             if let rootViewController = appDelegate.window?.rootViewController {
                                 YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in

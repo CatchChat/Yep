@@ -28,12 +28,12 @@ func NSDateTimeAgoLocalizedStrings(key: String) -> String {
     return NSLocalizedString(key, tableName: "NSDateTimeAgo", bundle: bundle!, comment: "")
 }
 
-extension NSDate {
+public extension NSDate {
     
     // shows 1 or two letter abbreviation for units.
     // does not include 'ago' text ... just {value}{unit-abbreviation}
     // does not include interim summary options such as 'Just now'
-    var timeAgoSimple: String {
+    public var timeAgoSimple: String {
         
         let now = NSDate()
         let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
@@ -70,7 +70,7 @@ extension NSDate {
         return stringFromFormat("%%d%@yr", withValue: value)
     }
 
-    var timeAgo: String {
+    public var timeAgo: String {
         
         let now = NSDate()
         let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
@@ -129,14 +129,14 @@ extension NSDate {
         
     }
     
-    func stringFromFormat(format: String, withValue value: Int) -> String {
+    public func stringFromFormat(format: String, withValue value: Int) -> String {
         
         let localeFormat = String(format: format, getLocaleFormatUnderscoresWithValue(Double(value)))
         
         return String(format: NSDateTimeAgoLocalizedStrings(localeFormat), value)
     }
     
-    func getLocaleFormatUnderscoresWithValue(value: Double) -> String {
+    public func getLocaleFormatUnderscoresWithValue(value: Double) -> String {
         
         let localeCode = NSLocale.preferredLanguages().first
         

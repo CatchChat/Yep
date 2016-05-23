@@ -2624,6 +2624,12 @@ public struct DiscoveredAttachment {
 
     public var image: UIImage?
 
+    public init(metadata: String, URLString: String, image: UIImage?) {
+        self.metadata = metadata
+        self.URLString = URLString
+        self.image = image
+    }
+
     public var isTemporary: Bool {
         return image != nil
     }

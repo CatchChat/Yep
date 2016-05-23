@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 import YepConfig
 
 final private class KeywordCell: UITableViewCell {

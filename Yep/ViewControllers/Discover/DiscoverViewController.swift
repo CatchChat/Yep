@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import YepKit
 import YepNetworking
 
 enum DiscoverUserMode: Int {

@@ -14,7 +14,7 @@ import RealmSwift
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-let realmQueue = dispatch_queue_create("com.Yep.realmQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
+public let realmQueue = dispatch_queue_create("com.Yep.realmQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
 
 // MARK: User
 

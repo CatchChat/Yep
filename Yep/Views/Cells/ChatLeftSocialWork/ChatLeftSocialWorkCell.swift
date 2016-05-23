@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 import Kingfisher
 
 final class ChatLeftSocialWorkCell: UICollectionViewCell {
