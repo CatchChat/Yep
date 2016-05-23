@@ -200,13 +200,7 @@ class YepUserDefaults {
         return Listenable<String?>(v1AccessToken) { v1AccessToken in
             defaults.setObject(v1AccessToken, forKey: v1AccessTokenKey)
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                // 注册或初次登录时同步数据的好时机
-                appDelegate.sync()
-
-                // 也是注册或初次登录时启动 Faye 的好时机
-                appDelegate.startFaye()
-            }
+            Config.updatedAccessTokenAction?()
         }
     }()
 

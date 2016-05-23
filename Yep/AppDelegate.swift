@@ -83,6 +83,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
+        configureYepUserDefaults()
         configureYepNetworkingManager()
 
         cacheInAdvance()
@@ -617,6 +618,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Private
+
+    private func configureYepUserDefaults() {
+
+        YepUserDefaults.Config.updatedAccessTokenAction = {
+
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                // 注册或初次登录时同步数据的好时机
+                appDelegate.sync()
+
+                // 也是注册或初次登录时启动 Faye 的好时机
+                appDelegate.startFaye()
+            }
+        }
+    }
 
     private func configureYepNetworkingManager() {
 

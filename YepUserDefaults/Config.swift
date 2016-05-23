@@ -10,6 +10,6 @@ import Foundation
 
 public class Config {
 
-    public static var inMainStory: (() -> Bool)?
+    public static var updatedAccessTokenAction: (() -> Void)?
 }
 
