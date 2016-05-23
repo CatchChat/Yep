@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Yep
+@testable import YepKit
 
 final class SocialWorkTests: XCTestCase {
 

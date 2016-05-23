@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Yep
+@testable import YepKit
 import CoreLocation
 
 final class ThirdPartyServiceTests: XCTestCase {
