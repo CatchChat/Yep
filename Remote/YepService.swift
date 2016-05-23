@@ -7,9 +7,9 @@
 //
 
 import Foundation
+import CoreLocation
 import YepNetworking
 import RealmSwift
-import CoreLocation
 import Alamofire
 
 #if STAGING

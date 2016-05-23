@@ -106,7 +106,6 @@
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
 		502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5201AB71C7E005BD199 /* BorderButton.swift */; };
-		502AE5291AB81076005BD199 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5281AB81076005BD199 /* YepService.swift */; };
 		502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52A1AB819AF005BD199 /* YepConfig.swift */; };
 		502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52D1AB83879005BD199 /* UnderLineTextField.swift */; };
 		502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */; };
@@ -157,6 +156,13 @@
 		503E71B61CF2A1EC00822B91 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B31CF2A1EC00822B91 /* FeedSearch.swift */; };
 		503E71B71CF2A1EC00822B91 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B41CF2A1EC00822B91 /* SearchableItemType.swift */; };
 		503E71B81CF2A1EC00822B91 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B51CF2A1EC00822B91 /* UserSearch.swift */; };
+		503E71C11CF2A24500822B91 /* Remote.h in Headers */ = {isa = PBXBuildFile; fileRef = 503E71C01CF2A24500822B91 /* Remote.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		503E71C81CF2A24500822B91 /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; };
+		503E71CF1CF2A24500822B91 /* RemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71CE1CF2A24500822B91 /* RemoteTests.swift */; };
+		503E71D31CF2A24500822B91 /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; };
+		503E71D41CF2A24500822B91 /* Remote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DB1CF2A2E200822B91 /* YepService.swift */; };
+		503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
 		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
@@ -393,7 +399,6 @@
 		50DEE05D1BEA100100015741 /* SearchedUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */; };
 		50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05E1BEA119D00015741 /* AddFriends.storyboard */; };
 		50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0601BEA146900015741 /* Conversation.storyboard */; };
-		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
 		50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */; };
@@ -459,6 +464,7 @@
 		6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E341C47A9060024FC63 /* libsqlite3.tbd */; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
 		6DF8536A1896EE17A9799AE6 /* Pods_FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F9026880FED211156FBB93 /* Pods_FayeClient.framework */; };
+		72121DBB1B4DF3EEDA484F85 /* Pods_Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
 		84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C431B8592120071130D /* ShowStepGeniusViewController.swift */; };
@@ -505,6 +511,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 503E718F1CF29E1100822B91;
 			remoteInfo = Persistence;
+		};
+		503E71C91CF2A24500822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 503E71BD1CF2A24500822B91;
+			remoteInfo = Remote;
+		};
+		503E71CB1CF2A24500822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		503E71D11CF2A24500822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 503E71BD1CF2A24500822B91;
+			remoteInfo = Remote;
 		};
 		507DCE871CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -607,6 +634,7 @@
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 				503E71A61CF29E1200822B91 /* Persistence.framework in Embed Frameworks */,
 				507DCE921CEED2C4006D43F7 /* OpenGraph.framework in Embed Frameworks */,
+				503E71D41CF2A24500822B91 /* Remote.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -728,7 +756,6 @@
 		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
 		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
 		502AE5201AB71C7E005BD199 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderButton.swift; path = Views/Buttons/BorderButton.swift; sourceTree = "<group>"; };
-		502AE5281AB81076005BD199 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Services/YepService.swift; sourceTree = "<group>"; };
 		502AE52A1AB819AF005BD199 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Configs/YepConfig.swift; sourceTree = "<group>"; };
 		502AE52D1AB83879005BD199 /* UnderLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnderLineTextField.swift; path = Views/TextFields/UnderLineTextField.swift; sourceTree = "<group>"; };
 		502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickMobileViewController.swift; path = ViewControllers/Register/RegisterPickMobileViewController.swift; sourceTree = "<group>"; };
@@ -780,6 +807,14 @@
 		503E71B31CF2A1EC00822B91 /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSearch.swift; path = Spotlight/FeedSearch.swift; sourceTree = "<group>"; };
 		503E71B41CF2A1EC00822B91 /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchableItemType.swift; path = Spotlight/SearchableItemType.swift; sourceTree = "<group>"; };
 		503E71B51CF2A1EC00822B91 /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearch.swift; path = Spotlight/UserSearch.swift; sourceTree = "<group>"; };
+		503E71BE1CF2A24500822B91 /* Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E71C01CF2A24500822B91 /* Remote.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Remote.h; sourceTree = "<group>"; };
+		503E71C21CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E71C71CF2A24500822B91 /* RemoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E71CE1CF2A24500822B91 /* RemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteTests.swift; sourceTree = "<group>"; };
+		503E71D01CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E71DB1CF2A2E200822B91 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepService.swift; sourceTree = "<group>"; };
+		503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepServiceSync.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
 		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
@@ -1022,7 +1057,6 @@
 		50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchedUsers.storyboard; path = ViewControllers/SearchedUsers/SearchedUsers.storyboard; sourceTree = "<group>"; };
 		50DEE05E1BEA119D00015741 /* AddFriends.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddFriends.storyboard; path = ViewControllers/AddFriends/AddFriends.storyboard; sourceTree = "<group>"; };
 		50DEE0601BEA146900015741 /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversation.storyboard; path = ViewControllers/Conversation/Conversation.storyboard; sourceTree = "<group>"; };
-		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
 		50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomButtonView.swift; path = Views/SayHi/BottomButtonView.swift; sourceTree = "<group>"; };
@@ -1074,6 +1108,7 @@
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
 		50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLContainerView.swift; path = Views/ContainerViews/FeedURLContainerView.swift; sourceTree = "<group>"; };
+		598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.debug.xcconfig"; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -1100,11 +1135,13 @@
 		848806B21B7B0230000C5424 /* Yep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Yep.entitlements; sourceTree = "<group>"; };
 		848806B51B7B4F53000C5424 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = ViewControllers/Show/ShowViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
+		89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.release.xcconfig"; sourceTree = "<group>"; };
 		95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Persistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.debug.xcconfig"; sourceTree = "<group>"; };
 		BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.debug.xcconfig"; sourceTree = "<group>"; };
 		C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.release.xcconfig"; sourceTree = "<group>"; };
 		E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1117,6 +1154,7 @@
 			files = (
 				5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */,
 				6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */,
+				503E71D31CF2A24500822B91 /* Remote.framework in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
 				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
@@ -1160,6 +1198,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				503E719A1CF29E1200822B91 /* Persistence.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71BA1CF2A24500822B91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72121DBB1B4DF3EEDA484F85 /* Pods_Remote.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71C41CF2A24500822B91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71C81CF2A24500822B91 /* Remote.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,6 +1336,8 @@
 				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
 				507DCE7D1CEED2C3006D43F7 /* OpenGraph */,
 				507DCE8B1CEED2C4006D43F7 /* OpenGraphTests */,
+				503E71BF1CF2A24500822B91 /* Remote */,
+				503E71CD1CF2A24500822B91 /* RemoteTests */,
 				503E71911CF29E1200822B91 /* Persistence */,
 				503E719F1CF29E1200822B91 /* PersistenceTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
@@ -1305,6 +1361,8 @@
 				507DCEA91CEEE2DC006D43F7 /* YepShare.appex */,
 				503E71901CF29E1100822B91 /* Persistence.framework */,
 				503E71991CF29E1200822B91 /* PersistenceTests.xctest */,
+				503E71BE1CF2A24500822B91 /* Remote.framework */,
+				503E71C71CF2A24500822B91 /* RemoteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1899,8 +1957,6 @@
 		502AE5251AB72BE9005BD199 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				502AE5281AB81076005BD199 /* YepService.swift */,
-				50E114F81ABC137A00F13000 /* YepServiceSync.swift */,
 				50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */,
 				503075FB1CEC0E51007E7E90 /* YepFayeService.swift */,
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
@@ -2112,6 +2168,26 @@
 				503E71A21CF29E1200822B91 /* Info.plist */,
 			);
 			path = PersistenceTests;
+			sourceTree = "<group>";
+		};
+		503E71BF1CF2A24500822B91 /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				503E71C01CF2A24500822B91 /* Remote.h */,
+				503E71DB1CF2A2E200822B91 /* YepService.swift */,
+				503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */,
+				503E71C21CF2A24500822B91 /* Info.plist */,
+			);
+			path = Remote;
+			sourceTree = "<group>";
+		};
+		503E71CD1CF2A24500822B91 /* RemoteTests */ = {
+			isa = PBXGroup;
+			children = (
+				503E71CE1CF2A24500822B91 /* RemoteTests.swift */,
+				503E71D01CF2A24500822B91 /* Info.plist */,
+			);
+			path = RemoteTests;
 			sourceTree = "<group>";
 		};
 		503ED23B1B8ADCED0072187D /* BlackList */ = {
@@ -3140,6 +3216,7 @@
 				18F9026880FED211156FBB93 /* Pods_FayeClient.framework */,
 				C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */,
 				95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */,
+				D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3239,6 +3316,8 @@
 				2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */,
 				BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */,
 				0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */,
+				598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */,
+				89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3251,6 +3330,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				503E71931CF29E1200822B91 /* Persistence.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71BB1CF2A24500822B91 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71C11CF2A24500822B91 /* Remote.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3303,6 +3390,7 @@
 				507DCE901CEED2C4006D43F7 /* PBXTargetDependency */,
 				507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */,
 				503E71A41CF29E1200822B91 /* PBXTargetDependency */,
+				503E71D21CF2A24500822B91 /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3367,6 +3455,45 @@
 			name = PersistenceTests;
 			productName = PersistenceTests;
 			productReference = 503E71991CF29E1200822B91 /* PersistenceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		503E71BD1CF2A24500822B91 /* Remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 503E71D51CF2A24500822B91 /* Build configuration list for PBXNativeTarget "Remote" */;
+			buildPhases = (
+				7A30F236690990C02C83A422 /* 📦 Check Pods Manifest.lock */,
+				503E71B91CF2A24500822B91 /* Sources */,
+				503E71BA1CF2A24500822B91 /* Frameworks */,
+				503E71BB1CF2A24500822B91 /* Headers */,
+				503E71BC1CF2A24500822B91 /* Resources */,
+				93EB572D14AF5F5A85E4BFAB /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Remote;
+			productName = Remote;
+			productReference = 503E71BE1CF2A24500822B91 /* Remote.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		503E71C61CF2A24500822B91 /* RemoteTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 503E71D81CF2A24500822B91 /* Build configuration list for PBXNativeTarget "RemoteTests" */;
+			buildPhases = (
+				503E71C31CF2A24500822B91 /* Sources */,
+				503E71C41CF2A24500822B91 /* Frameworks */,
+				503E71C51CF2A24500822B91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				503E71CA1CF2A24500822B91 /* PBXTargetDependency */,
+				503E71CC1CF2A24500822B91 /* PBXTargetDependency */,
+			);
+			name = RemoteTests;
+			productName = RemoteTests;
+			productReference = 503E71C71CF2A24500822B91 /* RemoteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		507DCE7B1CEED2C2006D43F7 /* OpenGraph */ = {
@@ -3560,6 +3687,14 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					503E71BD1CF2A24500822B91 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					503E71C61CF2A24500822B91 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 					507DCE7B1CEED2C2006D43F7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = TKRALRXCKN;
@@ -3625,6 +3760,8 @@
 				507DCEA81CEEE2DC006D43F7 /* YepShare */,
 				503E718F1CF29E1100822B91 /* Persistence */,
 				503E71981CF29E1200822B91 /* PersistenceTests */,
+				503E71BD1CF2A24500822B91 /* Remote */,
+				503E71C61CF2A24500822B91 /* RemoteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3759,6 +3896,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		503E71971CF29E1200822B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71BC1CF2A24500822B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71C51CF2A24500822B91 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3943,6 +4094,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		7A30F236690990C02C83A422 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		80EDA1C76F338DEE9843935B /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3956,6 +4122,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93EB572D14AF5F5A85E4BFAB /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Remote/Pods-Remote-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9428FF98BDED951978C02876 /* 📦 Check Pods Manifest.lock */ = {
@@ -4222,14 +4403,12 @@
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
-				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
 				50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */,
 				50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
-				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
 				50E34C211CB75774007CAE80 /* SearchedDiscoveredUserCell.swift in Sources */,
@@ -4353,6 +4532,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		503E71B91CF2A24500822B91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */,
+				503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71C31CF2A24500822B91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71CF1CF2A24500822B91 /* RemoteTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		507DCE771CEED2C2006D43F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4449,6 +4645,21 @@
 			isa = PBXTargetDependency;
 			target = 503E718F1CF29E1100822B91 /* Persistence */;
 			targetProxy = 503E71A31CF29E1200822B91 /* PBXContainerItemProxy */;
+		};
+		503E71CA1CF2A24500822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 503E71BD1CF2A24500822B91 /* Remote */;
+			targetProxy = 503E71C91CF2A24500822B91 /* PBXContainerItemProxy */;
+		};
+		503E71CC1CF2A24500822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 503E71CB1CF2A24500822B91 /* PBXContainerItemProxy */;
+		};
+		503E71D21CF2A24500822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 503E71BD1CF2A24500822B91 /* Remote */;
+			targetProxy = 503E71D11CF2A24500822B91 /* PBXContainerItemProxy */;
 		};
 		507DCE881CEED2C4006D43F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4949,6 +5160,87 @@
 			};
 			name = Release;
 		};
+		503E71D61CF2A24500822B91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Remote/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.Remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		503E71D71CF2A24500822B91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Remote/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.Remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		503E71D91CF2A24500822B91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = RemoteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.RemoteTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		503E71DA1CF2A24500822B91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = RemoteTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.RemoteTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 		507DCE931CEED2C4006D43F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
@@ -5298,6 +5590,24 @@
 			buildConfigurations = (
 				503E71A91CF29E1200822B91 /* Debug */,
 				503E71AA1CF29E1200822B91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		503E71D51CF2A24500822B91 /* Build configuration list for PBXNativeTarget "Remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				503E71D61CF2A24500822B91 /* Debug */,
+				503E71D71CF2A24500822B91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		503E71D81CF2A24500822B91 /* Build configuration list for PBXNativeTarget "RemoteTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				503E71D91CF2A24500822B91 /* Debug */,
+				503E71DA1CF2A24500822B91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

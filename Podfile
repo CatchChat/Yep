@@ -43,6 +43,11 @@ target 'OpenGraph' do
     pod 'Kanna', '1.0.2'
 end
 
+target 'Remote' do
+    pod 'RealmSwift'
+    pod 'Alamofire'
+end
+
 target 'Persistence' do
     pod 'RealmSwift'
 end
