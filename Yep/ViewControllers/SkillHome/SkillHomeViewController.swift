@@ -17,7 +17,7 @@ let ScrollViewTag = 100
 
 final class SkillHomeViewController: BaseViewController {
 
-    var skill: SkillCell.Skill? {
+    var skill: SkillCellSkill? {
         willSet {
             title = newValue?.localName
             skillCoverURLString = newValue?.coverURLString

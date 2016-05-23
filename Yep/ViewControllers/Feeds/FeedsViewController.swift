@@ -934,7 +934,7 @@ final class FeedsViewController: BaseViewController {
             let vc = segue.destinationViewController as! SkillHomeViewController
 
             if let skill = skill {
-                vc.skill = SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: nil)
+                vc.skill = SkillCellSkill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: nil)
             }
 
             vc.hidesBottomBarWhenPushed = true

@@ -1,5 +1,5 @@
 //
-//  Models.swift
+//  YepUIModels.swift
 //  Yep
 //
 //  Created by NIX on 16/5/23.
@@ -7,6 +7,73 @@
 //
 
 import Foundation
+
+public enum MessageToolbarState: Int, CustomStringConvertible {
+
+    case Default
+    case BeginTextInput
+    case TextInputing
+    case VoiceRecord
+
+    public var description: String {
+        switch self {
+        case .Default:
+            return "Default"
+        case .BeginTextInput:
+            return "BeginTextInput"
+        case .TextInputing:
+            return "TextInputing"
+        case .VoiceRecord:
+            return "VoiceRecord"
+        }
+    }
+
+    public var isAtBottom: Bool {
+        switch self {
+        case .Default:
+            return true
+        case .BeginTextInput, .TextInputing:
+            return false
+        case .VoiceRecord:
+            return true
+        }
+    }
+}
+
+public class SkillCellSkill: NSObject {
+
+    public let ID: String
+    public let localName: String
+    public let coverURLString: String?
+
+    public enum Category: String {
+        case Art = "Art"
+        case Technology = "Technology"
+        case Sport = "Sport"
+        case LifeStyle = "Life Style"
+
+        var gradientImage: UIImage? {
+            switch self {
+            case .Art:
+                return UIImage(named: "gradient_art")
+            case .Technology:
+                return UIImage(named: "gradient_tech")
+            case .Sport:
+                return UIImage(named: "gradient_sport")
+            case .LifeStyle:
+                return UIImage(named: "gradient_life")
+            }
+        }
+    }
+    public let category: Category
+
+    public init(ID: String, localName: String, coverURLString: String?, category: Category?) {
+        self.ID = ID
+        self.localName = localName
+        self.coverURLString = coverURLString
+        self.category = category ?? .Art
+    }
+}
 
 public enum SocialAccount: String {
 
@@ -265,7 +332,7 @@ public enum ProfileUser {
         }
     }
 
-    public func cellSkillInSkillSet(skillSet: SkillSet, atIndexPath indexPath: NSIndexPath)  -> SkillCell.Skill? {
+    public func cellSkillInSkillSet(skillSet: SkillSet, atIndexPath indexPath: NSIndexPath)  -> SkillCellSkill? {
 
         switch self {
 
@@ -280,7 +347,7 @@ public enum ProfileUser {
             }
 
             if let skill = skill {
-                return SkillCell.Skill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
+                return SkillCellSkill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
             }
 
         case .UserType(let user):
@@ -294,7 +361,7 @@ public enum ProfileUser {
             }
 
             if let userSkill = userSkill {
-                return SkillCell.Skill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
+                return SkillCellSkill(ID: userSkill.skillID, localName: userSkill.localName, coverURLString: userSkill.coverURLString, category: userSkill.skillCategory)
             }
         }
 
@@ -329,4 +396,3 @@ public enum ProfileUser {
         return providerName
     }
 }
-

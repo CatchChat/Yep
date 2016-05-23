@@ -53,7 +53,7 @@ public class UserSkill: Object {
 
     public dynamic var category: UserSkillCategory?
 
-    var skillCategory: SkillCell.Skill.Category? {
+    var skillCategory: SkillCellSkill.Category? {
         if let category = category {
             return SkillCell.Skill.Category(rawValue: category.name)
         }

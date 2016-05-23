@@ -164,9 +164,9 @@ public struct Skill: Hashable {
 
     public let category: SkillCategory?
 
-    public var skillCategory: SkillCell.Skill.Category? {
+    public var skillCategory: SkillCellSkill.Category? {
         if let category = category {
-            return SkillCell.Skill.Category(rawValue: category.name)
+            return SkillCellSkill.Category(rawValue: category.name)
         }
         return nil
     }

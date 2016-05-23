@@ -196,7 +196,6 @@
 		5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
 		5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAB1CF2C6A200FDE07E /* Models.swift */; };
-		5056EAB11CF2C6B000FDE07E /* UIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAD1CF2C6B000FDE07E /* UIModels.swift */; };
 		5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */; };
 		5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAF1CF2C6B000FDE07E /* YepService.swift */; };
 		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
@@ -377,6 +376,7 @@
 		50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF51CF2D4790018D91F /* Array+Yep.swift */; };
 		50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */; };
 		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
+		50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */; };
 		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
@@ -859,7 +859,6 @@
 		5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepKitTests.swift; sourceTree = "<group>"; };
 		5056EA9D1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5056EAAB1CF2C6A200FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Persistence/Models.swift; sourceTree = "<group>"; };
-		5056EAAD1CF2C6B000FDE07E /* UIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIModels.swift; path = Remote/UIModels.swift; sourceTree = "<group>"; };
 		5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Remote/SocialWorkService.swift; sourceTree = "<group>"; };
 		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
 		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
@@ -1042,6 +1041,7 @@
 		50D84EF51CF2D4790018D91F /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Realm+Yep.swift"; path = "Extensions/Realm+Yep.swift"; sourceTree = "<group>"; };
 		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
+		50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUIModels.swift; path = UI/YepUIModels.swift; sourceTree = "<group>"; };
 		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
@@ -2330,6 +2330,7 @@
 			isa = PBXGroup;
 			children = (
 				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
+				50D84EFB1CF2D60B0018D91F /* UI */,
 				5056EAA81CF2C57100FDE07E /* UserDefaults */,
 				5056EAAA1CF2C58B00FDE07E /* Remote */,
 				5056EAA91CF2C58800FDE07E /* Persistence */,
@@ -2368,7 +2369,6 @@
 		5056EAAA1CF2C58B00FDE07E /* Remote */ = {
 			isa = PBXGroup;
 			children = (
-				5056EAAD1CF2C6B000FDE07E /* UIModels.swift */,
 				5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */,
 				5056EAAF1CF2C6B000FDE07E /* YepService.swift */,
 				5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */,
@@ -3000,6 +3000,14 @@
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EFB1CF2D60B0018D91F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */,
+			);
+			name = UI;
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
@@ -4608,8 +4616,8 @@
 				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
-				5056EAB11CF2C6B000FDE07E /* UIModels.swift in Sources */,
 				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
+				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
 				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
 			);

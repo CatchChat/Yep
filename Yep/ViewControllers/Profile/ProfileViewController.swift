@@ -911,7 +911,7 @@ final class ProfileViewController: SegueViewController {
 
             if let
                 skillInfo = sender as? [String: AnyObject],
-                skill = skillInfo["skill"] as? SkillCell.Skill {
+                skill = skillInfo["skill"] as? SkillCellSkill {
                     vc.skill = Skill(category: nil, id: skill.ID, name: skill.localName, localName: skill.localName, coverURLString: skill.coverURLString)
             }
 

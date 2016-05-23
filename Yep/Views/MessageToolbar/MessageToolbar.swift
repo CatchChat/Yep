@@ -9,38 +9,6 @@
 import UIKit
 import Ruler
 
-enum MessageToolbarState: Int, CustomStringConvertible {
-
-    case Default
-    case BeginTextInput
-    case TextInputing
-    case VoiceRecord
-
-    var description: String {
-        switch self {
-        case .Default:
-            return "Default"
-        case .BeginTextInput:
-            return "BeginTextInput"
-        case .TextInputing:
-            return "TextInputing"
-        case .VoiceRecord:
-            return "VoiceRecord"
-        }
-    }
-
-    var isAtBottom: Bool {
-        switch self {
-        case .Default:
-            return true
-        case .BeginTextInput, .TextInputing:
-            return false
-        case .VoiceRecord:
-            return true
-        }
-    }
-}
-
 @IBDesignable
 final class MessageToolbar: UIToolbar {
     
