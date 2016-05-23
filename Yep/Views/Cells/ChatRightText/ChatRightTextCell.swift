@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepConfig
 
 class ChatRightTextCell: ChatRightBaseCell {
 

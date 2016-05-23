@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import Kingfisher
 import AVFoundation
-import RealmSwift
 import MapKit
+import YepConfig
+import RealmSwift
+import Kingfisher
 
 final class FeedView: UIView {
 
