@@ -632,6 +632,19 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 appDelegate.startFaye()
             }
         }
+
+        YepUserDefaults.Config.updatedPusherIDAction = { pusherID in
+            
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if appDelegate.notRegisteredPush {
+                    appDelegate.notRegisteredPush = false
+
+                    if let deviceToken = appDelegate.deviceToken {
+                        appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+                    }
+                }
+            }
+        }
     }
 
     private func configureYepNetworkingManager() {
