@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 import ImageIO
-import MobileCoreServices
+import MobileCoreServices.UTType
 
 extension UIImage {
 

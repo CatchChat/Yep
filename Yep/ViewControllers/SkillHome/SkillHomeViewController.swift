@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import MobileCoreServices
+import MobileCoreServices.UTType
 import RealmSwift
 import YepNetworking
 import Proposer

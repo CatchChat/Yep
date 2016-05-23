@@ -11,7 +11,7 @@ import RealmSwift
 import YepNetworking
 import OpenGraph
 import AVFoundation
-import MobileCoreServices
+import MobileCoreServices.UTType
 import MapKit
 import Proposer
 import KeyboardMan

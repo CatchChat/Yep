@@ -5,7 +5,7 @@
 //  Created by NIX on 15/3/20.
 //  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
-
+/*
 import UIKit
 import MapKit
 import RealmSwift
@@ -2092,4 +2092,5 @@ func clearUselessRealmObjects() {
         let _ = try? realm.commitWrite()
     }
 }
+*/
 

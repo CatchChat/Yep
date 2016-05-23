@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-import MobileCoreServices
+import MobileCoreServices.UTType
 import Photos
 import YepNetworking
 import OpenGraph
