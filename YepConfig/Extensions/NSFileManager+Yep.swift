@@ -13,7 +13,7 @@ public enum FileExtension: String {
     case MP4 = "mp4"
     case M4A = "m4a"
 
-    var mimeType: String {
+    public var mimeType: String {
         switch self {
         case .JPEG:
             return "image/jpeg"

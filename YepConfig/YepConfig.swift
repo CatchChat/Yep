@@ -71,8 +71,8 @@ final public class YepConfig {
         public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
 
         public struct Notification {
-            static let MessageStateChanged = "MessageStateChangedNotification"
-            static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
+            public static let MessageStateChanged = "MessageStateChangedNotification"
+            public static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
         }
     }
 

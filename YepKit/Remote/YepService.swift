@@ -3657,8 +3657,8 @@ public func instagramWorkOfUserWithUserID(userID: String, failureHandler: Failur
 }
 
 public enum SocialWork {
-    public case Dribbble(DribbbleWork)
-    public case Instagram(InstagramWork)
+    case Dribbble(DribbbleWork)
+    case Instagram(InstagramWork)
 }
 
 // MARK: - Feedback
@@ -3765,9 +3765,9 @@ public struct UsernamePrefixMatchedUser {
     }
 }
 
-public extension UsernamePrefixMatchedUser: Hashable {
+extension UsernamePrefixMatchedUser: Hashable {
 
-    var hashValue: Int {
+    public var hashValue: Int {
         return userID.hashValue
     }
 }
