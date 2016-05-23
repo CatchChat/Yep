@@ -10,7 +10,6 @@ import Foundation
 import CoreLocation
 import YepConfig
 import YepNetworking
-import SoundEffect
 import RealmSwift
 import Alamofire
 

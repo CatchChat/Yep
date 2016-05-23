@@ -1,5 +1,5 @@
 //
-//  SoundEffectHelper.swift
+//  YepSoundEffect.swift
 //  Yep
 //
 //  Created by zhowkevin on 15/9/23.
@@ -8,7 +8,7 @@
 
 import AudioToolbox.AudioServices
 
-final public class SoundEffect: NSObject {
+final public class YepSoundEffect: NSObject {
 
     var soundID: SystemSoundID?
     
@@ -16,13 +16,13 @@ final public class SoundEffect: NSObject {
         super.init()
 
         guard !soundName.isEmpty else {
-            fatalError("SoundEffect: no soundName!")
+            fatalError("YepSoundEffect: no soundName!")
         }
 
-        let bundle = NSBundle(forClass: SoundEffect.self)
+        let bundle = NSBundle.mainBundle()
 
         guard let fileURL = bundle.URLForResource(soundName, withExtension: "caf") else {
-            fatalError("SoundEffect: file no found!")
+            fatalError("YepSoundEffect: file no found!")
         }
 
         var theSoundID: SystemSoundID = 0
@@ -30,7 +30,7 @@ final public class SoundEffect: NSObject {
         if (error == kAudioServicesNoError) {
             soundID = theSoundID
         } else {
-            fatalError("SoundEffect: init failed!")
+            fatalError("YepSoundEffect: init failed!")
         }
     }
 
