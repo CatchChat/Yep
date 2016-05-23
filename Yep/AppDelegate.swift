@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepUserDefaults
 import YepNetworking
 import Fabric
 import AVFoundation

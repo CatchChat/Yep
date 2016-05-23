@@ -222,14 +222,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                nickname = nickname,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.nickname = nickname
-                    }
-            }
+//            if let
+//                nickname = nickname,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                    let _ = try? realm.write {
+//                        me.nickname = nickname
+//                    }
+//            }
         }
     }()
 
@@ -243,14 +243,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                introduction = introduction,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.introduction = introduction
-                    }
-            }
+//            if let
+//                introduction = introduction,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                    let _ = try? realm.write {
+//                        me.introduction = introduction
+//                    }
+//            }
         }
     }()
 
@@ -264,14 +264,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                avatarURLString = avatarURLString,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.avatarURLString = avatarURLString
-                    }
-            }
+//            if let
+//                avatarURLString = avatarURLString,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                    let _ = try? realm.write {
+//                        me.avatarURLString = avatarURLString
+//                    }
+//            }
         }
     }()
 
@@ -285,14 +285,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                badge = badge,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.badge = badge
-                    }
-            }
+//            if let
+//                badge = badge,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                    let _ = try? realm.write {
+//                        me.badge = badge
+//                    }
+//            }
         }
     }()
 
@@ -306,14 +306,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                blogURLString = blogURLString,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                let _ = try? realm.write {
-                    me.blogURLString = blogURLString
-                }
-            }
+//            if let
+//                blogURLString = blogURLString,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                let _ = try? realm.write {
+//                    me.blogURLString = blogURLString
+//                }
+//            }
         }
     }()
 
@@ -327,14 +327,14 @@ class YepUserDefaults {
                 return
             }
 
-            if let
-                blogTitle = blogTitle,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                let _ = try? realm.write {
-                    me.blogTitle = blogTitle
-                }
-            }
+//            if let
+//                blogTitle = blogTitle,
+//                myUserID = YepUserDefaults.userID.value,
+//                me = userWithUserID(myUserID, inRealm: realm) {
+//                let _ = try? realm.write {
+//                    me.blogTitle = blogTitle
+//                }
+//            }
         }
     }()
 
@@ -345,17 +345,17 @@ class YepUserDefaults {
             defaults.setObject(pusherID, forKey: pusherIDKey)
 
             // 注册推送的好时机
-            if let
-                pusherID = pusherID,
-                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                    if appDelegate.notRegisteredPush {
-                        appDelegate.notRegisteredPush = false
-
-                        if let deviceToken = appDelegate.deviceToken {
-                            appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-                        }
-                    }
-            }
+//            if let
+//                pusherID = pusherID,
+//                appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+//                    if appDelegate.notRegisteredPush {
+//                        appDelegate.notRegisteredPush = false
+//
+//                        if let deviceToken = appDelegate.deviceToken {
+//                            appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+//                        }
+//                    }
+//            }
         }
     }()
 
