@@ -36,23 +36,25 @@ private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
 
-struct Listener<T>: Hashable {
+public struct Listener<T>: Hashable {
+
     let name: String
 
-    typealias Action = T -> Void
+    public typealias Action = T -> Void
     let action: Action
 
-    var hashValue: Int {
+    public var hashValue: Int {
         return name.hashValue
     }
 }
 
-func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
+public func ==<T>(lhs: Listener<T>, rhs: Listener<T>) -> Bool {
     return lhs.name == rhs.name
 }
 
 final public class Listenable<T> {
-    var value: T {
+
+    public var value: T {
         didSet {
             setterAction(value)
 
@@ -62,7 +64,7 @@ final public class Listenable<T> {
         }
     }
 
-    typealias SetterAction = T -> Void
+    public typealias SetterAction = T -> Void
     var setterAction: SetterAction
 
     var listenerSet = Set<Listener<T>>()
