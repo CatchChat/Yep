@@ -33,6 +33,14 @@ target 'Yep' do
     end
 end
 
+target 'YepUserDefaults' do
+    pod 'RealmSwift'
+end
+
+target 'FayeClient' do
+    pod 'SocketRocket'
+    pod 'Base64'
+end
 target 'FayeClient' do
     pod 'SocketRocket'
     pod 'Base64'

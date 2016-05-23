@@ -113,7 +113,6 @@
 		502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */; };
 		502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */; };
 		502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5391AB871C1005BD199 /* YepAlert.swift */; };
-		502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */; };
 		502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE53E1AB88862005BD199 /* SkillRankCell.swift */; };
 		502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE53F1AB88862005BD199 /* SkillRankCell.xib */; };
 		502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE54C1AB93175005BD199 /* ProfileHeaderCell.swift */; };
@@ -163,6 +162,12 @@
 		503E71D41CF2A24500822B91 /* Remote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DB1CF2A2E200822B91 /* YepService.swift */; };
 		503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */; };
+		503E71E71CF2A4C200822B91 /* YepUserDefaults.h in Headers */ = {isa = PBXBuildFile; fileRef = 503E71E61CF2A4C200822B91 /* YepUserDefaults.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		503E71EE1CF2A4C200822B91 /* YepUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */; };
+		503E71F51CF2A4C200822B91 /* YepUserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71F41CF2A4C200822B91 /* YepUserDefaultsTests.swift */; };
+		503E71F91CF2A4C200822B91 /* YepUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */; };
+		503E71FA1CF2A4C200822B91 /* YepUserDefaults.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		503E72021CF2A4DB00822B91 /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72011CF2A4DB00822B91 /* YepUserDefaults.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
 		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
@@ -533,6 +538,27 @@
 			remoteGlobalIDString = 503E71BD1CF2A24500822B91;
 			remoteInfo = Remote;
 		};
+		503E71EF1CF2A4C200822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 503E71E31CF2A4C200822B91;
+			remoteInfo = YepUserDefaults;
+		};
+		503E71F11CF2A4C200822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		503E71F71CF2A4C200822B91 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 503E71E31CF2A4C200822B91;
+			remoteInfo = YepUserDefaults;
+		};
 		507DCE871CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
@@ -630,6 +656,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				503E71FA1CF2A4C200822B91 /* YepUserDefaults.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 				503E71A61CF29E1200822B91 /* Persistence.framework in Embed Frameworks */,
@@ -763,7 +790,6 @@
 		502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByMobileViewController.swift; path = ViewControllers/Login/LoginByMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVerifyMobileViewController.swift; path = ViewControllers/Login/LoginVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5391AB871C1005BD199 /* YepAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAlert.swift; path = Helpers/YepAlert.swift; sourceTree = "<group>"; };
-		502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = Helpers/YepUserDefaults.swift; sourceTree = "<group>"; };
 		502AE53E1AB88862005BD199 /* SkillRankCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillRankCell.swift; path = Views/Cells/SkillRank/SkillRankCell.swift; sourceTree = "<group>"; };
 		502AE53F1AB88862005BD199 /* SkillRankCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillRankCell.xib; path = Views/Cells/SkillRank/SkillRankCell.xib; sourceTree = "<group>"; };
 		502AE54C1AB93175005BD199 /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileHeaderCell.swift; path = Views/Cells/ProfileHeader/ProfileHeaderCell.swift; sourceTree = "<group>"; };
@@ -815,6 +841,13 @@
 		503E71D01CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503E71DB1CF2A2E200822B91 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepService.swift; sourceTree = "<group>"; };
 		503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepServiceSync.swift; sourceTree = "<group>"; };
+		503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepUserDefaults.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E71E61CF2A4C200822B91 /* YepUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepUserDefaults.h; sourceTree = "<group>"; };
+		503E71E81CF2A4C200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E71ED1CF2A4C200822B91 /* YepUserDefaultsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUserDefaultsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E71F41CF2A4C200822B91 /* YepUserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUserDefaultsTests.swift; sourceTree = "<group>"; };
+		503E71F61CF2A4C200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E72011CF2A4DB00822B91 /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepUserDefaults.swift; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
 		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
@@ -1159,6 +1192,7 @@
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
 				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
 				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
+				503E71F91CF2A4C200822B91 /* YepUserDefaults.framework in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
 				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
@@ -1214,6 +1248,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				503E71C81CF2A24500822B91 /* Remote.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71E01CF2A4C200822B91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71EA1CF2A4C200822B91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71EE1CF2A4C200822B91 /* YepUserDefaults.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1340,6 +1389,8 @@
 				503E71CD1CF2A24500822B91 /* RemoteTests */,
 				503E71911CF29E1200822B91 /* Persistence */,
 				503E719F1CF29E1200822B91 /* PersistenceTests */,
+				503E71E51CF2A4C200822B91 /* YepUserDefaults */,
+				503E71F31CF2A4C200822B91 /* YepUserDefaultsTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
 				EBAA6F3706BE77C1153E7B42 /* Pods */,
@@ -1363,6 +1414,8 @@
 				503E71991CF29E1200822B91 /* PersistenceTests.xctest */,
 				503E71BE1CF2A24500822B91 /* Remote.framework */,
 				503E71C71CF2A24500822B91 /* RemoteTests.xctest */,
+				503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */,
+				503E71ED1CF2A4C200822B91 /* YepUserDefaultsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2000,7 +2053,6 @@
 				50B6CDEE1CC4D382000B0A03 /* KVO */,
 				50DEE0401BE7626100015741 /* YepHelpers.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
-				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
 				50894D0F1AEE3C25000981AF /* YepHUD.swift */,
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
@@ -2188,6 +2240,25 @@
 				503E71D01CF2A24500822B91 /* Info.plist */,
 			);
 			path = RemoteTests;
+			sourceTree = "<group>";
+		};
+		503E71E51CF2A4C200822B91 /* YepUserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				503E71E61CF2A4C200822B91 /* YepUserDefaults.h */,
+				503E72011CF2A4DB00822B91 /* YepUserDefaults.swift */,
+				503E71E81CF2A4C200822B91 /* Info.plist */,
+			);
+			path = YepUserDefaults;
+			sourceTree = "<group>";
+		};
+		503E71F31CF2A4C200822B91 /* YepUserDefaultsTests */ = {
+			isa = PBXGroup;
+			children = (
+				503E71F41CF2A4C200822B91 /* YepUserDefaultsTests.swift */,
+				503E71F61CF2A4C200822B91 /* Info.plist */,
+			);
+			path = YepUserDefaultsTests;
 			sourceTree = "<group>";
 		};
 		503ED23B1B8ADCED0072187D /* BlackList */ = {
@@ -3341,6 +3412,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		503E71E11CF2A4C200822B91 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71E71CF2A4C200822B91 /* YepUserDefaults.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		507DCE791CEED2C2006D43F7 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -3391,6 +3470,7 @@
 				507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */,
 				503E71A41CF29E1200822B91 /* PBXTargetDependency */,
 				503E71D21CF2A24500822B91 /* PBXTargetDependency */,
+				503E71F81CF2A4C200822B91 /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3494,6 +3574,43 @@
 			name = RemoteTests;
 			productName = RemoteTests;
 			productReference = 503E71C71CF2A24500822B91 /* RemoteTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		503E71E31CF2A4C200822B91 /* YepUserDefaults */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 503E71FF1CF2A4C200822B91 /* Build configuration list for PBXNativeTarget "YepUserDefaults" */;
+			buildPhases = (
+				503E71DF1CF2A4C200822B91 /* Sources */,
+				503E71E01CF2A4C200822B91 /* Frameworks */,
+				503E71E11CF2A4C200822B91 /* Headers */,
+				503E71E21CF2A4C200822B91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YepUserDefaults;
+			productName = YepUserDefaults;
+			productReference = 503E71E41CF2A4C200822B91 /* YepUserDefaults.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		503E71EC1CF2A4C200822B91 /* YepUserDefaultsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 503E72001CF2A4C200822B91 /* Build configuration list for PBXNativeTarget "YepUserDefaultsTests" */;
+			buildPhases = (
+				503E71E91CF2A4C200822B91 /* Sources */,
+				503E71EA1CF2A4C200822B91 /* Frameworks */,
+				503E71EB1CF2A4C200822B91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				503E71F01CF2A4C200822B91 /* PBXTargetDependency */,
+				503E71F21CF2A4C200822B91 /* PBXTargetDependency */,
+			);
+			name = YepUserDefaultsTests;
+			productName = YepUserDefaultsTests;
+			productReference = 503E71ED1CF2A4C200822B91 /* YepUserDefaultsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		507DCE7B1CEED2C2006D43F7 /* OpenGraph */ = {
@@ -3695,6 +3812,14 @@
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					503E71E31CF2A4C200822B91 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					503E71EC1CF2A4C200822B91 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 					507DCE7B1CEED2C2006D43F7 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = TKRALRXCKN;
@@ -3762,6 +3887,8 @@
 				503E71981CF29E1200822B91 /* PersistenceTests */,
 				503E71BD1CF2A24500822B91 /* Remote */,
 				503E71C61CF2A24500822B91 /* RemoteTests */,
+				503E71E31CF2A4C200822B91 /* YepUserDefaults */,
+				503E71EC1CF2A4C200822B91 /* YepUserDefaultsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3910,6 +4037,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		503E71C51CF2A24500822B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71E21CF2A4C200822B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71EB1CF2A4C200822B91 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4262,7 +4403,6 @@
 				6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */,
 				507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
-				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */,
@@ -4549,6 +4689,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		503E71DF1CF2A4C200822B91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E72021CF2A4DB00822B91 /* YepUserDefaults.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		503E71E91CF2A4C200822B91 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				503E71F51CF2A4C200822B91 /* YepUserDefaultsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		507DCE771CEED2C2006D43F7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4660,6 +4816,21 @@
 			isa = PBXTargetDependency;
 			target = 503E71BD1CF2A24500822B91 /* Remote */;
 			targetProxy = 503E71D11CF2A24500822B91 /* PBXContainerItemProxy */;
+		};
+		503E71F01CF2A4C200822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 503E71E31CF2A4C200822B91 /* YepUserDefaults */;
+			targetProxy = 503E71EF1CF2A4C200822B91 /* PBXContainerItemProxy */;
+		};
+		503E71F21CF2A4C200822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 503E71F11CF2A4C200822B91 /* PBXContainerItemProxy */;
+		};
+		503E71F81CF2A4C200822B91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 503E71E31CF2A4C200822B91 /* YepUserDefaults */;
+			targetProxy = 503E71F71CF2A4C200822B91 /* PBXContainerItemProxy */;
 		};
 		507DCE881CEED2C4006D43F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -5241,6 +5412,85 @@
 			};
 			name = Release;
 		};
+		503E71FB1CF2A4C200822B91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepUserDefaults/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepUserDefaults";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		503E71FC1CF2A4C200822B91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepUserDefaults/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepUserDefaults";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		503E71FD1CF2A4C200822B91 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepUserDefaultsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepUserDefaultsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		503E71FE1CF2A4C200822B91 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepUserDefaultsTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepUserDefaultsTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 		507DCE931CEED2C4006D43F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
@@ -5611,6 +5861,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		503E71FF1CF2A4C200822B91 /* Build configuration list for PBXNativeTarget "YepUserDefaults" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				503E71FB1CF2A4C200822B91 /* Debug */,
+				503E71FC1CF2A4C200822B91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		503E72001CF2A4C200822B91 /* Build configuration list for PBXNativeTarget "YepUserDefaultsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				503E71FD1CF2A4C200822B91 /* Debug */,
+				503E71FE1CF2A4C200822B91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		507DCE971CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraph" */ = {
 			isa = XCConfigurationList;
