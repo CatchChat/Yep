@@ -8,8 +8,10 @@
 
 import UIKit
 import CoreLocation
-import MobileCoreServices
+import MobileCoreServices.UTType
 import Photos
+import YepKit
+import YepConfig
 import YepNetworking
 import OpenGraph
 import Proposer
@@ -32,7 +34,7 @@ final class NewFeedViewController: SegueViewController {
         case Default
         case SocialWork(MessageSocialWork)
         case Voice(FeedVoice)
-        case Location(PickLocationViewController.Location)
+        case Location(PickLocationViewControllerLocation)
 
         var needPrepare: Bool {
             switch self {

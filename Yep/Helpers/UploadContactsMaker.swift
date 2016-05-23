@@ -8,6 +8,7 @@
 
 import Foundation
 import Contacts
+import YepKit
 
 class UploadContactsMaker {
 

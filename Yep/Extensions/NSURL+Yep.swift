@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import YepKit
 private let yepHost = "soyep.com"
 
 extension NSURL {

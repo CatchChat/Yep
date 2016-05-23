@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 
 final class MoreMessageTypesView: UIView {
 

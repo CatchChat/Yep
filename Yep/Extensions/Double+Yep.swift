@@ -9,9 +9,6 @@
 import Foundation
 
 extension Double {
-    func format(f: String) -> String {
-        return NSString(format: "%\(f)f", self) as String
-    }
 
     var yep_feedAudioTimeLengthString: String {
         let minutes = Int(self / 60)
@@ -19,3 +16,4 @@ extension Double {
         return String(format: "%02d:%02d", minutes, seconds)
     }
 }
+

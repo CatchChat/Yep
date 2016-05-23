@@ -8,21 +8,18 @@
 
 import UIKit
 import RealmSwift
+import YepKit
+import YepConfig
 import YepNetworking
 import OpenGraph
 import AVFoundation
-import MobileCoreServices
+import MobileCoreServices.UTType
 import MapKit
 import Proposer
 import KeyboardMan
 import Navi
 import MonkeyKing
 import Ruler
-
-struct MessageNotification {
-    static let MessageStateChanged = "MessageStateChangedNotification"
-    static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
-}
 
 enum ConversationFeed {
     case DiscoveredFeedType(DiscoveredFeed)
@@ -778,7 +775,7 @@ final class ConversationViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: MessageNotification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: YepConfig.Message.Notification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -2261,7 +2258,7 @@ final class ConversationViewController: BaseViewController {
             }
 
             delay(0.5) {
-                NSNotificationCenter.defaultCenter().postNotificationName(MessageNotification.MessageStateChanged, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
             }
         }
     }

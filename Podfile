@@ -33,6 +33,11 @@ target 'Yep' do
     end
 end
 
+target 'YepConfig' do
+    pod 'Ruler'
+    pod 'Kingfisher'
+end
+
 target 'FayeClient' do
     pod 'SocketRocket'
     pod 'Base64'
@@ -43,15 +48,24 @@ target 'OpenGraph' do
     pod 'Kanna', '1.0.2'
 end
 
+target 'YepKit' do
+    pod 'Alamofire'
+    pod 'RealmSwift'
+end
+
 # make sure 'Alamofire', 'Kanna' allow app extension api only
 
 post_install do |installer|
+    puts 'Allow app extension api only:'
     installer.pods_project.targets.each do |target|
-        case target
+        case target.name
         when 'Alamofire', 'Kanna'
             target.build_configurations.each do |config|
                 config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
+                puts 'X...' + target.name
             end
+        else
+            puts 'O...' + target.name
         end
     end
 end

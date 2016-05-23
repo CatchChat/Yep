@@ -9,9 +9,6 @@
 import UIKit
 
 extension UIFont {
-    class func chatTextFont() -> UIFont {
-        return UIFont.systemFontOfSize(16)
-    }
 
     class func skillDiscoverTextFont() -> UIFont {
         return UIFont.systemFontOfSize(11)
@@ -40,20 +37,5 @@ extension UIFont {
     class func navigationBarTitleFont() -> UIFont { // make sure it's the same as system use
         return UIFont.boldSystemFontOfSize(17)
     }
-
-    class func feedMessageFont() -> UIFont {
-        return UIFont.systemFontOfSize(17)
-    }
-
-    class func feedSkillFont() -> UIFont {
-        return UIFont.systemFontOfSize(12)
-    }
-
-    class func feedBottomLabelsFont() -> UIFont {
-        return UIFont.systemFontOfSize(14)
-    }
-
-    class func feedVoiceTimeLengthFont() -> UIFont {
-        return UIFont.systemFontOfSize(12)
-    }
 }
+

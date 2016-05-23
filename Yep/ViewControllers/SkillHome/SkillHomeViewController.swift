@@ -7,8 +7,10 @@
 //
 
 import UIKit
-import MobileCoreServices
+import MobileCoreServices.UTType
 import RealmSwift
+import YepKit
+import YepConfig
 import YepNetworking
 import Proposer
 import Navi
@@ -17,7 +19,7 @@ let ScrollViewTag = 100
 
 final class SkillHomeViewController: BaseViewController {
 
-    var skill: SkillCell.Skill? {
+    var skill: SkillCellSkill? {
         willSet {
             title = newValue?.localName
             skillCoverURLString = newValue?.coverURLString

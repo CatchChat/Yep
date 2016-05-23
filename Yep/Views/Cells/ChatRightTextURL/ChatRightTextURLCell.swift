@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 import Ruler
 
 final class ChatRightTextURLCell: ChatRightTextCell {

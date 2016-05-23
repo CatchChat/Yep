@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import YepKit
+import YepConfig
 import RealmSwift
 
 final class ProfileFooterCell: UICollectionViewCell {

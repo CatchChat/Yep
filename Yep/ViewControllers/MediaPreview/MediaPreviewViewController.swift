@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import YepKit
 import MonkeyKing
 import Kingfisher
 import Ruler

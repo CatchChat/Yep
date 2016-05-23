@@ -65,3 +65,4 @@ final class OpenGraphTests: XCTestCase {
         waitForExpectationsWithTimeout(10, handler: nil)
     }
 }
+

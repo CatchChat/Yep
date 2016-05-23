@@ -87,23 +87,6 @@ extension String {
 
 extension String {
 
-    func yep_mentionedMeInRealm(realm: Realm) -> Bool {
-
-        guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: realm) else {
-            return false
-        }
-
-        let username = me.username
-
-        if !username.isEmpty {
-            if self.containsString("@\(username)") {
-                return true
-            }
-        }
-
-        return false
-    }
-
     func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
         //println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")

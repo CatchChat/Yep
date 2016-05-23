@@ -16,7 +16,6 @@
 		0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */; };
 		0A3E60671ACCAECE003DC853 /* YepLocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3E60661ACCAECE003DC853 /* YepLocationService.swift */; };
 		0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */; };
-		0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A7D551AF5E00600A7F5F5 /* YepHelper.swift */; };
 		0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A8F54B01AB67D11004AD60E /* AppDelegate.swift */; };
 		0A8F54B61AB67D11004AD60E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B41AB67D11004AD60E /* Main.storyboard */; };
 		0A8F54B81AB67D11004AD60E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B71AB67D11004AD60E /* Images.xcassets */; };
@@ -50,10 +49,6 @@
 		338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940451CBCB0E200B276C1 /* AlbumListController.swift */; };
 		338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940471CBCF05A00B276C1 /* AlbumListCell.swift */; };
 		3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940481CBCF05A00B276C1 /* AlbumListCell.xib */; };
-		36463E0E00BB80C73E48EB43 /* Pods_OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */; };
-		50008D291CAA66E600245296 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D281CAA66E600245296 /* FeedSearch.swift */; };
-		50008D2B1CAB697A00245296 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2A1CAB697A00245296 /* UserSearch.swift */; };
-		50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D2C1CAB76AD00245296 /* SearchableItemType.swift */; };
 		50008D321CAE0D9A00245296 /* SearchConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */; };
 		50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50008D331CAE0DC700245296 /* SearchConversations.storyboard */; };
 		50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D381CAE537400245296 /* SearchedFeedCell.swift */; };
@@ -80,13 +75,10 @@
 		501138321BCB62A20055A014 /* FeedConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501138301BCB62A20055A014 /* FeedConversationCell.xib */; };
 		5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */; };
 		5012FDDB1BFABDE400294145 /* ProfileFeedsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */; };
-		501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501560D61B427FD6000933F0 /* Results+Yep.swift */; };
 		50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50165C441AC2860900C7AEBE /* ConversationLayout.swift */; };
 		501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */; };
 		501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */; };
-		5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5016901B1BFB22180096C4F9 /* SocialWorkService.swift */; };
 		5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC1C1CD095E100DFCB71 /* YepTests.swift */; };
-		5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5017FC241CD0960200DFCB71 /* SyncTests.swift */; };
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
@@ -104,20 +96,16 @@
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
-		5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
 		502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5201AB71C7E005BD199 /* BorderButton.swift */; };
-		502AE5291AB81076005BD199 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5281AB81076005BD199 /* YepService.swift */; };
-		502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52A1AB819AF005BD199 /* YepConfig.swift */; };
 		502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52D1AB83879005BD199 /* UnderLineTextField.swift */; };
 		502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */; };
 		502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */; };
 		502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */; };
 		502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */; };
 		502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5391AB871C1005BD199 /* YepAlert.swift */; };
-		502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */; };
 		502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE53E1AB88862005BD199 /* SkillRankCell.swift */; };
 		502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502AE53F1AB88862005BD199 /* SkillRankCell.xib */; };
 		502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE54C1AB93175005BD199 /* ProfileHeaderCell.swift */; };
@@ -151,6 +139,14 @@
 		5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */; };
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		503E72121CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		503E72191CF2A59200822B91 /* YepConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72181CF2A59200822B91 /* YepConfigTests.swift */; };
+		503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		503E721E1CF2A59200822B91 /* YepConfig.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		503E72261CF2A5C700822B91 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72251CF2A5C700822B91 /* YepConfig.swift */; };
+		503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72281CF2A89500822B91 /* UIFont+Yep.swift */; };
+		503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722A1CF2A92500822B91 /* UIColor+Yep.swift */; };
+		503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
 		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
@@ -189,6 +185,19 @@
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
 		5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */; };
 		5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */; };
+		5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5056EA8D1CF2C55200FDE07E /* YepKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		5056EA9C1CF2C55200FDE07E /* YepKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */; };
+		5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAB1CF2C6A200FDE07E /* Models.swift */; };
+		5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */; };
+		5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAF1CF2C6B000FDE07E /* YepService.swift */; };
+		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
+		5056EAB71CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */; };
+		5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */; };
+		5056EAB91CF2C70D00FDE07E /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
+		5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
 		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
@@ -206,8 +215,6 @@
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
 		506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */; };
 		506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */; };
-		506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */; };
-		506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */; };
 		506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */; };
 		506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */; };
 		506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01F81CE029B100B3867D /* UploadContactsMaker.swift */; };
@@ -216,24 +223,11 @@
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
 		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
 		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
-		507813101CD09FEE00F193AB /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078130F1CD09FEE00F193AB /* ClearTests.swift */; };
-		507813121CD0A45800F193AB /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813111CD0A45800F193AB /* RealmTests.swift */; };
-		507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813131CD0B0CF00F193AB /* ServiceTests.swift */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
 		507813241CD2FEF400F193AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507813231CD2FEF400F193AB /* Images.xcassets */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
-		507DCE7F1CEED2C3006D43F7 /* OpenGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 507DCE7E1CEED2C3006D43F7 /* OpenGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		507DCE861CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; };
-		507DCE8D1CEED2C4006D43F7 /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE8C1CEED2C4006D43F7 /* OpenGraphTests.swift */; };
-		507DCE911CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; };
-		507DCE921CEED2C4006D43F7 /* OpenGraph.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		507DCE9A1CEED2FA006D43F7 /* OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE991CEED2FA006D43F7 /* OpenGraph.swift */; };
-		507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */; };
-		507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */; };
-		507DCEA11CEED554006D43F7 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA01CEED554006D43F7 /* Service.swift */; };
-		507DCEA31CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */; };
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
 		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -293,9 +287,6 @@
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
-		50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */; };
-		50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */; };
-		50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; };
 		50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50AACECC1BB5419A004DD54B /* FeedView.xib */; };
@@ -308,7 +299,6 @@
 		50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B22E451C588B6200219625 /* CGImage+Yep.swift */; };
 		50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */; };
 		50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */; };
-		50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FB61B69CD960064C132 /* Array+Yep.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */; };
 		50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */; };
@@ -358,7 +348,41 @@
 		50D3A3641CEE9ABD00E59470 /* FayeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A3631CEE9ABD00E59470 /* FayeMessage.swift */; };
 		50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D4D0DA1AFA825B005AEB6F /* MediaControlView.swift */; };
 		50D50AC31CCE01D300FB5753 /* YepUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D50AC21CCE01D300FB5753 /* YepUITests.swift */; };
-		50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */; };
+		50D84ECB1CF2CB120018D91F /* OpenGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D84ECA1CF2CB120018D91F /* OpenGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		50D84ED21CF2CB120018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84ED91CF2CB120018D91F /* OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */; };
+		50D84EDD1CF2CB120018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50D84EE51CF2CB1C0018D91F /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		50D84EE81CF2CBD60018D91F /* OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EE61CF2CBD60018D91F /* OpenGraph.swift */; };
+		50D84EE91CF2CBD60018D91F /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EE71CF2CBD60018D91F /* Service.swift */; };
+		50D84EED1CF2CBDE0018D91F /* NSURL+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */; };
+		50D84EEE1CF2CBDE0018D91F /* String+OpenGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */; };
+		50D84EF11CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */; };
+		50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */; };
+		50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF51CF2D4790018D91F /* Array+Yep.swift */; };
+		50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */; };
+		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
+		50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */; };
+		50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */; };
+		50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */; };
+		50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F051CF2D9FB0018D91F /* FeedSearch.swift */; };
+		50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */; };
+		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
+		50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0B1CF2DB470018D91F /* CancelableTask.swift */; };
+		50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */; };
+		50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F121CF2DF790018D91F /* NSDate+Extension.swift */; };
+		50D84F151CF2DF790018D91F /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */; };
+		50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F161CF2DFF50018D91F /* Double+Yep.swift */; };
+		50D84F201CF2F8750018D91F /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1C1CF2F8750018D91F /* ServiceTests.swift */; };
+		50D84F211CF2F8750018D91F /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */; };
+		50D84F221CF2F8750018D91F /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1E1CF2F8750018D91F /* SyncTests.swift */; };
+		50D84F231CF2F8750018D91F /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */; };
+		50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F241CF2F8B00018D91F /* RealmTests.swift */; };
+		50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F261CF2F95D0018D91F /* ClearTests.swift */; };
+		50D84F551CF306D00018D91F /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F541CF306D00018D91F /* YepSoundEffect.swift */; };
+		50D84F571CF307F60018D91F /* SoundEffectConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F561CF307F60018D91F /* SoundEffectConfig.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -387,8 +411,6 @@
 		50DEE05D1BEA100100015741 /* SearchedUsers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */; };
 		50DEE05F1BEA119D00015741 /* AddFriends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE05E1BEA119D00015741 /* AddFriends.storyboard */; };
 		50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0601BEA146900015741 /* Conversation.storyboard */; };
-		50E114F41ABBF9CC00F13000 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F31ABBF9CC00F13000 /* Models.swift */; };
-		50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114F81ABC137A00F13000 /* YepServiceSync.swift */; };
 		50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E114FA1ABC549300F13000 /* ContactsCell.swift */; };
 		50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E114FB1ABC549300F13000 /* ContactsCell.xib */; };
 		50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */; };
@@ -440,12 +462,13 @@
 		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
 		50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */; };
 		50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */; };
+		5671D29D0D3FE393D5BDC74A /* Pods_YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E519848DD3290844742698C /* Pods_YepKit.framework */; };
+		6532044AB8BEB2164669341F /* Pods_YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
 		6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */; };
 		6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */; };
-		6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */; };
 		6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */; };
 		6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */; };
 		6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */; };
@@ -468,6 +491,7 @@
 		9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */; };
 		B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C73250AC8BB116924CA11C0 /* QuartzCore.framework */; };
 		D480A202231A9FB9D421BECF /* Pods_YepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */; };
+		DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */; };
 		F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -479,26 +503,47 @@
 			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
 			remoteInfo = Yep;
 		};
-		507DCE871CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
+		503E72131CF2A59200822B91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 507DCE7B1CEED2C2006D43F7;
-			remoteInfo = OpenGraph;
+			remoteGlobalIDString = 503E72071CF2A59100822B91;
+			remoteInfo = YepConfig;
 		};
-		507DCE891CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
+		503E72151CF2A59200822B91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
 			remoteInfo = Yep;
 		};
-		507DCE8F1CEED2C4006D43F7 /* PBXContainerItemProxy */ = {
+		503E721B1CF2A59200822B91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 507DCE7B1CEED2C2006D43F7;
-			remoteInfo = OpenGraph;
+			remoteGlobalIDString = 503E72071CF2A59100822B91;
+			remoteInfo = YepConfig;
+		};
+		5056EA961CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5056EA8A1CF2C55100FDE07E;
+			remoteInfo = YepKit;
+		};
+		5056EA981CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		5056EA9E1CF2C55200FDE07E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5056EA8A1CF2C55100FDE07E;
+			remoteInfo = YepKit;
 		};
 		507DCEB11CEEE2DC006D43F7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -556,6 +601,27 @@
 			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
 			remoteInfo = Yep;
 		};
+		50D84ED31CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84EC71CF2CB110018D91F;
+			remoteInfo = OpenGraph;
+		};
+		50D84ED51CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A8F54AA1AB67D11004AD60E;
+			remoteInfo = Yep;
+		};
+		50D84EDB1CF2CB120018D91F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A8F54A31AB67D11004AD60E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50D84EC71CF2CB110018D91F;
+			remoteInfo = OpenGraph;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -576,9 +642,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
-				507DCE921CEED2C4006D43F7 /* OpenGraph.framework in Embed Frameworks */,
+				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
+				503E721E1CF2A59200822B91 /* YepConfig.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -596,7 +664,6 @@
 		0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		0A3E60661ACCAECE003DC853 /* YepLocationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepLocationService.swift; path = Services/YepLocationService.swift; sourceTree = "<group>"; };
 		0A5D83931AC5D3C8000045BF /* YepTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepTabBarController.swift; path = ViewControllers/TabBar/YepTabBarController.swift; sourceTree = "<group>"; };
-		0A7A7D551AF5E00600A7F5F5 /* YepHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepHelper.swift; path = Configs/YepHelper.swift; sourceTree = "<group>"; };
 		0A8F54AB1AB67D11004AD60E /* Yep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A8F54AF1AB67D11004AD60E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0A8F54B01AB67D11004AD60E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -622,8 +689,11 @@
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
+		0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.release.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.release.xcconfig"; sourceTree = "<group>"; };
 		18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.debug.xcconfig"; sourceTree = "<group>"; };
 		18F9026880FED211156FBB93 /* Pods_FayeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FayeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.release.xcconfig"; sourceTree = "<group>"; };
+		266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.release.xcconfig"; sourceTree = "<group>"; };
 		33180F5B1CC9C58100CACF38 /* DataSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSample.swift; sourceTree = "<group>"; };
 		336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftShareFeedCell.swift; sourceTree = "<group>"; };
@@ -640,9 +710,6 @@
 		450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
-		50008D281CAA66E600245296 /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSearch.swift; path = Realm/FeedSearch.swift; sourceTree = "<group>"; };
-		50008D2A1CAB697A00245296 /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearch.swift; path = Realm/UserSearch.swift; sourceTree = "<group>"; };
-		50008D2C1CAB76AD00245296 /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchableItemType.swift; path = Realm/SearchableItemType.swift; sourceTree = "<group>"; };
 		50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchConversationsViewController.swift; path = ViewControllers/SearchConversations/SearchConversationsViewController.swift; sourceTree = "<group>"; };
 		50008D331CAE0DC700245296 /* SearchConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchConversations.storyboard; path = ViewControllers/SearchConversations/SearchConversations.storyboard; sourceTree = "<group>"; };
 		50008D381CAE537400245296 /* SearchedFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedCell.swift; path = Views/Cells/SearchedFeed/SearchedFeedCell.swift; sourceTree = "<group>"; };
@@ -670,15 +737,12 @@
 		501138301BCB62A20055A014 /* FeedConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationCell.xib; path = Views/Cells/FeedConversation/FeedConversationCell.xib; sourceTree = "<group>"; };
 		5012FDD81BFABDE400294145 /* ProfileFeedsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileFeedsCell.swift; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.swift; sourceTree = "<group>"; };
 		5012FDD91BFABDE400294145 /* ProfileFeedsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileFeedsCell.xib; path = Views/Cells/ProfileFeeds/ProfileFeedsCell.xib; sourceTree = "<group>"; };
-		501560D61B427FD6000933F0 /* Results+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Results+Yep.swift"; path = "Extensions/Results+Yep.swift"; sourceTree = "<group>"; };
 		50165C441AC2860900C7AEBE /* ConversationLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationLayout.swift; path = ViewControllers/Conversation/ConversationLayout.swift; sourceTree = "<group>"; };
 		501690161BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftSocialWorkCell.swift; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.swift; sourceTree = "<group>"; };
 		501690171BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatLeftSocialWorkCell.xib; path = Views/Cells/ChatLeftSocialWork/ChatLeftSocialWorkCell.xib; sourceTree = "<group>"; };
-		5016901B1BFB22180096C4F9 /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Services/SocialWorkService.swift; sourceTree = "<group>"; };
 		5017FC1A1CD095E100DFCB71 /* YepTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5017FC1C1CD095E100DFCB71 /* YepTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepTests.swift; sourceTree = "<group>"; };
 		5017FC1E1CD095E100DFCB71 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5017FC241CD0960200DFCB71 /* SyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTests.swift; sourceTree = "<group>"; };
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
@@ -697,20 +761,16 @@
 		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
-		5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
 		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
 		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
 		502AE5201AB71C7E005BD199 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderButton.swift; path = Views/Buttons/BorderButton.swift; sourceTree = "<group>"; };
-		502AE5281AB81076005BD199 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Services/YepService.swift; sourceTree = "<group>"; };
-		502AE52A1AB819AF005BD199 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Configs/YepConfig.swift; sourceTree = "<group>"; };
 		502AE52D1AB83879005BD199 /* UnderLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnderLineTextField.swift; path = Views/TextFields/UnderLineTextField.swift; sourceTree = "<group>"; };
 		502AE5301AB85067005BD199 /* RegisterPickMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickMobileViewController.swift; path = ViewControllers/Register/RegisterPickMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5321AB86020005BD199 /* RegisterVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterVerifyMobileViewController.swift; path = ViewControllers/Register/RegisterVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5341AB8649F005BD199 /* LoginByMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginByMobileViewController.swift; path = ViewControllers/Login/LoginByMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5371AB866E3005BD199 /* LoginVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginVerifyMobileViewController.swift; path = ViewControllers/Login/LoginVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502AE5391AB871C1005BD199 /* YepAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAlert.swift; path = Helpers/YepAlert.swift; sourceTree = "<group>"; };
-		502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = Helpers/YepUserDefaults.swift; sourceTree = "<group>"; };
 		502AE53E1AB88862005BD199 /* SkillRankCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillRankCell.swift; path = Views/Cells/SkillRank/SkillRankCell.swift; sourceTree = "<group>"; };
 		502AE53F1AB88862005BD199 /* SkillRankCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillRankCell.xib; path = Views/Cells/SkillRank/SkillRankCell.xib; sourceTree = "<group>"; };
 		502AE54C1AB93175005BD199 /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileHeaderCell.swift; path = Views/Cells/ProfileHeader/ProfileHeaderCell.swift; sourceTree = "<group>"; };
@@ -744,6 +804,16 @@
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		503E72081CF2A59200822B91 /* YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E720A1CF2A59200822B91 /* YepConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepConfig.h; sourceTree = "<group>"; };
+		503E720C1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E72111CF2A59200822B91 /* YepConfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepConfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		503E72181CF2A59200822B91 /* YepConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepConfigTests.swift; sourceTree = "<group>"; };
+		503E721A1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		503E72251CF2A5C700822B91 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepConfig.swift; sourceTree = "<group>"; };
+		503E72281CF2A89500822B91 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
+		503E722A1CF2A92500822B91 /* UIColor+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Yep.swift"; path = "Extensions/UIColor+Yep.swift"; sourceTree = "<group>"; };
+		503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
 		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
@@ -781,6 +851,18 @@
 		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
 		5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountImagesCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.swift; sourceTree = "<group>"; };
 		5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountImagesCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.xib; sourceTree = "<group>"; };
+		5056EA8B1CF2C55100FDE07E /* YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5056EA8D1CF2C55200FDE07E /* YepKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepKit.h; sourceTree = "<group>"; };
+		5056EA8F1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5056EA941CF2C55200FDE07E /* YepKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepKitTests.swift; sourceTree = "<group>"; };
+		5056EA9D1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5056EAAB1CF2C6A200FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Persistence/Models.swift; sourceTree = "<group>"; };
+		5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Remote/SocialWorkService.swift; sourceTree = "<group>"; };
+		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
+		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
+		5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaultsConfig.swift; path = UserDefaults/YepUserDefaultsConfig.swift; sourceTree = "<group>"; };
+		5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = UserDefaults/YepUserDefaults.swift; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
 		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		505C338E1BAA92CD00E044E2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -799,8 +881,6 @@
 		506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAnnotationHeader.swift; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.swift; sourceTree = "<group>"; };
 		506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillAnnotationHeader.xib; path = Views/ReusableViews/SkillAnnotationHeader/SkillAnnotationHeader.xib; sourceTree = "<group>"; };
 		506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsSelectSkillsTransitionManager.swift; path = ViewControllers/Register/RegisterPickSkillsSelectSkillsTransitionManager.swift; sourceTree = "<group>"; };
-		506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
-		506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
 		506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountBlogCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.swift; sourceTree = "<group>"; };
 		506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountBlogCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountBlogCell.xib; sourceTree = "<group>"; };
 		506D01F81CE029B100B3867D /* UploadContactsMaker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadContactsMaker.swift; path = Helpers/UploadContactsMaker.swift; sourceTree = "<group>"; };
@@ -809,25 +889,11 @@
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
 		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
-		5078130F1CD09FEE00F193AB /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
-		507813111CD0A45800F193AB /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
-		507813131CD0B0CF00F193AB /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
 		507813231CD2FEF400F193AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
-		507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		507DCE7E1CEED2C3006D43F7 /* OpenGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGraph.h; sourceTree = "<group>"; };
-		507DCE801CEED2C3006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		507DCE851CEED2C3006D43F7 /* OpenGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		507DCE8C1CEED2C4006D43F7 /* OpenGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenGraphTests.swift; sourceTree = "<group>"; };
-		507DCE8E1CEED2C4006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		507DCE991CEED2FA006D43F7 /* OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraph.swift; sourceTree = "<group>"; };
-		507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+OpenGraph.swift"; path = "Extensions/String+OpenGraph.swift"; sourceTree = "<group>"; };
-		507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraph.swift"; path = "Extensions/NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
-		507DCEA01CEED554006D43F7 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
-		507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+OpenGraphTests.swift"; path = "Extensions/NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
 		507DCEA91CEEE2DC006D43F7 /* YepShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -888,9 +954,6 @@
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
-		50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
-		50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NSDateTimeAgo.bundle; path = Extensions/NSDateTimeAgo.bundle; sourceTree = "<group>"; };
-		50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Extension.swift"; path = "Extensions/NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
 		50AACECC1BB5419A004DD54B /* FeedView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedView.xib; path = Views/Feed/FeedView.xib; sourceTree = "<group>"; };
@@ -903,7 +966,6 @@
 		50B22E451C588B6200219625 /* CGImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGImage+Yep.swift"; path = "Extensions/CGImage+Yep.swift"; sourceTree = "<group>"; };
 		50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedTextView.swift; path = Views/TextViews/FeedTextView.swift; sourceTree = "<group>"; };
 		50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMessageTypesView.swift; path = Views/MoreMessageTypes/MoreMessageTypesView.swift; sourceTree = "<group>"; };
-		50B38FB61B69CD960064C132 /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedAnyImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsFooterView.swift; path = Views/Footers/SearchFeedsFooterView.swift; sourceTree = "<group>"; };
@@ -957,7 +1019,39 @@
 		50D50AC01CCE01D300FB5753 /* YepUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D50AC21CCE01D300FB5753 /* YepUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepUITests.swift; sourceTree = "<group>"; };
 		50D50AC41CCE01D300FB5753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
+		50D84EC81CF2CB110018D91F /* OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84ECA1CF2CB120018D91F /* OpenGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGraph.h; sourceTree = "<group>"; };
+		50D84ECC1CF2CB120018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenGraphTests.swift; sourceTree = "<group>"; };
+		50D84EDA1CF2CB120018D91F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50D84EE61CF2CBD60018D91F /* OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGraph.swift; sourceTree = "<group>"; };
+		50D84EE71CF2CBD60018D91F /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraph.swift"; sourceTree = "<group>"; };
+		50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+OpenGraph.swift"; sourceTree = "<group>"; };
+		50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+OpenGraphTests.swift"; sourceTree = "<group>"; };
+		50D84EF51CF2D4790018D91F /* Array+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Yep.swift"; path = "Extensions/Array+Yep.swift"; sourceTree = "<group>"; };
+		50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Realm+Yep.swift"; path = "Extensions/Realm+Yep.swift"; sourceTree = "<group>"; };
+		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
+		50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUIModels.swift; path = UI/YepUIModels.swift; sourceTree = "<group>"; };
+		50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
+		50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
+		50D84F051CF2D9FB0018D91F /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSearch.swift; sourceTree = "<group>"; };
+		50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
+		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
+		50D84F0B1CF2DB470018D91F /* CancelableTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelableTask.swift; path = Helpers/CancelableTask.swift; sourceTree = "<group>"; };
+		50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
+		50D84F121CF2DF790018D91F /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
+		50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		50D84F161CF2DFF50018D91F /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
+		50D84F1C1CF2F8750018D91F /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
+		50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
+		50D84F1E1CF2F8750018D91F /* SyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTests.swift; sourceTree = "<group>"; };
+		50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
+		50D84F241CF2F8B00018D91F /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
+		50D84F261CF2F95D0018D91F /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
+		50D84F541CF306D00018D91F /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
+		50D84F561CF307F60018D91F /* SoundEffectConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundEffectConfig.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -986,8 +1080,6 @@
 		50DEE05C1BEA100100015741 /* SearchedUsers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchedUsers.storyboard; path = ViewControllers/SearchedUsers/SearchedUsers.storyboard; sourceTree = "<group>"; };
 		50DEE05E1BEA119D00015741 /* AddFriends.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = AddFriends.storyboard; path = ViewControllers/AddFriends/AddFriends.storyboard; sourceTree = "<group>"; };
 		50DEE0601BEA146900015741 /* Conversation.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversation.storyboard; path = ViewControllers/Conversation/Conversation.storyboard; sourceTree = "<group>"; };
-		50E114F31ABBF9CC00F13000 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Realm/Models.swift; sourceTree = "<group>"; };
-		50E114F81ABC137A00F13000 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Services/YepServiceSync.swift; sourceTree = "<group>"; };
 		50E114FA1ABC549300F13000 /* ContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactsCell.swift; path = Views/Cells/Contacts/ContactsCell.swift; sourceTree = "<group>"; };
 		50E114FB1ABC549300F13000 /* ContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactsCell.xib; path = Views/Cells/Contacts/ContactsCell.xib; sourceTree = "<group>"; };
 		50E18BB61B180F7D0076C3C6 /* BottomButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomButtonView.swift; path = Views/SayHi/BottomButtonView.swift; sourceTree = "<group>"; };
@@ -1039,12 +1131,12 @@
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
 		50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLContainerView.swift; path = Views/ContainerViews/FeedURLContainerView.swift; sourceTree = "<group>"; };
+		598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.debug.xcconfig"; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
 		6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverNormalUserCell.xib; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.xib; sourceTree = "<group>"; };
 		6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverFlowLayout.swift; path = ViewControllers/Discover/DiscoverFlowLayout.swift; sourceTree = "<group>"; };
-		6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MiniCardSkillLayout.swift; path = Views/Cells/DiscoverCardUser/MiniCardSkillLayout.swift; sourceTree = "<group>"; };
 		6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverSkillCell.swift; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.swift; sourceTree = "<group>"; };
 		6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverSkillCell.xib; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.xib; sourceTree = "<group>"; };
@@ -1065,11 +1157,22 @@
 		848806B21B7B0230000C5424 /* Yep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Yep.entitlements; sourceTree = "<group>"; };
 		848806B51B7B4F53000C5424 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = ViewControllers/Show/ShowViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
+		89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.release.xcconfig"; sourceTree = "<group>"; };
+		95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Persistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.debug.xcconfig"; sourceTree = "<group>"; };
+		9E519848DD3290844742698C /* Pods_YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.debug.xcconfig"; sourceTree = "<group>"; };
+		BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.debug.xcconfig"; sourceTree = "<group>"; };
+		C525CA41B6E0C04833559AFC /* Pods-YepUserDefaults.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepUserDefaults.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepUserDefaults/Pods-YepUserDefaults.debug.xcconfig"; sourceTree = "<group>"; };
 		C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.debug.xcconfig"; sourceTree = "<group>"; };
+		DF3C537260A42F3083541560 /* Pods-YepUserDefaults.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepUserDefaults.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepUserDefaults/Pods-YepUserDefaults.release.xcconfig"; sourceTree = "<group>"; };
+		E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepUserDefaults.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.release.xcconfig"; sourceTree = "<group>"; };
 		E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.release.xcconfig"; sourceTree = "<group>"; };
 		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1080,6 +1183,8 @@
 			files = (
 				5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */,
 				6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */,
+				503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */,
+				50D84EDD1CF2CB120018D91F /* OpenGraph.framework in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
 				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
@@ -1092,8 +1197,8 @@
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
 				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
 				F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */,
+				5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
-				507DCE911CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */,
 				27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */,
 				B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */,
 				9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */,
@@ -1109,19 +1214,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE781CEED2C2006D43F7 /* Frameworks */ = {
+		503E72041CF2A59100822B91 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36463E0E00BB80C73E48EB43 /* Pods_OpenGraph.framework in Frameworks */,
+				6532044AB8BEB2164669341F /* Pods_YepConfig.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE821CEED2C3006D43F7 /* Frameworks */ = {
+		503E720E1CF2A59200822B91 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507DCE861CEED2C4006D43F7 /* OpenGraph.framework in Frameworks */,
+				503E72121CF2A59200822B91 /* YepConfig.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA871CF2C55100FDE07E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */,
+				5056EAB91CF2C70D00FDE07E /* YepConfig.framework in Frameworks */,
+				5671D29D0D3FE393D5BDC74A /* Pods_YepKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA911CF2C55200FDE07E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1129,6 +1252,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
+				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1170,6 +1295,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84EC41CF2CB110018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84EE51CF2CB1C0018D91F /* YepNetworking.framework in Frameworks */,
+				DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECE1CF2CB120018D91F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ED21CF2CB120018D91F /* OpenGraph.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1198,15 +1340,6 @@
 			name = SkillHomeSectionButton;
 			sourceTree = "<group>";
 		};
-		0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */ = {
-			isa = PBXGroup;
-			children = (
-				50A9D44C1ACD382B000B2599 /* NSDateTimeAgo.bundle */,
-				50A9D4501ACD383E000B2599 /* NSDate+Extension.swift */,
-			);
-			name = "NSDate+TimeAgo";
-			sourceTree = "<group>";
-		};
 		0A5D83951AC5D3CD000045BF /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1222,12 +1355,16 @@
 				507DCEAA1CEEE2DC006D43F7 /* YepShare */,
 				50D50AC11CCE01D300FB5753 /* YepUITests */,
 				5017FC1B1CD095E100DFCB71 /* YepTests */,
+				503E72091CF2A59200822B91 /* YepConfig */,
+				503E72171CF2A59200822B91 /* YepConfigTests */,
 				50D3A31B1CEDB1C600E59470 /* YepNetworking */,
 				50D3A3291CEDB1C600E59470 /* YepNetworkingTests */,
+				5056EA8C1CF2C55200FDE07E /* YepKit */,
+				5056EA9A1CF2C55200FDE07E /* YepKitTests */,
 				50D3A3451CEE9A2000E59470 /* FayeClient */,
 				50D3A3531CEE9A2000E59470 /* FayeClientTests */,
-				507DCE7D1CEED2C3006D43F7 /* OpenGraph */,
-				507DCE8B1CEED2C4006D43F7 /* OpenGraphTests */,
+				50D84EC91CF2CB120018D91F /* OpenGraph */,
+				50D84ED71CF2CB120018D91F /* OpenGraphTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
 				EBAA6F3706BE77C1153E7B42 /* Pods */,
@@ -1244,9 +1381,13 @@
 				50D3A3231CEDB1C600E59470 /* YepNetworkingTests.xctest */,
 				50D3A3441CEE9A2000E59470 /* FayeClient.framework */,
 				50D3A34D1CEE9A2000E59470 /* FayeClientTests.xctest */,
-				507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */,
-				507DCE851CEED2C3006D43F7 /* OpenGraphTests.xctest */,
 				507DCEA91CEEE2DC006D43F7 /* YepShare.appex */,
+				503E72081CF2A59200822B91 /* YepConfig.framework */,
+				503E72111CF2A59200822B91 /* YepConfigTests.xctest */,
+				5056EA8B1CF2C55100FDE07E /* YepKit.framework */,
+				5056EA941CF2C55200FDE07E /* YepKitTests.xctest */,
+				50D84EC81CF2CB110018D91F /* OpenGraph.framework */,
+				50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1259,9 +1400,7 @@
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
 				507813171CD1AFB000F193AB /* Shortcuts */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
-				50E114F51ABBF9D100F13000 /* Realm */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
-				502AE52C1AB819B5005BD199 /* Configs */,
 				502AE5251AB72BE9005BD199 /* Services */,
 				5023DE571AB6CA1400B3EE96 /* Caches */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
@@ -1494,12 +1633,7 @@
 			isa = PBXGroup;
 			children = (
 				5017FC1C1CD095E100DFCB71 /* YepTests.swift */,
-				507813131CD0B0CF00F193AB /* ServiceTests.swift */,
-				506D01ED1CDB2ED500B3867D /* ThirdPartyServiceTests.swift */,
-				507813111CD0A45800F193AB /* RealmTests.swift */,
-				5017FC241CD0960200DFCB71 /* SyncTests.swift */,
-				5078130F1CD09FEE00F193AB /* ClearTests.swift */,
-				506D01EB1CDB26F500B3867D /* SocialWorkTests.swift */,
+				50D84F261CF2F95D0018D91F /* ClearTests.swift */,
 				50390F0E1CE174180090A08C /* FunctionTests.swift */,
 				507813231CD2FEF400F193AB /* Images.xcassets */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
@@ -1622,7 +1756,6 @@
 		5023DE341AB688F900B3EE96 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0A3E60631ACCAC02003DC853 /* NSDate+TimeAgo */,
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 				50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
@@ -1630,11 +1763,8 @@
 				50B22E451C588B6200219625 /* CGImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
-				50A9D44A1ACD37A8000B2599 /* NSFileManager+Yep.swift */,
 				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
-				501560D61B427FD6000933F0 /* Results+Yep.swift */,
-				50B38FB61B69CD960064C132 /* Array+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
@@ -1786,7 +1916,6 @@
 				502B60671BD6252B00D9C17E /* UserAvatar.swift */,
 				502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */,
 				50CDBE451ACA9F2200459CE0 /* ImageCache.swift */,
-				5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */,
 			);
 			name = Caches;
 			sourceTree = "<group>";
@@ -1841,25 +1970,13 @@
 		502AE5251AB72BE9005BD199 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				502AE5281AB81076005BD199 /* YepService.swift */,
-				50E114F81ABC137A00F13000 /* YepServiceSync.swift */,
 				50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */,
 				503075FB1CEC0E51007E7E90 /* YepFayeService.swift */,
 				0A944C241AC8BB2F00037A06 /* YepStorageService.swift */,
 				0A271FD61ACA055400822DFC /* YepAudioService.swift */,
 				0A3E60661ACCAECE003DC853 /* YepLocationService.swift */,
-				5016901B1BFB22180096C4F9 /* SocialWorkService.swift */,
 			);
 			name = Services;
-			sourceTree = "<group>";
-		};
-		502AE52C1AB819B5005BD199 /* Configs */ = {
-			isa = PBXGroup;
-			children = (
-				502AE52A1AB819AF005BD199 /* YepConfig.swift */,
-				0A7A7D551AF5E00600A7F5F5 /* YepHelper.swift */,
-			);
-			name = Configs;
 			sourceTree = "<group>";
 		};
 		502AE52F1AB8387D005BD199 /* TextFields */ = {
@@ -1886,12 +2003,11 @@
 				50B6CDEE1CC4D382000B0A03 /* KVO */,
 				50DEE0401BE7626100015741 /* YepHelpers.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
-				502AE53C1AB87C0D005BD199 /* YepUserDefaults.swift */,
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
 				50894D0F1AEE3C25000981AF /* YepHUD.swift */,
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
-				6A649A9A1BB259CB00EE4FB5 /* YepSoundEffect.swift */,
 				5038071F1BD9EEFC0068345E /* YepMedia.swift */,
+				50D84F541CF306D00018D91F /* YepSoundEffect.swift */,
 				506D01F81CE029B100B3867D /* UploadContactsMaker.swift */,
 			);
 			name = Helpers;
@@ -2037,6 +2153,36 @@
 			name = Conversation;
 			sourceTree = "<group>";
 		};
+		503E72091CF2A59200822B91 /* YepConfig */ = {
+			isa = PBXGroup;
+			children = (
+				503E720A1CF2A59200822B91 /* YepConfig.h */,
+				503E72251CF2A5C700822B91 /* YepConfig.swift */,
+				503E72271CF2A86B00822B91 /* Extensions */,
+				503E720C1CF2A59200822B91 /* Info.plist */,
+			);
+			path = YepConfig;
+			sourceTree = "<group>";
+		};
+		503E72171CF2A59200822B91 /* YepConfigTests */ = {
+			isa = PBXGroup;
+			children = (
+				503E72181CF2A59200822B91 /* YepConfigTests.swift */,
+				503E721A1CF2A59200822B91 /* Info.plist */,
+			);
+			path = YepConfigTests;
+			sourceTree = "<group>";
+		};
+		503E72271CF2A86B00822B91 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				503E72281CF2A89500822B91 /* UIFont+Yep.swift */,
+				503E722A1CF2A92500822B91 /* UIColor+Yep.swift */,
+				503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		503ED23B1B8ADCED0072187D /* BlackList */ = {
 			isa = PBXGroup;
 			children = (
@@ -2171,6 +2317,66 @@
 			name = ChatSectionDate;
 			sourceTree = "<group>";
 		};
+		5056EA8C1CF2C55200FDE07E /* YepKit */ = {
+			isa = PBXGroup;
+			children = (
+				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
+				50D84F561CF307F60018D91F /* SoundEffectConfig.swift */,
+				50D84F0E1CF2DE9C0018D91F /* Caches */,
+				50D84F0D1CF2DB4A0018D91F /* Helpers */,
+				50D84F041CF2D9FB0018D91F /* Spotlight */,
+				50D84EFE1CF2D8020018D91F /* Protocols */,
+				50D84EFB1CF2D60B0018D91F /* UI */,
+				5056EAA81CF2C57100FDE07E /* UserDefaults */,
+				5056EAAA1CF2C58B00FDE07E /* Remote */,
+				5056EAA91CF2C58800FDE07E /* Persistence */,
+				50D84EF41CF2D45B0018D91F /* Extensions */,
+				5056EA8F1CF2C55200FDE07E /* Info.plist */,
+			);
+			path = YepKit;
+			sourceTree = "<group>";
+		};
+		5056EA9A1CF2C55200FDE07E /* YepKitTests */ = {
+			isa = PBXGroup;
+			children = (
+				5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */,
+				50D84F1C1CF2F8750018D91F /* ServiceTests.swift */,
+				50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */,
+				50D84F241CF2F8B00018D91F /* RealmTests.swift */,
+				50D84F1E1CF2F8750018D91F /* SyncTests.swift */,
+				50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */,
+				5056EA9D1CF2C55200FDE07E /* Info.plist */,
+			);
+			path = YepKitTests;
+			sourceTree = "<group>";
+		};
+		5056EAA81CF2C57100FDE07E /* UserDefaults */ = {
+			isa = PBXGroup;
+			children = (
+				5056EAB51CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift */,
+				5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */,
+			);
+			name = UserDefaults;
+			sourceTree = "<group>";
+		};
+		5056EAA91CF2C58800FDE07E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				5056EAAB1CF2C6A200FDE07E /* Models.swift */,
+			);
+			name = Persistence;
+			sourceTree = "<group>";
+		};
+		5056EAAA1CF2C58B00FDE07E /* Remote */ = {
+			isa = PBXGroup;
+			children = (
+				5056EAAF1CF2C6B000FDE07E /* YepService.swift */,
+				5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */,
+				5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */,
+			);
+			name = Remote;
+			sourceTree = "<group>";
+		};
 		505EC8191ADF8155001D27E0 /* SkillCategory */ = {
 			isa = PBXGroup;
 			children = (
@@ -2249,45 +2455,6 @@
 				507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */,
 			);
 			name = CustomNavigationBar;
-			sourceTree = "<group>";
-		};
-		507DCE7D1CEED2C3006D43F7 /* OpenGraph */ = {
-			isa = PBXGroup;
-			children = (
-				507DCE7E1CEED2C3006D43F7 /* OpenGraph.h */,
-				507DCE991CEED2FA006D43F7 /* OpenGraph.swift */,
-				507DCEA01CEED554006D43F7 /* Service.swift */,
-				507DCE9B1CEED336006D43F7 /* Extensions */,
-				507DCE801CEED2C3006D43F7 /* Info.plist */,
-			);
-			path = OpenGraph;
-			sourceTree = "<group>";
-		};
-		507DCE8B1CEED2C4006D43F7 /* OpenGraphTests */ = {
-			isa = PBXGroup;
-			children = (
-				507DCE8C1CEED2C4006D43F7 /* OpenGraphTests.swift */,
-				507DCEA41CEEDDFD006D43F7 /* Extensions */,
-				507DCE8E1CEED2C4006D43F7 /* Info.plist */,
-			);
-			path = OpenGraphTests;
-			sourceTree = "<group>";
-		};
-		507DCE9B1CEED336006D43F7 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				507DCE9C1CEED354006D43F7 /* String+OpenGraph.swift */,
-				507DCE9E1CEED43F006D43F7 /* NSURL+OpenGraph.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		507DCEA41CEEDDFD006D43F7 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				507DCEA21CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		507DCEAA1CEEE2DC006D43F7 /* YepShare */ = {
@@ -2787,10 +2954,113 @@
 			path = YepUITests;
 			sourceTree = "<group>";
 		};
+		50D84EC91CF2CB120018D91F /* OpenGraph */ = {
+			isa = PBXGroup;
+			children = (
+				50D84ECA1CF2CB120018D91F /* OpenGraph.h */,
+				50D84EE61CF2CBD60018D91F /* OpenGraph.swift */,
+				50D84EE71CF2CBD60018D91F /* Service.swift */,
+				50D84EEA1CF2CBDE0018D91F /* Extensions */,
+				50D84ECC1CF2CB120018D91F /* Info.plist */,
+			);
+			path = OpenGraph;
+			sourceTree = "<group>";
+		};
+		50D84ED71CF2CB120018D91F /* OpenGraphTests */ = {
+			isa = PBXGroup;
+			children = (
+				50D84ED81CF2CB120018D91F /* OpenGraphTests.swift */,
+				50D84EEF1CF2CC1B0018D91F /* Extensions */,
+				50D84EDA1CF2CB120018D91F /* Info.plist */,
+			);
+			path = OpenGraphTests;
+			sourceTree = "<group>";
+		};
+		50D84EEA1CF2CBDE0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EEB1CF2CBDE0018D91F /* NSURL+OpenGraph.swift */,
+				50D84EEC1CF2CBDE0018D91F /* String+OpenGraph.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EEF1CF2CC1B0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EF01CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EF41CF2D45B0018D91F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F111CF2DF790018D91F /* NSDate+TimeAgo */,
+				50D84EF51CF2D4790018D91F /* Array+Yep.swift */,
+				50D84F161CF2DFF50018D91F /* Double+Yep.swift */,
+				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
+				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
+				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		50D84EFB1CF2D60B0018D91F /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		50D84EFE1CF2D8020018D91F /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		50D84F041CF2D9FB0018D91F /* Spotlight */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */,
+				50D84F051CF2D9FB0018D91F /* FeedSearch.swift */,
+				50D84F071CF2D9FB0018D91F /* UserSearch.swift */,
+			);
+			path = Spotlight;
+			sourceTree = "<group>";
+		};
+		50D84F0D1CF2DB4A0018D91F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F0B1CF2DB470018D91F /* CancelableTask.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		50D84F0E1CF2DE9C0018D91F /* Caches */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */,
+			);
+			name = Caches;
+			sourceTree = "<group>";
+		};
+		50D84F111CF2DF790018D91F /* NSDate+TimeAgo */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */,
+				50D84F121CF2DF790018D91F /* NSDate+Extension.swift */,
+			);
+			name = "NSDate+TimeAgo";
+			path = "Extensions/NSDate+TimeAgo";
+			sourceTree = "<group>";
+		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				50DBDEF01C48C2240044E21B /* OpenGraphInfoType.swift */,
 				50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */,
 				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
@@ -2832,17 +3102,6 @@
 				50DEE0351BE3720F00015741 /* LoadMoreCollectionViewCell.xib */,
 			);
 			name = LoadMore;
-			sourceTree = "<group>";
-		};
-		50E114F51ABBF9D100F13000 /* Realm */ = {
-			isa = PBXGroup;
-			children = (
-				50E114F31ABBF9CC00F13000 /* Models.swift */,
-				50008D2C1CAB76AD00245296 /* SearchableItemType.swift */,
-				50008D281CAA66E600245296 /* FeedSearch.swift */,
-				50008D2A1CAB697A00245296 /* UserSearch.swift */,
-			);
-			name = Realm;
 			sourceTree = "<group>";
 		};
 		50E114FE1ABC549800F13000 /* Contacts */ = {
@@ -3063,6 +3322,11 @@
 				EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */,
 				18F9026880FED211156FBB93 /* Pods_FayeClient.framework */,
 				C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */,
+				95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */,
+				D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */,
+				266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */,
+				E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */,
+				9E519848DD3290844742698C /* Pods_YepKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3160,6 +3424,16 @@
 				01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */,
 				BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */,
 				2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */,
+				BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */,
+				0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */,
+				598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */,
+				89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */,
+				D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */,
+				ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */,
+				C525CA41B6E0C04833559AFC /* Pods-YepUserDefaults.debug.xcconfig */,
+				DF3C537260A42F3083541560 /* Pods-YepUserDefaults.release.xcconfig */,
+				995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */,
+				1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3167,11 +3441,18 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		507DCE791CEED2C2006D43F7 /* Headers */ = {
+		503E72051CF2A59100822B91 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507DCE7F1CEED2C3006D43F7 /* OpenGraph.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA881CF2C55100FDE07E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3188,6 +3469,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				50D3A3471CEE9A2000E59470 /* FayeClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84EC51CF2CB110018D91F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ECB1CF2CB120018D91F /* OpenGraph.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3213,8 +3502,10 @@
 			dependencies = (
 				50D3A32E1CEDB1C600E59470 /* PBXTargetDependency */,
 				50D3A3581CEE9A2000E59470 /* PBXTargetDependency */,
-				507DCE901CEED2C4006D43F7 /* PBXTargetDependency */,
 				507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */,
+				503E721C1CF2A59200822B91 /* PBXTargetDependency */,
+				5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */,
+				50D84EDC1CF2CB120018D91F /* PBXTargetDependency */,
 			);
 			name = Yep;
 			productName = Yep;
@@ -3242,43 +3533,82 @@
 			productReference = 5017FC1A1CD095E100DFCB71 /* YepTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		507DCE7B1CEED2C2006D43F7 /* OpenGraph */ = {
+		503E72071CF2A59100822B91 /* YepConfig */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 507DCE971CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraph" */;
+			buildConfigurationList = 503E721F1CF2A59200822B91 /* Build configuration list for PBXNativeTarget "YepConfig" */;
 			buildPhases = (
-				A61C579FAC349359BB549847 /* 📦 Check Pods Manifest.lock */,
-				507DCE771CEED2C2006D43F7 /* Sources */,
-				507DCE781CEED2C2006D43F7 /* Frameworks */,
-				507DCE791CEED2C2006D43F7 /* Headers */,
-				507DCE7A1CEED2C2006D43F7 /* Resources */,
-				5F4EC5B1AE94B7E6F33F5A99 /* 📦 Copy Pods Resources */,
+				F5B374E8FBD21D1FDE7F531F /* 📦 Check Pods Manifest.lock */,
+				503E72031CF2A59100822B91 /* Sources */,
+				503E72041CF2A59100822B91 /* Frameworks */,
+				503E72051CF2A59100822B91 /* Headers */,
+				503E72061CF2A59100822B91 /* Resources */,
+				766FC356FEADE5B194CEFEA6 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = OpenGraph;
-			productName = OpenGraph;
-			productReference = 507DCE7C1CEED2C2006D43F7 /* OpenGraph.framework */;
+			name = YepConfig;
+			productName = YepConfig;
+			productReference = 503E72081CF2A59200822B91 /* YepConfig.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		507DCE841CEED2C3006D43F7 /* OpenGraphTests */ = {
+		503E72101CF2A59200822B91 /* YepConfigTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 507DCE981CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraphTests" */;
+			buildConfigurationList = 503E72221CF2A59200822B91 /* Build configuration list for PBXNativeTarget "YepConfigTests" */;
 			buildPhases = (
-				507DCE811CEED2C3006D43F7 /* Sources */,
-				507DCE821CEED2C3006D43F7 /* Frameworks */,
-				507DCE831CEED2C3006D43F7 /* Resources */,
+				503E720D1CF2A59200822B91 /* Sources */,
+				503E720E1CF2A59200822B91 /* Frameworks */,
+				503E720F1CF2A59200822B91 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				507DCE881CEED2C4006D43F7 /* PBXTargetDependency */,
-				507DCE8A1CEED2C4006D43F7 /* PBXTargetDependency */,
+				503E72141CF2A59200822B91 /* PBXTargetDependency */,
+				503E72161CF2A59200822B91 /* PBXTargetDependency */,
 			);
-			name = OpenGraphTests;
-			productName = OpenGraphTests;
-			productReference = 507DCE851CEED2C3006D43F7 /* OpenGraphTests.xctest */;
+			name = YepConfigTests;
+			productName = YepConfigTests;
+			productReference = 503E72111CF2A59200822B91 /* YepConfigTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		5056EA8A1CF2C55100FDE07E /* YepKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5056EAA21CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKit" */;
+			buildPhases = (
+				934D8FF18CD160D16B979AFB /* 📦 Check Pods Manifest.lock */,
+				5056EA861CF2C55100FDE07E /* Sources */,
+				5056EA871CF2C55100FDE07E /* Frameworks */,
+				5056EA881CF2C55100FDE07E /* Headers */,
+				5056EA891CF2C55100FDE07E /* Resources */,
+				A9995C41E9A8AE73FFCC9E60 /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YepKit;
+			productName = YepKit;
+			productReference = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5056EA931CF2C55200FDE07E /* YepKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */;
+			buildPhases = (
+				5056EA901CF2C55200FDE07E /* Sources */,
+				5056EA911CF2C55200FDE07E /* Frameworks */,
+				5056EA921CF2C55200FDE07E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5056EA971CF2C55200FDE07E /* PBXTargetDependency */,
+				5056EA991CF2C55200FDE07E /* PBXTargetDependency */,
+			);
+			name = YepKitTests;
+			productName = YepKitTests;
+			productReference = 5056EA941CF2C55200FDE07E /* YepKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		507DCEA81CEEE2DC006D43F7 /* YepShare */ = {
@@ -3392,6 +3722,45 @@
 			productReference = 50D50AC01CCE01D300FB5753 /* YepUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		50D84EC71CF2CB110018D91F /* OpenGraph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84EDF1CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraph" */;
+			buildPhases = (
+				6E22B6077A8F649855AE7F4D /* 📦 Check Pods Manifest.lock */,
+				50D84EC31CF2CB110018D91F /* Sources */,
+				50D84EC41CF2CB110018D91F /* Frameworks */,
+				50D84EC51CF2CB110018D91F /* Headers */,
+				50D84EC61CF2CB110018D91F /* Resources */,
+				917B07C2E22A500319343A7C /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenGraph;
+			productName = OpenGraph;
+			productReference = 50D84EC81CF2CB110018D91F /* OpenGraph.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		50D84ED01CF2CB120018D91F /* OpenGraphTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 50D84EE21CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraphTests" */;
+			buildPhases = (
+				50D84ECD1CF2CB120018D91F /* Sources */,
+				50D84ECE1CF2CB120018D91F /* Frameworks */,
+				50D84ECF1CF2CB120018D91F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				50D84ED41CF2CB120018D91F /* PBXTargetDependency */,
+				50D84ED61CF2CB120018D91F /* PBXTargetDependency */,
+			);
+			name = OpenGraphTests;
+			productName = OpenGraphTests;
+			productReference = 50D84ED11CF2CB120018D91F /* OpenGraphTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -3425,11 +3794,19 @@
 						CreatedOnToolsVersion = 7.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
-					507DCE7B1CEED2C2006D43F7 = {
+					503E72071CF2A59100822B91 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = TKRALRXCKN;
 					};
-					507DCE841CEED2C3006D43F7 = {
+					503E72101CF2A59200822B91 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
+					5056EA8A1CF2C55100FDE07E = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					5056EA931CF2C55200FDE07E = {
 						CreatedOnToolsVersion = 7.3.1;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
@@ -3462,6 +3839,14 @@
 						CreatedOnToolsVersion = 7.3;
 						TestTargetID = 0A8F54AA1AB67D11004AD60E;
 					};
+					50D84EC71CF2CB110018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = TKRALRXCKN;
+					};
+					50D84ED01CF2CB120018D91F = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 0A8F54AA1AB67D11004AD60E;
+					};
 				};
 			};
 			buildConfigurationList = 0A8F54A61AB67D11004AD60E /* Build configuration list for PBXProject "Yep" */;
@@ -3485,9 +3870,13 @@
 				50D3A3221CEDB1C600E59470 /* YepNetworkingTests */,
 				50D3A3431CEE9A2000E59470 /* FayeClient */,
 				50D3A34C1CEE9A2000E59470 /* FayeClientTests */,
-				507DCE7B1CEED2C2006D43F7 /* OpenGraph */,
-				507DCE841CEED2C3006D43F7 /* OpenGraphTests */,
 				507DCEA81CEEE2DC006D43F7 /* YepShare */,
+				503E72071CF2A59100822B91 /* YepConfig */,
+				503E72101CF2A59200822B91 /* YepConfigTests */,
+				5056EA8A1CF2C55100FDE07E /* YepKit */,
+				5056EA931CF2C55200FDE07E /* YepKitTests */,
+				50D84EC71CF2CB110018D91F /* OpenGraph */,
+				50D84ED01CF2CB120018D91F /* OpenGraphTests */,
 			);
 		};
 /* End PBXProject section */
@@ -3596,7 +3985,6 @@
 				50894D081AEDFDA2000981AF /* EditProfileMoreInfoCell.xib in Resources */,
 				50A640E61B6F41E00050E4A3 /* DoNotDisturbSwitchCell.xib in Resources */,
 				50098D521CB397A5009275FE /* SearchSectionTitleCell.xib in Resources */,
-				50A9D44E1ACD382B000B2599 /* NSDateTimeAgo.bundle in Resources */,
 				50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */,
 				50894D031AEA6433000981AF /* EditProfileLessInfoCell.xib in Resources */,
 				50098D4D1CB35EE1009275FE /* SearchedMessageCell.xib in Resources */,
@@ -3614,14 +4002,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE7A1CEED2C2006D43F7 /* Resources */ = {
+		503E72061CF2A59100822B91 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE831CEED2C3006D43F7 /* Resources */ = {
+		503E720F1CF2A59200822B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA891CF2C55100FDE07E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84F151CF2DF790018D91F /* NSDateTimeAgo.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA921CF2C55200FDE07E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3665,6 +4068,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		50D50ABE1CCE01D300FB5753 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84EC61CF2CB110018D91F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECF1CF2CB120018D91F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3762,21 +4179,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5F4EC5B1AE94B7E6F33F5A99 /* 📦 Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		6D7C2E2AB4FDD3AA76F5962D /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3790,6 +4192,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E22B6077A8F649855AE7F4D /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		766FC356FEADE5B194CEFEA6 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		80EDA1C76F338DEE9843935B /* 📦 Copy Pods Resources */ = {
@@ -3807,7 +4239,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepTests/Pods-YepTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A61C579FAC349359BB549847 /* 📦 Check Pods Manifest.lock */ = {
+		917B07C2E22A500319343A7C /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		934D8FF18CD160D16B979AFB /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3820,6 +4267,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A9995C41E9A8AE73FFCC9E60 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKit/Pods-YepKit-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DD2CB34EB87D7BB2872EB3E1 /* 📦 Copy Pods Resources */ = {
@@ -3835,6 +4297,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Yep/Pods-Yep-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5B374E8FBD21D1FDE7F531F /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -3891,14 +4368,11 @@
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
 				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
-				501560D71B427FD6000933F0 /* Results+Yep.swift in Sources */,
 				0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */,
 				50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */,
 				50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */,
-				6A649A9B1BB259CB00EE4FB5 /* YepSoundEffect.swift in Sources */,
 				507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
-				502AE53D1AB87C0D005BD199 /* YepUserDefaults.swift in Sources */,
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */,
@@ -3935,7 +4409,6 @@
 				50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
 				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
-				50E114F41ABBF9CC00F13000 /* Models.swift in Sources */,
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,
 				338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */,
@@ -3957,7 +4430,6 @@
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
-				50008D2B1CAB697A00245296 /* UserSearch.swift in Sources */,
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
@@ -3985,12 +4457,10 @@
 				50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */,
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				50CB05861CC5E5F00024BE06 /* SearchedFeedURLCell.swift in Sources */,
-				50008D291CAA66E600245296 /* FeedSearch.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
 				50098D511CB397A5009275FE /* SearchSectionTitleCell.swift in Sources */,
 				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
-				50008D2D1CAB76AD00245296 /* SearchableItemType.swift in Sources */,
 				0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */,
 				50E34C1D1CB7516C007CAE80 /* UserRepresentation.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
@@ -3998,7 +4468,6 @@
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
-				5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
 				336563FA1CCF300200598378 /* RightShareFeedCell.swift in Sources */,
@@ -4007,7 +4476,6 @@
 				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
-				0A7A7D561AF5E00600A7F5F5 /* YepHelper.swift in Sources */,
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
@@ -4016,11 +4484,9 @@
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
 				5023DE301AB6861500B3EE96 /* ProfileViewController.swift in Sources */,
 				5023DE261AB6856300B3EE96 /* ConversationsViewController.swift in Sources */,
-				50A9D4511ACD383E000B2599 /* NSDate+Extension.swift in Sources */,
 				506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */,
 				502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */,
 				6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */,
-				5016901C1BFB22180096C4F9 /* SocialWorkService.swift in Sources */,
 				0A0A11821AE389380008772C /* RegisterSkillsLayout.swift in Sources */,
 				50F6D32E1C3CBE0000CB673C /* FeedUploadingErrorContainerView.swift in Sources */,
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
@@ -4042,14 +4508,13 @@
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
-				502AE5291AB81076005BD199 /* YepService.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
+				50D84F551CF306D00018D91F /* YepSoundEffect.swift in Sources */,
 				50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */,
 				50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */,
 				502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */,
 				50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */,
 				50894D101AEE3C25000981AF /* YepHUD.swift in Sources */,
-				50E114F91ABC137A00F13000 /* YepServiceSync.swift in Sources */,
 				50E392BE1C228BF000C0CECB /* FeedCellLayout.swift in Sources */,
 				506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */,
 				50E34C211CB75774007CAE80 /* SearchedDiscoveredUserCell.swift in Sources */,
@@ -4074,8 +4539,6 @@
 				50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */,
 				50E34C1B1CB60475007CAE80 /* UISearchBar+Yep.swift in Sources */,
 				505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */,
-				502AE52B1AB819AF005BD199 /* YepConfig.swift in Sources */,
-				50B38FB71B69CD960064C132 /* Array+Yep.swift in Sources */,
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
@@ -4094,7 +4557,6 @@
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,
 				508B717D1B1FE9B6006BDDB3 /* ChatRightBaseCell.swift in Sources */,
-				50A9D44B1ACD37A8000B2599 /* NSFileManager+Yep.swift in Sources */,
 				505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */,
 				338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */,
 				502AE5531AB93215005BD199 /* ProfileFooterCell.swift in Sources */,
@@ -4112,7 +4574,6 @@
 				50E34C3A1CBF81E4007CAE80 /* ChatTextIndicatorCell.swift in Sources */,
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
 				50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */,
-				50DBDEF11C48C2240044E21B /* OpenGraphInfoType.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				50B3C95A1CC9BB2F00623E29 /* SearchActionRepresentation.swift in Sources */,
@@ -4146,34 +4607,68 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5017FC251CD0960200DFCB71 /* SyncTests.swift in Sources */,
-				506D01EE1CDB2ED500B3867D /* ThirdPartyServiceTests.swift in Sources */,
-				506D01EC1CDB26F500B3867D /* SocialWorkTests.swift in Sources */,
-				507813101CD09FEE00F193AB /* ClearTests.swift in Sources */,
-				507813141CD0B0CF00F193AB /* ServiceTests.swift in Sources */,
 				50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */,
+				50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
-				507813121CD0A45800F193AB /* RealmTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE771CEED2C2006D43F7 /* Sources */ = {
+		503E72031CF2A59100822B91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507DCE9F1CEED43F006D43F7 /* NSURL+OpenGraph.swift in Sources */,
-				507DCEA11CEED554006D43F7 /* Service.swift in Sources */,
-				507DCE9A1CEED2FA006D43F7 /* OpenGraph.swift in Sources */,
-				507DCE9D1CEED354006D43F7 /* String+OpenGraph.swift in Sources */,
+				503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */,
+				503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */,
+				503E72261CF2A5C700822B91 /* YepConfig.swift in Sources */,
+				503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		507DCE811CEED2C3006D43F7 /* Sources */ = {
+		503E720D1CF2A59200822B91 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507DCE8D1CEED2C4006D43F7 /* OpenGraphTests.swift in Sources */,
-				507DCEA31CEEDDF2006D43F7 /* NSURL+OpenGraphTests.swift in Sources */,
+				503E72191CF2A59200822B91 /* YepConfigTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA861CF2C55100FDE07E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */,
+				50D84EF81CF2D4BC0018D91F /* Realm+Yep.swift in Sources */,
+				50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */,
+				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
+				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
+				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
+				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
+				50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */,
+				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
+				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
+				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
+				5056EAB71CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift in Sources */,
+				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
+				50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */,
+				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
+				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
+				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
+				50D84F571CF307F60018D91F /* SoundEffectConfig.swift in Sources */,
+				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
+				50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5056EA901CF2C55200FDE07E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5056EA9C1CF2C55200FDE07E /* YepKitTests.swift in Sources */,
+				50D84F211CF2F8750018D91F /* SocialWorkTests.swift in Sources */,
+				50D84F201CF2F8750018D91F /* ServiceTests.swift in Sources */,
+				50D84F221CF2F8750018D91F /* SyncTests.swift in Sources */,
+				50D84F231CF2F8750018D91F /* ThirdPartyServiceTests.swift in Sources */,
+				50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4231,6 +4726,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		50D84EC31CF2CB110018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84EED1CF2CBDE0018D91F /* NSURL+OpenGraph.swift in Sources */,
+				50D84EE81CF2CBD60018D91F /* OpenGraph.swift in Sources */,
+				50D84EE91CF2CBD60018D91F /* Service.swift in Sources */,
+				50D84EEE1CF2CBDE0018D91F /* String+OpenGraph.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		50D84ECD1CF2CB120018D91F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				50D84ED91CF2CB120018D91F /* OpenGraphTests.swift in Sources */,
+				50D84EF11CF2CC1B0018D91F /* NSURL+OpenGraphTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4239,20 +4754,35 @@
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
 			targetProxy = 5017FC1F1CD095E100DFCB71 /* PBXContainerItemProxy */;
 		};
-		507DCE881CEED2C4006D43F7 /* PBXTargetDependency */ = {
+		503E72141CF2A59200822B91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 507DCE7B1CEED2C2006D43F7 /* OpenGraph */;
-			targetProxy = 507DCE871CEED2C4006D43F7 /* PBXContainerItemProxy */;
+			target = 503E72071CF2A59100822B91 /* YepConfig */;
+			targetProxy = 503E72131CF2A59200822B91 /* PBXContainerItemProxy */;
 		};
-		507DCE8A1CEED2C4006D43F7 /* PBXTargetDependency */ = {
+		503E72161CF2A59200822B91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
-			targetProxy = 507DCE891CEED2C4006D43F7 /* PBXContainerItemProxy */;
+			targetProxy = 503E72151CF2A59200822B91 /* PBXContainerItemProxy */;
 		};
-		507DCE901CEED2C4006D43F7 /* PBXTargetDependency */ = {
+		503E721C1CF2A59200822B91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 507DCE7B1CEED2C2006D43F7 /* OpenGraph */;
-			targetProxy = 507DCE8F1CEED2C4006D43F7 /* PBXContainerItemProxy */;
+			target = 503E72071CF2A59100822B91 /* YepConfig */;
+			targetProxy = 503E721B1CF2A59200822B91 /* PBXContainerItemProxy */;
+		};
+		5056EA971CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5056EA8A1CF2C55100FDE07E /* YepKit */;
+			targetProxy = 5056EA961CF2C55200FDE07E /* PBXContainerItemProxy */;
+		};
+		5056EA991CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 5056EA981CF2C55200FDE07E /* PBXContainerItemProxy */;
+		};
+		5056EA9F1CF2C55200FDE07E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5056EA8A1CF2C55100FDE07E /* YepKit */;
+			targetProxy = 5056EA9E1CF2C55200FDE07E /* PBXContainerItemProxy */;
 		};
 		507DCEB21CEEE2DC006D43F7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4293,6 +4823,21 @@
 			isa = PBXTargetDependency;
 			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
 			targetProxy = 50D50AC51CCE01D300FB5753 /* PBXContainerItemProxy */;
+		};
+		50D84ED41CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84EC71CF2CB110018D91F /* OpenGraph */;
+			targetProxy = 50D84ED31CF2CB120018D91F /* PBXContainerItemProxy */;
+		};
+		50D84ED61CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A8F54AA1AB67D11004AD60E /* Yep */;
+			targetProxy = 50D84ED51CF2CB120018D91F /* PBXContainerItemProxy */;
+		};
+		50D84EDC1CF2CB120018D91F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50D84EC71CF2CB110018D91F /* OpenGraph */;
+			targetProxy = 50D84EDB1CF2CB120018D91F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -4657,11 +5202,10 @@
 			};
 			name = Release;
 		};
-		507DCE931CEED2C4006D43F7 /* Debug */ = {
+		503E72201CF2A59200822B91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
+			baseConfigurationReference = D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4672,11 +5216,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INFOPLIST_FILE = YepConfig/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepConfig";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4686,11 +5230,10 @@
 			};
 			name = Debug;
 		};
-		507DCE941CEED2C4006D43F7 /* Release */ = {
+		503E72211CF2A59200822B91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */;
+			baseConfigurationReference = ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -4700,11 +5243,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INFOPLIST_FILE = YepConfig/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepConfig";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4713,28 +5256,109 @@
 			};
 			name = Release;
 		};
-		507DCE951CEED2C4006D43F7 /* Debug */ = {
+		503E72231CF2A59200822B91 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				INFOPLIST_FILE = YepConfigTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepConfigTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
 		};
-		507DCE961CEED2C4006D43F7 /* Release */ = {
+		503E72241CF2A59200822B91 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
-				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				INFOPLIST_FILE = YepConfigTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepConfigTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
+		5056EAA31CF2C55200FDE07E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5056EAA41CF2C55200FDE07E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = YepKit/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		5056EAA61CF2C55200FDE07E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = YepKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		5056EAA71CF2C55200FDE07E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = YepKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
@@ -4962,6 +5586,89 @@
 			};
 			name = Release;
 		};
+		50D84EE01CF2CB120018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		50D84EE11CF2CB120018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = OpenGraph/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		50D84EE31CF2CB120018D91F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Debug;
+		};
+		50D84EE41CF2CB120018D91F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = OpenGraphTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -4992,20 +5699,38 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		507DCE971CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraph" */ = {
+		503E721F1CF2A59200822B91 /* Build configuration list for PBXNativeTarget "YepConfig" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				507DCE931CEED2C4006D43F7 /* Debug */,
-				507DCE941CEED2C4006D43F7 /* Release */,
+				503E72201CF2A59200822B91 /* Debug */,
+				503E72211CF2A59200822B91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		507DCE981CEED2C4006D43F7 /* Build configuration list for PBXNativeTarget "OpenGraphTests" */ = {
+		503E72221CF2A59200822B91 /* Build configuration list for PBXNativeTarget "YepConfigTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				507DCE951CEED2C4006D43F7 /* Debug */,
-				507DCE961CEED2C4006D43F7 /* Release */,
+				503E72231CF2A59200822B91 /* Debug */,
+				503E72241CF2A59200822B91 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5056EAA21CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5056EAA31CF2C55200FDE07E /* Debug */,
+				5056EAA41CF2C55200FDE07E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5056EAA61CF2C55200FDE07E /* Debug */,
+				5056EAA71CF2C55200FDE07E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -5060,6 +5785,24 @@
 			buildConfigurations = (
 				50D50AC71CCE01D300FB5753 /* Debug */,
 				50D50AC81CCE01D300FB5753 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D84EDF1CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84EE01CF2CB120018D91F /* Debug */,
+				50D84EE11CF2CB120018D91F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		50D84EE21CF2CB120018D91F /* Build configuration list for PBXNativeTarget "OpenGraphTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				50D84EE31CF2CB120018D91F /* Debug */,
+				50D84EE41CF2CB120018D91F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

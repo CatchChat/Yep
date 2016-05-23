@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 class ChatBaseCell: UICollectionViewCell {
 

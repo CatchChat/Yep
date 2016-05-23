@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 
 let sendingAnimationName = "RotationOnStateAnimation"
 
@@ -75,7 +77,7 @@ class ChatRightBaseCell: ChatBaseCell {
 
         contentView.addSubview(dotImageView)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: MessageNotification.MessageStateChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: YepConfig.Message.Notification.MessageStateChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

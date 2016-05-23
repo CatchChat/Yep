@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 import Kingfisher
 
 final class SkillHomeHeaderView: UIView {
 
-    var skillCategory: SkillCell.Skill.Category = .Art
+    var skillCategory: SkillCellSkill.Category = .Art
     var skillCoverURLString: String? {
         willSet {
 //            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {

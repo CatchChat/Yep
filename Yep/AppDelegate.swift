@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 import YepNetworking
 import Fabric
 import AVFoundation
@@ -83,6 +85,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
+        configureSoundEffects()
+        configureYepUserDefaults()
         configureYepNetworkingManager()
 
         cacheInAdvance()
@@ -618,6 +622,45 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Private
 
+    private lazy var sendMessageSoundEffect: YepSoundEffect = {
+        return  YepSoundEffect(soundName: "bub3")
+    }()
+
+    private func configureSoundEffects() {
+
+        SoundEffectConfig.sentMessageSoundEffectAction = { [weak self] in
+
+            self?.sendMessageSoundEffect.play()
+        }
+    }
+
+    private func configureYepUserDefaults() {
+
+        YepUserDefaultsConfig.updatedAccessTokenAction = {
+
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                // 注册或初次登录时同步数据的好时机
+                appDelegate.sync()
+
+                // 也是注册或初次登录时启动 Faye 的好时机
+                appDelegate.startFaye()
+            }
+        }
+
+        YepUserDefaultsConfig.updatedPusherIDAction = { pusherID in
+            
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                if appDelegate.notRegisteredPush {
+                    appDelegate.notRegisteredPush = false
+
+                    if let deviceToken = appDelegate.deviceToken {
+                        appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+                    }
+                }
+            }
+        }
+    }
+
     private func configureYepNetworkingManager() {
 
         YepNetworking.Manager.accessToken = {
@@ -629,7 +672,28 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 // 确保是自家服务
                 if host == yepBaseURL.host {
                     dispatch_async(dispatch_get_main_queue()) {
-                        YepUserDefaults.maybeUserNeedRelogin()
+                        YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
+                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+                                return true
+                            }
+                            return false
+
+                        }, confirm: {
+                            unregisterThirdPartyPush()
+
+                            cleanRealmAndCaches()
+
+                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+                                return
+                            }
+
+                            if let rootViewController = appDelegate.window?.rootViewController {
+                                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
+                                    
+                                    appDelegate.startShowStory()
+                                })
+                            }
+                        })
                     }
                 }
             }

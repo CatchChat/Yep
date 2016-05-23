@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import YepKit
 
 extension CLLocationCoordinate2D {
 

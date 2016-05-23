@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import YepConfig
 import RealmSwift
 import Navi
 import Kingfisher
@@ -149,7 +151,7 @@ final class ConversationsViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.updatedUser, object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: MessageNotification.MessageStateChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Message.Notification.MessageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {

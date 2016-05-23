@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepConfig
 
 final class SearchMoreResultsCell: UITableViewCell {
 
