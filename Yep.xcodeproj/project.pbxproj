@@ -148,7 +148,6 @@
 		503E71A11CF29E1200822B91 /* PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71A01CF29E1200822B91 /* PersistenceTests.swift */; };
 		503E71A51CF29E1200822B91 /* Persistence.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71901CF29E1100822B91 /* Persistence.framework */; };
 		503E71A61CF29E1200822B91 /* Persistence.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71901CF29E1100822B91 /* Persistence.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		503E71AE1CF29E6200822B91 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71AD1CF29E6200822B91 /* Models.swift */; };
 		503E71B61CF2A1EC00822B91 /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B31CF2A1EC00822B91 /* FeedSearch.swift */; };
 		503E71B71CF2A1EC00822B91 /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B41CF2A1EC00822B91 /* SearchableItemType.swift */; };
 		503E71B81CF2A1EC00822B91 /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71B51CF2A1EC00822B91 /* UserSearch.swift */; };
@@ -157,8 +156,6 @@
 		503E71CF1CF2A24500822B91 /* RemoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71CE1CF2A24500822B91 /* RemoteTests.swift */; };
 		503E71D31CF2A24500822B91 /* Remote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; };
 		503E71D41CF2A24500822B91 /* Remote.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E71BE1CF2A24500822B91 /* Remote.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DB1CF2A2E200822B91 /* YepService.swift */; };
-		503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */; };
 		503E72121CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
 		503E72191CF2A59200822B91 /* YepConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72181CF2A59200822B91 /* YepConfigTests.swift */; };
 		503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
@@ -224,6 +221,13 @@
 		5056EA9C1CF2C55200FDE07E /* YepKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */; };
 		5056EAA01CF2C55200FDE07E /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
 		5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAB1CF2C6A200FDE07E /* Models.swift */; };
+		5056EAB11CF2C6B000FDE07E /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAD1CF2C6B000FDE07E /* Models.swift */; };
+		5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */; };
+		5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAAF1CF2C6B000FDE07E /* YepService.swift */; };
+		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
+		5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB51CF2C6BF00FDE07E /* Config.swift */; };
+		5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
 		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
@@ -278,10 +282,6 @@
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
 		50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBA1C22487900EDE492 /* FeedBasicCell.swift */; };
 		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
-		5086662C1CF2B4B0006BC4EB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662A1CF2B4B0006BC4EB /* Config.swift */; };
-		5086662D1CF2B4B0006BC4EB /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */; };
-		5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5086662E1CF2BC3F006BC4EB /* Models.swift */; };
-		508666311CF2BE17006BC4EB /* SocialWorkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508666301CF2BE17006BC4EB /* SocialWorkService.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -894,7 +894,6 @@
 		503E71991CF29E1200822B91 /* PersistenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PersistenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E71A01CF29E1200822B91 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
 		503E71A21CF29E1200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		503E71AD1CF29E6200822B91 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		503E71B31CF2A1EC00822B91 /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSearch.swift; path = Spotlight/FeedSearch.swift; sourceTree = "<group>"; };
 		503E71B41CF2A1EC00822B91 /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchableItemType.swift; path = Spotlight/SearchableItemType.swift; sourceTree = "<group>"; };
 		503E71B51CF2A1EC00822B91 /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSearch.swift; path = Spotlight/UserSearch.swift; sourceTree = "<group>"; };
@@ -904,8 +903,6 @@
 		503E71C71CF2A24500822B91 /* RemoteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RemoteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E71CE1CF2A24500822B91 /* RemoteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteTests.swift; sourceTree = "<group>"; };
 		503E71D01CF2A24500822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		503E71DB1CF2A2E200822B91 /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepService.swift; sourceTree = "<group>"; };
-		503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepServiceSync.swift; sourceTree = "<group>"; };
 		503E72081CF2A59200822B91 /* YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E720A1CF2A59200822B91 /* YepConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepConfig.h; sourceTree = "<group>"; };
 		503E720C1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -965,6 +962,13 @@
 		5056EA941CF2C55200FDE07E /* YepKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepKitTests.swift; sourceTree = "<group>"; };
 		5056EA9D1CF2C55200FDE07E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5056EAAB1CF2C6A200FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Persistence/Models.swift; sourceTree = "<group>"; };
+		5056EAAD1CF2C6B000FDE07E /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Remote/Models.swift; sourceTree = "<group>"; };
+		5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkService.swift; path = Remote/SocialWorkService.swift; sourceTree = "<group>"; };
+		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
+		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
+		5056EAB51CF2C6BF00FDE07E /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Config.swift; path = UserDefaults/Config.swift; sourceTree = "<group>"; };
+		5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = UserDefaults/YepUserDefaults.swift; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
 		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		505C338E1BAA92CD00E044E2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -1022,10 +1026,6 @@
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
 		50858EBA1C22487900EDE492 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/Feed/FeedBasicCell.swift; sourceTree = "<group>"; };
 		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
-		5086662A1CF2B4B0006BC4EB /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepUserDefaults.swift; sourceTree = "<group>"; };
-		5086662E1CF2BC3F006BC4EB /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		508666301CF2BE17006BC4EB /* SocialWorkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkService.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -2334,7 +2334,6 @@
 			isa = PBXGroup;
 			children = (
 				503E71921CF29E1200822B91 /* Persistence.h */,
-				503E71AD1CF29E6200822B91 /* Models.swift */,
 				503E71941CF29E1200822B91 /* Info.plist */,
 			);
 			path = Persistence;
@@ -2353,10 +2352,6 @@
 			isa = PBXGroup;
 			children = (
 				503E71C01CF2A24500822B91 /* Remote.h */,
-				5086662E1CF2BC3F006BC4EB /* Models.swift */,
-				503E71DB1CF2A2E200822B91 /* YepService.swift */,
-				503E71DC1CF2A2E200822B91 /* YepServiceSync.swift */,
-				508666301CF2BE17006BC4EB /* SocialWorkService.swift */,
 				503E71C21CF2A24500822B91 /* Info.plist */,
 			);
 			path = Remote;
@@ -2440,8 +2435,6 @@
 			isa = PBXGroup;
 			children = (
 				504FD0621CF2B3CA00D77D6F /* YepUserDefaults.h */,
-				5086662B1CF2B4B0006BC4EB /* YepUserDefaults.swift */,
-				5086662A1CF2B4B0006BC4EB /* Config.swift */,
 				504FD0641CF2B3CB00D77D6F /* Info.plist */,
 			);
 			path = YepUserDefaults;
@@ -2579,6 +2572,8 @@
 		5056EAA81CF2C57100FDE07E /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
+				5056EAB51CF2C6BF00FDE07E /* Config.swift */,
+				5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */,
 			);
 			name = UserDefaults;
 			sourceTree = "<group>";
@@ -2586,6 +2581,7 @@
 		5056EAA91CF2C58800FDE07E /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				5056EAAB1CF2C6A200FDE07E /* Models.swift */,
 			);
 			name = Persistence;
 			sourceTree = "<group>";
@@ -2593,6 +2589,10 @@
 		5056EAAA1CF2C58B00FDE07E /* Remote */ = {
 			isa = PBXGroup;
 			children = (
+				5056EAAD1CF2C6B000FDE07E /* Models.swift */,
+				5056EAAE1CF2C6B000FDE07E /* SocialWorkService.swift */,
+				5056EAAF1CF2C6B000FDE07E /* YepService.swift */,
+				5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */,
 			);
 			name = Remote;
 			sourceTree = "<group>";
@@ -5067,7 +5067,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				503E71AE1CF29E6200822B91 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5083,10 +5082,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5086662F1CF2BC3F006BC4EB /* Models.swift in Sources */,
-				508666311CF2BE17006BC4EB /* SocialWorkService.swift in Sources */,
-				503E71DD1CF2A2E200822B91 /* YepService.swift in Sources */,
-				503E71DE1CF2A2E200822B91 /* YepServiceSync.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5121,8 +5116,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5086662C1CF2B4B0006BC4EB /* Config.swift in Sources */,
-				5086662D1CF2B4B0006BC4EB /* YepUserDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5138,6 +5131,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5056EAB21CF2C6B000FDE07E /* SocialWorkService.swift in Sources */,
+				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
+				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
+				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
+				5056EAB11CF2C6B000FDE07E /* Models.swift in Sources */,
+				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
+				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5520,7 +5520,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5611,7 +5611,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6052,6 +6052,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -6067,6 +6068,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6077,6 +6079,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
