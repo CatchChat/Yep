@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class SendingMessagePool {
+final public class SendingMessagePool {
 
     private static var sharedPool = SendingMessagePool()
 
@@ -17,17 +17,17 @@ final class SendingMessagePool {
 
     var tempMessageIDSet = Set<String>()
 
-    class func containsMessage(tempMesssageID tempMesssageID: String) -> Bool {
+    public class func containsMessage(tempMesssageID tempMesssageID: String) -> Bool {
 
         return sharedPool.tempMessageIDSet.contains(tempMesssageID)
     }
 
-    class func addMessage(tempMesssageID tempMesssageID: String) {
+    public class func addMessage(tempMesssageID tempMesssageID: String) {
 
         sharedPool.tempMessageIDSet.insert(tempMesssageID)
     }
 
-    class func removeMessage(tempMesssageID tempMesssageID: String) {
+    public class func removeMessage(tempMesssageID tempMesssageID: String) {
 
         sharedPool.tempMessageIDSet.remove(tempMesssageID)
     }

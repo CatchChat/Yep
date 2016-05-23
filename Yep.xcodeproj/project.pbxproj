@@ -97,7 +97,6 @@
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
-		5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
@@ -380,6 +379,7 @@
 		50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */; };
 		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
 		50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0B1CF2DB470018D91F /* CancelableTask.swift */; };
+		50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
 		50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */; };
 		50DBDF051C4DD9530044E21B /* CGSize+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */; };
@@ -760,7 +760,6 @@
 		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
-		5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
 		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
 		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
@@ -1047,6 +1046,7 @@
 		50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
 		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
 		50D84F0B1CF2DB470018D91F /* CancelableTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelableTask.swift; path = Helpers/CancelableTask.swift; sourceTree = "<group>"; };
+		50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDEFF1C4CE75E0044E21B /* ChatRightTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextURLCell.swift; path = Views/Cells/ChatRightTextURL/ChatRightTextURLCell.swift; sourceTree = "<group>"; };
 		50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGSize+Yep.swift"; path = "Extensions/CGSize+Yep.swift"; sourceTree = "<group>"; };
@@ -1927,7 +1927,6 @@
 				502B60671BD6252B00D9C17E /* UserAvatar.swift */,
 				502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */,
 				50CDBE451ACA9F2200459CE0 /* ImageCache.swift */,
-				5028C5D31CA8CF9300879A95 /* SendingMessagePool.swift */,
 			);
 			name = Caches;
 			sourceTree = "<group>";
@@ -2333,6 +2332,7 @@
 			isa = PBXGroup;
 			children = (
 				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
+				50D84F0E1CF2DE9C0018D91F /* Caches */,
 				50D84F0D1CF2DB4A0018D91F /* Helpers */,
 				50D84F041CF2D9FB0018D91F /* Spotlight */,
 				50D84EFE1CF2D8020018D91F /* Protocols */,
@@ -3041,6 +3041,14 @@
 				50D84F0B1CF2DB470018D91F /* CancelableTask.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		50D84F0E1CF2DE9C0018D91F /* Caches */ = {
+			isa = PBXGroup;
+			children = (
+				50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */,
+			);
+			name = Caches;
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
@@ -4454,7 +4462,6 @@
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
-				5028C5D41CA8CF9300879A95 /* SendingMessagePool.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
 				336563FA1CCF300200598378 /* RightShareFeedCell.swift in Sources */,
@@ -4639,6 +4646,7 @@
 				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
 				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
 				5056EAB71CF2C6BF00FDE07E /* Config.swift in Sources */,
+				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
