@@ -197,51 +197,30 @@ class ShareViewController: SLComposeServiceViewController {
         var message = shareType.body
         var kind: FeedKind = .Text
         var attachments: [JSONDictionary]?
-        var openGraph: OpenGraph?
 
-        let tryCreateFeed: () -> Void = { [weak self] in
+        let doCreateFeed: () -> Void = { [weak self] in
 
-            let doCreateFeed: () -> Void = { [weak self] in
+            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                if let openGraph = openGraph where openGraph.isValid {
-
-                    kind = .URL
-
-                    let URLInfo = [
-                        "url": openGraph.URL.absoluteString,
-                        "site_name": (openGraph.siteName ?? "").yepshare_truncatedForFeed,
-                        "title": (openGraph.title ?? "").yepshare_truncatedForFeed,
-                        "description": (openGraph.description ?? "").yepshare_truncatedForFeed,
-                        "image_url": openGraph.previewImageURLString ?? "",
-                    ]
-
-                    attachments = [URLInfo]
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: false)
                 }
 
-                createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            }, completion: { data in
+                print("createFeedWithKind: \(data)")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        completion(finish: false)
-                    }
-
-                }, completion: { data in
-                    print("createFeedWithKind: \(data)")
-
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        completion(finish: true)
-                    }
-                })
-            }
-
-            doCreateFeed()
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: true)
+                }
+            })
         }
 
         switch shareType {
 
-        case .PlainText(let body):
+        case .PlainText:
 
-            tryCreateFeed()
+            doCreateFeed()
 
 //            createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: skill, allowComment: true, failureHandler: { reason, errorMessage in
 //                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -288,7 +267,7 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             })
 
-            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) { [weak self] in
+            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
 
                 let realBody: String
                 if !body.isEmpty {
@@ -299,7 +278,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 message = realBody
 
-                tryCreateFeed()
+                doCreateFeed()
 
 //                createFeedWithKind(kind, message: realBody, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
 //                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -315,14 +294,11 @@ class ShareViewController: SLComposeServiceViewController {
 //                })
             }
 
-        case .Images(let body, let mediaImages):
-
-            let mediaImagesCount = mediaImages.count
+        case .Images(_, let mediaImages):
 
             let uploadImagesQueue = NSOperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
             var uploadedAttachments = [UploadedAttachment]()
-            var uploadErrorMessage: String?
 
             mediaImages.forEach({ image in
 
@@ -354,9 +330,7 @@ class ShareViewController: SLComposeServiceViewController {
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
                         case .Failed(let errorMessage):
-                            if let errorMessage = errorMessage {
-                                uploadErrorMessage = errorMessage
-                            }
+                            print("UploadAttachmentOperation errorMessage: \(errorMessage)")
                         case .Success(let uploadedAttachment):
                             uploadedAttachments.append(uploadedAttachment)
                         }
@@ -375,13 +349,7 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             }
 
-            let uploadFinishOperation = NSBlockOperation { [weak self] in
-
-                guard uploadedAttachments.count == mediaImagesCount else {
-                    print("uploadedAttachments.count == mediaImagesCount: \(uploadedAttachments.count), \(mediaImagesCount)")
-
-                    return
-                }
+            let uploadFinishOperation = NSBlockOperation {
 
                 if !uploadedAttachments.isEmpty {
 
@@ -394,7 +362,7 @@ class ShareViewController: SLComposeServiceViewController {
                     kind = .Image
                 }
 
-                tryCreateFeed()
+                doCreateFeed()
             }
             
             if let lastUploadAttachmentOperation = uploadAttachmentOperations.last {
