@@ -10,6 +10,7 @@ import UIKit
 import Social
 import MobileCoreServices.UTType
 import YepKit
+import YepConfig
 import YepNetworking
 import OpenGraph
 import RealmSwift
@@ -181,32 +182,81 @@ class ShareViewController: SLComposeServiceViewController {
         case PlainText(body: String)
         case URL(body: String, URL: NSURL)
         case Images(body: String, images: [UIImage])
+
+        var body: String {
+            switch self {
+            case .PlainText(let body): return body
+            case .URL(let body, _): return body
+            case .Images(let body, _): return body
+            }
+        }
     }
 
     private func postFeed(shareType: ShareType, completion: (finish: Bool) -> Void) {
+
+        var message = shareType.body
+        var kind: FeedKind = .Text
+        var attachments: [JSONDictionary]?
+        var openGraph: OpenGraph?
+
+        let tryCreateFeed: () -> Void = { [weak self] in
+
+            let doCreateFeed: () -> Void = { [weak self] in
+
+                if let openGraph = openGraph where openGraph.isValid {
+
+                    kind = .URL
+
+                    let URLInfo = [
+                        "url": openGraph.URL.absoluteString,
+                        "site_name": (openGraph.siteName ?? "").yepshare_truncatedForFeed,
+                        "title": (openGraph.title ?? "").yepshare_truncatedForFeed,
+                        "description": (openGraph.description ?? "").yepshare_truncatedForFeed,
+                        "image_url": openGraph.previewImageURLString ?? "",
+                    ]
+
+                    attachments = [URLInfo]
+                }
+
+                createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        completion(finish: false)
+                    }
+
+                }, completion: { data in
+                    print("createFeedWithKind: \(data)")
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        completion(finish: true)
+                    }
+                })
+            }
+
+            doCreateFeed()
+        }
 
         switch shareType {
 
         case .PlainText(let body):
 
-            createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: skill, allowComment: true, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            tryCreateFeed()
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion(finish: false)
-                }
-
-            }, completion: { _ in
-                dispatch_async(dispatch_get_main_queue()) {
-                    completion(finish: true)
-                }
-            })
+//            createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: skill, allowComment: true, failureHandler: { reason, errorMessage in
+//                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+//
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    completion(finish: false)
+//                }
+//
+//            }, completion: { _ in
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    completion(finish: true)
+//                }
+//            })
 
         case .URL(let body, let URL):
-
-            var kind: FeedKind = .Text
-
-            var attachments: [JSONDictionary]?
 
             let parseOpenGraphGroup = dispatch_group_create()
 
@@ -247,22 +297,112 @@ class ShareViewController: SLComposeServiceViewController {
                     realBody = URL.absoluteString
                 }
 
-                createFeedWithKind(kind, message: realBody, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                message = realBody
 
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completion(finish: false)
-                    }
-                    
-                }, completion: { _ in
-                    dispatch_async(dispatch_get_main_queue()) {
-                        completion(finish: true)
-                    }
-                })
+                tryCreateFeed()
+
+//                createFeedWithKind(kind, message: realBody, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
+//                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+//
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        completion(finish: false)
+//                    }
+//                    
+//                }, completion: { _ in
+//                    dispatch_async(dispatch_get_main_queue()) {
+//                        completion(finish: true)
+//                    }
+//                })
             }
 
-        case .Images(let body, let images):
-            break
+        case .Images(let body, let mediaImages):
+
+            let mediaImagesCount = mediaImages.count
+
+            let uploadImagesQueue = NSOperationQueue()
+            var uploadAttachmentOperations = [UploadAttachmentOperation]()
+            var uploadedAttachments = [UploadedAttachment]()
+            var uploadErrorMessage: String?
+
+            mediaImages.forEach({ image in
+
+                let imageWidth = image.size.width
+                let imageHeight = image.size.height
+
+                let fixedImageWidth: CGFloat
+                let fixedImageHeight: CGFloat
+
+                if imageWidth > imageHeight {
+                    fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                    fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+                } else {
+                    fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                    fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+                }
+
+                let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+
+                // resize to smaller, not need fixRotation
+
+                //if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let imageData = UIImageJPEGRepresentation(image, 0.95) {
+
+                    let source: UploadAttachment.Source = .Data(imageData)
+                    let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
+                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
+
+                    let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
+                        switch result {
+                        case .Failed(let errorMessage):
+                            if let errorMessage = errorMessage {
+                                uploadErrorMessage = errorMessage
+                            }
+                        case .Success(let uploadedAttachment):
+                            uploadedAttachments.append(uploadedAttachment)
+                        }
+                    }
+
+                    uploadAttachmentOperations.append(operation)
+                }
+            })
+
+            if uploadAttachmentOperations.count > 1 {
+                for i in 1..<uploadAttachmentOperations.count {
+                    let previousOperation = uploadAttachmentOperations[i-1]
+                    let currentOperation = uploadAttachmentOperations[i]
+
+                    currentOperation.addDependency(previousOperation)
+                }
+            }
+
+            let uploadFinishOperation = NSBlockOperation { [weak self] in
+
+                guard uploadedAttachments.count == mediaImagesCount else {
+                    print("uploadedAttachments.count == mediaImagesCount: \(uploadedAttachments.count), \(mediaImagesCount)")
+
+                    return
+                }
+
+                if !uploadedAttachments.isEmpty {
+
+                    let imageInfos: [JSONDictionary] = uploadedAttachments.map({
+                        ["id": $0.ID]
+                    })
+
+                    attachments = imageInfos
+
+                    kind = .Image
+                }
+
+                tryCreateFeed()
+            }
+            
+            if let lastUploadAttachmentOperation = uploadAttachmentOperations.last {
+                uploadFinishOperation.addDependency(lastUploadAttachmentOperation)
+            }
+            
+            uploadImagesQueue.addOperations(uploadAttachmentOperations, waitUntilFinished: false)
+            uploadImagesQueue.addOperation(uploadFinishOperation)
         }
     }
 
