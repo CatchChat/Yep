@@ -653,6 +653,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YepKit.Config.timeAgoAction = { date in
             return date.timeAgo
         }
+
+        YepKit.Config.isAppActive = {
+            let state = UIApplication.sharedApplication().applicationState
+            return state == .Active
+        }
     }
 
     private func configureYepNetworking() {

@@ -53,6 +53,10 @@ target 'YepKit' do
     pod 'RealmSwift'
 end
 
+target 'YepShare' do
+    pod 'RealmSwift'
+end
+
 # make sure 'Alamofire', 'Kanna' allow app extension api only
 
 post_install do |installer|
