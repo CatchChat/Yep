@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import YepKit
 import YepConfig
+import Navi
 
-func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
+public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
 
     let metaDataInfo: [String: AnyObject]
 
