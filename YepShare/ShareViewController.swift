@@ -97,12 +97,29 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
-        postFeed(message: contentText, URL: urls.first) { [weak self] finish in
+        let shareType: ShareType
+        let body = contentText ?? ""
+        if let URL = urls.first {
+            shareType = .URL(body: body, URL: URL)
+        } else if !images.isEmpty {
+            shareType = .Images(body: body, images: images)
+        } else {
+            shareType = .PlainText(body: body)
+        }
 
-            print("postFeed URL finish: \(finish)")
+        postFeed(shareType) { [weak self] finish in
+
+            print("postFeed \(shareType) finish: \(finish)")
 
             self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
         }
+
+//        postFeed(message: contentText, URL: urls.first) { [weak self] finish in
+//
+//            print("postFeed URL finish: \(finish)")
+//
+//            self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+//        }
 
         /*
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
@@ -158,6 +175,95 @@ class ShareViewController: SLComposeServiceViewController {
     override func configurationItems() -> [AnyObject]! {
 
         return [channelItem]
+    }
+
+    enum ShareType {
+        case PlainText(body: String)
+        case URL(body: String, URL: NSURL)
+        case Images(body: String, images: [UIImage])
+    }
+
+    private func postFeed(shareType: ShareType, completion: (finish: Bool) -> Void) {
+
+        switch shareType {
+
+        case .PlainText(let body):
+
+            createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: skill, allowComment: true, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: false)
+                }
+
+            }, completion: { _ in
+                dispatch_async(dispatch_get_main_queue()) {
+                    completion(finish: true)
+                }
+            })
+
+        case .URL(let body, let URL):
+
+            var kind: FeedKind = .Text
+
+            var attachments: [JSONDictionary]?
+
+            let parseOpenGraphGroup = dispatch_group_create()
+
+            dispatch_group_enter(parseOpenGraphGroup)
+
+            openGraphWithURL(URL, failureHandler: { reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(parseOpenGraphGroup)
+                }
+
+            }, completion: { openGraph in
+
+                kind = .URL
+
+                let URLInfo = [
+                    "url": openGraph.URL.absoluteString,
+                    "site_name": (openGraph.siteName ?? "").yepshare_truncatedForFeed,
+                    "title": (openGraph.title ?? "").yepshare_truncatedForFeed,
+                    "description": (openGraph.description ?? "").yepshare_truncatedForFeed,
+                    "image_url": openGraph.previewImageURLString ?? "",
+                ]
+
+                attachments = [URLInfo]
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(parseOpenGraphGroup)
+                }
+            })
+
+            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) { [weak self] in
+
+                let realBody: String
+                if !body.isEmpty {
+                    realBody = body + " " + URL.absoluteString
+                } else {
+                    realBody = URL.absoluteString
+                }
+
+                createFeedWithKind(kind, message: realBody, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(finish: false)
+                    }
+                    
+                }, completion: { _ in
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion(finish: true)
+                    }
+                })
+            }
+
+        case .Images(let body, let images):
+            break
+        }
     }
 
     private func postFeed(message message: String?, URL: NSURL?, completion: (finish: Bool) -> Void) {
