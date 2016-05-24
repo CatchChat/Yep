@@ -333,6 +333,7 @@
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
 		50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */; };
 		50CE7BCB1CF3ECBA00488E5B /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */; };
+		50CE7BCD1CF3EF3A00488E5B /* TimeAgoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BCC1CF3EF3A00488E5B /* TimeAgoConfig.swift */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -374,8 +375,6 @@
 		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
 		50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0B1CF2DB470018D91F /* CancelableTask.swift */; };
 		50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */; };
-		50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F121CF2DF790018D91F /* NSDate+Extension.swift */; };
-		50D84F151CF2DF790018D91F /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */; };
 		50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F161CF2DFF50018D91F /* Double+Yep.swift */; };
 		50D84F201CF2F8750018D91F /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1C1CF2F8750018D91F /* ServiceTests.swift */; };
 		50D84F211CF2F8750018D91F /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */; };
@@ -1002,6 +1001,7 @@
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
 		50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		50CE7BCC1CF3EF3A00488E5B /* TimeAgoConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeAgoConfig.swift; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1045,8 +1045,6 @@
 		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
 		50D84F0B1CF2DB470018D91F /* CancelableTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelableTask.swift; path = Helpers/CancelableTask.swift; sourceTree = "<group>"; };
 		50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
-		50D84F121CF2DF790018D91F /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
-		50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50D84F161CF2DFF50018D91F /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		50D84F1C1CF2F8750018D91F /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
@@ -2327,6 +2325,7 @@
 			children = (
 				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
 				50D84F561CF307F60018D91F /* SoundEffectConfig.swift */,
+				50CE7BCC1CF3EF3A00488E5B /* TimeAgoConfig.swift */,
 				50D84F0E1CF2DE9C0018D91F /* Caches */,
 				50D84F0D1CF2DB4A0018D91F /* Helpers */,
 				50D84F041CF2D9FB0018D91F /* Spotlight */,
@@ -3011,7 +3010,6 @@
 		50D84EF41CF2D45B0018D91F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				50D84F111CF2DF790018D91F /* NSDate+TimeAgo */,
 				50D84EF51CF2D4790018D91F /* Array+Yep.swift */,
 				50D84F161CF2DFF50018D91F /* Double+Yep.swift */,
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
@@ -3061,16 +3059,6 @@
 				50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */,
 			);
 			name = Caches;
-			sourceTree = "<group>";
-		};
-		50D84F111CF2DF790018D91F /* NSDate+TimeAgo */ = {
-			isa = PBXGroup;
-			children = (
-				50D84F131CF2DF790018D91F /* NSDateTimeAgo.bundle */,
-				50D84F121CF2DF790018D91F /* NSDate+Extension.swift */,
-			);
-			name = "NSDate+TimeAgo";
-			path = "Extensions/NSDate+TimeAgo";
 			sourceTree = "<group>";
 		};
 		50DBDEF21C48C2290044E21B /* Protocols */ = {
@@ -4036,7 +4024,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50D84F151CF2DF790018D91F /* NSDateTimeAgo.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4659,6 +4646,7 @@
 				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
 				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
+				50CE7BCD1CF3EF3A00488E5B /* TimeAgoConfig.swift in Sources */,
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
 				50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */,
 				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
@@ -4666,7 +4654,6 @@
 				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
 				5056EAB71CF2C6BF00FDE07E /* YepUserDefaultsConfig.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
-				50D84F141CF2DF790018D91F /* NSDate+Extension.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,

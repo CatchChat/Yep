@@ -2896,13 +2896,13 @@ public struct DiscoveredFeed: Hashable {
     public var uploadingErrorMessage: String? = nil
 
     public var timeString: String {
-        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
+
+        let date = NSDate(timeIntervalSince1970: createdUnixTime)
+        let timeString = TimeAgoConfig.timeAgoAction?(date: date) ?? ""
         return timeString
     }
 
     public var timeAndDistanceString: String {
-
-        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
 
         var distanceString: String?
         if let distance = distance {

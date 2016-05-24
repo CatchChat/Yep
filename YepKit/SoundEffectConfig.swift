@@ -1,5 +1,5 @@
 //
-//  Config.swift
+//  SoundEffectConfig.swift
 //  Yep
 //
 //  Created by NIX on 16/5/23.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SoundEffectConfig {
+final public class SoundEffectConfig {
 
     public static var sentMessageSoundEffectAction: (() -> Void)?
 }

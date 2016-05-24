@@ -86,6 +86,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = realmConfig()
 
         configureSoundEffects()
+        configureTimeAgo()
         configureYepUserDefaults()
         configureYepNetworkingManager()
 
@@ -625,6 +626,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         SoundEffectConfig.sentMessageSoundEffectAction = { [weak self] in
 
             self?.sendMessageSoundEffect.play()
+        }
+    }
+
+    private func configureTimeAgo() {
+
+        TimeAgoConfig.timeAgoAction = { date in
+            return date.timeAgo
         }
     }
 
