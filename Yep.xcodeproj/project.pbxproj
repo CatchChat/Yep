@@ -331,6 +331,8 @@
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
+		50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */; };
+		50CE7BCB1CF3ECBA00488E5B /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -998,6 +1000,8 @@
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
+		50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
+		50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1756,6 +1760,7 @@
 		5023DE341AB688F900B3EE96 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				50CE7BC71CF3ECBA00488E5B /* NSDate+TimeAgo */,
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 				50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
@@ -2895,6 +2900,16 @@
 			name = ChatLeftImage;
 			sourceTree = "<group>";
 		};
+		50CE7BC71CF3ECBA00488E5B /* NSDate+TimeAgo */ = {
+			isa = PBXGroup;
+			children = (
+				50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */,
+				50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */,
+			);
+			name = "NSDate+TimeAgo";
+			path = "Extensions/NSDate+TimeAgo";
+			sourceTree = "<group>";
+		};
 		50D3A31B1CEDB1C600E59470 /* YepNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -3919,6 +3934,7 @@
 				50DEE0591BEA0D7B00015741 /* EditSkills.storyboard in Resources */,
 				50DEE0551BEA0BB200015741 /* Notifications.storyboard in Resources */,
 				508F8FD81B01EDB400461B0B /* DribbbleShotCell.xib in Resources */,
+				50CE7BCB1CF3ECBA00488E5B /* NSDateTimeAgo.bundle in Resources */,
 				5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */,
 				502AE5541AB93215005BD199 /* ProfileFooterCell.xib in Resources */,
 				6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */,
@@ -4425,6 +4441,7 @@
 				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,
+				50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
