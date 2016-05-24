@@ -31,7 +31,7 @@ class ChooseChannelViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Choose Channel"
+        title = NSLocalizedString("Choose Channel", comment: "") 
 
         tableView.tableFooterView = UIView()
     }

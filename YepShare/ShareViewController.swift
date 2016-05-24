@@ -22,15 +22,15 @@ class ShareViewController: SLComposeServiceViewController {
             if let skill = skill {
                 channelItem.value = skill.localName
             } else {
-                channelItem.value = "Default"
+                channelItem.value = NSLocalizedString("Default", comment: "")
             }
         }
     }
 
     lazy var channelItem: SLComposeSheetConfigurationItem = {
         let item = SLComposeSheetConfigurationItem()
-        item.title = "Channel"
-        item.value = "Default"
+        item.title = NSLocalizedString("Channel", comment: "")
+        item.value = NSLocalizedString("Default", comment: "")
         item.tapHandler = { [weak self] in
             self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
         }
@@ -60,7 +60,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "New Feed"
+        title = NSLocalizedString("New Feed", comment: "")
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
