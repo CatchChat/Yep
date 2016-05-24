@@ -77,9 +77,16 @@ class ShareViewController: SLComposeServiceViewController {
         return true
     }
 
+    var urls: [NSURL] = []
     var images: [UIImage] = []
 
     override func presentationAnimationDidFinish() {
+
+        urlsFromExtensionContext(extensionContext!) { [weak self] urls in
+            self?.urls = urls
+
+            print("urls: \(self?.urls)")
+        }
 
         imagesFromExtensionContext(extensionContext!) { [weak self] images in
             self?.images = images
@@ -230,6 +237,46 @@ class ShareViewController: SLComposeServiceViewController {
 }
 
 extension ShareViewController {
+
+    private func urlsFromExtensionContext(extensionContext: NSExtensionContext, completion: (urls: [NSURL]) -> Void) {
+
+        var urls: [NSURL] = []
+
+        guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
+            return completion(urls: [])
+        }
+
+        let imageTypeIdentifier = kUTTypeImage as String
+
+        let group = dispatch_group_create()
+
+        for extensionItem in extensionItems {
+            for attachment in extensionItem.attachments as! [NSItemProvider] {
+                if attachment.hasItemConformingToTypeIdentifier(imageTypeIdentifier) {
+
+                    dispatch_group_enter(group)
+
+                    attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
+
+                        guard error == nil else {
+                            dispatch_group_leave(group)
+                            return
+                        }
+
+                        if let url = secureCoding as? NSURL {
+                            urls.append(url)
+                        }
+
+                        dispatch_group_leave(group)
+                    }
+                }
+            }
+        }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            completion(urls: urls)
+        }
+    }
 
     private func imagesFromExtensionContext(extensionContext: NSExtensionContext, completion: (images: [UIImage]) -> Void) {
 
