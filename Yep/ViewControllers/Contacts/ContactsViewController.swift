@@ -14,9 +14,23 @@ import Ruler
 
 final class ContactsViewController: BaseViewController {
 
-    @IBOutlet weak var contactsTableView: UITableView!
+    @IBOutlet weak var contactsTableView: UITableView! {
+        didSet {
+            searchBar.sizeToFit()
+            contactsTableView.tableHeaderView = searchBar
+        }
+    }
 
     @IBOutlet private weak var coverUnderStatusBarView: UIView!
+
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .Minimal
+        searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
+        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.delegate = self
+        return searchBar
+    }()
 
     var conversationToShare: Conversation?
     #if DEBUG
@@ -90,6 +104,7 @@ final class ContactsViewController: BaseViewController {
 
         // 超过一定人数才显示搜索框
 
+        /*
         //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
         if friends.count > 0 {
 
@@ -117,6 +132,7 @@ final class ContactsViewController: BaseViewController {
 
             //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
         }
+         */
 
         contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
