@@ -28,12 +28,14 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     lazy var channelItem: SLComposeSheetConfigurationItem = {
+
         let item = SLComposeSheetConfigurationItem()
         item.title = NSLocalizedString("Channel", comment: "")
         item.value = NSLocalizedString("Default", comment: "")
         item.tapHandler = { [weak self] in
             self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
         }
+
         return item
     }()
 
@@ -117,6 +119,7 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     enum ShareType {
+
         case PlainText(body: String)
         case URL(body: String, URL: NSURL)
         case Images(body: String, images: [UIImage])
