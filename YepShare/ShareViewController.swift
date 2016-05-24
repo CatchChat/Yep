@@ -75,7 +75,7 @@ class ShareViewController: SLComposeServiceViewController {
             return token
         }
 
-        return true
+        return !(contentText ?? "").isEmpty || !urls.isEmpty
     }
 
     var urls: [NSURL] = []
