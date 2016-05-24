@@ -97,6 +97,14 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
+        postFeed(message: contentText, URL: urls.first) { [weak self] finish in
+
+            print("postFeed URL finish: \(finish)")
+
+            self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+        }
+
+        /*
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
 
             extensionContext?.completeRequestReturningItems([], completionHandler: nil)
@@ -144,6 +152,7 @@ class ShareViewController: SLComposeServiceViewController {
                 self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
             }
         }
+         */
     }
 
     override func configurationItems() -> [AnyObject]! {
@@ -246,22 +255,17 @@ extension ShareViewController {
             return completion(urls: [])
         }
 
-        let imageTypeIdentifier = kUTTypeImage as String
+        let URLTypeIdentifier = kUTTypeURL as String
 
         let group = dispatch_group_create()
 
         for extensionItem in extensionItems {
             for attachment in extensionItem.attachments as! [NSItemProvider] {
-                if attachment.hasItemConformingToTypeIdentifier(imageTypeIdentifier) {
+                if attachment.hasItemConformingToTypeIdentifier(URLTypeIdentifier) {
 
                     dispatch_group_enter(group)
 
-                    attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
-
-                        guard error == nil else {
-                            dispatch_group_leave(group)
-                            return
-                        }
+                    attachment.loadItemForTypeIdentifier(URLTypeIdentifier, options: nil) { secureCoding, error in
 
                         if let url = secureCoding as? NSURL {
                             urls.append(url)
@@ -297,11 +301,6 @@ extension ShareViewController {
                     dispatch_group_enter(group)
 
                     attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
-
-                        guard error == nil else {
-                            dispatch_group_leave(group)
-                            return
-                        }
 
                         if let fileURL = secureCoding as? NSURL, image = UIImage(contentsOfFile: fileURL.path!) {
                             images.append(image)
