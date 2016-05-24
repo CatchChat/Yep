@@ -7,13 +7,34 @@
 //
 
 import UIKit
+import YepKit
+import RealmSwift
 
 class ChooseChannelViewController: UITableViewController {
+
+    var pickedSkillAction: ((skill: Skill) -> Void)?
+
+    private let skills: [Skill] = {
+        print(YepUserDefaults.userID.value)
+        if let
+            myUserID = YepUserDefaults.userID.value,
+            realm = try? Realm(),
+            me = userWithUserID(myUserID, inRealm: realm) {
+
+            let skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+
+            return skills
+        }
+
+        return []
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Choose Channel"
+
+        tableView.tableFooterView = UIView()
     }
 
     // MARK: - Actions
@@ -25,6 +46,11 @@ class ChooseChannelViewController: UITableViewController {
 
     @IBAction func done(sender: UIBarButtonItem) {
 
+        if let indexPath = tableView.indexPathForSelectedRow {
+            let skill = skills[indexPath.row]
+            pickedSkillAction?(skill: skill)
+        }
+
         dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -35,13 +61,14 @@ class ChooseChannelViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return skills.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
-        cell.textLabel?.text = "Title \(indexPath.row)"
+        let skill = skills[indexPath.row]
+        cell.textLabel?.text = skill.localName
         return cell
     }
 }
