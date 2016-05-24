@@ -95,7 +95,6 @@
 		5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE351AB6979600B3EE96 /* ConversationCell.swift */; };
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
-		5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
@@ -129,7 +128,6 @@
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
-		503807201BD9EEFC0068345E /* YepMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038071F1BD9EEFC0068345E /* YepMedia.swift */; };
 		503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503807211BDA18040068345E /* FeedSkillUsersCell.swift */; };
 		503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503807221BDA18040068345E /* FeedSkillUsersCell.xib */; };
 		50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50390F0E1CE174180090A08C /* FunctionTests.swift */; };
@@ -165,8 +163,6 @@
 		505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */; };
 		505243AF1CD990750094B471 /* VerifyChangedMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */; };
 		5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E321C47A8FE0024FC63 /* libz.tbd */; };
-		505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5052620F1C52050700292C6A /* ConcurrentOperation.swift */; };
-		505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505262111C5205AB00292C6A /* UploadAttachmentOperation.swift */; };
 		505262151C522A1E00292C6A /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505262131C522A1E00292C6A /* Show.storyboard */; };
 		505262171C522A3D00292C6A /* FeedConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505262161C522A3D00292C6A /* FeedConversations.storyboard */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; };
@@ -231,7 +227,6 @@
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
 		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		507DCEB91CEEEA47006D43F7 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEB81CEEEA47006D43F7 /* Service.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
@@ -337,6 +332,10 @@
 		50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
 		50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */; };
 		50CE7BD41CF4337E00488E5B /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD31CF4337E00488E5B /* RealmConfig.swift */; };
+		50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD61CF44EAF00488E5B /* ConcurrentOperation.swift */; };
+		50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD71CF44EAF00488E5B /* UploadAttachmentOperation.swift */; };
+		50CE7BDB1CF450A300488E5B /* YepMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDA1CF450A300488E5B /* YepMedia.swift */; };
+		50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -762,7 +761,6 @@
 		5023DE351AB6979600B3EE96 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Views/Cells/Conversation/ConversationCell.swift; sourceTree = "<group>"; };
 		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
-		5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
@@ -797,7 +795,6 @@
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
-		5038071F1BD9EEFC0068345E /* YepMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepMedia.swift; path = Helpers/YepMedia.swift; sourceTree = "<group>"; };
 		503807211BDA18040068345E /* FeedSkillUsersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillUsersCell.swift; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.swift; sourceTree = "<group>"; };
 		503807221BDA18040068345E /* FeedSkillUsersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedSkillUsersCell.xib; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.xib; sourceTree = "<group>"; };
 		50390F0E1CE174180090A08C /* FunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionTests.swift; sourceTree = "<group>"; };
@@ -834,8 +831,6 @@
 		505243A91CD983390094B471 /* ChangeMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ChangeMobile.storyboard; path = ViewControllers/ChangeMobile/ChangeMobile.storyboard; sourceTree = "<group>"; };
 		505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = VerifyChangedMobile.storyboard; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobile.storyboard; sourceTree = "<group>"; };
 		505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerifyChangedMobileViewController.swift; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobileViewController.swift; sourceTree = "<group>"; };
-		5052620F1C52050700292C6A /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConcurrentOperation.swift; path = Operations/ConcurrentOperation.swift; sourceTree = "<group>"; };
-		505262111C5205AB00292C6A /* UploadAttachmentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UploadAttachmentOperation.swift; path = Operations/UploadAttachmentOperation.swift; sourceTree = "<group>"; };
 		505262141C522A1E00292C6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Show.storyboard; sourceTree = "<group>"; };
 		505262161C522A3D00292C6A /* FeedConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = FeedConversations.storyboard; path = ViewControllers/FeedConversations/FeedConversations.storyboard; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
@@ -901,7 +896,6 @@
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		507DCEB01CEEE2DC006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		507DCEB81CEEEA47006D43F7 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
@@ -1006,6 +1000,10 @@
 		50CE7BCE1CF3F25200488E5B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseChannelViewController.swift; sourceTree = "<group>"; };
 		50CE7BD31CF4337E00488E5B /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RealmConfig.swift; path = Persistence/RealmConfig.swift; sourceTree = "<group>"; };
+		50CE7BD61CF44EAF00488E5B /* ConcurrentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentOperation.swift; sourceTree = "<group>"; };
+		50CE7BD71CF44EAF00488E5B /* UploadAttachmentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadAttachmentOperation.swift; sourceTree = "<group>"; };
+		50CE7BDA1CF450A300488E5B /* YepMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepMedia.swift; path = Helpers/YepMedia.swift; sourceTree = "<group>"; };
+		50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1414,7 +1412,6 @@
 				5023DE571AB6CA1400B3EE96 /* Caches */,
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				50DBDEF21C48C2290044E21B /* Protocols */,
-				5052620E1C5202C700292C6A /* Operations */,
 				504F5E721BA034BB006CE418 /* Activities */,
 				5023DE391AB6979C00B3EE96 /* Views */,
 				50B3C9541CC9B62600623E29 /* Transitions */,
@@ -1769,7 +1766,6 @@
 				5023DE321AB688F600B3EE96 /* UIColor+Yep.swift */,
 				50DBDF041C4DD9530044E21B /* CGSize+Yep.swift */,
 				5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */,
-				5023DE581AB6DBC100B3EE96 /* UIImage+Yep.swift */,
 				50B22E451C588B6200219625 /* CGImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
@@ -2016,7 +2012,6 @@
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
 				50894D0F1AEE3C25000981AF /* YepHUD.swift */,
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
-				5038071F1BD9EEFC0068345E /* YepMedia.swift */,
 				50D84F541CF306D00018D91F /* YepSoundEffect.swift */,
 				506D01F81CE029B100B3867D /* UploadContactsMaker.swift */,
 			);
@@ -2246,15 +2241,6 @@
 			name = VerifyChangedMobile;
 			sourceTree = "<group>";
 		};
-		5052620E1C5202C700292C6A /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-				5052620F1C52050700292C6A /* ConcurrentOperation.swift */,
-				505262111C5205AB00292C6A /* UploadAttachmentOperation.swift */,
-			);
-			name = Operations;
-			sourceTree = "<group>";
-		};
 		50535D1B1BCD19B4002FE1A4 /* TouchClosures */ = {
 			isa = PBXGroup;
 			children = (
@@ -2332,6 +2318,7 @@
 			children = (
 				5056EA8D1CF2C55200FDE07E /* YepKit.h */,
 				50CE7BCE1CF3F25200488E5B /* Config.swift */,
+				50CE7BD51CF44EAF00488E5B /* Operations */,
 				50D84F0E1CF2DE9C0018D91F /* Caches */,
 				50D84F0D1CF2DB4A0018D91F /* Helpers */,
 				50D84F041CF2D9FB0018D91F /* Spotlight */,
@@ -2471,7 +2458,6 @@
 			isa = PBXGroup;
 			children = (
 				5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */,
-				507DCEB81CEEEA47006D43F7 /* Service.swift */,
 				507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */,
 				50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */,
 				5025547F1CEEFCEB0003E1B5 /* Extensions */,
@@ -2916,6 +2902,15 @@
 			path = "Extensions/NSDate+TimeAgo";
 			sourceTree = "<group>";
 		};
+		50CE7BD51CF44EAF00488E5B /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				50CE7BD61CF44EAF00488E5B /* ConcurrentOperation.swift */,
+				50CE7BD71CF44EAF00488E5B /* UploadAttachmentOperation.swift */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
 		50D3A31B1CEDB1C600E59470 /* YepNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -3022,6 +3017,7 @@
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
 				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
+				50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -3056,6 +3052,7 @@
 			isa = PBXGroup;
 			children = (
 				50D84F0B1CF2DB470018D91F /* CancelableTask.swift */,
+				50CE7BDA1CF450A300488E5B /* YepMedia.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -4424,7 +4421,6 @@
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
 				50B3C9581CC9BA9000623E29 /* SearchTriggerRepresentation.swift in Sources */,
 				50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */,
-				505262101C52050700292C6A /* ConcurrentOperation.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
@@ -4496,7 +4492,6 @@
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				50098D471CB348FA009275FE /* SearchedUserCell.swift in Sources */,
-				5023DE591AB6DBC100B3EE96 /* UIImage+Yep.swift in Sources */,
 				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
 				50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */,
 				50098D4C1CB35EE1009275FE /* SearchedMessageCell.swift in Sources */,
@@ -4555,7 +4550,6 @@
 				50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */,
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
-				505262121C5205AB00292C6A /* UploadAttachmentOperation.swift in Sources */,
 				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				50390F131CE2D71B0090A08C /* FeedFilterCell.swift in Sources */,
@@ -4630,7 +4624,6 @@
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,
 				6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */,
 				0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */,
-				503807201BD9EEFC0068345E /* YepMedia.swift in Sources */,
 				505EC8171ADF8151001D27E0 /* SkillCategoryCell.swift in Sources */,
 				50E18BB71B180F7D0076C3C6 /* BottomButtonView.swift in Sources */,
 				50E34C3A1CBF81E4007CAE80 /* ChatTextIndicatorCell.swift in Sources */,
@@ -4710,9 +4703,13 @@
 				50CE7BD41CF4337E00488E5B /* RealmConfig.swift in Sources */,
 				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
 				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
+				50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */,
+				50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
+				50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
+				50CE7BDB1CF450A300488E5B /* YepMedia.swift in Sources */,
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
 				50CE7BCF1CF3F25200488E5B /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
@@ -4738,7 +4735,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */,
-				507DCEB91CEEEA47006D43F7 /* Service.swift in Sources */,
 				502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */,
 				50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */,
 			);

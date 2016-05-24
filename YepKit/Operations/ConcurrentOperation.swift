@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ConcurrentOperation: NSOperation {
+public class ConcurrentOperation: NSOperation {
 
     enum State: String {
         case Ready, Executing, Finished
@@ -30,25 +30,25 @@ class ConcurrentOperation: NSOperation {
     }
 }
 
-extension ConcurrentOperation {
+public extension ConcurrentOperation {
 
-    override var ready: Bool {
+    override public var ready: Bool {
         return super.ready && state == .Ready
     }
 
-    override var executing: Bool {
+    override public var executing: Bool {
         return state == .Executing
     }
 
-    override var finished: Bool {
+    override public var finished: Bool {
         return state == .Finished
     }
 
-    override var asynchronous: Bool {
+    override public var asynchronous: Bool {
         return true
     }
 
-    override func start() {
+    override public func start() {
         if cancelled {
             state = .Finished
             return
@@ -58,7 +58,7 @@ extension ConcurrentOperation {
         state = .Executing
     }
     
-    override func cancel() {
+    override public func cancel() {
         state = .Finished
     }
 }

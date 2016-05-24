@@ -7,21 +7,20 @@
 //
 
 import Foundation
-import YepKit
 import YepNetworking
 
-final class UploadAttachmentOperation: ConcurrentOperation {
+final public class UploadAttachmentOperation: ConcurrentOperation {
 
     private let uploadAttachment: UploadAttachment
 
-    enum Result {
+    public enum Result {
         case Failed(errorMessage: String?)
         case Success(uploadedAttachment: UploadedAttachment)
     }
-    typealias Completion = (result: Result) -> Void
+    public typealias Completion = (result: Result) -> Void
     private let completion: Completion
 
-    init(uploadAttachment: UploadAttachment, completion: Completion) {
+    public init(uploadAttachment: UploadAttachment, completion: Completion) {
 
         self.uploadAttachment = uploadAttachment
         self.completion = completion
@@ -29,7 +28,7 @@ final class UploadAttachmentOperation: ConcurrentOperation {
         super.init()
     }
 
-    override func main() {
+    override public func main() {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 

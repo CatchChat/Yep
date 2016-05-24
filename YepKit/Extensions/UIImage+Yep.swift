@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import Ruler
 import ImageIO
 import MobileCoreServices.UTType
+import Ruler
 
-extension UIImage {
+public extension UIImage {
 
-    func largestCenteredSquareImage() -> UIImage {
+    public func largestCenteredSquareImage() -> UIImage {
         let scale = self.scale
 
         let originalWidth  = self.size.width * scale
@@ -36,7 +36,7 @@ extension UIImage {
         return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)
     }
 
-    func resizeToTargetSize(targetSize: CGSize) -> UIImage {
+    public func resizeToTargetSize(targetSize: CGSize) -> UIImage {
         let size = self.size
 
         let widthRatio  = targetSize.width  / self.size.width
@@ -62,7 +62,7 @@ extension UIImage {
         return newImage
     }
 
-    func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
+    public func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
 
         let pixelSideLength = sideLength * UIScreen.mainScreen().scale
 
@@ -130,7 +130,7 @@ extension UIImage {
         }
     }
 
-    func fixRotation() -> UIImage {
+    public func fixRotation() -> UIImage {
         if self.imageOrientation == .Up {
             return self
         }
@@ -190,14 +190,14 @@ extension UIImage {
 
 // MARK: Message Image
 
-enum MessageImageTailDirection {
+public enum MessageImageTailDirection {
     case Left
     case Right
 }
 
-extension UIImage {
+public extension UIImage {
 
-    func cropToAspectRatio(aspectRatio: CGFloat) -> UIImage {
+    public func cropToAspectRatio(aspectRatio: CGFloat) -> UIImage {
         let size = self.size
 
         let originalAspectRatio = size.width / size.height
@@ -221,14 +221,14 @@ extension UIImage {
     }
 }
 
-extension UIImage {
+public extension UIImage {
 
-    func imageWithGradientTintColor(tintColor: UIColor) -> UIImage {
+    public func imageWithGradientTintColor(tintColor: UIColor) -> UIImage {
 
         return imageWithTintColor(tintColor, blendMode: CGBlendMode.Overlay)
     }
 
-    func imageWithTintColor(tintColor: UIColor, blendMode: CGBlendMode) -> UIImage {
+    public func imageWithTintColor(tintColor: UIColor, blendMode: CGBlendMode) -> UIImage {
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
 
         tintColor.setFill()
@@ -251,9 +251,9 @@ extension UIImage {
     }
 }
 
-extension UIImage {
+public extension UIImage {
 
-    func renderAtSize(size: CGSize) -> UIImage {
+    public func renderAtSize(size: CGSize) -> UIImage {
 
         // 确保 size 为整数，防止 mask 里出现白线
         let size = CGSize(width: ceil(size.width), height: ceil(size.height))
@@ -273,7 +273,7 @@ extension UIImage {
         return image
     }
 
-    func maskWithImage(maskImage: UIImage) -> UIImage {
+    public func maskWithImage(maskImage: UIImage) -> UIImage {
 
         let scale = UIScreen.mainScreen().scale
         UIGraphicsBeginImageContextWithOptions(self.size, false, scale)
@@ -297,9 +297,9 @@ extension UIImage {
         return roundImage
     }
 
-    struct BubbleMaskImage {
+    public struct BubbleMaskImage {
 
-        static let leftTail: UIImage = {
+        public static let leftTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .Up
             var maskImage = UIImage(CGImage: UIImage(named: "left_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
@@ -307,7 +307,7 @@ extension UIImage {
             return maskImage
         }()
 
-        static let rightTail: UIImage = {
+        public static let rightTail: UIImage = {
             let scale = UIScreen.mainScreen().scale
             let orientation: UIImageOrientation = .Up
             var maskImage = UIImage(CGImage: UIImage(named: "right_tail_image_bubble")!.CGImage!, scale: scale, orientation: orientation)
@@ -316,7 +316,7 @@ extension UIImage {
         }()
     }
 
-    func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {
+    public func bubbleImageWithTailDirection(tailDirection: MessageImageTailDirection, size: CGSize, forMap: Bool = false) -> UIImage {
 
         //let orientation: UIImageOrientation = tailDirection == .Left ? .Up : .UpMirrored
 
@@ -357,13 +357,13 @@ extension UIImage {
 
 // MARK: - Decode
 
-extension UIImage {
+public extension UIImage {
 
-    func decodedImage() -> UIImage {
+    public func decodedImage() -> UIImage {
         return decodedImage(scale: scale)
     }
 
-    func decodedImage(scale scale: CGFloat) -> UIImage {
+    public func decodedImage(scale scale: CGFloat) -> UIImage {
         let imageRef = CGImage
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
@@ -383,9 +383,9 @@ extension UIImage {
 
 // MARK: Resize
 
-extension UIImage {
+public extension UIImage {
 
-    func resizeToSize(size: CGSize, withTransform transform: CGAffineTransform, drawTransposed: Bool, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    public func resizeToSize(size: CGSize, withTransform transform: CGAffineTransform, drawTransposed: Bool, interpolationQuality: CGInterpolationQuality) -> UIImage? {
 
         let newRect = CGRectIntegral(CGRect(origin: CGPointZero, size: size))
         let transposedRect = CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width))
@@ -406,7 +406,7 @@ extension UIImage {
         return nil
     }
 
-    func transformForOrientationWithSize(size: CGSize) -> CGAffineTransform {
+    public func transformForOrientationWithSize(size: CGSize) -> CGAffineTransform {
         var transform = CGAffineTransformIdentity
 
         switch imageOrientation {
@@ -442,7 +442,7 @@ extension UIImage {
         return transform
     }
 
-    func resizeToSize(size: CGSize, withInterpolationQuality interpolationQuality: CGInterpolationQuality) -> UIImage? {
+    public func resizeToSize(size: CGSize, withInterpolationQuality interpolationQuality: CGInterpolationQuality) -> UIImage? {
 
         let drawTransposed: Bool
 
@@ -457,9 +457,9 @@ extension UIImage {
     }
 }
 
-extension UIImage {
+public extension UIImage {
 
-    var yep_avarageColor: UIColor {
+    public var yep_avarageColor: UIColor {
 
         let rgba = UnsafeMutablePointer<CUnsignedChar>.alloc(4)
         let colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()!
@@ -477,9 +477,9 @@ extension UIImage {
 
 // MARK: Progressive
 
-extension UIImage {
+public extension UIImage {
 
-    var yep_progressiveImage: UIImage? {
+    public var yep_progressiveImage: UIImage? {
 
         guard let cgImage = CGImage else {
             return nil
