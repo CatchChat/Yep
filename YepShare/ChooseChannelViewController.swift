@@ -14,6 +14,12 @@ class ChooseChannelViewController: UITableViewController {
 
     var pickedSkillAction: ((skill: Skill) -> Void)?
 
+    @IBOutlet weak var doneButton: UIBarButtonItem! {
+        didSet {
+            doneButton.enabled = false
+        }
+    }
+
     private let skills: [Skill] = {
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -69,6 +75,11 @@ class ChooseChannelViewController: UITableViewController {
         let skill = skills[indexPath.row]
         cell.textLabel?.text = skill.localName
         return cell
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        doneButton.enabled = true
     }
 }
 
