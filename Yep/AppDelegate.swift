@@ -38,22 +38,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         static let applicationDidBecomeActive = "applicationDidBecomeActive"
     }
 
-    private func realmConfig() -> Realm.Configuration {
-
-        // 默认将 Realm 放在 App Group 里
-
-        let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(YepConfig.appGroupID)!
-        let realmFileURL = directory.URLByAppendingPathComponent("db.realm")
-
-        var config = Realm.Configuration()
-        config.fileURL = realmFileURL
-        config.schemaVersion = 33
-        config.migrationBlock = { migration, oldSchemaVersion in
-        }
-
-        return config
-    }
-
     enum RemoteNotificationType: String {
         case Message = "message"
         case OfficialMessage = "official_message"

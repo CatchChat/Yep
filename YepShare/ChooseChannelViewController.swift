@@ -15,7 +15,6 @@ class ChooseChannelViewController: UITableViewController {
     var pickedSkillAction: ((skill: Skill) -> Void)?
 
     private let skills: [Skill] = {
-        print(YepUserDefaults.userID.value)
         if let
             myUserID = YepUserDefaults.userID.value,
             realm = try? Realm(),

@@ -12,6 +12,7 @@ import MobileCoreServices.UTType
 import YepKit
 import YepNetworking
 import OpenGraph
+import RealmSwift
 
 class ShareViewController: SLComposeServiceViewController {
 
@@ -59,6 +60,8 @@ class ShareViewController: SLComposeServiceViewController {
         super.viewDidLoad()
 
         title = "New Feed"
+
+        Realm.Configuration.defaultConfiguration = realmConfig()
     }
 
     override func isContentValid() -> Bool {
