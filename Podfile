@@ -52,6 +52,7 @@ target 'YepKit' do
     pod 'Alamofire'
     pod 'RealmSwift'
     pod 'Navi'
+    pod 'Ruler'
 end
 
 target 'YepShare' do
@@ -68,7 +69,7 @@ post_install do |installer|
                 puts 'X...' + target.name
             end
         else
-            puts 'O...' + target.name
+            puts '....' + target.name
         end
     end
 end
