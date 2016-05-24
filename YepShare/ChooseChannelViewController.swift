@@ -20,6 +20,12 @@ class ChooseChannelViewController: UITableViewController {
         }
     }
 
+    private lazy var selectedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
+        return view
+    }()
+
     private let skills: [Skill] = {
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -74,6 +80,7 @@ class ChooseChannelViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
         let skill = skills[indexPath.row]
         cell.textLabel?.text = skill.localName
+        cell.selectedBackgroundView = selectedBackgroundView
         return cell
     }
 
