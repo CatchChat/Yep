@@ -77,6 +77,17 @@ class ShareViewController: SLComposeServiceViewController {
         return true
     }
 
+    var images: [UIImage] = []
+
+    override func presentationAnimationDidFinish() {
+
+        imagesFromExtensionContext(extensionContext!) { [weak self] images in
+            self?.images = images
+
+            print("images: \(self?.images)")
+        }
+    }
+
     override func didSelectPost() {
 
         guard let item = extensionContext?.inputItems.first as? NSExtensionItem else {
@@ -214,6 +225,49 @@ class ShareViewController: SLComposeServiceViewController {
                     completion(finish: true)
                 }
             })
+        }
+    }
+}
+
+extension ShareViewController {
+
+    private func imagesFromExtensionContext(extensionContext: NSExtensionContext, completion: (images: [UIImage]) -> Void) {
+
+        var images: [UIImage] = []
+
+        guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
+            return completion(images: [])
+        }
+
+        let imageTypeIdentifier = kUTTypeImage as String
+
+        let group = dispatch_group_create()
+
+        for extensionItem in extensionItems {
+            for attachment in extensionItem.attachments as! [NSItemProvider] {
+                if attachment.hasItemConformingToTypeIdentifier(imageTypeIdentifier) {
+
+                    dispatch_group_enter(group)
+
+                    attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
+
+                        guard error == nil else {
+                            dispatch_group_leave(group)
+                            return
+                        }
+
+                        if let fileURL = secureCoding as? NSURL, image = UIImage(contentsOfFile: fileURL.path!) {
+                            images.append(image)
+                        }
+
+                        dispatch_group_leave(group)
+                    }
+                }
+            }
+        }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            completion(images: images)
         }
     }
 }
