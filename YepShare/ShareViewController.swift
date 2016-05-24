@@ -9,6 +9,7 @@
 import UIKit
 import Social
 import MobileCoreServices.UTType
+import YepKit
 import YepNetworking
 import OpenGraph
 
