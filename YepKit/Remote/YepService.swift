@@ -2345,7 +2345,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     afterCreatedMessage(message)
 
     // 做个音效
-    SoundEffectConfig.sentMessageSoundEffectAction?()
+    Config.sentMessageSoundEffectAction?()
 
     // 下面开始真正的消息发送
     sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in
@@ -2896,13 +2896,13 @@ public struct DiscoveredFeed: Hashable {
     public var uploadingErrorMessage: String? = nil
 
     public var timeString: String {
-        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
+
+        let date = NSDate(timeIntervalSince1970: createdUnixTime)
+        let timeString = Config.timeAgoAction?(date: date) ?? ""
         return timeString
     }
 
     public var timeAndDistanceString: String {
-
-        let timeString = "\(NSDate(timeIntervalSince1970: createdUnixTime).timeAgo)"
 
         var distanceString: String?
         if let distance = distance {

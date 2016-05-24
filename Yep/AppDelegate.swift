@@ -85,9 +85,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 
-        configureSoundEffects()
-        configureYepUserDefaults()
-        configureYepNetworkingManager()
+        configureYepKit()
+        configureYepNetworking()
 
         cacheInAdvance()
 
@@ -620,17 +619,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return YepSoundEffect(soundName: "bub3")
     }()
 
-    private func configureSoundEffects() {
+    private func configureYepKit() {
 
-        SoundEffectConfig.sentMessageSoundEffectAction = { [weak self] in
-
-            self?.sendMessageSoundEffect.play()
-        }
-    }
-
-    private func configureYepUserDefaults() {
-
-        YepUserDefaultsConfig.updatedAccessTokenAction = {
+        YepKit.Config.updatedAccessTokenAction = {
 
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                 // 注册或初次登录时同步数据的好时机
@@ -641,8 +632,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        YepUserDefaultsConfig.updatedPusherIDAction = { pusherID in
-            
+        YepKit.Config.updatedPusherIDAction = { pusherID in
+
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                 if appDelegate.notRegisteredPush {
                     appDelegate.notRegisteredPush = false
@@ -653,9 +644,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
+
+        YepKit.Config.sentMessageSoundEffectAction = { [weak self] in
+
+            self?.sendMessageSoundEffect.play()
+        }
+
+        YepKit.Config.timeAgoAction = { date in
+            return date.timeAgo
+        }
     }
 
-    private func configureYepNetworkingManager() {
+    private func configureYepNetworking() {
 
         YepNetworking.Manager.accessToken = {
             return YepUserDefaults.v1AccessToken.value
