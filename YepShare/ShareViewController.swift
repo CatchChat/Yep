@@ -15,6 +15,19 @@ import OpenGraph
 
 class ShareViewController: SLComposeServiceViewController {
 
+    lazy var channelItem: SLComposeSheetConfigurationItem = {
+        let item = SLComposeSheetConfigurationItem()
+        item.title = "Channel"
+        item.value = "Default"
+        return item
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = "New Feed"
+    }
+
     override func isContentValid() -> Bool {
 
         YepNetworking.Manager.accessToken = {
@@ -80,8 +93,8 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [AnyObject]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
+
+        return [channelItem]
     }
 
     private func postFeed(message message: String?, URL: NSURL?, completion: (finish: Bool) -> Void) {
