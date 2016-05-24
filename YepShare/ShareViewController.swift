@@ -63,18 +63,13 @@ class ShareViewController: SLComposeServiceViewController {
         title = "New Feed"
 
         Realm.Configuration.defaultConfiguration = realmConfig()
+
+        YepNetworking.Manager.accessToken = {
+            return YepUserDefaults.v1AccessToken.value
+        }
     }
 
     override func isContentValid() -> Bool {
-
-        YepNetworking.Manager.accessToken = {
-            let appGroupID: String = "group.Catch-Inc.Yep"
-            let userDefaults = NSUserDefaults(suiteName: appGroupID)
-            let v1AccessTokenKey = "v1AccessToken"
-            let token = userDefaults?.stringForKey(v1AccessTokenKey)
-            return token
-        }
-
         return !(contentText ?? "").isEmpty || !urls.isEmpty
     }
 
