@@ -19,6 +19,9 @@ class ShareViewController: SLComposeServiceViewController {
         let item = SLComposeSheetConfigurationItem()
         item.title = "Channel"
         item.value = "Default"
+        item.tapHandler = { [weak self] in
+            self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
+        }
         return item
     }()
 
