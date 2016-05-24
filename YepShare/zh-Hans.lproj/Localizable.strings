@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Yep
+
+  Created by NIX on 16/5/24.
+  Copyright © 2016年 Catch Inc. All rights reserved.
+*/
+
+"New Feed" = "新话题";
+"Channel" = "频道";
+"Default" = "默认";
+"Choose Channel" = "选择频道";
+

@@ -14,6 +14,18 @@ class ChooseChannelViewController: UITableViewController {
 
     var pickedSkillAction: ((skill: Skill) -> Void)?
 
+    @IBOutlet weak var doneButton: UIBarButtonItem! {
+        didSet {
+            doneButton.enabled = false
+        }
+    }
+
+    private lazy var selectedBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
+        return view
+    }()
+
     private let skills: [Skill] = {
         if let
             myUserID = YepUserDefaults.userID.value,
@@ -31,7 +43,7 @@ class ChooseChannelViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Choose Channel"
+        title = NSLocalizedString("Choose Channel", comment: "") 
 
         tableView.tableFooterView = UIView()
     }
@@ -68,7 +80,13 @@ class ChooseChannelViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
         let skill = skills[indexPath.row]
         cell.textLabel?.text = skill.localName
+        cell.selectedBackgroundView = selectedBackgroundView
         return cell
+    }
+
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        doneButton.enabled = true
     }
 }
 

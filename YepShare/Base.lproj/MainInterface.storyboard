@@ -70,6 +70,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="doneButton" destination="x7B-OJ-HOO" id="M2p-Vy-XTe"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S2S-RY-KoS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

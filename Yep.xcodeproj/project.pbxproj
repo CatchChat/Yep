@@ -336,6 +336,7 @@
 		50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD71CF44EAF00488E5B /* UploadAttachmentOperation.swift */; };
 		50CE7BDB1CF450A300488E5B /* YepMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDA1CF450A300488E5B /* YepMedia.swift */; };
 		50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */; };
+		50CE7BE01CF4600F00488E5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BE21CF4600F00488E5B /* Localizable.strings */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -1004,6 +1005,8 @@
 		50CE7BD71CF44EAF00488E5B /* UploadAttachmentOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadAttachmentOperation.swift; sourceTree = "<group>"; };
 		50CE7BDA1CF450A300488E5B /* YepMedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepMedia.swift; path = Helpers/YepMedia.swift; sourceTree = "<group>"; };
 		50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
+		50CE7BE11CF4600F00488E5B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		50CE7BE31CF4601900488E5B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2463,6 +2466,7 @@
 				5025547F1CEEFCEB0003E1B5 /* Extensions */,
 				507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */,
 				507DCEB01CEEE2DC006D43F7 /* Info.plist */,
+				50CE7BE21CF4600F00488E5B /* Localizable.strings */,
 			);
 			path = YepShare;
 			sourceTree = "<group>";
@@ -4049,6 +4053,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */,
+				50CE7BE01CF4600F00488E5B /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4956,6 +4961,15 @@
 				507DCEAE1CEEE2DC006D43F7 /* Base */,
 			);
 			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+		50CE7BE21CF4600F00488E5B /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				50CE7BE11CF4600F00488E5B /* en */,
+				50CE7BE31CF4601900488E5B /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
