@@ -335,6 +335,7 @@
 		50CE7BCB1CF3ECBA00488E5B /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */; };
 		50CE7BCF1CF3F25200488E5B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BCE1CF3F25200488E5B /* Config.swift */; };
 		50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -1002,6 +1003,7 @@
 		50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50CE7BCE1CF3F25200488E5B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseChannelViewController.swift; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2468,6 +2470,7 @@
 				5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */,
 				507DCEB81CEEEA47006D43F7 /* Service.swift */,
 				507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */,
+				50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */,
 				5025547F1CEEFCEB0003E1B5 /* Extensions */,
 				507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */,
 				507DCEB01CEEE2DC006D43F7 /* Info.plist */,
@@ -4733,6 +4736,7 @@
 				507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */,
 				507DCEB91CEEEA47006D43F7 /* Service.swift in Sources */,
 				502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */,
+				50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
