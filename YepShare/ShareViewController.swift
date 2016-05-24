@@ -9,10 +9,60 @@
 import UIKit
 import Social
 import MobileCoreServices.UTType
+import YepKit
 import YepNetworking
 import OpenGraph
+import RealmSwift
 
 class ShareViewController: SLComposeServiceViewController {
+
+    private var skill: Skill? {
+        didSet {
+            if let skill = skill {
+                channelItem.value = skill.localName
+            } else {
+                channelItem.value = "Default"
+            }
+        }
+    }
+
+    lazy var channelItem: SLComposeSheetConfigurationItem = {
+        let item = SLComposeSheetConfigurationItem()
+        item.title = "Channel"
+        item.value = "Default"
+        item.tapHandler = { [weak self] in
+            self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
+        }
+        return item
+    }()
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else { return }
+
+        switch identifier {
+
+        case "presentChooseChannel":
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! ChooseChannelViewController
+
+            vc.pickedSkillAction = { [weak self] skill in
+                self?.skill = skill
+            }
+
+        default:
+            break
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = "New Feed"
+
+        Realm.Configuration.defaultConfiguration = realmConfig()
+    }
 
     override func isContentValid() -> Bool {
 
@@ -79,8 +129,8 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func configurationItems() -> [AnyObject]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return []
+
+        return [channelItem]
     }
 
     private func postFeed(message message: String?, URL: NSURL?, completion: (finish: Bool) -> Void) {
@@ -89,7 +139,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             if let body = message where !body.isEmpty {
 
-                createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+                createFeedWithKind(.Text, message: body, attachments: nil, coordinate: nil, skill: skill, allowComment: true, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     dispatch_async(dispatch_get_main_queue()) {
@@ -143,7 +193,7 @@ class ShareViewController: SLComposeServiceViewController {
             }
         })
 
-        dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
+        dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) { [weak self] in
 
             let body: String
             if let message = message where !message.isEmpty {
@@ -152,7 +202,7 @@ class ShareViewController: SLComposeServiceViewController {
                 body = URL.absoluteString
             }
 
-            createFeedWithKind(kind, message: body, attachments: attachments, coordinate: nil, skill: nil, allowComment: true, failureHandler: { reason, errorMessage in
+            createFeedWithKind(kind, message: body, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {

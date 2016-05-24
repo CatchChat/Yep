@@ -6,6 +6,7 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+/*
 import Foundation
 import CoreLocation
 import YepNetworking
@@ -100,4 +101,4 @@ func createFeedWithKind(kind: FeedKind, message: String, attachments: [JSONDicti
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
-
+*/

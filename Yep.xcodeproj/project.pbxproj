@@ -37,6 +37,7 @@
 		0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA691AC3ED3D00617758 /* UIKit.framework */; };
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
+		1CB4A4CF3AE903143F4468F6 /* Pods_YepShare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */; };
 		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
 		33180F5C1CC9C58100CACF38 /* DataSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33180F5B1CC9C58100CACF38 /* DataSample.swift */; };
 		336563F81CCF2FF800598378 /* LeftShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */; };
@@ -333,6 +334,9 @@
 		50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */; };
 		50CE7BCB1CF3ECBA00488E5B /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */; };
 		50CE7BCF1CF3F25200488E5B /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BCE1CF3F25200488E5B /* Config.swift */; };
+		50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5056EA8B1CF2C55100FDE07E /* YepKit.framework */; };
+		50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */; };
+		50CE7BD41CF4337E00488E5B /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BD31CF4337E00488E5B /* RealmConfig.swift */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -689,6 +693,7 @@
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
 		0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.release.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.release.xcconfig"; sourceTree = "<group>"; };
+		11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepShare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.debug.xcconfig"; sourceTree = "<group>"; };
 		18F9026880FED211156FBB93 /* Pods_FayeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FayeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -999,6 +1004,8 @@
 		50CE7BC81CF3ECBA00488E5B /* NSDate+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extension.swift"; sourceTree = "<group>"; };
 		50CE7BC91CF3ECBA00488E5B /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
 		50CE7BCE1CF3F25200488E5B /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseChannelViewController.swift; sourceTree = "<group>"; };
+		50CE7BD31CF4337E00488E5B /* RealmConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RealmConfig.swift; path = Persistence/RealmConfig.swift; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1159,6 +1166,7 @@
 		95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Persistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.debug.xcconfig"; sourceTree = "<group>"; };
 		9E519848DD3290844742698C /* Pods_YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepShare.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepShare/Pods-YepShare.release.xcconfig"; sourceTree = "<group>"; };
 		AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.debug.xcconfig"; sourceTree = "<group>"; };
 		BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.debug.xcconfig"; sourceTree = "<group>"; };
 		BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1172,6 +1180,7 @@
 		E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.release.xcconfig"; sourceTree = "<group>"; };
 		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepShare.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepShare/Pods-YepShare.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1250,8 +1259,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */,
 				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
 				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
+				1CB4A4CF3AE903143F4468F6 /* Pods_YepShare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2361,6 +2372,7 @@
 			isa = PBXGroup;
 			children = (
 				5056EAAB1CF2C6A200FDE07E /* Models.swift */,
+				50CE7BD31CF4337E00488E5B /* RealmConfig.swift */,
 			);
 			name = Persistence;
 			sourceTree = "<group>";
@@ -2461,6 +2473,7 @@
 				5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */,
 				507DCEB81CEEEA47006D43F7 /* Service.swift */,
 				507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */,
+				50CE7BD11CF42C3000488E5B /* ChooseChannelViewController.swift */,
 				5025547F1CEEFCEB0003E1B5 /* Extensions */,
 				507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */,
 				507DCEB01CEEE2DC006D43F7 /* Info.plist */,
@@ -3324,6 +3337,7 @@
 				266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */,
 				E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */,
 				9E519848DD3290844742698C /* Pods_YepKit.framework */,
+				11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3431,6 +3445,8 @@
 				DF3C537260A42F3083541560 /* Pods-YepUserDefaults.release.xcconfig */,
 				995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */,
 				1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */,
+				F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */,
+				A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3612,9 +3628,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 507DCEB61CEEE2DC006D43F7 /* Build configuration list for PBXNativeTarget "YepShare" */;
 			buildPhases = (
+				2EFAE3A8991EF5485E4D42AA /* 📦 Check Pods Manifest.lock */,
 				507DCEA51CEEE2DC006D43F7 /* Sources */,
 				507DCEA61CEEE2DC006D43F7 /* Frameworks */,
 				507DCEA71CEEE2DC006D43F7 /* Resources */,
+				C8FF8547329E75815AF8E6EE /* 📦 Embed Pods Frameworks */,
+				D24D2E26E6C492E0EBC95753 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4116,6 +4135,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		2EFAE3A8991EF5485E4D42AA /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		33F6785C6C02AA0DB7E99163 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4279,6 +4313,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKit/Pods-YepKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8FF8547329E75815AF8E6EE /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepShare/Pods-YepShare-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D24D2E26E6C492E0EBC95753 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepShare/Pods-YepShare-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DD2CB34EB87D7BB2872EB3E1 /* 📦 Copy Pods Resources */ = {
@@ -4643,6 +4707,7 @@
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
 				50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */,
 				50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */,
+				50CE7BD41CF4337E00488E5B /* RealmConfig.swift in Sources */,
 				50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */,
 				50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
@@ -4675,6 +4740,7 @@
 				507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */,
 				507DCEB91CEEEA47006D43F7 /* Service.swift in Sources */,
 				502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */,
+				50CE7BD21CF42C3000488E5B /* ChooseChannelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5202,6 +5268,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5230,6 +5297,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5283,6 +5351,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5311,6 +5380,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5362,6 +5432,7 @@
 		};
 		507DCEB41CEEE2DC006D43F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_ENTITLEMENTS = YepShare/YepShare.entitlements;
@@ -5379,6 +5450,7 @@
 		};
 		507DCEB51CEEE2DC006D43F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_ENTITLEMENTS = YepShare/YepShare.entitlements;
@@ -5478,6 +5550,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -5506,6 +5579,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

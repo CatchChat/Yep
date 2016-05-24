@@ -16,5 +16,7 @@ final public class Config {
     public static var sentMessageSoundEffectAction: (() -> Void)?
 
     public static var timeAgoAction: ((date: NSDate) -> String)?
+
+    public static var isAppActive: (() -> Bool)?
 }
 

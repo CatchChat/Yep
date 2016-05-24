@@ -2545,8 +2545,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
 
 public func batchMarkAsReadOfMessagesToRecipient(recipient: Recipient, beforeMessage: Message, failureHandler: FailureHandler?, completion: () -> Void) {
 
-    let state = UIApplication.sharedApplication().applicationState
-    if state != .Active {
+    guard Config.isAppActive?() ?? false else {
         return
     }
 

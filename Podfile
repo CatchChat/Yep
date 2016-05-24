@@ -53,13 +53,15 @@ target 'YepKit' do
     pod 'RealmSwift'
 end
 
-# make sure 'Alamofire', 'Kanna' allow app extension api only
+target 'YepShare' do
+    pod 'RealmSwift'
+end
 
 post_install do |installer|
     puts 'Allow app extension api only:'
     installer.pods_project.targets.each do |target|
         case target.name
-        when 'Alamofire', 'Kanna'
+        when 'Alamofire', 'Kanna', 'RealmSwift', 'Kingfisher', 'Ruler', 'Base64', 'SocketRocket'
             target.build_configurations.each do |config|
                 config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
                 puts 'X...' + target.name
