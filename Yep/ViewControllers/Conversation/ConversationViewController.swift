@@ -4417,6 +4417,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.tryShowProfileWithUsername(username)
                             }
 
+                            cell.tapFeedAction = { [weak self] feed in
+                                self?.performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+                            }
+
                             cell.tapOpenGraphURLAction = { [weak self] URL in
                                 self?.yep_openURL(URL)
                             }
@@ -4431,6 +4435,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.tapUsernameAction = { [weak self] username in
                                 println("right text cell.tapUsernameAction: \(username)")
                                 self?.tryShowProfileWithUsername(username)
+                            }
+
+                            cell.tapFeedAction = { [weak self] feed in
+                                self?.performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
                             }
                         }
                     }
