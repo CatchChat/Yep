@@ -34,8 +34,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testPostTextFeed() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         app.tabBars.buttons["Feeds"].tap()
         app.navigationBars["Feeds"].buttons["Add"].tap()
         app.tables.staticTexts["Text & Photos"].tap()
@@ -48,8 +53,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testChangeNickname() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         app.tabBars.buttons["Profile"].tap()
         app.buttons["icon settings"].tap()
         
@@ -70,8 +80,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchUsers() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         app.tabBars.buttons["Contacts"].tap()
         app.navigationBars["Contacts"].buttons["Add"].tap()
         
@@ -86,8 +101,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInConversations() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         let tablesQuery = app.tables
         tablesQuery.searchFields["Search"].tap()
 
@@ -104,8 +124,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInContacts() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         app.tabBars.buttons["Contacts"].tap()
         app.tables.searchFields["Search Friend"].tap()
 
@@ -122,8 +147,13 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInFeeds() {
-        
+
         let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
+            return
+        }
+
         app.tabBars.buttons["Feeds"].tap()
         app.tables.searchFields["Search Feeds"].tap()
 

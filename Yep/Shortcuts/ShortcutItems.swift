@@ -63,13 +63,10 @@ func configureDynamicShortcuts() {
 
                     let type = ShortcutType.LatestOneToOneConversation.rawValue
 
-                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
-                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-
                     let item = UIApplicationShortcutItem(
                         type: type,
                         localizedTitle: user.nickname,
-                        localizedSubtitle: textMessageOrUpdatedTime,
+                        localizedSubtitle: conversation.latestMessageTextContentOrPlaceholder,
                         icon: UIApplicationShortcutIcon(templateImageName: "icon_chat_active"),
                         userInfo: ["userID": user.userID]
                     )
@@ -80,13 +77,10 @@ func configureDynamicShortcuts() {
 
                     let type = ShortcutType.LatestFeedConversation.rawValue
 
-                    let textMessageOrUpdatedTime = conversation.latestValidMessage?.textContent ??
-                        NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-
                     let item = UIApplicationShortcutItem(
                         type: type,
                         localizedTitle: feed.body,
-                        localizedSubtitle: textMessageOrUpdatedTime,
+                        localizedSubtitle: conversation.latestMessageTextContentOrPlaceholder,
                         icon: UIApplicationShortcutIcon(templateImageName: "icon_discussion"),
                         userInfo: ["feedID": feed.feedID]
                     )
