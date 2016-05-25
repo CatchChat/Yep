@@ -88,9 +88,18 @@ extension ChatTextView: UITextViewDelegate {
 
             let text = (self.text as NSString).substringWithRange(characterRange)
             self.hangleTapText(text, withDetectionType: detectionType)
-        }
 
-        return true
+            return true
+
+        } else if URL.host == "soyep.com" {
+            print("URL: \(URL)")
+
+            return false
+
+        } else {
+
+            return true
+        }
     }
 
     private func hangleTapText(text: String, withDetectionType detectionType: DetectionType) {
