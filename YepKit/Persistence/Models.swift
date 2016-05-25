@@ -798,6 +798,19 @@ public class Conversation: Object {
         return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 
+    public var latestMessageTextContentOrPlaceholder: String? {
+
+        guard let latestValidMessage = latestValidMessage else {
+            return nil
+        }
+
+        if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
+            return placeholder
+        } else {
+            return latestValidMessage.textContent
+        }
+    }
+
     public var needDetectMention: Bool {
         return type == ConversationType.Group.rawValue
     }
