@@ -91,14 +91,12 @@ extension ChatTextView: UITextViewDelegate {
             let text = (self.text as NSString).substringWithRange(characterRange)
             self.hangleTapText(text, withDetectionType: detectionType)
 
-            return true
+            return false
 
         } else if URL.yep_matchSharedFeed({ [weak self] feed in self?.tapFeedAction?(feed: feed) }) {
-
             return false
 
         } else {
-
             return true
         }
     }
