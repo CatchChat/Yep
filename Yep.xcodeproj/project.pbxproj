@@ -50,6 +50,7 @@
 		338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940451CBCB0E200B276C1 /* AlbumListController.swift */; };
 		338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940471CBCF05A00B276C1 /* AlbumListCell.swift */; };
 		3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940481CBCF05A00B276C1 /* AlbumListCell.xib */; };
+		36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */; };
 		50008D321CAE0D9A00245296 /* SearchConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */; };
 		50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50008D331CAE0DC700245296 /* SearchConversations.storyboard */; };
 		50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D381CAE537400245296 /* SearchedFeedCell.swift */; };
@@ -711,6 +712,7 @@
 		338940471CBCF05A00B276C1 /* AlbumListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumListCell.swift; sourceTree = "<group>"; };
 		338940481CBCF05A00B276C1 /* AlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumListCell.xib; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -1151,6 +1153,7 @@
 		6AC40E321C47A8FE0024FC63 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6AC40E341C47A9060024FC63 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
+		6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
 		84385C431B8592120071130D /* ShowStepGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepGeniusViewController.swift; path = ViewControllers/Show/ShowStepGeniusViewController.swift; sourceTree = "<group>"; };
@@ -1254,6 +1257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
+				36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3450,6 +3454,8 @@
 				1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */,
 				F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */,
 				A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */,
+				6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */,
+				383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3612,9 +3618,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */;
 			buildPhases = (
+				0739CD6E64CA59F3913CCE4C /* 📦 Check Pods Manifest.lock */,
 				5056EA901CF2C55200FDE07E /* Sources */,
 				5056EA911CF2C55200FDE07E /* Frameworks */,
 				5056EA921CF2C55200FDE07E /* Resources */,
+				7023610F00B0C1F26C03D026 /* 📦 Embed Pods Frameworks */,
+				6B0662B24EBA34717C3D1C1B /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4111,6 +4120,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0739CD6E64CA59F3913CCE4C /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		0AFE75AD1AC43DD1005AA33E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4214,6 +4238,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		6B0662B24EBA34717C3D1C1B /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6D7C2E2AB4FDD3AA76F5962D /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4242,6 +4281,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7023610F00B0C1F26C03D026 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		766FC356FEADE5B194CEFEA6 /* 📦 Copy Pods Resources */ = {
@@ -5417,6 +5471,7 @@
 		};
 		5056EAA61CF2C55200FDE07E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -5431,6 +5486,7 @@
 		};
 		5056EAA71CF2C55200FDE07E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = YepKitTests/Info.plist;
