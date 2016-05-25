@@ -55,6 +55,10 @@ target 'YepKit' do
     pod 'Ruler'
 end
 
+target 'YepKitTests' do
+    pod 'RealmSwift'
+end
+
 target 'YepShare' do
     pod 'RealmSwift'
 end
