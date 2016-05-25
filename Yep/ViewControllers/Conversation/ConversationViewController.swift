@@ -4150,7 +4150,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
                                 cell.tapUsernameAction = { [weak self] username in
-                                    println("left textURL cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
                                 }
 
@@ -4170,7 +4169,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
                                 cell.tapUsernameAction = { [weak self] username in
-                                    println("left text cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
                                 }
 
@@ -4413,7 +4411,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
 
                             cell.tapUsernameAction = { [weak self] username in
-                                println("right textURL cell.tapUsernameAction: \(username)")
                                 self?.tryShowProfileWithUsername(username)
                             }
 
@@ -4433,7 +4430,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
 
                             cell.tapUsernameAction = { [weak self] username in
-                                println("right text cell.tapUsernameAction: \(username)")
                                 self?.tryShowProfileWithUsername(username)
                             }
 
