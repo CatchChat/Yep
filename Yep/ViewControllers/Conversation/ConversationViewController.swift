@@ -4152,6 +4152,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     println("left text cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
                                 }
+
+                                cell.tapFeedAction = { [weak self] feed in
+
+                                }
                             }
                         }
 
