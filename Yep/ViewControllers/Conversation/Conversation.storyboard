@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,17 +26,17 @@
                                     <outlet property="delegate" destination="lzL-dF-yCi" id="2Pz-q9-Qk1"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
-                                <rect key="frame" x="0.0" y="337" width="375" height="100"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
+                                <rect key="frame" x="0.0" y="338" width="375" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erl-b0-CMQ">
-                                        <rect key="frame" x="121" y="62" width="132.5" height="18"/>
+                                        <rect key="frame" x="121" y="62" width="133" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="WVE-v0-1iA">
-                                        <rect key="frame" x="174" y="44" width="25" height="8"/>
+                                        <rect key="frame" x="175" y="44" width="25" height="8"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="8" id="Q0N-bH-k2Y"/>
                                             <constraint firstAttribute="width" constant="25" id="gpR-7R-3D5"/>
@@ -52,8 +52,8 @@
                                     <constraint firstItem="WVE-v0-1iA" firstAttribute="centerX" secondItem="erl-b0-CMQ" secondAttribute="centerX" id="bT3-2i-iB2"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="457" width="375" height="50"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="458" width="375" height="49"/>
                                 <items/>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fP4-ji-yWc">
@@ -91,6 +91,7 @@
                         <segue destination="9xD-Rm-9US" kind="presentation" identifier="presentNewFeed" id="e4k-KG-exv"/>
                         <segue destination="8Oq-Nk-eYq" kind="show" identifier="showProfileWithUsername" id="l5Y-gH-p57"/>
                         <segue destination="qqw-mR-9Vz" kind="show" identifier="showContacts" id="JCT-8K-tpC"/>
+                        <segue destination="Mkb-3b-e2M" kind="show" identifier="showConversationWithFeed" id="Zv0-jA-n7B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zLf-XS-3py" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -144,6 +145,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Tf-55-Pis" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="55.5" y="1841"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="LhU-Sz-nIV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="Mkb-3b-e2M" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="liy-9W-Qjc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="43" y="1930"/>
         </scene>
     </scenes>
     <resources>

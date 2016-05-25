@@ -3296,6 +3296,23 @@ final class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
+        case "showConversationWithFeed":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            let feed = (sender as! Box<DiscoveredFeed>).value
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
         case "presentNewFeed":
 
             guard let
@@ -4154,7 +4171,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                                 cell.tapFeedAction = { [weak self] feed in
-
+                                    self?.performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
                                 }
                             }
                         }
