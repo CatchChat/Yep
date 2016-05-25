@@ -53,6 +53,10 @@ target 'YepKit' do
     pod 'RealmSwift'
     pod 'Navi'
     pod 'Ruler'
+
+    target 'YepKitTests' do
+        inherit! :search_paths
+    end
 end
 
 target 'YepShare' do

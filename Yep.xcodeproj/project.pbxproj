@@ -50,6 +50,7 @@
 		338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940451CBCB0E200B276C1 /* AlbumListController.swift */; };
 		338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940471CBCF05A00B276C1 /* AlbumListCell.swift */; };
 		3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940481CBCF05A00B276C1 /* AlbumListCell.xib */; };
+		36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */; };
 		50008D321CAE0D9A00245296 /* SearchConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */; };
 		50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50008D331CAE0DC700245296 /* SearchConversations.storyboard */; };
 		50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D381CAE537400245296 /* SearchedFeedCell.swift */; };
@@ -222,7 +223,6 @@
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
-		507813241CD2FEF400F193AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 507813231CD2FEF400F193AB /* Images.xcassets */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
@@ -337,6 +337,8 @@
 		50CE7BDB1CF450A300488E5B /* YepMedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDA1CF450A300488E5B /* YepMedia.swift */; };
 		50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */; };
 		50CE7BE01CF4600F00488E5B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BE21CF4600F00488E5B /* Localizable.strings */; };
+		50CE7BE51CF52D8800488E5B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CE7BE41CF52D8800488E5B /* Images.xcassets */; };
+		50CE7BE71CF532F300488E5B /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CE7BE61CF532F300488E5B /* RealmTests.swift */; };
 		50D3A31D1CEDB1C600E59470 /* YepNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 50D3A31C1CEDB1C600E59470 /* YepNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50D3A3241CEDB1C600E59470 /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
 		50D3A32B1CEDB1C600E59470 /* YepNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3A32A1CEDB1C600E59470 /* YepNetworkingTests.swift */; };
@@ -383,7 +385,6 @@
 		50D84F211CF2F8750018D91F /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */; };
 		50D84F221CF2F8750018D91F /* SyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1E1CF2F8750018D91F /* SyncTests.swift */; };
 		50D84F231CF2F8750018D91F /* ThirdPartyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */; };
-		50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F241CF2F8B00018D91F /* RealmTests.swift */; };
 		50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F261CF2F95D0018D91F /* ClearTests.swift */; };
 		50D84F551CF306D00018D91F /* YepSoundEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F541CF306D00018D91F /* YepSoundEffect.swift */; };
 		50DBDEFD1C4CCB030044E21B /* ChatLeftTextURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */; };
@@ -711,6 +712,7 @@
 		338940471CBCF05A00B276C1 /* AlbumListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumListCell.swift; sourceTree = "<group>"; };
 		338940481CBCF05A00B276C1 /* AlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumListCell.xib; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
@@ -891,7 +893,6 @@
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
-		507813231CD2FEF400F193AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507DCEA91CEEE2DC006D43F7 /* YepShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
@@ -1007,6 +1008,8 @@
 		50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		50CE7BE11CF4600F00488E5B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50CE7BE31CF4601900488E5B /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		50CE7BE41CF52D8800488E5B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		50CE7BE61CF532F300488E5B /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D3A31C1CEDB1C600E59470 /* YepNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepNetworking.h; sourceTree = "<group>"; };
 		50D3A31E1CEDB1C600E59470 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1055,7 +1058,6 @@
 		50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
 		50D84F1E1CF2F8750018D91F /* SyncTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncTests.swift; sourceTree = "<group>"; };
 		50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdPartyServiceTests.swift; sourceTree = "<group>"; };
-		50D84F241CF2F8B00018D91F /* RealmTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		50D84F261CF2F95D0018D91F /* ClearTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClearTests.swift; sourceTree = "<group>"; };
 		50D84F541CF306D00018D91F /* YepSoundEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepSoundEffect.swift; path = Helpers/YepSoundEffect.swift; sourceTree = "<group>"; };
 		50DBDEFB1C4CCB030044E21B /* ChatLeftTextURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextURLCell.swift; path = Views/Cells/ChatLeftTextURL/ChatLeftTextURLCell.swift; sourceTree = "<group>"; };
@@ -1151,6 +1153,7 @@
 		6AC40E321C47A8FE0024FC63 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6AC40E341C47A9060024FC63 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
+		6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
 		84385C431B8592120071130D /* ShowStepGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepGeniusViewController.swift; path = ViewControllers/Show/ShowStepGeniusViewController.swift; sourceTree = "<group>"; };
@@ -1182,6 +1185,7 @@
 		ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.release.xcconfig"; sourceTree = "<group>"; };
 		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepShare.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepShare/Pods-YepShare.debug.xcconfig"; sourceTree = "<group>"; };
+		FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1253,6 +1257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
+				36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1642,9 +1647,9 @@
 			isa = PBXGroup;
 			children = (
 				5017FC1C1CD095E100DFCB71 /* YepTests.swift */,
+				50CE7BE61CF532F300488E5B /* RealmTests.swift */,
 				50D84F261CF2F95D0018D91F /* ClearTests.swift */,
 				50390F0E1CE174180090A08C /* FunctionTests.swift */,
-				507813231CD2FEF400F193AB /* Images.xcassets */,
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
 			);
 			path = YepTests;
@@ -2342,9 +2347,9 @@
 				5056EA9B1CF2C55200FDE07E /* YepKitTests.swift */,
 				50D84F1C1CF2F8750018D91F /* ServiceTests.swift */,
 				50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */,
-				50D84F241CF2F8B00018D91F /* RealmTests.swift */,
 				50D84F1E1CF2F8750018D91F /* SyncTests.swift */,
 				50D84F1F1CF2F8750018D91F /* ThirdPartyServiceTests.swift */,
+				50CE7BE41CF52D8800488E5B /* Images.xcassets */,
 				5056EA9D1CF2C55200FDE07E /* Info.plist */,
 			);
 			path = YepKitTests;
@@ -3339,6 +3344,7 @@
 				E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */,
 				9E519848DD3290844742698C /* Pods_YepKit.framework */,
 				11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */,
+				FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3448,6 +3454,8 @@
 				1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */,
 				F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */,
 				A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */,
+				6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */,
+				383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -3610,9 +3618,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5056EAA51CF2C55200FDE07E /* Build configuration list for PBXNativeTarget "YepKitTests" */;
 			buildPhases = (
+				0739CD6E64CA59F3913CCE4C /* 📦 Check Pods Manifest.lock */,
 				5056EA901CF2C55200FDE07E /* Sources */,
 				5056EA911CF2C55200FDE07E /* Frameworks */,
 				5056EA921CF2C55200FDE07E /* Resources */,
+				7023610F00B0C1F26C03D026 /* 📦 Embed Pods Frameworks */,
+				6B0662B24EBA34717C3D1C1B /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4016,7 +4027,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				507813241CD2FEF400F193AB /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4045,6 +4055,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50CE7BE51CF52D8800488E5B /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4109,6 +4120,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0739CD6E64CA59F3913CCE4C /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		0AFE75AD1AC43DD1005AA33E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4212,6 +4238,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		6B0662B24EBA34717C3D1C1B /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6D7C2E2AB4FDD3AA76F5962D /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -4240,6 +4281,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7023610F00B0C1F26C03D026 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		766FC356FEADE5B194CEFEA6 /* 📦 Copy Pods Resources */ = {
@@ -4670,6 +4726,7 @@
 				50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */,
 				50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
+				50CE7BE71CF532F300488E5B /* RealmTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4731,7 +4788,6 @@
 				50D84F201CF2F8750018D91F /* ServiceTests.swift in Sources */,
 				50D84F221CF2F8750018D91F /* SyncTests.swift in Sources */,
 				50D84F231CF2F8750018D91F /* ThirdPartyServiceTests.swift in Sources */,
-				50D84F251CF2F8B00018D91F /* RealmTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5415,6 +5471,7 @@
 		};
 		5056EAA61CF2C55200FDE07E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -5429,6 +5486,7 @@
 		};
 		5056EAA71CF2C55200FDE07E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = YepKitTests/Info.plist;
