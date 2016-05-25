@@ -3039,14 +3039,27 @@ public struct DiscoveredFeed: Hashable {
     }
 }
 
+/*
 public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
     
-    //println("feedsData: \(data)")
+    //println("parseFeed Data: \(data)")
     
     if let feedInfo = data["topic"] as? JSONDictionary, groupInfo = data["circle"] as? JSONDictionary {
         return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo)
     }
     
+    return nil
+}
+*/
+
+public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
+
+    //println("parseFeed Data: \(data)")
+
+    if let feedInfo = data["topic"] as? JSONDictionary {
+        return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: data)
+    }
+
     return nil
 }
 
@@ -3154,7 +3167,7 @@ public func feedWithSharedToken(token: String, failureHandler: FailureHandler?, 
 
     let parse = parseFeed
     
-    let resource = authJsonResource(path: "/v1/circles/shared_messages", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: "/v1/circles/show_by_token", method: .GET, requestParameters: requestParameters, parse: parse)
     
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }

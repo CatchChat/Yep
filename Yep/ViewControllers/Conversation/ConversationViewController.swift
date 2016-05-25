@@ -3233,6 +3233,11 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Navigation
 
+    private func showConversationWithFeed(feed: DiscoveredFeed) {
+
+        performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+    }
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
@@ -3295,6 +3300,23 @@ final class ConversationViewController: BaseViewController {
             }
 
             vc.setBackButtonWithTitle()
+
+        case "showConversationWithFeed":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            let feed = (sender as! Box<DiscoveredFeed>).value
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
         case "presentNewFeed":
 
@@ -4133,12 +4155,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
                                 cell.tapUsernameAction = { [weak self] username in
-                                    println("left textURL cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
                                 }
 
+                                cell.tapFeedAction = { [weak self] feed in
+                                    self?.showConversationWithFeed(feed)
+                                }
+
                                 cell.tapOpenGraphURLAction = { [weak self] URL in
-                                    self?.yep_openURL(URL)
+                                    if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
+                                        self?.yep_openURL(URL)
+                                    }
                                 }
                             }
 
@@ -4149,8 +4176,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
 
                                 cell.tapUsernameAction = { [weak self] username in
-                                    println("left text cell.tapUsernameAction: \(username)")
                                     self?.tryShowProfileWithUsername(username)
+                                }
+
+                                cell.tapFeedAction = { [weak self] feed in
+                                    self?.showConversationWithFeed(feed)
                                 }
                             }
                         }
@@ -4388,12 +4418,17 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
 
                             cell.tapUsernameAction = { [weak self] username in
-                                println("right textURL cell.tapUsernameAction: \(username)")
                                 self?.tryShowProfileWithUsername(username)
                             }
 
+                            cell.tapFeedAction = { [weak self] feed in
+                                self?.showConversationWithFeed(feed)
+                            }
+
                             cell.tapOpenGraphURLAction = { [weak self] URL in
-                                self?.yep_openURL(URL)
+                                if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
+                                    self?.yep_openURL(URL)
+                                }
                             }
                         }
 
@@ -4404,8 +4439,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
 
                             cell.tapUsernameAction = { [weak self] username in
-                                println("right text cell.tapUsernameAction: \(username)")
                                 self?.tryShowProfileWithUsername(username)
+                            }
+
+                            cell.tapFeedAction = { [weak self] feed in
+                                self?.showConversationWithFeed(feed)
                             }
                         }
                     }
