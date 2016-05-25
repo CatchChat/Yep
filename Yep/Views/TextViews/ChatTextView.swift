@@ -97,10 +97,10 @@ extension ChatTextView: UITextViewDelegate {
         } else if URL.yep_matchSharedFeed({ [weak self] feed in self?.tapFeedAction?(feed: feed) }) {
             return false
 
-        } else if let URL = URL.yep_validSchemeNetworkURL {
-            tapURLAction?(URL: URL)
-
-            return false
+//        } else if let URL = URL.yep_validSchemeNetworkURL {
+//            tapURLAction?(URL: URL)
+//
+//            return false
 
         } else {
             return true

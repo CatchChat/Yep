@@ -117,30 +117,3 @@ extension NSURL {
     }
 }
 
-extension NSURL {
-
-//    var yep_shareFeedToken: String? {
-//
-//        guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
-//            return nil
-//        }
-//        guard URLComponents.host == yepHost else {
-//            return nil
-//        }
-//        guard URLComponents.path == "/groups/share" else {
-//            return nil
-//        }
-//
-//        guard let token = queryItemForKey("token")?.value else {
-//            return nil
-//        }
-//
-//        feedWithSharedToken(sharedToken, failureHandler: nil, completion: { feed in
-//            dispatch_async(dispatch_get_main_queue()) {
-//                completion(feed)
-//            }
-//        })
-//    }
-}
-
-
