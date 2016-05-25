@@ -7,7 +7,6 @@
 //
 
 import XCTest
-@testable import YepKit
 
 final class YepUITests: XCTestCase {
         
@@ -36,11 +35,12 @@ final class YepUITests: XCTestCase {
 
     func testPostTextFeed() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         app.tabBars.buttons["Feeds"].tap()
         app.navigationBars["Feeds"].buttons["Add"].tap()
         app.tables.staticTexts["Text & Photos"].tap()
@@ -54,11 +54,12 @@ final class YepUITests: XCTestCase {
 
     func testChangeNickname() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         app.tabBars.buttons["Profile"].tap()
         app.buttons["icon settings"].tap()
         
@@ -80,11 +81,12 @@ final class YepUITests: XCTestCase {
 
     func testSearchUsers() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         app.tabBars.buttons["Contacts"].tap()
         app.navigationBars["Contacts"].buttons["Add"].tap()
         
@@ -100,11 +102,12 @@ final class YepUITests: XCTestCase {
 
     func testSearchInConversations() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         let tablesQuery = app.tables
         tablesQuery.searchFields["Search"].tap()
 
@@ -122,11 +125,12 @@ final class YepUITests: XCTestCase {
 
     func testSearchInContacts() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         app.tabBars.buttons["Contacts"].tap()
         app.tables.searchFields["Search Friend"].tap()
 
@@ -144,11 +148,12 @@ final class YepUITests: XCTestCase {
 
     func testSearchInFeeds() {
 
-        guard YepUserDefaults.isLogined else {
+        let app = XCUIApplication()
+
+        guard app.tabBars.count > 0 else {
             return
         }
-        
-        let app = XCUIApplication()
+
         app.tabBars.buttons["Feeds"].tap()
         app.tables.searchFields["Search Feeds"].tap()
 
