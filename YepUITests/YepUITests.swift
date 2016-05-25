@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import YepKit
 
 final class YepUITests: XCTestCase {
         
@@ -34,6 +35,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testPostTextFeed() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         app.tabBars.buttons["Feeds"].tap()
@@ -48,6 +53,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testChangeNickname() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         app.tabBars.buttons["Profile"].tap()
@@ -70,6 +79,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchUsers() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         app.tabBars.buttons["Contacts"].tap()
@@ -86,6 +99,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInConversations() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         let tablesQuery = app.tables
@@ -104,6 +121,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInContacts() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         app.tabBars.buttons["Contacts"].tap()
@@ -122,6 +143,10 @@ final class YepUITests: XCTestCase {
     }
 
     func testSearchInFeeds() {
+
+        guard YepUserDefaults.isLogined else {
+            return
+        }
         
         let app = XCUIApplication()
         app.tabBars.buttons["Feeds"].tap()
