@@ -14,7 +14,6 @@ class ChatRightTextCell: ChatRightBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
     var tapFeedAction: ((feed: DiscoveredFeed) -> Void)?
-    var tapURLAction: ((URL: NSURL) -> Void)?
 
     lazy var bubbleTailImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "bubble_right_tail"))
@@ -53,10 +52,6 @@ class ChatRightTextCell: ChatRightBaseCell {
 
         view.tapFeedAction = { [weak self] feed in
             self?.tapFeedAction?(feed: feed)
-        }
-
-        view.tapURLAction = { [weak self] URL in
-            self?.tapURLAction?(URL: URL)
         }
 
         return view

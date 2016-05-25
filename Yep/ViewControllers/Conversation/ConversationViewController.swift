@@ -4162,10 +4162,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.showConversationWithFeed(feed)
                                 }
 
-                                cell.tapURLAction = { [weak self] URL in
-                                    self?.yep_openURL(URL)
-                                }
-
                                 cell.tapOpenGraphURLAction = { [weak self] URL in
                                     if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
                                         self?.yep_openURL(URL)
@@ -4185,10 +4181,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 cell.tapFeedAction = { [weak self] feed in
                                     self?.showConversationWithFeed(feed)
-                                }
-
-                                cell.tapURLAction = { [weak self] URL in
-                                    self?.yep_openURL(URL)
                                 }
                             }
                         }
@@ -4433,10 +4425,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.showConversationWithFeed(feed)
                             }
 
-                            cell.tapURLAction = { [weak self] URL in
-                                self?.yep_openURL(URL)
-                            }
-
                             cell.tapOpenGraphURLAction = { [weak self] URL in
                                 if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
                                     self?.yep_openURL(URL)
@@ -4456,10 +4444,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             cell.tapFeedAction = { [weak self] feed in
                                 self?.showConversationWithFeed(feed)
-                            }
-
-                            cell.tapURLAction = { [weak self] URL in
-                                self?.yep_openURL(URL)
                             }
                         }
                     }

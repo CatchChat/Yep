@@ -13,7 +13,6 @@ final class ChatTextView: UITextView {
 
     var tapMentionAction: ((username: String) -> Void)?
     var tapFeedAction: ((feed: DiscoveredFeed) -> Void)?
-    var tapURLAction: ((URL: NSURL) -> Void)?
 
     static let detectionTypeName = "ChatTextStorage.detectionTypeName"
 
@@ -96,11 +95,6 @@ extension ChatTextView: UITextViewDelegate {
 
         } else if URL.yep_matchSharedFeed({ [weak self] feed in self?.tapFeedAction?(feed: feed) }) {
             return false
-
-//        } else if let URL = URL.yep_validSchemeNetworkURL {
-//            tapURLAction?(URL: URL)
-//
-//            return false
 
         } else {
             return true
