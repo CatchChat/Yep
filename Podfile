@@ -31,6 +31,10 @@ target 'Yep' do
     target 'YepTests' do
         inherit! :search_paths
     end
+
+    target 'YepUITests' do
+        inherit! :search_paths
+    end
 end
 
 target 'YepConfig' do
