@@ -82,21 +82,8 @@ final class ConversationCell: UITableViewCell {
 
     func updateInfoLabels() {
 
-        if let latestValidMessage = conversation.latestValidMessage {
-
-            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
-                self.chatLabel.text = placeholder
-            } else {
-                self.chatLabel.text = latestValidMessage.textContent
-            }
-
-            let createdAt = NSDate(timeIntervalSince1970: latestValidMessage.createdUnixTime)
-            self.timeAgoLabel.text = createdAt.timeAgo
-
-        } else {
-            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
-            self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
-        }
+        self.chatLabel.text = conversation.latestMessageTextContentOrPlaceholder ?? NSLocalizedString("No messages yet.", comment: "")
+        self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
     }
 
     func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat, tableView: UITableView, indexPath: NSIndexPath) {
