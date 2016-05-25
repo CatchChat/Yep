@@ -24,8 +24,6 @@ final class SyncTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testSyncGroups() {
@@ -41,8 +39,6 @@ final class SyncTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 
     func testSyncUnreadMessages() {
@@ -58,8 +54,6 @@ final class SyncTests: XCTestCase {
         }
 
         waitForExpectationsWithTimeout(5, handler: nil)
-
-        XCTAssert(true, "Pass")
     }
 }
 
