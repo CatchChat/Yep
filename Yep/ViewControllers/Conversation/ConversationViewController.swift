@@ -4158,7 +4158,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                                 cell.tapOpenGraphURLAction = { [weak self] URL in
-                                    self?.yep_openURL(URL)
+                                    if URL.yep_matchSharedFeed({ [weak self] feed in
+                                        self?.performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed)) }) {
+
+                                    } else {
+                                        self?.yep_openURL(URL)
+                                    }
                                 }
                             }
 
@@ -4419,7 +4424,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                             cell.tapOpenGraphURLAction = { [weak self] URL in
-                                self?.yep_openURL(URL)
+                                if URL.yep_matchSharedFeed({ [weak self] feed in
+                                    self?.performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed)) }) {
+
+                                } else {
+                                    self?.yep_openURL(URL)
+                                }
                             }
                         }
 
