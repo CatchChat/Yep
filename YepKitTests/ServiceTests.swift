@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import YepConfig
 @testable import YepKit
 
 final class ServiceTests: XCTestCase {
