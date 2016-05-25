@@ -84,13 +84,11 @@ extension ChatTextView: UITextViewDelegate {
 
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
 
-        guard let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) else {
-            return true
+        if let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) {
+
+            let text = (self.text as NSString).substringWithRange(characterRange)
+            self.hangleTapText(text, withDetectionType: detectionType)
         }
-
-        let text = (self.text as NSString).substringWithRange(characterRange)
-
-        self.hangleTapText(text, withDetectionType: detectionType)
 
         return true
     }
