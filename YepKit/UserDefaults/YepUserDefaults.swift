@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreSpotlight
+import CoreLocation
 import YepConfig
 import RealmSwift
 
@@ -28,6 +29,7 @@ private let mobileKey = "mobile"
 private let discoveredUserSortStyleKey = "discoveredUserSortStyle"
 private let feedSortStyleKey = "feedSortStyle"
 
+private let locationKey = "location"
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
 
@@ -158,6 +160,7 @@ final public class YepUserDefaults {
         mobile.removeAllListeners()
         discoveredUserSortStyle.removeAllListeners()
         feedSortStyle.removeAllListeners()
+        location.removeAllListeners()
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
         userLocationName.removeAllListeners()
@@ -397,6 +400,14 @@ final public class YepUserDefaults {
         
         return Listenable<String?>(feedSortStyle) { feedSortStyle in
             defaults.setObject(feedSortStyle, forKey: feedSortStyleKey)
+        }
+    }()
+
+    public static var location: Listenable<CLLocation?> = {
+        let location = defaults.valueForKey(locationKey) as? CLLocation
+
+        return Listenable<CLLocation?>(location) { location in
+            defaults.setObject(location, forKey: locationKey)
         }
     }()
 
