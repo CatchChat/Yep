@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Ha4-ol-D2e">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -133,6 +133,16 @@
             </objects>
             <point key="canvasLocation" x="-559" y="-615"/>
         </scene>
+        <!--DiscoverViewController-->
+        <scene sceneID="AkL-pk-6jh">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Discover" referencedIdentifier="DiscoverViewController" id="Wvc-fE-8jv" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="MYh-Jg-f06"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AB4-QY-gPe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-874.5" y="991"/>
+        </scene>
         <!--Discover-->
         <scene sceneID="n5u-x5-QaP">
             <objects>
@@ -145,7 +155,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qiv-cC-3J3" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sWq-uv-kTu">
                                     <size key="itemSize" width="50" height="50"/>
@@ -155,7 +165,7 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zzD-ES-eHf">
                                 <rect key="frame" x="290" y="184" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -527,7 +537,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="5NR-G1-qqW" kind="relationship" relationship="rootViewController" id="ju3-gx-EfB"/>
+                        <segue destination="Wvc-fE-8jv" kind="relationship" relationship="rootViewController" id="u4u-1u-xaA"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Qb-Z1-5bp" userLabel="First Responder" sceneMemberID="firstResponder"/>

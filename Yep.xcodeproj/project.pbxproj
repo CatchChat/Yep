@@ -447,6 +447,7 @@
 		50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */; };
 		50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C51C22C82800C0CECB /* FeedLocationCell.swift */; };
 		50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */; };
+		50E7C7011CF6CEF500E8D951 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7001CF6CEF500E8D951 /* Discover.storyboard */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -1120,6 +1121,7 @@
 		50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceCell.swift; path = Views/Cells/Feed/FeedVoiceCell.swift; sourceTree = "<group>"; };
 		50E392C51C22C82800C0CECB /* FeedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationCell.swift; path = Views/Cells/Feed/FeedLocationCell.swift; sourceTree = "<group>"; };
 		50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTitleView.swift; path = Views/ConversationTitle/ConversationTitleView.swift; sourceTree = "<group>"; };
+		50E7C7001CF6CEF500E8D951 /* Discover.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Discover.storyboard; path = ViewControllers/Discover/Discover.storyboard; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1755,6 +1757,7 @@
 				50402F5B1C929A140071099F /* DiscoverCollectionView.swift */,
 				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
 				6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */,
+				50E7C7001CF6CEF500E8D951 /* Discover.storyboard */,
 			);
 			name = Discover;
 			sourceTree = "<group>";
@@ -3924,6 +3927,7 @@
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */,
+				50E7C7011CF6CEF500E8D951 /* Discover.storyboard in Resources */,
 				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
