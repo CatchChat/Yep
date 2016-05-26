@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="529"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -33,10 +33,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="rkh-4n-Lvv" secondAttribute="centerX" id="2Id-zg-YRJ"/>
-                            <constraint firstItem="06U-4l-fjf" firstAttribute="leading" secondItem="7h2-s3-2Sv" secondAttribute="leading" id="4rV-hc-Ugb"/>
-                            <constraint firstItem="G9m-cx-iQE" firstAttribute="top" secondItem="06U-4l-fjf" secondAttribute="bottom" constant="-49" id="auv-Cp-0f2"/>
-                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="-64" id="hvh-dh-QfI"/>
-                            <constraint firstAttribute="trailing" secondItem="06U-4l-fjf" secondAttribute="trailing" id="kUC-vn-rf2"/>
+                            <constraint firstAttribute="bottom" secondItem="06U-4l-fjf" secondAttribute="bottom" id="9H3-h2-21X"/>
+                            <constraint firstAttribute="trailing" secondItem="06U-4l-fjf" secondAttribute="trailing" id="CA6-rT-Bsr"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="7h2-s3-2Sv" secondAttribute="top" id="SzC-e0-Ofd"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="leading" secondItem="7h2-s3-2Sv" secondAttribute="leading" id="eZs-w4-dLu"/>
                             <constraint firstItem="rkh-4n-Lvv" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="120" id="zo9-EA-a8g"/>
                         </constraints>
                     </view>
