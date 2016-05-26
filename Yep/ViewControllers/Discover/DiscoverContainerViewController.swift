@@ -36,18 +36,44 @@ class DiscoverContainerViewController: UIViewController {
 
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
-    
+
+    var currentOption: Option = .MeetGenius {
+        didSet {
+            switch currentOption {
+
+            case .MeetGenius:
+                geniusesContainerView.hidden = false
+                discoveredUsersContainerView.hidden = true
+
+            case .FindAll:
+                geniusesContainerView.hidden = true
+                discoveredUsersContainerView.hidden = false
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        currentOption = .MeetGenius
+
+        segmentedControl.selectedSegmentIndex = currentOption.rawValue
+        segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+    @objc private func chooseOption(sender: UISegmentedControl) {
+
+        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
+            return
+        }
+
+        currentOption = option
+    }
 
     /*
     // MARK: - Navigation
