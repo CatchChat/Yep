@@ -61,11 +61,6 @@ class DiscoverContainerViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @objc private func chooseOption(sender: UISegmentedControl) {
 
         guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
@@ -74,15 +69,5 @@ class DiscoverContainerViewController: UIViewController {
 
         currentOption = option
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
