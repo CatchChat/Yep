@@ -85,85 +85,15 @@
             </objects>
             <point key="canvasLocation" x="-771.5" y="1077"/>
         </scene>
-        <!--Profile-->
-        <scene sceneID="Gwo-ON-4Er">
+        <!--ProfileViewController-->
+        <scene sceneID="Mat-Us-5jX">
             <objects>
-                <viewController storyboardIdentifier="ProfileViewController" id="AyC-pt-NR2" userLabel="Profile" customClass="ProfileViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xEh-Tg-8QZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="Sj4-ac-cm0"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="i2Z-NU-5Yq">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="VZO-hp-fyU" userLabel="Profile Collection View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="WvZ-fD-rR0" customClass="ProfileLayout" customModule="Yep" customModuleProvider="target">
-                                    <size key="itemSize" width="141" height="116"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells/>
-                                <connections>
-                                    <outlet property="dataSource" destination="AyC-pt-NR2" id="Ncz-by-6sf"/>
-                                    <outlet property="delegate" destination="AyC-pt-NR2" id="j2k-7a-66r"/>
-                                </connections>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfC-fv-gcr" userLabel="Say Hi View" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="be0-Cf-Dol"/>
-                                </constraints>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="fut-Ug-l4V" userLabel="Shadow Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="l36-59-jyr"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="sfC-fv-gcr" secondAttribute="bottom" id="0KI-ei-eq8"/>
-                            <constraint firstItem="VZO-hp-fyU" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="2n3-L6-Rzr"/>
-                            <constraint firstAttribute="trailing" secondItem="sfC-fv-gcr" secondAttribute="trailing" id="5zV-iL-BpW"/>
-                            <constraint firstAttribute="trailing" secondItem="VZO-hp-fyU" secondAttribute="trailing" id="Ag4-p9-ng1"/>
-                            <constraint firstItem="fut-Ug-l4V" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="E2h-Dw-ElX"/>
-                            <constraint firstItem="VZO-hp-fyU" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="EIq-yc-gkc"/>
-                            <constraint firstAttribute="trailing" secondItem="fut-Ug-l4V" secondAttribute="trailing" id="RdZ-76-Icm"/>
-                            <constraint firstItem="fut-Ug-l4V" firstAttribute="top" secondItem="i2Z-NU-5Yq" secondAttribute="top" id="d1A-8k-dBm"/>
-                            <constraint firstAttribute="bottom" secondItem="VZO-hp-fyU" secondAttribute="bottom" id="fbb-zh-8xP"/>
-                            <constraint firstItem="sfC-fv-gcr" firstAttribute="leading" secondItem="i2Z-NU-5Yq" secondAttribute="leading" id="jTZ-uA-Tgc"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Profile" id="4pO-kT-amp">
-                        <barButtonItem key="rightBarButtonItem" image="icon_settings" id="rTe-SV-2BV">
-                            <connections>
-                                <segue destination="7RH-nw-UFO" kind="show" identifier="showSettings" id="i0a-L6-cxE"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="profileCollectionView" destination="VZO-hp-fyU" id="xat-9E-RVG"/>
-                        <outlet property="sayHiView" destination="sfC-fv-gcr" id="5bd-hx-FGY"/>
-                        <outlet property="topShadowImageView" destination="fut-Ug-l4V" id="tWb-Tz-48h"/>
-                        <segue destination="ubP-q1-Rff" kind="show" identifier="showFeedsWithSkill" id="uGT-OV-9S2"/>
-                        <segue destination="Cju-5F-2Ri" kind="show" identifier="showSocialWorkGithub" id="6Tt-7S-Pn9"/>
-                        <segue destination="JLl-gr-wSC" kind="show" identifier="showSocialWorkDribbble" id="cin-mW-lyh"/>
-                        <segue destination="9RG-ZJ-nw7" kind="show" identifier="showSocialWorkInstagram" id="M2q-ud-x5N"/>
-                        <segue destination="4LS-r8-B5l" kind="presentation" identifier="presentOAuth" id="o6f-Oi-l8h"/>
-                        <segue destination="fPj-zv-Lg5" kind="show" identifier="showEditSkills" id="k1U-sn-efh"/>
-                        <segue destination="lru-67-Vok" kind="show" identifier="showConversation" id="z8s-gZ-TZ2"/>
-                        <segue destination="Ypw-Iq-qc9" kind="show" identifier="showFeedsOfProfileUser" id="xxH-O1-ehI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Oi-o8-uy7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="ydG-sI-3J2" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Yet-XN-WTF"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VrH-zo-9zo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="1901"/>
+            <point key="canvasLocation" x="-778" y="1901"/>
         </scene>
         <!--SearchContactsViewController-->
         <scene sceneID="qZ3-ft-tqL">
@@ -192,7 +122,7 @@
         <!--ProfileViewController-->
         <scene sceneID="5bS-fF-Vf0">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="ud8-be-cUH" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="ud8-be-cUH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLs-se-pLq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="35" y="-544"/>
@@ -312,7 +242,7 @@
         <!--ProfileViewController-->
         <scene sceneID="P4W-XO-vZA">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="48" y="318"/>
@@ -426,84 +356,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="AyC-pt-NR2" kind="relationship" relationship="rootViewController" id="eTq-BP-vMS"/>
+                        <segue destination="ydG-sI-3J2" kind="relationship" relationship="rootViewController" id="lU8-8F-8yG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jbh-lX-9VY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1293" y="1901"/>
-        </scene>
-        <!--SettingsViewController-->
-        <scene sceneID="yBX-Sw-iNt">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="7RH-nw-UFO" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="OGQ-5T-84d" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="55" y="1647"/>
-        </scene>
-        <!--EditSkillsViewController-->
-        <scene sceneID="DGw-e0-u3v">
-            <objects>
-                <viewControllerPlaceholder storyboardName="EditSkills" referencedIdentifier="EditSkillsViewController" id="fPj-zv-Lg5" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wiv-IY-fjH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="51.5" y="1779"/>
-        </scene>
-        <!--FeedsViewController-->
-        <scene sceneID="nCN-iF-lzM">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="ubP-q1-Rff" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ec7-rn-E7j" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="42.5" y="1848"/>
-        </scene>
-        <!--SocialWorkGithubViewController-->
-        <scene sceneID="B6b-v9-GOQ">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="Cju-5F-2Ri" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2u8-vU-v9U" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="73.5" y="2004"/>
-        </scene>
-        <!--ConversationViewController-->
-        <scene sceneID="6fr-hr-i1m">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="lru-67-Vok" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="amx-1s-Vf9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="64.5" y="1921"/>
-        </scene>
-        <!--OAuth-->
-        <scene sceneID="0Wc-kq-1Wd">
-            <objects>
-                <viewControllerPlaceholder storyboardName="OAuth" id="4LS-r8-B5l" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nfd-tt-dOG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-558.5" y="2332"/>
-        </scene>
-        <!--SocialWorkDribbbleViewController-->
-        <scene sceneID="KJV-hS-1Ll">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="JLl-gr-wSC" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pet-nQ-zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="79.5" y="2104"/>
-        </scene>
-        <!--FeedsViewController-->
-        <scene sceneID="djA-FQ-sLS">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="Ypw-Iq-qc9" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JdK-5C-kP8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="40" y="2184"/>
-        </scene>
-        <!--SocialWorkInstagramViewController-->
-        <scene sceneID="4UU-LR-Oke">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="9RG-ZJ-nw7" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KSE-nl-you" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="84" y="2058"/>
         </scene>
         <!--Feeds-->
         <scene sceneID="lMZ-Mf-PVd">
@@ -536,7 +394,5 @@
         <image name="icon_feeds_active" width="30" height="30"/>
         <image name="icon_me" width="30" height="30"/>
         <image name="icon_me_active" width="30" height="30"/>
-        <image name="icon_settings" width="30" height="30"/>
-        <image name="top_shadow" width="375" height="80"/>
     </resources>
 </document>
