@@ -141,7 +141,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let doCreateFeed: () -> Void = { [weak self] in
 
-            let coordinate = YepUserDefaults.userLocation.value?.coordinate
+            let coordinate = YepUserDefaults.userCoordinate
 
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)

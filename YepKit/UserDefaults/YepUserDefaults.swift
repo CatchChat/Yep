@@ -31,7 +31,8 @@ private let feedSortStyleKey = "feedSortStyle"
 
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
-private let userLocationKey = "userLocation"
+private let userCoordinateLatitudeKey = "userCoordinateLatitude"
+private let userCoordinateLongitudeKey = "userCoordinateLongitude"
 private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
@@ -141,6 +142,15 @@ final public class YepUserDefaults {
         return nil
     }
 
+    public static var userCoordinate: CLLocationCoordinate2D? {
+
+        guard let latitude = YepUserDefaults.userCoordinateLatitude.value, longitude = YepUserDefaults.userCoordinateLongitude.value else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     // MARK: ReLogin
 
     public class func cleanAllUserDefaults() {
@@ -161,7 +171,8 @@ final public class YepUserDefaults {
         feedSortStyle.removeAllListeners()
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
-        userLocation.removeAllListeners()
+        userCoordinateLatitude.removeAllListeners()
+        userCoordinateLongitude.removeAllListeners()
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
 
@@ -418,11 +429,19 @@ final public class YepUserDefaults {
         }
     }()
 
-    public static var userLocation: Listenable<CLLocation?> = {
-        let userLocation = defaults.valueForKey(userLocationKey) as? CLLocation
+    public static var userCoordinateLatitude: Listenable<Double?> = {
+        let userCoordinateLatitude = defaults.doubleForKey(userCoordinateLatitudeKey)
 
-        return Listenable<CLLocation?>(userLocation) { location in
-            defaults.setObject(userLocation, forKey: userLocationKey)
+        return Listenable<Double?>(userCoordinateLatitude) { userCoordinateLatitude in
+            defaults.setObject(userCoordinateLatitude, forKey: userCoordinateLatitudeKey)
+        }
+    }()
+
+    public static var userCoordinateLongitude: Listenable<Double?> = {
+        let userCoordinateLongitude = defaults.doubleForKey(userCoordinateLongitudeKey)
+
+        return Listenable<Double?>(userCoordinateLongitude) { userCoordinateLongitude in
+            defaults.setObject(userCoordinateLongitude, forKey: userCoordinateLongitudeKey)
         }
     }()
 

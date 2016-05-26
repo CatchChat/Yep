@@ -32,12 +32,14 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
         locationManager.headingFilter = kCLHeadingFilterNone
         locationManager.requestWhenInUseAuthorization()
         return locationManager
-        }()
+    }()
 
     var currentLocation: CLLocation? {
         didSet {
             if let currentLocation = currentLocation {
-                YepUserDefaults.userLocation.value = currentLocation
+                YepUserDefaults.userCoordinateLatitude.value = currentLocation.coordinate.latitude
+                YepUserDefaults.userCoordinateLongitude.value = currentLocation.coordinate.longitude
+                println("YepUserDefaults.userCoordinate: \(YepUserDefaults.userCoordinate)")
             }
         }
     }
