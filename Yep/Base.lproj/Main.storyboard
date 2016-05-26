@@ -14,66 +14,15 @@
             </objects>
             <point key="canvasLocation" x="-754.5" y="-1435"/>
         </scene>
-        <!--Contacts-->
-        <scene sceneID="9ZG-MC-rxD">
+        <!--ContactsViewController-->
+        <scene sceneID="HYD-z9-I7W">
             <objects>
-                <viewController storyboardIdentifier="ContactsViewController" id="fFS-0m-aok" userLabel="Contacts" customClass="ContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="nfU-bq-bh1"/>
-                        <viewControllerLayoutGuide type="bottom" id="KPh-ZE-oi1"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="H20-zR-F1L">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="3hF-wd-yhY" userLabel="Contacts Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="separatorColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
-                                <inset key="separatorInset" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="fFS-0m-aok" id="XAO-GY-Ww5"/>
-                                    <outlet property="delegate" destination="fFS-0m-aok" id="clT-kA-HUJ"/>
-                                </connections>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G4u-1I-leN">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="nQx-4t-rE1"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="G4u-1I-leN" secondAttribute="trailing" id="855-j7-2GG"/>
-                            <constraint firstItem="G4u-1I-leN" firstAttribute="leading" secondItem="H20-zR-F1L" secondAttribute="leading" id="BEo-Ve-YVw"/>
-                            <constraint firstAttribute="bottom" secondItem="3hF-wd-yhY" secondAttribute="bottom" id="RhX-Hn-6s4"/>
-                            <constraint firstItem="G4u-1I-leN" firstAttribute="top" secondItem="H20-zR-F1L" secondAttribute="top" id="Ycj-qg-SL2"/>
-                            <constraint firstItem="3hF-wd-yhY" firstAttribute="leading" secondItem="H20-zR-F1L" secondAttribute="leading" id="ls7-pz-7lM"/>
-                            <constraint firstAttribute="trailing" secondItem="3hF-wd-yhY" secondAttribute="trailing" id="rL3-g5-mbV"/>
-                            <constraint firstItem="3hF-wd-yhY" firstAttribute="top" secondItem="H20-zR-F1L" secondAttribute="top" id="zML-PE-es7"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Contacts" id="tYK-ax-VkQ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="JGC-Ux-Jad">
-                            <connections>
-                                <action selector="showAddFriends:" destination="fFS-0m-aok" id="SMA-th-NMF"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="contactsTableView" destination="3hF-wd-yhY" id="RfM-bD-4Oe"/>
-                        <outlet property="coverUnderStatusBarView" destination="G4u-1I-leN" id="mZf-ea-d2Y"/>
-                        <segue destination="AZ0-Fw-rwa" kind="show" identifier="showAddFriends" id="sGo-49-lo9"/>
-                        <segue destination="ud8-be-cUH" kind="show" identifier="showProfile" id="26L-0k-ELo"/>
-                        <segue destination="UVq-MX-Pso" kind="show" identifier="showSearchContacts" id="cFN-sJ-mbQ"/>
-                        <segue destination="sMY-yq-ctJ" kind="show" identifier="showConversation" id="jcS-l3-8ES"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ynX-sO-VM0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Contacts" referencedIdentifier="ContactsViewController" id="OiF-57-Yr3" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="UKc-fp-BZE"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wxT-g9-T3X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="-615"/>
+            <point key="canvasLocation" x="-770.5" y="-615"/>
         </scene>
         <!--DiscoverViewController-->
         <scene sceneID="AkL-pk-6jh">
@@ -94,38 +43,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VrH-zo-9zo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-778" y="1901"/>
-        </scene>
-        <!--SearchContactsViewController-->
-        <scene sceneID="qZ3-ft-tqL">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SearchContacts" referencedIdentifier="SearchContactsViewController" id="UVq-MX-Pso" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xfl-kr-yeJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-15.5" y="-436"/>
-        </scene>
-        <!--ConversationViewController-->
-        <scene sceneID="YLm-rK-WGS">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="sMY-yq-ctJ" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hWf-Hh-dqR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-22.5" y="-356"/>
-        </scene>
-        <!--AddFriendsViewController-->
-        <scene sceneID="xpw-2j-6I8">
-            <objects>
-                <viewControllerPlaceholder storyboardName="AddFriends" referencedIdentifier="AddFriendsViewController" id="AZ0-Fw-rwa" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="khN-CL-pa3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="50" y="-691"/>
-        </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="5bS-fF-Vf0">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="ud8-be-cUH" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MLs-se-pLq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="35" y="-544"/>
         </scene>
         <!--Yep Tab Bar Controller-->
         <scene sceneID="vud-lc-IAG">
@@ -198,7 +115,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fFS-0m-aok" kind="relationship" relationship="rootViewController" id="7Yg-OV-MON"/>
+                        <segue destination="OiF-57-Yr3" kind="relationship" relationship="rootViewController" id="DZ6-KJ-m4i"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RoZ-xx-fki" userLabel="First Responder" sceneMemberID="firstResponder"/>

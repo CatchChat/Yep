@@ -141,7 +141,7 @@
         <!--ContactsViewController-->
         <scene sceneID="Qpo-IT-xSc">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ContactsViewController" id="qqw-mR-9Vz" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Contacts" referencedIdentifier="ContactsViewController" id="qqw-mR-9Vz" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Tf-55-Pis" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="55.5" y="1841"/>

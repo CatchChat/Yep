@@ -451,6 +451,7 @@
 		50E7C7031CF6D41100E8D951 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7021CF6D41100E8D951 /* Conversations.storyboard */; };
 		50E7C7051CF6D59700E8D951 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7041CF6D59700E8D951 /* Profile.storyboard */; };
 		50E7C7071CF6D8A600E8D951 /* Feeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */; };
+		50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -1128,6 +1129,7 @@
 		50E7C7021CF6D41100E8D951 /* Conversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversations.storyboard; path = ViewControllers/Conversations/Conversations.storyboard; sourceTree = "<group>"; };
 		50E7C7041CF6D59700E8D951 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = ViewControllers/Profile/Profile.storyboard; sourceTree = "<group>"; };
 		50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feeds.storyboard; path = ViewControllers/Feeds/Feeds.storyboard; sourceTree = "<group>"; };
+		50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Contacts.storyboard; path = ViewControllers/Contacts/Contacts.storyboard; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1754,6 +1756,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+				50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -3952,6 +3955,7 @@
 				50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */,
 				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
+				50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */,
 				338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
