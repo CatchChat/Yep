@@ -34,7 +34,13 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
         return locationManager
         }()
 
-    var currentLocation: CLLocation?
+    var currentLocation: CLLocation? {
+        didSet {
+            if let currentLocation = currentLocation {
+                YepUserDefaults.userLocation.value = currentLocation
+            }
+        }
+    }
     var address: String?
     let geocoder = CLGeocoder()
 
@@ -43,8 +49,6 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
         guard let newLocation = locations.last else {
             return
         }
-
-        YepUserDefaults.userLocation.value = newLocation
 
         afterUpdatedLocationAction?(newLocation)
 
