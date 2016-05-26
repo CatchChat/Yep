@@ -452,6 +452,7 @@
 		50E7C7051CF6D59700E8D951 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7041CF6D59700E8D951 /* Profile.storyboard */; };
 		50E7C7071CF6D8A600E8D951 /* Feeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */; };
 		50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */; };
+		50E7C70B1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -1130,6 +1131,7 @@
 		50E7C7041CF6D59700E8D951 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = ViewControllers/Profile/Profile.storyboard; sourceTree = "<group>"; };
 		50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feeds.storyboard; path = ViewControllers/Feeds/Feeds.storyboard; sourceTree = "<group>"; };
 		50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Contacts.storyboard; path = ViewControllers/Contacts/Contacts.storyboard; sourceTree = "<group>"; };
+		50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverContainerViewController.swift; path = ViewControllers/Discover/DiscoverContainerViewController.swift; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1764,6 +1766,7 @@
 		5023DE2E1AB685F100B3EE96 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */,
 				50402F5B1C929A140071099F /* DiscoverCollectionView.swift */,
 				6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */,
 				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
@@ -4645,6 +4648,7 @@
 				50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */,
 				503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
+				50E7C70B1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xjA-m6-SL3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KiL-mx-7DZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,8 +26,8 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
-                                <rect key="frame" x="150" y="184" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
+                                <rect key="frame" x="150" y="120" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,7 +65,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="636" y="1039"/>
+            <point key="canvasLocation" x="1094" y="609"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -73,28 +73,12 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1024" y="1039"/>
+            <point key="canvasLocation" x="1470" y="609"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="e6m-pL-l35">
-            <objects>
-                <navigationController storyboardIdentifier="DiscoverNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="xjA-m6-SL3" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xYf-fJ-j66">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7XF-KZ-KGE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="20" y="1077"/>
-        </scene>
-        <!--View Controller-->
+        <!--Discover Container View Controller-->
         <scene sceneID="O2C-is-rbL">
             <objects>
-                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" customClass="DiscoverContainerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3H-P4-lPA"/>
                         <viewControllerLayoutGuide type="bottom" id="FXe-lF-NcI"/>
@@ -106,7 +90,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-aI-clV">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <connections>
-                                    <segue destination="onP-T9-2Jw" kind="embed" id="Qdj-FI-y3W"/>
+                                    <segue destination="CqF-to-La9" kind="embed" id="jw0-S4-CS6"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
@@ -131,15 +115,20 @@
                     <navigationItem key="navigationItem" id="4ZW-be-UeP">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="pIA-g9-MZ7">
-                            <rect key="frame" x="96" y="7" width="128" height="30"/>
+                            <rect key="frame" x="69" y="7" width="183" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="First"/>
-                                <segment title="Second"/>
+                                <segment title="Meet Genius"/>
+                                <segment title="Find All"/>
                             </segments>
                         </segmentedControl>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="discoveredUsersContainerView" destination="tFq-8H-AGD" id="saM-Ql-bS0"/>
+                        <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
+                        <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -164,23 +153,34 @@
             </objects>
             <point key="canvasLocation" x="199" y="342"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="dxV-LR-ARA">
+        <!--Table View Controller-->
+        <scene sceneID="wHh-OA-mpf">
             <objects>
-                <viewController id="onP-T9-2Jw" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Bm3-aB-L1c"/>
-                        <viewControllerLayoutGuide type="bottom" id="uRr-v4-EUQ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="T7v-GT-rz8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                <tableViewController id="CqF-to-La9" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mfd-Jb-tXe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="08P-Fk-3Nd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="iRg-C6-Qsk">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iRg-C6-Qsk" id="WIG-jm-f17">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CqF-to-La9" id="Ml8-Q4-4p6"/>
+                            <outlet property="delegate" destination="CqF-to-La9" id="7k9-OD-gHM"/>
+                        </connections>
+                    </tableView>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cMF-Xn-gFB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1070" y="254"/>
+            <point key="canvasLocation" x="1094" y="54"/>
         </scene>
     </scenes>
     <resources>
