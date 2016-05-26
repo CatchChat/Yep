@@ -10,7 +10,29 @@ import UIKit
 
 class DiscoverContainerViewController: UIViewController {
 
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    enum Option: Int {
+        case MeetGenius
+        case FindAll
+
+        var title: String {
+            switch self {
+            case .MeetGenius:
+                return NSLocalizedString("Meet Genius", comment: "")
+            case .FindAll:
+                return NSLocalizedString("Find All", comment: "")
+            }
+        }
+    }
+    
+    @IBOutlet weak var segmentedControl: UISegmentedControl! {
+        didSet {
+            segmentedControl.removeAllSegments()
+            (0..<2).forEach({
+                let option = Option(rawValue: $0)
+                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
+            })
+        }
+    }
 
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
