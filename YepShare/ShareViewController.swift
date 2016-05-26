@@ -141,7 +141,9 @@ class ShareViewController: SLComposeServiceViewController {
 
         let doCreateFeed: () -> Void = { [weak self] in
 
-            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: nil, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
+            let coordinate = YepUserDefaults.userCoordinate
+
+            createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 dispatch_async(dispatch_get_main_queue()) {
@@ -149,7 +151,7 @@ class ShareViewController: SLComposeServiceViewController {
                 }
 
             }, completion: { data in
-                print("createFeedWithKind: \(data)")
+                //print("createFeedWithKind: \(data)")
 
                 dispatch_async(dispatch_get_main_queue()) {
                     completion(finish: true)

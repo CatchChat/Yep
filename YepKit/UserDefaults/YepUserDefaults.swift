@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreSpotlight
+import CoreLocation
 import YepConfig
 import RealmSwift
 
@@ -30,7 +31,8 @@ private let feedSortStyleKey = "feedSortStyle"
 
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
-
+private let userCoordinateLatitudeKey = "userCoordinateLatitude"
+private let userCoordinateLongitudeKey = "userCoordinateLongitude"
 private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
@@ -140,6 +142,15 @@ final public class YepUserDefaults {
         return nil
     }
 
+    public static var userCoordinate: CLLocationCoordinate2D? {
+
+        guard let latitude = YepUserDefaults.userCoordinateLatitude.value, longitude = YepUserDefaults.userCoordinateLongitude.value else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     // MARK: ReLogin
 
     public class func cleanAllUserDefaults() {
@@ -160,6 +171,8 @@ final public class YepUserDefaults {
         feedSortStyle.removeAllListeners()
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
+        userCoordinateLatitude.removeAllListeners()
+        userCoordinateLongitude.removeAllListeners()
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
 
@@ -223,14 +236,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                nickname = nickname,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.nickname = nickname
-//                    }
-//            }
+            if let
+                nickname = nickname,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    let _ = try? realm.write {
+                        me.nickname = nickname
+                    }
+            }
         }
     }()
 
@@ -244,14 +257,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                introduction = introduction,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.introduction = introduction
-//                    }
-//            }
+            if let
+                introduction = introduction,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    let _ = try? realm.write {
+                        me.introduction = introduction
+                    }
+            }
         }
     }()
 
@@ -265,14 +278,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                avatarURLString = avatarURLString,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.avatarURLString = avatarURLString
-//                    }
-//            }
+            if let
+                avatarURLString = avatarURLString,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    let _ = try? realm.write {
+                        me.avatarURLString = avatarURLString
+                    }
+            }
         }
     }()
 
@@ -286,14 +299,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                badge = badge,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.badge = badge
-//                    }
-//            }
+            if let
+                badge = badge,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                    let _ = try? realm.write {
+                        me.badge = badge
+                    }
+            }
         }
     }()
 
@@ -307,14 +320,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                blogURLString = blogURLString,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                let _ = try? realm.write {
-//                    me.blogURLString = blogURLString
-//                }
-//            }
+            if let
+                blogURLString = blogURLString,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.blogURLString = blogURLString
+                }
+            }
         }
     }()
 
@@ -328,14 +341,14 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                blogTitle = blogTitle,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                let _ = try? realm.write {
-//                    me.blogTitle = blogTitle
-//                }
-//            }
+            if let
+                blogTitle = blogTitle,
+                myUserID = YepUserDefaults.userID.value,
+                me = userWithUserID(myUserID, inRealm: realm) {
+                let _ = try? realm.write {
+                    me.blogTitle = blogTitle
+                }
+            }
         }
     }()
 
@@ -413,6 +426,22 @@ final public class YepUserDefaults {
 
         return Listenable<Double?>(longitudeShift) { longitudeShift in
             defaults.setObject(longitudeShift, forKey: longitudeShiftKey)
+        }
+    }()
+
+    public static var userCoordinateLatitude: Listenable<Double?> = {
+        let userCoordinateLatitude = defaults.doubleForKey(userCoordinateLatitudeKey)
+
+        return Listenable<Double?>(userCoordinateLatitude) { userCoordinateLatitude in
+            defaults.setObject(userCoordinateLatitude, forKey: userCoordinateLatitudeKey)
+        }
+    }()
+
+    public static var userCoordinateLongitude: Listenable<Double?> = {
+        let userCoordinateLongitude = defaults.doubleForKey(userCoordinateLongitudeKey)
+
+        return Listenable<Double?>(userCoordinateLongitude) { userCoordinateLongitude in
+            defaults.setObject(userCoordinateLongitude, forKey: userCoordinateLongitudeKey)
         }
     }()
 

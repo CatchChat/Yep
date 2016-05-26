@@ -32,9 +32,16 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
         locationManager.headingFilter = kCLHeadingFilterNone
         locationManager.requestWhenInUseAuthorization()
         return locationManager
-        }()
+    }()
 
-    var currentLocation: CLLocation?
+    var currentLocation: CLLocation? {
+        didSet {
+            if let currentLocation = currentLocation {
+                YepUserDefaults.userCoordinateLatitude.value = currentLocation.coordinate.latitude
+                YepUserDefaults.userCoordinateLongitude.value = currentLocation.coordinate.longitude
+            }
+        }
+    }
     var address: String?
     let geocoder = CLGeocoder()
 
