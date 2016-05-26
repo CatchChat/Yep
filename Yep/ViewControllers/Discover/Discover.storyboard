@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xjA-m6-SL3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="bottom" id="G9m-cx-iQE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="7h2-s3-2Sv">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="649"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="529"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -27,7 +27,7 @@
                                 <cells/>
                             </collectionView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                                <rect key="frame" x="150" y="184" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -64,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="1077"/>
+            <point key="canvasLocation" x="453" y="1077"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -72,35 +72,29 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="13" y="1077"/>
+            <point key="canvasLocation" x="825" y="1077"/>
         </scene>
-        <!--Discover-->
-        <scene sceneID="qMw-s7-C68">
+        <!--Navigation Controller-->
+        <scene sceneID="e6m-pL-l35">
             <objects>
-                <navigationController storyboardIdentifier="DiscoverNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="8IC-FZ-2RP" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Discover" image="icon_explore" id="HT4-kH-IFP">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_explore_active"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
+                <navigationController storyboardIdentifier="DiscoverNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="xjA-m6-SL3" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="XLt-yD-60h">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xYf-fJ-j66">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="fxl-gW-1pr" kind="relationship" relationship="rootViewController" id="9fX-Fg-UiH"/>
+                        <segue destination="fxl-gW-1pr" kind="relationship" relationship="rootViewController" id="l7v-Sm-4AZ"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eNS-YL-JqQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7XF-KZ-KGE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1311" y="1077"/>
+            <point key="canvasLocation" x="21" y="1077"/>
         </scene>
     </scenes>
     <resources>
-        <image name="icon_explore" width="30" height="30"/>
-        <image name="icon_explore_active" width="30" height="30"/>
         <image name="icon_list" width="30" height="30"/>
     </resources>
 </document>

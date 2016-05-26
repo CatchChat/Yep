@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vX9-dx-mws">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="bottom" id="1E2-ua-X33"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="TYQ-Wc-QT4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Sjk-lT-1tx" userLabel="Profile Collection View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c0Z-cH-TdG" customClass="ProfileLayout" customModule="Yep" customModuleProvider="target">
                                     <size key="itemSize" width="141" height="116"/>
@@ -32,14 +32,14 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbb-HU-8ON" userLabel="Say Hi View" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="550" width="600" height="50"/>
+                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Rgi-rz-qHO"/>
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="8Hs-5W-Gey" userLabel="Shadow Image View">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="eg5-RY-1kg"/>
                                 </constraints>
@@ -98,30 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ng-15-xbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="1901"/>
-        </scene>
-        <!--Profile-->
-        <scene sceneID="QpV-TH-A60">
-            <objects>
-                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="noY-SN-SN8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="icon_me" id="sX7-Pg-pUV">
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_me_active"/>
-                        </userDefinedRuntimeAttributes>
-                    </tabBarItem>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9dh-DI-VG8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="hEp-Gj-1U7" kind="relationship" relationship="rootViewController" id="5Uc-ym-Vnh"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oiU-hl-Bdl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1293" y="1901"/>
+            <point key="canvasLocation" x="253" y="1901"/>
         </scene>
         <!--SettingsViewController-->
         <scene sceneID="gFO-HQ-ogY">
@@ -129,7 +106,7 @@
                 <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="VfL-Ot-quC" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n8l-ad-fAO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="55" y="1647"/>
+            <point key="canvasLocation" x="738.5" y="1638"/>
         </scene>
         <!--EditSkillsViewController-->
         <scene sceneID="tC1-S2-xZd">
@@ -137,7 +114,7 @@
                 <viewControllerPlaceholder storyboardName="EditSkills" referencedIdentifier="EditSkillsViewController" id="ujB-i0-csk" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nbk-09-oXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="51.5" y="1779"/>
+            <point key="canvasLocation" x="803" y="1694"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="tFd-9e-04m">
@@ -145,7 +122,7 @@
                 <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="quj-U2-nJH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ta-Os-g1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="42.5" y="1848"/>
+            <point key="canvasLocation" x="843" y="1759"/>
         </scene>
         <!--SocialWorkGithubViewController-->
         <scene sceneID="zkX-nG-seE">
@@ -153,7 +130,7 @@
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="RfL-7b-Vf7" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vBf-su-n7r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73.5" y="2004"/>
+            <point key="canvasLocation" x="945" y="1992"/>
         </scene>
         <!--ConversationViewController-->
         <scene sceneID="vAn-Tz-RhC">
@@ -161,7 +138,7 @@
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="HTl-qc-aE1" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jp9-fa-PYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="64.5" y="1921"/>
+            <point key="canvasLocation" x="931" y="1901"/>
         </scene>
         <!--OAuth-->
         <scene sceneID="F15-Xn-WbA">
@@ -169,7 +146,7 @@
                 <viewControllerPlaceholder storyboardName="OAuth" id="lv0-4q-clH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="auy-7d-LAa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-558.5" y="2332"/>
+            <point key="canvasLocation" x="253" y="2287"/>
         </scene>
         <!--SocialWorkDribbbleViewController-->
         <scene sceneID="xIu-vn-sx3">
@@ -177,7 +154,7 @@
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="rY6-VM-9Os" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Zz-Kk-M9f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="79.5" y="2104"/>
+            <point key="canvasLocation" x="859" y="2120"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="KPa-zg-OjV">
@@ -185,7 +162,7 @@
                 <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="k8Y-pk-mBi" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xQ4-kg-GlW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="40" y="2184"/>
+            <point key="canvasLocation" x="880" y="1820"/>
         </scene>
         <!--SocialWorkInstagramViewController-->
         <scene sceneID="kyW-wT-a0y">
@@ -193,12 +170,29 @@
                 <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="WCu-SO-xkn" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WWu-rh-8Ql" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="84" y="2058"/>
+            <point key="canvasLocation" x="921.5" y="2061"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bTJ-7G-JWJ">
+            <objects>
+                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="vX9-dx-mws" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rXJ-gg-8zC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hEp-Gj-1U7" kind="relationship" relationship="rootViewController" id="G9C-j2-eQJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lu3-gu-qhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-173" y="1901"/>
         </scene>
     </scenes>
     <resources>
-        <image name="icon_me" width="30" height="30"/>
-        <image name="icon_me_active" width="30" height="30"/>
         <image name="icon_settings" width="30" height="30"/>
         <image name="top_shadow" width="375" height="80"/>
     </resources>

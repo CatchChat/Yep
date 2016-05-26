@@ -14,18 +14,18 @@
                         <viewControllerLayoutGuide type="bottom" id="4zU-h3-iSg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Sdg-d0-wry">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="AQU-dM-Gus">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="Z31-Zx-AsW" id="gQ6-zr-QZf"/>
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DZu-qf-uDw">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="108" width="320" height="372"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Z31-Zx-AsW" id="8D2-oX-lrz"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmH-ug-Qcg" customClass="HorizontalLineView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="108" width="600" height="1"/>
+                                <rect key="frame" x="0.0" y="108" width="320" height="1"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="yML-ho-rff"/>
@@ -57,6 +57,7 @@
                             <constraint firstItem="kmH-ug-Qcg" firstAttribute="leading" secondItem="Sdg-d0-wry" secondAttribute="leading" id="rMQ-ab-juG"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="feedsTableView" destination="DZu-qf-uDw" id="kFz-xM-kRU"/>
                         <outlet property="searchBar" destination="AQU-dM-Gus" id="Pu4-V8-yek"/>
@@ -68,7 +69,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hSz-jU-Qpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="463" y="472"/>
+            <point key="canvasLocation" x="616" y="476"/>
         </scene>
         <!--ConversationViewController-->
         <scene sceneID="QED-8h-2fT">

@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="bottom" id="QyI-A8-M6L"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="nuF-d2-fAS">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4dc-ym-oz4">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -27,7 +27,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uKU-jp-zWb">
-                                <rect key="frame" x="290" y="140" width="20" height="20"/>
+                                <rect key="frame" x="150" y="140" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -40,6 +40,7 @@
                             <constraint firstItem="4dc-ym-oz4" firstAttribute="leading" secondItem="nuF-d2-fAS" secondAttribute="leading" id="nm9-4g-dNB"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="uKU-jp-zWb" id="SWO-Oi-ebE"/>
                         <outlet property="friendsTableView" destination="4dc-ym-oz4" id="CWy-Qv-Bww"/>
@@ -48,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dxi-SJ-Tzc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="27" y="2683"/>
+            <point key="canvasLocation" x="134" y="2683"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="Kcv-tN-58e">

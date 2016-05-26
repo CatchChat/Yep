@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="aML-8C-E9A">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -13,11 +13,11 @@
                         <viewControllerLayoutGuide type="bottom" id="Czz-To-FY9"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="p9e-tm-2Xo">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MRp-lr-ct1">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="uI0-xm-DZs" id="hoB-Cd-fhn"/>
@@ -25,7 +25,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lvE-Hf-oaf">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
+                                <rect key="frame" x="150" y="184" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -70,7 +70,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FXu-54-nh6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-559" y="205"/>
+            <point key="canvasLocation" x="354" y="220"/>
         </scene>
         <!--NewFeed-->
         <scene sceneID="oKv-Nd-tP4">
@@ -78,7 +78,7 @@
                 <viewControllerPlaceholder storyboardName="NewFeed" id="YAw-wz-CDB" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LZe-FP-43j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-619.5" y="638"/>
+            <point key="canvasLocation" x="233" y="647"/>
         </scene>
         <!--NewFeedVoiceRecord-->
         <scene sceneID="kzo-aI-kTe">
@@ -86,7 +86,7 @@
                 <viewControllerPlaceholder storyboardName="NewFeedVoiceRecord" id="awM-dC-JSo" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ePZ-v4-48J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-450" y="638"/>
+            <point key="canvasLocation" x="354" y="696"/>
         </scene>
         <!--PickLocation-->
         <scene sceneID="6bC-CC-Scg">
@@ -94,7 +94,7 @@
                 <viewControllerPlaceholder storyboardName="PickLocation" id="bRp-nz-lab" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k3A-JA-j4S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-296" y="638"/>
+            <point key="canvasLocation" x="475" y="638"/>
         </scene>
         <!--ConversationViewController-->
         <scene sceneID="9ND-aA-nal">
@@ -102,7 +102,7 @@
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="624-OU-1Xr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cqz-hm-TlK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="69" y="237"/>
+            <point key="canvasLocation" x="924" y="220"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="U4P-Dv-EK6">
@@ -110,7 +110,7 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="7KC-JD-lKq" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TK2-cU-LrQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="48" y="318"/>
+            <point key="canvasLocation" x="896" y="310"/>
         </scene>
         <!--SearchFeedsViewController-->
         <scene sceneID="O1a-Pq-OJq">
@@ -118,7 +118,7 @@
                 <viewControllerPlaceholder storyboardName="SearchFeeds" referencedIdentifier="SearchFeedsViewController" id="feI-pV-JOr" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ws7-Vs-W2K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32" y="413"/>
+            <point key="canvasLocation" x="896" y="396"/>
         </scene>
         <!--SkillHomeViewController-->
         <scene sceneID="gbh-SX-xdw">
@@ -126,7 +126,7 @@
                 <viewControllerPlaceholder storyboardName="SkillHome" referencedIdentifier="SkillHomeViewController" id="ZzZ-dB-ryv" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qxi-ig-YBg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="24" y="40"/>
+            <point key="canvasLocation" x="866.5" y="41"/>
         </scene>
         <!--FeedsViewController-->
         <scene sceneID="urd-VG-0VX">
@@ -134,30 +134,26 @@
                 <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="EC4-13-l76" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="llk-yt-XfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="55.5" y="103"/>
+            <point key="canvasLocation" x="894" y="126"/>
         </scene>
-        <!--Feeds-->
-        <scene sceneID="a4e-xR-R3b">
+        <!--Navigation Controller-->
+        <scene sceneID="fuY-KX-QZw">
             <objects>
-                <navigationController storyboardIdentifier="FeedsNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="VPL-5r-MJj" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feeds" image="icon_feeds" selectedImage="icon_feeds_active" id="zQ2-P4-wLa"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aML-8C-E9A" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pOt-4i-0z1">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LvZ-mW-g1v">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="uI0-xm-DZs" kind="relationship" relationship="rootViewController" id="uld-dP-Yp9"/>
+                        <segue destination="uI0-xm-DZs" kind="relationship" relationship="rootViewController" id="zYe-jO-0bY"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JPY-Dw-TJd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hFG-vz-Kss" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1311" y="205"/>
+            <point key="canvasLocation" x="-93" y="220"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="icon_feeds" width="30" height="30"/>
-        <image name="icon_feeds_active" width="30" height="30"/>
-    </resources>
 </document>
