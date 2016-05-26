@@ -28,6 +28,16 @@
             </objects>
             <point key="canvasLocation" x="24.5" y="-1435"/>
         </scene>
+        <!--ConversationsViewController-->
+        <scene sceneID="lwk-zv-bX5">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversations" referencedIdentifier="ConversationsViewController" id="WzJ-AA-eds" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="p4n-d0-bVI"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nuw-a0-7hu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-709.5" y="-1859"/>
+        </scene>
         <!--Conversations-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
@@ -423,7 +433,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="lts-2v-2Qy"/>
+                        <segue destination="WzJ-AA-eds" kind="relationship" relationship="rootViewController" id="3ln-4f-pqW"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aiW-h5-OHh" userLabel="First Responder" sceneMemberID="firstResponder"/>

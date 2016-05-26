@@ -448,6 +448,7 @@
 		50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C51C22C82800C0CECB /* FeedLocationCell.swift */; };
 		50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */; };
 		50E7C7011CF6CEF500E8D951 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7001CF6CEF500E8D951 /* Discover.storyboard */; };
+		50E7C7031CF6D41100E8D951 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7021CF6D41100E8D951 /* Conversations.storyboard */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -1122,6 +1123,7 @@
 		50E392C51C22C82800C0CECB /* FeedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationCell.swift; path = Views/Cells/Feed/FeedLocationCell.swift; sourceTree = "<group>"; };
 		50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTitleView.swift; path = Views/ConversationTitle/ConversationTitleView.swift; sourceTree = "<group>"; };
 		50E7C7001CF6CEF500E8D951 /* Discover.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Discover.storyboard; path = ViewControllers/Discover/Discover.storyboard; sourceTree = "<group>"; };
+		50E7C7021CF6D41100E8D951 /* Conversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversations.storyboard; path = ViewControllers/Conversations/Conversations.storyboard; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1739,6 +1741,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */,
+				50E7C7021CF6D41100E8D951 /* Conversations.storyboard */,
 			);
 			name = Conversations;
 			sourceTree = "<group>";
@@ -3936,6 +3939,7 @@
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
+				50E7C7031CF6D41100E8D951 /* Conversations.storyboard in Resources */,
 				50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */,
 				50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */,
 				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
