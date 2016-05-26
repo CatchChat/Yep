@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="649"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -77,7 +77,7 @@
         <!--Discover-->
         <scene sceneID="qMw-s7-C68">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8IC-FZ-2RP" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DiscoverNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="8IC-FZ-2RP" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Discover" image="icon_explore" id="HT4-kH-IFP">
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="image" keyPath="selectedImage" value="icon_explore_active"/>
