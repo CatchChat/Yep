@@ -39,7 +39,6 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
             if let currentLocation = currentLocation {
                 YepUserDefaults.userCoordinateLatitude.value = currentLocation.coordinate.latitude
                 YepUserDefaults.userCoordinateLongitude.value = currentLocation.coordinate.longitude
-                println("YepUserDefaults.userCoordinate: \(YepUserDefaults.userCoordinate)")
             }
         }
     }
