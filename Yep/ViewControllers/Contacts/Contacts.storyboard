@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QKD-rL-3nS">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Contacts-->
+        <scene sceneID="tFq-C9-97s">
+            <objects>
+                <viewController storyboardIdentifier="ContactsViewController" id="hAb-rS-slE" userLabel="Contacts" customClass="ContactsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k0V-a0-P7y"/>
+                        <viewControllerLayoutGuide type="bottom" id="qGM-iu-SXk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="d84-FP-EVm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="l6N-8e-S0M" userLabel="Contacts Table View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="separatorInset" minX="90" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="hAb-rS-slE" id="giZ-9T-ziL"/>
+                                    <outlet property="delegate" destination="hAb-rS-slE" id="kcq-Kt-DKz"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-9P-bpe">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="TDy-jX-11D"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="l6N-8e-S0M" secondAttribute="trailing" id="3pl-YG-gGd"/>
+                            <constraint firstAttribute="trailing" secondItem="DcR-9P-bpe" secondAttribute="trailing" id="5mi-lk-AGE"/>
+                            <constraint firstAttribute="bottom" secondItem="l6N-8e-S0M" secondAttribute="bottom" id="7Zy-ap-dtD"/>
+                            <constraint firstItem="DcR-9P-bpe" firstAttribute="top" secondItem="d84-FP-EVm" secondAttribute="top" id="G9z-FY-Pbt"/>
+                            <constraint firstItem="DcR-9P-bpe" firstAttribute="leading" secondItem="d84-FP-EVm" secondAttribute="leading" id="Nuy-sg-C17"/>
+                            <constraint firstItem="l6N-8e-S0M" firstAttribute="top" secondItem="d84-FP-EVm" secondAttribute="top" id="aMs-Vs-mN0"/>
+                            <constraint firstItem="l6N-8e-S0M" firstAttribute="leading" secondItem="d84-FP-EVm" secondAttribute="leading" id="y0D-lb-lTI"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Contacts" id="jLc-rp-N91">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="EkB-oh-KJ2">
+                            <connections>
+                                <action selector="showAddFriends:" destination="hAb-rS-slE" id="R2p-zK-WWg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="contactsTableView" destination="l6N-8e-S0M" id="jfB-oH-LZP"/>
+                        <outlet property="coverUnderStatusBarView" destination="DcR-9P-bpe" id="Exh-Or-bV1"/>
+                        <segue destination="hgB-Yw-01L" kind="show" identifier="showAddFriends" id="7Z2-mX-1Gz">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="PKV-G5-9YB" kind="show" identifier="showProfile" id="ACN-Yo-yAK">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="xaa-Mp-POK" kind="show" identifier="showSearchContacts" id="knS-dm-e93">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="eu0-iq-OsZ" kind="show" identifier="showConversation" id="cWz-Aa-XvD">
+                            <nil key="action"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e35-j9-PtC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="369" y="-489"/>
+        </scene>
+        <!--SearchContactsViewController-->
+        <scene sceneID="4YR-ot-Xnk">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchContacts" referencedIdentifier="SearchContactsViewController" id="xaa-Mp-POK" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j3L-Y8-EsR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="876.5" y="-442"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="KHe-Xe-zGz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="eu0-iq-OsZ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vDS-C7-bew" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="842" y="-348"/>
+        </scene>
+        <!--AddFriendsViewController-->
+        <scene sceneID="kkW-lb-dVO">
+            <objects>
+                <viewControllerPlaceholder storyboardName="AddFriends" referencedIdentifier="AddFriendsViewController" id="hgB-Yw-01L" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zbm-oL-scF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="820.5" y="-633"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="I0g-Ey-FcZ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="PKV-G5-9YB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dka-s3-Fhf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="842" y="-547"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="OJr-Xx-6LH">
+            <objects>
+                <navigationController storyboardIdentifier="ContactsNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="QKD-rL-3nS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nqt-2w-Tz6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hAb-rS-slE" kind="relationship" relationship="rootViewController" id="uU4-WI-CZh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qgn-o9-tPp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-64" y="-489"/>
+        </scene>
+    </scenes>
+</document>

@@ -447,6 +447,11 @@
 		50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */; };
 		50E392C61C22C82800C0CECB /* FeedLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E392C51C22C82800C0CECB /* FeedLocationCell.swift */; };
 		50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */; };
+		50E7C7011CF6CEF500E8D951 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7001CF6CEF500E8D951 /* Discover.storyboard */; };
+		50E7C7031CF6D41100E8D951 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7021CF6D41100E8D951 /* Conversations.storyboard */; };
+		50E7C7051CF6D59700E8D951 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7041CF6D59700E8D951 /* Profile.storyboard */; };
+		50E7C7071CF6D8A600E8D951 /* Feeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */; };
+		50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -1120,6 +1125,11 @@
 		50E392C31C22C0F600C0CECB /* FeedVoiceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceCell.swift; path = Views/Cells/Feed/FeedVoiceCell.swift; sourceTree = "<group>"; };
 		50E392C51C22C82800C0CECB /* FeedLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationCell.swift; path = Views/Cells/Feed/FeedLocationCell.swift; sourceTree = "<group>"; };
 		50E61CEA1AF1F69D00908A9D /* ConversationTitleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationTitleView.swift; path = Views/ConversationTitle/ConversationTitleView.swift; sourceTree = "<group>"; };
+		50E7C7001CF6CEF500E8D951 /* Discover.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Discover.storyboard; path = ViewControllers/Discover/Discover.storyboard; sourceTree = "<group>"; };
+		50E7C7021CF6D41100E8D951 /* Conversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Conversations.storyboard; path = ViewControllers/Conversations/Conversations.storyboard; sourceTree = "<group>"; };
+		50E7C7041CF6D59700E8D951 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = ViewControllers/Profile/Profile.storyboard; sourceTree = "<group>"; };
+		50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feeds.storyboard; path = ViewControllers/Feeds/Feeds.storyboard; sourceTree = "<group>"; };
+		50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Contacts.storyboard; path = ViewControllers/Contacts/Contacts.storyboard; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1737,6 +1747,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE251AB6856300B3EE96 /* ConversationsViewController.swift */,
+				50E7C7021CF6D41100E8D951 /* Conversations.storyboard */,
 			);
 			name = Conversations;
 			sourceTree = "<group>";
@@ -1745,6 +1756,7 @@
 			isa = PBXGroup;
 			children = (
 				5023DE291AB685BA00B3EE96 /* ContactsViewController.swift */,
+				50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -1753,8 +1765,9 @@
 			isa = PBXGroup;
 			children = (
 				50402F5B1C929A140071099F /* DiscoverCollectionView.swift */,
-				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
 				6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */,
+				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
+				50E7C7001CF6CEF500E8D951 /* Discover.storyboard */,
 			);
 			name = Discover;
 			sourceTree = "<group>";
@@ -1762,8 +1775,9 @@
 		5023DE311AB6861900B3EE96 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
 				504F41561AD4D35400FBB19A /* ProfileLayout.swift */,
+				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
+				50E7C7041CF6D59700E8D951 /* Profile.storyboard */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2156,13 +2170,13 @@
 		503CAB441AC00CB900DFE830 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
-				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				33180F5B1CC9C58100CACF38 /* DataSample.swift */,
+				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
+				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
+				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
-				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
-				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
 			);
 			name = Conversation;
 			sourceTree = "<group>";
@@ -2771,8 +2785,9 @@
 		50AFBF601BB4F33A007D19DA /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
-				50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */,
 				50E34C2B1CBDEC31007CAE80 /* FeedsMoreViewManager.swift */,
+				50AFBF5E1BB4F332007D19DA /* FeedsViewController.swift */,
+				50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */,
 			);
 			name = Feeds;
 			sourceTree = "<group>";
@@ -3918,12 +3933,14 @@
 			files = (
 				50DEE03F1BE729FD00015741 /* PickLocation.storyboard in Resources */,
 				5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */,
+				50E7C7051CF6D59700E8D951 /* Profile.storyboard in Resources */,
 				505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */,
 				50535D221BCE497E002FE1A4 /* PickPhotos.storyboard in Resources */,
 				50AACECD1BB5419A004DD54B /* FeedView.xib in Resources */,
 				50DEE0611BEA146900015741 /* Conversation.storyboard in Resources */,
 				50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */,
 				505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */,
+				50E7C7011CF6CEF500E8D951 /* Discover.storyboard in Resources */,
 				501690191BFB18D20096C4F9 /* ChatLeftSocialWorkCell.xib in Resources */,
 				504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */,
 				50DEE0531BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard in Resources */,
@@ -3932,10 +3949,13 @@
 				502AE5591AB932D5005BD199 /* ProfileSectionHeaderReusableView.xib in Resources */,
 				5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */,
 				506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */,
+				50E7C7031CF6D41100E8D951 /* Conversations.storyboard in Resources */,
 				50AFBF4E1BB3A594007D19DA /* bub3.caf in Resources */,
+				50E7C7071CF6D8A600E8D951 /* Feeds.storyboard in Resources */,
 				50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */,
 				50DEE02D1BE209FF00015741 /* DeletedFeedConversationCell.xib in Resources */,
 				50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */,
+				50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */,
 				338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,

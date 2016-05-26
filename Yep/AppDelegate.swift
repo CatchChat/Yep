@@ -448,7 +448,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             guard let
-                vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+                vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
                     return
             }
 
@@ -479,7 +479,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
+            guard let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
                 return false
             }
 

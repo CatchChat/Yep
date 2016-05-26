@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="xjA-m6-SL3">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Discover-->
+        <scene sceneID="6eH-9x-VcH">
+            <objects>
+                <viewController storyboardIdentifier="DiscoverViewController" id="fxl-gW-1pr" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="h7g-Hp-sr5"/>
+                        <viewControllerLayoutGuide type="bottom" id="G9m-cx-iQE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="7h2-s3-2Sv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="529"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
+                                <rect key="frame" x="150" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="rkh-4n-Lvv" secondAttribute="centerX" id="2Id-zg-YRJ"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="leading" secondItem="7h2-s3-2Sv" secondAttribute="leading" id="4rV-hc-Ugb"/>
+                            <constraint firstItem="G9m-cx-iQE" firstAttribute="top" secondItem="06U-4l-fjf" secondAttribute="bottom" constant="-49" id="auv-Cp-0f2"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="-64" id="hvh-dh-QfI"/>
+                            <constraint firstAttribute="trailing" secondItem="06U-4l-fjf" secondAttribute="trailing" id="kUC-vn-rf2"/>
+                            <constraint firstItem="rkh-4n-Lvv" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="120" id="zo9-EA-a8g"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Discover" id="fB0-6p-1av">
+                        <barButtonItem key="leftBarButtonItem" image="icon_list" id="YRd-E8-wyx">
+                            <connections>
+                                <action selector="changeMode:" destination="fxl-gW-1pr" id="HcF-Or-eH7"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title=" " id="7EU-JR-Wwz">
+                            <connections>
+                                <action selector="showFilters:" destination="fxl-gW-1pr" id="8zO-2n-e4O"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="rkh-4n-Lvv" id="7Vs-s7-Wtx"/>
+                        <outlet property="discoveredUsersCollectionView" destination="06U-4l-fjf" id="9TJ-I4-DW2"/>
+                        <outlet property="filterButtonItem" destination="7EU-JR-Wwz" id="tdr-p2-S0S"/>
+                        <outlet property="modeButtonItem" destination="YRd-E8-wyx" id="WGm-sY-MUc"/>
+                        <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="vXx-xt-vxl">
+                            <nil key="action"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="453" y="1077"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="c2u-kZ-KfX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="825" y="1077"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="e6m-pL-l35">
+            <objects>
+                <navigationController storyboardIdentifier="DiscoverNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="xjA-m6-SL3" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xYf-fJ-j66">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fxl-gW-1pr" kind="relationship" relationship="rootViewController" id="l7v-Sm-4AZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7XF-KZ-KGE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="21" y="1077"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_list" width="30" height="30"/>
+    </resources>
+</document>
