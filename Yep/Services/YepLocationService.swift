@@ -44,6 +44,8 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
             return
         }
 
+        YepUserDefaults.location.value = newLocation
+
         afterUpdatedLocationAction?(newLocation)
 
         // 尽量减少对服务器的请求和反向查询

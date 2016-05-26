@@ -32,7 +32,6 @@ private let feedSortStyleKey = "feedSortStyle"
 private let locationKey = "location"
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
-
 private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
