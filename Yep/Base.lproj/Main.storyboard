@@ -149,127 +149,15 @@
             </objects>
             <point key="canvasLocation" x="-2353" y="318"/>
         </scene>
-        <!--Feeds View Controller-->
-        <scene sceneID="Dcb-bn-5M7">
-            <objects>
-                <viewController storyboardIdentifier="FeedsViewController" id="W3w-jm-aNI" customClass="FeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1v6-QD-r3B"/>
-                        <viewControllerLayoutGuide type="bottom" id="Vr5-XL-uqL"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="aTs-V4-FkM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="D86-dp-qKQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="W3w-jm-aNI" id="Ld3-tu-vGC"/>
-                                    <outlet property="delegate" destination="W3w-jm-aNI" id="Zmv-Qw-N8o"/>
-                                </connections>
-                            </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="sHk-eY-6TD">
-                                <rect key="frame" x="290" y="184" width="20" height="20"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="D86-dp-qKQ" secondAttribute="trailing" id="0cJ-BC-Zme"/>
-                            <constraint firstItem="D86-dp-qKQ" firstAttribute="leading" secondItem="aTs-V4-FkM" secondAttribute="leading" id="7rL-66-51f"/>
-                            <constraint firstAttribute="bottom" secondItem="D86-dp-qKQ" secondAttribute="bottom" id="IGV-gd-9fq"/>
-                            <constraint firstItem="D86-dp-qKQ" firstAttribute="top" secondItem="aTs-V4-FkM" secondAttribute="top" id="WZ4-Nx-qhp"/>
-                            <constraint firstItem="sHk-eY-6TD" firstAttribute="centerX" secondItem="aTs-V4-FkM" secondAttribute="centerX" id="ZFA-ds-EiT"/>
-                            <constraint firstItem="sHk-eY-6TD" firstAttribute="top" secondItem="1v6-QD-r3B" secondAttribute="bottom" constant="120" id="jeQ-RT-k0A"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="LaU-sr-um0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Goz-ft-7ec">
-                            <connections>
-                                <action selector="createNewFeed:" destination="W3w-jm-aNI" id="Rjf-ee-gbd"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="activityIndicator" destination="sHk-eY-6TD" id="Xlo-a7-8l6"/>
-                        <outlet property="feedsTableView" destination="D86-dp-qKQ" id="rh9-wh-IqK"/>
-                        <segue destination="h8b-7V-qPb" kind="show" identifier="showFeedsWithSkill" id="D1j-0N-VMH"/>
-                        <segue destination="dYX-Ms-gWP" kind="show" identifier="showSkillHome" id="TTj-EA-7SS"/>
-                        <segue destination="iL2-os-eZV" kind="show" identifier="showConversation" id="tg0-ny-kGT"/>
-                        <segue destination="oUx-zd-faH" kind="show" identifier="showProfile" id="Gdt-20-g91"/>
-                        <segue destination="4oS-hQ-vpS" kind="presentation" identifier="presentNewFeed" id="4uC-Sk-gjF"/>
-                        <segue destination="9n0-n0-AJg" kind="presentation" identifier="presentNewFeedVoiceRecord" id="xzo-eI-lqm"/>
-                        <segue destination="eU6-TF-LII" kind="presentation" identifier="presentPickLocation" id="bvu-Rs-ARw"/>
-                        <segue destination="BTb-Zg-CnT" kind="show" identifier="showSearchFeeds" id="oMF-br-ZET"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ETW-Em-Kw5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-559" y="205"/>
-        </scene>
-        <!--NewFeed-->
-        <scene sceneID="LDV-cy-JhT">
-            <objects>
-                <viewControllerPlaceholder storyboardName="NewFeed" id="4oS-hQ-vpS" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HCX-id-Kbz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-619.5" y="638"/>
-        </scene>
-        <!--NewFeedVoiceRecord-->
-        <scene sceneID="yGi-8X-wqb">
-            <objects>
-                <viewControllerPlaceholder storyboardName="NewFeedVoiceRecord" id="9n0-n0-AJg" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2ej-Ff-SV3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-450" y="638"/>
-        </scene>
-        <!--PickLocation-->
-        <scene sceneID="o9m-jD-mYR">
-            <objects>
-                <viewControllerPlaceholder storyboardName="PickLocation" id="eU6-TF-LII" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mm0-ll-U9z" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-296" y="638"/>
-        </scene>
-        <!--ConversationViewController-->
-        <scene sceneID="pz7-gU-UIN">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="iL2-os-eZV" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dvB-x7-LnM" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="69" y="237"/>
-        </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="P4W-XO-vZA">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="oUx-zd-faH" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lm7-rC-mZS" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="48" y="318"/>
-        </scene>
-        <!--SearchFeedsViewController-->
-        <scene sceneID="vac-Ta-f1y">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SearchFeeds" referencedIdentifier="SearchFeedsViewController" id="BTb-Zg-CnT" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LiJ-SY-7S0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="32" y="413"/>
-        </scene>
-        <!--SkillHomeViewController-->
-        <scene sceneID="mll-N9-alH">
-            <objects>
-                <viewControllerPlaceholder storyboardName="SkillHome" referencedIdentifier="SkillHomeViewController" id="dYX-Ms-gWP" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tm8-6z-ZhG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="24" y="40"/>
-        </scene>
         <!--FeedsViewController-->
-        <scene sceneID="Rau-4Y-1qY">
+        <scene sceneID="bv3-ym-22T">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="h8b-7V-qPb" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cFE-qE-z0n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="wdr-hu-RTC" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="uCE-zc-aQ8"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nGQ-6C-W3u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="55.5" y="103"/>
+            <point key="canvasLocation" x="-780" y="205"/>
         </scene>
         <!--Chats-->
         <scene sceneID="ySr-fW-tdP">
@@ -375,7 +263,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="W3w-jm-aNI" kind="relationship" relationship="rootViewController" id="AMg-D0-eU6"/>
+                        <segue destination="wdr-hu-RTC" kind="relationship" relationship="rootViewController" id="OyJ-H6-Xdn"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vh6-Xb-Pbc" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -142,7 +142,7 @@
         <!--FeedsViewController-->
         <scene sceneID="tFd-9e-04m">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="quj-U2-nJH" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="quj-U2-nJH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ta-Os-g1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="42.5" y="1848"/>
@@ -182,7 +182,7 @@
         <!--FeedsViewController-->
         <scene sceneID="KPa-zg-OjV">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="FeedsViewController" id="k8Y-pk-mBi" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="k8Y-pk-mBi" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xQ4-kg-GlW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="40" y="2184"/>
