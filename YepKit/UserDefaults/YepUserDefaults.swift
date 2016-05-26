@@ -29,9 +29,9 @@ private let mobileKey = "mobile"
 private let discoveredUserSortStyleKey = "discoveredUserSortStyle"
 private let feedSortStyleKey = "feedSortStyle"
 
-private let locationKey = "location"
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
+private let userLocationKey = "userLocation"
 private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
@@ -159,9 +159,9 @@ final public class YepUserDefaults {
         mobile.removeAllListeners()
         discoveredUserSortStyle.removeAllListeners()
         feedSortStyle.removeAllListeners()
-        location.removeAllListeners()
         latitudeShift.removeAllListeners()
         longitudeShift.removeAllListeners()
+        userLocation.removeAllListeners()
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
 
@@ -402,14 +402,6 @@ final public class YepUserDefaults {
         }
     }()
 
-    public static var location: Listenable<CLLocation?> = {
-        let location = defaults.valueForKey(locationKey) as? CLLocation
-
-        return Listenable<CLLocation?>(location) { location in
-            defaults.setObject(location, forKey: locationKey)
-        }
-    }()
-
     public static var latitudeShift: Listenable<Double?> = {
         let latitudeShift = defaults.doubleForKey(latitudeShiftKey)
 
@@ -423,6 +415,14 @@ final public class YepUserDefaults {
 
         return Listenable<Double?>(longitudeShift) { longitudeShift in
             defaults.setObject(longitudeShift, forKey: longitudeShiftKey)
+        }
+    }()
+
+    public static var userLocation: Listenable<CLLocation?> = {
+        let userLocation = defaults.valueForKey(userLocationKey) as? CLLocation
+
+        return Listenable<CLLocation?>(userLocation) { location in
+            defaults.setObject(userLocation, forKey: userLocationKey)
         }
     }()
 

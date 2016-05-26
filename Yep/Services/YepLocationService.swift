@@ -44,7 +44,7 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
             return
         }
 
-        YepUserDefaults.location.value = newLocation
+        YepUserDefaults.userLocation.value = newLocation
 
         afterUpdatedLocationAction?(newLocation)
 
