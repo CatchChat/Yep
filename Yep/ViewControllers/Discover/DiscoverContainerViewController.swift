@@ -38,6 +38,16 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(
+            image: UIImage(named:"icon_list"),
+            style: .Plain,
+            target: self,
+            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersLayoutModeButtonItem(_:))
+        )
+        return item
+    }()
+    
     private weak var discoverViewController: DiscoverViewController?
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
@@ -62,12 +72,14 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = false
                 discoveredUsersContainerView.hidden = true
 
+                navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
 
             case .FindAll:
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
 
+                navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
@@ -101,6 +113,11 @@ class DiscoverContainerViewController: UIViewController {
         }
 
         currentOption = option
+    }
+
+    @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
+
+        println("tapDiscoveredUsersLayoutModeButtonItem")
     }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
