@@ -90,6 +90,19 @@ class DiscoverContainerViewController: UIViewController {
                 }
             }
 
+        case "showProfile":
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if discoveredUser.id != YepUserDefaults.userID.value {
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            }
+
+            vc.setBackButtonWithTitle()
+
+            vc.hidesBottomBarWhenPushed = true
+
         default:
             break
         }
