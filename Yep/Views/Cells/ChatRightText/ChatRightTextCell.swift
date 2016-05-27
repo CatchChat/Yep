@@ -13,7 +13,7 @@ import YepConfig
 class ChatRightTextCell: ChatRightBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
-    var tapFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
 
     lazy var bubbleTailImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "bubble_right_tail"))

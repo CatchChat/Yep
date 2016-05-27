@@ -3233,9 +3233,14 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Navigation
 
-    private func showConversationWithFeed(feed: DiscoveredFeed) {
+    private func tryShowConversationWithFeed(feed: DiscoveredFeed?) {
 
-        performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+        if let feed = feed {
+            performSegueWithIdentifier("tryShowConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+
+        } else {
+            YepAlert.alertSorry(message: NSLocalizedString("Feed not found!", comment: ""), inViewController: self)
+        }
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -3301,7 +3306,7 @@ final class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-        case "showConversationWithFeed":
+        case "tryShowConversationWithFeed":
 
             let vc = segue.destinationViewController as! ConversationViewController
 
@@ -4159,11 +4164,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                                 cell.tapFeedAction = { [weak self] feed in
-                                    self?.showConversationWithFeed(feed)
+                                    self?.tryShowConversationWithFeed(feed)
                                 }
 
                                 cell.tapOpenGraphURLAction = { [weak self] URL in
-                                    if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
+                                    if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversationWithFeed(feed) }) {
                                         self?.yep_openURL(URL)
                                     }
                                 }
@@ -4180,7 +4185,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 }
 
                                 cell.tapFeedAction = { [weak self] feed in
-                                    self?.showConversationWithFeed(feed)
+                                    self?.tryShowConversationWithFeed(feed)
                                 }
                             }
                         }
@@ -4422,11 +4427,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                             cell.tapFeedAction = { [weak self] feed in
-                                self?.showConversationWithFeed(feed)
+                                self?.tryShowConversationWithFeed(feed)
                             }
 
                             cell.tapOpenGraphURLAction = { [weak self] URL in
-                                if !URL.yep_matchSharedFeed({ [weak self] feed in self?.showConversationWithFeed(feed) }) {
+                                if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversationWithFeed(feed) }) {
                                     self?.yep_openURL(URL)
                                 }
                             }
@@ -4443,7 +4448,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                             cell.tapFeedAction = { [weak self] feed in
-                                self?.showConversationWithFeed(feed)
+                                self?.tryShowConversationWithFeed(feed)
                             }
                         }
                     }
