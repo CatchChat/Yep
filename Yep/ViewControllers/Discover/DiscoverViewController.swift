@@ -193,7 +193,7 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    @IBAction private func showFilters(sender: UIBarButtonItem) {
+    @IBAction func showFilters(sender: UIBarButtonItem) {
 
         if let window = view.window {
             filterView.showInView(window)

@@ -38,6 +38,7 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    private weak var discoverViewController: DiscoverViewController?
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
             discoveredUsersFilterButtonItem.title = discoveredUserSortStyle.nameWithArrow
@@ -48,7 +49,7 @@ class DiscoverContainerViewController: UIViewController {
             title: "NIX",
             style: .Plain,
             target: self,
-            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilter(_:))
+            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilterButtonItem(_:))
         )
         return item
     }()
@@ -102,9 +103,9 @@ class DiscoverContainerViewController: UIViewController {
         currentOption = option
     }
 
-    @objc private func tapDiscoveredUsersFilter(sender: UIBarButtonItem) {
+    @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
 
-        println("tapDiscoveredUsersFilter")
+        discoverViewController?.showFilters(sender)
     }
 
     // MARK: - Navigation
@@ -118,15 +119,19 @@ class DiscoverContainerViewController: UIViewController {
         switch identifier {
 
         case "embedDiscover":
-            let vc = segue.destinationViewController as! DiscoverViewController
-            vc.showProfileOfDiscoveredUserAction = { discoveredUser in
 
+            let vc = segue.destinationViewController as! DiscoverViewController
+
+            vc.showProfileOfDiscoveredUserAction = { discoveredUser in
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
                 }
             }
 
+            discoverViewController = vc
+
         case "showProfile":
+
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
 
             let vc = segue.destinationViewController as! ProfileViewController
