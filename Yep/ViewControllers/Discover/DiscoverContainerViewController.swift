@@ -130,7 +130,7 @@ class DiscoverContainerViewController: UIViewController {
 
     @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
 
-        discoverViewController?.changeMode()
+        discoverViewController?.changeLayoutMode()
     }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {

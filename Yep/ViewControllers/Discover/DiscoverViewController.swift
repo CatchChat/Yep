@@ -27,11 +27,11 @@ final class DiscoverViewController: BaseViewController {
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
     
-    private var userMode: DiscoverFlowLayout.Mode = .Card {
+    private var layoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
-            didChangeLayoutModeAction?(layoutMode: userMode)
+            didChangeLayoutModeAction?(layoutMode: layoutMode)
 
-            layout.mode = userMode
+            layout.mode = layoutMode
             discoveredUsersCollectionView.reloadData()
         }
     }
@@ -134,7 +134,7 @@ final class DiscoverViewController: BaseViewController {
         discoveredUsersCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
         discoveredUsersCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
 
-        userMode = .Card
+        layoutMode = .Card
 
         if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.DiscoveredUsers, inRealm: realm) {
             if let JSON = offlineJSON.JSON, discoveredUsers = parseDiscoveredUsers(JSON) {
@@ -165,15 +165,15 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    func changeMode() {
+    func changeLayoutMode() {
 
-        switch userMode {
+        switch layoutMode {
             
         case .Card:
-            userMode = .Normal
+            layoutMode = .Normal
 
         case .Normal:
-            userMode = .Card
+            layoutMode = .Card
         }
     }
 
@@ -308,7 +308,8 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
         switch indexPath.section {
 
         case Section.User.rawValue:
-            switch userMode {
+
+            switch layoutMode {
 
             case .Normal:
                 let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
@@ -336,7 +337,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
             let discoveredUser = discoveredUsers[indexPath.row]
 
-            switch userMode {
+            switch layoutMode {
 
             case .Normal:
                 let cell = cell as! DiscoverNormalUserCell
@@ -372,7 +373,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         case Section.User.rawValue:
 
-            switch userMode {
+            switch layoutMode {
 
             case .Normal:
                 return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
@@ -395,7 +396,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         case Section.User.rawValue:
 
-            switch userMode {
+            switch layoutMode {
 
             case .Normal:
                 return UIEdgeInsetsZero
