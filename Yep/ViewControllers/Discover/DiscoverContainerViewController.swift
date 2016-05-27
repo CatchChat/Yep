@@ -131,16 +131,7 @@ class DiscoverContainerViewController: UIViewController {
 
     @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
 
-        println("tapDiscoveredUsersLayoutModeButtonItem")
-
-        switch discoveredUsersLayoutMode {
-
-        case .Card:
-            discoveredUsersLayoutMode = .Normal
-
-        case .Normal:
-            discoveredUsersLayoutMode = .Card
-        }
+        discoverViewController?.changeMode(sender)
     }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
@@ -168,8 +159,12 @@ class DiscoverContainerViewController: UIViewController {
                 }
             }
 
-            vc.didChangeDiscoveredUserSortStyleAction = { [weak self] discoveredUserSortStyle in
-                self?.discoveredUserSortStyle = discoveredUserSortStyle
+            vc.didChangeLayoutModeAction = { [weak self] layoutMode in
+                self?.discoveredUsersLayoutMode = layoutMode
+            }
+
+            vc.didChangeSortStyleAction = { [weak self] sortStyle in
+                self?.discoveredUserSortStyle = sortStyle
             }
 
             discoverViewController = vc

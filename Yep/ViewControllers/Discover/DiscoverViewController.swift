@@ -21,7 +21,8 @@ var skillSizeCache = [String: CGRect]()
 final class DiscoverViewController: BaseViewController {
 
     var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
-    var didChangeDiscoveredUserSortStyleAction: ((discoveredUserSortStyle: DiscoveredUserSortStyle) -> Void)?
+    var didChangeLayoutModeAction: ((layoutMode: DiscoverUserMode) -> Void)?
+    var didChangeSortStyleAction: ((sortStyle: DiscoveredUserSortStyle) -> Void)?
 
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
@@ -37,6 +38,9 @@ final class DiscoverViewController: BaseViewController {
     
     private var userMode: DiscoverUserMode = .Card {
         didSet {
+
+            didChangeLayoutModeAction?(layoutMode: userMode)
+
             switch userMode {
 
             case .Card:
@@ -63,7 +67,7 @@ final class DiscoverViewController: BaseViewController {
             discoveredUsersCollectionView.reloadData()
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
-            didChangeDiscoveredUserSortStyleAction?(discoveredUserSortStyle: discoveredUserSortStyle)
+            didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
 
             updateDiscoverUsers(mode: .Static)
 
@@ -183,7 +187,7 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    @IBAction private func changeMode(sender: AnyObject) {
+    @IBAction func changeMode(sender: UIBarButtonItem) {
 
         switch userMode {
             
