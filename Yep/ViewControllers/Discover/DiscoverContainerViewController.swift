@@ -39,7 +39,7 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
     private weak var discoverViewController: DiscoverViewController?
-    private var discoveredUsersLayoutMode: DiscoverUserMode = .Card {
+    private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
             switch discoveredUsersLayoutMode {
 

@@ -11,17 +11,12 @@ import RealmSwift
 import YepKit
 import YepNetworking
 
-enum DiscoverUserMode: Int {
-    case Normal = 0
-    case Card
-}
-
 var skillSizeCache = [String: CGRect]()
 
 final class DiscoverViewController: BaseViewController {
 
     var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
-    var didChangeLayoutModeAction: ((layoutMode: DiscoverUserMode) -> Void)?
+    var didChangeLayoutModeAction: ((layoutMode: DiscoverFlowLayout.Mode) -> Void)?
     var didChangeSortStyleAction: ((sortStyle: DiscoveredUserSortStyle) -> Void)?
 
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
@@ -32,11 +27,11 @@ final class DiscoverViewController: BaseViewController {
     private let CardUserIdentifier = "DiscoverCardUserCell"
     private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
     
-    private var userMode: DiscoverUserMode = .Card {
+    private var userMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
             didChangeLayoutModeAction?(layoutMode: userMode)
 
-            layout.userMode = userMode
+            layout.mode = userMode
             discoveredUsersCollectionView.reloadData()
         }
     }
