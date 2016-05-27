@@ -47,6 +47,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="lvE-Hf-oaf" id="S6d-hX-80e"/>
+                        <outlet property="activityIndicatorTopConstraint" destination="kE2-Yq-uus" id="38s-jc-Fo3"/>
                         <outlet property="feedsTableView" destination="MRp-lr-ct1" id="isS-fM-T1z"/>
                         <segue destination="EC4-13-l76" kind="show" identifier="showFeedsWithSkill" id="fPO-h6-vAb">
                             <nil key="action"/>

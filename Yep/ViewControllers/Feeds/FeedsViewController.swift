@@ -110,6 +110,7 @@ final class FeedsViewController: BaseViewController {
         }
     }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var activityIndicatorTopConstraint: NSLayoutConstraint!
 
     private var selectedIndexPathForMenu: NSIndexPath?
 
@@ -385,6 +386,7 @@ final class FeedsViewController: BaseViewController {
 
         if skill != nil {
             searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+            activityIndicatorTopConstraint.constant = 200
         }
 
         if profileUser != nil {
