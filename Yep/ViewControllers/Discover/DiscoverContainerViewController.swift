@@ -38,6 +38,16 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(
+            image: UIImage(named: "icon_list"),
+            style: .Plain,
+            target: self,
+            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilter(_:))
+        )
+        return item
+    }()
+
     var currentOption: Option = .MeetGenius {
         didSet {
             switch currentOption {
@@ -46,9 +56,13 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = false
                 discoveredUsersContainerView.hidden = true
 
+                navigationItem.rightBarButtonItem = nil
+
             case .FindAll:
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
+
+                navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
     }
@@ -62,6 +76,8 @@ class DiscoverContainerViewController: UIViewController {
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
     }
 
+    // MARK: - Actions
+
     @objc private func chooseOption(sender: UISegmentedControl) {
 
         guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
@@ -69,6 +85,11 @@ class DiscoverContainerViewController: UIViewController {
         }
 
         currentOption = option
+    }
+
+    @objc private func tapDiscoveredUsersFilter(sender: UIBarButtonItem) {
+
+        println("tapDiscoveredUsersFilter")
     }
 
     // MARK: - Navigation
