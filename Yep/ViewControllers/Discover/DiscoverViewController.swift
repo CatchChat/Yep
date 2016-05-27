@@ -21,6 +21,7 @@ var skillSizeCache = [String: CGRect]()
 final class DiscoverViewController: BaseViewController {
 
     var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
+    var didChangeDiscoveredUserSortStyleAction: ((discoveredUserSortStyle: DiscoveredUserSortStyle) -> Void)?
 
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
@@ -62,6 +63,7 @@ final class DiscoverViewController: BaseViewController {
             discoveredUsersCollectionView.reloadData()
             
             filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
+            didChangeDiscoveredUserSortStyleAction?(discoveredUserSortStyle: discoveredUserSortStyle)
 
             updateDiscoverUsers(mode: .Static)
 

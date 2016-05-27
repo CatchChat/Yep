@@ -128,6 +128,10 @@ class DiscoverContainerViewController: UIViewController {
                 }
             }
 
+            vc.didChangeDiscoveredUserSortStyleAction = { [weak self] discoveredUserSortStyle in
+                self?.discoveredUserSortStyle = discoveredUserSortStyle
+            }
+
             discoverViewController = vc
 
         case "showProfile":
