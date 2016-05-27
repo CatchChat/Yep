@@ -3236,7 +3236,7 @@ final class ConversationViewController: BaseViewController {
     private func tryShowConversationWithFeed(feed: DiscoveredFeed?) {
 
         if let feed = feed {
-            performSegueWithIdentifier("tryShowConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+            performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
 
         } else {
             YepAlert.alertSorry(message: NSLocalizedString("Feed not found!", comment: ""), inViewController: self)
@@ -3306,7 +3306,7 @@ final class ConversationViewController: BaseViewController {
 
             vc.setBackButtonWithTitle()
 
-        case "tryShowConversationWithFeed":
+        case "showConversationWithFeed":
 
             let vc = segue.destinationViewController as! ConversationViewController
 
