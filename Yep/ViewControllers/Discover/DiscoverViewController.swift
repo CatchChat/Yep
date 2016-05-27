@@ -289,29 +289,6 @@ final class DiscoverViewController: BaseViewController {
             }
         })
     }
-
-    // MARK: - Navigation
-
-    /*
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-                let discoveredUser = discoveredUsers[indexPath.row]
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                if discoveredUser.id != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                }
-                
-                vc.setBackButtonWithTitle()
-
-                vc.hidesBottomBarWhenPushed = true
-            }
-        }
-    }
-     */
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -454,7 +431,6 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
 
-        //performSegueWithIdentifier("showProfile", sender: indexPath)
         let discoveredUser = discoveredUsers[indexPath.row]
         showProfileOfDiscoveredUserAction?(discoveredUser: discoveredUser)
     }
