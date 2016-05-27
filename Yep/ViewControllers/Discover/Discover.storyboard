@@ -138,16 +138,16 @@
             </objects>
             <point key="canvasLocation" x="199" y="342"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Meet Genius View Controller-->
         <scene sceneID="wHh-OA-mpf">
             <objects>
-                <tableViewController id="CqF-to-La9" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MeetGeniusViewController" id="CqF-to-La9" customClass="MeetGeniusViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="mfd-Jb-tXe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="iRg-C6-Qsk">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="iRg-C6-Qsk">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iRg-C6-Qsk" id="WIG-jm-f17">
