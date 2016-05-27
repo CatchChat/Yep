@@ -38,6 +38,20 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    private var discoveredUsersLayoutMode: DiscoverUserMode = .Card {
+        didSet {
+            switch discoveredUsersLayoutMode {
+
+            case .Card:
+                view.backgroundColor = UIColor.yepBackgroundColor()
+                discoveredUsersLayoutModeButtonItem.image = UIImage(named: "icon_list")
+
+            case .Normal:
+                view.backgroundColor = UIColor.whiteColor()
+                discoveredUsersLayoutModeButtonItem.image = UIImage(named: "icon_minicard")
+            }
+        }
+    }
     lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(
             image: UIImage(named:"icon_list"),
@@ -118,6 +132,15 @@ class DiscoverContainerViewController: UIViewController {
     @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
 
         println("tapDiscoveredUsersLayoutModeButtonItem")
+
+        switch discoveredUsersLayoutMode {
+
+        case .Card:
+            discoveredUsersLayoutMode = .Normal
+
+        case .Normal:
+            discoveredUsersLayoutMode = .Card
+        }
     }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
