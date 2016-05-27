@@ -8,7 +8,6 @@
 
 import Foundation
 import YepKit
-private let yepHost = "soyep.com"
 
 extension NSURL {
 
@@ -27,7 +26,7 @@ extension NSURL {
         return (allQueryItems as NSArray).filteredArrayUsingPredicate(predicate).first as? NSURLQueryItem
     }
     
-    func yep_matchSharedFeed(completion: DiscoveredFeed -> Void) -> Bool {
+    func yep_matchSharedFeed(completion: (feed: DiscoveredFeed?) -> Void) -> Bool {
 
         guard let host = host where host == yepHost else {
             return false
@@ -37,21 +36,25 @@ extension NSURL {
             return false
         }
 
-        if let first = pathComponents[safe: 1] where first == "groups" {
-            if let second = pathComponents[safe: 2] where second == "share" {
-                if let sharedToken = queryItemForKey("token")?.value {
-                    feedWithSharedToken(sharedToken, failureHandler: nil, completion: { feed in
-                        dispatch_async(dispatch_get_main_queue()) {
-                            completion(feed)
-                        }
-                    })
-
-                    return true
-                }
-            }
+        guard
+            let first = pathComponents[safe: 1] where first == "groups",
+            let second = pathComponents[safe: 2] where second == "share",
+            let sharedToken = queryItemForKey("token")?.value else {
+                return false
         }
 
-        return false
+        feedWithSharedToken(sharedToken, failureHandler: { reason, errorMessage in
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(feed: nil)
+            }
+
+        }, completion: { feed in
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(feed: feed)
+            }
+        })
+
+        return true
     }
 
     // make sure put it in last

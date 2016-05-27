@@ -735,7 +735,8 @@
 
 "Retry" = "重试";
 
-"User not found." = "找不到用户。";
+"User not found!" = "找不到用户！";
+"Feed not found!" = "找不到话题！";
 
 "No username" = "没有用户名";
 

@@ -12,7 +12,7 @@ import YepKit
 final class ChatTextView: UITextView {
 
     var tapMentionAction: ((username: String) -> Void)?
-    var tapFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
 
     static let detectionTypeName = "ChatTextStorage.detectionTypeName"
 
@@ -84,6 +84,15 @@ final class ChatTextView: UITextView {
 
 extension ChatTextView: UITextViewDelegate {
 
+    private func tryMatchSharedFeedWithURL(URL: NSURL) -> Bool {
+
+        let matched = URL.yep_matchSharedFeed { [weak self] feed in
+            self?.tapFeedAction?(feed: feed)
+        }
+
+        return matched
+    }
+
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
 
         if let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) {
@@ -93,7 +102,7 @@ extension ChatTextView: UITextViewDelegate {
 
             return false
 
-        } else if URL.yep_matchSharedFeed({ [weak self] feed in self?.tapFeedAction?(feed: feed) }) {
+        } else if tryMatchSharedFeedWithURL(URL) {
             return false
 
         } else {

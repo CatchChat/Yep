@@ -412,6 +412,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return URL.yep_matchSharedFeed({ feed in
 
+            guard let feed = feed else {
+                return
+            }
+
             //println("matchSharedFeed: \(feed)")
 
             guard let
