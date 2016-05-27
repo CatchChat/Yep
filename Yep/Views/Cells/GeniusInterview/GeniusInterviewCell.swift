@@ -10,6 +10,11 @@ import UIKit
 
 class GeniusInterviewCell: UITableViewCell {
 
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var numberLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var detailLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
