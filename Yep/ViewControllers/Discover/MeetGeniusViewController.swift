@@ -10,6 +10,8 @@ import UIKit
 
 class MeetGeniusViewController: UITableViewController {
 
+    let geniusInterviewCellID = "GeniusInterviewCell"
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,6 +22,8 @@ class MeetGeniusViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 
         tableView.tableFooterView = UIView()
+        tableView.rowHeight = 90
+        tableView.registerNib(UINib(nibName: geniusInterviewCellID, bundle: nil), forCellReuseIdentifier: geniusInterviewCellID)
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,24 +34,17 @@ class MeetGeniusViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return 15
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier(geniusInterviewCellID, forIndexPath: indexPath) as! GeniusInterviewCell
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
