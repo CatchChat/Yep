@@ -40,29 +40,16 @@
                             <constraint firstItem="rkh-4n-Lvv" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="120" id="zo9-EA-a8g"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Discover" id="fB0-6p-1av">
-                        <barButtonItem key="leftBarButtonItem" image="icon_list" id="YRd-E8-wyx">
-                            <connections>
-                                <action selector="changeMode:" destination="fxl-gW-1pr" id="HcF-Or-eH7"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title=" " id="7EU-JR-Wwz">
-                            <connections>
-                                <action selector="showFilters:" destination="fxl-gW-1pr" id="8zO-2n-e4O"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Discover" id="fB0-6p-1av"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="rkh-4n-Lvv" id="7Vs-s7-Wtx"/>
                         <outlet property="discoveredUsersCollectionView" destination="06U-4l-fjf" id="9TJ-I4-DW2"/>
-                        <outlet property="filterButtonItem" destination="7EU-JR-Wwz" id="tdr-p2-S0S"/>
-                        <outlet property="modeButtonItem" destination="YRd-E8-wyx" id="WGm-sY-MUc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="689"/>
+            <point key="canvasLocation" x="1094" y="691"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -93,7 +80,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <connections>
-                                    <segue destination="fxl-gW-1pr" kind="embed" identifier="embedDiscover" id="NL5-bR-QUB"/>
+                                    <segue destination="fxl-gW-1pr" kind="embed" identifier="embedDiscover" id="myY-3S-VTe"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -181,7 +168,4 @@
             <point key="canvasLocation" x="1094" y="15"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="icon_list" width="30" height="30"/>
-    </resources>
 </document>

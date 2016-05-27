@@ -26,10 +26,6 @@ final class DiscoverViewController: BaseViewController {
 
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
-    @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
-    
-    @IBOutlet private weak var modeButtonItem: UIBarButtonItem!
-
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private let NormalUserIdentifier = "DiscoverNormalUserCell"
@@ -38,19 +34,7 @@ final class DiscoverViewController: BaseViewController {
     
     private var userMode: DiscoverUserMode = .Card {
         didSet {
-
             didChangeLayoutModeAction?(layoutMode: userMode)
-
-            switch userMode {
-
-            case .Card:
-                view.backgroundColor = UIColor.yepBackgroundColor()
-                modeButtonItem.image = UIImage(named: "icon_list")
-
-            case .Normal:
-                view.backgroundColor = UIColor.whiteColor()
-                modeButtonItem.image = UIImage(named: "icon_minicard")
-            }
 
             layout.userMode = userMode
             discoveredUsersCollectionView.reloadData()
@@ -63,11 +47,10 @@ final class DiscoverViewController: BaseViewController {
 
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
+            didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
+
             discoveredUsers = []
             discoveredUsersCollectionView.reloadData()
-            
-            filterButtonItem.title = discoveredUserSortStyle.nameWithArrow
-            didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
 
             updateDiscoverUsers(mode: .Static)
 
@@ -187,7 +170,7 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    @IBAction func changeMode(sender: UIBarButtonItem) {
+    func changeMode() {
 
         switch userMode {
             
@@ -199,7 +182,7 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    @IBAction func showFilters(sender: UIBarButtonItem) {
+    func showFilters() {
 
         if let window = view.window {
             filterView.showInView(window)

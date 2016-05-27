@@ -38,6 +38,7 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    private weak var discoverViewController: DiscoverViewController?
     private var discoveredUsersLayoutMode: DiscoverUserMode = .Card {
         didSet {
             switch discoveredUsersLayoutMode {
@@ -61,8 +62,6 @@ class DiscoverContainerViewController: UIViewController {
         )
         return item
     }()
-    
-    private weak var discoverViewController: DiscoverViewController?
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
             discoveredUsersFilterButtonItem.title = discoveredUserSortStyle.nameWithArrow
@@ -131,12 +130,12 @@ class DiscoverContainerViewController: UIViewController {
 
     @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
 
-        discoverViewController?.changeMode(sender)
+        discoverViewController?.changeMode()
     }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
 
-        discoverViewController?.showFilters(sender)
+        discoverViewController?.showFilters()
     }
 
     // MARK: - Navigation
@@ -159,6 +158,8 @@ class DiscoverContainerViewController: UIViewController {
                 }
             }
 
+            discoverViewController = vc
+
             vc.didChangeLayoutModeAction = { [weak self] layoutMode in
                 self?.discoveredUsersLayoutMode = layoutMode
             }
@@ -166,8 +167,6 @@ class DiscoverContainerViewController: UIViewController {
             vc.didChangeSortStyleAction = { [weak self] sortStyle in
                 self?.discoveredUserSortStyle = sortStyle
             }
-
-            discoverViewController = vc
 
         case "showProfile":
 
