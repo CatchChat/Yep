@@ -8,7 +8,12 @@
 
 import Foundation
 import YepKit
+
+#if STAGING
 private let yepHost = "soyep.com"
+#else
+private let yepHost = "park-staging.catchchatchina.com"
+#endif
 
 extension NSURL {
 
