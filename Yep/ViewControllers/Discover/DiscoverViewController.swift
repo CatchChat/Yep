@@ -290,24 +290,29 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case Section.User.rawValue:
+        case .User:
             return discoveredUsers.count
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             return discoveredUsers.isEmpty ? 0 : 1
-
-        default:
-            return 0
         }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.User.rawValue:
+        switch section {
+
+        case .User:
 
             switch layoutMode {
 
@@ -320,20 +325,21 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return cell
             }
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
             return cell
-
-        default:
-            return UICollectionViewCell()
         }
     }
     
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.User.rawValue:
+        switch section {
+
+        case .User:
 
             let discoveredUser = discoveredUsers[indexPath.row]
 
@@ -348,7 +354,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             }
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             if let cell = cell as? LoadMoreCollectionViewCell {
 
                 println("load more discovered users")
@@ -361,17 +367,18 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                     cell?.loadingActivityIndicator.stopAnimating()
                 })
             }
-
-        default:
-            break
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.User.rawValue:
+        switch section {
+
+        case .User:
 
             switch layoutMode {
 
@@ -382,19 +389,20 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return CGSize(width: (UIScreen.mainScreen().bounds.width - (10 + 10 + 10)) * 0.5, height: 280)
             }
 
-        case Section.LoadMore.rawValue:
+        case .LoadMore:
             return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
-
-        default:
-            return CGSizeZero
         }
     }
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
 
-        case Section.User.rawValue:
+        case .User:
 
             switch layoutMode {
 
@@ -405,10 +413,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
                 return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             }
 
-        case Section.LoadMore.rawValue:
-            return UIEdgeInsetsZero
-
-        default:
+        case .LoadMore:
             return UIEdgeInsetsZero
         }
     }
