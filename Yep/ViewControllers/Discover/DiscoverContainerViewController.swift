@@ -38,9 +38,14 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+        didSet {
+            discoveredUsersFilterButtonItem.title = discoveredUserSortStyle.nameWithArrow
+        }
+    }
     lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(
-            image: UIImage(named: "icon_list"),
+            title: "NIX",
             style: .Plain,
             target: self,
             action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilter(_:))
@@ -74,6 +79,16 @@ class DiscoverContainerViewController: UIViewController {
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
+
+        if let
+            value = YepUserDefaults.discoveredUserSortStyle.value,
+            _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
+
+            discoveredUserSortStyle = _discoveredUserSortStyle
+
+        } else {
+            discoveredUserSortStyle = .Default
+        }
     }
 
     // MARK: - Actions
