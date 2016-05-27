@@ -3954,7 +3954,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         } else {
             discoverUserByUsername(username, failureHandler: { [weak self] reason, errorMessage in
-                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("User not found.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("User not found!", comment: ""), inViewController: self)
 
             }, completion: { discoveredUser in
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
