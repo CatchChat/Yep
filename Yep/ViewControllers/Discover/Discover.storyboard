@@ -58,14 +58,11 @@
                         <outlet property="discoveredUsersCollectionView" destination="06U-4l-fjf" id="9TJ-I4-DW2"/>
                         <outlet property="filterButtonItem" destination="7EU-JR-Wwz" id="tdr-p2-S0S"/>
                         <outlet property="modeButtonItem" destination="YRd-E8-wyx" id="WGm-sY-MUc"/>
-                        <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="vXx-xt-vxl">
-                            <nil key="action"/>
-                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="609"/>
+            <point key="canvasLocation" x="1094" y="689"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -73,7 +70,7 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="609"/>
+            <point key="canvasLocation" x="1015" y="342"/>
         </scene>
         <!--Discover Container View Controller-->
         <scene sceneID="O2C-is-rbL">
@@ -96,7 +93,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <connections>
-                                    <segue destination="fxl-gW-1pr" kind="embed" id="NL5-bR-QUB"/>
+                                    <segue destination="fxl-gW-1pr" kind="embed" identifier="embedDiscover" id="NL5-bR-QUB"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -128,6 +125,7 @@
                         <outlet property="discoveredUsersContainerView" destination="tFq-8H-AGD" id="saM-Ql-bS0"/>
                         <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
                         <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
+                        <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -180,7 +178,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cMF-Xn-gFB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="54"/>
+            <point key="canvasLocation" x="1094" y="15"/>
         </scene>
     </scenes>
     <resources>

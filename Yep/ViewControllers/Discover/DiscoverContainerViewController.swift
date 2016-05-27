@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 class DiscoverContainerViewController: UIViewController {
 
@@ -68,6 +69,30 @@ class DiscoverContainerViewController: UIViewController {
         }
 
         currentOption = option
+    }
+
+    // MARK: - Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "embedDiscover":
+            let vc = segue.destinationViewController as! DiscoverViewController
+            vc.showProfileOfDiscoveredUserAction = { discoveredUser in
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                }
+            }
+
+        default:
+            break
+        }
     }
 }
 

@@ -20,6 +20,8 @@ var skillSizeCache = [String: CGRect]()
 
 final class DiscoverViewController: BaseViewController {
 
+    var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
+
     @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
     
     @IBOutlet private weak var filterButtonItem: UIBarButtonItem!
@@ -290,6 +292,7 @@ final class DiscoverViewController: BaseViewController {
 
     // MARK: - Navigation
 
+    /*
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showProfile" {
@@ -308,6 +311,7 @@ final class DiscoverViewController: BaseViewController {
             }
         }
     }
+     */
 }
 
 // MARK: UITableViewDataSource, UITableViewDelegate
@@ -449,8 +453,10 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
-        
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+
+        //performSegueWithIdentifier("showProfile", sender: indexPath)
+        let discoveredUser = discoveredUsers[indexPath.row]
+        showProfileOfDiscoveredUserAction?(discoveredUser: discoveredUser)
     }
 }
 
