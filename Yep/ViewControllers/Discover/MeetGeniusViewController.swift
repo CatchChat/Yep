@@ -49,6 +49,8 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(geniusInterviewCellID, forIndexPath: indexPath) as! GeniusInterviewCell
+        cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
+        cell.numberLabel.text = String(format: "#%2d", indexPath.row)
         return cell
     }
 }
