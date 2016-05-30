@@ -13,6 +13,7 @@ import RealmSwift
 class ChooseChannelViewController: UITableViewController {
 
     var currentPickedSkill: Skill?
+
     var pickedSkillAction: ((skill: Skill?) -> Void)?
 
     @IBOutlet weak var doneButton: UIBarButtonItem! {
@@ -91,9 +92,22 @@ class ChooseChannelViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
-        let skill = skills[indexPath.row]
-        cell.textLabel?.text = skill.localName
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            currentPickedSkill = nil
+            cell.textLabel?.text = NSLocalizedString("Default", comment: "")
+        case .Skills:
+            let skill = skills[indexPath.row]
+            cell.textLabel?.text = skill.localName
+        }
+
         cell.selectedBackgroundView = selectedBackgroundView
+
         return cell
     }
 
@@ -105,11 +119,12 @@ class ChooseChannelViewController: UITableViewController {
 
         switch section {
         case .DefaultSkill:
-            break
+            currentPickedSkill = nil
         case .Skills:
             currentPickedSkill = skills[indexPath.row]
-            doneButton.enabled = true
         }
+
+        doneButton.enabled = true
     }
 }
 
