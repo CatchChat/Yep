@@ -17,6 +17,8 @@ class MeetGeniusViewController: UIViewController {
             tableView.tableFooterView = UIView()
             tableView.rowHeight = 90
             tableView.registerNib(UINib(nibName: geniusInterviewCellID, bundle: nil), forCellReuseIdentifier: geniusInterviewCellID)
+
+            tableView.tableFooterView = InfoView(NSLocalizedString("To be continue.", comment: ""))
         }
     }
 
@@ -40,7 +42,7 @@ class MeetGeniusViewController: UIViewController {
 extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 0
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -50,7 +52,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(geniusInterviewCellID, forIndexPath: indexPath) as! GeniusInterviewCell
         cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
-        cell.numberLabel.text = String(format: "#%2d", indexPath.row)
+        cell.numberLabel.text = String(format: "#%03d", indexPath.row)
         return cell
     }
 }
