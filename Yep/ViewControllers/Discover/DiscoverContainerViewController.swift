@@ -92,7 +92,7 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
 
-                navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
+                //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
