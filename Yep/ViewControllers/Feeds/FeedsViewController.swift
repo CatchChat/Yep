@@ -386,7 +386,7 @@ final class FeedsViewController: BaseViewController {
 
         if skill != nil {
             searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
-            activityIndicatorTopConstraint.constant = 200
+            //activityIndicatorTopConstraint.constant = 200
         }
 
         if profileUser != nil {
