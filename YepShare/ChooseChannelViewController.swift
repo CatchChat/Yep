@@ -12,7 +12,8 @@ import RealmSwift
 
 class ChooseChannelViewController: UITableViewController {
 
-    var pickedSkillAction: ((skill: Skill) -> Void)?
+    var currentPickedSkill: Skill?
+    var pickedSkillAction: ((skill: Skill?) -> Void)?
 
     @IBOutlet weak var doneButton: UIBarButtonItem! {
         didSet {
@@ -57,10 +58,7 @@ class ChooseChannelViewController: UITableViewController {
 
     @IBAction func done(sender: UIBarButtonItem) {
 
-        if let indexPath = tableView.indexPathForSelectedRow {
-            let skill = skills[indexPath.row]
-            pickedSkillAction?(skill: skill)
-        }
+        pickedSkillAction?(skill: currentPickedSkill)
 
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -86,6 +84,7 @@ class ChooseChannelViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        currentPickedSkill = skills[indexPath.row]
         doneButton.enabled = true
     }
 }
