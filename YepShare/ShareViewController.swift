@@ -50,6 +50,8 @@ class ShareViewController: SLComposeServiceViewController {
             let nvc = segue.destinationViewController as! UINavigationController
             let vc = nvc.topViewController as! ChooseChannelViewController
 
+            vc.currentPickedSkill = skill
+
             vc.pickedSkillAction = { [weak self] skill in
                 self?.skill = skill
             }
