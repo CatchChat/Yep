@@ -101,7 +101,7 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        currentOption = .MeetGenius
+        currentOption = .FindAll
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
