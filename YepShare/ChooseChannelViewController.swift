@@ -65,12 +65,27 @@ class ChooseChannelViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    enum Section: Int {
+        case DefaultSkill
+        case Skills
+    }
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return skills.count
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            return 1
+        case .Skills:
+            return skills.count
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -84,8 +99,17 @@ class ChooseChannelViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
-        currentPickedSkill = skills[indexPath.row]
-        doneButton.enabled = true
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            break
+        case .Skills:
+            currentPickedSkill = skills[indexPath.row]
+            doneButton.enabled = true
+        }
     }
 }
 
