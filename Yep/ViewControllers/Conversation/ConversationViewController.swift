@@ -757,6 +757,7 @@ final class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
+        title = nil
         navigationItem.titleView = titleView
 
 
