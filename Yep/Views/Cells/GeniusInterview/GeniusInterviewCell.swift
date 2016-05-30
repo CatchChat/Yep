@@ -14,10 +14,12 @@ class GeniusInterviewCell: UITableViewCell {
     @IBOutlet weak var numberLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var detailLabel: UILabel!
+    @IBOutlet weak var accessoryImageView: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
