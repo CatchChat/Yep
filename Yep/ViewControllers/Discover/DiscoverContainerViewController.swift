@@ -101,6 +101,8 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = NSLocalizedString("Discover", comment: "")
+
         currentOption = .FindAll
 
 //        segmentedControl.selectedSegmentIndex = currentOption.rawValue
