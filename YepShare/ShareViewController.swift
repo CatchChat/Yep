@@ -8,6 +8,7 @@
 
 import UIKit
 import Social
+import AVFoundation
 import MobileCoreServices.UTType
 import YepKit
 import YepConfig
@@ -178,8 +179,58 @@ class ShareViewController: SLComposeServiceViewController {
 
             doCreateFeed()
 
-        case .Audio(let body, let fileURL):
-            break
+        case .Audio(_, let fileURL):
+
+            let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+            let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+            let audioMetaDataInfo = [
+                YepConfig.MetaData.audioDuration: audioDuration,
+                YepConfig.MetaData.audioSamples: [0.5, 0.5, 0.5],
+            ]
+
+            var metaDataString = ""
+            if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String {
+                    metaDataString = audioMetaDataString
+                }
+            }
+
+            let uploadVoiceGroup = dispatch_group_create()
+
+            dispatch_group_enter(uploadVoiceGroup)
+
+            let source: UploadAttachment.Source = .FilePath(fileURL.path!)
+
+            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
+
+            tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
+
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(uploadVoiceGroup)
+                }
+
+            }, completion: { uploadedAttachment in
+
+                let audioInfo: JSONDictionary = [
+                    "id": uploadedAttachment.ID
+                ]
+
+                attachments = [audioInfo]
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    dispatch_group_leave(uploadVoiceGroup)
+                }
+            })
+
+            dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) {
+
+                kind = .Audio
+                
+                doCreateFeed()
+            }
 
         case .URL(let body, let URL):
 
