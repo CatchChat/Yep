@@ -79,6 +79,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     var urls: [NSURL] = []
     var images: [UIImage] = []
+    var fileURLs: [NSURL] = []
 
     override func presentationAnimationDidFinish() {
 
@@ -92,6 +93,12 @@ class ShareViewController: SLComposeServiceViewController {
             self?.images = images
 
             print("images: \(self?.images)")
+        }
+
+        fileURLsFromExtensionContext(extensionContext!) { [weak self] fileURLs in
+            self?.fileURLs = fileURLs
+
+            print("fileURLs: \(self?.fileURLs)")
         }
     }
 
@@ -364,5 +371,41 @@ extension ShareViewController {
             completion(images: images)
         }
     }
+
+    private func fileURLsFromExtensionContext(extensionContext: NSExtensionContext, completion: (fileURLs: [NSURL]) -> Void) {
+
+        var fileURLs: [NSURL] = []
+
+        guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
+            return completion(fileURLs: [])
+        }
+
+        let fileURLTypeIdentifier = kUTTypeFileURL as String
+
+        let group = dispatch_group_create()
+
+        for extensionItem in extensionItems {
+            for attachment in extensionItem.attachments as! [NSItemProvider] {
+                if attachment.hasItemConformingToTypeIdentifier(fileURLTypeIdentifier) {
+
+                    dispatch_group_enter(group)
+
+                    attachment.loadItemForTypeIdentifier(fileURLTypeIdentifier, options: nil) { secureCoding, error in
+
+                        if let url = secureCoding as? NSURL {
+                            fileURLs.append(url)
+                        }
+
+                        dispatch_group_leave(group)
+                    }
+                }
+            }
+        }
+        
+        dispatch_group_notify(group, dispatch_get_main_queue()) {
+            completion(fileURLs: fileURLs)
+        }
+    }
+
 }
 
