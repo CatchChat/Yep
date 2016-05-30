@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="-2696.5" y="-7"/>
         </scene>
-        <!--DiscoverViewController-->
+        <!--DiscoverContainerViewController-->
         <scene sceneID="AkL-pk-6jh">
             <objects>
-                <viewControllerPlaceholder storyboardName="Discover" referencedIdentifier="DiscoverViewController" id="Wvc-fE-8jv" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Discover" referencedIdentifier="DiscoverContainerViewController" id="Wvc-fE-8jv" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="MYh-Jg-f06"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AB4-QY-gPe" userLabel="First Responder" sceneMemberID="firstResponder"/>

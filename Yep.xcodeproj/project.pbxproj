@@ -139,6 +139,9 @@
 		5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */; };
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
+		503E101F1CF7F310000FA7C6 /* MeetGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E101E1CF7F310000FA7C6 /* MeetGeniusViewController.swift */; };
+		503E10231CF825D5000FA7C6 /* GeniusInterviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E10211CF825D5000FA7C6 /* GeniusInterviewCell.swift */; };
+		503E10241CF825D5000FA7C6 /* GeniusInterviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503E10221CF825D5000FA7C6 /* GeniusInterviewCell.xib */; };
 		503E72121CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
 		503E72191CF2A59200822B91 /* YepConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72181CF2A59200822B91 /* YepConfigTests.swift */; };
 		503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
@@ -452,6 +455,7 @@
 		50E7C7051CF6D59700E8D951 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7041CF6D59700E8D951 /* Profile.storyboard */; };
 		50E7C7071CF6D8A600E8D951 /* Feeds.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */; };
 		50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */; };
+		50E7C70B1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */; };
 		50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */; };
 		50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */; };
 		50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */; };
@@ -813,6 +817,9 @@
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
+		503E101E1CF7F310000FA7C6 /* MeetGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeetGeniusViewController.swift; path = ViewControllers/Discover/MeetGeniusViewController.swift; sourceTree = "<group>"; };
+		503E10211CF825D5000FA7C6 /* GeniusInterviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewCell.swift; path = Views/Cells/GeniusInterview/GeniusInterviewCell.swift; sourceTree = "<group>"; };
+		503E10221CF825D5000FA7C6 /* GeniusInterviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GeniusInterviewCell.xib; path = Views/Cells/GeniusInterview/GeniusInterviewCell.xib; sourceTree = "<group>"; };
 		503E72081CF2A59200822B91 /* YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E720A1CF2A59200822B91 /* YepConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepConfig.h; sourceTree = "<group>"; };
 		503E720C1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1130,6 +1137,7 @@
 		50E7C7041CF6D59700E8D951 /* Profile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Profile.storyboard; path = ViewControllers/Profile/Profile.storyboard; sourceTree = "<group>"; };
 		50E7C7061CF6D8A600E8D951 /* Feeds.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Feeds.storyboard; path = ViewControllers/Feeds/Feeds.storyboard; sourceTree = "<group>"; };
 		50E7C7081CF6D9EE00E8D951 /* Contacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Contacts.storyboard; path = ViewControllers/Contacts/Contacts.storyboard; sourceTree = "<group>"; };
+		50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverContainerViewController.swift; path = ViewControllers/Discover/DiscoverContainerViewController.swift; sourceTree = "<group>"; };
 		50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepAsset.swift; path = Helpers/YepAsset.swift; sourceTree = "<group>"; };
 		50EB8CBD1AE89ED8001AC1EE /* ChatLeftVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftVideoCell.swift; path = Views/Cells/ChatLeftVideo/ChatLeftVideoCell.swift; sourceTree = "<group>"; };
 		50EB8CC21AE89F12001AC1EE /* ChatRightVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightVideoCell.swift; path = Views/Cells/ChatRightVideo/ChatRightVideoCell.swift; sourceTree = "<group>"; };
@@ -1764,6 +1772,8 @@
 		5023DE2E1AB685F100B3EE96 /* Discover */ = {
 			isa = PBXGroup;
 			children = (
+				50E7C70A1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift */,
+				503E101E1CF7F310000FA7C6 /* MeetGeniusViewController.swift */,
 				50402F5B1C929A140071099F /* DiscoverCollectionView.swift */,
 				6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */,
 				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
@@ -1855,6 +1865,7 @@
 		5023DE3A1AB697A700B3EE96 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				503E10201CF82572000FA7C6 /* GeniusInterview */,
 				336563F61CCF2F7000598378 /* ChatLeftShareFeed */,
 				336563F51CCF2F2C00598378 /* ChatRightShareFeed */,
 				338940341CB7C80900B276C1 /* NewFeedPreview */,
@@ -2179,6 +2190,15 @@
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
 			);
 			name = Conversation;
+			sourceTree = "<group>";
+		};
+		503E10201CF82572000FA7C6 /* GeniusInterview */ = {
+			isa = PBXGroup;
+			children = (
+				503E10211CF825D5000FA7C6 /* GeniusInterviewCell.swift */,
+				503E10221CF825D5000FA7C6 /* GeniusInterviewCell.xib */,
+			);
+			name = GeniusInterview;
 			sourceTree = "<group>";
 		};
 		503E72091CF2A59200822B91 /* YepConfig */ = {
@@ -4027,6 +4047,7 @@
 				50DEE0321BE339B000015741 /* LoadMoreTableViewCell.xib in Resources */,
 				502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */,
 				502B60601BD112E500D9C17E /* QuickPickPhotosCell.xib in Resources */,
+				503E10241CF825D5000FA7C6 /* GeniusInterviewCell.xib in Resources */,
 				50008D3B1CAE537400245296 /* SearchedFeedCell.xib in Resources */,
 				504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */,
 				50E34C281CBB8A49007CAE80 /* SearchFeeds.storyboard in Resources */,
@@ -4556,6 +4577,7 @@
 				50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */,
 				50E34C171CB4E3E5007CAE80 /* SearchMoreResultsCell.swift in Sources */,
 				8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */,
+				503E101F1CF7F310000FA7C6 /* MeetGeniusViewController.swift in Sources */,
 				50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */,
 				50A0E3011C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift in Sources */,
 				50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */,
@@ -4569,6 +4591,7 @@
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
+				503E10231CF825D5000FA7C6 /* GeniusInterviewCell.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
@@ -4645,6 +4668,7 @@
 				50DEE0361BE3720F00015741 /* LoadMoreCollectionViewCell.swift in Sources */,
 				503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */,
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
+				50E7C70B1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
