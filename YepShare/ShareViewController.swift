@@ -106,7 +106,9 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let URL = urls.first {
+        if let fileURL = fileURLs.first {
+            shareType = .Audio(body: body, fileURL: fileURL)
+        } else if let URL = urls.first {
             shareType = .URL(body: body, URL: URL)
         } else if !images.isEmpty {
             shareType = .Images(body: body, images: images)
@@ -130,12 +132,14 @@ class ShareViewController: SLComposeServiceViewController {
     enum ShareType {
 
         case PlainText(body: String)
+        case Audio(body: String, fileURL: NSURL)
         case URL(body: String, URL: NSURL)
         case Images(body: String, images: [UIImage])
 
         var body: String {
             switch self {
             case .PlainText(let body): return body
+            case .Audio(let body, _): return body
             case .URL(let body, _): return body
             case .Images(let body, _): return body
             }
@@ -173,6 +177,9 @@ class ShareViewController: SLComposeServiceViewController {
         case .PlainText:
 
             doCreateFeed()
+
+        case .Audio(let body, let fileURL):
+            break
 
         case .URL(let body, let URL):
 
