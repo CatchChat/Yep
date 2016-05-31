@@ -185,9 +185,6 @@ class ShareViewController: SLComposeServiceViewController {
             let audioAsset = AVURLAsset(URL: fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            //let fileRef = UnsafeMutablePointer<ExtAudioFileRef>.alloc(1)
-            //ExtAudioFileOpenURL(fileURL, fileRef)
-
             var audioSamples: [CGFloat] = []
             var audioSampleMax: CGFloat = 0
             do {
@@ -215,23 +212,17 @@ class ShareViewController: SLComposeServiceViewController {
 
                 let bytesPerSample = channelCount * 2
 
-                let fullSongData = NSMutableData()
-
                 reader.startReading()
-
-                var totalBytes = 0
 
                 func decibel(amplitude: CGFloat) -> CGFloat {
                     return 20 * log10(abs(amplitude) / 32767)
                 }
 
                 while reader.status == AVAssetReaderStatus.Reading {
-
                     guard let trachOutput = reader.outputs.first else { continue }
                     guard let sampleBuffer = trachOutput.copyNextSampleBuffer() else { continue }
                     guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) else { continue }
                     let length = CMBlockBufferGetDataLength(blockBuffer)
-                    totalBytes += length
                     let data = NSMutableData(length: length)!
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, length, data.mutableBytes)
                     let samples = UnsafeMutablePointer<Int16>(data.mutableBytes)
@@ -239,7 +230,6 @@ class ShareViewController: SLComposeServiceViewController {
                     if samplesCount > 0 {
                         let left = samples.memory
                         let d = abs(decibel(CGFloat(left)))
-                        print("left: \(d)")
                         guard d.isNormal else {
                             continue
                         }
@@ -248,13 +238,6 @@ class ShareViewController: SLComposeServiceViewController {
                             audioSampleMax = d
                         }
                     }
-                    /*
-                    for _ in 0..<samplesCount {
-                        let left = samples.memory
-                        samples += 1
-                        print("left: \(left)")
-                    }
-                     */
                 }
 
                 audioSamples = audioSamples.map({ $0 / audioSampleMax })
