@@ -249,15 +249,13 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
         let voiceSampleValues = sampleValues
 
-        let maxNumber = 50
-        let finalNumber = nonlinearLimit(voiceSampleValues.count, toMax: maxNumber)
+        let finalCount = limitedAudioSamplesCount(voiceSampleValues.count)
 
-        println("maxNumber: \(maxNumber)")
         println("voiceSampleValues.count: \(voiceSampleValues.count)")
-        println("finalNumber: \(finalNumber)")
+        println("finalCount: \(finalCount)")
 
         // 再做一个抽样
-        let limitedSampleValues = averageSamplingFrom(voiceSampleValues, withCount: finalNumber)
+        let limitedSampleValues = averageSamplingFrom(voiceSampleValues, withCount: finalCount)
         println("limitedSampleValues: \(limitedSampleValues.count)")
 
         let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: voiceSampleValues.count, limitedSampleValues: limitedSampleValues)

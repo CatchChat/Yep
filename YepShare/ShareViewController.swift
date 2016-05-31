@@ -188,9 +188,8 @@ class ShareViewController: SLComposeServiceViewController {
             let fakeAudioSamples: [CGFloat] = (0..<Int(audioDuration * 10)).map({ _ in
                 CGFloat(arc4random() % 100) / 100
             })
-            let maxNumber = 50
-            let finalNumber = nonlinearLimit(fakeAudioSamples.count, toMax: maxNumber)
-            let limitedAudioSamples = averageSamplingFrom(fakeAudioSamples, withCount: finalNumber)
+            let finalCount = limitedAudioSamplesCount(fakeAudioSamples.count)
+            let limitedAudioSamples = averageSamplingFrom(fakeAudioSamples, withCount: finalCount)
 
             let audioMetaDataInfo = [
                 YepConfig.MetaData.audioDuration: audioDuration,
