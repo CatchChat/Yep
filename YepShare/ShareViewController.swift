@@ -76,19 +76,19 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     override func isContentValid() -> Bool {
-        return !(contentText ?? "").isEmpty || !urls.isEmpty
+        return !(contentText ?? "").isEmpty || !webURLs.isEmpty
     }
 
-    var urls: [NSURL] = []
+    var webURLs: [NSURL] = []
     var images: [UIImage] = []
     var fileURLs: [NSURL] = []
 
     override func presentationAnimationDidFinish() {
 
-        urlsFromExtensionContext(extensionContext!) { [weak self] urls in
-            self?.urls = urls
+        webURLsFromExtensionContext(extensionContext!) { [weak self] webURLs in
+            self?.webURLs = webURLs
 
-            print("urls: \(self?.urls)")
+            print("webURLs: \(self?.webURLs)")
         }
 
         imagesFromExtensionContext(extensionContext!) { [weak self] images in
@@ -110,7 +110,7 @@ class ShareViewController: SLComposeServiceViewController {
         let body = contentText ?? ""
         if let fileURL = fileURLs.first where fileURL.pathExtension == "m4a" {
             shareType = .Audio(body: body, fileURL: fileURL)
-        } else if let URL = urls.first {
+        } else if let URL = webURLs.first {
             shareType = .URL(body: body, URL: URL)
         } else if !images.isEmpty {
             shareType = .Images(body: body, images: images)
@@ -434,12 +434,12 @@ class ShareViewController: SLComposeServiceViewController {
 
 extension ShareViewController {
 
-    private func urlsFromExtensionContext(extensionContext: NSExtensionContext, completion: (urls: [NSURL]) -> Void) {
+    private func webURLsFromExtensionContext(extensionContext: NSExtensionContext, completion: (webURLs: [NSURL]) -> Void) {
 
-        var urls: [NSURL] = []
+        var webURLs: [NSURL] = []
 
         guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
-            return completion(urls: [])
+            return completion(webURLs: [])
         }
 
         let URLTypeIdentifier = kUTTypeURL as String
@@ -454,8 +454,8 @@ extension ShareViewController {
 
                     attachment.loadItemForTypeIdentifier(URLTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let url = secureCoding as? NSURL {
-                            urls.append(url)
+                        if let url = secureCoding as? NSURL where !url.fileURL {
+                            webURLs.append(url)
                         }
 
                         dispatch_group_leave(group)
@@ -465,7 +465,7 @@ extension ShareViewController {
         }
         
         dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion(urls: urls)
+            completion(webURLs: webURLs)
         }
     }
 
