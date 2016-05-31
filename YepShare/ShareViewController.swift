@@ -188,6 +188,8 @@ class ShareViewController: SLComposeServiceViewController {
             //let fileRef = UnsafeMutablePointer<ExtAudioFileRef>.alloc(1)
             //ExtAudioFileOpenURL(fileURL, fileRef)
 
+            var audioSamples: [CGFloat] = []
+            var audioSampleMax: CGFloat = 0
             do {
                 let reader = try! AVAssetReader(asset: audioAsset)
                 let track = audioAsset.tracks.first!
@@ -219,6 +221,10 @@ class ShareViewController: SLComposeServiceViewController {
 
                 var totalBytes = 0
 
+                func decibel(amplitude: CGFloat) -> CGFloat {
+                    return 20 * log10(abs(amplitude) / 32767)
+                }
+
                 while reader.status == AVAssetReaderStatus.Reading {
 
                     guard let trachOutput = reader.outputs.first else { continue }
@@ -228,21 +234,42 @@ class ShareViewController: SLComposeServiceViewController {
                     totalBytes += length
                     let data = NSMutableData(length: length)!
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, length, data.mutableBytes)
-                    var samples = UnsafeMutablePointer<Int16>(data.mutableBytes)
+                    let samples = UnsafeMutablePointer<Int16>(data.mutableBytes)
                     let samplesCount = length / bytesPerSample
+                    if samplesCount > 0 {
+                        let left = samples.memory
+                        let d = abs(decibel(CGFloat(left)))
+                        print("left: \(d)")
+                        guard d.isNormal else {
+                            continue
+                        }
+                        audioSamples.append(d)
+                        if d > audioSampleMax {
+                            audioSampleMax = d
+                        }
+                    }
+                    /*
                     for _ in 0..<samplesCount {
                         let left = samples.memory
                         samples += 1
                         print("left: \(left)")
                     }
+                     */
                 }
+
+                audioSamples = audioSamples.map({ $0 / audioSampleMax })
             }
 
+            let finalCount = limitedAudioSamplesCount(audioSamples.count)
+            let limitedAudioSamples = averageSamplingFrom(audioSamples, withCount: finalCount)
+
+            /*
             let fakeAudioSamples: [CGFloat] = (0..<Int(audioDuration * 10)).map({ _ in
                 CGFloat(arc4random() % 100) / 100
             })
             let finalCount = limitedAudioSamplesCount(fakeAudioSamples.count)
             let limitedAudioSamples = averageSamplingFrom(fakeAudioSamples, withCount: finalCount)
+            */
 
             let audioMetaDataInfo = [
                 YepConfig.MetaData.audioDuration: audioDuration,
