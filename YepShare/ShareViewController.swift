@@ -108,7 +108,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first {
+        if let fileURL = fileURLs.first where fileURL.pathExtension == "m4a" {
             shareType = .Audio(body: body, fileURL: fileURL)
         } else if let URL = urls.first {
             shareType = .URL(body: body, URL: URL)
@@ -182,7 +182,11 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .Audio(_, let fileURL):
 
-            let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+            let tempPath = NSTemporaryDirectory().stringByAppendingString("music.m4a")
+            let tempURL = NSURL(fileURLWithPath: tempPath)
+            try! NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
+
+            let audioAsset = AVURLAsset(URL: tempURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
             var audioSamples: [CGFloat] = []
@@ -252,7 +256,7 @@ class ShareViewController: SLComposeServiceViewController {
             })
             let finalCount = limitedAudioSamplesCount(fakeAudioSamples.count)
             let limitedAudioSamples = averageSamplingFrom(fakeAudioSamples, withCount: finalCount)
-            */
+             */
 
             let audioMetaDataInfo = [
                 YepConfig.MetaData.audioDuration: audioDuration,
