@@ -41,6 +41,8 @@
 				<integer>1</integer>
                 <key>NSExtensionActivationSupportsImageWithMaxCount</key>
                 <integer>3</integer>
+				<key>NSExtensionActivationSupportsFileWithMaxCount</key>
+				<integer>1</integer>
 			</dict>
 		</dict>
 		<key>NSExtensionMainStoryboard</key>
