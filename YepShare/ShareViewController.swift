@@ -9,6 +9,7 @@
 import UIKit
 import Social
 import AVFoundation
+import AudioToolbox
 import MobileCoreServices.UTType
 import YepKit
 import YepConfig
@@ -183,6 +184,11 @@ class ShareViewController: SLComposeServiceViewController {
 
             let audioAsset = AVURLAsset(URL: fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+            //let cfURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, fileURL.path!, kCFURLPOSIXPathStyle, false)
+            //let cfURL = CFURLCreateWithString(kCFAllocatorDefault, fileURL.path!, nil)
+            let fileRef = UnsafeMutablePointer<ExtAudioFileRef>.alloc(1)
+            ExtAudioFileOpenURL(fileURL, fileRef)
 
             let audioMetaDataInfo = [
                 YepConfig.MetaData.audioDuration: audioDuration,
