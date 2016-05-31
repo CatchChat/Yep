@@ -185,6 +185,59 @@ class ShareViewController: SLComposeServiceViewController {
             let audioAsset = AVURLAsset(URL: fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
+            //let fileRef = UnsafeMutablePointer<ExtAudioFileRef>.alloc(1)
+            //ExtAudioFileOpenURL(fileURL, fileRef)
+
+            do {
+                let reader = try! AVAssetReader(asset: audioAsset)
+                let track = audioAsset.tracks.first!
+                let outputSettings: [String: AnyObject] = [
+                    AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                    AVLinearPCMBitDepthKey: 16,
+                    AVLinearPCMIsBigEndianKey: false,
+                    AVLinearPCMIsFloatKey: false,
+                    AVLinearPCMIsNonInterleaved: false,
+                ]
+                let output = AVAssetReaderTrackOutput(track: track, outputSettings: outputSettings)
+                reader.addOutput(output)
+
+                var sampleRate: Double = 0
+                var channelCount: Int = 0
+                for item in track.formatDescriptions as! [CMAudioFormatDescription] {
+                    let formatDescription = CMAudioFormatDescriptionGetStreamBasicDescription(item)
+                    sampleRate = Double(formatDescription.memory.mSampleRate)
+                    channelCount = Int(formatDescription.memory.mChannelsPerFrame)
+                    print("sampleRate: \(sampleRate)")
+                    print("channelCount: \(channelCount)")
+                }
+
+                let bytesPerSample = channelCount * 2
+
+                let fullSongData = NSMutableData()
+
+                reader.startReading()
+
+                var totalBytes = 0
+
+                while reader.status == AVAssetReaderStatus.Reading {
+
+                    guard let trachOutput = reader.outputs.first else { continue }
+                    guard let sampleBuffer = trachOutput.copyNextSampleBuffer() else { continue }
+                    guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) else { continue }
+                    let length = CMBlockBufferGetDataLength(blockBuffer)
+                    totalBytes += length
+                    let data = NSMutableData(length: length)!
+                    CMBlockBufferCopyDataBytes(blockBuffer, 0, length, data.mutableBytes)
+                    var samples = UnsafeMutablePointer<Int16>(data.mutableBytes)
+                    let samplesCount = length / bytesPerSample
+                    for _ in 0..<samplesCount {
+                        let left = samples.memory
+                        samples += 1
+                        print("left: \(left)")
+                    }
+                }
+            }
+
             let fakeAudioSamples: [CGFloat] = (0..<Int(audioDuration * 10)).map({ _ in
                 CGFloat(arc4random() % 100) / 100
             })
