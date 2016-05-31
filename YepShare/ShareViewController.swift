@@ -185,14 +185,13 @@ class ShareViewController: SLComposeServiceViewController {
             let audioAsset = AVURLAsset(URL: fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            //let cfURL = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, fileURL.path!, kCFURLPOSIXPathStyle, false)
-            //let cfURL = CFURLCreateWithString(kCFAllocatorDefault, fileURL.path!, nil)
-            let fileRef = UnsafeMutablePointer<ExtAudioFileRef>.alloc(1)
-            ExtAudioFileOpenURL(fileURL, fileRef)
+            let fakeAudioSamples: [CGFloat] = (0..<Int(audioDuration * 10)).map({ _ in
+                CGFloat(arc4random() % 100) / 100
+            })
 
             let audioMetaDataInfo = [
                 YepConfig.MetaData.audioDuration: audioDuration,
-                YepConfig.MetaData.audioSamples: [0.5, 0.5, 0.5],
+                YepConfig.MetaData.audioSamples: fakeAudioSamples,
             ]
 
             var metaDataString = ""
