@@ -84,3 +84,43 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
     return metaDataString
 }
 
+// 我们来一个 [0, 无穷] 到 [0, 1] 的映射
+// 函数 y = 1 - 1 / e^(x/100) 挺合适
+public func nonlinearLimit(x: Int, toMax max: Int) -> Int {
+    let n = 1 - 1 / exp(Double(x) / 100)
+    return Int(Double(max) * n)
+}
+/*
+// mini test
+for var i = 0; i < 1000; i+=10 {
+    let finalNumber = f(i, max:  maxNumber)
+    println("i: \(i), finalNumber: \(finalNumber)")
+}
+*/
+
+public func averageSamplingFrom(values:[CGFloat], withCount count: Int) -> [CGFloat] {
+
+    let step = Double(values.count) / Double(count)
+
+    var outoutValues = [CGFloat]()
+
+    var x: Double = 0
+
+    for _ in 0..<count {
+
+        let index = Int(x)
+
+        if let value = values[safe: index] {
+            let fixedValue = CGFloat(Int(value * 100)) / 100 // 最多两位小数
+            outoutValues.append(fixedValue)
+
+        } else {
+            break
+        }
+
+        x += step
+    }
+
+    return outoutValues
+}
+
