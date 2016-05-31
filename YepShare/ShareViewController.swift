@@ -182,7 +182,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .Audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().stringByAppendingString("music.m4a")
+            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(NSUUID().UUIDString).m4a")
             let tempURL = NSURL(fileURLWithPath: tempPath)
             try! NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
 
