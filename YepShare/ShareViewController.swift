@@ -210,8 +210,8 @@ class ShareViewController: SLComposeServiceViewController {
                     let formatDescription = CMAudioFormatDescriptionGetStreamBasicDescription(item)
                     sampleRate = Double(formatDescription.memory.mSampleRate)
                     channelCount = Int(formatDescription.memory.mChannelsPerFrame)
-                    print("sampleRate: \(sampleRate)")
-                    print("channelCount: \(channelCount)")
+                    //print("sampleRate: \(sampleRate)")
+                    //print("channelCount: \(channelCount)")
                 }
 
                 let bytesPerSample = channelCount * 2
