@@ -2133,6 +2133,18 @@ final class ConversationViewController: BaseViewController {
             textContentTextViewFrames[key] = frame
         }
     }
+    private func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
+
+        let layoutCache = ChatTextCellLayoutCache(
+            textContentTextViewWidth: textContentLabelWidthOfMessage(message),
+            textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
+            update: { [weak self] textContentTextViewFrame in
+                self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
+            }
+        )
+
+        return layoutCache
+    }
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
 
@@ -4174,13 +4186,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextURLCell {
 
-                                let layoutCache = ChatTextCellLayoutCache(
-                                    textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                    textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
-                                    update: { [weak self] textContentTextViewFrame in
-                                        self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
-                                    }
-                                )
+                                let layoutCache = chatTextCellLayoutCacheOfMessage(message)
 
                                 cell.configureWithMessage(message, layoutCache: layoutCache)
 
@@ -4203,13 +4209,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextCell {
 
-                                let layoutCache = ChatTextCellLayoutCache(
-                                    textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                    textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
-                                    update: { [weak self] textContentTextViewFrame in
-                                        self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
-                                    }
-                                )
+                                let layoutCache = chatTextCellLayoutCacheOfMessage(message)
 
                                 cell.configureWithMessage(message, layoutCache: layoutCache)
 
@@ -4453,13 +4453,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextURLCell {
 
-                            let layoutCache = ChatTextCellLayoutCache(
-                                textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
-                                update: { [weak self] textContentTextViewFrame in
-                                    self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
-                                }
-                            )
+                            let layoutCache = chatTextCellLayoutCacheOfMessage(message)
 
                             cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
@@ -4482,13 +4476,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextCell {
 
-                            let layoutCache = ChatTextCellLayoutCache(
-                                textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
-                                update: { [weak self] textContentTextViewFrame in
-                                    self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
-                                }
-                            )
+                            let layoutCache = chatTextCellLayoutCacheOfMessage(message)
 
                             cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
