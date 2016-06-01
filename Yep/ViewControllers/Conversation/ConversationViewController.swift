@@ -970,7 +970,7 @@ final class ConversationViewController: BaseViewController {
         needDetectMention = conversation.needDetectMention
 
         #if DEBUG
-            //view.addSubview(conversationFPSLabel)
+            view.addSubview(conversationFPSLabel)
         #endif
     }
 
