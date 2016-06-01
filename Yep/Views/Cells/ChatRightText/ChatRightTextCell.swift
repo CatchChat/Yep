@@ -36,7 +36,7 @@ class ChatRightTextCell: ChatRightBaseCell {
     lazy var textContentTextView: ChatTextView = {
         let view = ChatTextView()
 
-        //view.textContainer.lineFragmentPadding = 0
+        view.textContainer.lineFragmentPadding = 0
         view.font = UIFont.chatTextFont()
         view.backgroundColor = UIColor.clearColor()
         view.textColor = UIColor.whiteColor()

@@ -4,7 +4,6 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'YYText'
     pod 'Kanna', '1.0.2'
     pod 'Navi'
     pod 'Appsee'
