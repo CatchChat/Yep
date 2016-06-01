@@ -2013,16 +2013,19 @@ final class ConversationViewController: BaseViewController {
                 height = 26
 
             } else {
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+                let rect: CGRect
+                if let _rect = ChatTextCellLayout.textContentTextViewFrameOfMessage(message) {
+                    rect = _rect
+                } else {
+                    rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+                    ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
+                }
 
                 height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
                 if message.openGraphInfo != nil {
                     height += 100 + 10
-                }
-
-                if !key.isEmpty {
-                    ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
                 }
             }
 

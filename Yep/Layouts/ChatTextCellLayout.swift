@@ -76,4 +76,9 @@ class ChatTextCellLayout {
             textContentTextViewFrames[key] = frame
         }
     }
+    class func textContentTextViewFrameOfMessage(message: Message) -> CGRect? {
+
+        return sharedLayout.textContentTextViewFrameOfMessage(message)
+    }
 }
+
