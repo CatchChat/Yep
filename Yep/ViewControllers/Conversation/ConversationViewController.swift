@@ -948,6 +948,7 @@ final class ConversationViewController: BaseViewController {
         switch conversation.type {
 
         case ConversationType.OneToOne.rawValue:
+
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
             })
@@ -970,7 +971,7 @@ final class ConversationViewController: BaseViewController {
         needDetectMention = conversation.needDetectMention
 
         #if DEBUG
-            view.addSubview(conversationFPSLabel)
+            //view.addSubview(conversationFPSLabel)
         #endif
     }
 
