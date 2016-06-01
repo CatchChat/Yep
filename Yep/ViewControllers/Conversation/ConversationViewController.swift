@@ -4158,7 +4158,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextURLCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4179,7 +4179,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4421,7 +4421,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextURLCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
@@ -4442,7 +4442,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
