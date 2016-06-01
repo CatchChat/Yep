@@ -136,7 +136,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 }
 
                 let textContentTextViewFrame: CGRect
-
                 if let _textContentTextViewFrame = layoutCache.textContentTextViewFrame {
                     textContentTextViewFrame = _textContentTextViewFrame
 
