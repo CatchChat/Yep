@@ -2013,14 +2013,9 @@ final class ConversationViewController: BaseViewController {
                 height = 26
 
             } else {
-                let rect: CGRect
-                if let _rect = ChatTextCellLayout.textContentTextViewFrameOfMessage(message) {
-                    rect = _rect
-                } else {
-                    rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
-                    ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
-                }
+                ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
 
                 height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -2100,44 +2095,6 @@ final class ConversationViewController: BaseViewController {
         messageHeights[key] = nil
     }
 
-    /*
-    private var textContentLabelWidths = [String: CGFloat]()
-    private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
-
-        let key = message.messageID
-
-        if !key.isEmpty {
-            if let textContentLabelWidth = textContentLabelWidths[key] {
-                return textContentLabelWidth
-            }
-        }
-
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
-
-        let width = ceil(rect.width)
-
-        if !key.isEmpty {
-            textContentLabelWidths[key] = width
-        }
-
-        return width
-    }
-
-    private var textContentTextViewFrames = [String: CGRect]()
-    private func textContentTextViewFrameOfMessage(message: Message) -> CGRect? {
-
-        let key = message.messageID
-        return textContentTextViewFrames[key]
-    }
-    private func updateTextContentTextViewFrame(frame: CGRect, forMessage message: Message) {
-
-        let key = message.messageID
-
-        if !key.isEmpty {
-            textContentTextViewFrames[key] = frame
-        }
-    }
-     */
     private func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
 
         let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextContentTextViewMaxWidth)
