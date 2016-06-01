@@ -929,7 +929,7 @@ final class ConversationViewController: BaseViewController {
 
                         failedAction?()
 
-                    }, completion: { messageIDs in
+                    }, completion: { messageIDs, _ in
                         println("messagesFromRecipient: \(messageIDs.count)")
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
@@ -2392,13 +2392,13 @@ final class ConversationViewController: BaseViewController {
                         completion()
                     }
 
-                }, completion: { messageIDs in
+                }, completion: { messageIDs, noMore in
                     println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                         if case .Past = timeDirection {
-                            self?.noMorePreviousMessages = messageIDs.isEmpty
+                            self?.noMorePreviousMessages = noMore
                         }
 
                         tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
