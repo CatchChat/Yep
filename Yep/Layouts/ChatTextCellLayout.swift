@@ -32,8 +32,6 @@ class ChatTextCellLayout {
         return layoutCache
     }
 
-    
-
     private var textContentTextViewWidths = [String: CGFloat]()
     private func textContentTextViewWidthOfMessage(message: Message, textContentTextViewMaxWidth: CGFloat) -> CGFloat {
 
@@ -54,6 +52,14 @@ class ChatTextCellLayout {
         }
 
         return width
+    }
+    class func updateTextContentTextViewWidth(width: CGFloat, forMessage message: Message) {
+
+        let key = message.messageID
+
+        if !key.isEmpty {
+            sharedLayout.textContentTextViewWidths[key] = width
+        }
     }
 
     private var textContentTextViewFrames = [String: CGRect]()

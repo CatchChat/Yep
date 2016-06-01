@@ -2022,7 +2022,7 @@ final class ConversationViewController: BaseViewController {
                 }
 
                 if !key.isEmpty {
-                    textContentLabelWidths[key] = ceil(rect.width)
+                    ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
                 }
             }
 
