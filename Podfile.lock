@@ -22,6 +22,7 @@ PODS:
   - Ruler (0.7.0)
   - SocketRocket (0.5.1)
   - TPKeyboardAvoiding (1.3)
+  - YYText (1.0.5)
 
 DEPENDENCIES:
   - 1PasswordExtension
@@ -43,6 +44,7 @@ DEPENDENCIES:
   - Ruler
   - SocketRocket
   - TPKeyboardAvoiding
+  - YYText
 
 SPEC CHECKSUMS:
   1PasswordExtension: 303f2b7bbf6dc19ede3090bd6b5987530648d687
@@ -65,7 +67,8 @@ SPEC CHECKSUMS:
   Ruler: 51bd16cc00638702ef71713f80073588a6c7e682
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
+  YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: 1ac70f51fa51e777ab4c3534d6b49b4f8c6a892e
+PODFILE CHECKSUM: cb8508b83353f42acfc21dac5640c7fa2f08aa78
 
 COCOAPODS: 1.0.0
