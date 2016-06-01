@@ -8,5 +8,5 @@
 
 import Foundation
 
-typealias ChatTextCellLayoutCache = (textContentTextViewWidth: CGFloat, textContentTextViewFrame: CGRect?, update: ((textContentTextViewFrame: CGRect) -> Void)?)
+typealias ChatTextCellLayoutCache = (textContentTextViewWidth: CGFloat, textContentTextViewFrame: CGRect?, update: (textContentTextViewFrame: CGRect) -> Void)
 

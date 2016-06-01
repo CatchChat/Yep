@@ -2099,6 +2099,7 @@ final class ConversationViewController: BaseViewController {
 
     private var textContentLabelWidths = [String: CGFloat]()
     private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
+
         let key = message.messageID
 
         if !key.isEmpty {
@@ -2116,6 +2117,21 @@ final class ConversationViewController: BaseViewController {
         }
 
         return width
+    }
+
+    private var textContentTextViewFrames = [String: CGRect]()
+    private func textContentTextViewFrameOfMessage(message: Message) -> CGRect? {
+
+        let key = message.messageID
+        return textContentTextViewFrames[key]
+    }
+    private func updateTextContentTextViewFrame(frame: CGRect, forMessage message: Message) {
+
+        let key = message.messageID
+
+        if !key.isEmpty {
+            textContentTextViewFrames[key] = frame
+        }
     }
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
@@ -4160,8 +4176,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let layoutCache = ChatTextCellLayoutCache(
                                     textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                    textContentTextViewFrame: nil,
-                                    update: { textContentTextViewFrame in
+                                    textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
+                                    update: { [weak self] textContentTextViewFrame in
+                                        self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
                                     }
                                 )
 
@@ -4188,8 +4205,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 let layoutCache = ChatTextCellLayoutCache(
                                     textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                    textContentTextViewFrame: nil,
-                                    update: { textContentTextViewFrame in
+                                    textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
+                                    update: { [weak self] textContentTextViewFrame in
+                                        self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
                                     }
                                 )
 
@@ -4437,8 +4455,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             let layoutCache = ChatTextCellLayoutCache(
                                 textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                textContentTextViewFrame: nil,
-                                update: { textContentTextViewFrame in
+                                textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
+                                update: { [weak self] textContentTextViewFrame in
+                                    self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
                                 }
                             )
 
@@ -4465,8 +4484,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             let layoutCache = ChatTextCellLayoutCache(
                                 textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-                                textContentTextViewFrame: nil,
-                                update: { textContentTextViewFrame in
+                                textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
+                                update: { [weak self] textContentTextViewFrame in
+                                    self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
                                 }
                             )
 

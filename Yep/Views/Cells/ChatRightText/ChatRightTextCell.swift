@@ -155,6 +155,8 @@ class ChatRightTextCell: ChatRightBaseCell {
                     let textContentTextViewWidth = adjustedTextContentTextViewWidth()
 
                     textContentTextViewFrame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentTextViewWidth, y: 3, width: textContentTextViewWidth, height: strongSelf.bounds.height - 3 * 2 - strongSelf.bottomGap)
+
+                    layoutCache.update(textContentTextViewFrame: textContentTextViewFrame)
                 }
                 
                 strongSelf.textContainerView.frame = textContentTextViewFrame
