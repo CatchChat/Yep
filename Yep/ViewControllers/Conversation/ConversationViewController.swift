@@ -651,7 +651,7 @@ final class ConversationViewController: BaseViewController {
     private let sectionInsetTop: CGFloat = 10
     private let sectionInsetBottom: CGFloat = 10
 
-    private lazy var messageTextLabelMaxWidth: CGFloat = {
+    private lazy var messageTextContentTextViewMaxWidth: CGFloat = {
         let maxWidth = self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
         return maxWidth
     }()
@@ -2013,7 +2013,7 @@ final class ConversationViewController: BaseViewController {
                 height = 26
 
             } else {
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
                 height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
@@ -2109,7 +2109,7 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
 
@@ -2137,7 +2137,7 @@ final class ConversationViewController: BaseViewController {
      */
     private func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
 
-        let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextLabelMaxWidth)
+        let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextContentTextViewMaxWidth)
 
         return layoutCache
     }
