@@ -8,8 +8,9 @@
 
 import UIKit
 import YepKit
+import YYText
 
-final class ChatTextView: UITextView {
+final class ChatTextView: YYTextView {
 
     var tapMentionAction: ((username: String) -> Void)?
     var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
@@ -82,7 +83,7 @@ final class ChatTextView: UITextView {
     }
 }
 
-extension ChatTextView: UITextViewDelegate {
+extension ChatTextView: YYTextViewDelegate {
 
     private func tryMatchSharedFeedWithURL(URL: NSURL) -> Bool {
 
@@ -95,7 +96,7 @@ extension ChatTextView: UITextViewDelegate {
 
     func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
 
-        if let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) {
+        if let detectionTypeName = self.attributedText?.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) {
 
             let text = (self.text as NSString).substringWithRange(characterRange)
             self.hangleTapText(text, withDetectionType: detectionType)
