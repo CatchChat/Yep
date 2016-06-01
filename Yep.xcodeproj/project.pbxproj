@@ -297,6 +297,7 @@
 		50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B22E451C588B6200219625 /* CGImage+Yep.swift */; };
 		50B2CA921BD0BF3800668AC6 /* FeedTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */; };
 		50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */; };
+		50B33A671CFE9ADB00517EE4 /* ChatTextCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B33A661CFE9ADB00517EE4 /* ChatTextCellLayout.swift */; };
 		50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */; };
 		50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */; };
 		50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */; };
@@ -977,6 +978,7 @@
 		50B22E451C588B6200219625 /* CGImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGImage+Yep.swift"; path = "Extensions/CGImage+Yep.swift"; sourceTree = "<group>"; };
 		50B2CA911BD0BF3800668AC6 /* FeedTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedTextView.swift; path = Views/TextViews/FeedTextView.swift; sourceTree = "<group>"; };
 		50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMessageTypesView.swift; path = Views/MoreMessageTypes/MoreMessageTypesView.swift; sourceTree = "<group>"; };
+		50B33A661CFE9ADB00517EE4 /* ChatTextCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextCellLayout.swift; path = Layouts/ChatTextCellLayout.swift; sourceTree = "<group>"; };
 		50B38FCB1B6B37F00064C132 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedbackViewController.swift; path = ViewControllers/Feedback/FeedbackViewController.swift; sourceTree = "<group>"; };
 		50B3C94F1CC8649500623E29 /* SearchedFeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedAnyImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50B3C9511CC873F000623E29 /* SearchFeedsFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchFeedsFooterView.swift; path = Views/Footers/SearchFeedsFooterView.swift; sourceTree = "<group>"; };
@@ -1440,6 +1442,7 @@
 				5023DE341AB688F900B3EE96 /* Extensions */,
 				50DBDEF21C48C2290044E21B /* Protocols */,
 				504F5E721BA034BB006CE418 /* Activities */,
+				50B33A651CFE9A6500517EE4 /* Layouts */,
 				5023DE391AB6979C00B3EE96 /* Views */,
 				50B3C9541CC9B62600623E29 /* Transitions */,
 				5023DE271AB6856600B3EE96 /* ViewControllers */,
@@ -2836,6 +2839,14 @@
 				50B2CA931BD0EF7900668AC6 /* MoreMessageTypesView.swift */,
 			);
 			name = MoreMessageTypes;
+			sourceTree = "<group>";
+		};
+		50B33A651CFE9A6500517EE4 /* Layouts */ = {
+			isa = PBXGroup;
+			children = (
+				50B33A661CFE9ADB00517EE4 /* ChatTextCellLayout.swift */,
+			);
+			name = Layouts;
 			sourceTree = "<group>";
 		};
 		50B38FCD1B6B37F90064C132 /* Feedback */ = {
@@ -4705,6 +4716,7 @@
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
 				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
+				50B33A671CFE9ADB00517EE4 /* ChatTextCellLayout.swift in Sources */,
 				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,

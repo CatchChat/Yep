@@ -2044,7 +2044,7 @@ public enum TimeDirection {
     }
 }
 
-public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String]) -> Void) {
+public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String], noMore: Bool) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "recipient_type": recipient.type.nameForServer,
@@ -2060,15 +2060,19 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
         break
     }
 
-    let parse: JSONDictionary -> [String]? = { data in
+    let parse: JSONDictionary -> ([String], Bool)? = { data in
 
         //println("messagesFromRecipient: \(data)")
 
         guard let
             unreadMessagesData = data["messages"] as? [JSONDictionary],
             realm = try? Realm() else {
-                return []
+                return ([], true)
         }
+
+        let count = unreadMessagesData.count
+        let perPage = (data["per_page"] as? Int) ?? 100
+        let noMore = (count == 0) || (count < perPage)
 
         //println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
 
@@ -2084,7 +2088,7 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
 
         let _ = try? realm.commitWrite()
 
-        return messageIDs
+        return (messageIDs, noMore)
     }
 
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages", method: .GET, requestParameters: requestParameters, parse: parse )

@@ -651,7 +651,7 @@ final class ConversationViewController: BaseViewController {
     private let sectionInsetTop: CGFloat = 10
     private let sectionInsetBottom: CGFloat = 10
 
-    private lazy var messageTextLabelMaxWidth: CGFloat = {
+    private lazy var messageTextContentTextViewMaxWidth: CGFloat = {
         let maxWidth = self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
         return maxWidth
     }()
@@ -929,8 +929,12 @@ final class ConversationViewController: BaseViewController {
 
                         failedAction?()
 
-                    }, completion: { messageIDs in
+                    }, completion: { [weak self] messageIDs, noMore in
                         println("messagesFromRecipient: \(messageIDs.count)")
+
+                        if case .None = timeDirection {
+                            self?.noMorePreviousMessages = noMore
+                        }
 
                         dispatch_async(dispatch_get_main_queue()) { [weak self] in
                             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
@@ -948,6 +952,7 @@ final class ConversationViewController: BaseViewController {
         switch conversation.type {
 
         case ConversationType.OneToOne.rawValue:
+
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
             })
@@ -2013,16 +2018,14 @@ final class ConversationViewController: BaseViewController {
                 height = 26
 
             } else {
-                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+                let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+
+                ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
 
                 height = max(ceil(rect.height) + (11 * 2), YepConfig.chatCellAvatarSize())
 
                 if message.openGraphInfo != nil {
                     height += 100 + 10
-                }
-
-                if !key.isEmpty {
-                    textContentLabelWidths[key] = ceil(rect.width)
                 }
             }
 
@@ -2097,25 +2100,11 @@ final class ConversationViewController: BaseViewController {
         messageHeights[key] = nil
     }
 
-    private var textContentLabelWidths = [String: CGFloat]()
-    private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
-        let key = message.messageID
+    private func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
 
-        if !key.isEmpty {
-            if let textContentLabelWidth = textContentLabelWidths[key] {
-                return textContentLabelWidth
-            }
-        }
+        let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextContentTextViewMaxWidth)
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
-
-        let width = ceil(rect.width)
-
-        if !key.isEmpty {
-            textContentLabelWidths[key] = width
-        }
-
-        return width
+        return layoutCache
     }
 
     private var audioPlayedDurations = [String: NSTimeInterval]()
@@ -2408,13 +2397,13 @@ final class ConversationViewController: BaseViewController {
                         completion()
                     }
 
-                }, completion: { messageIDs in
+                }, completion: { messageIDs, noMore in
                     println("messagesFromRecipient: \(messageIDs.count)")
 
                     dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
                         if case .Past = timeDirection {
-                            self?.noMorePreviousMessages = messageIDs.isEmpty
+                            self?.noMorePreviousMessages = noMore
                         }
 
                         tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
@@ -4158,7 +4147,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextURLCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                                let layoutCache = chatTextCellLayoutCacheOfMessage(message)
+
+                                cell.configureWithMessage(message, layoutCache: layoutCache)
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4179,7 +4170,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), collectionView: collectionView, indexPath: indexPath)
+                                let layoutCache = chatTextCellLayoutCacheOfMessage(message)
+
+                                cell.configureWithMessage(message, layoutCache: layoutCache)
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4421,7 +4414,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextURLCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+                            let layoutCache = chatTextCellLayoutCacheOfMessage(message)
+
+                            cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
@@ -4442,7 +4437,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction, collectionView: collectionView, indexPath: indexPath)
+                            let layoutCache = chatTextCellLayoutCacheOfMessage(message)
+
+                            cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
