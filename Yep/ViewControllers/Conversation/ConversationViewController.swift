@@ -2097,6 +2097,7 @@ final class ConversationViewController: BaseViewController {
         messageHeights[key] = nil
     }
 
+    /*
     private var textContentLabelWidths = [String: CGFloat]()
     private func textContentLabelWidthOfMessage(message: Message) -> CGFloat {
 
@@ -2133,15 +2134,10 @@ final class ConversationViewController: BaseViewController {
             textContentTextViewFrames[key] = frame
         }
     }
+     */
     private func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
 
-        let layoutCache = ChatTextCellLayoutCache(
-            textContentTextViewWidth: textContentLabelWidthOfMessage(message),
-            textContentTextViewFrame: textContentTextViewFrameOfMessage(message),
-            update: { [weak self] textContentTextViewFrame in
-                self?.updateTextContentTextViewFrame(textContentTextViewFrame, forMessage: message)
-            }
-        )
+        let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextLabelMaxWidth)
 
         return layoutCache
     }
