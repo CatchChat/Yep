@@ -88,7 +88,7 @@ class ChatLeftTextCell: ChatBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
+    func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache) {
 
         self.user = message.fromFriend
 
@@ -99,23 +99,23 @@ class ChatLeftTextCell: ChatBaseCell {
         //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
         
         // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
-        var textContentLabelWidth = textContentLabelWidth
-        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+        var textContentTextViewWidth = layoutCache.textContentTextViewWidth
+        let size = textContentTextView.sizeThatFits(CGSize(width: textContentTextViewWidth, height: CGFloat.max))
         
         // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
         textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
-        if ceil(size.width) != textContentLabelWidth {
+        if ceil(size.width) != textContentTextViewWidth {
             //println("left ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
             //println(">>>\(message.textContent)<<<")
 
             //textContentLabelWidth += YepConfig.ChatCell.magicWidth
-            if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
-                textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            if abs(ceil(size.width) - textContentTextViewWidth) >= YepConfig.ChatCell.magicWidth {
+                textContentTextViewWidth += YepConfig.ChatCell.magicWidth
             }
         }
         
-        textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
+        textContentTextViewWidth = max(textContentTextViewWidth, YepConfig.ChatCell.minTextWidth)
 
         UIView.performWithoutAnimation { [weak self] in
 
@@ -130,7 +130,7 @@ class ChatLeftTextCell: ChatBaseCell {
                     topOffset = 0
                 }
 
-                let textContentTextViewFrame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentLabelWidth, height: strongSelf.bounds.height - topOffset - 3 * 2 - strongSelf.bottomGap)
+                let textContentTextViewFrame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentTextViewWidth, height: strongSelf.bounds.height - topOffset - 3 * 2 - strongSelf.bottomGap)
 
                 strongSelf.textContentTextView.frame = textContentTextViewFrame
 

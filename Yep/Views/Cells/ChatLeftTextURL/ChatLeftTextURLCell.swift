@@ -41,11 +41,11 @@ final class ChatLeftTextURLCell: ChatLeftTextCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithMessage(message: Message, textContentLabelWidth: CGFloat) {
+    override func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache) {
 
         bottomGap = 100 + 10
 
-        super.configureWithMessage(message, textContentLabelWidth: textContentLabelWidth)
+        super.configureWithMessage(message, layoutCache: layoutCache)
 
         let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
         let width = max(minWidth, textContentTextView.frame.width + 12 * 2 - 1)

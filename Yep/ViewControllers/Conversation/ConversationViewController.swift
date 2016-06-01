@@ -4158,7 +4158,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextURLCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
+                                let layoutCache = ChatTextCellLayoutCache(
+                                    textContentTextViewWidth: textContentLabelWidthOfMessage(message),
+                                    textContentTextViewFrame: nil,
+                                    update: { textContentTextViewFrame in
+                                    }
+                                )
+
+                                cell.configureWithMessage(message, layoutCache: layoutCache)
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4179,7 +4186,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if let cell = cell as? ChatLeftTextCell {
 
-                                cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message))
+                                let layoutCache = ChatTextCellLayoutCache(
+                                    textContentTextViewWidth: textContentLabelWidthOfMessage(message),
+                                    textContentTextViewFrame: nil,
+                                    update: { textContentTextViewFrame in
+                                    }
+                                )
+
+                                cell.configureWithMessage(message, layoutCache: layoutCache)
 
                                 cell.tapUsernameAction = { [weak self] username in
                                     self?.tryShowProfileWithUsername(username)
@@ -4421,7 +4435,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextURLCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction)
+                            let layoutCache = ChatTextCellLayoutCache(
+                                textContentTextViewWidth: textContentLabelWidthOfMessage(message),
+                                textContentTextViewFrame: nil,
+                                update: { textContentTextViewFrame in
+                                }
+                            )
+
+                            cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
@@ -4442,7 +4463,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if let cell = cell as? ChatRightTextCell {
 
-                            cell.configureWithMessage(message, textContentLabelWidth: textContentLabelWidthOfMessage(message), mediaTapAction: mediaTapAction)
+                            let layoutCache = ChatTextCellLayoutCache(
+                                textContentTextViewWidth: textContentLabelWidthOfMessage(message),
+                                textContentTextViewFrame: nil,
+                                update: { textContentTextViewFrame in
+                                }
+                            )
+
+                            cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
                             cell.tapUsernameAction = { [weak self] username in
                                 self?.tryShowProfileWithUsername(username)
