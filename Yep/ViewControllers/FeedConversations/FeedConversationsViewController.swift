@@ -27,6 +27,8 @@ final class FeedConversationsViewController: SegueViewController {
         return feedConversationsInRealm(self.realm)
     }()
 
+    private var feedConversationsNotificationToken: NotificationToken?
+
     let feedConversationCellID = "FeedConversationCell"
     let deletedFeedConversationCellID = "DeletedFeedConversationCell"
 
@@ -35,6 +37,8 @@ final class FeedConversationsViewController: SegueViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         feedConversationsTableView?.delegate = nil
+
+        feedConversationsNotificationToken?.stop()
 
         println("deinit FeedConversations")
     }
@@ -45,6 +49,10 @@ final class FeedConversationsViewController: SegueViewController {
         title = NSLocalizedString("Feeds", comment: "")
 
         realm = try! Realm()
+
+        feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+
+        })
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
