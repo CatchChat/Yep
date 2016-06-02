@@ -6,7 +6,7 @@ PODS:
   - DeviceGuru (1.3.7)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
-  - JPush (2.1.6)
+  - JPush (2.1.7)
   - Kanna (1.0.2)
   - KeyboardMan (0.6.0)
   - Kingfisher (2.4.1)
@@ -52,7 +52,7 @@ SPEC CHECKSUMS:
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 9732a2a9e6a34729f660d6275704a5803d661e83
+  JPush: d37320eba856bf91f2c73989df4abf1e8846db2c
   Kanna: 059afb193a9f8ea34f46cb55a8b11bf4257efad8
   KeyboardMan: 665211f180093f5bb3c6ff7e8b7f858c432c6ccf
   Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
@@ -68,4 +68,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c3d6d9eeaf5b5ede2f792a2b696bd3dd741c27ca
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1
