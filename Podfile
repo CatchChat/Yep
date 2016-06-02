@@ -61,6 +61,7 @@ end
 
 target 'YepShare' do
     pod 'RealmSwift'
+    pod 'Kanna', '1.0.2'
 end
 
 post_install do |installer|
