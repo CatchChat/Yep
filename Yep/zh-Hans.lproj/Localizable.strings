@@ -105,6 +105,8 @@
 /* No comment provided by engineer. */
 "Clear history" = "清除历史记录";
 
+"FeedConversationsViewController.ClearUnread" = "清除未读";
+
 "Contacts" = "联系人";
 
 /* No comment provided by engineer. */

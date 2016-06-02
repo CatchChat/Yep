@@ -103,6 +103,8 @@
 /* No comment provided by engineer. */
 "Clear history" = "Clear history";
 
+"FeedConversationsViewController.ClearUnread" = "Clear";
+
 "Contacts" = "Contacts";
 
 /* No comment provided by engineer. */
