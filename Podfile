@@ -4,7 +4,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'Kanna'
+    pod 'Kanna', '1.0.2'
     pod 'Navi'
     pod 'Appsee'
     pod 'Alamofire'
@@ -45,7 +45,7 @@ end
 
 target 'OpenGraph' do
     pod 'Alamofire'
-    pod 'Kanna'
+    pod 'Kanna', '1.0.2'
 end
 
 target 'YepKit' do
@@ -61,7 +61,7 @@ end
 
 target 'YepShare' do
     pod 'RealmSwift'
-    pod 'Kanna'
+    pod 'Kanna', '1.0.2'
 end
 
 post_install do |installer|
