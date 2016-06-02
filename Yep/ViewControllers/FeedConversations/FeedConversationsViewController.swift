@@ -16,7 +16,7 @@ final class FeedConversationsViewController: SegueViewController {
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
     private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: NSLocalizedString("Clear", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clear(_:)))
+        let item = UIBarButtonItem(title: NSLocalizedString("Clear", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
         return item
     }()
 
@@ -31,7 +31,15 @@ final class FeedConversationsViewController: SegueViewController {
     lazy var feedConversations: Results<Conversation> = {
         return feedConversationsInRealm(self.realm)
     }()
-
+    private var unreadFeedConversations: Results<Conversation>? {
+        didSet {
+            if let unreadFeedConversations = unreadFeedConversations {
+                navigationItem.rightBarButtonItem = unreadFeedConversations.count > 0 ? clearUnreadBarButtonItem : nil
+            } else {
+                navigationItem.rightBarButtonItem = nil
+            }
+        }
+    }
     private var feedConversationsNotificationToken: NotificationToken?
 
     let feedConversationCellID = "FeedConversationCell"
@@ -48,8 +56,9 @@ final class FeedConversationsViewController: SegueViewController {
         println("deinit FeedConversations")
     }
 
-    @objc private func clear(sender: UIBarButtonItem) {
+    @objc private func clearUnread(sender: UIBarButtonItem) {
 
+        
     }
 
     override func viewDidLoad() {
@@ -61,9 +70,7 @@ final class FeedConversationsViewController: SegueViewController {
 
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
             let predicate = NSPredicate(format: "hasUnreadMessages = true")
-            if let unreadConversations = self?.feedConversations.filter(predicate) {
-                self?.navigationItem.rightBarButtonItem = unreadConversations.count > 0 ? self?.clearUnreadBarButtonItem : nil
-            }
+            self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
         })
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
