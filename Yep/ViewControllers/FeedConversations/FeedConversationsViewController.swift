@@ -58,7 +58,15 @@ final class FeedConversationsViewController: SegueViewController {
 
     @objc private func clearUnread(sender: UIBarButtonItem) {
 
-        
+        realm.beginWrite()
+
+        unreadFeedConversations?.forEach({
+            $0.hasUnreadMessages = false
+        })
+
+        _ = try? realm.commitWrite()
+
+        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
     }
 
     override func viewDidLoad() {
