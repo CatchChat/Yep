@@ -15,7 +15,7 @@ final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
-    private lazy var clearBarButtonItem: UIBarButtonItem = {
+    private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(title: NSLocalizedString("Clear", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clear(_:)))
         return item
     }()
@@ -62,9 +62,7 @@ final class FeedConversationsViewController: SegueViewController {
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
             let predicate = NSPredicate(format: "hasUnreadMessages = true")
             if let unreadConversations = self?.feedConversations.filter(predicate) {
-                if unreadConversations.count > 0 {
-                    self?.navigationItem.rightBarButtonItem = self?.clearBarButtonItem
-                }
+                self?.navigationItem.rightBarButtonItem = unreadConversations.count > 0 ? self?.clearUnreadBarButtonItem : nil
             }
         })
 
