@@ -34,7 +34,7 @@ final class FeedConversationsViewController: SegueViewController {
     private var unreadFeedConversations: Results<Conversation>? {
         didSet {
             if let unreadFeedConversations = unreadFeedConversations {
-                navigationItem.rightBarButtonItem = unreadFeedConversations.count > 0 ? clearUnreadBarButtonItem : nil
+                navigationItem.rightBarButtonItem = unreadFeedConversations.count > 3 ? clearUnreadBarButtonItem : nil
             } else {
                 navigationItem.rightBarButtonItem = nil
             }
@@ -60,8 +60,15 @@ final class FeedConversationsViewController: SegueViewController {
 
         realm.beginWrite()
 
-        unreadFeedConversations?.forEach({
-            $0.hasUnreadMessages = false
+        unreadFeedConversations?.forEach({ conversation in
+
+            conversation.hasUnreadMessages = false
+
+            conversation.messages.forEach({ message in
+                if !message.readed {
+                    message.readed = true
+                }
+            })
         })
 
         _ = try? realm.commitWrite()
