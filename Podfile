@@ -4,7 +4,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'Kanna', '1.0.2'
+    pod 'Kanna'
     pod 'Navi'
     pod 'Appsee'
     pod 'Alamofire'
@@ -45,7 +45,7 @@ end
 
 target 'OpenGraph' do
     pod 'Alamofire'
-    pod 'Kanna', '1.0.2'
+    pod 'Kanna'
 end
 
 target 'YepKit' do
