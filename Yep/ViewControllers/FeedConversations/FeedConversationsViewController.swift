@@ -15,6 +15,11 @@ final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
+    private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: NSLocalizedString("FeedConversationsViewController.ClearUnread", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
+        return item
+    }()
+
     var realm: Realm!
 
     var haveUnreadMessages = false {
@@ -26,6 +31,16 @@ final class FeedConversationsViewController: SegueViewController {
     lazy var feedConversations: Results<Conversation> = {
         return feedConversationsInRealm(self.realm)
     }()
+    private var unreadFeedConversations: Results<Conversation>? {
+        didSet {
+            if let unreadFeedConversations = unreadFeedConversations {
+                navigationItem.rightBarButtonItem = unreadFeedConversations.count > 3 ? clearUnreadBarButtonItem : nil
+            } else {
+                navigationItem.rightBarButtonItem = nil
+            }
+        }
+    }
+    private var feedConversationsNotificationToken: NotificationToken?
 
     let feedConversationCellID = "FeedConversationCell"
     let deletedFeedConversationCellID = "DeletedFeedConversationCell"
@@ -36,7 +51,29 @@ final class FeedConversationsViewController: SegueViewController {
 
         feedConversationsTableView?.delegate = nil
 
+        feedConversationsNotificationToken?.stop()
+
         println("deinit FeedConversations")
+    }
+
+    @objc private func clearUnread(sender: UIBarButtonItem) {
+
+        realm.beginWrite()
+
+        unreadFeedConversations?.forEach({ conversation in
+
+            conversation.hasUnreadMessages = false
+
+            conversation.messages.forEach({ message in
+                if !message.readed {
+                    message.readed = true
+                }
+            })
+        })
+
+        _ = try? realm.commitWrite()
+
+        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
     }
 
     override func viewDidLoad() {
@@ -45,6 +82,11 @@ final class FeedConversationsViewController: SegueViewController {
         title = NSLocalizedString("Feeds", comment: "")
 
         realm = try! Realm()
+
+        feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+            let predicate = NSPredicate(format: "hasUnreadMessages = true")
+            self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
+        })
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
         feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
