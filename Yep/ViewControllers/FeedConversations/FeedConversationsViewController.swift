@@ -15,6 +15,11 @@ final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView!
 
+    private lazy var clearBarButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: NSLocalizedString("Clear", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clear(_:)))
+        return item
+    }()
+
     var realm: Realm!
 
     var haveUnreadMessages = false {
@@ -43,6 +48,10 @@ final class FeedConversationsViewController: SegueViewController {
         println("deinit FeedConversations")
     }
 
+    @objc private func clear(sender: UIBarButtonItem) {
+
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,7 +60,12 @@ final class FeedConversationsViewController: SegueViewController {
         realm = try! Realm()
 
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
-
+            let predicate = NSPredicate(format: "hasUnreadMessages = true")
+            if let unreadConversations = self?.feedConversations.filter(predicate) {
+                if unreadConversations.count > 0 {
+                    self?.navigationItem.rightBarButtonItem = self?.clearBarButtonItem
+                }
+            }
         })
 
         feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
