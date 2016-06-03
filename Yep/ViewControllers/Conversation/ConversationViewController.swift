@@ -1129,7 +1129,12 @@ final class ConversationViewController: BaseViewController {
             tryRecoverMessageToolBar()
 
             if isPreviewed {
-                conversationCollectionView.contentInset.top = FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+                if conversationFeed != nil {
+                    conversationCollectionView.contentInset.top = FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+                } else {
+                    conversationCollectionView.contentInset.top = conversationCollectionViewContentInsetYOffset
+                }
+
                 setConversaitonCollectionViewOriginalBottomContentInset()
             }
         }
