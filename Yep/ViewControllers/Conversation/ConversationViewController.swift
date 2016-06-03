@@ -903,6 +903,18 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
+        tryShowSubscribeView()
+
+        needDetectMention = conversation.needDetectMention
+
+        #if DEBUG
+            //view.addSubview(conversationFPSLabel)
+        #endif
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
         // sync messages
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
@@ -955,32 +967,20 @@ final class ConversationViewController: BaseViewController {
 
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
-            })
-
+                })
+            
         case ConversationType.Group.rawValue:
-
+            
             if let _ = conversation.withGroup {
                 // 直接同步消息
                 syncMessages(failedAction: {
-                }, successAction: {
+                    }, successAction: {
                 })
             }
-
+            
         default:
             break
         }
-
-        tryShowSubscribeView()
-
-        needDetectMention = conversation.needDetectMention
-
-        #if DEBUG
-            //view.addSubview(conversationFPSLabel)
-        #endif
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
 
         if isFirstAppear {
             if let feed = conversation.withGroup?.withFeed {
