@@ -1125,7 +1125,13 @@ final class ConversationViewController: BaseViewController {
 
             tryRecoverMessageToolBar()
 
-            setConversaitonCollectionViewOriginalContentInset()
+            // for peek pop
+            do {
+                setConversaitonCollectionViewOriginalBottomContentInset()
+
+                // 尽量滚到底部
+                //tryScrollToBottom()
+            }
         }
     }
 
@@ -1990,14 +1996,19 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Private
 
+    private func setConversaitonCollectionViewOriginalBottomContentInset() {
+
+        let messageToolbarHeight = messageToolbar.bounds.height
+        conversationCollectionView.contentInset.bottom = messageToolbarHeight + sectionInsetBottom
+        conversationCollectionView.scrollIndicatorInsets.bottom = messageToolbarHeight
+    }
+
     private func setConversaitonCollectionViewOriginalContentInset() {
 
         let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
-        let messageToolbarHeight = messageToolbar.bounds.height
-        conversationCollectionView.contentInset.bottom = messageToolbarHeight + sectionInsetBottom
-        conversationCollectionView.scrollIndicatorInsets.bottom = messageToolbarHeight
+        setConversaitonCollectionViewOriginalBottomContentInset()
     }
 
     private var messageHeights = [String: CGFloat]()
