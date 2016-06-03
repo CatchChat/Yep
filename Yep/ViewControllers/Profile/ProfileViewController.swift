@@ -626,32 +626,33 @@ final class ProfileViewController: SegueViewController {
 
     private func tryUpdateBlogTitle() {
 
-        if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL {
-
-            titleOfURL(blogURL, failureHandler: nil, completion: { blogTitle in
-
-                println("blogTitle: \(blogTitle)")
-
-                if YepUserDefaults.blogTitle.value != blogTitle {
-
-                    let info: JSONDictionary = [
-                        "website_url": blogURLString,
-                        "website_title": blogTitle,
-                    ]
-
-                    updateMyselfWithInfo(info, failureHandler: nil, completion: { success in
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            YepUserDefaults.blogTitle.value = blogTitle
-                            YepUserDefaults.blogURLString.value = blogURLString
-                        }
-                    })
-
-                } else {
-                    println("not need update blogTitle")
-                }
-            })
+        guard let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+            return
         }
+
+        titleOfURL(blogURL, failureHandler: nil, completion: { blogTitle in
+
+            println("blogTitle: \(blogTitle)")
+
+            if YepUserDefaults.blogTitle.value != blogTitle {
+
+                let info: JSONDictionary = [
+                    "website_url": blogURLString,
+                    "website_title": blogTitle,
+                ]
+
+                updateMyselfWithInfo(info, failureHandler: nil, completion: { success in
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.blogTitle.value = blogTitle
+                        YepUserDefaults.blogURLString.value = blogURLString
+                    }
+                })
+
+            } else {
+                println("not need update blogTitle")
+            }
+        })
     }
 
     private func tryShareProfile() {
