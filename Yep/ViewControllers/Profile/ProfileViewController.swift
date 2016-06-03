@@ -561,35 +561,6 @@ final class ProfileViewController: SegueViewController {
                     customNavigationItem.leftBarButtonItem = shareMyProfileButton
                 }
 
-                // try update blog title
-
-                if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL {
-
-                    titleOfURL(blogURL, failureHandler: nil, completion: { blogTitle in
-
-                        println("blogTitle: \(blogTitle)")
-
-                        if YepUserDefaults.blogTitle.value != blogTitle {
-
-                            let info: JSONDictionary = [
-                                "website_url": blogURLString,
-                                "website_title": blogTitle,
-                            ]
-
-                            updateMyselfWithInfo(info, failureHandler: nil, completion: { success in
-
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    YepUserDefaults.blogTitle.value = blogTitle
-                                    YepUserDefaults.blogURLString.value = blogURLString
-                                }
-                            })
-
-                        } else {
-                            println("not need update blogTitle")
-                        }
-                    })
-                }
-
             } else {
                 // share others' profile button
 
@@ -601,6 +572,7 @@ final class ProfileViewController: SegueViewController {
         }
 
         if profileUserIsMe {
+
             proposeToAccess(.Location(.WhenInUse), agreed: {
                 YepLocationService.turnOn()
 
@@ -615,6 +587,11 @@ final class ProfileViewController: SegueViewController {
             }, rejected: {
                 println("Yep can NOT get Location. :[\n")
             })
+        }
+
+        if profileUserIsMe {
+
+            tryUpdateBlogTitle()
         }
 
         #if DEBUG
@@ -647,61 +624,94 @@ final class ProfileViewController: SegueViewController {
 
     // MARK: Actions
 
-    private func shareProfile() {
+    private func tryUpdateBlogTitle() {
 
-         if let username = profileUser?.username, profileURL = NSURL(string: "https://\(yepHost)/\(username)"), nickname = profileUser?.nickname {
-
-            var thumbnail: UIImage?
-
-            if let
-                avatarURLString = profileUser?.avatarURLString,
-                realm = try? Realm(),
-                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
-                    if let
-                        avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                        avatarFilePath = avatarFileURL.path,
-                        image = UIImage(contentsOfFile: avatarFilePath) {
-                            thumbnail = image.navi_centerCropWithSize(CGSize(width: 100, height: 100))
-                    }
-            }
-
-            let info = MonkeyKing.Info(
-                title: nickname,
-                description: NSLocalizedString("From Yep, with Skills.", comment: ""),
-                thumbnail: thumbnail,
-                media: .URL(profileURL)
-            )
-
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-            let weChatSessionActivity = WeChatActivity(
-                type: .Session,
-                message: sessionMessage,
-                finish: { success in
-                    println("share Profile to WeChat Session success: \(success)")
-                }
-            )
-
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-            let weChatTimelineActivity = WeChatActivity(
-                type: .Timeline,
-                message: timelineMessage,
-                finish: { success in
-                    println("share Profile to WeChat Timeline success: \(success)")
-                }
-            )
-            
-            let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-            self.presentViewController(activityViewController, animated: true, completion: nil)
+        guard let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+            return
         }
+
+        titleOfURL(blogURL, failureHandler: nil, completion: { blogTitle in
+
+            println("blogTitle: \(blogTitle)")
+
+            if YepUserDefaults.blogTitle.value != blogTitle {
+
+                let info: JSONDictionary = [
+                    "website_url": blogURLString,
+                    "website_title": blogTitle,
+                ]
+
+                updateMyselfWithInfo(info, failureHandler: nil, completion: { success in
+
+                    dispatch_async(dispatch_get_main_queue()) {
+                        YepUserDefaults.blogTitle.value = blogTitle
+                        YepUserDefaults.blogURLString.value = blogURLString
+                    }
+                })
+
+            } else {
+                println("not need update blogTitle")
+            }
+        })
+    }
+
+    private func tryShareProfile() {
+
+        guard let username = profileUser?.username, profileURL = NSURL(string: "https://\(yepHost)/\(username)"), nickname = profileUser?.nickname else {
+            return
+        }
+
+        var thumbnail: UIImage?
+
+        if let
+            avatarURLString = profileUser?.avatarURLString,
+            realm = try? Realm(),
+            avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
+                if let
+                    avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                    avatarFilePath = avatarFileURL.path,
+                    image = UIImage(contentsOfFile: avatarFilePath) {
+                        thumbnail = image.navi_centerCropWithSize(CGSize(width: 100, height: 100))
+                }
+        }
+
+        let info = MonkeyKing.Info(
+            title: nickname,
+            description: NSLocalizedString("From Yep, with Skills.", comment: ""),
+            thumbnail: thumbnail,
+            media: .URL(profileURL)
+        )
+
+        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
+
+        let weChatSessionActivity = WeChatActivity(
+            type: .Session,
+            message: sessionMessage,
+            finish: { success in
+                println("share Profile to WeChat Session success: \(success)")
+            }
+        )
+
+        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+
+        let weChatTimelineActivity = WeChatActivity(
+            type: .Timeline,
+            message: timelineMessage,
+            finish: { success in
+                println("share Profile to WeChat Timeline success: \(success)")
+            }
+        )
+        
+        let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+        activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
+
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
 
     @objc private func tryShareMyProfile(sender: AnyObject?) {
 
         if let _ = profileUser?.username {
-            shareProfile()
+            tryShareProfile()
 
         } else {
             YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
@@ -726,7 +736,7 @@ final class ProfileViewController: SegueViewController {
                                 }
                         }
 
-                        self?.shareProfile()
+                        self?.tryShareProfile()
                     }
                 })
 
@@ -736,7 +746,8 @@ final class ProfileViewController: SegueViewController {
     }
 
     @objc private func shareOthersProfile(sender: AnyObject) {
-        shareProfile()
+
+        tryShareProfile()
     }
 
     private func pickSkills() {
