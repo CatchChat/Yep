@@ -1127,6 +1127,7 @@ final class ConversationViewController: BaseViewController {
 
             // for peek pop
             do {
+                conversationCollectionView.contentInset.top = FeedView.foldHeight
                 setConversaitonCollectionViewOriginalBottomContentInset()
             }
         }
