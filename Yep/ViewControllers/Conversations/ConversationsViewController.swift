@@ -196,6 +196,10 @@ final class ConversationsViewController: BaseViewController {
 
         cacheInAdvance()
 
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: conversationsTableView)
+        }
+
         #if DEBUG
             //view.addSubview(conversationsFPSLabel)
         #endif
@@ -617,3 +621,60 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     }
 }
 
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension ConversationsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = conversationsTableView.indexPathForRowAtPoint(location), cell = conversationsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
+        }
+
+        switch section {
+
+        case .FeedConversation:
+            return nil
+
+        case .Conversation:
+
+            let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+
+            let conversation = conversations[indexPath.row]
+            vc.conversation = conversation
+
+            vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                    guard let row = self?.conversations.indexOf(conversation) else {
+                        return
+                    }
+
+                    let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
+
+                    if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                        cell.updateInfoLabels()
+                    }
+                }
+            }
+            
+            recoverOriginalNavigationDelegate()
+
+            vc.isPreviewed = true
+
+            return vc
+        }
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}

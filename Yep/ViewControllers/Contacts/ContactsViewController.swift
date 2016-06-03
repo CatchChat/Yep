@@ -179,6 +179,10 @@ final class ContactsViewController: BaseViewController {
             }
         }
 
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: contactsTableView)
+        }
+
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
@@ -305,7 +309,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     private func numberOfRowsInSection(section: Int) -> Int {
@@ -527,6 +531,36 @@ extension ContactsViewController: UISearchControllerDelegate {
     func willDismissSearchController(searchController: UISearchController) {
         println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension ContactsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = contactsTableView.indexPathForRowAtPoint(location), cell = contactsTableView.cellForRowAtIndexPath(indexPath) as? ContactsCell else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+
+        let user = friends[indexPath.row]
+        vc.profileUser = .UserType(user)
+        vc.setBackButtonWithTitle()
+        vc.hidesBottomBarWhenPushed = true
+
+        recoverOriginalNavigationDelegate()
+
+        return vc
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+        showViewController(viewControllerToCommit, sender: self)
     }
 }
 

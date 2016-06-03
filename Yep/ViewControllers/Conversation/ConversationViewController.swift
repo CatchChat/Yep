@@ -317,6 +317,9 @@ final class ConversationViewController: BaseViewController {
             print( "didset___")
         }
     }
+
+    // for peek
+    var isPreviewed: Bool = false
     
     private var recipient: Recipient?
 
@@ -1124,6 +1127,16 @@ final class ConversationViewController: BaseViewController {
             }
 
             tryRecoverMessageToolBar()
+
+            if isPreviewed {
+                if conversationFeed != nil {
+                    conversationCollectionView.contentInset.top = FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
+                } else {
+                    conversationCollectionView.contentInset.top = conversationCollectionViewContentInsetYOffset
+                }
+
+                setConversaitonCollectionViewOriginalBottomContentInset()
+            }
         }
     }
 
@@ -1988,14 +2001,19 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Private
 
-    private func setConversaitonCollectionViewOriginalContentInset() {
-
-        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
-        conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
+    private func setConversaitonCollectionViewOriginalBottomContentInset() {
 
         let messageToolbarHeight = messageToolbar.bounds.height
         conversationCollectionView.contentInset.bottom = messageToolbarHeight + sectionInsetBottom
         conversationCollectionView.scrollIndicatorInsets.bottom = messageToolbarHeight
+    }
+
+    private func setConversaitonCollectionViewOriginalContentInset() {
+
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
+        conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
+
+        setConversaitonCollectionViewOriginalBottomContentInset()
     }
 
     private var messageHeights = [String: CGFloat]()
@@ -2541,7 +2559,7 @@ final class ConversationViewController: BaseViewController {
 
             let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
+            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
             let invisibleHeight = messageToolBarTop + topBarsHeight + feedViewHeight
             let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
