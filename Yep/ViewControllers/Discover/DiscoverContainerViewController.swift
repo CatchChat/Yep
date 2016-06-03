@@ -174,21 +174,24 @@ class DiscoverContainerViewController: UIViewController {
 
         case "showProfile":
 
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
-
             let vc = segue.destinationViewController as! ProfileViewController
-
-            if discoveredUser.id != YepUserDefaults.userID.value {
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-            }
-
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
 
         default:
             break
         }
+    }
+
+    private func prepareProfileViewController(vc: ProfileViewController, withDiscoveredUser discoveredUser: DiscoveredUser) {
+
+        if discoveredUser.id != YepUserDefaults.userID.value {
+            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+        }
+
+        vc.setBackButtonWithTitle()
+
+        vc.hidesBottomBarWhenPushed = true
     }
 }
 
@@ -220,13 +223,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
             return nil
         }
 
-        if discoveredUser.id != YepUserDefaults.userID.value {
-            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-        }
-
-        vc.setBackButtonWithTitle()
-
-        vc.hidesBottomBarWhenPushed = true
+        prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
 
         return vc
     }
