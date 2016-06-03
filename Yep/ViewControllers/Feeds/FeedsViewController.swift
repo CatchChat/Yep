@@ -479,6 +479,10 @@ final class FeedsViewController: BaseViewController {
             updateFeeds()
         }
 
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: feedsTableView)
+        }
+
         #if DEBUG
             //view.addSubview(feedsFPSLabel)
         #endif
@@ -980,81 +984,7 @@ final class FeedsViewController: BaseViewController {
                     return
             }
 
-            realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
-            let _ = try? realm.commitWrite()
-
-            vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-
-            vc.afterDeletedFeedAction = { feedID in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    if let strongSelf = self {
-                        var deletedFeed: DiscoveredFeed?
-                        for feed in strongSelf.feeds {
-                            if feed.id == feedID {
-                                deletedFeed = feed
-                                break
-                            }
-                        }
-
-                        if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
-                            strongSelf.feeds.removeAtIndex(index)
-
-                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                            strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-
-                            return
-                        }
-                    }
-
-                    // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
-                    delay(1) {
-                        self?.updateFeeds()
-                    }
-
-                    println("afterDeletedFeedAction")
-                }
-            }
-
-            vc.conversationDirtyAction = { [weak self] groupID in
-
-                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
-
-                    if let feedInfo = groupInfo["topic"] as? JSONDictionary {
-
-                        guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
-                            return
-                        }
-
-                        if let index = strongSelf.feeds.indexOf(feed) {
-                            if strongSelf.feeds[index].messagesCount != feed.messagesCount {
-                                strongSelf.feeds[index].messagesCount = feed.messagesCount
-
-                                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                                let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
-                                }
-                            }
-                        }
-                    }
-                })
-
-                println("conversationDirtyAction")
-            }
-
-            /*
-            vc.syncPlayFeedAudioAction = { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-            }
-            */
-
-            vc.syncPlayFeedAudioAction = { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
-            }
+            prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
 
             recoverOriginalNavigationDelegate()
 
@@ -1111,6 +1041,78 @@ final class FeedsViewController: BaseViewController {
 
         default:
             break
+        }
+    }
+
+    private func prepareConversationViewController(vc: ConversationViewController, withDiscoveredFeed feed: DiscoveredFeed, inRealm realm: Realm) {
+
+        realm.beginWrite()
+        let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+        let _ = try? realm.commitWrite()
+
+        vc.conversation = feedConversation
+        vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+        vc.afterDeletedFeedAction = { feedID in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    var deletedFeed: DiscoveredFeed?
+                    for feed in strongSelf.feeds {
+                        if feed.id == feedID {
+                            deletedFeed = feed
+                            break
+                        }
+                    }
+
+                    if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                        strongSelf.feeds.removeAtIndex(index)
+
+                        let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                        strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+
+                        return
+                    }
+                }
+
+                // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
+                delay(1) {
+                    self?.updateFeeds()
+                }
+
+                println("afterDeletedFeedAction")
+            }
+        }
+
+        vc.conversationDirtyAction = { [weak self] groupID in
+
+            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
+
+                if let feedInfo = groupInfo["topic"] as? JSONDictionary {
+
+                    guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                        return
+                    }
+
+                    if let index = strongSelf.feeds.indexOf(feed) {
+                        if strongSelf.feeds[index].messagesCount != feed.messagesCount {
+                            strongSelf.feeds[index].messagesCount = feed.messagesCount
+
+                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                            let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
+                            dispatch_async(dispatch_get_main_queue()) {
+                                wayToUpdate.performWithTableView(strongSelf.feedsTableView)
+                            }
+                        }
+                    }
+                }
+            })
+
+            println("conversationDirtyAction")
+        }
+
+        vc.syncPlayFeedAudioAction = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
         }
     }
 }
@@ -1924,3 +1926,49 @@ extension FeedsViewController: AVAudioPlayerDelegate {
     }
 }
 
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension FeedsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = feedsTableView.indexPathForRowAtPoint(location), cell = feedsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
+        }
+
+        switch section {
+
+        case .Feed:
+
+            let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+
+           guard let
+                feed = feeds[safe: indexPath.row],
+                realm = try? Realm() else {
+                    return nil
+            }
+
+            prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
+
+            recoverOriginalNavigationDelegate()
+
+            vc.isPreviewed = true
+
+            return vc
+
+        default:
+            return nil
+        }
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}

@@ -115,6 +115,10 @@ class DiscoverContainerViewController: UIViewController {
         } else {
             discoveredUserSortStyle = .Default
         }
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }
     }
 
     // MARK: - Actions
@@ -170,21 +174,63 @@ class DiscoverContainerViewController: UIViewController {
 
         case "showProfile":
 
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
-
             let vc = segue.destinationViewController as! ProfileViewController
-
-            if discoveredUser.id != YepUserDefaults.userID.value {
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-            }
-
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
 
         default:
             break
         }
+    }
+
+    private func prepareProfileViewController(vc: ProfileViewController, withDiscoveredUser discoveredUser: DiscoveredUser) {
+
+        if discoveredUser.id != YepUserDefaults.userID.value {
+            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+        }
+
+        vc.setBackButtonWithTitle()
+
+        vc.hidesBottomBarWhenPushed = true
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard case .FindAll = currentOption else {
+            return nil
+        }
+
+        guard let discoveredUsersCollectionView = discoverViewController?.discoveredUsersCollectionView else {
+            return nil
+        }
+
+        let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
+
+        guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+
+        guard let discoveredUser = discoverViewController?.discoveredUsers[indexPath.row] else {
+            return nil
+        }
+
+        prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
+
+        return vc
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+        showViewController(viewControllerToCommit, sender: self)
     }
 }
 
