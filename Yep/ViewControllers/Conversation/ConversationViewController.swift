@@ -2002,7 +2002,7 @@ final class ConversationViewController: BaseViewController {
 
     private func setConversaitonCollectionViewOriginalContentInset() {
 
-        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
+        let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
 
         setConversaitonCollectionViewOriginalBottomContentInset()
@@ -2551,7 +2551,7 @@ final class ConversationViewController: BaseViewController {
 
             let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
 
-            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : feedView!.height
+            let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
             let invisibleHeight = messageToolBarTop + topBarsHeight + feedViewHeight
             let visibleHeight = conversationCollectionView.frame.height - invisibleHeight
 
