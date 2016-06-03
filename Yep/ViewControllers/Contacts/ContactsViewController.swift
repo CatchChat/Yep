@@ -180,7 +180,7 @@ final class ContactsViewController: BaseViewController {
         }
 
         if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: view)
+            registerForPreviewingWithDelegate(self, sourceView: contactsTableView)
         }
 
         #if DEBUG
@@ -309,7 +309,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     private func numberOfRowsInSection(section: Int) -> Int {
@@ -549,12 +549,9 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
         let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
 
         let user = friends[indexPath.row]
-
         vc.profileUser = .UserType(user)
-
-        vc.hidesBottomBarWhenPushed = true
-
         vc.setBackButtonWithTitle()
+        vc.hidesBottomBarWhenPushed = true
 
         recoverOriginalNavigationDelegate()
 
