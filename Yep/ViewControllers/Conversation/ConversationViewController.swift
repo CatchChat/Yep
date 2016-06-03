@@ -1128,9 +1128,6 @@ final class ConversationViewController: BaseViewController {
             // for peek pop
             do {
                 setConversaitonCollectionViewOriginalBottomContentInset()
-
-                // 尽量滚到底部
-                //tryScrollToBottom()
             }
         }
     }
