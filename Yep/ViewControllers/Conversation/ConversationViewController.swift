@@ -1124,6 +1124,8 @@ final class ConversationViewController: BaseViewController {
             }
 
             tryRecoverMessageToolBar()
+
+            setConversaitonCollectionViewOriginalContentInset()
         }
     }
 
