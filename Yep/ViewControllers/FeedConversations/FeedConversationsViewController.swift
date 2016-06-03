@@ -138,10 +138,17 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
+            let conversation = sender as! Conversation
+            prepareConversationViewController(vc, withConversation: conversation)
         }
+    }
+
+    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+
+        vc.conversation = conversation
     }
 }
 
@@ -330,7 +337,7 @@ extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
         let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
 
         let conversation = feedConversations[indexPath.row]
-        vc.conversation = conversation
+        prepareConversationViewController(vc, withConversation: conversation)
 
         vc.isPreviewed = true
 
