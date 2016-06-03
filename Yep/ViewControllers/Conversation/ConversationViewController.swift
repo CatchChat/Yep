@@ -912,10 +912,7 @@ final class ConversationViewController: BaseViewController {
         #endif
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // sync messages
+    private func trySyncMessages() {
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
@@ -981,6 +978,12 @@ final class ConversationViewController: BaseViewController {
         default:
             break
         }
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        trySyncMessages()
 
         if isFirstAppear {
             if let feed = conversation.withGroup?.withFeed {
