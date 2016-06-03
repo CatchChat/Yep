@@ -967,14 +967,14 @@ final class ConversationViewController: BaseViewController {
 
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
-                })
+            })
             
         case ConversationType.Group.rawValue:
             
             if let _ = conversation.withGroup {
                 // 直接同步消息
                 syncMessages(failedAction: {
-                    }, successAction: {
+                }, successAction: {
                 })
             }
             
@@ -987,7 +987,6 @@ final class ConversationViewController: BaseViewController {
                 conversationFeed = ConversationFeed.FeedType(feed)
             }
 
-//        println(conversationFeed,"___conversationFeed")// 私聊时此项为空
             if let conversationFeed = conversationFeed {
                 makeFeedViewWithFeed(conversationFeed)
                 tryFoldFeedView()
