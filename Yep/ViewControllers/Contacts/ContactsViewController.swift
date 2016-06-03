@@ -540,7 +540,19 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        return nil
+        guard let indexPath = contactsTableView.indexPathForRowAtPoint(location), cell = contactsTableView.cellForRowAtIndexPath(indexPath) as? ContactsCell else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+
+        let user = friends[indexPath.row]
+
+        vc.profileUser = .UserType(user)
+
+        return vc
     }
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
