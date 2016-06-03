@@ -55,7 +55,7 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    private var discoveredUsers = [DiscoveredUser]()
+    var discoveredUsers = [DiscoveredUser]()
 
     private lazy var filterStyles: [DiscoveredUserSortStyle] = [
         .Distance,
@@ -142,7 +142,6 @@ final class DiscoverViewController: BaseViewController {
                 activityIndicator.stopAnimating()
             }
         }
-
 
         refreshControl.tintColor = UIColor.lightGrayColor()
         refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
