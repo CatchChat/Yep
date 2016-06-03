@@ -361,25 +361,8 @@ final class ConversationsViewController: BaseViewController {
         case "showConversation":
 
             let vc = segue.destinationViewController as! ConversationViewController
-
             let conversation = sender as! Conversation
-            vc.conversation = conversation
-
-            vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    guard let row = self?.conversations.indexOf(conversation) else {
-                        return
-                    }
-
-                    let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
-
-                    if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        cell.updateInfoLabels()
-                    }
-                }
-            }
+            prepareConversationViewController(vc, withConversation: conversation)
 
             recoverOriginalNavigationDelegate()
 
@@ -396,6 +379,27 @@ final class ConversationsViewController: BaseViewController {
             
         default:
             break
+        }
+    }
+
+    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+
+        vc.conversation = conversation
+
+        vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
+
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+                guard let row = self?.conversations.indexOf(conversation) else {
+                    return
+                }
+
+                let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
+
+                if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                    cell.updateInfoLabels()
+                }
+            }
         }
     }
 
@@ -645,26 +649,9 @@ extension ConversationsViewController: UIViewControllerPreviewingDelegate {
         case .Conversation:
 
             let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
-
             let conversation = conversations[indexPath.row]
-            vc.conversation = conversation
+            prepareConversationViewController(vc, withConversation: conversation)
 
-            vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    guard let row = self?.conversations.indexOf(conversation) else {
-                        return
-                    }
-
-                    let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
-
-                    if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        cell.updateInfoLabels()
-                    }
-                }
-            }
-            
             recoverOriginalNavigationDelegate()
 
             vc.isPreviewed = true
