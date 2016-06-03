@@ -903,7 +903,16 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
-        // sync messages
+        tryShowSubscribeView()
+
+        needDetectMention = conversation.needDetectMention
+
+        #if DEBUG
+            //view.addSubview(conversationFPSLabel)
+        #endif
+    }
+
+    private func trySyncMessages() {
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
@@ -949,45 +958,37 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
-        switch conversation.type {
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
 
-        case ConversationType.OneToOne.rawValue:
+        switch conversationType {
+
+        case .OneToOne:
 
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
             })
-
-        case ConversationType.Group.rawValue:
-
+            
+        case .Group:
+            
             if let _ = conversation.withGroup {
                 // 直接同步消息
-                syncMessages(failedAction: {
-                }, successAction: {
-                })
+                syncMessages(failedAction: nil, successAction: nil)
             }
-
-        default:
-            break
         }
-
-        tryShowSubscribeView()
-
-        needDetectMention = conversation.needDetectMention
-
-        #if DEBUG
-            //view.addSubview(conversationFPSLabel)
-        #endif
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        trySyncMessages()
 
         if isFirstAppear {
             if let feed = conversation.withGroup?.withFeed {
                 conversationFeed = ConversationFeed.FeedType(feed)
             }
 
-//        println(conversationFeed,"___conversationFeed")// 私聊时此项为空
             if let conversationFeed = conversationFeed {
                 makeFeedViewWithFeed(conversationFeed)
                 tryFoldFeedView()
