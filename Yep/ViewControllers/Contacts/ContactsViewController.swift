@@ -179,6 +179,10 @@ final class ContactsViewController: BaseViewController {
             }
         }
 
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: view)
+        }
+
         #if DEBUG
             //view.addSubview(contactsFPSLabel)
         #endif
@@ -527,6 +531,20 @@ extension ContactsViewController: UISearchControllerDelegate {
     func willDismissSearchController(searchController: UISearchController) {
         println("willDismissSearchController")
         coverUnderStatusBarView.hidden = true
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension ContactsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        return nil
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
     }
 }
 
