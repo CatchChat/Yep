@@ -3602,6 +3602,7 @@
 				503E72051CF2A59100822B91 /* Headers */,
 				503E72061CF2A59100822B91 /* Resources */,
 				766FC356FEADE5B194CEFEA6 /* [CP] Copy Pods Resources */,
+				501E443E1D018EF00091D475 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3641,6 +3642,7 @@
 				5056EA881CF2C55100FDE07E /* Headers */,
 				5056EA891CF2C55100FDE07E /* Resources */,
 				A9995C41E9A8AE73FFCC9E60 /* [CP] Copy Pods Resources */,
+				501E443C1D018EA40091D475 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3741,6 +3743,7 @@
 				50D3A3411CEE9A2000E59470 /* Headers */,
 				50D3A3421CEE9A2000E59470 /* Resources */,
 				4CCAF4911E129AB192895FD4 /* [CP] Copy Pods Resources */,
+				501E443F1D018EFB0091D475 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3798,6 +3801,7 @@
 				50D84EC51CF2CB110018D91F /* Headers */,
 				50D84EC61CF2CB110018D91F /* Resources */,
 				917B07C2E22A500319343A7C /* [CP] Copy Pods Resources */,
+				501E443D1D018EE40091D475 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4283,6 +4287,58 @@
 			showEnvVarsInLog = 0;
 		};
 		501E44351D0187C90091D475 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\n    rm -fr Frameworks\nfi";
+		};
+		501E443C1D018EA40091D475 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\n    rm -fr Frameworks\nfi";
+		};
+		501E443D1D018EE40091D475 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\n    rm -fr Frameworks\nfi";
+		};
+		501E443E1D018EF00091D475 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/\"\nif [[ -d \"Frameworks\" ]]; then\n    rm -fr Frameworks\nfi";
+		};
+		501E443F1D018EFB0091D475 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
