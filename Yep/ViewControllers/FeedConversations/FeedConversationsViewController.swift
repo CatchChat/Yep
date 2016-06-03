@@ -332,6 +332,8 @@ extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
         let conversation = feedConversations[indexPath.row]
         vc.conversation = conversation
 
+        vc.isPreviewed = true
+
         return vc
     }
 

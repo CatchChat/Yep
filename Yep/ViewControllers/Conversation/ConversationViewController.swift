@@ -317,6 +317,9 @@ final class ConversationViewController: BaseViewController {
             print( "didset___")
         }
     }
+
+    // for peek
+    var isPreviewed: Bool = false
     
     private var recipient: Recipient?
 
@@ -1125,9 +1128,8 @@ final class ConversationViewController: BaseViewController {
 
             tryRecoverMessageToolBar()
 
-            // for peek pop
-            do {
-                conversationCollectionView.contentInset.top = FeedView.foldHeight
+            if isPreviewed {
+                conversationCollectionView.contentInset.top = FeedView.foldHeight + conversationCollectionViewContentInsetYOffset
                 setConversaitonCollectionViewOriginalBottomContentInset()
             }
         }

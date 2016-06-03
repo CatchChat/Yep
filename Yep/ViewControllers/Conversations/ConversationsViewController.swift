@@ -667,6 +667,8 @@ extension ConversationsViewController: UIViewControllerPreviewingDelegate {
             
             recoverOriginalNavigationDelegate()
 
+            vc.isPreviewed = true
+
             return vc
         }
     }
