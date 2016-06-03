@@ -552,6 +552,12 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
         vc.profileUser = .UserType(user)
 
+        vc.hidesBottomBarWhenPushed = true
+
+        vc.setBackButtonWithTitle()
+
+        recoverOriginalNavigationDelegate()
+
         return vc
     }
 
