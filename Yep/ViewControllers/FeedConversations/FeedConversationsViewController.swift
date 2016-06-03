@@ -109,6 +109,10 @@ final class FeedConversationsViewController: SegueViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.changedFeedConversation, object: nil)
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: feedConversationsTableView)
+        }
     }
 
     var isFirstAppear = true
@@ -308,6 +312,32 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
 
         return [deleteAction]
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = feedConversationsTableView.indexPathForRowAtPoint(location), cell = feedConversationsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
+
+        let conversation = feedConversations[indexPath.row]
+        vc.conversation = conversation
+
+        return vc
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+        showViewController(viewControllerToCommit, sender: self)
     }
 }
 
