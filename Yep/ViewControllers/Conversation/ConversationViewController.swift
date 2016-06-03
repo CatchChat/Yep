@@ -958,25 +958,24 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
-        switch conversation.type {
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
 
-        case ConversationType.OneToOne.rawValue:
+        switch conversationType {
+
+        case .OneToOne:
 
             syncMessages(failedAction: nil, successAction: { [weak self] in
                 self?.syncMessagesReadStatus()
             })
             
-        case ConversationType.Group.rawValue:
+        case .Group:
             
             if let _ = conversation.withGroup {
                 // 直接同步消息
-                syncMessages(failedAction: {
-                }, successAction: {
-                })
+                syncMessages(failedAction: nil, successAction: nil)
             }
-            
-        default:
-            break
         }
     }
 
