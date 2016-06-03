@@ -267,21 +267,19 @@ final class ContactsViewController: BaseViewController {
             recoverOriginalNavigationDelegate()
             
         case "showProfile":
+
             let vc = segue.destinationViewController as! ProfileViewController
-            
+            var profileUser: ProfileUser?
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = .UserType(user)
+                    profileUser = .UserType(user)
                 }
                 
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
+                profileUser = .DiscoveredUserType(discoveredUser)
             }
-            
-            vc.hidesBottomBarWhenPushed = true
-            
-            vc.setBackButtonWithTitle()
-            
+            prepareProfileViewController(vc, withProfileUser: profileUser)
+
             recoverOriginalNavigationDelegate()
             
         case "showSearchContacts":
@@ -296,6 +294,15 @@ final class ContactsViewController: BaseViewController {
         default:
             break
         }
+    }
+
+    private func prepareProfileViewController(vc: ProfileViewController, withProfileUser profileUser: ProfileUser?) {
+
+        vc.profileUser = profileUser
+
+        vc.hidesBottomBarWhenPushed = true
+
+        vc.setBackButtonWithTitle()
     }
 }
 
@@ -549,9 +556,8 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
         let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
 
         let user = friends[indexPath.row]
-        vc.profileUser = .UserType(user)
-        vc.setBackButtonWithTitle()
-        vc.hidesBottomBarWhenPushed = true
+        let profileUser: ProfileUser = .UserType(user)
+        prepareProfileViewController(vc, withProfileUser: profileUser)
 
         recoverOriginalNavigationDelegate()
 
