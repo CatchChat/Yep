@@ -557,6 +557,7 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
 
+        showViewController(viewControllerToCommit, sender: self)
     }
 }
 
