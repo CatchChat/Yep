@@ -37,6 +37,8 @@ private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
 
+private let appLaunchCountKey = "appLaunchCount"
+
 public struct Listener<T>: Hashable {
 
     let name: String
@@ -175,6 +177,7 @@ final public class YepUserDefaults {
         userCoordinateLongitude.removeAllListeners()
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
+        appLaunchCount.removeAllListeners()
 
         // reset suite
 
@@ -458,6 +461,14 @@ final public class YepUserDefaults {
 
         return Listenable<Bool?>(syncedConversations) { syncedConversations in
             defaults.setObject(syncedConversations, forKey: syncedConversationsKey)
+        }
+    }()
+
+    public static var appLaunchCount: Listenable<Int?> = {
+        let appLaunchCount = defaults.integerForKey(appLaunchCountKey)
+
+        return Listenable<Int?>(appLaunchCount) { appLaunchCount in
+            defaults.setObject(appLaunchCount, forKey: appLaunchCountKey)
         }
     }()
 }
