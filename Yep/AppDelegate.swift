@@ -109,6 +109,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             startShowStory()
         }
 
+        YepUserDefaults.appLaunchCount.value += 1
+
         return true
     }
 
