@@ -38,6 +38,7 @@ private let userLocationNameKey = "userLocationName"
 private let syncedConversationsKey = "syncedConversations"
 
 private let appLaunchCountKey = "appLaunchCount"
+private let tabBarItemTextEnabledKey = "tabBarItemTextEnabled"
 
 public struct Listener<T>: Hashable {
 
@@ -178,6 +179,7 @@ final public class YepUserDefaults {
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
         appLaunchCount.removeAllListeners()
+        tabBarItemTextEnabled.removeAllListeners()
 
         // reset suite
 
@@ -469,6 +471,14 @@ final public class YepUserDefaults {
 
         return Listenable<Int>(appLaunchCount) { appLaunchCount in
             defaults.setObject(appLaunchCount, forKey: appLaunchCountKey)
+        }
+    }()
+
+    public static var tabBarItemTextEnabled: Listenable<Bool?> = {
+        let tabBarItemTextEnabled = defaults.boolForKey(tabBarItemTextEnabledKey)
+
+        return Listenable<Bool?>(tabBarItemTextEnabled) { tabBarItemTextEnabled in
+            defaults.setObject(tabBarItemTextEnabled, forKey: tabBarItemTextEnabledKey)
         }
     }()
 }
