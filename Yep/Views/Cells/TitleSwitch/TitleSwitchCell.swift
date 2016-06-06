@@ -22,15 +22,35 @@ class TitleSwitchCell: UITableViewCell {
         return s
     }()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+        makeUI()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
+    private func makeUI() {
+
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(toggleSwitch)
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        toggleSwitch.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = [
+            "titleLable": titleLabel,
+            "toggleSwitch": toggleSwitch,
+        ]
+
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[titleLable]-[toggleSwitch]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+
+        let centerY = titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
+
+        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activateConstraints([centerY])
+    }
 }
+
