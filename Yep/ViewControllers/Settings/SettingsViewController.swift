@@ -137,7 +137,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             case .TabBarTitleEnabled:
                 let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
                 cell.titleLabel.text = NSLocalizedString("Show Tab Bar Title", comment: "")
-                cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? true
+                cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
                 cell.toggleSwitchStateChangedAction = { on in
                     YepUserDefaults.tabBarItemTextEnabled.value = on
                 }

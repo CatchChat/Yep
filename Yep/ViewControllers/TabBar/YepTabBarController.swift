@@ -98,7 +98,12 @@ final class YepTabBarController: UITabBarController {
 
     func setTabBarItems() {
 
-        let noNeedTitle = YepUserDefaults.appLaunchCount.value > 30
+        let noNeedTitle: Bool
+        if let tabBarItemTextEnabled = YepUserDefaults.tabBarItemTextEnabled.value {
+            noNeedTitle = !tabBarItemTextEnabled
+        } else {
+            noNeedTitle = YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled
+        }
 
         if noNeedTitle {
             // 将 UITabBarItem 的 image 下移一些，也不显示 title 了

@@ -108,6 +108,8 @@ final public class YepUserDefaults {
 
     static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
 
+    public static let appLaunchCountThresholdForTabBarItemTextEnabled: Int = 30
+
     public static var isLogined: Bool {
 
         if let _ = YepUserDefaults.v1AccessToken.value {
