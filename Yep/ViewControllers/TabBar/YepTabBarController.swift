@@ -8,6 +8,7 @@
 
 import UIKit
 import YepConfig
+import YepKit
 
 final class YepTabBarController: UITabBarController {
 
@@ -97,9 +98,9 @@ final class YepTabBarController: UITabBarController {
 
     func setTabBarItems() {
 
-        let noTitle = true
+        let noNeedTitle = YepUserDefaults.appLaunchCount.value > 30
 
-        if noTitle {
+        if noNeedTitle {
             // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
             if let items = tabBar.items {
                 for item in items {
