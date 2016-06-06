@@ -2933,20 +2933,25 @@ final class ConversationViewController: BaseViewController {
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
 
     @objc private func handleApplicationDidBecomeActive(notification: NSNotification) {
+
+        guard UIApplication.sharedApplication().applicationState == .Active else {
+            return
+        }
+
         tryInsertInActiveNewMessages()
+
+        trySyncMessages()
     }
+
     private func tryInsertInActiveNewMessages() {
 
-        if UIApplication.sharedApplication().applicationState == .Active {
+        if inActiveNewMessageIDSet.count > 0 {
+            updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
+            })
 
-            if inActiveNewMessageIDSet.count > 0 {
-                updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
-                })
+            inActiveNewMessageIDSet = []
 
-                inActiveNewMessageIDSet = []
-
-                println("insert inActiveNewMessageIDSet to CollectionView")
-            }
+            println("insert inActiveNewMessageIDSet to CollectionView")
         }
     }
 
