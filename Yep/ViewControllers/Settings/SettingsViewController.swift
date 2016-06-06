@@ -92,6 +92,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case More
     }
 
+    private enum UIRow: Int {
+        case TabBarTitleEnabled
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 3
     }
@@ -125,8 +129,17 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
 
         case .UI:
-            let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
-            return cell
+            guard let row = UIRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch row {
+            case .TabBarTitleEnabled:
+                let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
+                cell.titleLabel.text = NSLocalizedString("Tab bar title", comment: "")
+                cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? true
+                return cell
+            }
 
         case .More:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell

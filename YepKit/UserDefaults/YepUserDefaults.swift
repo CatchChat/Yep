@@ -475,7 +475,7 @@ final public class YepUserDefaults {
     }()
 
     public static var tabBarItemTextEnabled: Listenable<Bool?> = {
-        let tabBarItemTextEnabled = defaults.boolForKey(tabBarItemTextEnabledKey)
+        let tabBarItemTextEnabled = defaults.objectForKey(tabBarItemTextEnabledKey) as? Bool
 
         return Listenable<Bool?>(tabBarItemTextEnabled) { tabBarItemTextEnabled in
             defaults.setObject(tabBarItemTextEnabled, forKey: tabBarItemTextEnabledKey)
