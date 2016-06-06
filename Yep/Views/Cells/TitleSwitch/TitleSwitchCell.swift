@@ -10,10 +10,13 @@ import UIKit
 
 class TitleSwitchCell: UITableViewCell {
 
+    static let reuseIdentifier = "TitleSwitchCell"
+
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.blackColor()
         label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+        label.text = "Title"
         return label
     }()
 
@@ -45,7 +48,7 @@ class TitleSwitchCell: UITableViewCell {
             "toggleSwitch": toggleSwitch,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[titleLable]-[toggleSwitch]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[titleLable]-[toggleSwitch]-20-|", options: [.AlignAllCenterY], metrics: nil, views: views)
 
         let centerY = titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
 

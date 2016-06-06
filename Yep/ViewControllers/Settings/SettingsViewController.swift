@@ -64,6 +64,7 @@ final class SettingsViewController: BaseViewController {
 
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
+        settingsTableView.registerClass(TitleSwitchCell.self, forCellReuseIdentifier: TitleSwitchCell.reuseIdentifier)
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
             dispatch_async(dispatch_get_main_queue()) {
@@ -124,7 +125,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
 
         case .UI:
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
+            return cell
 
         case .More:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell
