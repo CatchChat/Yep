@@ -68,10 +68,14 @@ final class YepTabBarController: UITabBarController {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
 
+    private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
+
     deinit {
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
+
+        YepUserDefaults.tabBarItemTextEnabled.removeListenerWithName(tabBarItemTextEnabledListenerName)
 
         println("deinit YepTabBar")
     }
@@ -83,7 +87,9 @@ final class YepTabBarController: UITabBarController {
 
         view.backgroundColor = UIColor.whiteColor()
 
-        setTabBarItems()
+        YepUserDefaults.tabBarItemTextEnabled.bindAndFireListener(tabBarItemTextEnabledListenerName) { [weak self] _ in
+            self?.adjustTabBarItems()
+        }
 
         // 处理启动切换
 
@@ -96,7 +102,7 @@ final class YepTabBarController: UITabBarController {
         }
     }
 
-    func setTabBarItems() {
+    func adjustTabBarItems() {
 
         let noNeedTitle: Bool
         if let tabBarItemTextEnabled = YepUserDefaults.tabBarItemTextEnabled.value {
@@ -119,6 +125,7 @@ final class YepTabBarController: UITabBarController {
             if let items = tabBar.items {
                 for i in 0..<items.count {
                     let item = items[i]
+                    item.imageInsets = UIEdgeInsetsZero
                     item.title = Tab(rawValue: i)?.title
                 }
             }
