@@ -97,22 +97,24 @@ final class YepTabBarController: UITabBarController {
 
     func setTabBarItems() {
 
-        // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
-        /*
-        if let items = tabBar.items as? [UITabBarItem] {
-            for item in items {
-                item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-                item.title = nil
+        let noTitle = true
+
+        if noTitle {
+            // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
+            if let items = tabBar.items {
+                for item in items {
+                    item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+                    item.title = nil
+                }
             }
-        }
-        */
 
-        // Set Titles
-
-        if let items = tabBar.items {
-            for i in 0..<items.count {
-                let item = items[i]
-                item.title = Tab(rawValue: i)?.title
+        } else {
+            // Set Titles
+            if let items = tabBar.items {
+                for i in 0..<items.count {
+                    let item = items[i]
+                    item.title = Tab(rawValue: i)?.title
+                }
             }
         }
     }

@@ -380,7 +380,7 @@ final class FeedsViewController: BaseViewController {
             }
         }
 
-        title = NSLocalizedString("Feeds", comment: "")
+        navigationItem.title = NSLocalizedString("Feeds", comment: "")
 
         searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
 

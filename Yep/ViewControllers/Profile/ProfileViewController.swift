@@ -341,7 +341,7 @@ final class ProfileViewController: SegueViewController {
             }
         })
 
-        title = NSLocalizedString("Profile", comment: "")
+        navigationItem.title = NSLocalizedString("Profile", comment: "")
 
         view.addSubview(customNavigationBar)
 
