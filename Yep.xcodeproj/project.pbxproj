@@ -1707,6 +1707,7 @@
 		5023DE271AB6856600B3EE96 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				0A5D83951AC5D3CD000045BF /* TabBar */,
 				5023DE281AB6857500B3EE96 /* Conversations */,
 				50008D2E1CAE0CD400245296 /* SearchConversations */,
 				50E34C0F1CB4B617007CAE80 /* SearchedUserMessages */,
@@ -1724,7 +1725,6 @@
 				502AE51C1AB70DE5005BD199 /* Welcome */,
 				502AE51F1AB712D6005BD199 /* Register */,
 				502AE5361AB864A3005BD199 /* Login */,
-				0A5D83951AC5D3CD000045BF /* TabBar */,
 				50894CF21AEA472B000981AF /* Settings */,
 				50894CFF1AEA5A7E000981AF /* EditProfile */,
 				500A0B1D1B450C2F00D49358 /* EditNicknameAndBadge */,
