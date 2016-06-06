@@ -12,6 +12,8 @@ class TitleSwitchCell: UITableViewCell {
 
     static let reuseIdentifier = "TitleSwitchCell"
 
+    var toggleSwitchStateChangedAction: ((on: Bool) -> Void)?
+
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.blackColor()
@@ -22,6 +24,7 @@ class TitleSwitchCell: UITableViewCell {
 
     lazy var toggleSwitch: UISwitch = {
         let s = UISwitch()
+        s.addTarget(self, action: #selector(TitleSwitchCell.toggleSwitchStateChanged(_:)), forControlEvents: .ValueChanged)
         return s
     }()
 
@@ -33,6 +36,11 @@ class TitleSwitchCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc private func toggleSwitchStateChanged(sender: UISwitch) {
+
+        toggleSwitchStateChangedAction?(on: sender.on)
     }
 
     private func makeUI() {
