@@ -426,6 +426,7 @@
 		50E1CE8E1BE0BFF00025B933 /* MediaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1CE8C1BE0BFF00025B933 /* MediaViewCell.swift */; };
 		50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E1CE8D1BE0BFF00025B933 /* MediaViewCell.xib */; };
 		50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */; };
+		50E2EB831D051C10001BB821 /* TitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E2EB821D051C10001BB821 /* TitleSwitchCell.swift */; };
 		50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3488D1B905C0100A8E699 /* AboutViewController.swift */; };
 		50E348921B9063A700A8E699 /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E348901B9063A700A8E699 /* AboutCell.swift */; };
 		50E348931B9063A700A8E699 /* AboutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E348911B9063A700A8E699 /* AboutCell.xib */; };
@@ -1109,6 +1110,7 @@
 		50E1CE8C1BE0BFF00025B933 /* MediaViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaViewCell.swift; path = Views/Cells/MediaView/MediaViewCell.swift; sourceTree = "<group>"; };
 		50E1CE8D1BE0BFF00025B933 /* MediaViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MediaViewCell.xib; path = Views/Cells/MediaView/MediaViewCell.xib; sourceTree = "<group>"; };
 		50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSParagraphStyle+Yep.swift"; path = "Extensions/NSParagraphStyle+Yep.swift"; sourceTree = "<group>"; };
+		50E2EB821D051C10001BB821 /* TitleSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleSwitchCell.swift; path = Views/Cells/TitleSwitch/TitleSwitchCell.swift; sourceTree = "<group>"; };
 		50E3488D1B905C0100A8E699 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutViewController.swift; path = ViewControllers/About/AboutViewController.swift; sourceTree = "<group>"; };
 		50E348901B9063A700A8E699 /* AboutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutCell.swift; path = Views/Cells/About/AboutCell.swift; sourceTree = "<group>"; };
 		50E348911B9063A700A8E699 /* AboutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutCell.xib; path = Views/Cells/About/AboutCell.xib; sourceTree = "<group>"; };
@@ -1868,6 +1870,7 @@
 		5023DE3A1AB697A700B3EE96 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				50E2EB811D051BC0001BB821 /* TitleSwitch */,
 				503E10201CF82572000FA7C6 /* GeniusInterview */,
 				336563F61CCF2F7000598378 /* ChatLeftShareFeed */,
 				336563F51CCF2F2C00598378 /* ChatRightShareFeed */,
@@ -3193,6 +3196,14 @@
 				50E1CE8D1BE0BFF00025B933 /* MediaViewCell.xib */,
 			);
 			name = MediaView;
+			sourceTree = "<group>";
+		};
+		50E2EB811D051BC0001BB821 /* TitleSwitch */ = {
+			isa = PBXGroup;
+			children = (
+				50E2EB821D051C10001BB821 /* TitleSwitchCell.swift */,
+			);
+			name = TitleSwitch;
 			sourceTree = "<group>";
 		};
 		50E3488F1B905C0700A8E699 /* About */ = {
@@ -4625,6 +4636,7 @@
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
+				50E2EB831D051C10001BB821 /* TitleSwitchCell.swift in Sources */,
 				50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */,
 				50DBDF011C4CE75E0044E21B /* ChatRightTextURLCell.swift in Sources */,
 				50E392C41C22C0F600C0CECB /* FeedVoiceCell.swift in Sources */,
