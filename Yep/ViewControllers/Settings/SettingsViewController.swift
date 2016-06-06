@@ -60,12 +60,11 @@ final class SettingsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        animatedOnNavigationBar = false
-
         title = NSLocalizedString("Settings", comment: "")
 
         settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
         settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
+        settingsTableView.registerClass(TitleSwitchCell.self, forCellReuseIdentifier: TitleSwitchCell.reuseIdentifier)
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
             dispatch_async(dispatch_get_main_queue()) {
@@ -88,47 +87,80 @@ final class SettingsViewController: BaseViewController {
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
-        case User = 0
+        case User
+        case UI
         case More
     }
 
+    private enum UIRow: Int {
+        case TabBarTitleEnabled
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 3
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
         switch section {
-        case Section.User.rawValue:
+        case .User:
             return 1
-        case Section.More.rawValue:
+        case .UI:
+            return 1
+        case .More:
             return moreAnnotations.count
-        default:
-            return 0
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
 
-        case Section.User.rawValue:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+
+        case .User:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
             return cell
 
-        case Section.More.rawValue:
+        case .UI:
+            guard let row = UIRow(rawValue: indexPath.row) else {
+                fatalError()
+            }
+
+            switch row {
+            case .TabBarTitleEnabled:
+                let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
+                cell.titleLabel.text = NSLocalizedString("Show Tab Bar Title", comment: "")
+                cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
+                cell.toggleSwitchStateChangedAction = { on in
+                    YepUserDefaults.tabBarItemTextEnabled.value = on
+                }
+                return cell
+            }
+
+        case .More:
             let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell
             let annotation = moreAnnotations[indexPath.row]
             cell.annotationLabel.text = annotation["name"]
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.section {
 
-        case Section.User.rawValue:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+
+        case .User:
 
             let tableViewWidth = CGRectGetWidth(settingsTableView.bounds)
             let introLabelMaxWidth = tableViewWidth - YepConfig.Settings.introInset
@@ -139,11 +171,11 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
             return height
 
-        case Section.More.rawValue:
+        case .UI:
             return 60
 
-        default:
-            return 0
+        case .More:
+            return 60
         }
     }
 
@@ -153,20 +185,24 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
 
-        case Section.User.rawValue:
+        switch section {
+
+        case .User:
             performSegueWithIdentifier("showEditProfile", sender: nil)
 
-        case Section.More.rawValue:
+        case .UI:
+            break
+
+        case .More:
             let annotation = moreAnnotations[indexPath.row]
 
             if let segue = annotation["segue"] {
                 performSegueWithIdentifier(segue, sender: nil)
             }
-
-        default:
-            break
         }
     }
 }

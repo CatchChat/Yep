@@ -8,6 +8,7 @@
 
 import UIKit
 import YepConfig
+import YepKit
 
 final class YepTabBarController: UITabBarController {
 
@@ -67,10 +68,14 @@ final class YepTabBarController: UITabBarController {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
 
+    private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
+
     deinit {
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
+
+        YepUserDefaults.tabBarItemTextEnabled.removeListenerWithName(tabBarItemTextEnabledListenerName)
 
         println("deinit YepTabBar")
     }
@@ -82,23 +87,8 @@ final class YepTabBarController: UITabBarController {
 
         view.backgroundColor = UIColor.whiteColor()
 
-        // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
-        /*
-        if let items = tabBar.items as? [UITabBarItem] {
-            for item in items {
-                item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-                item.title = nil
-            }
-        }
-        */
-
-        // Set Titles
-
-        if let items = tabBar.items {
-            for i in 0..<items.count {
-                let item = items[i]
-                item.title = Tab(rawValue: i)?.title
-            }
+        YepUserDefaults.tabBarItemTextEnabled.bindAndFireListener(tabBarItemTextEnabledListenerName) { [weak self] _ in
+            self?.adjustTabBarItems()
         }
 
         // 处理启动切换
@@ -107,6 +97,36 @@ final class YepTabBarController: UITabBarController {
             appDelegate.lauchStyle.bindListener(Listener.lauchStyle) { [weak self] style in
                 if style == .Message {
                     self?.selectedIndex = 0
+                }
+            }
+        }
+    }
+
+    func adjustTabBarItems() {
+
+        let noNeedTitle: Bool
+        if let tabBarItemTextEnabled = YepUserDefaults.tabBarItemTextEnabled.value {
+            noNeedTitle = !tabBarItemTextEnabled
+        } else {
+            noNeedTitle = YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled
+        }
+
+        if noNeedTitle {
+            // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
+            if let items = tabBar.items {
+                for item in items {
+                    item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+                    item.title = nil
+                }
+            }
+
+        } else {
+            // Set Titles
+            if let items = tabBar.items {
+                for i in 0..<items.count {
+                    let item = items[i]
+                    item.imageInsets = UIEdgeInsetsZero
+                    item.title = Tab(rawValue: i)?.title
                 }
             }
         }

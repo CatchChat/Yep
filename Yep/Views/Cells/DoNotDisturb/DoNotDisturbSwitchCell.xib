@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,21 +14,18 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do Not Disturb" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXW-nX-1ni">
-                        <rect key="frame" x="20" y="11" width="116" height="21.5"/>
-                        <animations/>
+                        <rect key="frame" x="20" y="11" width="119" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hkq-a5-OLy">
                         <rect key="frame" x="251" y="6" width="51" height="31"/>
-                        <animations/>
                         <connections>
                             <action selector="toggleDoNotDisturb:" destination="KGk-i7-Jjw" eventType="valueChanged" id="PmJ-bJ-m7S"/>
                         </connections>
                     </switch>
                 </subviews>
-                <animations/>
                 <constraints>
                     <constraint firstItem="BXW-nX-1ni" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="3fX-X0-egM"/>
                     <constraint firstAttribute="centerY" secondItem="BXW-nX-1ni" secondAttribute="centerY" id="d3C-nd-sRE"/>
@@ -36,7 +33,6 @@
                     <constraint firstAttribute="centerY" secondItem="Hkq-a5-OLy" secondAttribute="centerY" id="xg1-xk-PpR"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
             <connections>
                 <outlet property="promptLabel" destination="BXW-nX-1ni" id="r8v-I5-iwS"/>
                 <outlet property="toggleSwitch" destination="Hkq-a5-OLy" id="wiP-jv-CWM"/>

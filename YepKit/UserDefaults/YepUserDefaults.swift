@@ -37,6 +37,9 @@ private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
 
+private let appLaunchCountKey = "appLaunchCount"
+private let tabBarItemTextEnabledKey = "tabBarItemTextEnabled"
+
 public struct Listener<T>: Hashable {
 
     let name: String
@@ -104,6 +107,8 @@ final public class Listenable<T> {
 final public class YepUserDefaults {
 
     static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
+
+    public static let appLaunchCountThresholdForTabBarItemTextEnabled: Int = 30
 
     public static var isLogined: Bool {
 
@@ -175,6 +180,8 @@ final public class YepUserDefaults {
         userCoordinateLongitude.removeAllListeners()
         userLocationName.removeAllListeners()
         syncedConversations.removeAllListeners()
+        appLaunchCount.removeAllListeners()
+        tabBarItemTextEnabled.removeAllListeners()
 
         // reset suite
 
@@ -458,6 +465,22 @@ final public class YepUserDefaults {
 
         return Listenable<Bool?>(syncedConversations) { syncedConversations in
             defaults.setObject(syncedConversations, forKey: syncedConversationsKey)
+        }
+    }()
+
+    public static var appLaunchCount: Listenable<Int> = {
+        let appLaunchCount = defaults.integerForKey(appLaunchCountKey) ?? 0
+
+        return Listenable<Int>(appLaunchCount) { appLaunchCount in
+            defaults.setObject(appLaunchCount, forKey: appLaunchCountKey)
+        }
+    }()
+
+    public static var tabBarItemTextEnabled: Listenable<Bool?> = {
+        let tabBarItemTextEnabled = defaults.objectForKey(tabBarItemTextEnabledKey) as? Bool
+
+        return Listenable<Bool?>(tabBarItemTextEnabled) { tabBarItemTextEnabled in
+            defaults.setObject(tabBarItemTextEnabled, forKey: tabBarItemTextEnabledKey)
         }
     }()
 }
