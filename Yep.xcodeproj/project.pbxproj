@@ -37,7 +37,6 @@
 		0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA691AC3ED3D00617758 /* UIKit.framework */; };
 		0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AD7EA6B1AC3ED4300617758 /* Security.framework */; };
 		0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB1CC51B0E742400178C9C /* Double+Yep.swift */; };
-		1CB4A4CF3AE903143F4468F6 /* Pods_YepShare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */; };
 		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
 		33180F5C1CC9C58100CACF38 /* DataSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33180F5B1CC9C58100CACF38 /* DataSample.swift */; };
 		336563F81CCF2FF800598378 /* LeftShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */; };
@@ -50,7 +49,6 @@
 		338940461CBCB0E200B276C1 /* AlbumListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940451CBCB0E200B276C1 /* AlbumListController.swift */; };
 		338940491CBCF05A00B276C1 /* AlbumListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940471CBCF05A00B276C1 /* AlbumListCell.swift */; };
 		3389404A1CBCF05A00B276C1 /* AlbumListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940481CBCF05A00B276C1 /* AlbumListCell.xib */; };
-		36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */; };
 		50008D321CAE0D9A00245296 /* SearchConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */; };
 		50008D341CAE0DC700245296 /* SearchConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50008D331CAE0DC700245296 /* SearchConversations.storyboard */; };
 		50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D381CAE537400245296 /* SearchedFeedCell.swift */; };
@@ -477,8 +475,6 @@
 		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
 		50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */; };
 		50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */; };
-		5671D29D0D3FE393D5BDC74A /* Pods_YepKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E519848DD3290844742698C /* Pods_YepKit.framework */; };
-		6532044AB8BEB2164669341F /* Pods_YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -491,7 +487,6 @@
 		6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E301C47A8EE0024FC63 /* CoreData.framework */; };
 		6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E341C47A9060024FC63 /* libsqlite3.tbd */; };
 		6ADDB4501B848C600012877A /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6ADDB44F1B848C600012877A /* 1Password.xcassets */; };
-		6DF8536A1896EE17A9799AE6 /* Pods_FayeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18F9026880FED211156FBB93 /* Pods_FayeClient.framework */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
 		840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */; };
 		84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84385C431B8592120071130D /* ShowStepGeniusViewController.swift */; };
@@ -503,10 +498,7 @@
 		848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848806AF1B789A2D000C5424 /* EditSkillCell.xib */; };
 		848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848806B51B7B4F53000C5424 /* ShowViewController.swift */; };
 		84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C959881B731FD20017D3ED /* ChatBaseCell.swift */; };
-		9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */; };
 		B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C73250AC8BB116924CA11C0 /* QuartzCore.framework */; };
-		D480A202231A9FB9D421BECF /* Pods_YepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */; };
-		DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */; };
 		F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */; };
 /* End PBXBuildFile section */
 
@@ -670,7 +662,6 @@
 
 /* Begin PBXFileReference section */
 		00E9240F12DD22E06A35F782 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.release.xcconfig"; sourceTree = "<group>"; };
 		0A0A11811AE389380008772C /* RegisterSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSkillsLayout.swift; path = ViewControllers/Register/RegisterSkillsLayout.swift; sourceTree = "<group>"; };
 		0A1CAC6D1AFA42D400826B45 /* SkillHomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeViewController.swift; path = ViewControllers/SkillHome/SkillHomeViewController.swift; sourceTree = "<group>"; };
 		0A1CAC6F1AFA481600826B45 /* SkillHomeHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillHomeHeaderView.swift; path = Views/SkillHomeHeaderView/SkillHomeHeaderView.swift; sourceTree = "<group>"; };
@@ -703,14 +694,6 @@
 		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
-		0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.debug.xcconfig"; sourceTree = "<group>"; };
-		0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.release.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.release.xcconfig"; sourceTree = "<group>"; };
-		11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepShare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.debug.xcconfig"; sourceTree = "<group>"; };
-		18F9026880FED211156FBB93 /* Pods_FayeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FayeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.release.xcconfig"; sourceTree = "<group>"; };
-		266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepConfig.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.release.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.release.xcconfig"; sourceTree = "<group>"; };
 		33180F5B1CC9C58100CACF38 /* DataSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSample.swift; sourceTree = "<group>"; };
 		336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftShareFeedCell.swift; sourceTree = "<group>"; };
 		336563F91CCF300200598378 /* RightShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightShareFeedCell.swift; sourceTree = "<group>"; };
@@ -723,8 +706,6 @@
 		338940471CBCF05A00B276C1 /* AlbumListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumListCell.swift; sourceTree = "<group>"; };
 		338940481CBCF05A00B276C1 /* AlbumListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumListCell.xib; sourceTree = "<group>"; };
 		34A6628BE8C7FFA96376C5C6 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.release.xcconfig"; sourceTree = "<group>"; };
-		450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yep.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yep/Pods-Yep.release.xcconfig"; sourceTree = "<group>"; };
 		4C73250AC8BB116924CA11C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CFCCF0915063E63493164A3 /* BuddyBuildSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BuddyBuildSDK.framework; sourceTree = "<group>"; };
 		50008D311CAE0D9A00245296 /* SearchConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchConversationsViewController.swift; path = ViewControllers/SearchConversations/SearchConversationsViewController.swift; sourceTree = "<group>"; };
@@ -1161,8 +1142,6 @@
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
 		50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLContainerView.swift; path = Views/ContainerViews/FeedURLContainerView.swift; sourceTree = "<group>"; };
-		5317F0FB4E306F08C6F02121 /* Pods_YepUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.debug.xcconfig"; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -1176,7 +1155,6 @@
 		6AC40E321C47A8FE0024FC63 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6AC40E341C47A9060024FC63 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		6ADDB44F1B848C600012877A /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
-		6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKitTests/Pods-YepKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8409137C1B7DB173001C89D6 /* FriendRequestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendRequestView.swift; path = Views/FriendRequest/FriendRequestView.swift; sourceTree = "<group>"; };
 		840CD23B1B7B59D5000D2680 /* ShowStepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepViewController.swift; path = ViewControllers/Show/ShowStepViewController.swift; sourceTree = "<group>"; };
 		84385C431B8592120071130D /* ShowStepGeniusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowStepGeniusViewController.swift; path = ViewControllers/Show/ShowStepGeniusViewController.swift; sourceTree = "<group>"; };
@@ -1189,26 +1167,6 @@
 		848806B21B7B0230000C5424 /* Yep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Yep.entitlements; sourceTree = "<group>"; };
 		848806B51B7B4F53000C5424 /* ShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowViewController.swift; path = ViewControllers/Show/ShowViewController.swift; sourceTree = "<group>"; };
 		84C959881B731FD20017D3ED /* ChatBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCell.swift; path = Views/Cells/ChatBaseCell/ChatBaseCell.swift; sourceTree = "<group>"; };
-		89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Remote.release.xcconfig"; path = "Pods/Target Support Files/Pods-Remote/Pods-Remote.release.xcconfig"; sourceTree = "<group>"; };
-		95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Persistence.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepKit/Pods-YepKit.debug.xcconfig"; sourceTree = "<group>"; };
-		9E519848DD3290844742698C /* Pods_YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepShare.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepShare/Pods-YepShare.release.xcconfig"; sourceTree = "<group>"; };
-		AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FayeClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FayeClient/Pods-FayeClient.debug.xcconfig"; sourceTree = "<group>"; };
-		BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Persistence.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Persistence/Pods-Persistence.debug.xcconfig"; sourceTree = "<group>"; };
-		BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenGraph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenGraph/Pods-OpenGraph.debug.xcconfig"; sourceTree = "<group>"; };
-		C525CA41B6E0C04833559AFC /* Pods-YepUserDefaults.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepUserDefaults.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepUserDefaults/Pods-YepUserDefaults.debug.xcconfig"; sourceTree = "<group>"; };
-		C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OpenGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Remote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.debug.xcconfig"; sourceTree = "<group>"; };
-		DF3C537260A42F3083541560 /* Pods-YepUserDefaults.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepUserDefaults.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepUserDefaults/Pods-YepUserDefaults.release.xcconfig"; sourceTree = "<group>"; };
-		E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepUserDefaults.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepTests/Pods-YepTests.release.xcconfig"; sourceTree = "<group>"; };
-		E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yep.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepConfig.release.xcconfig"; path = "Pods/Target Support Files/Pods-YepConfig/Pods-YepConfig.release.xcconfig"; sourceTree = "<group>"; };
-		EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YepShare.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YepShare/Pods-YepShare.debug.xcconfig"; sourceTree = "<group>"; };
-		FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YepKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1236,7 +1194,6 @@
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
 				27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */,
 				B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */,
-				9C9327A667E085D01CA0DA94 /* Pods_Yep.framework in Frameworks */,
 				50D3A32F1CEDB1C600E59470 /* YepNetworking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1245,7 +1202,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D480A202231A9FB9D421BECF /* Pods_YepTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1253,7 +1209,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6532044AB8BEB2164669341F /* Pods_YepConfig.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1271,7 +1226,6 @@
 			files = (
 				5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */,
 				5056EAB91CF2C70D00FDE07E /* YepConfig.framework in Frameworks */,
-				5671D29D0D3FE393D5BDC74A /* Pods_YepKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1280,7 +1234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
-				36E3F3A5603BF0144C2279CB /* Pods_YepKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,7 +1244,6 @@
 				50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */,
 				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
 				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
-				1CB4A4CF3AE903143F4468F6 /* Pods_YepShare.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1314,7 +1266,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DF8536A1896EE17A9799AE6 /* Pods_FayeClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1338,7 +1289,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50D84EE51CF2CB1C0018D91F /* YepNetworking.framework in Frameworks */,
-				DA8595AF279E1E6D0D337AB7 /* Pods_OpenGraph.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,7 +1355,6 @@
 				50D84ED71CF2CB120018D91F /* OpenGraphTests */,
 				0A8F54AC1AB67D11004AD60E /* Products */,
 				67B708B60AAD1DEA82A6A682 /* Frameworks */,
-				EBAA6F3706BE77C1153E7B42 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3392,18 +3341,6 @@
 				00E9240F12DD22E06A35F782 /* AssetsLibrary.framework */,
 				34A6628BE8C7FFA96376C5C6 /* CoreText.framework */,
 				4C73250AC8BB116924CA11C0 /* QuartzCore.framework */,
-				E93FB8669F5F57204B6F2009 /* Pods_Yep.framework */,
-				EE4ABCC50D2512119A7DD18B /* Pods_YepTests.framework */,
-				18F9026880FED211156FBB93 /* Pods_FayeClient.framework */,
-				C9C79DE492B1BF3AE61B9376 /* Pods_OpenGraph.framework */,
-				95CE5F0B80604C3B3A7BF33B /* Pods_Persistence.framework */,
-				D4FE8B746A5B8437EED32014 /* Pods_Remote.framework */,
-				266AA951C3D8CDBB833C2FB3 /* Pods_YepConfig.framework */,
-				E423B1319BC76AC0D58350AD /* Pods_YepUserDefaults.framework */,
-				9E519848DD3290844742698C /* Pods_YepKit.framework */,
-				11A5E0B41FF9B8672157E5A5 /* Pods_YepShare.framework */,
-				FEA431C2FD89FF051057A02F /* Pods_YepKitTests.framework */,
-				5317F0FB4E306F08C6F02121 /* Pods_YepUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3488,35 +3425,6 @@
 				84C959881B731FD20017D3ED /* ChatBaseCell.swift */,
 			);
 			name = ChatBase;
-			sourceTree = "<group>";
-		};
-		EBAA6F3706BE77C1153E7B42 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */,
-				450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */,
-				18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */,
-				E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */,
-				AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */,
-				01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */,
-				BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */,
-				2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */,
-				BA39E52F8CE9FBC31D24E103 /* Pods-Persistence.debug.xcconfig */,
-				0C7BABB3EF56CEBFBC134FDD /* Pods-Persistence.release.xcconfig */,
-				598E124B66E8C53F6925A7DE /* Pods-Remote.debug.xcconfig */,
-				89F9AFF26EE9E9765116BB93 /* Pods-Remote.release.xcconfig */,
-				D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */,
-				ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */,
-				C525CA41B6E0C04833559AFC /* Pods-YepUserDefaults.debug.xcconfig */,
-				DF3C537260A42F3083541560 /* Pods-YepUserDefaults.release.xcconfig */,
-				995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */,
-				1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */,
-				F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */,
-				A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */,
-				6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */,
-				383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -5189,7 +5097,6 @@
 		};
 		0A8F54CB1AB67D11004AD60E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0B3E9DC811CBCA67BE6AE3D7 /* Pods-Yep.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yep/Yep.entitlements;
@@ -5280,7 +5187,6 @@
 		};
 		0A8F54CC1AB67D11004AD60E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 450A4792C7B77EFA693A26A7 /* Pods-Yep.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Yep/Yep.entitlements;
@@ -5371,7 +5277,6 @@
 		};
 		5017FC211CD095E100DFCB71 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 18BA78506931E364A26C5F74 /* Pods-YepTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5387,7 +5292,6 @@
 		};
 		5017FC221CD095E100DFCB71 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E53F820CAD9668BA96D8FF52 /* Pods-YepTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5402,7 +5306,6 @@
 		};
 		503E72201CF2A59200822B91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D7CE32DFF9C7D67D9457BC5C /* Pods-YepConfig.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5431,7 +5334,6 @@
 		};
 		503E72211CF2A59200822B91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ECB53B24050086470583E8DC /* Pods-YepConfig.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5485,7 +5387,6 @@
 		};
 		5056EAA31CF2C55200FDE07E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 995C211D796343EFC29E38BF /* Pods-YepKit.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5514,7 +5415,6 @@
 		};
 		5056EAA41CF2C55200FDE07E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F6E09E1C845C50C666EBB16 /* Pods-YepKit.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5541,7 +5441,6 @@
 		};
 		5056EAA61CF2C55200FDE07E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B6353C0939EC396136DBC1F /* Pods-YepKitTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -5556,7 +5455,6 @@
 		};
 		5056EAA71CF2C55200FDE07E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 383BD59893063033654FF625 /* Pods-YepKitTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = YepKitTests/Info.plist;
@@ -5570,7 +5468,6 @@
 		};
 		507DCEB41CEEE2DC006D43F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6499346CA8E46A67DDE83AF /* Pods-YepShare.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_ENTITLEMENTS = YepShare/YepShare.entitlements;
@@ -5588,7 +5485,6 @@
 		};
 		507DCEB51CEEE2DC006D43F7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3A72138F94972880F2C7DAE /* Pods-YepShare.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_ENTITLEMENTS = YepShare/YepShare.entitlements;
@@ -5686,7 +5582,6 @@
 		};
 		50D3A35B1CEE9A2000E59470 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AFB17D6E5BFD73B8F45BD601 /* Pods-FayeClient.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5715,7 +5610,6 @@
 		};
 		50D3A35C1CEE9A2000E59470 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01DB2552C669D06916BB4C44 /* Pods-FayeClient.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5796,7 +5690,6 @@
 		};
 		50D84EE01CF2CB120018D91F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC1F2D2AB4A1F9C7BCB65D5E /* Pods-OpenGraph.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5825,7 +5718,6 @@
 		};
 		50D84EE11CF2CB120018D91F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2EACE7F91F81E53AA53F6463 /* Pods-OpenGraph.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
