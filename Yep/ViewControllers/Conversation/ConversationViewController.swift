@@ -773,7 +773,7 @@ final class ConversationViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.tryInsertInActiveNewMessages(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleApplicationDidBecomeActive(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
@@ -2932,7 +2932,10 @@ final class ConversationViewController: BaseViewController {
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
 
-    @objc private func tryInsertInActiveNewMessages(notification: NSNotification) {
+    @objc private func handleApplicationDidBecomeActive(notification: NSNotification) {
+        tryInsertInActiveNewMessages()
+    }
+    private func tryInsertInActiveNewMessages() {
 
         if UIApplication.sharedApplication().applicationState == .Active {
 
