@@ -229,6 +229,7 @@
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
+		507902361D06813300D846F5 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
 		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
@@ -1240,6 +1241,7 @@
 				50C1068A1D0669C3002EAB5C /* Realm.framework in Frameworks */,
 				50C1068C1D0669C8002EAB5C /* RealmSwift.framework in Frameworks */,
 				50C1068E1D0669E0002EAB5C /* Kingfisher.framework in Frameworks */,
+				507902361D06813300D846F5 /* Kanna.framework in Frameworks */,
 				50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */,
 				50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */,
 				50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */,
@@ -4236,6 +4238,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Ruler.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Proposer.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Kanna.framework",
 			);
 			outputPaths = (
 			);
