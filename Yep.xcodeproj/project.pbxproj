@@ -3482,6 +3482,7 @@
 				0AFE75AD1AC43DD1005AA33E /* ShellScript */,
 				50D3A3361CEDB1C600E59470 /* Embed Frameworks */,
 				507DCEB71CEEE2DC006D43F7 /* Embed App Extensions */,
+				509C2F801D05799500B133D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4085,6 +4086,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 3030ba006e21bcf8eb4a2127b6a7931ea6667486 1b6549ac285402b232e4718eda293559d8ed8df039017af3fa9593518395eef0";
+		};
+		509C2F801D05799500B133D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -5155,7 +5169,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = YepShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5171,7 +5185,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = YepShare/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
 				PRODUCT_NAME = "$(TARGET_NAME)";
