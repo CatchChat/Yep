@@ -3649,7 +3649,6 @@
 				503E72041CF2A59100822B91 /* Frameworks */,
 				503E72051CF2A59100822B91 /* Headers */,
 				503E72061CF2A59100822B91 /* Resources */,
-				50C106A01D066B1D002EAB5C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3687,7 +3686,6 @@
 				5056EA871CF2C55100FDE07E /* Frameworks */,
 				5056EA881CF2C55100FDE07E /* Headers */,
 				5056EA891CF2C55100FDE07E /* Resources */,
-				50C106A51D066BD9002EAB5C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3836,7 +3834,6 @@
 				50D84EC41CF2CB110018D91F /* Frameworks */,
 				50D84EC51CF2CB110018D91F /* Headers */,
 				50D84EC61CF2CB110018D91F /* Resources */,
-				50C106851D06689C002EAB5C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -4262,52 +4259,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Proposer.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Kanna.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		50C106851D06689C002EAB5C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Kanna.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		50C106A01D066B1D002EAB5C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Kingfisher.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Ruler.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		50C106A51D066BD9002EAB5C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Navi.framework",
 			);
 			outputPaths = (
 			);
