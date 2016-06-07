@@ -1,0 +1,39 @@
+PODS:
+  - 1PasswordExtension (1.8.2)
+  - Appsee (2.2)
+  - Base64 (1.1.2)
+  - DeviceGuru (1.3.7)
+  - Fabric (1.6.7)
+  - FXBlurView (1.6.4)
+  - JPush (2.1.7)
+  - pop (1.0.9)
+  - SocketRocket (0.5.1)
+  - TPKeyboardAvoiding (1.3)
+
+DEPENDENCIES:
+  - 1PasswordExtension
+  - Appsee
+  - Base64
+  - DeviceGuru
+  - Fabric
+  - FXBlurView
+  - JPush
+  - pop
+  - SocketRocket
+  - TPKeyboardAvoiding
+
+SPEC CHECKSUMS:
+  1PasswordExtension: 303f2b7bbf6dc19ede3090bd6b5987530648d687
+  Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
+  DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
+  JPush: d37320eba856bf91f2c73989df4abf1e8846db2c
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
+
+PODFILE CHECKSUM: 0873ab5b2d8a263e31c2f4907e7ca5bf8bcbd7c3
+
+COCOAPODS: 1.0.1
