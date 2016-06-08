@@ -127,7 +127,7 @@ final class NewFeedViewController: SegueViewController {
     }
 
     private lazy var postButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.post(_:)))
+        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.tryPost(_:)))
             button.enabled = false
         return button
     }()
@@ -630,7 +630,12 @@ final class NewFeedViewController: SegueViewController {
         return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, highlightedKeywordsBody: nil, attachment: feedAttachment, distance: 0, skill: pickedSkill, groupID: "", messagesCount: 0, recommended: false, uploadingErrorMessage: nil)
     }
 
-    @objc private func post(sender: UIBarButtonItem) {
+    @objc private func tryPost(sender: UIBarButtonItem) {
+
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+            return
+        }
+
         post(again: false)
     }
 
