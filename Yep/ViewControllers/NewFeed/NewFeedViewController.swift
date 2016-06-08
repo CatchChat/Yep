@@ -633,6 +633,11 @@ final class NewFeedViewController: SegueViewController {
     @objc private func tryPost(sender: UIBarButtonItem) {
 
         guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+
+            YepAlert.alertSorry(message: NSLocalizedString("Abort, you have no avatar!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: nil)
+            })
+
             return
         }
 
