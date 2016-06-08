@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import RealmSwift
 import YepNetworking
+import RealmSwift
 
 private let githubBaseURL = NSURL(string: "https://api.github.com")!
 private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
