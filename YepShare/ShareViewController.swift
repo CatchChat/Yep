@@ -106,6 +106,13 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+
+            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+
+            return
+        }
+
         let shareType: ShareType
         let body = contentText ?? ""
         if let fileURL = fileURLs.first where fileURL.pathExtension == "m4a" {
