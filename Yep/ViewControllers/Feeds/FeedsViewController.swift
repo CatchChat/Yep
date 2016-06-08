@@ -1135,15 +1135,15 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
-        case Filter
         case UploadingFeed
         case Feed
         case LoadMore
+        case Filter
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 5
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
