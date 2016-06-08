@@ -1327,8 +1327,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */,
-				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
 				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
+				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
 				50C1069B1D066AB4002EAB5C /* Realm.framework in Frameworks */,
 				50C1069C1D066AB8002EAB5C /* RealmSwift.framework in Frameworks */,
 			);
