@@ -725,17 +725,7 @@ final class FeedsViewController: BaseViewController {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-                if let filterOption = filterOption {
-                    switch filterOption {
-                    case .Recommended:
-                        feedSortStyle = .Recommended
-                    case .Lately:
-                        feedSortStyle = .Time
-                    }
-
-                } else {
-                    feedSortStyle = .Time
-                }
+                feedSortStyle = .Time
             }
 
             let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
