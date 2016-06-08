@@ -634,7 +634,7 @@ final class NewFeedViewController: SegueViewController {
 
         guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
 
-            YepAlert.alertSorry(message: NSLocalizedString("Abort, you have no avatar!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+            YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self, withDismissAction: { [weak self] in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             })
 

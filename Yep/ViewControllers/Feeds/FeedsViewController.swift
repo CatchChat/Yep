@@ -749,6 +749,13 @@ final class FeedsViewController: BaseViewController {
 
     @IBAction private func createNewFeed(sender: AnyObject) {
 
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+
+            YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self)
+
+            return
+        }
+
         if let window = view.window {
             newFeedTypesView.showInView(window)
         }
