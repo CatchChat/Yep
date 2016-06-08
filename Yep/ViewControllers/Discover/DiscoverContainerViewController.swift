@@ -25,15 +25,15 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl! {
-        didSet {
-            segmentedControl.removeAllSegments()
-            (0..<2).forEach({
-                let option = Option(rawValue: $0)
-                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
-            })
-        }
-    }
+//    @IBOutlet weak var segmentedControl: UISegmentedControl! {
+//        didSet {
+//            segmentedControl.removeAllSegments()
+//            (0..<2).forEach({
+//                let option = Option(rawValue: $0)
+//                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
+//            })
+//        }
+//    }
 
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
@@ -92,7 +92,7 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
 
-                //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
+                navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
@@ -101,10 +101,12 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = NSLocalizedString("Discover", comment: "")
+
         currentOption = .FindAll
 
-        segmentedControl.selectedSegmentIndex = currentOption.rawValue
-        segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
+//        segmentedControl.selectedSegmentIndex = currentOption.rawValue
+//        segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,

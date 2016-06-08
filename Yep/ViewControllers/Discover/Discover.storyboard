@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KiL-mx-7DZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KiL-mx-7DZ">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -135,20 +135,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="4ZW-be-UeP">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="pIA-g9-MZ7">
-                            <rect key="frame" x="69" y="7" width="183" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Meet Genius"/>
-                                <segment title="Find All"/>
-                            </segments>
-                        </segmentedControl>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="discoveredUsersContainerView" destination="tFq-8H-AGD" id="saM-Ql-bS0"/>
                         <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
-                        <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
                         <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
                     </connections>
                 </viewController>
