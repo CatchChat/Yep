@@ -37,7 +37,7 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("get feeds with keyword")
 
-        feedsWithKeyword("hello", skillID: nil, userID: nil, pageIndex: 1, perPage: 30, failureHandler: nil) { feeds in
+        feedsWithKeyword("hello", skillID: nil, userID: nil, pageIndex: 1, perPage: 30, failureHandler: nil) { feeds, _ in
             if !feeds.isEmpty {
                 expectation.fulfill()
             }
@@ -54,7 +54,7 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("join and leave group")
 
-        feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+        feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds, _ in
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
                 joinGroup(groupID: groupID, failureHandler: nil, completion: {
@@ -76,7 +76,7 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("send message to group")
 
-        feedsWithKeyword("Yep", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+        feedsWithKeyword("Yep", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds, _ in
 
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
