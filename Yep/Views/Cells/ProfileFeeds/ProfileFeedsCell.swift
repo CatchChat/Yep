@@ -118,10 +118,10 @@ final class ProfileFeedsCell: UICollectionViewCell {
                 return
             }
 
-            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
-                println("user's feeds: \(feeds.count)")
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { validFeeds, _ in
+                println("user's feeds: \(validFeeds.count)")
 
-                let feedAttachments = feeds.map({ feed -> DiscoveredAttachment? in
+                let feedAttachments = validFeeds.map({ feed -> DiscoveredAttachment? in
                     if let attachment = feed.attachment {
                         if case let .Images(attachments) = attachment {
                             return attachments.first
@@ -134,7 +134,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.feedAttachments = feedAttachments
 
-                    completion?(feeds: feeds, feedAttachments: feedAttachments)
+                    completion?(feeds: validFeeds, feedAttachments: feedAttachments)
                 }
             })
         }

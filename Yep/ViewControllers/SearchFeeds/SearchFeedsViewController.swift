@@ -387,7 +387,7 @@ final class SearchFeedsViewController: SegueViewController {
 
         let perPage: Int = 30
 
-        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
+        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] validFeeds, originalFeedsCount  in
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
@@ -399,10 +399,10 @@ final class SearchFeedsViewController: SegueViewController {
 
                 finish?()
 
-                let newFeeds = feeds
+                let newFeeds = validFeeds
                 let oldFeeds = strongSelf.feeds
 
-                self?.canLoadMore = newFeeds.count == perPage
+                self?.canLoadMore = (originalFeedsCount == perPage)
 
                 var wayToUpdate: UITableView.WayToUpdate = .None
 

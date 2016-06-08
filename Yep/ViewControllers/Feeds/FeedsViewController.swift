@@ -465,7 +465,7 @@ final class FeedsViewController: BaseViewController {
 
             if skill == nil {
                 if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                    if let JSON = offlineJSON.JSON, (feeds, _) = parseFeeds(JSON) {
                         self.feeds = feeds
                         activityIndicator.stopAnimating()
                     }
@@ -618,19 +618,19 @@ final class FeedsViewController: BaseViewController {
 
         let perPage = 20
 
-        let completion: [DiscoveredFeed] -> Void = { feeds in
+        let completion: ([DiscoveredFeed], Int) -> Void = { validFeeds, originalFeedsCount in
 
-            println("new feeds.count: \(feeds.count)")
+            println("new feeds.count: \(validFeeds.count)")
 
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
 
-                if case .Top = mode where feeds.isEmpty {
+                if case .Top = mode where validFeeds.isEmpty {
                     self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
                 } else {
                     self?.feedsTableView.tableFooterView = UIView()
                 }
 
-                self?.canLoadMore = (feeds.count == perPage)
+                self?.canLoadMore = (originalFeedsCount == perPage)
 
                 self?.isFetchingFeeds = false
 
@@ -643,7 +643,7 @@ final class FeedsViewController: BaseViewController {
 
                 if let strongSelf = self {
 
-                    let newFeeds = feeds
+                    let newFeeds = validFeeds
                     let oldFeeds = strongSelf.feeds
 
                     var wayToUpdate: UITableView.WayToUpdate = .None
