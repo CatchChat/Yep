@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import Ruler
 
 final class PhotoCell: UICollectionViewCell {
 
@@ -24,15 +25,15 @@ final class PhotoCell: UICollectionViewCell {
 
             let options = PHImageRequestOptions.yep_sharedOptions
 
-            self.imageManager?.requestImageForAsset(imageAsset, targetSize: CGSize(width: 120, height: 120), contentMode: .AspectFill, options: options) { [weak self] image, info in
+            let width: CGFloat = Ruler.iPhoneHorizontal(160, 188, 310).value
+            let height = width
+            let targetSize = CGSize(width: width, height: height)
+
+            self.imageManager?.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { [weak self] image, info in
+                println("image.size: \(image?.size)")
                 self?.photoImageView.image = image
             }
         }
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
     }
 }
 
