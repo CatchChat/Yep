@@ -547,9 +547,13 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         case .MessageType(let message):
 
-            switch message.mediaType {
+            guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
+                break
+            }
 
-            case MessageMediaType.Image.rawValue:
+            switch mediaType {
+
+            case .Image:
 
                 mediaControlView.type = .Image
 
@@ -593,7 +597,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         }
                 }
 
-            case MessageMediaType.Video.rawValue:
+            case .Video:
 
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
