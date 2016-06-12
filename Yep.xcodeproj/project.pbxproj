@@ -316,13 +316,9 @@
 		50C106871D06693A002EAB5C /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
 		50C1068A1D0669C3002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
 		50C1068C1D0669C8002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
-		50C1068E1D0669E0002EAB5C /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068D1D0669E0002EAB5C /* Kingfisher.framework */; };
 		50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; };
 		50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; };
 		50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106931D066A27002EAB5C /* KeyboardMan.framework */; };
-		50C106961D066A2E002EAB5C /* Ruler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106951D066A2E002EAB5C /* Ruler.framework */; };
-		50C106981D066A35002EAB5C /* Proposer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106971D066A35002EAB5C /* Proposer.framework */; };
-		50C1069A1D066A3C002EAB5C /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; };
 		50C1069B1D066AB4002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
 		50C1069C1D066AB8002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50C106A11D066B62002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
@@ -497,12 +493,8 @@
 		6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */; };
 		6A6F0A661D073B2B00C247CB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A671D073B2B00C247CB /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6A6F0A681D073B3200C247CB /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068D1D0669E0002EAB5C /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6A6F0A6B1D073B6200C247CB /* Ruler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106951D066A2E002EAB5C /* Ruler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6A6F0A6C1D073B6800C247CB /* Proposer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106971D066A35002EAB5C /* Proposer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6A6F0A6D1D073B6E00C247CB /* MonkeyKing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A8215051BCBE5170011F36C /* MiniCardSkillLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215041BCBE5170011F36C /* MiniCardSkillLayout.swift */; };
 		6A8215081BCBE8F10011F36C /* DiscoverSkillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */; };
@@ -655,12 +647,8 @@
 			dstSubfolderSpec = 10;
 			files = (
 				6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */,
-				6A6F0A6D1D073B6E00C247CB /* MonkeyKing.framework in Embed Frameworks */,
-				6A6F0A6C1D073B6800C247CB /* Proposer.framework in Embed Frameworks */,
-				6A6F0A6B1D073B6200C247CB /* Ruler.framework in Embed Frameworks */,
 				6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */,
 				6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */,
-				6A6F0A681D073B3200C247CB /* Kingfisher.framework in Embed Frameworks */,
 				6A6F0A661D073B2B00C247CB /* RealmSwift.framework in Embed Frameworks */,
 				6A6F0A671D073B2B00C247CB /* Realm.framework in Embed Frameworks */,
 				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
@@ -1223,13 +1211,9 @@
 				50C1068A1D0669C3002EAB5C /* Realm.framework in Frameworks */,
 				50C1068C1D0669C8002EAB5C /* RealmSwift.framework in Frameworks */,
 				50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */,
-				50C1068E1D0669E0002EAB5C /* Kingfisher.framework in Frameworks */,
 				507902361D06813300D846F5 /* Kanna.framework in Frameworks */,
 				50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */,
-				50C106981D066A35002EAB5C /* Proposer.framework in Frameworks */,
-				50C1069A1D066A3C002EAB5C /* MonkeyKing.framework in Frameworks */,
 				50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */,
-				50C106961D066A2E002EAB5C /* Ruler.framework in Frameworks */,
 				1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
