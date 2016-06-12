@@ -13,7 +13,7 @@ extension Hardware {
     var yep_supportQuickAction: Bool {
 
         switch self {
-        case .IPHONE_6S, .IPHONE_6_PLUS:
+        case .IPHONE_6S, .IPHONE_6S_PLUS:
             return true
         default:
             return false
