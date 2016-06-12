@@ -79,10 +79,6 @@ final class YepConfig {
         return 50
     }
 
-    class func avatarCompressionQuality() -> CGFloat {
-        return 0.7
-    }
-
     class func messageImageCompressionQuality() -> CGFloat {
         return 0.95
     }

@@ -152,7 +152,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
         let image = avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())
 
         if let imageData = imageData {
 

@@ -31,6 +31,10 @@ final public class Config {
         #endif
     }
 
+    public class func avatarCompressionQuality() -> CGFloat {
+        return 0.7
+    }
+
     public struct Notification {
         public static let markAsReaded = "YepConfig.Notification.markAsReaded"
         public static let changedConversation = "YepConfig.Notification.changedConversation"
