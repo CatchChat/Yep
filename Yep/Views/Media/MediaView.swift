@@ -43,12 +43,17 @@ final class MediaView: UIView {
 
         recenterImage(image)
 
-        if (size.height / size.width) > (bounds.height / bounds.width) {
-            scrollView.scrollEnabled = true
+        setNormalScrollViewScrollEnabled()
+    }
 
-        } else {
-            scrollView.scrollEnabled = false
+    private func setNormalScrollViewScrollEnabled() {
+
+        guard let image = image else {
+            return
         }
+
+        let isVerticalLong = (image.size.height / image.size.width) > (bounds.height / bounds.width)
+        scrollView.scrollEnabled = isVerticalLong
     }
 
     var image: UIImage? {
