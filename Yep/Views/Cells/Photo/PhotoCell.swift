@@ -29,9 +29,13 @@ final class PhotoCell: UICollectionViewCell {
             let height = width
             let targetSize = CGSize(width: width, height: height)
 
-            self.imageManager?.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { [weak self] image, info in
-                println("image.size: \(image?.size)")
-                self?.photoImageView.image = image
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+                self?.imageManager?.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { [weak self] image, info in
+
+                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        self?.photoImageView.image = image
+                    }
+                }
             }
         }
     }
