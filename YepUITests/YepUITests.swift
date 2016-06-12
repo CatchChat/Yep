@@ -41,7 +41,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        app.tabBars.buttons["Feeds"].tap()
+        let tab = app.tabBars.buttons["Feeds"]
+
+        guard tab.exists else {
+            return
+        }
+
+        tab.tap()
+
         app.navigationBars["Feeds"].buttons["Add"].tap()
         app.tables.staticTexts["Text & Photos"].tap()
 
@@ -60,7 +67,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        app.tabBars.buttons["Profile"].tap()
+        let tab = app.tabBars.buttons["Profile"]
+
+        guard tab.exists else {
+            return
+        }
+
+        tab.tap()
+
         app.buttons["icon settings"].tap()
         
         let tablesQuery = app.tables
@@ -87,7 +101,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        app.tabBars.buttons["Contacts"].tap()
+        let tab = app.tabBars.buttons["Contacts"]
+
+        guard tab.exists else {
+            return
+        }
+
+        tab.tap()
+
         app.navigationBars["Contacts"].buttons["Add"].tap()
         
         let textField = app.tables.childrenMatchingType(.Cell).elementBoundByIndex(0).childrenMatchingType(.TextField).element
@@ -131,7 +152,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        app.tabBars.buttons["Contacts"].tap()
+        let tab = app.tabBars.buttons["Contacts"]
+
+        guard tab.exists else {
+            return
+        }
+
+        tab.tap()
+
         app.tables.searchFields["Search Friend"].tap()
 
         let textField = app.searchFields["Search Friend"]
@@ -154,7 +182,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        app.tabBars.buttons["Feeds"].tap()
+        let tab = app.tabBars.buttons["Feeds"]
+
+        guard tab.exists else {
+            return
+        }
+
+        tab.tap()
+
         app.tables.searchFields["Search Feeds"].tap()
 
         let textField = app.searchFields["Search Feeds"]
