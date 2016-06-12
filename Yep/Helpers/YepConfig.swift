@@ -196,7 +196,7 @@ final public class YepConfig {
 
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
-            ]
+        ]
     }
 
     public struct FeedMedia {
@@ -236,7 +236,7 @@ final public class YepConfig {
     public struct FeedView {
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
-            ]
+        ]
     }
 
     public struct Feedback {

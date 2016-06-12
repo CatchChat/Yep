@@ -106,6 +106,13 @@ extension UIColor {
 
 extension UIColor {
 
+    class func yep_mangmorGrayColor() -> UIColor {
+        return UIColor(red: 199/255.0, green: 199/255.0, blue: 204/255.0, alpha: 1)
+    }
+}
+
+extension UIColor {
+
     // 反色
     var yep_inverseColor: UIColor {
 
