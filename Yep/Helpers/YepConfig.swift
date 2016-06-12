@@ -22,21 +22,19 @@ public let MediaOptionsInfos: KingfisherOptionsInfo = [
 
 final public class YepConfig {
 
-    public static let appGroupID: String = "group.Catch-Inc.Yep"
-    
     public static let minMessageTextLabelWidth: CGFloat = 20.0
-    
+
     public static let minMessageSampleViewWidth: CGFloat = 25.0
-    
+
     public static let skillHomeHeaderViewHeight: CGFloat = 114.0
-    
+
     public static let skillHomeHeaderButtonHeight: CGFloat = 50.0
-    
+
     public static let maxFeedTextLength: Int = 300
-    
+
     public class func clientType() -> Int {
         // TODO: clientType
-        
+
         #if DEBUG
             return 2
         #else
@@ -138,7 +136,7 @@ final public class YepConfig {
         public static let rightEdgeInset: CGFloat = leftEdgeInset
         public static let introductionLabelFont = UIFont.systemFontOfSize(14)
     }
-    
+
     public struct Settings {
         public static let userCellAvatarSize: CGFloat = 80
 
@@ -191,7 +189,7 @@ final public class YepConfig {
     }
 
     public struct ChatCell {
-        
+
         public static let marginTopForGroup: CGFloat = 22
         public static let nameLabelHeightForGroup: CGFloat = 17
 
@@ -200,7 +198,7 @@ final public class YepConfig {
         public static let lineSpacing: CGFloat = 5
 
         public static let minTextWidth: CGFloat = 17
-        
+
         public static let gapBetweenDotImageViewAndBubble: CGFloat = 13
 
         public static let gapBetweenAvatarImageViewAndBubble: CGFloat = 5
@@ -218,14 +216,14 @@ final public class YepConfig {
         public static let imageMaxWidth: CGFloat = Ruler.iPhoneHorizontal(230, 260, 300).value
 
         public static let centerXOffset: CGFloat = 4
-        
+
         public static let bubbleCornerRadius: CGFloat = 18
 
         public static let imageAppearDuration: NSTimeInterval = 0.1
 
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
-        ]
+            ]
     }
 
     public struct FeedMedia {
@@ -235,19 +233,19 @@ final public class YepConfig {
     public struct FeedBasicCell {
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
-        ]
+            ]
 
         public static let skillTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedSkillFont(),
-        ]
+            ]
 
         public static let voiceTimeLengthTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
-        ]
+            ]
 
         public static let bottomLabelsTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedBottomLabelsFont(),
-        ]
+            ]
     }
 
     public struct FeedBiggerImageCell {
@@ -265,31 +263,7 @@ final public class YepConfig {
     public struct FeedView {
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
-        ]
-    }
-
-    public struct MetaData {
-        public static let audioDuration = "audio_duration"
-        public static let audioSamples = "audio_samples"
-
-        public static let imageWidth = "image_width"
-        public static let imageHeight = "image_height"
-
-        public static let videoWidth = "video_width"
-        public static let videoHeight = "video_height"
-
-        public static let thumbnailString = "thumbnail_string"
-        public static let blurredThumbnailString = "blurred_thumbnail_string"
-
-        public static let thumbnailMaxSize: CGFloat = 60
-    }
-
-    public struct Media {
-        public static let imageWidth: CGFloat = 2048
-        public static let imageHeight: CGFloat = 2048
-
-        public static let miniImageWidth: CGFloat = 200
-        public static let miniImageHeight: CGFloat = 200
+            ]
     }
 
     public struct Feedback {
@@ -309,7 +283,7 @@ final public class YepConfig {
             public static let sessionType = "com.Catch-Inc.Yep.WeChat.Session"
             public static let sessionTitle = NSLocalizedString("WeChat Session", comment: "")
             public static let sessionImage = UIImage(named: "wechat_session")!
-
+            
             public static let timelineType = "com.Catch-Inc.Yep.WeChat.Timeline"
             public static let timelineTitle = NSLocalizedString("WeChat Timeline", comment: "")
             public static let timelineImage = UIImage(named: "wechat_timeline")!

@@ -97,6 +97,7 @@
 		5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE351AB6979600B3EE96 /* ConversationCell.swift */; };
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
+		5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF491D0D38CE00358156 /* YepConfig.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
@@ -147,7 +148,7 @@
 		503E72191CF2A59200822B91 /* YepConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72181CF2A59200822B91 /* YepConfigTests.swift */; };
 		503E721D1CF2A59200822B91 /* YepConfig.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; };
 		503E721E1CF2A59200822B91 /* YepConfig.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 503E72081CF2A59200822B91 /* YepConfig.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		503E72261CF2A5C700822B91 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72251CF2A5C700822B91 /* YepConfig.swift */; };
+		503E72261CF2A5C700822B91 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72251CF2A5C700822B91 /* SharedConfig.swift */; };
 		503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72281CF2A89500822B91 /* UIFont+Yep.swift */; };
 		503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722A1CF2A92500822B91 /* UIColor+Yep.swift */; };
 		503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */; };
@@ -801,6 +802,7 @@
 		5023DE351AB6979600B3EE96 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Views/Cells/Conversation/ConversationCell.swift; sourceTree = "<group>"; };
 		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
+		5024BF491D0D38CE00358156 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Helpers/YepConfig.swift; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
@@ -854,7 +856,7 @@
 		503E72111CF2A59200822B91 /* YepConfigTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YepConfigTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		503E72181CF2A59200822B91 /* YepConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YepConfigTests.swift; sourceTree = "<group>"; };
 		503E721A1CF2A59200822B91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		503E72251CF2A5C700822B91 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YepConfig.swift; sourceTree = "<group>"; };
+		503E72251CF2A5C700822B91 /* SharedConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
 		503E72281CF2A89500822B91 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		503E722A1CF2A92500822B91 /* UIColor+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Yep.swift"; path = "Extensions/UIColor+Yep.swift"; sourceTree = "<group>"; };
 		503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
@@ -2086,6 +2088,7 @@
 		502AE53B1AB871C5005BD199 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5024BF491D0D38CE00358156 /* YepConfig.swift */,
 				50B6CDEE1CC4D382000B0A03 /* KVO */,
 				50DEE0401BE7626100015741 /* YepHelpers.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
@@ -2251,7 +2254,7 @@
 			isa = PBXGroup;
 			children = (
 				503E720A1CF2A59200822B91 /* YepConfig.h */,
-				503E72251CF2A5C700822B91 /* YepConfig.swift */,
+				503E72251CF2A5C700822B91 /* SharedConfig.swift */,
 				503E72271CF2A86B00822B91 /* Extensions */,
 				503E720C1CF2A59200822B91 /* Info.plist */,
 			);
@@ -4373,6 +4376,7 @@
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
 				5020B8A51C059662006CE8EA /* VoiceRecordSampleView.swift in Sources */,
+				5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
 				500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */,
 				50E34C2F1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift in Sources */,
@@ -4664,7 +4668,7 @@
 			files = (
 				503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */,
 				503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */,
-				503E72261CF2A5C700822B91 /* YepConfig.swift in Sources */,
+				503E72261CF2A5C700822B91 /* SharedConfig.swift in Sources */,
 				503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

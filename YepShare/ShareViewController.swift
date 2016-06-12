@@ -545,6 +545,5 @@ extension ShareViewController {
             completion(fileURLs: fileURLs)
         }
     }
-
 }
 
