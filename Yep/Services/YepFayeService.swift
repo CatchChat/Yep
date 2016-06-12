@@ -167,7 +167,7 @@ extension YepFayeService {
                                     "recipient_id": recipientID,
                                 ]
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageBatchMarkAsRead, object: object)
+                                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: object)
                                 //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                             }
                         }

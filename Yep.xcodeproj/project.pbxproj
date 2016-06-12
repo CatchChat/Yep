@@ -98,6 +98,7 @@
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF491D0D38CE00358156 /* YepConfig.swift */; };
+		5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
@@ -151,7 +152,6 @@
 		503E72261CF2A5C700822B91 /* SharedConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72251CF2A5C700822B91 /* SharedConfig.swift */; };
 		503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E72281CF2A89500822B91 /* UIFont+Yep.swift */; };
 		503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722A1CF2A92500822B91 /* UIColor+Yep.swift */; };
-		503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
 		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
@@ -803,6 +803,7 @@
 		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
 		5024BF491D0D38CE00358156 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Helpers/YepConfig.swift; sourceTree = "<group>"; };
+		5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
@@ -859,7 +860,6 @@
 		503E72251CF2A5C700822B91 /* SharedConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedConfig.swift; sourceTree = "<group>"; };
 		503E72281CF2A89500822B91 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
 		503E722A1CF2A92500822B91 /* UIColor+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+Yep.swift"; path = "Extensions/UIColor+Yep.swift"; sourceTree = "<group>"; };
-		503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
 		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
@@ -2275,7 +2275,6 @@
 			children = (
 				503E72281CF2A89500822B91 /* UIFont+Yep.swift */,
 				503E722A1CF2A92500822B91 /* UIColor+Yep.swift */,
-				503E722E1CF2AD0500822B91 /* NSFileManager+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -3120,6 +3119,7 @@
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
 				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
 				50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */,
+				5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4667,7 +4667,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				503E722B1CF2A92500822B91 /* UIColor+Yep.swift in Sources */,
-				503E722F1CF2AD0500822B91 /* NSFileManager+Yep.swift in Sources */,
 				503E72261CF2A5C700822B91 /* SharedConfig.swift in Sources */,
 				503E72291CF2A89500822B91 /* UIFont+Yep.swift in Sources */,
 			);
@@ -4700,6 +4699,7 @@
 				50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */,
 				50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
+				5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */,
 				50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,

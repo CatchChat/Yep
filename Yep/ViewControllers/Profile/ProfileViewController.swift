@@ -875,7 +875,7 @@ final class ProfileViewController: SegueViewController {
                 if let conversation = conversation {
                     performSegueWithIdentifier("showConversation", sender: conversation)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                 }
 
             case .UserType(let user):
@@ -896,7 +896,7 @@ final class ProfileViewController: SegueViewController {
                     if let conversation = user.conversation {
                         performSegueWithIdentifier("showConversation", sender: conversation)
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                     }
                 }
             }

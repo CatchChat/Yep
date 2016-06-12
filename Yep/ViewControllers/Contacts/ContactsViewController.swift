@@ -259,7 +259,7 @@ final class ContactsViewController: BaseViewController {
                             }
                         }
                         vc.conversation = user.conversation
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                     }
                 }
             }

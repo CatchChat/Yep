@@ -230,7 +230,7 @@ public extension NSFileManager {
             cleanCachesDirectoryAtURL(avatarCachesURL)
         }
     }
-
+    
     public class func cleanMessageCaches() {
         if let messageCachesURL = yepMessageCachesURL() {
             cleanCachesDirectoryAtURL(messageCachesURL)

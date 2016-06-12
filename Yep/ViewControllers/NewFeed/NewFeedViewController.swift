@@ -587,10 +587,10 @@ final class NewFeedViewController: SegueViewController {
                     let fixedImageHeight: CGFloat
 
                     if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, YepConfig.Media.miniImageWidth)
+                        fixedImageWidth = min(imageWidth, Config.Media.miniImageWidth)
                         fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
                     } else {
-                        fixedImageHeight = min(imageHeight, YepConfig.Media.miniImageHeight)
+                        fixedImageHeight = min(imageHeight, Config.Media.miniImageHeight)
                         fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
                     }
 
@@ -615,7 +615,7 @@ final class NewFeedViewController: SegueViewController {
             let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            let audioMetaDataInfo = [YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues, YepConfig.MetaData.audioDuration: audioDuration]
+            let audioMetaDataInfo = [Config.MetaData.audioSamples: feedVoice.limitedSampleValues, Config.MetaData.audioDuration: audioDuration]
 
             let audioMetaData = try! NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
 
@@ -775,10 +775,10 @@ final class NewFeedViewController: SegueViewController {
                 let fixedImageHeight: CGFloat
 
                 if imageWidth > imageHeight {
-                    fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                    fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
                     fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
                 } else {
-                    fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                    fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
                     fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
                 }
 
@@ -940,8 +940,8 @@ final class NewFeedViewController: SegueViewController {
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
             let audioMetaDataInfo = [
-                YepConfig.MetaData.audioDuration: audioDuration,
-                YepConfig.MetaData.audioSamples: feedVoice.limitedSampleValues,
+                Config.MetaData.audioDuration: audioDuration,
+                Config.MetaData.audioSamples: feedVoice.limitedSampleValues,
             ]
 
             var metaDataString = ""

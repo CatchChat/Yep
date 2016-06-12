@@ -32,16 +32,6 @@ final public class YepConfig {
 
     public static let maxFeedTextLength: Int = 300
 
-    public class func clientType() -> Int {
-        // TODO: clientType
-
-        #if DEBUG
-            return 2
-        #else
-            return 0
-        #endif
-    }
-
     public static let termsURLString = "http://privacy.soyep.com"
     public static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
 
@@ -50,28 +40,11 @@ final public class YepConfig {
     public static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
 
     public struct Notification {
-        public static let markAsReaded = "YepConfig.Notification.markAsReaded"
-        public static let changedConversation = "YepConfig.Notification.changedConversation"
-        public static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
-        public static let newMessages = "YepConfig.Notification.newMessages"
-        public static let deletedMessages = "YepConfig.Notification.deletedMessages"
-        public static let updatedUser = "YepConfig.Notification.updatedUser"
         public static let OAuthResult = "YepConfig.Notification.OAuthResult"
         public static let createdFeed = "YepConfig.Notification.createdFeed"
         public static let deletedFeed = "YepConfig.Notification.deletedFeed"
         public static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
         public static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
-    }
-
-    public struct Message {
-        // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
-        public static let localNewerTimeInterval: NSTimeInterval = 0.001
-        public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
-
-        public struct Notification {
-            public static let MessageStateChanged = "MessageStateChangedNotification"
-            public static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
-        }
     }
 
     public class func getScreenRect() -> CGRect {
@@ -233,19 +206,19 @@ final public class YepConfig {
     public struct FeedBasicCell {
         public static let textAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
-            ]
+        ]
 
         public static let skillTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedSkillFont(),
-            ]
+        ]
 
         public static let voiceTimeLengthTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
-            ]
+        ]
 
         public static let bottomLabelsTextAttributes:[String: NSObject] = [
             NSFontAttributeName: UIFont.feedBottomLabelsFont(),
-            ]
+        ]
     }
 
     public struct FeedBiggerImageCell {
