@@ -210,6 +210,7 @@
 		506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F31AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift */; };
 		506BB7F61AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506BB7F41AE4E0A500C1A2A0 /* SkillAnnotationHeader.xib */; };
 		506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BB7F81AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift */; };
+		506C3A3C1D0D6CAB0021B164 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */; };
 		506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */; };
 		506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */; };
 		506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01F81CE029B100B3867D /* UploadContactsMaker.swift */; };
@@ -1246,6 +1247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				506C3A3C1D0D6CAB0021B164 /* libxml2.tbd in Frameworks */,
 				50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */,
 				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
 				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
