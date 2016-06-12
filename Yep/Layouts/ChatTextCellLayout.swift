@@ -8,7 +8,6 @@
 
 import Foundation
 import YepKit
-import YepConfig
 
 typealias ChatTextCellLayoutCache = (textContentTextViewWidth: CGFloat, textContentTextViewFrame: CGRect?, update: (textContentTextViewFrame: CGRect) -> Void)
 

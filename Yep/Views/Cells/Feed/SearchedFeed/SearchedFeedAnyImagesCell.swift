@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 private let feedMediaCellID = "FeedMediaCell"
 

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 import Navi
 
 public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {

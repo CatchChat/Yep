@@ -10,7 +10,6 @@ import UIKit
 import SafariServices
 import CoreLocation
 import RealmSwift
-import YepConfig
 import YepNetworking
 import YepKit
 import OpenGraph

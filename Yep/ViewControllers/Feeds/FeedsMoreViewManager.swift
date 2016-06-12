@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import YepConfig
 
 final class FeedsMoreViewManager {
 

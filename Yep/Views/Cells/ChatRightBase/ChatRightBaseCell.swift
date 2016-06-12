@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 let sendingAnimationName = "RotationOnStateAnimation"
 

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 class ChatLeftTextCell: ChatBaseCell {
 

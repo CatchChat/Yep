@@ -12,7 +12,6 @@ import AVFoundation
 import AudioToolbox
 import MobileCoreServices.UTType
 import YepKit
-import YepConfig
 import YepNetworking
 import OpenGraph
 import RealmSwift

@@ -10,7 +10,6 @@ import UIKit
 import MobileCoreServices.UTType
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
 import Proposer
 import Navi
