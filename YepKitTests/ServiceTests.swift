@@ -111,7 +111,7 @@ final class ServiceTests: XCTestCase {
 
         let bundle = NSBundle(forClass: ServiceTests.self)
         let image = UIImage(named: "coolie", inBundle: bundle, compatibleWithTraitCollection: nil)!
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())!
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())!
 
         updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
             userInfo(failureHandler: nil) { myUserInfo in
