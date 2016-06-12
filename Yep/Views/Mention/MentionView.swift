@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Navi
 
 private class MentionUserCell: UITableViewCell {

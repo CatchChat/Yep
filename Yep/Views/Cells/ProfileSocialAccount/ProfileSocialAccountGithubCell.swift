@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import YepNetworking
 
 final class ProfileSocialAccountGithubCell: UICollectionViewCell {

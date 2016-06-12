@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import YepNetworking
 import Fabric
 import AVFoundation
@@ -259,7 +258,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessages() {
                 dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 
@@ -309,7 +308,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 

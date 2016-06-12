@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 import MonkeyKing
 
 final class WeChatActivity: AnyActivity {

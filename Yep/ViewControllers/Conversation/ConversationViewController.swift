@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
 import OpenGraph
 import AVFoundation
@@ -768,8 +767,8 @@ final class ConversationViewController: BaseViewController {
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: YepConfig.Notification.newMessages, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.Notification.deletedMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
 
@@ -779,7 +778,7 @@ final class ConversationViewController: BaseViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: YepConfig.Message.Notification.MessageBatchMarkAsRead, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.Message.Notification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             dispatch_async(dispatch_get_main_queue()) {
@@ -1281,8 +1280,8 @@ final class ConversationViewController: BaseViewController {
                         println("\nComporessed \(audioSamples)")
 
                         let audioMetaDataInfo = [
-                            YepConfig.MetaData.audioDuration: audioDuration,
-                            YepConfig.MetaData.audioSamples: audioSamples,
+                            Config.MetaData.audioDuration: audioDuration,
+                            Config.MetaData.audioSamples: audioSamples,
                         ]
 
                         if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
@@ -1522,7 +1521,7 @@ final class ConversationViewController: BaseViewController {
             if needMarkInServer {
 
                 dispatch_async(dispatch_get_main_queue()) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.markAsReaded, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.markAsReaded, object: nil)
                 }
 
                 if latestMessage.isReal {
@@ -2273,7 +2272,7 @@ final class ConversationViewController: BaseViewController {
             }
 
             delay(0.5) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
             }
         }
     }
@@ -2781,7 +2780,7 @@ final class ConversationViewController: BaseViewController {
 
                 let _ = try? realm.commitWrite()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
             }
@@ -4835,10 +4834,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     let fixedImageHeight: CGFloat
 
                     if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                        fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
                         fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
                     } else {
-                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                        fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
                         fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
                     }
 
@@ -4970,10 +4969,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             let thumbnailHeight: CGFloat
 
             if imageWidth > imageHeight {
-                thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
+                thumbnailWidth = min(imageWidth, Config.MetaData.thumbnailMaxSize)
                 thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
             } else {
-                thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
+                thumbnailHeight = min(imageHeight, Config.MetaData.thumbnailMaxSize)
                 thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
             }
 
@@ -4991,15 +4990,15 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
                 videoMetaDataInfo = [
-                    YepConfig.MetaData.videoWidth: imageWidth,
-                    YepConfig.MetaData.videoHeight: imageHeight,
-                    YepConfig.MetaData.blurredThumbnailString: string,
+                    Config.MetaData.videoWidth: imageWidth,
+                    Config.MetaData.videoHeight: imageHeight,
+                    Config.MetaData.blurredThumbnailString: string,
                 ]
 
             } else {
                 videoMetaDataInfo = [
-                    YepConfig.MetaData.videoWidth: imageWidth,
-                    YepConfig.MetaData.videoHeight: imageHeight,
+                    Config.MetaData.videoWidth: imageWidth,
+                    Config.MetaData.videoHeight: imageHeight,
                 ]
             }
 

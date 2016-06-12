@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
 import AVFoundation
 import MapKit

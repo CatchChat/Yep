@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import YepKit
-import YepConfig
 
 final class NewFeedVoiceRecordViewController: SegueViewController {
 

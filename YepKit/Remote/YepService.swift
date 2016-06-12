@@ -8,7 +8,6 @@
 
 import Foundation
 import CoreLocation
-import YepConfig
 import YepNetworking
 import RealmSwift
 import Alamofire
@@ -125,7 +124,7 @@ public func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCo
         "mobile": mobile,
         "phone_code": areaCode,
         "token": verifyCode,
-        "client": YepConfig.clientType(),
+        "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
@@ -519,13 +518,13 @@ public func comfirmNewMobile(mobile: String, withAreaCode areaCode: String, veri
 
 public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
-    println("User login type is \(YepConfig.clientType())")
+    println("User login type is \(Config.clientType())")
     
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
         "verify_code": verifyCode,
-        "client": YepConfig.clientType(),
+        "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
@@ -2246,7 +2245,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     // 确保本地刚创建的消息比任何已有的消息都要新
     if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
         if message.createdUnixTime < latestMessage.createdUnixTime {
-            message.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+            message.createdUnixTime = latestMessage.createdUnixTime + Config.Message.localNewerTimeInterval
             println("adjust message.createdUnixTime")
         }
     }
@@ -2315,7 +2314,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
 
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
     }
@@ -2366,7 +2365,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
                 message.sendState = MessageSendState.Failed.rawValue
             }
 
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
         }
 
     }, completion: completion)
@@ -2410,7 +2409,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                     completion(success: true)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                 }
             })
 
@@ -2441,7 +2440,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                             completion(success: true)
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                         }
                     })
                 }
@@ -2483,7 +2482,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                     message.sendState = MessageSendState.NotSend.rawValue
                 }
 
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
             }
 
             // also, if resend failed, we need set MessageSendState
@@ -2500,7 +2499,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                         message.sendState = MessageSendState.Failed.rawValue
                     }
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                 }
             }
 
@@ -2660,7 +2659,7 @@ public struct DiscoveredAttachment {
 
         if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
-                if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {
+                if let thumbnailString = metaDataInfo[Config.MetaData.thumbnailString] as? String {
                     let imageData = NSData(base64EncodedString: thumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0))
                     return imageData
                 }
@@ -2809,8 +2808,8 @@ public struct DiscoveredFeed: Hashable {
                 if let metaDataInfo = decodeJSON(metaData) {
 
                     guard let
-                        duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
-                        sampleValues = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] else {
+                        duration = metaDataInfo[Config.MetaData.audioDuration] as? NSTimeInterval,
+                        sampleValues = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] else {
                             return nil
                     }
 

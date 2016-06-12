@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import YepConfig
 import YepNetworking
 import RealmSwift
 
@@ -24,7 +23,7 @@ public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [St
                 "messageIDs": messageIDs,
                 "messageAge": messageAge.rawValue,
             ]
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.newMessages, object: object)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.newMessages, object: object)
         }
     }
 }
@@ -417,7 +416,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
             })
 
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
 
@@ -428,7 +427,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
             })
 
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
 
@@ -456,8 +455,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         let _ = try? realm.commitWrite()
 
         dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
         }
 
         if let lastMessageID =  lastMessageID {
@@ -655,7 +654,7 @@ public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
             let _ = try? realm.commitWrite()
 
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
 
             // do further action
@@ -1030,7 +1029,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                         // 只考虑最近的消息，过了可能混乱的时机就不再考虑
                         if abs(newMessage.createdUnixTime - latestMessage.createdUnixTime) < 60 {
                             println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
-                            newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+                            newMessage.createdUnixTime = latestMessage.createdUnixTime + Config.Message.localNewerTimeInterval
                             println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                         }
                     }
@@ -1116,7 +1115,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
 
                                                     delay(1) {
                                                         dispatch_async(dispatch_get_main_queue()) {
-                                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+                                                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
                                                         }
                                                     }
                                                 }
@@ -1168,7 +1167,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                             updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
                                             let _ = try? realm.commitWrite()
 
-                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.updatedUser, object: nil)
+                                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.updatedUser, object: nil)
                                         }
                                     })
                                 }
@@ -1237,7 +1236,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                             if createdNewConversation {
 
                                 dispatch_async(dispatch_get_main_queue()) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                                 }
                             }
 

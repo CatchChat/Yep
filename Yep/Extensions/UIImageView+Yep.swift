@@ -9,7 +9,6 @@
 import UIKit
 import CoreLocation
 import YepKit
-import YepConfig
 
 // MARK: - ActivityIndicator
 

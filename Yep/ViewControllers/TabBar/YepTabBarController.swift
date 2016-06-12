@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 import YepKit
 
 final class YepTabBarController: UITabBarController {

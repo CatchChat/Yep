@@ -8,7 +8,6 @@
 
 import UIKit
 import MapKit
-import YepConfig
 import YepNetworking
 import RealmSwift
 
@@ -262,7 +261,7 @@ public class Group: Object {
             realm.delete(conversation)
 
             dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
 
@@ -853,8 +852,8 @@ public class FeedAudio: Object {
 
         if let metaDataInfo = decodeJSON(metadata) {
             if let
-                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
-                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                duration = metaDataInfo[Config.MetaData.audioDuration] as? NSTimeInterval,
+                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -1642,7 +1641,7 @@ public func handleMessageDeletedFromServer(messageID messageID: String) {
     let messageIDs: [String] = [message.messageID]
 
     dispatch_async(dispatch_get_main_queue()) {
-        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: ["messageIDs": messageIDs])
+        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }
 
@@ -1661,7 +1660,7 @@ public func tryCreateSectionDateMessageInConversation(conversation: Conversation
             if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
                 // 比新消息早一点点即可
-                let sectionDateMessageCreatedUnixTime = message.createdUnixTime - YepConfig.Message.sectionOlderTimeInterval
+                let sectionDateMessageCreatedUnixTime = message.createdUnixTime - Config.Message.sectionOlderTimeInterval
                 let sectionDateMessageID = "sectionDate-\(sectionDateMessageCreatedUnixTime)"
 
                 if let _ = messageWithMessageID(sectionDateMessageID, inRealm: realm) {
@@ -1745,7 +1744,7 @@ public func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
-            if let blurredThumbnailString = metaDataInfo[YepConfig.MetaData.blurredThumbnailString] as? String {
+            if let blurredThumbnailString = metaDataInfo[Config.MetaData.blurredThumbnailString] as? String {
                 if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
                     return UIImage(data: data)
                 }
@@ -1765,8 +1764,8 @@ public func audioMetaOfMessage(message: Message) -> (duration: Double, samples: 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? Double,
-                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                duration = metaDataInfo[Config.MetaData.audioDuration] as? Double,
+                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -1784,8 +1783,8 @@ public func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                width = metaDataInfo[YepConfig.MetaData.imageWidth] as? CGFloat,
-                height = metaDataInfo[YepConfig.MetaData.imageHeight] as? CGFloat {
+                width = metaDataInfo[Config.MetaData.imageWidth] as? CGFloat,
+                height = metaDataInfo[Config.MetaData.imageHeight] as? CGFloat {
                     return (width, height)
             }
         }
@@ -1803,8 +1802,8 @@ public func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                width = metaDataInfo[YepConfig.MetaData.videoWidth] as? CGFloat,
-                height = metaDataInfo[YepConfig.MetaData.videoHeight] as? CGFloat {
+                width = metaDataInfo[Config.MetaData.videoWidth] as? CGFloat,
+                height = metaDataInfo[Config.MetaData.videoHeight] as? CGFloat {
                     return (width, height)
             }
         }

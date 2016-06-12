@@ -12,7 +12,6 @@ import AVFoundation
 import AudioToolbox
 import MobileCoreServices.UTType
 import YepKit
-import YepConfig
 import YepNetworking
 import OpenGraph
 import RealmSwift
@@ -266,8 +265,8 @@ class ShareViewController: SLComposeServiceViewController {
              */
 
             let audioMetaDataInfo = [
-                YepConfig.MetaData.audioDuration: audioDuration,
-                YepConfig.MetaData.audioSamples: limitedAudioSamples,
+                Config.MetaData.audioDuration: audioDuration,
+                Config.MetaData.audioSamples: limitedAudioSamples,
             ]
 
             var metaDataString = ""
@@ -374,10 +373,10 @@ class ShareViewController: SLComposeServiceViewController {
                 let fixedImageHeight: CGFloat
 
                 if imageWidth > imageHeight {
-                    fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
+                    fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
                     fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
                 } else {
-                    fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
+                    fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
                     fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
                 }
 
@@ -545,6 +544,5 @@ extension ShareViewController {
             completion(fileURLs: fileURLs)
         }
     }
-
 }
 

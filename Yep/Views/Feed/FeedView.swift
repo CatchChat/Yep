@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 import MapKit
 import YepKit
-import YepConfig
 import RealmSwift
 import Kingfisher
 

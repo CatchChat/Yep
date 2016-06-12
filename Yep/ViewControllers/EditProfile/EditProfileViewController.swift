@@ -8,7 +8,6 @@
 
 import UIKit
 import RealmSwift
-import YepConfig
 import YepKit
 import YepNetworking
 import OpenGraph

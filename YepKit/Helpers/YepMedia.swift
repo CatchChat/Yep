@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 import Navi
 
 public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
@@ -21,10 +20,10 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
     let thumbnailHeight: CGFloat
 
     if imageWidth > imageHeight {
-        thumbnailWidth = min(imageWidth, YepConfig.MetaData.thumbnailMaxSize)
+        thumbnailWidth = min(imageWidth, Config.MetaData.thumbnailMaxSize)
         thumbnailHeight = imageHeight * (thumbnailWidth / imageWidth)
     } else {
-        thumbnailHeight = min(imageHeight, YepConfig.MetaData.thumbnailMaxSize)
+        thumbnailHeight = min(imageHeight, Config.MetaData.thumbnailMaxSize)
         thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
     }
 
@@ -50,8 +49,8 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
             ]
             */
             metaDataInfo = [
-                YepConfig.MetaData.imageWidth: imageWidth,
-                YepConfig.MetaData.imageHeight: imageHeight,
+                Config.MetaData.imageWidth: imageWidth,
+                Config.MetaData.imageHeight: imageHeight,
             ]
 
         } else {
@@ -63,16 +62,16 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
             println("image thumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
 
             metaDataInfo = [
-                YepConfig.MetaData.imageWidth: imageWidth,
-                YepConfig.MetaData.imageHeight: imageHeight,
-                YepConfig.MetaData.thumbnailString: string,
+                Config.MetaData.imageWidth: imageWidth,
+                Config.MetaData.imageHeight: imageHeight,
+                Config.MetaData.thumbnailString: string,
             ]
         }
 
     } else {
         metaDataInfo = [
-            YepConfig.MetaData.imageWidth: imageWidth,
-            YepConfig.MetaData.imageHeight: imageHeight
+            Config.MetaData.imageWidth: imageWidth,
+            Config.MetaData.imageHeight: imageHeight
         ]
     }
 

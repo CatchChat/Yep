@@ -9,7 +9,6 @@
 import UIKit
 import CoreSpotlight
 import CoreLocation
-import YepConfig
 import RealmSwift
 
 private let v1AccessTokenKey = "v1AccessToken"
@@ -106,7 +105,7 @@ final public class Listenable<T> {
 
 final public class YepUserDefaults {
 
-    static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
+    static let defaults = NSUserDefaults(suiteName: Config.appGroupID)!
 
     public static let appLaunchCountThresholdForTabBarItemTextEnabled: Int = 30
 

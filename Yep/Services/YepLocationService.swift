@@ -8,7 +8,6 @@
 
 import CoreLocation
 import YepKit
-import YepConfig
 
 final class YepLocationService: NSObject, CLLocationManagerDelegate {
 
