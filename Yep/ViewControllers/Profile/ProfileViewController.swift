@@ -960,16 +960,6 @@ final class ProfileViewController: SegueViewController {
                 }
             }
 
-        case "presentOAuth":
-
-            if let providerName = sender as? String {
-
-                let nvc = segue.destinationViewController as! UINavigationController
-                let vc = nvc.topViewController as! OAuthViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-                vc.afterOAuthAction = afterOAuthAction
-            }
-
         case "showSocialWorkGithub":
 
             if let providerName = sender as? String {
@@ -1585,7 +1575,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     self.socialAccount = SocialAccount(rawValue: providerName)
 
                     guard let accessToken = YepUserDefaults.v1AccessToken.value else {
-                        performSegueWithIdentifier("presentOAuth", sender: providerName)
                         return
                     }
 

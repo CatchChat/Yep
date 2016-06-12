@@ -22,7 +22,6 @@
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */; };
 		0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */; };
-		0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A9018811B0120A500AE4B7F /* OAuthViewController.swift */; };
 		0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
@@ -416,7 +415,6 @@
 		50DEE0451BEA025100015741 /* About.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0441BEA025100015741 /* About.storyboard */; };
 		50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */; };
 		50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */; };
-		50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04A1BEA071100015741 /* OAuth.storyboard */; };
 		50DEE04D1BEA085F00015741 /* EditNicknameAndBadge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */; };
 		50DEE04F1BEA092100015741 /* EditProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE04E1BEA092100015741 /* EditProfile.storyboard */; };
 		50DEE0511BEA09DD00015741 /* BlackList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DEE0501BEA09DD00015741 /* BlackList.storyboard */; };
@@ -679,7 +677,6 @@
 		0A8F54BA1AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.swift; sourceTree = "<group>"; };
 		0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.xib; sourceTree = "<group>"; };
-		0A9018811B0120A500AE4B7F /* OAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuthViewController.swift; path = ViewControllers/OAuth/OAuthViewController.swift; sourceTree = "<group>"; };
 		0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ViewControllers/Base/BaseViewController.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -1076,7 +1073,6 @@
 		50DEE0441BEA025100015741 /* About.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = About.storyboard; path = ViewControllers/About/About.storyboard; sourceTree = "<group>"; };
 		50DEE0461BEA030900015741 /* PodsHelpYep.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = PodsHelpYep.storyboard; path = ViewControllers/PodsHelpYep/PodsHelpYep.storyboard; sourceTree = "<group>"; };
 		50DEE0481BEA04CC00015741 /* SocialWorks.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SocialWorks.storyboard; path = ViewControllers/SocialWorks/SocialWorks.storyboard; sourceTree = "<group>"; };
-		50DEE04A1BEA071100015741 /* OAuth.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = OAuth.storyboard; path = ViewControllers/OAuth/OAuth.storyboard; sourceTree = "<group>"; };
 		50DEE04C1BEA085F00015741 /* EditNicknameAndBadge.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditNicknameAndBadge.storyboard; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadge.storyboard; sourceTree = "<group>"; };
 		50DEE04E1BEA092100015741 /* EditProfile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = EditProfile.storyboard; path = ViewControllers/EditProfile/EditProfile.storyboard; sourceTree = "<group>"; };
 		50DEE0501BEA09DD00015741 /* BlackList.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = BlackList.storyboard; path = ViewControllers/BlackList/BlackList.storyboard; sourceTree = "<group>"; };
@@ -1449,15 +1445,6 @@
 			name = ProfileSocialAccount;
 			sourceTree = "<group>";
 		};
-		0A9018831B0120A800AE4B7F /* OAuth */ = {
-			isa = PBXGroup;
-			children = (
-				0A9018811B0120A500AE4B7F /* OAuthViewController.swift */,
-				50DEE04A1BEA071100015741 /* OAuth.storyboard */,
-			);
-			name = OAuth;
-			sourceTree = "<group>";
-		};
 		0A943A7C1B0F8EB10022DD67 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -1703,7 +1690,6 @@
 				5080EB1D1B93F440006F3C2D /* PodsHelpYep */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
-				0A9018831B0120A800AE4B7F /* OAuth */,
 				508F8FCD1B01C80500461B0B /* SocialWorks */,
 				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
@@ -3855,7 +3841,6 @@
 				338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
-				50DEE04B1BEA071100015741 /* OAuth.storyboard in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				505262171C522A3D00292C6A /* FeedConversations.storyboard in Resources */,
 				508F8FD11B01D04400461B0B /* GithubRepoCell.xib in Resources */,
@@ -4246,7 +4231,6 @@
 				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
 				50DEE02C1BE209FF00015741 /* DeletedFeedConversationCell.swift in Sources */,
 				50D4D0DB1AFA825B005AEB6F /* MediaControlView.swift in Sources */,
-				0A9018821B0120A500AE4B7F /* OAuthViewController.swift in Sources */,
 				508D17471ACCF4710092D666 /* ChatLeftAudioCell.swift in Sources */,
 				50894D021AEA6433000981AF /* EditProfileLessInfoCell.swift in Sources */,
 				501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */,
