@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vX9-dx-mws">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vX9-dx-mws">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -84,7 +84,6 @@
                         <segue destination="WCu-SO-xkn" kind="show" identifier="showSocialWorkInstagram" id="cMC-8n-aWR">
                             <nil key="action"/>
                         </segue>
-                        <segue destination="lv0-4q-clH" kind="presentation" identifier="presentOAuth" id="pS4-jt-FeT"/>
                         <segue destination="ujB-i0-csk" kind="show" identifier="showEditSkills" id="pJm-XD-WVe">
                             <nil key="action"/>
                         </segue>
@@ -139,14 +138,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jp9-fa-PYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="931" y="1901"/>
-        </scene>
-        <!--OAuth-->
-        <scene sceneID="F15-Xn-WbA">
-            <objects>
-                <viewControllerPlaceholder storyboardName="OAuth" id="lv0-4q-clH" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="auy-7d-LAa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="253" y="2287"/>
         </scene>
         <!--SocialWorkDribbbleViewController-->
         <scene sceneID="xIu-vn-sx3">

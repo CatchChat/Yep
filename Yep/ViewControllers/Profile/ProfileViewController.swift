@@ -348,7 +348,7 @@ final class ProfileViewController: SegueViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.prepareForOAuthResult(_:)), name: YepConfig.Notification.OAuthResult, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.handleOAuthResult(_:)), name: YepConfig.Notification.OAuthResult, object: nil)
 
         if let profileUser = profileUser {
 
@@ -958,16 +958,6 @@ final class ProfileViewController: SegueViewController {
                 vc.afterChangedSkillsAction = { [weak self] in
                     self?.updateProfileCollectionView()
                 }
-            }
-
-        case "presentOAuth":
-
-            if let providerName = sender as? String {
-
-                let nvc = segue.destinationViewController as! UINavigationController
-                let vc = nvc.topViewController as! OAuthViewController
-                vc.socialAccount = SocialAccount(rawValue: providerName)
-                vc.afterOAuthAction = afterOAuthAction
             }
 
         case "showSocialWorkGithub":
@@ -1585,7 +1575,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     self.socialAccount = SocialAccount(rawValue: providerName)
 
                     guard let accessToken = YepUserDefaults.v1AccessToken.value else {
-                        performSegueWithIdentifier("presentOAuth", sender: providerName)
                         return
                     }
 
@@ -1635,34 +1624,31 @@ extension ProfileViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: - NSURLConnectionDataDelegate
+// MARK: - OAuthResult
 
-extension ProfileViewController: NSURLConnectionDataDelegate {
+extension ProfileViewController {
     
-    func prepareForOAuthResult(notification: NSNotification) {
+    func handleOAuthResult(notification: NSNotification) {
         
         oAuthCompleteAction?()
 
-        if let result = notification.object as? NSNumber, socialAccount = self.socialAccount {
-            if result == 1 {
-                
-                socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
+        if let result = notification.object as? NSNumber where result == 1, let socialAccount = self.socialAccount {
 
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 
-                }, completion: { provider in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    println("provider: \(provider)")
+            }, completion: { provider in
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.afterOAuthAction?(socialAccount: socialAccount)
-                    }
-                })
-                
-            } else {
-                
-                YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: {})
-            }
+                println("provider: \(provider)")
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.afterOAuthAction?(socialAccount: socialAccount)
+                }
+            })
+            
+        } else {
+            YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: {})
         }
     }
 }

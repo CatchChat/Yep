@@ -6,7 +6,6 @@ use_frameworks!
 def pods
     pod 'Appsee'
     pod 'DeviceGuru'
-    pod '1PasswordExtension'
     pod 'FXBlurView'
     pod 'TPKeyboardAvoiding'
     pod 'pop'

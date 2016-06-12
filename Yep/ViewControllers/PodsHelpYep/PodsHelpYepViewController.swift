@@ -36,10 +36,6 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/nixzhu/Navi",
         ],
         [
-            "name": "1PasswordExtension",
-            "URLString": "https://github.com/AgileBits/onepassword-app-extension",
-        ],
-        [
             "name": "Kingfisher",
             "URLString": "https://github.com/onevcat/Kingfisher",
         ],
