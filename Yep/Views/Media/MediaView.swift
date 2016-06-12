@@ -43,7 +43,12 @@ final class MediaView: UIView {
 
         recenterImage(image)
 
-        scrollView.scrollEnabled = false
+        if (size.height / size.width) > (bounds.height / bounds.width) {
+            scrollView.scrollEnabled = true
+
+        } else {
+            scrollView.scrollEnabled = false
+        }
     }
 
     var image: UIImage? {
