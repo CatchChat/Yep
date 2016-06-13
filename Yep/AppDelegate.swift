@@ -598,6 +598,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
         JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: callbackSelector, object: self)
+
+        println("registerThirdPartyPushWithDeciveToken: \(deviceToken), pusherID: \(pusherID)")
     }
 
     func unregisterThirdPartyPush() {
@@ -615,6 +617,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         notRegisteredThirdPartyPush = true
 
         JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
+
+        println("unregisterThirdPartyPush")
     }
 
     @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
