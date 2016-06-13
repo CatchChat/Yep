@@ -1034,8 +1034,10 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
             if let keyword = self.keyword {
-                searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: { [weak cell] in
-                    cell?.isLoading = false
+                searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: {
+                    delay(0.5) { [weak cell] in
+                        cell?.isLoading = false
+                    }
                 })
             } else {
                 cell.isLoading = false
