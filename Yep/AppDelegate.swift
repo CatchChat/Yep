@@ -30,7 +30,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
         }
     }
-    var notRegisteredPush = true
+    var notRegisteredThirdPartyPush = true
 
     private var isFirstActive = true
 
@@ -589,11 +589,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
-        guard notRegisteredPush else {
+        guard notRegisteredThirdPartyPush else {
             return
         }
 
-        notRegisteredPush = false
+        notRegisteredThirdPartyPush = false
 
         JPUSHService.registerDeviceToken(deviceToken)
 
@@ -609,11 +609,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
-        guard !notRegisteredPush else {
+        guard !notRegisteredThirdPartyPush else {
             return
         }
 
-        notRegisteredPush = true
+        notRegisteredThirdPartyPush = true
 
         let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
         JPUSHService.setAlias(nil, callbackSelector: callbackSelector, object: self)

@@ -203,11 +203,11 @@ final class LoginVerifyMobileViewController: UIViewController {
 
         }, completion: { loginUser in
 
-            println("\(loginUser)")
+            println("loginUser: \(loginUser)")
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_async(dispatch_get_main_queue()) {
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
                 
@@ -217,7 +217,7 @@ final class LoginVerifyMobileViewController: UIViewController {
                 if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                     appDelegate.startMainStory()
                 }
-            })
+            }
         })
     }
 }
