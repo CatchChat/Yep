@@ -358,37 +358,30 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                     YepUserDefaults.admin.value = (friendInfo["admin"] as? Bool)
 
-                    if let nickname = friendInfo["nickname"] as? String {
-                        YepUserDefaults.nickname.value = nickname
-                    }
+                    let nickname = friendInfo["nickname"] as? String
+                    YepUserDefaults.nickname.value = nickname
 
-                    if let introduction = friendInfo["introduction"] as? String where !introduction.isEmpty {
-                        YepUserDefaults.introduction.value = introduction
-                    }
+                    let introduction = friendInfo["introduction"] as? String
+                    YepUserDefaults.introduction.value = introduction
 
-                    if let avatarInfo = friendInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
-                        YepUserDefaults.avatarURLString.value = avatarURLString
-                    }
+                    let avatarInfo = friendInfo["avatar"] as? JSONDictionary
+                    let avatarURLString = avatarInfo?["url"] as? String
+                    YepUserDefaults.avatarURLString.value = avatarURLString
 
-                    if let badge = friendInfo["badge"] as? String {
-                        YepUserDefaults.badge.value = badge
-                    }
+                    let badge = friendInfo["badge"] as? String
+                    YepUserDefaults.badge.value = badge
 
-                    if let blogURLString = friendInfo["website_url"] as? String where !blogURLString.isEmpty {
-                        YepUserDefaults.blogURLString.value = blogURLString
-                    }
+                    let blogURLString = friendInfo["website_url"] as? String
+                    YepUserDefaults.blogURLString.value = blogURLString
 
-                    if let blogTitle = friendInfo["website_title"] as? String where !blogTitle.isEmpty {
-                        YepUserDefaults.blogTitle.value = blogTitle
-                    }
+                    let blogTitle = friendInfo["website_title"] as? String
+                    YepUserDefaults.blogTitle.value = blogTitle
 
-                    if let areaCode = friendInfo["phone_code"] as? String {
-                        YepUserDefaults.areaCode.value = areaCode
-                    }
+                    let areaCode = friendInfo["phone_code"] as? String
+                    YepUserDefaults.areaCode.value = areaCode
 
-                    if let mobile = friendInfo["mobile"] as? String {
-                        YepUserDefaults.mobile.value = mobile
-                    }
+                    let mobile = friendInfo["mobile"] as? String
+                    YepUserDefaults.mobile.value = mobile
                 }
             }
 
