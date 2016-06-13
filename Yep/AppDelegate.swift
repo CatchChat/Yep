@@ -591,10 +591,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
         JPUSHService.registerDeviceToken(deviceToken)
-        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: nil, object: nil)
+
+        let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
+        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: callbackSelector, object: self)
     }
 
-    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
+    @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
 
         println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
