@@ -1611,8 +1611,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.isLoading = true
             }
 
-            updateFeeds(mode: .LoadMore, finish: { [weak cell] in
-                cell?.isLoading = false
+            updateFeeds(mode: .LoadMore, finish: {
+                delay(0.5) { [weak cell] in
+                    cell?.isLoading = false
+                }
             })
         }
     }
