@@ -232,7 +232,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
@@ -615,13 +614,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         notRegisteredThirdPartyPush = true
 
-        let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
-        JPUSHService.setAlias(nil, callbackSelector: callbackSelector, object: self)
+        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
     }
 
     @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
 
-        print("tagsAliasCallback \(iResCode), \(tags), \(alias)")
+        println("tagsAliasCallback: \(iResCode), \(tags), \(alias)")
     }
 
     // MARK: Private
