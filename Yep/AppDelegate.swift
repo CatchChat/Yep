@@ -22,7 +22,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var deviceToken: NSData?
+    var deviceToken: NSData? {
+        didSet {
+            guard let deviceToken = deviceToken else { return }
+            guard let pusherID = YepUserDefaults.pusherID.value else { return }
+
+            registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+        }
+    }
     var notRegisteredPush = true
 
     private var isFirstActive = true
@@ -193,14 +200,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-
-        if let pusherID = YepUserDefaults.pusherID.value {
-            if notRegisteredPush {
-                notRegisteredPush = false
-
-                registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-            }
-        }
 
         // 纪录下来，用于初次登录或注册有 pusherID 后，或“注销再登录”
         self.deviceToken = deviceToken
@@ -590,6 +589,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
+        guard notRegisteredPush else {
+            return
+        }
+
+        notRegisteredPush = false
+
         JPUSHService.registerDeviceToken(deviceToken)
 
         let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
@@ -598,17 +603,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func unregisterThirdPartyPush() {
 
+        defer {
+            dispatch_async(dispatch_get_main_queue()) {
+                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            }
+        }
+
+        guard !notRegisteredPush else {
+            return
+        }
+
+        notRegisteredPush = true
+
         let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
         JPUSHService.setAlias(nil, callbackSelector: callbackSelector, object: self)
-
-        dispatch_async(dispatch_get_main_queue()) {
-            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        }
     }
 
     @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
 
-        println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
+        print("tagsAliasCallback \(iResCode), \(tags), \(alias)")
     }
 
     // MARK: Private
@@ -633,12 +646,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YepKit.Config.updatedPusherIDAction = { pusherID in
 
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if appDelegate.notRegisteredPush {
-                    appDelegate.notRegisteredPush = false
-
-                    if let deviceToken = appDelegate.deviceToken {
-                        appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-                    }
+                if let deviceToken = appDelegate.deviceToken {
+                    appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
                 }
             }
         }
