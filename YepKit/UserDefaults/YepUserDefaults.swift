@@ -186,6 +186,7 @@ final public class YepUserDefaults {
 
         let dict = defaults.dictionaryRepresentation()
         dict.keys.forEach({
+            println("removeObjectForKey defaults key: \($0)")
             defaults.removeObjectForKey($0)
         })
         defaults.synchronize()
