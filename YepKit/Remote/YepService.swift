@@ -39,7 +39,7 @@ public struct LoginUser: CustomStringConvertible {
     public let pusherID: String
 
     public var description: String {
-        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString), \(pusherID))"
+        return "LoginUser(accessToken: \(accessToken), userID: \(userID), username: \(username), nickname: \(nickname), avatarURLString: \(avatarURLString), pusherID: \(pusherID))"
     }
 }
 

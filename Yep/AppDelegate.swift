@@ -22,8 +22,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var deviceToken: NSData?
-    var notRegisteredPush = true
+    var deviceToken: NSData? {
+        didSet {
+            guard let deviceToken = deviceToken else { return }
+            guard let pusherID = YepUserDefaults.pusherID.value else { return }
+
+            registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
+        }
+    }
+    var notRegisteredThirdPartyPush = true
 
     private var isFirstActive = true
 
@@ -194,14 +201,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 
-        if let pusherID = YepUserDefaults.pusherID.value {
-            if notRegisteredPush {
-                notRegisteredPush = false
-
-                registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-            }
-        }
-
         // 纪录下来，用于初次登录或注册有 pusherID 后，或“注销再登录”
         self.deviceToken = deviceToken
     }
@@ -232,7 +231,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         }
     }
-
 
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
 
@@ -590,13 +588,38 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
 
+        guard notRegisteredThirdPartyPush else {
+            return
+        }
+
+        notRegisteredThirdPartyPush = false
+
         JPUSHService.registerDeviceToken(deviceToken)
-        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: nil, object: nil)
+
+        let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
+        JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: callbackSelector, object: self)
     }
 
-    func tagsAliasCallback(iResCode: Int, tags: NSSet, alias: NSString) {
+    func unregisterThirdPartyPush() {
 
-        println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
+        defer {
+            dispatch_async(dispatch_get_main_queue()) {
+                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            }
+        }
+
+        guard !notRegisteredThirdPartyPush else {
+            return
+        }
+
+        notRegisteredThirdPartyPush = true
+
+        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
+    }
+
+    @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
+
+        println("tagsAliasCallback: \(iResCode), \(tags), \(alias)")
     }
 
     // MARK: Private
@@ -621,12 +644,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YepKit.Config.updatedPusherIDAction = { pusherID in
 
             if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                if appDelegate.notRegisteredPush {
-                    appDelegate.notRegisteredPush = false
-
-                    if let deviceToken = appDelegate.deviceToken {
-                        appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
-                    }
+                if let deviceToken = appDelegate.deviceToken {
+                    appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
                 }
             }
         }
@@ -663,19 +682,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             return false
 
-                        }, confirm: {
-                            unregisterThirdPartyPush()
+                        }, confirm: { [weak self] in
+                            self?.unregisterThirdPartyPush()
 
                             cleanRealmAndCaches()
 
-                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-                                return
-                            }
-
-                            if let rootViewController = appDelegate.window?.rootViewController {
+                            if let rootViewController = self?.window?.rootViewController {
                                 YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
                                     
-                                    appDelegate.startShowStory()
+                                    self?.startShowStory()
                                 })
                             }
                         })
