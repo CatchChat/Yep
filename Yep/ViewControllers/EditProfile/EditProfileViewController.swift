@@ -713,15 +713,18 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 }, completion: {
                     dispatch_async(dispatch_get_main_queue()) {
-                        unregisterThirdPartyPush()
+
+                        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else {
+                            return
+                        }
+
+                        appDelegate.unregisterThirdPartyPush()
 
                         YepUserDefaults.cleanAllUserDefaults()
 
                         cleanRealmAndCaches()
 
-                        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
-                            appDelegate.startShowStory()
-                        }
+                        appDelegate.startShowStory()
                     }
                 })
 

@@ -18,13 +18,6 @@ final class Box<T> {
     }
 }
 
-func unregisterThirdPartyPush() {
-    dispatch_async(dispatch_get_main_queue()) {
-        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-    }
-}
-
 func cleanRealmAndCaches() {
 
     // clean Realm

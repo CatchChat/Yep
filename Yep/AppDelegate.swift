@@ -596,6 +596,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         JPUSHService.setTags(Set(["iOS"]), alias: pusherID, callbackSelector: callbackSelector, object: self)
     }
 
+    func unregisterThirdPartyPush() {
+
+        let callbackSelector = #selector(AppDelegate.tagsAliasCallBack(_:tags:alias:))
+        JPUSHService.setAlias(nil, callbackSelector: callbackSelector, object: self)
+
+        dispatch_async(dispatch_get_main_queue()) {
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        }
+    }
+
     @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
 
         println("tagsAliasCallback \(iResCode), \(tags), \(alias)")
@@ -665,19 +675,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                             }
                             return false
 
-                        }, confirm: {
-                            unregisterThirdPartyPush()
+                        }, confirm: { [weak self] in
+                            self?.unregisterThirdPartyPush()
 
                             cleanRealmAndCaches()
 
-                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-                                return
-                            }
-
-                            if let rootViewController = appDelegate.window?.rootViewController {
+                            if let rootViewController = self?.window?.rootViewController {
                                 YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
                                     
-                                    appDelegate.startShowStory()
+                                    self?.startShowStory()
                                 })
                             }
                         })
