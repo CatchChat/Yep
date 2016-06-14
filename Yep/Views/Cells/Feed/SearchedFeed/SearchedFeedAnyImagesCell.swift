@@ -9,8 +9,6 @@
 import UIKit
 import YepKit
 
-private let feedMediaCellID = "FeedMediaCell"
-
 final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
@@ -31,7 +29,9 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
-        collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        collectionView.registerNibOf(FeedMediaCell)
+
         collectionView.dataSource = self
         collectionView.delegate = self
 
@@ -109,7 +109,7 @@ extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionVie
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         if let attachment = attachments[safe: indexPath.item] {
 
