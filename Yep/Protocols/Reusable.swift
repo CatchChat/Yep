@@ -34,3 +34,10 @@ extension UICollectionViewCell: Reusable {
     }
 }
 
+extension UICollectionReusableView: Reusable {
+
+    static var reuseIdentifier: String {
+        return String(self)
+    }
+}
+

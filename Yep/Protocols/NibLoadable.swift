@@ -27,3 +27,10 @@ extension UICollectionViewCell: NibLoadable {
     }
 }
 
+extension UICollectionReusableView: NibLoadable {
+
+    static var nibName: String {
+        return String(self)
+    }
+}
+

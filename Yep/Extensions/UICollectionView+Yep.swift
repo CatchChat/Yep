@@ -63,6 +63,19 @@ extension UICollectionView {
         registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
 
+    func registerHeaderNibOf<T: UICollectionReusableView where T: Reusable, T: NibLoadable>(_: T.Type) {
+
+        let bundle = NSBundle(forClass: T.self)
+        let nib = UINib(nibName: T.nibName, bundle: bundle)
+
+        registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: T.reuseIdentifier)
+    }
+
+    func registerFooterClassOf<T: UICollectionReusableView where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: T.reuseIdentifier)
+    }
+
     func dequeueReusableCell<T: UICollectionViewCell where T: Reusable>(forIndexPath indexPath: NSIndexPath) -> T {
         
         guard let cell = dequeueReusableCellWithReuseIdentifier(T.reuseIdentifier, forIndexPath: indexPath) as? T else {
@@ -71,5 +84,15 @@ extension UICollectionView {
 
         return cell
     }
+
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(ofKind kind: String, forIndexPath indexPath: NSIndexPath) -> T {
+
+        guard let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as? T else {
+            fatalError("Could not dequeue supplementary view with identifier: \(T.reuseIdentifier), kind: \(kind)")
+        }
+
+        return view
+    }
+
 }
 

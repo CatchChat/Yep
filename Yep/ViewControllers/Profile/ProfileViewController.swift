@@ -171,18 +171,6 @@ final class ProfileViewController: SegueViewController {
         return bar
     }()
 
-    private let skillCellIdentifier = "SkillCell"
-    private let headerCellIdentifier = "ProfileHeaderCell"
-    private let footerCellIdentifier = "ProfileFooterCell"
-    private let sectionHeaderIdentifier = "ProfileSectionHeaderReusableView"
-    private let sectionFooterIdentifier = "ProfileSectionFooterReusableView"
-    private let separationLineCellIdentifier = "ProfileSeparationLineCell"
-    private let socialAccountCellIdentifier = "ProfileSocialAccountCell"
-    private let socialAccountBlogCellIdentifier = "ProfileSocialAccountBlogCell"
-    private let socialAccountImagesCellIdentifier = "ProfileSocialAccountImagesCell"
-    private let socialAccountGithubCellIdentifier = "ProfileSocialAccountGithubCell"
-    private let feedsCellIdentifier = "ProfileFeedsCell"
-
     private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
     }()
@@ -451,17 +439,17 @@ final class ProfileViewController: SegueViewController {
             }
         }
 
-        profileCollectionView.registerNib(UINib(nibName: skillCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: headerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: headerCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: footerCellIdentifier, bundle: nil), forCellWithReuseIdentifier: footerCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: separationLineCellIdentifier, bundle: nil), forCellWithReuseIdentifier: separationLineCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: socialAccountCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: socialAccountBlogCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountBlogCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: socialAccountImagesCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountImagesCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: socialAccountGithubCellIdentifier, bundle: nil), forCellWithReuseIdentifier: socialAccountGithubCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: feedsCellIdentifier, bundle: nil), forCellWithReuseIdentifier: feedsCellIdentifier)
-        profileCollectionView.registerNib(UINib(nibName: sectionHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: sectionHeaderIdentifier)
-        profileCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: sectionFooterIdentifier)
+        profileCollectionView.registerNibOf(SkillCell)
+        profileCollectionView.registerNibOf(ProfileHeaderCell)
+        profileCollectionView.registerNibOf(ProfileFooterCell)
+        profileCollectionView.registerNibOf(ProfileSeparationLineCell)
+        profileCollectionView.registerNibOf(ProfileSocialAccountCell)
+        profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell)
+        profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell)
+        profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell)
+
+        profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView)
+        profileCollectionView.registerFooterClassOf(UICollectionReusableView)
 
         profileCollectionView.alwaysBounceVertical = true
         
@@ -1074,7 +1062,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         switch section {
 
         case .Header:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(headerCellIdentifier, forIndexPath: indexPath) as! ProfileHeaderCell
+            let cell: ProfileHeaderCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if let profileUser = profileUser {
                 switch profileUser {
@@ -1098,7 +1086,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         case .Master:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+            let cell: SkillCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
 
@@ -1117,7 +1105,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         case .Learning:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCellIdentifier, forIndexPath: indexPath) as! SkillCell
+            let cell: SkillCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
 
@@ -1136,7 +1124,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         case .Footer:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(footerCellIdentifier, forIndexPath: indexPath) as! ProfileFooterCell
+            let cell: ProfileFooterCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if let profileUser = profileUser {
                 cell.configureWithProfileUser(profileUser, introduction: introductionText)
@@ -1145,11 +1133,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return cell
 
         case .SeparationLine:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
+            let cell: ProfileSeparationLineCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case .Blog:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountBlogCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountBlogCell
+            let cell: ProfileSocialAccountBlogCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.configureWithProfileUser(profileUser)
 
@@ -1162,7 +1150,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             if let providerName = profileUser?.providerNameWithIndex(index), socialAccount = SocialAccount(rawValue: providerName) {
 
                 if socialAccount == .Github {
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountGithubCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountGithubCell
+                    let cell: ProfileSocialAccountGithubCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
                         self.githubWork = githubWork
@@ -1171,8 +1159,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     return cell
 
                 } else {
-
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountImagesCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountImagesCell
+                    let cell: ProfileSocialAccountImagesCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     
                     cell.socialAccount = socialAccount
                     
@@ -1209,15 +1196,16 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 }
             }
 
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(socialAccountCellIdentifier, forIndexPath: indexPath) as! ProfileSocialAccountCell
+            let cell: ProfileSocialAccountCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+
             return cell
 
         case .SeparationLine2:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(separationLineCellIdentifier, forIndexPath: indexPath) as! ProfileSeparationLineCell
+            let cell: ProfileSeparationLineCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case .Feeds:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedsCellIdentifier, forIndexPath: indexPath) as! ProfileFeedsCell
+            let cell: ProfileFeedsCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
                 self?.feeds = feeds
@@ -1232,7 +1220,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         if kind == UICollectionElementKindSectionHeader {
 
-            let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionHeaderIdentifier, forIndexPath: indexPath) as! ProfileSectionHeaderReusableView
+            let header: ProfileSectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
 
             guard let section = Section(rawValue: indexPath.section) else {
                 fatalError()
@@ -1278,7 +1266,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             return header
 
         } else {
-            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: sectionFooterIdentifier, forIndexPath: indexPath) 
+            let footer: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
             return footer
         }
     }
