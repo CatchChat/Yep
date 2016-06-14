@@ -31,17 +31,36 @@ extension UICollectionView {
         func performWithCollectionView(collectionView: UICollectionView) {
 
             switch self {
+
             case .None:
                 println("collectionView WayToUpdate: None")
                 break
+
             case .ReloadData:
                 println("collectionView WayToUpdate: ReloadData")
                 collectionView.reloadData()
+                
             case .Insert(let indexPaths):
                 println("collectionView WayToUpdate: Insert")
                 collectionView.insertItemsAtIndexPaths(indexPaths)
             }
         }
+    }
+}
+
+extension UICollectionView {
+
+    func register<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+    }
+
+    func register<T: UICollectionViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+
+        let bundle = NSBundle(forClass: T.self)
+        let nib = UINib(nibName: T.nibName, bundle: bundle)
+
+        registerNib(nib, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
 }
 

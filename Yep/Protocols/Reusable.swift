@@ -1,5 +1,5 @@
 //
-//  Reuseable.swift
+//  Reusable.swift
 //  Yep
 //
 //  Created by NIX on 16/6/14.
@@ -8,22 +8,22 @@
 
 import UIKit
 
-protocol Reuseable: class {
+protocol Reusable: class {
 
     static var reuseIdentifier: String { get }
 }
 
-extension UITableViewCell: Reuseable {
+extension UITableViewCell: Reusable {
 
     static var reuseIdentifier: String {
-        return "\(self)"
+        return String(self)
     }
 }
 
-extension UICollectionViewCell: Reuseable {
+extension UICollectionViewCell: Reusable {
 
     static var reuseIdentifier: String {
-        return "\(self)"
+        return String(self)
     }
 }
 

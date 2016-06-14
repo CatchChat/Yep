@@ -16,14 +16,14 @@ protocol NibLoadable {
 extension UITableViewCell: NibLoadable {
 
     static var nibName: String {
-        return "\(self)"
+        return String(self)
     }
 }
 
 extension UICollectionViewCell: NibLoadable {
 
     static var nibName: String {
-        return "\(self)"
+        return String(self)
     }
 }
 
