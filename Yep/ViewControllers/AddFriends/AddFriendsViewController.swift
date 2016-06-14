@@ -12,15 +12,12 @@ import Proposer
 
 final class AddFriendsViewController: SegueViewController {
 
-    private let addFriendSearchCellIdentifier = "AddFriendSearchCell"
-    private let addFriendMoreCellIdentifier = "AddFriendMoreCell"
-
     @IBOutlet private weak var addFriendsTableView: UITableView! {
         didSet {
             addFriendsTableView.rowHeight = 60
 
-            addFriendsTableView.registerNib(UINib(nibName: addFriendSearchCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendSearchCellIdentifier)
-            addFriendsTableView.registerNib(UINib(nibName: addFriendMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: addFriendMoreCellIdentifier)
+            addFriendsTableView.registerNibOf(AddFriendSearchCell)
+            addFriendsTableView.registerNibOf(AddFriendMoreCell)
         }
     }
 
@@ -117,7 +114,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
 
         case Section.Search.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(addFriendSearchCellIdentifier) as! AddFriendSearchCell
+            let cell: AddFriendSearchCell = tableView.dequeueReusableCell()
 
             cell.searchTextField.returnKeyType = .Search
             cell.searchTextField.delegate = self
@@ -125,7 +122,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
 
         case Section.More.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(addFriendMoreCellIdentifier) as! AddFriendMoreCell
+            let cell: AddFriendMoreCell = tableView.dequeueReusableCell()
 
             cell.annotationLabel.text = More(rawValue: indexPath.row)?.description
 
