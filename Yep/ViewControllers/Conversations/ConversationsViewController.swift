@@ -44,8 +44,8 @@ final class ConversationsViewController: BaseViewController {
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            conversationsTableView.register(FeedConversationDockCell)
-            conversationsTableView.register(ConversationCell)
+            conversationsTableView.registerNibOf(FeedConversationDockCell)
+            conversationsTableView.registerNibOf(ConversationCell)
 
             conversationsTableView.rowHeight = 80
             conversationsTableView.tableFooterView = UIView()

@@ -635,13 +635,50 @@ final class ConversationViewController: BaseViewController {
         return view
     }()
 
-    @IBOutlet private weak var conversationCollectionView: UICollectionView!
     private let conversationCollectionViewContentInsetYOffset: CGFloat = 5
+    @IBOutlet private weak var conversationCollectionView: UICollectionView! {
+        didSet {
+            conversationCollectionView.keyboardDismissMode = .OnDrag
+            conversationCollectionView.alwaysBounceVertical = true
+            conversationCollectionView.bounces = true
+
+            conversationCollectionView.registerNibOf(LoadMoreCollectionViewCell)
+            conversationCollectionView.registerNibOf(ChatSectionDateCell)
+
+            conversationCollectionView.registerClassOf(ChatTextIndicatorCell)
+
+            conversationCollectionView.registerClassOf(ChatLeftTextCell)
+            conversationCollectionView.registerClassOf(ChatLeftTextURLCell)
+            conversationCollectionView.registerClassOf(ChatLeftImageCell)
+            conversationCollectionView.registerClassOf(ChatLeftAudioCell)
+            conversationCollectionView.registerClassOf(ChatLeftVideoCell)
+            conversationCollectionView.registerClassOf(ChatLeftLocationCell)
+            conversationCollectionView.registerNibOf(ChatLeftSocialWorkCell)
+
+            conversationCollectionView.registerClassOf(ChatRightTextCell)
+            conversationCollectionView.registerClassOf(ChatRightTextURLCell)
+            conversationCollectionView.registerClassOf(ChatRightImageCell)
+            conversationCollectionView.registerClassOf(ChatRightAudioCell)
+            conversationCollectionView.registerClassOf(ChatRightVideoCell)
+            conversationCollectionView.registerClassOf(ChatRightLocationCell)
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
+            conversationCollectionView.addGestureRecognizer(tap)
+        }
+    }
 
     @IBOutlet private weak var messageToolbar: MessageToolbar!
-    @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            messageToolbarBottomConstraint.constant = 0
+        }
+    }
 
-    @IBOutlet private weak var swipeUpView: UIView!
+    @IBOutlet private weak var swipeUpView: UIView! {
+        didSet {
+            swipeUpView.hidden = true
+        }
+    }
     @IBOutlet private weak var swipeUpPromptLabel: UILabel!
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -706,6 +743,13 @@ final class ConversationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = nil
+        navigationItem.titleView = titleView
+        view.tintAdjustmentMode = .Normal
+
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
+        navigationItem.rightBarButtonItem = moreBarButtonItem
+
         realm = try! Realm()
 
         recipient = conversation.recipient
@@ -723,8 +767,6 @@ final class ConversationViewController: BaseViewController {
 
         navigationController?.interactivePopGestureRecognizer?.delaysTouchesBegan = false
 
-        view.tintAdjustmentMode = .Normal
-
         if let indexOfSearchedMessage = indexOfSearchedMessage {
             let fixedIndexOfSearchedMessage = max(0, indexOfSearchedMessage - Ruler.iPhoneVertical(5, 6, 8, 10).value)
             displayedMessagesRange = NSRange(location: fixedIndexOfSearchedMessage, length: messages.count - fixedIndexOfSearchedMessage)
@@ -738,14 +780,6 @@ final class ConversationViewController: BaseViewController {
         }
 
         lastTimeMessagesCount = messages.count
-
-        title = nil
-        navigationItem.titleView = titleView
-
-
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
-        navigationItem.rightBarButtonItem = moreBarButtonItem
-
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.Notification.newMessages, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.Notification.deletedMessages, object: nil)
@@ -765,39 +799,6 @@ final class ConversationViewController: BaseViewController {
                 self?.reloadConversationCollectionView()
             }
         }
-
-        swipeUpView.hidden = true
-
-        conversationCollectionView.keyboardDismissMode = .OnDrag
-
-        conversationCollectionView.alwaysBounceVertical = true
-
-        conversationCollectionView.register(LoadMoreCollectionViewCell)
-        conversationCollectionView.register(ChatSectionDateCell)
-
-        conversationCollectionView.register(ChatTextIndicatorCell)
-
-        conversationCollectionView.register(ChatLeftTextCell)
-        conversationCollectionView.register(ChatLeftTextURLCell)
-        conversationCollectionView.register(ChatLeftImageCell)
-        conversationCollectionView.register(ChatLeftAudioCell)
-        conversationCollectionView.register(ChatLeftVideoCell)
-        conversationCollectionView.register(ChatLeftLocationCell)
-        conversationCollectionView.register(ChatLeftSocialWorkCell)
-
-        conversationCollectionView.register(ChatRightTextCell)
-        conversationCollectionView.register(ChatRightTextURLCell)
-        conversationCollectionView.register(ChatRightImageCell)
-        conversationCollectionView.register(ChatRightAudioCell)
-        conversationCollectionView.register(ChatRightVideoCell)
-        conversationCollectionView.register(ChatRightLocationCell)
-
-        conversationCollectionView.bounces = true
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
-        conversationCollectionView.addGestureRecognizer(tap)
-
-        messageToolbarBottomConstraint.constant = 0
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 

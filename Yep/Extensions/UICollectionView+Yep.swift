@@ -50,12 +50,12 @@ extension UICollectionView {
 
 extension UICollectionView {
 
-    func register<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+    func registerClassOf<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
 
         registerClass(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
     }
 
-    func register<T: UICollectionViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+    func registerNibOf<T: UICollectionViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
 
         let bundle = NSBundle(forClass: T.self)
         let nib = UINib(nibName: T.nibName, bundle: bundle)
