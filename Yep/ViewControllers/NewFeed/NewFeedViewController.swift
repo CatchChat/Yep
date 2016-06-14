@@ -186,9 +186,6 @@ final class NewFeedViewController: SegueViewController {
         }
     }
     
-    private let feedMediaAddCellID = "FeedMediaAddCell"
-    private let feedMediaCellID = "FeedMediaCell"
-    
     //let max = Int(INT16_MAX)
     
     private let skills: [Skill] = {
@@ -245,9 +242,10 @@ final class NewFeedViewController: SegueViewController {
         //messageTextView.becomeFirstResponder()
         
         mediaCollectionView.backgroundColor = UIColor.clearColor()
-        
-        mediaCollectionView.registerNib(UINib(nibName: feedMediaAddCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaAddCellID)
-        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        mediaCollectionView.registerNibOf(FeedMediaAddCell)
+        mediaCollectionView.registerNibOf(FeedMediaCell)
+
         mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
@@ -1044,11 +1042,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         switch indexPath.section {
             
         case 1:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaAddCellID, forIndexPath: indexPath) as! FeedMediaAddCell
+            let cell: FeedMediaAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
             
         case 0:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+            let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             
             let image = mediaImages[indexPath.item]
             
