@@ -13,14 +13,14 @@ protocol Reuseable: class {
     static var reuseIdentifier: String { get }
 }
 
-extension Reuseable where Self: UITableViewCell {
+extension UITableViewCell: Reuseable {
 
     static var reuseIdentifier: String {
         return NSStringFromClass(self)
     }
 }
 
-extension Reuseable where Self: UICollectionViewCell {
+extension UICollectionViewCell: Reuseable {
 
     static var reuseIdentifier: String {
         return NSStringFromClass(self)

@@ -13,10 +13,6 @@ import YepKit
 
 final private class ActionSheetDefaultCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -57,10 +53,6 @@ final private class ActionSheetDefaultCell: UITableViewCell {
 
 final private class ActionSheetDetailCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -81,10 +73,6 @@ final private class ActionSheetDetailCell: UITableViewCell {
 // MARK: - ActionSheetSwitchCell
 
 final private class ActionSheetSwitchCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
 
     var action: (Bool -> Void)?
 
@@ -128,10 +116,6 @@ final private class ActionSheetSwitchCell: UITableViewCell {
 // MARK: - ActionSheetSubtitleSwitchCell
 
 final private class ActionSheetSubtitleSwitchCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
 
     var action: (Bool -> Void)?
 
@@ -206,10 +190,6 @@ final private class ActionSheetSubtitleSwitchCell: UITableViewCell {
 }
 
 final private class ActionSheetCheckCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

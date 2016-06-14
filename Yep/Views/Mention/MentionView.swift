@@ -12,10 +12,6 @@ import Navi
 
 private class MentionUserCell: UITableViewCell {
 
-    static var reuseIdentifier: String {
-        return NSStringFromClass(self)
-    }
-
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFit

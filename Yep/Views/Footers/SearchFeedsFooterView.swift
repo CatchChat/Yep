@@ -13,8 +13,6 @@ final private class KeywordCell: UITableViewCell {
 
     var tapKeywordAction: ((keyword: String) -> Void)?
 
-    static let reuseIdentifier = "KeywordCell"
-
     var keyword: String? {
         didSet {
             keywordButton.setTitle(keyword, forState: .Normal)

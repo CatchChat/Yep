@@ -14,7 +14,8 @@ final class LoadMoreCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-    }
 
+        println("LoadMoreCollectionViewCell.reuseIdentifier: \(LoadMoreCollectionViewCell.reuseIdentifier)")
+    }
 }
+
