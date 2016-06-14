@@ -56,6 +56,7 @@
 		50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50008D381CAE537400245296 /* SearchedFeedCell.swift */; };
 		50008D3B1CAE537400245296 /* SearchedFeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50008D391CAE537400245296 /* SearchedFeedCell.xib */; };
 		50066AFA1D0FAECA00EF1E0D /* Reuseable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066AF91D0FAECA00EF1E0D /* Reuseable.swift */; };
+		50066AFC1D0FB3D800EF1E0D /* NibLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */; };
 		5008A1931B8DB8B500E94274 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5008A1951B8DB8B500E94274 /* Localizable.strings */; };
 		50098D471CB348FA009275FE /* SearchedUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50098D451CB348FA009275FE /* SearchedUserCell.swift */; };
 		50098D481CB348FA009275FE /* SearchedUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50098D461CB348FA009275FE /* SearchedUserCell.xib */; };
@@ -717,6 +718,7 @@
 		50008D381CAE537400245296 /* SearchedFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedCell.swift; path = Views/Cells/SearchedFeed/SearchedFeedCell.swift; sourceTree = "<group>"; };
 		50008D391CAE537400245296 /* SearchedFeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedFeedCell.xib; path = Views/Cells/SearchedFeed/SearchedFeedCell.xib; sourceTree = "<group>"; };
 		50066AF91D0FAECA00EF1E0D /* Reuseable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reuseable.swift; path = Protocols/Reuseable.swift; sourceTree = "<group>"; };
+		50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NibLoadable.swift; path = Protocols/NibLoadable.swift; sourceTree = "<group>"; };
 		5008A1941B8DB8B500E94274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5008A1961B8DB8E100E94274 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		50098D451CB348FA009275FE /* SearchedUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUserCell.swift; path = Views/Cells/SearchedUser/SearchedUserCell.swift; sourceTree = "<group>"; };
@@ -3060,6 +3062,7 @@
 				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
 				50066AF91D0FAECA00EF1E0D /* Reuseable.swift */,
+				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4394,6 +4397,7 @@
 				50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */,
 				5023DE371AB6979600B3EE96 /* ConversationCell.swift in Sources */,
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
+				50066AFC1D0FB3D800EF1E0D /* NibLoadable.swift in Sources */,
 				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
 				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
 				50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */,
