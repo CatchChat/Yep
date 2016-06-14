@@ -153,7 +153,7 @@ class SearchFeedsFooterView: UIView {
     lazy var keywordsTableView: UITableView = {
 
         let tableView = UITableView()
-        tableView.registerClass(KeywordCell.self, forCellReuseIdentifier: KeywordCell.reuseIdentifier)
+        tableView.registerClassOf(KeywordCell)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 36
@@ -233,7 +233,7 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(KeywordCell.reuseIdentifier) as! KeywordCell
+        let cell: KeywordCell = tableView.dequeueReusableCell()
 
         let keyword = keywords[indexPath.row]
         cell.keyword = keyword
