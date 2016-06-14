@@ -12,7 +12,17 @@ import RealmSwift
 
 final class BlackListViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedUsersTableView: UITableView!
+    @IBOutlet private weak var blockedUsersTableView: UITableView! {
+        didSet {
+            blockedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            blockedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+
+            blockedUsersTableView.rowHeight = 80
+            blockedUsersTableView.tableFooterView = UIView()
+
+            blockedUsersTableView.registerNibOf(ContactsCell)
+        }
+    }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private let cellIdentifier = "ContactsCell"
@@ -29,14 +39,6 @@ final class BlackListViewController: BaseViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Blocked Users", comment: "")
-
-        blockedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        blockedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        blockedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        blockedUsersTableView.rowHeight = 80
-        blockedUsersTableView.tableFooterView = UIView()
-
 
         activityIndicator.startAnimating()
 
@@ -95,7 +97,8 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         cell.selectionStyle = .None
 
