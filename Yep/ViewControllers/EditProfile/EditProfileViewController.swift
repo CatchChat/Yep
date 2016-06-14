@@ -390,8 +390,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case .Intro:
-
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileMoreInfoCell
+                let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
@@ -469,7 +468,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case .Blog:
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileMoreInfoCell
+                let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
 
@@ -585,7 +584,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
         case .LogOut:
-            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileColoredTitleCell
+            let cell: EditProfileColoredTitleCell = tableView.dequeueReusableCell()
             cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
             cell.coloredTitleColor = UIColor.redColor()
             return cell

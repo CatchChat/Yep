@@ -31,8 +31,6 @@ final class EditSkillsViewController: BaseViewController {
 
     private var skillCategories: [SkillCategory]?
 
-    private let editSkillCellID = "EditSkillCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,7 +58,7 @@ final class EditSkillsViewController: BaseViewController {
         separatorInset.left = Ruler.iPhoneHorizontal(15, 20, 25).value
         skillsTableView.separatorInset = separatorInset
 
-        skillsTableView.registerNib(UINib(nibName: editSkillCellID, bundle: nil), forCellReuseIdentifier: editSkillCellID)
+        skillsTableView.registerNibOf(EditSkillCell)
 
         // add skills view
 
@@ -249,7 +247,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(editSkillCellID) as! EditSkillCell
+        let cell: EditSkillCell = tableView.dequeueReusableCell()
 
         var userSkill: UserSkill?
         if let me = me, skillSet = skillSet {
