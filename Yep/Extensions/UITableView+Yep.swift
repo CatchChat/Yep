@@ -70,6 +70,11 @@ extension UITableView {
         registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
     }
 
+    func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+    }
+
     func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
 
         guard let cell = dequeueReusableCellWithIdentifier(T.reuseIdentifier) as? T else {
@@ -77,6 +82,15 @@ extension UITableView {
         }
         
         return cell
+    }
+
+    func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
+
+        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
+        }
+
+        return view
     }
 }
 

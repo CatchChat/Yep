@@ -20,6 +20,13 @@ extension UITableViewCell: Reusable {
     }
 }
 
+extension UITableViewHeaderFooterView: Reusable {
+
+    static var reuseIdentifier: String {
+        return String(self)
+    }
+}
+
 extension UICollectionViewCell: Reusable {
 
     static var reuseIdentifier: String {
