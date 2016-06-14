@@ -57,8 +57,6 @@ final class ContactsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    private let cellIdentifier = "ContactsCell"
-
     private lazy var friends = normalFriends()
     private var filteredFriends: Results<User>?
 
