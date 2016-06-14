@@ -9,7 +9,6 @@
 import UIKit
 import YepKit
 
-private let feedMediaCellID = "FeedMediaCell"
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
@@ -34,7 +33,9 @@ final class FeedAnyImagesCell: FeedBasicCell {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
-        collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        collectionView.registerNibOf(FeedMediaCell)
+
         collectionView.dataSource = self
         collectionView.delegate = self
 
@@ -112,7 +113,7 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         
         if let attachment = attachments[safe: indexPath.item] {
 
