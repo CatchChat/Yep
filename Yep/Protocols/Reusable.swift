@@ -13,31 +13,22 @@ protocol Reusable: class {
     static var reuseIdentifier: String { get }
 }
 
-extension UITableViewCell: Reusable {
+extension Reusable where Self: UIView {
 
     static var reuseIdentifier: String {
-        return String(self)
+        return String(Self)
     }
+}
+
+extension UITableViewCell: Reusable {
 }
 
 extension UITableViewHeaderFooterView: Reusable {
-
-    static var reuseIdentifier: String {
-        return String(self)
-    }
 }
 
 extension UICollectionViewCell: Reusable {
-
-    static var reuseIdentifier: String {
-        return String(self)
-    }
 }
 
 extension UICollectionReusableView: Reusable {
-
-    static var reuseIdentifier: String {
-        return String(self)
-    }
 }
 

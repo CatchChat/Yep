@@ -13,24 +13,19 @@ protocol NibLoadable {
     static var nibName: String { get }
 }
 
-extension UITableViewCell: NibLoadable {
+extension NibLoadable where Self: UIView {
 
     static var nibName: String {
-        return String(self)
+        return String(Self)
     }
+}
+
+extension UITableViewCell: NibLoadable {
 }
 
 extension UICollectionViewCell: NibLoadable {
-
-    static var nibName: String {
-        return String(self)
-    }
 }
 
 extension UICollectionReusableView: NibLoadable {
-
-    static var nibName: String {
-        return String(self)
-    }
 }
 
