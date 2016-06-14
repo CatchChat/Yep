@@ -687,26 +687,6 @@ final class ConversationViewController: BaseViewController {
     }()
     #endif
 
-    private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
-    private let chatSectionDateCellIdentifier = "ChatSectionDateCell"
-    private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
-    private let chatRightTextCellIdentifier = "ChatRightTextCell"
-    private let chatLeftTextURLCellIdentifier = "ChatLeftTextURLCell"
-    private let chatRightTextURLCellIdentifier = "ChatRightTextURLCell"
-    private let chatLeftImageCellIdentifier = "ChatLeftImageCell"
-    private let chatRightImageCellIdentifier = "ChatRightImageCell"
-    private let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
-    private let chatRightAudioCellIdentifier = "ChatRightAudioCell"
-    private let chatLeftVideoCellIdentifier = "ChatLeftVideoCell"
-    private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
-    private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
-    private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
-    private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
-    private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
-    private let chatLeftShareFeedCellIdentifier = "LeftShareFeedCell"
-    private let chatRightShareFeedCellIdentifier = "RightShareFeedCell"
-
-
     private struct Listener {
         static let Avatar = "ConversationViewController"
     }
@@ -792,31 +772,25 @@ final class ConversationViewController: BaseViewController {
 
         conversationCollectionView.alwaysBounceVertical = true
 
-        conversationCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
+        conversationCollectionView.register(LoadMoreCollectionViewCell)
+        conversationCollectionView.register(ChatSectionDateCell)
 
-        conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
+        conversationCollectionView.register(ChatTextIndicatorCell)
 
-        conversationCollectionView.registerClass(ChatLeftTextCell.self, forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightTextCell.self, forCellWithReuseIdentifier: chatRightTextCellIdentifier)
+        conversationCollectionView.register(ChatLeftTextCell)
+        conversationCollectionView.register(ChatLeftTextURLCell)
+        conversationCollectionView.register(ChatLeftImageCell)
+        conversationCollectionView.register(ChatLeftAudioCell)
+        conversationCollectionView.register(ChatLeftVideoCell)
+        conversationCollectionView.register(ChatLeftLocationCell)
+        conversationCollectionView.register(ChatLeftSocialWorkCell)
 
-        conversationCollectionView.registerClass(ChatLeftTextURLCell.self, forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightTextURLCell.self, forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftImageCell.self, forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightImageCell.self, forCellWithReuseIdentifier: chatRightImageCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftAudioCell.self, forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightAudioCell.self, forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftVideoCell.self, forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightVideoCell.self, forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatTextIndicatorCell.self, forCellWithReuseIdentifier: chatTextIndicatorCellIdentifier)
-
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
+        conversationCollectionView.register(ChatRightTextCell)
+        conversationCollectionView.register(ChatRightTextURLCell)
+        conversationCollectionView.register(ChatRightImageCell)
+        conversationCollectionView.register(ChatRightAudioCell)
+        conversationCollectionView.register(ChatRightVideoCell)
+        conversationCollectionView.register(ChatRightLocationCell)
 
         conversationCollectionView.bounces = true
 
@@ -3835,7 +3809,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
+            let cell: LoadMoreCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case .Message:
@@ -3843,7 +3817,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
                 println("🐌 Conversation: message NOT found!")
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 cell.sectionDateLabel.text = "🐌"
 
                 return cell
@@ -3851,20 +3825,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
             }
 
             guard let sender = message.fromFriend else {
 
                 if message.blockedByRecipient {
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
+                    let cell: ChatTextIndicatorCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                 }
 
                 println("🐌🐌 Conversation: message has NOT fromFriend!")
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 cell.sectionDateLabel.text = "🐌🐌"
 
                 return cell
@@ -3876,27 +3850,27 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Image.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
+                    let cell: ChatLeftImageCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Audio.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
+                    let cell: ChatLeftAudioCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Video.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
+                    let cell: ChatLeftVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Location.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
+                    let cell: ChatLeftLocationCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.SocialWork.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftSocialWorkCellIdentifier, forIndexPath: indexPath) as! ChatLeftSocialWorkCell
+                    let cell: ChatLeftSocialWorkCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                     
 //                case MessageMediaType.ShareFeed.rawValue:
@@ -3906,16 +3880,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
+                        let cell: ChatTextIndicatorCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
 
                     } else {
                         if message.openGraphInfo != nil {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                            let cell: ChatLeftTextURLCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                             return cell
 
                         } else {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                            let cell: ChatLeftTextCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                             return cell
                         }
                     }
@@ -3927,22 +3901,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Image.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
+                    let cell: ChatRightImageCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Audio.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
+                    let cell: ChatRightAudioCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Video.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
+                    let cell: ChatRightVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Location.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
+                    let cell: ChatRightLocationCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                 
 //                case MessageMediaType.ShareFeed.rawValue:
@@ -3953,11 +3927,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.openGraphInfo != nil {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextURLCellIdentifier, forIndexPath: indexPath) as! ChatRightTextURLCell
+                        let cell: ChatRightTextURLCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
 
                     } else {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+                        let cell: ChatRightTextCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
                     }
                 }
