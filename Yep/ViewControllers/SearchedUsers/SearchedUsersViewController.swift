@@ -14,7 +14,17 @@ final class SearchedUsersViewController: BaseViewController {
 
     var searchText = "NIX"
 
-    @IBOutlet private weak var searchedUsersTableView: UITableView!
+    @IBOutlet private weak var searchedUsersTableView: UITableView! {
+        didSet {
+            searchedUsersTableView.registerNibOf(ContactsCell)
+
+            searchedUsersTableView.rowHeight = 80
+
+            searchedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            searchedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
+        }
+    }
+
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private var searchedUsers = [DiscoveredUser]() {
@@ -28,18 +38,10 @@ final class SearchedUsersViewController: BaseViewController {
         }
     }
 
-    private let cellIdentifier = "ContactsCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Search", comment: "") + " \"\(searchText)\""
-
-        searchedUsersTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        searchedUsersTableView.rowHeight = 80
-
-        searchedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        searchedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
         activityIndicator.startAnimating()
 
@@ -96,7 +98,8 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         let discoveredUser = searchedUsers[indexPath.row]
 
