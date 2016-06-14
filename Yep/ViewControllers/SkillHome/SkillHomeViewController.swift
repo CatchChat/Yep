@@ -106,9 +106,6 @@ final class SkillHomeViewController: BaseViewController {
         }
     }
 
-    private let cellIdentifier = "ContactsCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,8 +117,9 @@ final class SkillHomeViewController: BaseViewController {
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        masterTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+        masterTableView.registerNibOf(ContactsCell)
+        masterTableView.registerNibOf(LoadMoreTableViewCell)
+
         masterTableView.rowHeight = 80
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
@@ -131,8 +129,9 @@ final class SkillHomeViewController: BaseViewController {
         learningtTableView.separatorColor = UIColor.yepCellSeparatorColor()
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        learningtTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+        learningtTableView.registerNibOf(ContactsCell)
+        learningtTableView.registerNibOf(LoadMoreTableViewCell)
+
         learningtTableView.rowHeight = 80
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
@@ -604,7 +603,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         case Section.Users.rawValue:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+            let cell: ContactsCell = tableView.dequeueReusableCell()
             
             let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
@@ -614,7 +613,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         case Section.LoadMore.rawValue:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
 
         default:
