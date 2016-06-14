@@ -16,14 +16,14 @@ protocol Reuseable: class {
 extension UITableViewCell: Reuseable {
 
     static var reuseIdentifier: String {
-        return NSStringFromClass(self)
+        return "\(self)"
     }
 }
 
 extension UICollectionViewCell: Reuseable {
 
     static var reuseIdentifier: String {
-        return NSStringFromClass(self)
+        return "\(self)"
     }
 }
 
