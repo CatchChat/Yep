@@ -10,22 +10,27 @@ import UIKit
 
 protocol Reusable: class {
 
-    static var reuseIdentifier: String { get }
-}
-
-extension Reusable where Self: UIView {
-
-    static var reuseIdentifier: String {
-        return String(Self)
-    }
+    static var yep_reuseIdentifier: String { get }
 }
 
 extension UITableViewCell: Reusable {
+
+    static var yep_reuseIdentifier: String {
+        return String(self)
+    }
 }
 
 extension UITableViewHeaderFooterView: Reusable {
+
+    static var yep_reuseIdentifier: String {
+        return String(self)
+    }
 }
 
 extension UICollectionReusableView: Reusable {
+
+    static var yep_reuseIdentifier: String {
+        return String(self)
+    }
 }
 

@@ -10,19 +10,20 @@ import UIKit
 
 protocol NibLoadable {
 
-    static var nibName: String { get }
-}
-
-extension NibLoadable where Self: UIView {
-
-    static var nibName: String {
-        return String(Self)
-    }
+    static var yep_nibName: String { get }
 }
 
 extension UITableViewCell: NibLoadable {
+
+    static var yep_nibName: String {
+        return String(self)
+    }
 }
 
 extension UICollectionReusableView: NibLoadable {
+
+    static var yep_nibName: String {
+        return String(self)
+    }
 }
 

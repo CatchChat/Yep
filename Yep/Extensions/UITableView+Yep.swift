@@ -59,26 +59,26 @@ extension UITableView {
 
     func registerClassOf<T: UITableViewCell where T: Reusable>(_: T.Type) {
 
-        registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+        registerClass(T.self, forCellReuseIdentifier: T.yep_reuseIdentifier)
     }
 
     func registerNibOf<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
 
         let bundle = NSBundle(forClass: T.self)
-        let nib = UINib(nibName: T.nibName, bundle: bundle)
+        let nib = UINib(nibName: T.yep_nibName, bundle: bundle)
 
-        registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
+        registerNib(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
     }
 
     func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
 
-        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.reuseIdentifier)
+        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.yep_reuseIdentifier)
     }
 
     func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
 
-        guard let cell = dequeueReusableCellWithIdentifier(T.reuseIdentifier) as? T else {
-            fatalError("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
+        guard let cell = dequeueReusableCellWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
         }
         
         return cell
@@ -86,8 +86,8 @@ extension UITableView {
 
     func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
 
-        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.reuseIdentifier) as? T else {
-            fatalError("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
+        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
         }
 
         return view
