@@ -68,19 +68,6 @@ final class FeedsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    private let feedSkillUsersCellID = "FeedSkillUsersCell"
-    private let feedFilterCellID = "FeedFilterCell"
-    private let feedBasicCellID = "FeedBasicCell"
-    private let feedBiggerImageCellID = "FeedBiggerImageCell"
-    private let feedNormalImagesCellID = "FeedNormalImagesCell"
-    private let feedAnyImagesCellID = "FeedAnyImagesCell"
-    private let feedGithubRepoCellID = "FeedGithubRepoCell"
-    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
-    private let feedVoiceCellID = "FeedVoiceCell"
-    private let feedLocationCellID = "FeedLocationCell"
-    private let feedURLCellID = "FeedURLCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
 
     @IBOutlet weak var feedsTableView: UITableView!  {
@@ -92,20 +79,21 @@ final class FeedsViewController: BaseViewController {
             feedsTableView.tableFooterView = UIView()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
-            feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
-            feedsTableView.registerNib(UINib(nibName: feedFilterCellID, bundle: nil), forCellReuseIdentifier: feedFilterCellID)
+            feedsTableView.registerNibOf(FeedSkillUsersCell)
+            feedsTableView.registerNibOf(FeedFilterCell)
 
-            feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
-            feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
-            feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
-            feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
-            feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
-            feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
-            feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
-            feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
-            feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
+            feedsTableView.registerClassOf(FeedBasicCell)
+            feedsTableView.registerClassOf(FeedBiggerImageCell)
+            feedsTableView.registerClassOf(FeedNormalImagesCell)
+            feedsTableView.registerClassOf(FeedAnyImagesCell)
 
-            feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+            feedsTableView.registerClassOf(FeedGithubRepoCell)
+            feedsTableView.registerClassOf(FeedDribbbleShotCell)
+            feedsTableView.registerClassOf(FeedVoiceCell)
+            feedsTableView.registerClassOf(FeedLocationCell)
+            feedsTableView.registerClassOf(FeedURLCell)
+
+            feedsTableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -1183,45 +1171,45 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             switch feed.kind {
 
             case .Text:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell: FeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
             case .URL:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedURLCellID) as! FeedURLCell
+                let cell: FeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Image:
                 if feed.imageAttachmentsCount == 1 {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
+                    let cell: FeedBiggerImageCell = tableView.dequeueReusableCell()
                     return cell
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
+                    let cell: FeedNormalImagesCell = tableView.dequeueReusableCell()
                     return cell
 
                 } else {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedAnyImagesCellID) as! FeedAnyImagesCell
+                    let cell: FeedAnyImagesCell = tableView.dequeueReusableCell()
                     return cell
                 }
 
             case .GithubRepo:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedGithubRepoCellID) as! FeedGithubRepoCell
+                let cell: FeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
             case .DribbbleShot:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedDribbbleShotCellID) as! FeedDribbbleShotCell
+                let cell: FeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Audio:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedVoiceCellID) as! FeedVoiceCell
+                let cell: FeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Location:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedLocationCellID) as! FeedLocationCell
+                let cell: FeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
             default:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell: FeedBasicCell = tableView.dequeueReusableCell()
                 return cell
             }
         }
@@ -1230,12 +1218,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .SkillUsers:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+            let cell: FeedSkillUsersCell = tableView.dequeueReusableCell()
             return cell
 
         case .Filter:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedFilterCellID) as! FeedFilterCell
+            let cell: FeedFilterCell = tableView.dequeueReusableCell()
             return cell
 
         case .UploadingFeed:
@@ -1250,7 +1238,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .LoadMore:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
         }
     }
