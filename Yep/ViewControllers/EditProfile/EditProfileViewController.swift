@@ -39,7 +39,13 @@ final class EditProfileViewController: SegueViewController {
         }
     }
 
-    @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView!
+    @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView! {
+        didSet {
+            editProfileTableView.registerNibOf(EditProfileLessInfoCell)
+            editProfileTableView.registerNibOf(EditProfileMoreInfoCell)
+            editProfileTableView.registerNibOf(EditProfileColoredTitleCell)
+        }
+    }
 
     private lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
@@ -59,10 +65,6 @@ final class EditProfileViewController: SegueViewController {
             doneButton.enabled = isDirty
         }
     }
-
-    private let editProfileLessInfoCellIdentifier = "EditProfileLessInfoCell"
-    private let editProfileMoreInfoCellIdentifier = "EditProfileMoreInfoCell"
-    private let editProfileColoredTitleCellIdentifier = "EditProfileColoredTitleCell"
 
     private var introduction: String {
         return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
@@ -118,10 +120,6 @@ final class EditProfileViewController: SegueViewController {
         YepUserDefaults.mobile.bindAndFireListener(Listener.Mobile) { [weak self] _ in
             self?.mobileLabel.text = YepUserDefaults.fullPhoneNumber
         }
-
-        editProfileTableView.registerNib(UINib(nibName: editProfileLessInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileLessInfoCellIdentifier)
-        editProfileTableView.registerNib(UINib(nibName: editProfileMoreInfoCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileMoreInfoCellIdentifier)
-        editProfileTableView.registerNib(UINib(nibName: editProfileColoredTitleCellIdentifier, bundle: nil), forCellReuseIdentifier: editProfileColoredTitleCellIdentifier)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -334,7 +332,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Username:
 
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+                let cell: EditProfileLessInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = NSLocalizedString("Username", comment: "")
 
@@ -363,7 +361,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Nickname:
 
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileLessInfoCell
+                let cell: EditProfileLessInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
                 cell.accessoryImageView.hidden = false
@@ -393,7 +391,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Intro:
 
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileMoreInfoCell
 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
@@ -471,7 +469,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
 
             case .Blog:
-                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileMoreInfoCell
+                let cell = tableView.dequeueReusableCellWithIdentifier(editProfileLessInfoCellIdentifier) as! EditProfileMoreInfoCell
 
                 cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
 
@@ -587,7 +585,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
         case .LogOut:
-            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileColoredTitleCellIdentifier) as! EditProfileColoredTitleCell
+            let cell = tableView.dequeueReusableCellWithIdentifier(editProfileMoreInfoCellIdentifier) as! EditProfileColoredTitleCell
             cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
             cell.coloredTitleColor = UIColor.redColor()
             return cell
