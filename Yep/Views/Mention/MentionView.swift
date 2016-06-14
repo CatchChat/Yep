@@ -121,7 +121,7 @@ final class MentionView: UIView {
 
         tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: effect)
 
-        tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
+        tableView.registerClassOf(MentionUserCell)
 
         tableView.rowHeight = MentionView.tableViewRowHeight
 
@@ -196,7 +196,7 @@ extension MentionView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(MentionUserCell.reuseIdentifier, forIndexPath: indexPath) as! MentionUserCell
+        let cell: MentionUserCell = tableView.dequeueReusableCell()
         let user = users[indexPath.row]
         cell.configureWithUsernamePrefixMatchedUser(user)
         return cell
