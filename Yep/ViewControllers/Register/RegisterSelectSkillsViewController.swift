@@ -32,10 +32,6 @@ final class RegisterSelectSkillsViewController: UIViewController {
     let annotationHeight: CGFloat = 100
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
 
-    let skillAnnotationHeaderIdentifier = "SkillAnnotationHeader"
-    let skillCategoryCellIdentifier = "SkillCategoryCell"
-    let skillSelectionCellIdentifier = "SkillSelectionCell"
-
     let skillCategoryTintColors: [UIColor] = [
         UIColor(red: 52 / 255.0, green: 152 / 255.0, blue: 219 / 255.0, alpha: 1),
         UIColor(red: 26 / 255.0, green: 188 / 255.0, blue: 156 / 255.0, alpha: 1),
@@ -82,12 +78,10 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
 
-        skillCategoriesCollectionView.registerNib(UINib(nibName: skillAnnotationHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier)
-        skillsCollectionView.registerNib(UINib(nibName: skillAnnotationHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier)
+        skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
 
-        skillCategoriesCollectionView.registerNib(UINib(nibName: skillCategoryCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCategoryCellIdentifier)
-
-        skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
+        skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
+        skillCategoriesCollectionView.registerNibOf(SkillSelectionCell)
 
         cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
         backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
@@ -176,31 +170,30 @@ final class RegisterSelectSkillsViewController: UIViewController {
 extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+
         var reusableView: UICollectionReusableView!
 
         if kind == UICollectionElementKindSectionHeader {
+
+            let header: SkillAnnotationHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
+
             if collectionView == skillCategoriesCollectionView {
-                let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier, forIndexPath: indexPath) as! SkillAnnotationHeader
-                
+
                 header.annotationLabel.text = annotationText
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.dismiss))
                 header.annotationLabel.userInteractionEnabled = true
                 header.annotationLabel.addGestureRecognizer(tap)
                 
-                reusableView = header
-
             } else {
-                let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier, forIndexPath: indexPath) as! SkillAnnotationHeader
-
                 if skillCategoryIndex < skillCategories.count {
                     let skillCategory = skillCategories[skillCategoryIndex]
 
                     header.annotationLabel.text = NSLocalizedString("Popular in ", comment: "") + "\(skillCategory.localName)"
                 }
-                
-                reusableView = header
             }
+
+            reusableView = header
         }
         
         return reusableView
@@ -238,7 +231,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
         if collectionView == skillCategoriesCollectionView {
 
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCategoryCellIdentifier, forIndexPath: indexPath) as! SkillCategoryCell
+            let cell: SkillCategoryCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             let skillCategory = skillCategories[indexPath.item]
 
@@ -394,7 +387,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             return cell
             
         } else { //if collectionView == skillsCollectionView {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+            let cell: SkillSelectionCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if skillCategoryIndex < skillCategories.count {
                 let skills = skillCategories[skillCategoryIndex].skills
