@@ -66,7 +66,15 @@ struct DoNotDisturbPeriod {
 
 final class NotificationsViewController: SegueViewController {
 
-    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var tableView: UITableView! {
+        didSet {
+            tableView.registerNibOf(DoNotDisturbSwitchCell)
+            tableView.registerNibOf(DoNotDisturbPeriodCell)
+            tableView.registerNibOf(SettingsMoreCell)
+
+            tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        }
+    }
 
     private var doNotDisturbPeriod = DoNotDisturbPeriod() {
         didSet {
@@ -76,22 +84,10 @@ final class NotificationsViewController: SegueViewController {
         }
     }
 
-    private let DoNotDisturbSwitchCellID = "DoNotDisturbSwitchCell"
-    private let DoNotDisturbPeriodCellID = "DoNotDisturbPeriodCell"
-
-    private let settingsMoreCellID = "SettingsMoreCell"
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Notifications & Privacy", comment: "")
-
-        tableView.registerNib(UINib(nibName: DoNotDisturbSwitchCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbSwitchCellID)
-        tableView.registerNib(UINib(nibName: DoNotDisturbPeriodCellID, bundle: nil), forCellReuseIdentifier: DoNotDisturbPeriodCellID)
-
-        tableView.registerNib(UINib(nibName: settingsMoreCellID, bundle: nil), forCellReuseIdentifier: settingsMoreCellID)
-
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
 
         let realm = try! Realm()
 
@@ -287,7 +283,9 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             switch indexPath.row {
 
             case DoNotDisturbPeriodRow.Switch.rawValue:
-                let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbSwitchCellID) as! DoNotDisturbSwitchCell
+
+                let cell: DoNotDisturbSwitchCell = tableView.dequeueReusableCell()
+
                 cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
                 cell.toggleSwitch.on = doNotDisturbPeriod.isOn
 
@@ -322,7 +320,9 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                 return cell
 
             case DoNotDisturbPeriodRow.Period.rawValue:
-                let cell = tableView.dequeueReusableCellWithIdentifier(DoNotDisturbPeriodCellID) as! DoNotDisturbPeriodCell
+
+                let cell: DoNotDisturbPeriodCell = tableView.dequeueReusableCell()
+
                 cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
                 cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
 
@@ -337,13 +337,13 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case .BlackList:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
+            let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             cell.annotationLabel.text = NSLocalizedString("Blocked Users", comment: "")
             return cell
 
         case .CreatorsOfBlockedFeeds:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellID) as! SettingsMoreCell
+            let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             cell.annotationLabel.text = NSLocalizedString("Creators of Blocked Feeds", comment: "")
             return cell
         }
