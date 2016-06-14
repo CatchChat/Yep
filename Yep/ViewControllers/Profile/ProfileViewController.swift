@@ -447,6 +447,7 @@ final class ProfileViewController: SegueViewController {
         profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell)
         profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell)
         profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell)
+        profileCollectionView.registerNibOf(ProfileFeedsCell)
 
         profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView)
         profileCollectionView.registerFooterClassOf(UICollectionReusableView)
