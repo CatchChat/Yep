@@ -29,11 +29,8 @@ final class AlbumListController: UITableViewController {
 
     var imageLimit = 0
     
-    let albumlistCellIdentifier = "AlbumListCell"
-    
     var assetsCollection: [Album]?
 
-    
     lazy var pickPhotosVC: PickPhotosViewController = {
         let vc = UIStoryboard(name: "PickPhotos", bundle: nil).instantiateViewControllerWithIdentifier("PickPhotosViewController") as! PickPhotosViewController
         return vc
@@ -46,20 +43,19 @@ final class AlbumListController: UITableViewController {
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.hidesBackButton = true
         
-        tableView.registerNib(UINib(nibName: albumlistCellIdentifier, bundle: nil), forCellReuseIdentifier: albumlistCellIdentifier)
+        tableView.registerNibOf(AlbumListCell)
+
         tableView.tableFooterView = UIView()
         
         assetsCollection = fetchAlbumList()
-        
     }
-    
-   
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+
         navigationController?.interactivePopGestureRecognizer?.enabled = true
     }
-    
-    
+
     @objc private func cancel(sender: UIBarButtonItem) {
         
         if let vcStack = navigationController?.viewControllers {
@@ -194,7 +190,7 @@ final class AlbumListController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(albumlistCellIdentifier, forIndexPath: indexPath) as! AlbumListCell
+        let cell: AlbumListCell = tableView.dequeueReusableCell()
         if let album = assetsCollection?[indexPath.row] {
             cell.countLabel.text = "(\(album.count))"
             cell.titleLabel.text = album.name 
