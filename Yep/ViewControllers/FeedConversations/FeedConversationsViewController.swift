@@ -12,7 +12,15 @@ import RealmSwift
 
 final class FeedConversationsViewController: SegueViewController {
 
-    @IBOutlet weak var feedConversationsTableView: UITableView!
+    @IBOutlet weak var feedConversationsTableView: UITableView! {
+        didSet {
+            feedConversationsTableView.registerNibOf(FeedConversationCell)
+            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell)
+
+            feedConversationsTableView.rowHeight = 80
+            feedConversationsTableView.tableFooterView = UIView()
+        }
+    }
 
     private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem(title: NSLocalizedString("FeedConversationsViewController.ClearUnread", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
@@ -40,9 +48,6 @@ final class FeedConversationsViewController: SegueViewController {
         }
     }
     private var feedConversationsNotificationToken: NotificationToken?
-
-    let feedConversationCellID = "FeedConversationCell"
-    let deletedFeedConversationCellID = "DeletedFeedConversationCell"
 
     deinit {
 
@@ -87,12 +92,6 @@ final class FeedConversationsViewController: SegueViewController {
             self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
         })
 
-        feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
-        feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
-
-        feedConversationsTableView.rowHeight = 80
-        feedConversationsTableView.tableFooterView = UIView()
-        
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
                 if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
@@ -168,16 +167,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         if let feed = conversation.withGroup?.withFeed {
 
             if feed.deleted {
-                let cell = tableView.dequeueReusableCellWithIdentifier(deletedFeedConversationCellID) as! DeletedFeedConversationCell
+                let cell: DeletedFeedConversationCell = tableView.dequeueReusableCell()
                 return cell
 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+                let cell: FeedConversationCell = tableView.dequeueReusableCell()
                 return cell
             }
 
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+            let cell: FeedConversationCell = tableView.dequeueReusableCell()
             return cell
         }
     }
