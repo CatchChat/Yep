@@ -97,8 +97,6 @@ final class MediaPreviewViewController: UIViewController {
 
     var showFinished = false
 
-    let mediaViewCellID = "MediaViewCell"
-
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         println("deinit MediaPreview")
@@ -108,7 +106,8 @@ final class MediaPreviewViewController: UIViewController {
         super.viewDidLoad()
 
         mediasCollectionView.backgroundColor = UIColor.clearColor()
-        mediasCollectionView.registerNib(UINib(nibName: mediaViewCellID, bundle: nil), forCellWithReuseIdentifier: mediaViewCellID)
+
+        mediasCollectionView.registerNibOf(MediaViewCell)
 
         guard let previewImageViewInitalFrame = previewImageViewInitalFrame else {
             return
@@ -465,7 +464,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(mediaViewCellID, forIndexPath: indexPath) as! MediaViewCell
+        let cell: MediaViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         return cell
     }
 
