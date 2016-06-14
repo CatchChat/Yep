@@ -282,11 +282,11 @@ final class ActionSheetView: UIView {
         view.rowHeight = self.rowHeight
         view.scrollEnabled = false
 
-        view.registerClass(ActionSheetDefaultCell.self, forCellReuseIdentifier: ActionSheetDefaultCell.reuseIdentifier)
-        view.registerClass(ActionSheetDetailCell.self, forCellReuseIdentifier: ActionSheetDetailCell.reuseIdentifier)
-        view.registerClass(ActionSheetSwitchCell.self, forCellReuseIdentifier: ActionSheetSwitchCell.reuseIdentifier)
-        view.registerClass(ActionSheetSubtitleSwitchCell.self, forCellReuseIdentifier: ActionSheetSubtitleSwitchCell.reuseIdentifier)
-        view.registerClass(ActionSheetCheckCell.self, forCellReuseIdentifier: ActionSheetCheckCell.reuseIdentifier)
+        view.registerClassOf(ActionSheetDefaultCell)
+        view.registerClassOf(ActionSheetDetailCell)
+        view.registerClassOf(ActionSheetSwitchCell)
+        view.registerClassOf(ActionSheetSubtitleSwitchCell)
+        view.registerClassOf(ActionSheetCheckCell)
 
         return view
     }()
@@ -446,7 +446,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Default(title, titleColor, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
+            let cell: ActionSheetDefaultCell = tableView.dequeueReusableCell()
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
 
@@ -454,7 +454,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Detail(title, titleColor, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDetailCell.reuseIdentifier) as! ActionSheetDetailCell
+            let cell: ActionSheetDetailCell = tableView.dequeueReusableCell()
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
 
@@ -462,7 +462,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Switch(title, titleColor, switchOn, action):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSwitchCell.reuseIdentifier) as! ActionSheetSwitchCell
+            let cell: ActionSheetSwitchCell = tableView.dequeueReusableCell()
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
             cell.checkedSwitch.on = switchOn
@@ -472,7 +472,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .SubtitleSwitch(title, titleColor, subtitle, subtitleColor, switchOn, action):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSubtitleSwitchCell.reuseIdentifier) as! ActionSheetSubtitleSwitchCell
+            let cell: ActionSheetSubtitleSwitchCell = tableView.dequeueReusableCell()
             cell.titleLabel.text = title
             cell.titleLabel.textColor = titleColor
             cell.subtitleLabel.text = subtitle
@@ -484,7 +484,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Check(title, titleColor, checked, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetCheckCell.reuseIdentifier) as! ActionSheetCheckCell
+            let cell: ActionSheetCheckCell = tableView.dequeueReusableCell()
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
             cell.checkImageView.hidden = !checked
@@ -493,7 +493,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case .Cancel:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
+            let cell: ActionSheetDefaultCell = tableView.dequeueReusableCell()
             cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
             cell.colorTitleLabelTextColor = UIColor.yepTintColor()
 
