@@ -55,3 +55,28 @@ extension UITableView {
     }
 }
 
+extension UITableView {
+
+    func register<T: UITableViewCell where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forCellReuseIdentifier: T.reuseIdentifier)
+    }
+
+    func register<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+
+        let bundle = NSBundle(forClass: T.self)
+        let nib = UINib(nibName: T.nibName, bundle: bundle)
+
+        registerNib(nib, forCellReuseIdentifier: T.reuseIdentifier)
+    }
+
+    func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
+
+        guard let cell = dequeueReusableCellWithIdentifier(T.reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
+        }
+        
+        return cell
+    }
+}
+
