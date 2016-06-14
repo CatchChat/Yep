@@ -87,12 +87,11 @@ extension UICollectionView {
 
     func dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(ofKind kind: String, forIndexPath indexPath: NSIndexPath) -> T {
 
-        guard let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as? T else {
+        guard let view = dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: T.reuseIdentifier, forIndexPath: indexPath) as? T else {
             fatalError("Could not dequeue supplementary view with identifier: \(T.reuseIdentifier), kind: \(kind)")
         }
 
         return view
     }
-
 }
 
