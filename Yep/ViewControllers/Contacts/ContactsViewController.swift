@@ -17,6 +17,14 @@ final class ContactsViewController: BaseViewController {
         didSet {
             searchBar.sizeToFit()
             contactsTableView.tableHeaderView = searchBar
+
+            contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
+
+            contactsTableView.rowHeight = 80
+            contactsTableView.tableFooterView = UIView()
+
+            contactsTableView.registerNibOf(ContactsCell)
         }
     }
 
@@ -132,13 +140,6 @@ final class ContactsViewController: BaseViewController {
             //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
         }
          */
-
-        contactsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        contactsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
-
-        contactsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        contactsTableView.rowHeight = 80
-        contactsTableView.tableFooterView = UIView()
 
         noContacts = friends.isEmpty
 
@@ -367,7 +368,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+        let cell: ContactsCell = tableView.dequeueReusableCell()
         return cell
     }
 
