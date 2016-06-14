@@ -28,8 +28,6 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     
     @IBOutlet private weak var dribbbleCollectionView: UICollectionView!
 
-    private let dribbbleShotCellIdentifier = "DribbbleShotCell"
-
     private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.dribbbleCollectionView.bounds)
     }()
@@ -48,8 +46,6 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        animatedOnNavigationBar = false
-        
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -61,8 +57,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         navigationItem.rightBarButtonItem = shareButton
         
-
-        dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
+        dribbbleCollectionView.registerNibOf(DribbbleShotCell)
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -178,7 +173,7 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(dribbbleShotCellIdentifier, forIndexPath: indexPath) as! DribbbleShotCell
+        let cell: DribbbleShotCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         let shot = dribbbleShots[indexPath.item]
 
