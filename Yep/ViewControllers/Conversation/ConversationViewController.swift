@@ -3086,7 +3086,9 @@ final class ConversationViewController: BaseViewController {
                         self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
                         self?.needReloadLoadPreviousSection = false
                     }
+
                     self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                 }, completion: { _ in
                 })
 
@@ -3115,7 +3117,7 @@ final class ConversationViewController: BaseViewController {
 
             if newMessagesTotalHeight > useableHeight {
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
 
                     if let strongSelf = self {
 
