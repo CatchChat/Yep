@@ -35,10 +35,6 @@ final class RegisterPickSkillsViewController: BaseViewController {
     var masterSkills = [Skill]()
     var learningSkills = [Skill]()
 
-    let skillSelectionCellIdentifier = "SkillSelectionCell"
-    let skillAddCellIdentifier = "SkillAddCell"
-    let addSkillsReusableViewIdentifier = "AddSkillsReusableView"
-
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
     lazy var collectionViewWidth: CGFloat = {
@@ -69,10 +65,11 @@ final class RegisterPickSkillsViewController: BaseViewController {
         }
 
 
-        skillsCollectionView.registerNib(UINib(nibName: addSkillsReusableViewIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: addSkillsReusableViewIdentifier)
-        skillsCollectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
-        skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
-        skillsCollectionView.registerNib(UINib(nibName: skillAddCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillAddCellIdentifier)
+        skillsCollectionView.registerNibOf(SkillSelectionCell)
+        skillsCollectionView.registerNibOf(SkillAddCell)
+
+        skillsCollectionView.registerHeaderNibOf(AddSkillsReusableView)
+        skillsCollectionView.registerFooterClassOf(UICollectionReusableView)
 
         allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -315,7 +312,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         case Section.Master.rawValue:
 
             if indexPath.item < masterSkills.count {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+                let cell: SkillSelectionCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                 let skill = masterSkills[indexPath.item]
 
@@ -324,7 +321,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
                 return cell
 
             } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+                let cell: SkillAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                 cell.skillSet = .Master
 
@@ -348,7 +345,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
         case Section.Learning.rawValue:
             if indexPath.item < learningSkills.count {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+                let cell: SkillSelectionCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                 let skill = learningSkills[indexPath.item]
 
@@ -357,7 +354,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
                 return cell
 
             } else {
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillAddCellIdentifier, forIndexPath: indexPath) as! SkillAddCell
+                let cell: SkillAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                 cell.skillSet = .Learning
 
@@ -388,7 +385,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
         if kind == UICollectionElementKindSectionHeader {
 
-            let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: addSkillsReusableViewIdentifier, forIndexPath: indexPath) as! AddSkillsReusableView
+            let header: AddSkillsReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
 
             switch indexPath.section {
 
@@ -405,7 +402,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             return header
 
         } else {
-            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "footer", forIndexPath: indexPath) 
+            let footer: UICollectionReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
             return footer
         }
     }

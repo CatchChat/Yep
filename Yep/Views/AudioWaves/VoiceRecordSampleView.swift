@@ -67,7 +67,7 @@ class VoiceRecordSampleView: UIView {
         view.userInteractionEnabled = false
         view.backgroundColor = UIColor.clearColor()
         view.dataSource = self
-        view.registerClass(VoiceRecordSampleCell.self, forCellWithReuseIdentifier: "cell")
+        view.registerClassOf(VoiceRecordSampleCell)
         return view
     }()
 
@@ -142,7 +142,7 @@ extension VoiceRecordSampleView: UICollectionViewDataSource {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! VoiceRecordSampleCell
+        let cell: VoiceRecordSampleCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         let value = sampleValues[indexPath.item]
         cell.value = value

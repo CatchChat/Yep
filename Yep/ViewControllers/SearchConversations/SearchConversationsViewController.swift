@@ -30,24 +30,18 @@ final class SearchConversationsViewController: SegueViewController {
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
-    private let headerIdentifier = "TableSectionTitleView"
-    private let searchSectionTitleCellID = "SearchSectionTitleCell"
-    private let searchedUserCellID = "SearchedUserCell"
-    private let searchedMessageCellID = "SearchedMessageCell"
-    private let searchedFeedCellID = "SearchedFeedCell"
-    private let searchMoreResultsCellID = "SearchMoreResultsCell"
-
     @IBOutlet weak var resultsTableView: UITableView! {
         didSet {
             //resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             resultsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            resultsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            resultsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
-            resultsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
-            resultsTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
-            resultsTableView.registerNib(UINib(nibName: searchedFeedCellID, bundle: nil), forCellReuseIdentifier: searchedFeedCellID)
-            resultsTableView.registerNib(UINib(nibName: searchMoreResultsCellID, bundle: nil), forCellReuseIdentifier: searchMoreResultsCellID)
+            resultsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
+
+            resultsTableView.registerNibOf(SearchSectionTitleCell)
+            resultsTableView.registerNibOf(SearchedUserCell)
+            resultsTableView.registerNibOf(SearchedMessageCell)
+            resultsTableView.registerNibOf(SearchedFeedCell)
+            resultsTableView.registerNibOf(SearchMoreResultsCell)
 
             resultsTableView.sectionHeaderHeight = 0
             resultsTableView.sectionFooterHeight = 0
@@ -447,9 +441,8 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return nil
         }
 
-        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-
-        header?.titleLabel.text = nil
+        let header: TableSectionTitleView = tableView.dequeueReusableHeaderFooter()
+        header.titleLabel.text = nil
 
         return header
     }
@@ -504,7 +497,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         if indexPath.row == 0 {
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+            let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
             switch section {
             case .Friend:
@@ -524,28 +517,28 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         case .Friend:
             if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+                let cell: SearchedUserCell = tableView.dequeueReusableCell()
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                let cell: SearchMoreResultsCell = tableView.dequeueReusableCell()
                 return cell
             }
 
         case .MessageRecord:
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
+                let cell: SearchedMessageCell = tableView.dequeueReusableCell()
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                let cell: SearchMoreResultsCell = tableView.dequeueReusableCell()
                 return cell
             }
 
         case .Feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedCellID) as! SearchedFeedCell
+                let cell: SearchedFeedCell = tableView.dequeueReusableCell()
                 return cell
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchMoreResultsCellID) as! SearchMoreResultsCell
+                let cell: SearchMoreResultsCell = tableView.dequeueReusableCell()
                 return cell
             }
         }

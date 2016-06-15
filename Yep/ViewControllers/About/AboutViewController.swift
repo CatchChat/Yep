@@ -18,12 +18,14 @@ final class AboutViewController: SegueViewController {
     @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet private weak var appVersionLabel: UILabel!
     
-    @IBOutlet private weak var aboutTableView: UITableView!
+    @IBOutlet private weak var aboutTableView: UITableView! {
+        didSet {
+            aboutTableView.registerNibOf(AboutCell)
+        }
+    }
     @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var copyrightLabel: UILabel!
-
-    private let aboutCellID = "AboutCell"
 
     private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
 
@@ -49,8 +51,6 @@ final class AboutViewController: SegueViewController {
                 appVersionLabel.text = NSLocalizedString("Version", comment: "") + " " + releaseVersionNumber + " (\(buildVersionNumber))"
         }
 
-        aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
-
         aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
     }
 }
@@ -75,7 +75,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             return UITableViewCell()
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(aboutCellID) as! AboutCell
+            let cell: AboutCell = tableView.dequeueReusableCell()
             let annotation = aboutAnnotations[indexPath.row - 1]
             cell.annotationLabel.text = annotation
             return cell

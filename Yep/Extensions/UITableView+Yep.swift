@@ -55,3 +55,42 @@ extension UITableView {
     }
 }
 
+extension UITableView {
+
+    func registerClassOf<T: UITableViewCell where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forCellReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func registerNibOf<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+
+        let bundle = NSBundle(forClass: T.self)
+        let nib = UINib(nibName: T.yep_nibName, bundle: bundle)
+
+        registerNib(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
+
+        guard let cell = dequeueReusableCellWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
+        }
+        
+        return cell
+    }
+
+    func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
+
+        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
+        }
+
+        return view
+    }
+}
+

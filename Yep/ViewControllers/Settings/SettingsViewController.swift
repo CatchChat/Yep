@@ -11,10 +11,13 @@ import YepKit
 
 final class SettingsViewController: BaseViewController {
 
-    @IBOutlet private weak var settingsTableView: UITableView!
-
-    private let settingsUserCellIdentifier = "SettingsUserCell"
-    private let settingsMoreCellIdentifier = "SettingsMoreCell"
+    @IBOutlet private weak var settingsTableView: UITableView! {
+        didSet {
+            settingsTableView.registerNibOf(SettingsUserCell)
+            settingsTableView.registerNibOf(SettingsMoreCell)
+            settingsTableView.registerClassOf(TitleSwitchCell)
+        }
+    }
 
     private var introduction: String {
         get {
@@ -60,10 +63,6 @@ final class SettingsViewController: BaseViewController {
         super.viewDidLoad()
         
         title = NSLocalizedString("Settings", comment: "")
-
-        settingsTableView.registerNib(UINib(nibName: settingsUserCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsUserCellIdentifier)
-        settingsTableView.registerNib(UINib(nibName: settingsMoreCellIdentifier, bundle: nil), forCellReuseIdentifier: settingsMoreCellIdentifier)
-        settingsTableView.registerClass(TitleSwitchCell.self, forCellReuseIdentifier: TitleSwitchCell.reuseIdentifier)
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
             dispatch_async(dispatch_get_main_queue()) {
@@ -124,7 +123,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
 
         case .User:
-            let cell = tableView.dequeueReusableCellWithIdentifier(settingsUserCellIdentifier) as! SettingsUserCell
+            let cell: SettingsUserCell = tableView.dequeueReusableCell()
             return cell
 
         case .UI:
@@ -134,7 +133,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch row {
             case .TabBarTitleEnabled:
-                let cell = tableView.dequeueReusableCellWithIdentifier(TitleSwitchCell.reuseIdentifier) as! TitleSwitchCell
+                let cell: TitleSwitchCell = tableView.dequeueReusableCell()
                 cell.titleLabel.text = NSLocalizedString("Show Tab Bar Title", comment: "")
                 cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
                 cell.toggleSwitchStateChangedAction = { on in
@@ -144,7 +143,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             }
 
         case .More:
-            let cell = tableView.dequeueReusableCellWithIdentifier(settingsMoreCellIdentifier) as! SettingsMoreCell
+            let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             let annotation = moreAnnotations[indexPath.row]
             cell.annotationLabel.text = annotation["name"]
             return cell

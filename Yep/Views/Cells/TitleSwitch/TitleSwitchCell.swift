@@ -10,8 +10,6 @@ import UIKit
 
 class TitleSwitchCell: UITableViewCell {
 
-    static let reuseIdentifier = "TitleSwitchCell"
-
     var toggleSwitchStateChangedAction: ((on: Bool) -> Void)?
 
     lazy var titleLabel: UILabel = {

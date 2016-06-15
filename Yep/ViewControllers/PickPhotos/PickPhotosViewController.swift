@@ -36,8 +36,6 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
     var imageLimit = 0
 
-    let photoCellID = "PhotoCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit + pickedImages.count)/4)"
@@ -45,7 +43,9 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
         automaticallyAdjustsScrollViewInsets = false
-        collectionView?.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
+
+        collectionView?.registerNibOf(PhotoCell)
+
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 
             let width: CGFloat = Ruler<CGFloat>.iPhoneVertical(77.5, 77.5, 92.5, 102).value
@@ -178,7 +178,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
+        let cell: PhotoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         return cell
     }
 

@@ -12,10 +12,18 @@ import RealmSwift
 
 final class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedCreatorsTableView: UITableView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var blockedCreatorsTableView: UITableView! {
+        didSet {
+            blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-    private let cellIdentifier = "ContactsCell"
+            blockedCreatorsTableView.rowHeight = 80
+            blockedCreatorsTableView.tableFooterView = UIView()
+
+            blockedCreatorsTableView.registerNibOf(ContactsCell)
+        }
+    }
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private var blockedCreators = [DiscoveredUser]() {
         willSet {
@@ -29,13 +37,6 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
         super.viewDidLoad()
 
         title = NSLocalizedString("Blocked Creators", comment: "")
-
-        blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        blockedCreatorsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        blockedCreatorsTableView.rowHeight = 80
-        blockedCreatorsTableView.tableFooterView = UIView()
 
         activityIndicator.startAnimating()
 
@@ -95,7 +96,8 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         cell.selectionStyle = .None
 

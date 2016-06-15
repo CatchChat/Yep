@@ -20,9 +20,6 @@ final class MoreMessageTypesView: UIView {
         return view
     }()
 
-    let titleCellID = "TitleCell"
-    let quickPickPhotosCellID = "QuickPickPhotosCell"
-
     lazy var tableView: UITableView = {
         let view = UITableView()
         view.dataSource = self
@@ -30,8 +27,9 @@ final class MoreMessageTypesView: UIView {
         view.rowHeight = 60
         view.scrollEnabled = false
 
-        view.registerNib(UINib(nibName: self.quickPickPhotosCellID, bundle: nil), forCellReuseIdentifier: self.quickPickPhotosCellID)
-        view.registerNib(UINib(nibName: self.titleCellID, bundle: nil), forCellReuseIdentifier: self.titleCellID)
+        view.registerNibOf(TitleCell)
+        view.registerNibOf(QuickPickPhotosCell)
+
         return view
     }()
 
@@ -214,8 +212,10 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         if let row = Row(rawValue: indexPath.row) {
+
             if case .PhotoGallery = row {
-                let cell = tableView.dequeueReusableCellWithIdentifier(quickPickPhotosCellID) as! QuickPickPhotosCell
+
+                let cell: QuickPickPhotosCell = tableView.dequeueReusableCell()
 
                 cell.alertCanNotAccessCameraRollAction = { [weak self] in
                     self?.alertCanNotAccessCameraRollAction?()
@@ -234,7 +234,8 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                 return cell
 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(titleCellID) as! TitleCell
+                let cell: TitleCell = tableView.dequeueReusableCell()
+
                 cell.singleTitleLabel.text = row.normalTitle
                 cell.boldEnabled = false
                 cell.singleTitleLabel.textColor = UIColor.yepTintColor()

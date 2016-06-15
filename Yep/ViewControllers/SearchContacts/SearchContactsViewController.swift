@@ -30,20 +30,15 @@ final class SearchContactsViewController: SegueViewController {
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
-    private let headerIdentifier = "TableSectionTitleView"
-    private let searchSectionTitleCellID = "SearchSectionTitleCell"
-    private let searchedUserCellID = "SearchedUserCell"
-    private let searchedDiscoveredUserCellID = "SearchedDiscoveredUserCell"
-
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
-            contactsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
-            contactsTableView.registerNib(UINib(nibName: searchedDiscoveredUserCellID, bundle: nil), forCellReuseIdentifier: searchedDiscoveredUserCellID)
+            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
+            contactsTableView.registerNibOf(SearchSectionTitleCell)
+            contactsTableView.registerNibOf(SearchedUserCell)
+            contactsTableView.registerNibOf(SearchedDiscoveredUserCell)
 
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
@@ -340,8 +335,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return nil
         }
 
-        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-        header?.titleLabel.text = nil
+        let header: TableSectionTitleView = tableView.dequeueReusableHeaderFooter()
+        header.titleLabel.text = nil
 
         return header
     }
@@ -372,7 +367,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         if indexPath.row == 0 {
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+            let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
             switch section {
             case .Local:
@@ -387,11 +382,11 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         switch section {
 
         case .Local:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+            let cell: SearchedUserCell = tableView.dequeueReusableCell()
             return cell
 
         case .Online:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedDiscoveredUserCellID) as! SearchedDiscoveredUserCell
+            let cell: SearchedDiscoveredUserCell = tableView.dequeueReusableCell()
             return cell
         }
     }

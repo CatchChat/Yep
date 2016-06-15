@@ -259,9 +259,7 @@ final class FeedView: UIView {
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
-        }()
-
-    let feedMediaCellID = "FeedMediaCell"
+    }()
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -308,7 +306,9 @@ final class FeedView: UIView {
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clearColor()
-        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        mediaCollectionView.registerNibOf(FeedMediaCell)
+
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
@@ -757,7 +757,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         let attachment = attachments[indexPath.item]
 

@@ -16,14 +16,12 @@ final class FriendsInContactsViewController: BaseViewController {
         static let NewFriends = "NewFriendsInContactsNotification"
     }
 
-    private let cellIdentifier = "ContactsCell"
-
     @IBOutlet private weak var friendsTableView: UITableView! {
         didSet {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            friendsTableView.registerNibOf(ContactsCell)
             friendsTableView.rowHeight = 80
             friendsTableView.tableFooterView = UIView()
         }
@@ -122,7 +120,8 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         let discoveredUser = discoveredUsers[indexPath.row]
 

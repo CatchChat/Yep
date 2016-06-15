@@ -34,9 +34,6 @@ final class ConversationsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    private let feedConversationDockCellID = "FeedConversationDockCell"
-    private let cellIdentifier = "ConversationCell"
-
     @IBOutlet weak var conversationsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
@@ -47,11 +44,10 @@ final class ConversationsViewController: BaseViewController {
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
-            conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            conversationsTableView.registerNibOf(FeedConversationDockCell)
+            conversationsTableView.registerNibOf(ConversationCell)
 
             conversationsTableView.rowHeight = 80
-
             conversationsTableView.tableFooterView = UIView()
         }
     }
@@ -464,11 +460,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         switch indexPath.section {
 
         case Section.FeedConversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            let cell: FeedConversationDockCell = tableView.dequeueReusableCell()
             return cell
 
         case Section.Conversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+            let cell: ConversationCell = tableView.dequeueReusableCell()
             return cell
             
         default:

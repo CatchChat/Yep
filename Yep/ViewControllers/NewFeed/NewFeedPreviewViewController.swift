@@ -22,12 +22,12 @@ final class NewFeedPreviewViewController: UIViewController {
     var imagesLimit: Int = 0
     var returnPickedImage: ((images: [UIImage]) -> Void)?
     
-    private let previewCellID = "NewFeedPreviewCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         previewCollectionView.backgroundColor = UIColor.blackColor()
-        previewCollectionView.registerNib(UINib(nibName: previewCellID, bundle: nil), forCellWithReuseIdentifier: previewCellID)
+
+        previewCollectionView.registerNibOf(NewFeedPreviewCell)
+
         previewCollectionView.pagingEnabled = true
         previewCollectionView.showsHorizontalScrollIndicator = false
         self.automaticallyAdjustsScrollViewInsets = false
@@ -79,7 +79,9 @@ extension NewFeedPreviewViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(previewCellID, forIndexPath: indexPath) as! NewFeedPreviewCell
+
+        let cell: NewFeedPreviewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+
         cell.image.image = previewImages[indexPath.item]
         title = "\(indexPath.item + 1)/\(imagesLimit)"
         currentIndex = indexPath

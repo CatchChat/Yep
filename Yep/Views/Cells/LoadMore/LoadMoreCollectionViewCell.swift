@@ -11,10 +11,5 @@ import UIKit
 final class LoadMoreCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var loadingActivityIndicator: UIActivityIndicatorView!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
 }
+

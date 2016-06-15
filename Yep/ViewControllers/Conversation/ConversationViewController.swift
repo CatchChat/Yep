@@ -635,13 +635,50 @@ final class ConversationViewController: BaseViewController {
         return view
     }()
 
-    @IBOutlet private weak var conversationCollectionView: UICollectionView!
     private let conversationCollectionViewContentInsetYOffset: CGFloat = 5
+    @IBOutlet private weak var conversationCollectionView: UICollectionView! {
+        didSet {
+            conversationCollectionView.keyboardDismissMode = .OnDrag
+            conversationCollectionView.alwaysBounceVertical = true
+            conversationCollectionView.bounces = true
+
+            conversationCollectionView.registerNibOf(LoadMoreCollectionViewCell)
+            conversationCollectionView.registerNibOf(ChatSectionDateCell)
+
+            conversationCollectionView.registerClassOf(ChatTextIndicatorCell)
+
+            conversationCollectionView.registerClassOf(ChatLeftTextCell)
+            conversationCollectionView.registerClassOf(ChatLeftTextURLCell)
+            conversationCollectionView.registerClassOf(ChatLeftImageCell)
+            conversationCollectionView.registerClassOf(ChatLeftAudioCell)
+            conversationCollectionView.registerClassOf(ChatLeftVideoCell)
+            conversationCollectionView.registerClassOf(ChatLeftLocationCell)
+            conversationCollectionView.registerNibOf(ChatLeftSocialWorkCell)
+
+            conversationCollectionView.registerClassOf(ChatRightTextCell)
+            conversationCollectionView.registerClassOf(ChatRightTextURLCell)
+            conversationCollectionView.registerClassOf(ChatRightImageCell)
+            conversationCollectionView.registerClassOf(ChatRightAudioCell)
+            conversationCollectionView.registerClassOf(ChatRightVideoCell)
+            conversationCollectionView.registerClassOf(ChatRightLocationCell)
+
+            let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
+            conversationCollectionView.addGestureRecognizer(tap)
+        }
+    }
 
     @IBOutlet private weak var messageToolbar: MessageToolbar!
-    @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            messageToolbarBottomConstraint.constant = 0
+        }
+    }
 
-    @IBOutlet private weak var swipeUpView: UIView!
+    @IBOutlet private weak var swipeUpView: UIView! {
+        didSet {
+            swipeUpView.hidden = true
+        }
+    }
     @IBOutlet private weak var swipeUpPromptLabel: UILabel!
 
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
@@ -687,26 +724,6 @@ final class ConversationViewController: BaseViewController {
     }()
     #endif
 
-    private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
-    private let chatSectionDateCellIdentifier = "ChatSectionDateCell"
-    private let chatLeftTextCellIdentifier = "ChatLeftTextCell"
-    private let chatRightTextCellIdentifier = "ChatRightTextCell"
-    private let chatLeftTextURLCellIdentifier = "ChatLeftTextURLCell"
-    private let chatRightTextURLCellIdentifier = "ChatRightTextURLCell"
-    private let chatLeftImageCellIdentifier = "ChatLeftImageCell"
-    private let chatRightImageCellIdentifier = "ChatRightImageCell"
-    private let chatLeftAudioCellIdentifier = "ChatLeftAudioCell"
-    private let chatRightAudioCellIdentifier = "ChatRightAudioCell"
-    private let chatLeftVideoCellIdentifier = "ChatLeftVideoCell"
-    private let chatRightVideoCellIdentifier = "ChatRightVideoCell"
-    private let chatLeftLocationCellIdentifier =  "ChatLeftLocationCell"
-    private let chatRightLocationCellIdentifier =  "ChatRightLocationCell"
-    private let chatTextIndicatorCellIdentifier =  "ChatTextIndicatorCell"
-    private let chatLeftSocialWorkCellIdentifier = "ChatLeftSocialWorkCell"
-    private let chatLeftShareFeedCellIdentifier = "LeftShareFeedCell"
-    private let chatRightShareFeedCellIdentifier = "RightShareFeedCell"
-
-
     private struct Listener {
         static let Avatar = "ConversationViewController"
     }
@@ -726,6 +743,13 @@ final class ConversationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        title = nil
+        navigationItem.titleView = titleView
+        view.tintAdjustmentMode = .Normal
+
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
+        navigationItem.rightBarButtonItem = moreBarButtonItem
+
         realm = try! Realm()
 
         recipient = conversation.recipient
@@ -743,8 +767,6 @@ final class ConversationViewController: BaseViewController {
 
         navigationController?.interactivePopGestureRecognizer?.delaysTouchesBegan = false
 
-        view.tintAdjustmentMode = .Normal
-
         if let indexOfSearchedMessage = indexOfSearchedMessage {
             let fixedIndexOfSearchedMessage = max(0, indexOfSearchedMessage - Ruler.iPhoneVertical(5, 6, 8, 10).value)
             displayedMessagesRange = NSRange(location: fixedIndexOfSearchedMessage, length: messages.count - fixedIndexOfSearchedMessage)
@@ -758,14 +780,6 @@ final class ConversationViewController: BaseViewController {
         }
 
         lastTimeMessagesCount = messages.count
-
-        title = nil
-        navigationItem.titleView = titleView
-
-
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
-        navigationItem.rightBarButtonItem = moreBarButtonItem
-
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.Notification.newMessages, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.Notification.deletedMessages, object: nil)
@@ -785,45 +799,6 @@ final class ConversationViewController: BaseViewController {
                 self?.reloadConversationCollectionView()
             }
         }
-
-        swipeUpView.hidden = true
-
-        conversationCollectionView.keyboardDismissMode = .OnDrag
-
-        conversationCollectionView.alwaysBounceVertical = true
-
-        conversationCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
-
-        conversationCollectionView.registerNib(UINib(nibName: chatSectionDateCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatSectionDateCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftTextCell.self, forCellWithReuseIdentifier: chatLeftTextCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightTextCell.self, forCellWithReuseIdentifier: chatRightTextCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftTextURLCell.self, forCellWithReuseIdentifier: chatLeftTextURLCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightTextURLCell.self, forCellWithReuseIdentifier: chatRightTextURLCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftImageCell.self, forCellWithReuseIdentifier: chatLeftImageCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightImageCell.self, forCellWithReuseIdentifier: chatRightImageCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftAudioCell.self, forCellWithReuseIdentifier: chatLeftAudioCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightAudioCell.self, forCellWithReuseIdentifier: chatRightAudioCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftVideoCell.self, forCellWithReuseIdentifier: chatLeftVideoCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightVideoCell.self, forCellWithReuseIdentifier: chatRightVideoCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatLeftLocationCell.self, forCellWithReuseIdentifier: chatLeftLocationCellIdentifier)
-        conversationCollectionView.registerClass(ChatRightLocationCell.self, forCellWithReuseIdentifier: chatRightLocationCellIdentifier)
-
-        conversationCollectionView.registerClass(ChatTextIndicatorCell.self, forCellWithReuseIdentifier: chatTextIndicatorCellIdentifier)
-
-        conversationCollectionView.registerNib(UINib(nibName: chatLeftSocialWorkCellIdentifier, bundle: nil), forCellWithReuseIdentifier: chatLeftSocialWorkCellIdentifier)
-
-        conversationCollectionView.bounces = true
-
-        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
-        conversationCollectionView.addGestureRecognizer(tap)
-
-        messageToolbarBottomConstraint.constant = 0
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
 
@@ -3835,7 +3810,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         switch section {
 
         case .LoadPrevious:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
+            let cell: LoadMoreCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case .Message:
@@ -3843,7 +3818,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
                 println("🐌 Conversation: message NOT found!")
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 cell.sectionDateLabel.text = "🐌"
 
                 return cell
@@ -3851,20 +3826,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
             }
 
             guard let sender = message.fromFriend else {
 
                 if message.blockedByRecipient {
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
+                    let cell: ChatTextIndicatorCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                 }
 
                 println("🐌🐌 Conversation: message has NOT fromFriend!")
 
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatSectionDateCellIdentifier, forIndexPath: indexPath) as! ChatSectionDateCell
+                let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 cell.sectionDateLabel.text = "🐌🐌"
 
                 return cell
@@ -3876,27 +3851,27 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Image.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftImageCellIdentifier, forIndexPath: indexPath) as! ChatLeftImageCell
+                    let cell: ChatLeftImageCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Audio.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftAudioCellIdentifier, forIndexPath: indexPath) as! ChatLeftAudioCell
+                    let cell: ChatLeftAudioCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Video.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftVideoCellIdentifier, forIndexPath: indexPath) as! ChatLeftVideoCell
+                    let cell: ChatLeftVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Location.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftLocationCellIdentifier, forIndexPath: indexPath) as! ChatLeftLocationCell
+                    let cell: ChatLeftLocationCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.SocialWork.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftSocialWorkCellIdentifier, forIndexPath: indexPath) as! ChatLeftSocialWorkCell
+                    let cell: ChatLeftSocialWorkCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                     
 //                case MessageMediaType.ShareFeed.rawValue:
@@ -3906,16 +3881,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.deletedByCreator {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatTextIndicatorCellIdentifier, forIndexPath: indexPath) as! ChatTextIndicatorCell
+                        let cell: ChatTextIndicatorCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
 
                     } else {
                         if message.openGraphInfo != nil {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextURLCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextURLCell
+                            let cell: ChatLeftTextURLCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                             return cell
 
                         } else {
-                            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatLeftTextCellIdentifier, forIndexPath: indexPath) as! ChatLeftTextCell
+                            let cell: ChatLeftTextCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                             return cell
                         }
                     }
@@ -3927,22 +3902,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 case MessageMediaType.Image.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightImageCellIdentifier, forIndexPath: indexPath) as! ChatRightImageCell
+                    let cell: ChatRightImageCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Audio.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightAudioCellIdentifier, forIndexPath: indexPath) as! ChatRightAudioCell
+                    let cell: ChatRightAudioCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Video.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightVideoCellIdentifier, forIndexPath: indexPath) as! ChatRightVideoCell
+                    let cell: ChatRightVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
 
                 case MessageMediaType.Location.rawValue:
 
-                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightLocationCellIdentifier, forIndexPath: indexPath) as! ChatRightLocationCell
+                    let cell: ChatRightLocationCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
                 
 //                case MessageMediaType.ShareFeed.rawValue:
@@ -3953,11 +3928,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 default:
 
                     if message.openGraphInfo != nil {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextURLCellIdentifier, forIndexPath: indexPath) as! ChatRightTextURLCell
+                        let cell: ChatRightTextURLCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
 
                     } else {
-                        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightTextCellIdentifier, forIndexPath: indexPath) as! ChatRightTextCell
+                        let cell: ChatRightTextCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                         return cell
                     }
                 }

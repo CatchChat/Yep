@@ -34,8 +34,6 @@ final class SocialWorkGithubViewController: BaseViewController {
 
     @IBOutlet private weak var githubTableView: UITableView!
 
-    private let githubRepoCellIdentifier = "GithubRepoCell"
-
     private var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
@@ -75,8 +73,6 @@ final class SocialWorkGithubViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        animatedOnNavigationBar = false
-
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -89,10 +85,9 @@ final class SocialWorkGithubViewController: BaseViewController {
         shareButton.enabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
+        githubTableView.registerNibOf(GithubRepoCell)
 
         githubTableView.rowHeight = 100
-
         githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
         
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -104,7 +99,6 @@ final class SocialWorkGithubViewController: BaseViewController {
                 }
             }
         }
-
 
         // 获取 Github Work，如果必要的话
 
@@ -218,7 +212,7 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(githubRepoCellIdentifier) as! GithubRepoCell
+        let cell: GithubRepoCell = tableView.dequeueReusableCell()
 
         let repo = githubRepos[indexPath.row]
 

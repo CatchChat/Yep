@@ -10,15 +10,12 @@ import UIKit
 
 class MeetGeniusViewController: UIViewController {
 
-    let geniusInterviewCellID = "GeniusInterviewCell"
-
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.tableFooterView = UIView()
             tableView.rowHeight = 90
-            tableView.registerNib(UINib(nibName: geniusInterviewCellID, bundle: nil), forCellReuseIdentifier: geniusInterviewCellID)
-
             tableView.tableFooterView = InfoView(NSLocalizedString("To be continue.", comment: ""))
+
+            tableView.registerNibOf(GeniusInterviewCell)
         }
     }
 
@@ -50,7 +47,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(geniusInterviewCellID, forIndexPath: indexPath) as! GeniusInterviewCell
+        let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
         cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
         cell.numberLabel.text = String(format: "#%03d", indexPath.row)
         return cell

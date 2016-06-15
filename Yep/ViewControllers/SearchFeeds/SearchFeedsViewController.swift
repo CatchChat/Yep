@@ -40,16 +40,6 @@ final class SearchFeedsViewController: SegueViewController {
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
-    private let searchedFeedBasicCellID = "SearchedFeedBasicCell"
-    private let searchedFeedNormalImagesCellID = "SearchedFeedNormalImagesCell"
-    private let searchedFeedAnyImagesCellID = "SearchedFeedAnyImagesCell"
-    private let searchedFeedGithubRepoCellID = "SearchedFeedGithubRepoCell"
-    private let searchedFeedDribbbleShotCellID = "SearchedFeedDribbbleShotCell"
-    private let searchedFeedVoiceCellID = "SearchedFeedVoiceCell"
-    private let searchedFeedLocationCellID = "SearchedFeedLocationCell"
-    private let searchedFeedURLCellID = "SearchedFeedURLCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-
     private lazy var searchFeedsFooterView: SearchFeedsFooterView = {
 
         let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
@@ -107,16 +97,17 @@ final class SearchFeedsViewController: SegueViewController {
             feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
-            feedsTableView.registerClass(SearchedFeedBasicCell.self, forCellReuseIdentifier: searchedFeedBasicCellID)
-            feedsTableView.registerClass(SearchedFeedNormalImagesCell.self, forCellReuseIdentifier: searchedFeedNormalImagesCellID)
-            feedsTableView.registerClass(SearchedFeedAnyImagesCell.self, forCellReuseIdentifier: searchedFeedAnyImagesCellID)
-            feedsTableView.registerClass(SearchedFeedGithubRepoCell.self, forCellReuseIdentifier: searchedFeedGithubRepoCellID)
-            feedsTableView.registerClass(SearchedFeedDribbbleShotCell.self, forCellReuseIdentifier: searchedFeedDribbbleShotCellID)
-            feedsTableView.registerClass(SearchedFeedVoiceCell.self, forCellReuseIdentifier: searchedFeedVoiceCellID)
-            feedsTableView.registerClass(SearchedFeedLocationCell.self, forCellReuseIdentifier: searchedFeedLocationCellID)
-            feedsTableView.registerClass(SearchedFeedURLCell.self, forCellReuseIdentifier: searchedFeedURLCellID)
+            feedsTableView.registerClassOf(SearchedFeedBasicCell)
+            feedsTableView.registerClassOf(SearchedFeedNormalImagesCell)
+            feedsTableView.registerClassOf(SearchedFeedAnyImagesCell)
 
-            feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+            feedsTableView.registerClassOf(SearchedFeedGithubRepoCell)
+            feedsTableView.registerClassOf(SearchedFeedDribbbleShotCell)
+            feedsTableView.registerClassOf(SearchedFeedVoiceCell)
+            feedsTableView.registerClassOf(SearchedFeedLocationCell)
+            feedsTableView.registerClassOf(SearchedFeedURLCell)
+
+            feedsTableView.registerNibOf(LoadMoreTableViewCell)
 
             feedsTableView.keyboardDismissMode = .OnDrag
         }
@@ -691,41 +682,41 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             switch feed.kind {
 
             case .Text:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedBasicCellID) as! SearchedFeedBasicCell
+                let cell: SearchedFeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
             case .URL:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedURLCellID) as! SearchedFeedURLCell
+                let cell: SearchedFeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Image:
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedNormalImagesCellID) as! SearchedFeedNormalImagesCell
+                    let cell: SearchedFeedNormalImagesCell = tableView.dequeueReusableCell()
                     return cell
 
                 } else {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedAnyImagesCellID) as! SearchedFeedAnyImagesCell
+                    let cell: SearchedFeedAnyImagesCell = tableView.dequeueReusableCell()
                     return cell
                 }
 
             case .GithubRepo:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedGithubRepoCellID) as! SearchedFeedGithubRepoCell
+                let cell: SearchedFeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
             case .DribbbleShot:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedDribbbleShotCellID) as! SearchedFeedDribbbleShotCell
+                let cell: SearchedFeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Audio:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedVoiceCellID) as! SearchedFeedVoiceCell
+                let cell: SearchedFeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Location:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedLocationCellID) as! SearchedFeedLocationCell
+                let cell: SearchedFeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
             default:
-                let cell = tableView.dequeueReusableCellWithIdentifier(searchedFeedBasicCellID) as! SearchedFeedBasicCell
+                let cell: SearchedFeedBasicCell = tableView.dequeueReusableCell()
                 return cell
             }
         }
@@ -739,7 +730,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .LoadMore:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
         }
     }

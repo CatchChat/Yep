@@ -21,20 +21,43 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     var syncSkillsFromServerAction: (() -> Void)?
 
-    @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
+    @IBOutlet weak var skillCategoriesCollectionView: UICollectionView! {
+        didSet {
+            skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
 
-    @IBOutlet weak var skillsCollectionView: UICollectionView!
+            skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
+            skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
+        }
+    }
+
+    @IBOutlet weak var skillsCollectionView: UICollectionView! {
+        didSet {
+            skillsCollectionView.backgroundColor = UIColor.clearColor()
+
+            skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
+            skillsCollectionView.registerNibOf(SkillSelectionCell)
+
+            skillsCollectionView.alpha = 0
+        }
+    }
     @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
 
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton! {
+        didSet {
+            cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
+            cancelButton.alpha = 1
+        }
+    }
+
+    @IBOutlet weak var backButton: UIButton! {
+        didSet {
+            backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+            backButton.alpha = 0
+        }
+    }
 
     let annotationHeight: CGFloat = 100
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
-
-    let skillAnnotationHeaderIdentifier = "SkillAnnotationHeader"
-    let skillCategoryCellIdentifier = "SkillCategoryCell"
-    let skillSelectionCellIdentifier = "SkillSelectionCell"
 
     let skillCategoryTintColors: [UIColor] = [
         UIColor(red: 52 / 255.0, green: 152 / 255.0, blue: 219 / 255.0, alpha: 1),
@@ -45,7 +68,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
     
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
-        }()
+    }()
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
@@ -63,8 +86,6 @@ final class RegisterSelectSkillsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.clearColor()
-        skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
-        skillsCollectionView.backgroundColor = UIColor.clearColor()
 
         let dismissBackgroundHeight: CGFloat = 120 // not full height // 140
         let skillCategoriesCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: dismissBackgroundHeight, right: 0)
@@ -77,24 +98,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
         effectView.frame = view.bounds
         view.insertSubview(effectView, atIndex: 0)
 
-
-        skillsCollectionView.alpha = 0
-
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
-
-        skillCategoriesCollectionView.registerNib(UINib(nibName: skillAnnotationHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier)
-        skillsCollectionView.registerNib(UINib(nibName: skillAnnotationHeaderIdentifier, bundle: nil), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier)
-
-        skillCategoriesCollectionView.registerNib(UINib(nibName: skillCategoryCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillCategoryCellIdentifier)
-
-        skillsCollectionView.registerNib(UINib(nibName: skillSelectionCellIdentifier, bundle: nil), forCellWithReuseIdentifier: skillSelectionCellIdentifier)
-
-        cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-
-        cancelButton.alpha = 1
-        backButton.alpha = 0
-
 
         let layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let originLineSpacing = layout.minimumLineSpacing
@@ -124,7 +128,6 @@ final class RegisterSelectSkillsViewController: UIViewController {
         anim.toValue = originLineSpacing
         
         layout.pop_addAnimation(anim, forKey: "AnimateLine")
-
 
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
@@ -176,31 +179,30 @@ final class RegisterSelectSkillsViewController: UIViewController {
 extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+
         var reusableView: UICollectionReusableView!
 
         if kind == UICollectionElementKindSectionHeader {
+
+            let header: SkillAnnotationHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
+
             if collectionView == skillCategoriesCollectionView {
-                let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier, forIndexPath: indexPath) as! SkillAnnotationHeader
-                
+
                 header.annotationLabel.text = annotationText
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.dismiss))
                 header.annotationLabel.userInteractionEnabled = true
                 header.annotationLabel.addGestureRecognizer(tap)
                 
-                reusableView = header
-
             } else {
-                let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: skillAnnotationHeaderIdentifier, forIndexPath: indexPath) as! SkillAnnotationHeader
-
                 if skillCategoryIndex < skillCategories.count {
                     let skillCategory = skillCategories[skillCategoryIndex]
 
                     header.annotationLabel.text = NSLocalizedString("Popular in ", comment: "") + "\(skillCategory.localName)"
                 }
-                
-                reusableView = header
             }
+
+            reusableView = header
         }
         
         return reusableView
@@ -238,7 +240,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
         if collectionView == skillCategoriesCollectionView {
 
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillCategoryCellIdentifier, forIndexPath: indexPath) as! SkillCategoryCell
+            let cell: SkillCategoryCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             let skillCategory = skillCategories[indexPath.item]
 
@@ -394,7 +396,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             return cell
             
         } else { //if collectionView == skillsCollectionView {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(skillSelectionCellIdentifier, forIndexPath: indexPath) as! SkillSelectionCell
+            let cell: SkillSelectionCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if skillCategoryIndex < skillCategories.count {
                 let skills = skillCategories[skillCategoryIndex].skills

@@ -29,17 +29,16 @@ final class QuickPickPhotosCell: UITableViewCell {
     }
     var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
 
-    let cameraCellID = "CameraCell"
-    let photoCellID = "PhotoCell"
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
         selectionStyle = .None
 
         photosCollectionView.backgroundColor = UIColor.clearColor()
-        photosCollectionView.registerNib(UINib(nibName: cameraCellID, bundle: nil), forCellWithReuseIdentifier: cameraCellID)
-        photosCollectionView.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
+
+        photosCollectionView.registerNibOf(CameraCell)
+        photosCollectionView.registerNibOf(PhotoCell)
+
         photosCollectionView.dataSource = self
         photosCollectionView.delegate = self
         photosCollectionView.showsHorizontalScrollIndicator = false
@@ -123,11 +122,11 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         switch indexPath.section {
 
         case 0:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cameraCellID, forIndexPath: indexPath) as! CameraCell
+            let cell: CameraCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case 1:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
+            let cell: PhotoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         default:

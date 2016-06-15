@@ -23,10 +23,6 @@ final class DiscoverViewController: BaseViewController {
     
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private let NormalUserIdentifier = "DiscoverNormalUserCell"
-    private let CardUserIdentifier = "DiscoverCardUserCell"
-    private let loadMoreCollectionViewCellID = "LoadMoreCollectionViewCell"
-    
     private var layoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
             didChangeLayoutModeAction?(layoutMode: layoutMode)
@@ -130,9 +126,9 @@ final class DiscoverViewController: BaseViewController {
         discoveredUsersCollectionView.delegate = self
         discoveredUsersCollectionView.dataSource = self
 
-        discoveredUsersCollectionView.registerNib(UINib(nibName: NormalUserIdentifier, bundle: nil), forCellWithReuseIdentifier: NormalUserIdentifier)
-        discoveredUsersCollectionView.registerNib(UINib(nibName: CardUserIdentifier, bundle: nil), forCellWithReuseIdentifier: CardUserIdentifier)
-        discoveredUsersCollectionView.registerNib(UINib(nibName: loadMoreCollectionViewCellID, bundle: nil), forCellWithReuseIdentifier: loadMoreCollectionViewCellID)
+        discoveredUsersCollectionView.registerNibOf(DiscoverNormalUserCell)
+        discoveredUsersCollectionView.registerNibOf(DiscoverCardUserCell)
+        discoveredUsersCollectionView.registerNibOf(LoadMoreCollectionViewCell)
 
         layoutMode = .Card
 
@@ -316,16 +312,16 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
             switch layoutMode {
 
             case .Normal:
-                let cell = collectionView.dequeueReusableCellWithReuseIdentifier(NormalUserIdentifier, forIndexPath: indexPath) as! DiscoverNormalUserCell
+                let cell: DiscoverNormalUserCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
                 
             case .Card:
-               let cell = collectionView.dequeueReusableCellWithReuseIdentifier(CardUserIdentifier, forIndexPath: indexPath) as! DiscoverCardUserCell
+                let cell: DiscoverCardUserCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
             }
 
         case .LoadMore:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(loadMoreCollectionViewCellID, forIndexPath: indexPath) as! LoadMoreCollectionViewCell
+            let cell: LoadMoreCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
         }
     }

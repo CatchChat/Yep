@@ -83,8 +83,6 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private let pickLocationCellIdentifier = "PickLocationCell"
-
     private var location: PickLocationViewControllerLocation? {
         willSet {
             if let _ = newValue {
@@ -111,7 +109,7 @@ final class PickLocationViewController: SegueViewController {
 
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
 
-        tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
+        tableView.registerNibOf(PickLocationCell)
         tableView.rowHeight = 50
 
         doneButton.enabled = false
@@ -480,7 +478,8 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(pickLocationCellIdentifier) as! PickLocationCell
+
+        let cell: PickLocationCell = tableView.dequeueReusableCell()
 
         switch indexPath.section {
 
