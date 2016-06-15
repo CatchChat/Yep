@@ -141,7 +141,24 @@ final class ProfileViewController: SegueViewController {
     private var noNeedToChangeStatusBar = false
 
     @IBOutlet private weak var topShadowImageView: UIImageView!
-    @IBOutlet weak var profileCollectionView: UICollectionView!
+    @IBOutlet weak var profileCollectionView: UICollectionView! {
+        didSet {
+            profileCollectionView.registerNibOf(SkillCell)
+            profileCollectionView.registerNibOf(ProfileHeaderCell)
+            profileCollectionView.registerNibOf(ProfileFooterCell)
+            profileCollectionView.registerNibOf(ProfileSeparationLineCell)
+            profileCollectionView.registerNibOf(ProfileSocialAccountCell)
+            profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell)
+            profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell)
+            profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell)
+            profileCollectionView.registerNibOf(ProfileFeedsCell)
+
+            profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView)
+            profileCollectionView.registerFooterClassOf(UICollectionReusableView)
+
+            profileCollectionView.alwaysBounceVertical = true
+        }
+    }
 
     @IBOutlet private weak var sayHiView: BottomButtonView!
 
@@ -439,21 +456,6 @@ final class ProfileViewController: SegueViewController {
             }
         }
 
-        profileCollectionView.registerNibOf(SkillCell)
-        profileCollectionView.registerNibOf(ProfileHeaderCell)
-        profileCollectionView.registerNibOf(ProfileFooterCell)
-        profileCollectionView.registerNibOf(ProfileSeparationLineCell)
-        profileCollectionView.registerNibOf(ProfileSocialAccountCell)
-        profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell)
-        profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell)
-        profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell)
-        profileCollectionView.registerNibOf(ProfileFeedsCell)
-
-        profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView)
-        profileCollectionView.registerFooterClassOf(UICollectionReusableView)
-
-        profileCollectionView.alwaysBounceVertical = true
-        
         automaticallyAdjustsScrollViewInsets = false
         
         //Make sure when pan edge screen collectionview not scroll
