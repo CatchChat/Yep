@@ -463,7 +463,7 @@ final class ConversationViewController: BaseViewController {
 
                     self?.groupShareURLString = groupShareURLString
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
                     }
                 })
@@ -795,7 +795,7 @@ final class ConversationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.Message.Notification.MessageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.reloadConversationCollectionView()
             }
         }
@@ -893,7 +893,7 @@ final class ConversationViewController: BaseViewController {
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 guard let recipient = self?.recipient else {
                     return
@@ -922,7 +922,7 @@ final class ConversationViewController: BaseViewController {
                             self?.noMorePreviousMessages = noMore
                         }
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
                             tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
                             //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
 
@@ -1055,7 +1055,7 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     usersMatchWithUsernamePrefix(usernamePrefix, failureHandler: nil) { users in
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
 
                             self?.mentionView.users = users
 
@@ -1172,7 +1172,7 @@ final class ConversationViewController: BaseViewController {
 
                     sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
@@ -1190,7 +1190,7 @@ final class ConversationViewController: BaseViewController {
                         println("sendText to friend: \(success)")
 
                         // 发送过消息后才提示加好友
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
                             if let strongSelf = self {
                                 if !strongSelf.isTryingShowFriendRequestView {
                                     strongSelf.isTryingShowFriendRequestView = true
@@ -1204,7 +1204,7 @@ final class ConversationViewController: BaseViewController {
 
                     sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
@@ -1212,7 +1212,7 @@ final class ConversationViewController: BaseViewController {
                     }, failureHandler: { [weak self] reason, errorMessage in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                         }
 
@@ -1272,7 +1272,7 @@ final class ConversationViewController: BaseViewController {
                     if let withFriend = self?.conversation.withFriend {
                         sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 if let realm = message.realm {
                                     let _ = try? realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
@@ -1303,7 +1303,7 @@ final class ConversationViewController: BaseViewController {
                     } else if let withGroup = self?.conversation.withGroup {
                         sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 if let realm = message.realm {
                                     let _ = try? realm.write {
                                         message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
@@ -1425,7 +1425,7 @@ final class ConversationViewController: BaseViewController {
 
     private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
 
             guard let strongSelf = self else {
                 return
@@ -1495,7 +1495,7 @@ final class ConversationViewController: BaseViewController {
 
             if needMarkInServer {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.markAsReaded, object: nil)
                 }
 
@@ -1611,7 +1611,7 @@ final class ConversationViewController: BaseViewController {
                     return
                 }
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
                         self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
@@ -1675,7 +1675,7 @@ final class ConversationViewController: BaseViewController {
         let userID = user.userID
 
         let hideFriendRequestView: () -> Void = {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
                     if let strongSelf = self {
@@ -1704,7 +1704,7 @@ final class ConversationViewController: BaseViewController {
             }, completion: { friendRequestState in
                 println("friendRequestState: \(friendRequestState.rawValue)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     guard let realm = try? Realm() else {
                         return
                     }
@@ -1730,7 +1730,7 @@ final class ConversationViewController: BaseViewController {
                 }, completion: { success in
                     println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         guard let realm = try? Realm() else {
                             return
                         }
@@ -2264,7 +2264,7 @@ final class ConversationViewController: BaseViewController {
 
             println("meIsMember: \(meIsMember)")
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     if !group.invalidated {
                         let _ = try? strongSelf.realm.write {
@@ -2297,7 +2297,7 @@ final class ConversationViewController: BaseViewController {
                     joinGroup(groupID: groupID, failureHandler: nil, completion: {
                         println("subscribe OK")
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
                             if let strongSelf = self {
                                 if !group.invalidated {
                                     let _ = try? strongSelf.realm.write {
@@ -2392,14 +2392,14 @@ final class ConversationViewController: BaseViewController {
                 messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         completion()
                     }
 
                 }, completion: { messageIDs, noMore in
                     println("messagesFromRecipient: \(messageIDs.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
 
                         if case .Past = timeDirection {
                             self?.noMorePreviousMessages = noMore
@@ -2597,7 +2597,7 @@ final class ConversationViewController: BaseViewController {
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
         
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
     }
@@ -2739,7 +2739,7 @@ final class ConversationViewController: BaseViewController {
 
         func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 self?.checkTypingStatusTimer?.invalidate()
 
@@ -2774,7 +2774,7 @@ final class ConversationViewController: BaseViewController {
 
                     self?.afterDeletedFeedAction?(feedID: feedID)
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
 
                         NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
 
@@ -2784,7 +2784,7 @@ final class ConversationViewController: BaseViewController {
 
             }, cancelAction: { [weak self] in
                 doDeleteConversation(afterLeaveGroup: {
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.navigationController?.popViewControllerAnimated(true)
                     }
                 })
@@ -2795,7 +2795,7 @@ final class ConversationViewController: BaseViewController {
             // 不然考虑订阅或取消订阅
             if includeMe {
                 doDeleteConversation(afterLeaveGroup: {
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.navigationController?.popViewControllerAnimated(true)
                     }
                 })
@@ -2805,7 +2805,7 @@ final class ConversationViewController: BaseViewController {
                 joinGroup(groupID: groupID, failureHandler: nil, completion: {
                     println("subscribe OK")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         if let strongSelf = self {
                             let _ = try? strongSelf.realm.write {
                                 group.includeMe = true
@@ -3145,7 +3145,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     @objc private func reloadConversationCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.conversationCollectionView.reloadData()
         }
     }
@@ -3156,7 +3156,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     private func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             if let strongSelf = self {
                 guard !strongSelf.conversation.invalidated else {
                     return
@@ -3368,7 +3368,7 @@ final class ConversationViewController: BaseViewController {
 
                     sendLocationWithLocationInfo(locationInfo, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
@@ -3389,7 +3389,7 @@ final class ConversationViewController: BaseViewController {
                 } else if let withGroup = self?.conversation.withGroup {
 
                     sendLocationWithLocationInfo(locationInfo, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
                             })
                         }
@@ -3584,7 +3584,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
     }
 
     private func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             if let strongSelf = self, realm = message.realm {
 
                 let isMyMessage = message.fromFriend?.isMe ?? false
@@ -3954,7 +3954,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("User not found!", comment: ""), inViewController: self)
 
             }, completion: { discoveredUser in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     let profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
                     self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
                 }
@@ -4489,7 +4489,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 markMessageOpenGraphDetected()
             }
 
@@ -4500,7 +4500,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 return
             }
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 guard let strongSelf = self else {
                     return
@@ -4864,7 +4864,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
@@ -4899,7 +4899,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
                         if let realm = message.realm {
                             let _ = try? realm.write {
@@ -4989,7 +4989,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
         let afterCreatedMessageAction = { [weak self] (message: Message) in
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
 
