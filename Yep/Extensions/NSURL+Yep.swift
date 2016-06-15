@@ -44,12 +44,12 @@ extension NSURL {
         }
 
         feedWithSharedToken(sharedToken, failureHandler: { reason, errorMessage in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 completion(feed: nil)
             }
 
         }, completion: { feed in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 completion(feed: feed)
             }
         })
@@ -73,7 +73,7 @@ extension NSURL {
 
             discoverUserByUsername(username, failureHandler: nil, completion: { discoveredUser in
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     completion(discoveredUser)
                 }
             })

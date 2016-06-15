@@ -167,14 +167,14 @@ class ShareViewController: SLComposeServiceViewController {
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     completion(finish: false)
                 }
 
             }, completion: { data in
                 //print("createFeedWithKind: \(data)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     completion(finish: true)
                 }
             })
@@ -288,7 +288,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
 
@@ -300,7 +300,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 attachments = [audioInfo]
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
             })
@@ -321,7 +321,7 @@ class ShareViewController: SLComposeServiceViewController {
             openGraphWithURL(URL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(parseOpenGraphGroup)
                 }
 
@@ -339,7 +339,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 attachments = [URLInfo]
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(parseOpenGraphGroup)
                 }
             })
