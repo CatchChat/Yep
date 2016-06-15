@@ -273,6 +273,7 @@
 		508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */; };
 		508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */; };
 		508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */; };
+		509202D21D1101B400E6FF33 /* SafeGCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509202D11D1101B400E6FF33 /* SafeGCD.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -932,6 +933,7 @@
 		508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkInstagramViewController.swift; path = ViewControllers/SocialWorks/SocialWorkInstagramViewController.swift; sourceTree = "<group>"; };
 		508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstagramMediaCell.swift; path = Views/Cells/InstagramMedia/InstagramMediaCell.swift; sourceTree = "<group>"; };
 		508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramMediaCell.xib; path = Views/Cells/InstagramMedia/InstagramMediaCell.xib; sourceTree = "<group>"; };
+		509202D11D1101B400E6FF33 /* SafeGCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SafeGCD.swift; path = Helpers/SafeGCD.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -2014,6 +2016,7 @@
 				508DF62A1B9985F300B194A4 /* YepLog.swift */,
 				50D84F541CF306D00018D91F /* YepSoundEffect.swift */,
 				506D01F81CE029B100B3867D /* UploadContactsMaker.swift */,
+				509202D11D1101B400E6FF33 /* SafeGCD.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -4301,6 +4304,7 @@
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
 				50098D471CB348FA009275FE /* SearchedUserCell.swift in Sources */,
+				509202D21D1101B400E6FF33 /* SafeGCD.swift in Sources */,
 				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
 				50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */,
 				50098D4C1CB35EE1009275FE /* SearchedMessageCell.swift in Sources */,
