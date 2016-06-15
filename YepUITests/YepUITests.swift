@@ -75,7 +75,13 @@ final class YepUITests: XCTestCase {
 
         tab.tap()
 
-        app.buttons["icon settings"].tap()
+        let button = app.buttons["icon settings"]
+
+        guard button.exists else {
+            return
+        }
+
+        button.tap()
         
         let tablesQuery = app.tables
         tablesQuery.cells.elementBoundByIndex(0).tap()
