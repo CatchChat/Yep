@@ -255,7 +255,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         case .Message:
 
             syncUnreadMessages() {
-                SafeGCD.asyncDispatch {
+                SafeDispatch.async {
                     NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
@@ -305,7 +305,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         case .Mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
-                SafeGCD.asyncDispatch {
+                SafeDispatch.async {
                     NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
@@ -605,7 +605,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func unregisterThirdPartyPush() {
 
         defer {
-            SafeGCD.asyncDispatch {
+            SafeDispatch.async {
                 UIApplication.sharedApplication().applicationIconBadgeNumber = 0
             }
         }
@@ -679,7 +679,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if statusCode == 401 {
                 // 确保是自家服务
                 if host == yepBaseURL.host {
-                    SafeGCD.asyncDispatch {
+                    SafeDispatch.async {
                         YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
                             guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
                                 return true
@@ -704,7 +704,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         YepNetworking.Manager.networkActivityCountChangedAction = { count in
-            SafeGCD.asyncDispatch {
+            SafeDispatch.async {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
             }
         }

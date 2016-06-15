@@ -1,5 +1,5 @@
 //
-//  SafeGCD.swift
+//  SafeDispatch.swift
 //  Yep
 //
 //  Created by NIX on 16/6/15.
@@ -8,20 +8,20 @@
 
 import Foundation
 
-class SafeGCD {
+public class SafeDispatch {
 
     private let mainQueueKey = UnsafeMutablePointer<Void>.alloc(1)
     private let mainQueueValue = UnsafeMutablePointer<Void>.alloc(1)
 
-    private static let sharedSafeGCD = SafeGCD()
+    private static let sharedSafeDispatch = SafeDispatch()
 
     private init() {
         dispatch_queue_set_specific(dispatch_get_main_queue(), mainQueueKey, mainQueueValue, nil)
     }
 
-    class func asyncDispatch(onQueue queue: dispatch_queue_t = dispatch_get_main_queue(), forWork block: dispatch_block_t) {
+    public class func async(onQueue queue: dispatch_queue_t = dispatch_get_main_queue(), forWork block: dispatch_block_t) {
         if queue === dispatch_get_main_queue() {
-            if dispatch_get_specific(sharedSafeGCD.mainQueueKey) == sharedSafeGCD.mainQueueValue {
+            if dispatch_get_specific(sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
                 block()
             } else {
                 dispatch_async(dispatch_get_main_queue()) {
