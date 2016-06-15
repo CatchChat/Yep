@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 final class YepHUD: NSObject {
 
@@ -36,7 +37,7 @@ final class YepHUD: NSObject {
             return // TODO: 或者用新的取代旧的
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             if
                 let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
                 let window = appDelegate.window {
@@ -94,7 +95,7 @@ final class YepHUD: NSObject {
 
     class func hideActivityIndicator(completion: () -> Void) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             if self.sharedInstance.isShowing {
 
