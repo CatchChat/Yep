@@ -57,17 +57,13 @@ extension UICollectionView {
 
     func registerNibOf<T: UICollectionViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
 
-        let bundle = NSBundle(forClass: T.self)
-        let nib = UINib(nibName: T.yep_nibName, bundle: bundle)
-
+        let nib = UINib(nibName: T.yep_nibName, bundle: nil)
         registerNib(nib, forCellWithReuseIdentifier: T.yep_reuseIdentifier)
     }
 
     func registerHeaderNibOf<T: UICollectionReusableView where T: Reusable, T: NibLoadable>(_: T.Type) {
 
-        let bundle = NSBundle(forClass: T.self)
-        let nib = UINib(nibName: T.yep_nibName, bundle: bundle)
-
+        let nib = UINib(nibName: T.yep_nibName, bundle: nil)
         registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: T.yep_reuseIdentifier)
     }
 

@@ -64,9 +64,7 @@ extension UITableView {
 
     func registerNibOf<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
 
-        let bundle = NSBundle(forClass: T.self)
-        let nib = UINib(nibName: T.yep_nibName, bundle: bundle)
-
+        let nib = UINib(nibName: T.yep_nibName, bundle: nil)
         registerNib(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
     }
 
@@ -87,7 +85,7 @@ extension UITableView {
     func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
 
         guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.yep_reuseIdentifier) as? T else {
-            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
+            fatalError("Could not dequeue HeaderFooter with identifier: \(T.yep_reuseIdentifier)")
         }
 
         return view
