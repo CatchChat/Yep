@@ -401,15 +401,18 @@ final class ConversationsViewController: BaseViewController {
     // MARK: Actions
 
     @objc private func reloadConversationsTableView() {
+
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.conversationsTableView.reloadData()
         }
     }
 
     @objc private func reloadFeedConversationsDock() {
+
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             let sectionIndex = Section.FeedConversation.rawValue
-            guard self?.conversationsTableView.numberOfSections ?? 0 > sectionIndex else {
+            guard (self?.conversationsTableView.numberOfSections ?? 0) > sectionIndex else {
+                self?.conversationsTableView.reloadData()
                 return
             }
 

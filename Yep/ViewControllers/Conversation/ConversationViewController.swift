@@ -3034,20 +3034,25 @@ final class ConversationViewController: BaseViewController {
                             self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
                             self?.needReloadLoadPreviousSection = false
                         }
+
                         self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                     }, completion: { _ in
                     })
 
                 case .Old:
-                    let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
+                    // 用 CATransaction 保证 CollectionView 在插入后不闪动
                     CATransaction.begin()
                     CATransaction.setDisableActions(true)
+
+                    let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
 
                     conversationCollectionView.performBatchUpdates({ [weak self] in
                         if needReloadLoadPreviousSection {
                             self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
                             self?.needReloadLoadPreviousSection = false
                         }
+
                         self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
                     }, completion: { [weak self] finished in
@@ -3058,13 +3063,6 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
 
                             CATransaction.commit()
-
-                            // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
-                            /*
-                            // 此时再做个 scroll 动画比较自然
-                            let indexPath = NSIndexPath(forItem: newMessagesCount - 1, inSection: Section.Message.rawValue)
-                            strongSelf.conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredVertically, animated: true)
-                            */
                         }
                     })
                 }
@@ -3088,7 +3086,9 @@ final class ConversationViewController: BaseViewController {
                         self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
                         self?.needReloadLoadPreviousSection = false
                     }
+
                     self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                 }, completion: { _ in
                 })
 
@@ -3117,7 +3117,7 @@ final class ConversationViewController: BaseViewController {
 
             if newMessagesTotalHeight > useableHeight {
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
 
                     if let strongSelf = self {
 
