@@ -141,7 +141,7 @@ final class ProfileFooterCell: UICollectionViewCell {
 
                 CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         if (error != nil) {
                             println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
                             self?.location = nil

@@ -124,7 +124,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                     }, completion: { githubWork in
                         //println("githubWork: \(githubWork)")
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self.githubWork = githubWork
 
                             completion?(githubWork)

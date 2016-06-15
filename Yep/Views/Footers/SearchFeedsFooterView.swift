@@ -178,7 +178,7 @@ class SearchFeedsFooterView: UIView {
     }
 
     private func reloadKeywordsTableView() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.keywordsTableView.reloadData()
         }
     }

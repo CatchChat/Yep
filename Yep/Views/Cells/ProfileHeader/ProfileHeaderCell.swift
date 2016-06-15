@@ -56,7 +56,7 @@ final class ProfileHeaderCell: UICollectionViewCell {
 
                 CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         if (error != nil) {
                             println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
                             self?.location = nil
@@ -137,13 +137,13 @@ final class ProfileHeaderCell: UICollectionViewCell {
 
             if finished {
                 self?.blurImage(image) { blurredImage in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.blurredAvatarImage = blurredImage
                     }
                 }
             }
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.avatarImageView.image = image
 
                 let avatarAvarageColor = image.yep_avarageColor

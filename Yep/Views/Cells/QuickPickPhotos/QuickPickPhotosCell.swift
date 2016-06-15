@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 import Proposer
 
 final class QuickPickPhotosCell: UITableViewCell {
@@ -52,7 +53,7 @@ final class QuickPickPhotosCell: UITableViewCell {
         }
 
         proposeToAccess(.Photos, agreed: {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     let options = PHFetchOptions()
                     options.sortDescriptors = [
@@ -90,7 +91,7 @@ extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
             _images = images,
             changeDetails = changeInstance.changeDetailsForFetchResult(_images) {
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.images = changeDetails.fetchResultAfterChanges
                     self?.photosCollectionView.reloadData()
                 }

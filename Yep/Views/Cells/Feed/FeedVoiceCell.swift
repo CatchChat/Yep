@@ -138,7 +138,7 @@ final class FeedVoiceCell: FeedBasicCell {
                             }, finishedAction: { data in
                                 println("audio finish: \(data.length)")
 
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     if let realm = try? Realm() {
 
                                         var feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)

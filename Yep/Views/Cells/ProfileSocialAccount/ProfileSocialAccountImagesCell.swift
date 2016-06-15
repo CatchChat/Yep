@@ -193,7 +193,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         }, completion: { dribbbleWork in
                             //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 let socialWork = SocialWork.Dribbble(dribbbleWork)
 
                                 self.socialWork = socialWork
@@ -209,7 +209,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         }, completion: { instagramWork in
                             //println("instagramWork: \(instagramWork.medias.count)")
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 let socialWork = SocialWork.Instagram(instagramWork)
 
                                 self.socialWork = socialWork
