@@ -69,7 +69,7 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
 
         geocoder.reverseGeocodeLocation(newLocation, completionHandler: { (placemarks, error) in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 if (error != nil) {
                     println("self reverse geocode fail: \(error?.localizedDescription)")
