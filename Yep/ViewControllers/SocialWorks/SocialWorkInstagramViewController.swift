@@ -99,7 +99,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
                 }, completion: { instagramWork in
                     println("instagramWork: \(instagramWork.medias.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self.instagramMedias = instagramWork.medias
 
                         self.afterGetInstagramWork?(instagramWork)
@@ -112,7 +112,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
     // MARK: Actions
 
     private func updateInstagramCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.instagramCollectionView.reloadData()
         }
     }

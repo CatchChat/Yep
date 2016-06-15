@@ -152,7 +152,7 @@ final class VerifyChangedMobileViewController: UIViewController {
 
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 UIView.performWithoutAnimation {
                     self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                     self?.callMeButton.layoutIfNeeded()
@@ -191,14 +191,14 @@ final class VerifyChangedMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.nextButton.enabled = false
             }
 
             let errorMessage = errorMessage ?? ""
 
             YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.verifyCodeTextField.becomeFirstResponder()
                 }
             })
@@ -207,7 +207,7 @@ final class VerifyChangedMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 if let strongSelf = self {
                     YepUserDefaults.areaCode.value = strongSelf.areaCode
                     YepUserDefaults.mobile.value = strongSelf.mobile

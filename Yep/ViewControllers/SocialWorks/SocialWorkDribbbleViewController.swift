@@ -96,7 +96,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
                 }, completion: { dribbbleWork in
                     println("dribbbleWork: \(dribbbleWork.shots.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.dribbbleWork = dribbbleWork
                         self?.dribbbleShots = dribbbleWork.shots
 
@@ -110,7 +110,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     // MARK: Actions
 
     private func updateDribbbleCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.dribbbleCollectionView.reloadData()
         }
     }

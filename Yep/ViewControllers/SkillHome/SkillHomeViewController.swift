@@ -287,7 +287,7 @@ final class SkillHomeViewController: BaseViewController {
 
                     YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
                     }
 
@@ -345,12 +345,12 @@ final class SkillHomeViewController: BaseViewController {
         discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if isLoadMore {
                     self?.discoveredMasterUsers += discoveredUsers
@@ -390,12 +390,12 @@ final class SkillHomeViewController: BaseViewController {
         discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 if isLoadMore {
                     self?.discoveredLearningUsers += discoveredUsers
                 } else {
@@ -539,7 +539,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                                     
                                 }, completion: { [weak self] success in
 
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    SafeDispatch.async {
                                         guard let realm = try? Realm() else {
                                             return
                                         }

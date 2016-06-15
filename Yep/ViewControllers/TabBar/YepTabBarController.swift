@@ -274,7 +274,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
         if selectedIndex == 1 {
             if let nvc = viewController as? UINavigationController, vc = nvc.topViewController as? ContactsViewController {
                 syncFriendshipsAndDoFurtherAction {
-                    dispatch_async(dispatch_get_main_queue()) { [weak vc] in
+                    SafeDispatch.async { [weak vc] in
                         vc?.updateContactsTableView()
                     }
                 }
