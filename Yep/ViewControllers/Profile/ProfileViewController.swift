@@ -334,22 +334,22 @@ final class ProfileViewController: SegueViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
-            let cacheSize = Double(size)/1000000
-            
-            println(String(format: "%.2f MB", cacheSize))
-            
-            if cacheSize > 300 {
-                 Kingfisher.ImageCache.defaultCache.clearDiskCache()
-            }
-        })
 
         navigationItem.title = NSLocalizedString("Profile", comment: "")
 
         view.addSubview(customNavigationBar)
 
-        println("init ProfileViewController \(self)")
+        automaticallyAdjustsScrollViewInsets = false
+
+        Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
+            let cacheSize = Double(size)/1000000
+            
+            println(String(format: "Kingfisher.ImageCache cacheSize: %.2f MB", cacheSize))
+            
+            if cacheSize > 300 {
+                 Kingfisher.ImageCache.defaultCache.clearDiskCache()
+            }
+        })
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
         
@@ -456,8 +456,6 @@ final class ProfileViewController: SegueViewController {
             }
         }
 
-        automaticallyAdjustsScrollViewInsets = false
-        
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
