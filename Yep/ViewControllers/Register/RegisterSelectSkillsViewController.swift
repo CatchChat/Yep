@@ -21,13 +21,40 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     var syncSkillsFromServerAction: (() -> Void)?
 
-    @IBOutlet weak var skillCategoriesCollectionView: UICollectionView!
+    @IBOutlet weak var skillCategoriesCollectionView: UICollectionView! {
+        didSet {
+            skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
 
-    @IBOutlet weak var skillsCollectionView: UICollectionView!
+            skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
+            skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
+        }
+    }
+
+    @IBOutlet weak var skillsCollectionView: UICollectionView! {
+        didSet {
+            skillsCollectionView.backgroundColor = UIColor.clearColor()
+
+            skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
+            skillsCollectionView.registerNibOf(SkillSelectionCell)
+
+            skillsCollectionView.alpha = 0
+        }
+    }
     @IBOutlet weak var skillsCollectionViewBottomConstrain: NSLayoutConstraint!
 
-    @IBOutlet weak var cancelButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton! {
+        didSet {
+            cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
+            cancelButton.alpha = 1
+        }
+    }
+
+    @IBOutlet weak var backButton: UIButton! {
+        didSet {
+            backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+            backButton.alpha = 0
+        }
+    }
 
     let annotationHeight: CGFloat = 100
     @IBOutlet weak var skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint: NSLayoutConstraint!
@@ -41,7 +68,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
     
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
-        }()
+    }()
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
 
@@ -59,8 +86,6 @@ final class RegisterSelectSkillsViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.clearColor()
-        skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
-        skillsCollectionView.backgroundColor = UIColor.clearColor()
 
         let dismissBackgroundHeight: CGFloat = 120 // not full height // 140
         let skillCategoriesCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: dismissBackgroundHeight, right: 0)
@@ -73,23 +98,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
         effectView.frame = view.bounds
         view.insertSubview(effectView, atIndex: 0)
 
-
-        skillsCollectionView.alpha = 0
-
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
-
-        skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
-        skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
-
-        skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
-        skillsCollectionView.registerNibOf(SkillSelectionCell)
-
-        cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
-        backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
-
-        cancelButton.alpha = 1
-        backButton.alpha = 0
-
 
         let layout = self.skillCategoriesCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
         let originLineSpacing = layout.minimumLineSpacing
@@ -119,7 +128,6 @@ final class RegisterSelectSkillsViewController: UIViewController {
         anim.toValue = originLineSpacing
         
         layout.pop_addAnimation(anim, forKey: "AnimateLine")
-
 
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
