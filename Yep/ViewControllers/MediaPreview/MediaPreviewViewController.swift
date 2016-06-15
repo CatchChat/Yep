@@ -342,7 +342,7 @@ final class MediaPreviewViewController: UIViewController {
 
                     case AVPlayerStatus.ReadyToPlay:
                         println("ReadyToPlay")
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             cell.mediaView.videoPlayerLayer.player?.play()
 
                             cell.mediaView.videoPlayerLayer.hidden = false
@@ -453,7 +453,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     cell.mediaView.image = image
 
                     cell.activityIndicator.stopAnimating()

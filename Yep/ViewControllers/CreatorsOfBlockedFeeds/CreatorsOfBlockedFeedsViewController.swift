@@ -41,7 +41,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
         activityIndicator.startAnimating()
 
         creatorsOfBlockedFeeds(failureHandler: { [weak self] reason, errorMessage in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
@@ -49,7 +49,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
         }, completion: { blockedCreators in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
 
                 self?.blockedCreators = blockedCreators
@@ -133,7 +133,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
             unblockFeedsFromCreator(userID: discoveredUser.id, failureHandler: nil, completion: { success in
                 println("unblockFeedsFromCreator \(success)")
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
 
                     if let strongSelf = self {
                         if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {

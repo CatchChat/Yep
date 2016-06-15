@@ -368,13 +368,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.selectionStyle = .Default
 
                 YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         cell?.infoLabel.text = nickname
                     }
                 }
 
                 YepUserDefaults.badge.bindAndFireListener(Listener.Badge) { [weak cell] badgeName in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
                             cell?.badgeImageView.image = badge.image
                             cell?.badgeImageView.tintColor = badge.color
@@ -395,7 +395,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
 
                 YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak cell] introduction in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         cell?.infoTextView.text = introduction ?? NSLocalizedString("Introduce yourself here.", comment: "")
                     }
                 }
@@ -441,7 +441,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 YepUserDefaults.introduction.value = nil
                             }
                         })
@@ -457,7 +457,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         YepHUD.hideActivityIndicator()
 
                     }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             YepUserDefaults.introduction.value = newIntroduction
                         }
 
@@ -473,7 +473,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
 
                 YepUserDefaults.blogURLString.bindAndFireListener(Listener.Blog) { [weak cell] blogURLString in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         cell?.infoTextView.text = blogURLString ?? NSLocalizedString("Set blog URL here.", comment: "")
                     }
                 }
@@ -524,7 +524,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 YepUserDefaults.blogTitle.value = nil
                                 YepUserDefaults.blogURLString.value = nil
                             }
@@ -570,7 +570,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                             YepHUD.hideActivityIndicator()
 
                         }, completion: { success in
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 YepUserDefaults.blogTitle.value = blogTitle
                                 YepUserDefaults.blogURLString.value = newBlogURLString
                             }
@@ -667,7 +667,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
                     }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) { [weak tableView] in
+                        SafeDispatch.async { [weak tableView] in
                             guard let realm = try? Realm() else {
                                 return
                             }
@@ -709,7 +709,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
                 }, completion: {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
 
                         guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else {
                             return
@@ -752,19 +752,19 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.activityIndicator.stopAnimating()
                 }
                 
             }, completion: { newAvatarURLString in
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
                     println("newAvatarURLString: \(newAvatarURLString)")
 
                     self.updateAvatar() {
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
                             self?.activityIndicator.stopAnimating()
                         }
                     }

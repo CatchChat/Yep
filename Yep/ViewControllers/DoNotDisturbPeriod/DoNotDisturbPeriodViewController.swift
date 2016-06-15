@@ -86,7 +86,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
 
         }, completion: { _ in
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 success()
 

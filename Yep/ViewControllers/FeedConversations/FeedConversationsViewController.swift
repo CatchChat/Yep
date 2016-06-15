@@ -128,7 +128,7 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.feedConversationsTableView.reloadData()
         }
     }

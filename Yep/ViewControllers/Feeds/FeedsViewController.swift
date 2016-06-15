@@ -513,7 +513,7 @@ final class FeedsViewController: BaseViewController {
                     
                     YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
                     }
                     
@@ -591,7 +591,7 @@ final class FeedsViewController: BaseViewController {
 
         let failureHandler: FailureHandler = { reason, errorMessage in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 self?.isFetchingFeeds = false
 
@@ -609,7 +609,7 @@ final class FeedsViewController: BaseViewController {
 
             println("new feeds.count: \(validFeeds.count)")
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 if case .Top = mode where validFeeds.isEmpty {
                     self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
@@ -626,7 +626,7 @@ final class FeedsViewController: BaseViewController {
                 finish?()
             }
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 if let strongSelf = self {
 
@@ -812,7 +812,7 @@ final class FeedsViewController: BaseViewController {
             println("hideFeedsByCreator: \(userID)")
 
             feeds = feeds.filter({ $0.creator.userID != userID })
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.feedsTableView.reloadData()
             }
         }
@@ -832,7 +832,7 @@ final class FeedsViewController: BaseViewController {
 
             self?.newFeedViewController = newFeedViewController
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if let strongSelf = self {
 
@@ -854,7 +854,7 @@ final class FeedsViewController: BaseViewController {
 
             self?.newFeedViewController = nil
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if let strongSelf = self {
 
@@ -1048,7 +1048,7 @@ final class FeedsViewController: BaseViewController {
         vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
         vc.afterDeletedFeedAction = { feedID in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     var deletedFeed: DiscoveredFeed?
                     for feed in strongSelf.feeds {
@@ -1093,7 +1093,7 @@ final class FeedsViewController: BaseViewController {
 
                             let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
                             let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 wayToUpdate.performWithTableView(strongSelf.feedsTableView)
                             }
                         }
