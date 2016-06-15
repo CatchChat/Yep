@@ -236,7 +236,7 @@ final class SearchConversationsViewController: SegueViewController {
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.resultsTableView.reloadData()
 
             if scrollsToTop {

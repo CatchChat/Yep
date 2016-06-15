@@ -148,7 +148,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                     UIView.performWithoutAnimation {
@@ -191,7 +191,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
@@ -206,7 +206,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
 

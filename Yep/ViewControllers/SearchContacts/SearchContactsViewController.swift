@@ -124,7 +124,7 @@ final class SearchContactsViewController: SegueViewController {
     // MARK: Private
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
             if scrollsToTop {
@@ -264,7 +264,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
             //println("searchUsersByQ users: \(users)")
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 guard let filteredFriends = self?.filteredFriends else {
                     return

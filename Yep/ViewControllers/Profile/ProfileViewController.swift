@@ -200,7 +200,7 @@ final class ProfileViewController: SegueViewController {
 
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.introductionText = introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
                             self?.updateProfileCollectionView()
                         }
@@ -483,14 +483,14 @@ final class ProfileViewController: SegueViewController {
 
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.customNavigationItem.title = nickname
                             self?.updateProfileCollectionView()
                         }
                     }
 
                     YepUserDefaults.avatarURLString.bindListener(listener.avatar) { [weak self] avatarURLString in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             let indexPath = NSIndexPath(forItem: 0, inSection: Section.Header.rawValue)
                             if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
                                 if let avatarURLString = avatarURLString {
@@ -518,7 +518,7 @@ final class ProfileViewController: SegueViewController {
 
                     // 对非好友来说，必要
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
 
                         if let realm = try? Realm() {
                             let _ = try? realm.write {
@@ -631,7 +631,7 @@ final class ProfileViewController: SegueViewController {
 
                 updateMyselfWithInfo(info, failureHandler: nil, completion: { success in
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         YepUserDefaults.blogTitle.value = blogTitle
                         YepUserDefaults.blogURLString.value = blogURLString
                     }
@@ -712,7 +712,7 @@ final class ProfileViewController: SegueViewController {
                     YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         guard let realm = try? Realm() else {
                             return
                         }
@@ -751,7 +751,7 @@ final class ProfileViewController: SegueViewController {
             self?.masterSkills = masterSkills
             self?.learningSkills = learningSkills
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.updateMyMasterSkills()
                 self?.updateMyLearningSkills()
 
@@ -837,7 +837,7 @@ final class ProfileViewController: SegueViewController {
     }
 
     private func updateProfileCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.profileCollectionView.collectionViewLayout.invalidateLayout()
             self.profileCollectionView.reloadData()
             self.profileCollectionView.layoutIfNeeded()
@@ -1479,7 +1479,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                                 YepHUD.hideActivityIndicator()
 
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     YepUserDefaults.blogTitle.value = blogTitle
                                     YepUserDefaults.blogURLString.value = blogURLString
                                 }
@@ -1520,7 +1520,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     // 更新自己的 provider enabled 状态
                     let providerName = socialAccount.rawValue
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
 
                         guard let
                             realm = try? Realm(),
@@ -1605,7 +1605,7 @@ extension ProfileViewController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if shareView.progress >= 1.0 {
             shareView.shareActionAnimationAndDoFurther({
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.tryShareMyProfile(nil)
                 }
             })
@@ -1631,7 +1631,7 @@ extension ProfileViewController {
 
                 println("provider: \(provider)")
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.afterOAuthAction?(socialAccount: socialAccount)
                 }
             })

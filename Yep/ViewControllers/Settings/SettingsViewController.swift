@@ -65,7 +65,7 @@ final class SettingsViewController: BaseViewController {
         title = NSLocalizedString("Settings", comment: "")
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.settingsTableView.reloadData()
             }
         }

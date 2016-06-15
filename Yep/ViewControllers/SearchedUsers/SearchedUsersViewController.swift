@@ -48,12 +48,12 @@ final class SearchedUsersViewController: BaseViewController {
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { [weak self] users in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
                 self?.searchedUsers = users
             }
@@ -63,7 +63,7 @@ final class SearchedUsersViewController: BaseViewController {
     // MARK: Actions
 
     private func updateSearchedUsersTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.searchedUsersTableView.reloadData()
         }
     }

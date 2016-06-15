@@ -269,7 +269,7 @@ final class PickLocationViewController: SegueViewController {
     }
 
     private func reloadTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.tableView.reloadData()
         }
     }

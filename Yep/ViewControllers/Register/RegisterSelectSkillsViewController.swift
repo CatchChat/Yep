@@ -137,7 +137,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
             }, completion: { skillCategories in
                 self.skillCategories = skillCategories
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self.updateSkillsCollectionView()
                 }
             })
@@ -153,7 +153,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.skillsCollectionView.collectionViewLayout.invalidateLayout()
             self.skillsCollectionView.reloadData()
             self.skillsCollectionView.layoutIfNeeded()
@@ -268,7 +268,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     // 刷新本次选择类别的 skills
                     self.skillCategoryIndex = indexPath.item
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self.skillsCollectionView.reloadData()
                     }
 
