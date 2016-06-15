@@ -107,7 +107,7 @@ final class YepDownloader: NSObject {
 
             attachmentFinishedAction = { data in
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     guard let realm = try? Realm() else {
                         return
@@ -170,7 +170,7 @@ final class YepDownloader: NSObject {
 
                 thumbnailFinishedAction = { data in
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         guard let realm = try? Realm() else {
                             return
                         }

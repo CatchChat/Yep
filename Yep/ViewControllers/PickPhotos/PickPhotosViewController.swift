@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 import Ruler
 
 protocol ReturnPickedPhotosDelegate: class {
@@ -237,7 +238,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
         self.images = changeDetails.fetchResultAfterChanges
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             // Loop through the visible cell indices
             guard let
                 indexPaths = self.collectionView?.indexPathsForVisibleItems(),

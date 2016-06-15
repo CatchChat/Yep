@@ -2313,7 +2313,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
 
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
@@ -2357,7 +2357,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
 
         failureHandler?(reason: reason, errorMessage: errorMessage)
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let realm = message.realm
 
@@ -2397,7 +2397,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                 println("send messageID: \(messageID), \(NSDate().timeIntervalSince1970)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     let realm = message.realm
 
                     let _ = try? realm?.write {
@@ -2431,7 +2431,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                 let doCreateMessage = {
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             let realm = message.realm
                             let _ = try? realm?.write {
                                 message.messageID = messageID
@@ -2474,7 +2474,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
 
             // before resend, recover MessageSendState
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 let realm = message.realm
 
@@ -2491,7 +2491,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
 
                 failureHandler?(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     let realm = message.realm
 

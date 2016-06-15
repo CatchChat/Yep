@@ -154,7 +154,7 @@ final class DiscoverViewController: BaseViewController {
     @objc private func refresh(sender: UIRefreshControl) {
 
         updateDiscoverUsers(mode: .TopRefresh) {
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 sender.endRefreshing()
             }
         }
@@ -209,7 +209,7 @@ final class DiscoverViewController: BaseViewController {
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
                 self?.isFetching = false
 
@@ -236,7 +236,7 @@ final class DiscoverViewController: BaseViewController {
                 }
             }
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 guard let strongSelf = self else {
                     return

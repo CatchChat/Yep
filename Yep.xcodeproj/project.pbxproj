@@ -273,6 +273,7 @@
 		508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */; };
 		508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */; };
 		508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */; };
+		509202D41D112FA700E6FF33 /* SafeDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509202D31D112FA700E6FF33 /* SafeDispatch.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
 		5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */; };
@@ -932,6 +933,7 @@
 		508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkInstagramViewController.swift; path = ViewControllers/SocialWorks/SocialWorkInstagramViewController.swift; sourceTree = "<group>"; };
 		508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstagramMediaCell.swift; path = Views/Cells/InstagramMedia/InstagramMediaCell.swift; sourceTree = "<group>"; };
 		508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramMediaCell.xib; path = Views/Cells/InstagramMedia/InstagramMediaCell.xib; sourceTree = "<group>"; };
+		509202D31D112FA700E6FF33 /* SafeDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SafeDispatch.swift; path = Helpers/SafeDispatch.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
 		5099B9C81AB9A7CB002F940B /* CameraPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraPreviewView.swift; path = Views/CameraPreview/CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -3043,6 +3045,7 @@
 			children = (
 				50D84F0B1CF2DB470018D91F /* CancelableTask.swift */,
 				50CE7BDA1CF450A300488E5B /* YepMedia.swift */,
+				509202D31D112FA700E6FF33 /* SafeDispatch.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -4491,6 +4494,7 @@
 				50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */,
 				5056EAAC1CF2C6A200FDE07E /* Models.swift in Sources */,
 				50D84EF61CF2D4790018D91F /* Array+Yep.swift in Sources */,
+				509202D41D112FA700E6FF33 /* SafeDispatch.swift in Sources */,
 				5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */,
 				5056EAB31CF2C6B000FDE07E /* YepService.swift in Sources */,
 				50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */,

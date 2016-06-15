@@ -157,7 +157,7 @@ extension YepFayeService {
                             recipientType = messageDataInfo["recipient_type"] as? String,
                             recipientID = messageDataInfo["recipient_id"] as? String {
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
 
                                 let object = [
                                     "last_read_at": lastReadAt,
@@ -279,7 +279,7 @@ extension YepFayeService {
             }
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             guard let realm = try? Realm() else {
                 return

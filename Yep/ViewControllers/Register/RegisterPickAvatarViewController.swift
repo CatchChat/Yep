@@ -165,7 +165,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
             }, completion: { newAvatarURLString in
                 YepHUD.hideActivityIndicator()
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
@@ -183,7 +183,7 @@ extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UIN
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.avatar = image
             self?.pickAvatarState = .Captured
         }

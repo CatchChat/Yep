@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 import Ruler
 
 final class PhotoCell: UICollectionViewCell {
@@ -32,7 +33,7 @@ final class PhotoCell: UICollectionViewCell {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
                 self?.imageManager?.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { [weak self] image, info in
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.photoImageView.image = image
                     }
                 }

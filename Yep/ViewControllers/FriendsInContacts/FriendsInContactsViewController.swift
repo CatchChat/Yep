@@ -63,19 +63,19 @@ final class FriendsInContactsViewController: BaseViewController {
         //println("uploadContacts: \(uploadContacts)")
         println("uploadContacts.count: \(uploadContacts.count)")
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.activityIndicator.startAnimating()
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.discoveredUsers = discoveredUsers
 
                 self?.activityIndicator.stopAnimating()

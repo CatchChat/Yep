@@ -146,7 +146,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
         self.audioPlayedDuration = audioPlayedDuration
         
         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { [weak self] progress, _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.loadingWithProgress(progress)
             }
         })

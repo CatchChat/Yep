@@ -73,7 +73,7 @@ final class ConversationsViewController: BaseViewController {
 
     private var unreadMessagesCount: Int = 0 {
         willSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if newValue > 0 {
                     self?.navigationItem.title = "Yep(\(newValue))"
                 } else {
@@ -149,13 +149,13 @@ final class ConversationsViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Message.Notification.MessageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.reloadConversationsTableView()
             }
         }
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.reloadConversationsTableView()
             }
         }
@@ -163,7 +163,7 @@ final class ConversationsViewController: BaseViewController {
         navigationItem.titleView = activityIndicatorTitleView
 
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicatorTitleView.state = isFetching ? .Active : .Normal
             }
         }
@@ -383,7 +383,7 @@ final class ConversationsViewController: BaseViewController {
 
         vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 guard let row = self?.conversations.indexOf(conversation) else {
                     return
@@ -402,14 +402,14 @@ final class ConversationsViewController: BaseViewController {
 
     @objc private func reloadConversationsTableView() {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.conversationsTableView.reloadData()
         }
     }
 
     @objc private func reloadFeedConversationsDock() {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             let sectionIndex = Section.FeedConversation.rawValue
             guard (self?.conversationsTableView.numberOfSections ?? 0) > sectionIndex else {
                 self?.conversationsTableView.reloadData()
@@ -596,7 +596,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     tableView.setEditing(false, animated: true)
 
                     // update cell
@@ -610,12 +610,12 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 }
 
             }, afterDeleted: {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 }
 
             }, orCanceled: {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     tableView.setEditing(false, animated: true)
                 }
             })

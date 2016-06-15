@@ -260,7 +260,7 @@ public class Group: Object {
         if let conversation = conversation {
             realm.delete(conversation)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
@@ -1640,7 +1640,7 @@ public func handleMessageDeletedFromServer(messageID messageID: String) {
 
     let messageIDs: [String] = [message.messageID]
 
-    dispatch_async(dispatch_get_main_queue()) {
+    SafeDispatch.async {
         NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }

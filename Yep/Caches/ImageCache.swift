@@ -58,7 +58,7 @@ final class ImageCache {
         Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSideLengthKey, options: options) { (image, type) -> () in
 
             if let image = image?.decodedImage() {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     completion(url: attachmentURL, image: image, cacheType: type)
                 }
 
@@ -82,7 +82,7 @@ final class ImageCache {
                             })
                         }
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             completion(url: attachmentURL, image: finalImage, cacheType: type)
                         }
                         
@@ -110,12 +110,12 @@ final class ImageCache {
                                 
                                 //println("Image Decode size \(storeImage.size)")
                                 
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     completion(url: attachmentURL, image: finalImage, cacheType: .None)
                                 }
 
                             } else {
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     completion(url: attachmentURL, image: nil, cacheType: .None)
                                 }
                             }
@@ -173,7 +173,7 @@ final class ImageCache {
 
                             self.cache.setObject(bubbleBlurredThumbnailImage, forKey: thumbnailKey)
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 completion(loadingProgress: preloadingPropgress, image: bubbleBlurredThumbnailImage)
                             }
 
@@ -182,7 +182,7 @@ final class ImageCache {
                             // 或放个默认的图片
                             let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 completion(loadingProgress: preloadingPropgress, image: defaultImage)
                             }
                             */
@@ -205,7 +205,7 @@ final class ImageCache {
                         
                         self.cache.setObject(messageImage, forKey: imageKey)
                         
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             completion(loadingProgress: 1.0, image: messageImage)
                         }
                         
@@ -224,7 +224,7 @@ final class ImageCache {
                 // 下载
 
                 if imageURLString.isEmpty {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         completion(loadingProgress: 1.0, image: nil)
                     }
 
@@ -238,7 +238,7 @@ final class ImageCache {
                         let mediaType = message.mediaType
 
                         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress, image in
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 completion(loadingProgress: progress, image: image)
                             }
 
@@ -251,7 +251,7 @@ final class ImageCache {
 
                             self.cache.setObject(messageImage, forKey: imageKey)
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 if mediaType == MessageMediaType.Image.rawValue {
                                     completion(loadingProgress: 1.0, image: messageImage)
                                     
@@ -302,7 +302,7 @@ final class ImageCache {
                     }
 
                 } else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         completion(loadingProgress: 1.0, image: nil)
                     }
                 }
@@ -345,7 +345,7 @@ final class ImageCache {
 
                                 self.cache.setObject(mapImage, forKey: imageKey)
 
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     completion(mapImage)
                                 }
 
@@ -408,7 +408,7 @@ final class ImageCache {
 
                                 if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
 
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    SafeDispatch.async {
                                         
                                         if let realm = message.realm {
                                             let _ = try? realm.write {
@@ -423,7 +423,7 @@ final class ImageCache {
 
                             self.cache.setObject(mapImage, forKey: imageKey)
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 completion(mapImage)
                             }
                         }
@@ -461,7 +461,7 @@ final class ImageCache {
 
                     self.cache.setObject(image, forKey: imageKey)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         completion(image)
                     }
                 }

@@ -78,7 +78,7 @@ final class NotificationsViewController: SegueViewController {
 
     private var doNotDisturbPeriod = DoNotDisturbPeriod() {
         didSet {
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self.tableView.reloadData()
             }
         }
@@ -163,7 +163,7 @@ final class NotificationsViewController: SegueViewController {
 
                     }, completion: { success in
 
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
 
                             guard let realm = try? Realm() else {
                                 return
@@ -209,7 +209,7 @@ final class NotificationsViewController: SegueViewController {
 
                     }, completion: { success in
 
-                        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                        SafeDispatch.async { [weak self] in
 
                             // clean UI
                             self?.doNotDisturbPeriod = DoNotDisturbPeriod()
@@ -299,7 +299,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
                         self?.enableDoNotDisturb(failed: {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 self?.doNotDisturbPeriod.isOn = false
                                 self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
                             }
@@ -309,7 +309,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
 
                         self?.disableDoNotDisturb(failed: {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 self?.doNotDisturbPeriod.isOn = true
                                 self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                             }

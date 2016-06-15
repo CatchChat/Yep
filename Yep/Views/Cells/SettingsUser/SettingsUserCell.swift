@@ -40,19 +40,19 @@ final class SettingsUserCell: UITableViewCell {
         avatarImageViewWidthConstraint.constant = avatarSize
 
         YepUserDefaults.avatarURLString.bindAndFireListener(Listener.Avatar) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.updateAvatar()
             }
         }
 
         YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak self] nickname in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.nameLabel.text = nickname
             }
         }
 
         YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak self] introduction in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.introLabel.text = introduction
             }
         }

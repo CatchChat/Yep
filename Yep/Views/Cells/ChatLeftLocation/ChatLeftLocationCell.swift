@@ -106,7 +106,7 @@ final class ChatLeftLocationCell: ChatBaseCell {
         locationNameLabel.text = locationName
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
                     self.mapImageView.image = mapImage
                 }

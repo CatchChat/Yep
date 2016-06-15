@@ -164,7 +164,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
                 YepHUD.hideActivityIndicator()
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     self.nextButton.enabled = false
 

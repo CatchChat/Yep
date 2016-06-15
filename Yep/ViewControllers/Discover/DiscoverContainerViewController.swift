@@ -157,7 +157,7 @@ class DiscoverContainerViewController: UIViewController {
             let vc = segue.destinationViewController as! DiscoverViewController
 
             vc.showProfileOfDiscoveredUserAction = { discoveredUser in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
                 }
             }

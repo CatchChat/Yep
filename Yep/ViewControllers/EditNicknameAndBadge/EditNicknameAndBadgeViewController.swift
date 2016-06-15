@@ -130,14 +130,14 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         badgeView.enabled = false
                     }
 
                     YepAlert.alertSorry(message: NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         YepUserDefaults.badge.value = newBadgeName
                     }
                 })
@@ -190,7 +190,7 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
         if newNickname != YepUserDefaults.nickname.value {
 
             updateMyselfWithInfo(["nickname": newNickname], failureHandler: nil, completion: { success in
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     YepUserDefaults.nickname.value = newNickname
                 }
             })
@@ -212,7 +212,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
             if newNickname.isEmpty {
                 YepAlert.alertSorry(message: NSLocalizedString("You did not enter any nickname!", comment: ""), inViewController: self, withDismissAction: {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         textField.text = YepUserDefaults.nickname.value
                     }
                 })
@@ -226,7 +226,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
                         YepAlert.alertSorry(message: NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
 
                     }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             YepUserDefaults.nickname.value = newNickname
                         }
                     })

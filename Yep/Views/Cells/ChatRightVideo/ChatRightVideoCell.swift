@@ -106,7 +106,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.thumbnailImageView.alpha = 0.0
         }
 
@@ -135,7 +135,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
                 let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
 
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -157,7 +157,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
                 let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
 
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -180,7 +180,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
             let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
 
             thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.loadingWithProgress(loadingProgress, image: image)
                 }
             })

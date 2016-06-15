@@ -96,7 +96,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
                 skillCardCache[discoveredUser.id] = processedImage
             }
             
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.skillImageView.image = skillImage
             }
         }

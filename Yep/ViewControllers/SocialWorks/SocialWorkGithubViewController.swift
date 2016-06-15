@@ -128,7 +128,7 @@ final class SocialWorkGithubViewController: BaseViewController {
                 }, completion: { githubWork in
                     println("githubWork: \(githubWork)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self.githubUser = githubWork.user
                         self.githubRepos = githubWork.repos
 
@@ -142,7 +142,7 @@ final class SocialWorkGithubViewController: BaseViewController {
     // MARK: Actions
 
     private func updateGithubTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.githubTableView.reloadData()
         }
     }

@@ -296,7 +296,7 @@ final class MediaPreviewView: UIView {
                         VideoPrepareState.readyToPlay = true
 
                         delay(0.3) {
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
                                 self.mediaView.videoPlayerLayer.player?.play()
                             }
                         }

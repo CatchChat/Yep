@@ -130,7 +130,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
                     return nil
                 })
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.feedAttachments = feedAttachments
 
                     completion?(feeds: validFeeds, feedAttachments: feedAttachments)

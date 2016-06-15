@@ -199,7 +199,7 @@ final class EditSkillsViewController: BaseViewController {
 
             vc.syncSkillsFromServerAction = { [weak self] in
                 syncMyInfoAndDoFurtherAction {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.updateSkillsTableView()
                         self?.afterChangedSkillsAction?()
                     }

@@ -154,7 +154,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
         loadingProgress = 0
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             if let strongSelf = self {
                 strongSelf.thumbnailImageView.alpha = 0.0
             }
@@ -185,7 +185,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
                 let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
 
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -207,7 +207,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
                 let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
 
                 thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -230,7 +230,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
             let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
 
             thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.loadingWithProgress(loadingProgress, image: image)
                 }
             })

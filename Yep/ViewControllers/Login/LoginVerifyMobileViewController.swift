@@ -149,7 +149,7 @@ final class LoginVerifyMobileViewController: UIViewController {
 
                 YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     UIView.performWithoutAnimation {
                         self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                         self?.callMeButton.layoutIfNeeded()
@@ -190,12 +190,12 @@ final class LoginVerifyMobileViewController: UIViewController {
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.nextButton.enabled = false
                 }
 
                 YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.verifyCodeTextField.becomeFirstResponder()
                     }
                 })
@@ -207,7 +207,7 @@ final class LoginVerifyMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
                 

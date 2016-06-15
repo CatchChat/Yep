@@ -166,13 +166,13 @@ final class ContactsViewController: BaseViewController {
         })
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.updateContactsTableView()
             }
         }
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.updateContactsTableView()
             }
         }
@@ -201,7 +201,7 @@ final class ContactsViewController: BaseViewController {
     }
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
             if scrollsToTop {
@@ -212,7 +212,7 @@ final class ContactsViewController: BaseViewController {
 
     @objc private func syncFriendships(sender: NSNotification) {
         syncFriendshipsAndDoFurtherAction {
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self.updateContactsTableView()
             }
         }
@@ -481,7 +481,7 @@ extension ContactsViewController: UISearchResultsUpdating {
 
             //println("searchUsersByQ users: \(users)")
             
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 guard let filteredFriends = self?.filteredFriends else {
                     return

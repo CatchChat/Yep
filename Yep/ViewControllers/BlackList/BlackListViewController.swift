@@ -43,14 +43,14 @@ final class BlackListViewController: BaseViewController {
         activityIndicator.startAnimating()
 
         blockedUsersByMe(failureHandler: { [weak self] reason, errorMessage in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
             YepAlert.alertSorry(message: NSLocalizedString("Netword Error: Faild to get blocked users!", comment: ""), inViewController: self)
 
         }, completion: { blockedUsers in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
 
                 self?.blockedUsers = blockedUsers
@@ -134,7 +134,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
             unblockUserWithUserID(discoveredUser.id, failureHandler: nil, completion: { success in
                 println("unblockUserWithUserID \(success)")
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
 
                     guard let realm = try? Realm() else {
                         return

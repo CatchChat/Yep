@@ -80,7 +80,7 @@ final class ServiceTests: XCTestCase {
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     sendText("How do you do?", toRecipient: groupID, recipientType: "Circle", afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
 
                         if success {

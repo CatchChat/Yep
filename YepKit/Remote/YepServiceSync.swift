@@ -18,7 +18,7 @@ public enum MessageAge: String {
 public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             let object = [
                 "messageIDs": messageIDs,
                 "messageAge": messageAge.rawValue,
@@ -408,7 +408,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
                 _ = conversationWithDiscoveredUser($0, inRealm: realm)
             })
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
@@ -419,7 +419,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
                 syncFeedGroupWithGroupInfo($0, inRealm: realm)
             })
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
@@ -447,7 +447,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
 
         let _ = try? realm.commitWrite()
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
         }
@@ -646,7 +646,7 @@ public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
             let _ = try? realm.commitWrite()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
 
@@ -836,7 +836,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
     isFetchingUnreadMessages.value = true
 
-    dispatch_async(dispatch_get_main_queue()) {
+    SafeDispatch.async {
     
         println("Begin fetching")
         
@@ -844,7 +844,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 
                 furtherAction(messageIDs: [])
@@ -879,7 +879,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
                 let _ = try? realm.commitWrite()
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     isFetchingUnreadMessages.value = false
 
                     furtherAction(messageIDs: messageIDs)
@@ -1107,7 +1107,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                                     let _ = try? realm.commitWrite()
 
                                                     delay(1) {
-                                                        dispatch_async(dispatch_get_main_queue()) {
+                                                        SafeDispatch.async {
                                                             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
                                                         }
                                                     }
@@ -1153,7 +1153,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                     
                                     userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
 
-                                        dispatch_async(dispatch_get_main_queue()) {
+                                        SafeDispatch.async {
                                             guard let realm = try? Realm() else { return }
 
                                             realm.beginWrite()
@@ -1228,7 +1228,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
 
                             if createdNewConversation {
 
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                                 }
                             }

@@ -82,7 +82,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.skillsCollectionView.reloadData()
         }
     }
@@ -141,7 +141,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
 
                     YepHUD.hideActivityIndicator()
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
                             appDelegate.startMainStory()
                         }

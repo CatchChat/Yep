@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import YepKit
 import RealmSwift
 import Navi
 
@@ -56,7 +57,7 @@ func cleanRealmAndCaches() {
 
     clearDynamicShortcuts()
 
-    dispatch_async(dispatch_get_main_queue()) {
+    SafeDispatch.async {
         NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
     }
 }

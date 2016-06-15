@@ -130,7 +130,7 @@ final class LoginByMobileViewController: BaseViewController {
             } else {
                 if let errorMessage = errorMessage {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             self?.mobileNumberTextField.becomeFirstResponder()
                         }
                     })
@@ -142,7 +142,7 @@ final class LoginByMobileViewController: BaseViewController {
             YepHUD.hideActivityIndicator()
 
             if success {
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.showLoginVerifyMobile()
                 }
 

@@ -362,7 +362,7 @@ final class NewFeedViewController: SegueViewController {
 
                     let image = snapshot.image
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.locationMapImageView.image = image
                     }
                 }
@@ -692,7 +692,7 @@ final class NewFeedViewController: SegueViewController {
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
                         self?.uploadState = .Failed(message: message)
                     }
@@ -700,7 +700,7 @@ final class NewFeedViewController: SegueViewController {
                 }, completion: { data in
                     println("createFeedWithKind: \(data)")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
 
                         self?.uploadState = .Success
 
@@ -733,14 +733,14 @@ final class NewFeedViewController: SegueViewController {
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(parseOpenGraphGroup)
                 }
 
             }, completion: { _openGraph in
                 println("_openGraph: \(_openGraph)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     openGraph = _openGraph
 
                     dispatch_group_leave(parseOpenGraphGroup)
@@ -962,7 +962,7 @@ final class NewFeedViewController: SegueViewController {
 
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     uploadErrorMessage = errorMessage
                     dispatch_group_leave(uploadVoiceGroup)
                 }
@@ -975,7 +975,7 @@ final class NewFeedViewController: SegueViewController {
 
                 attachments = [audioInfo]
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     dispatch_group_leave(uploadVoiceGroup)
                 }
             })

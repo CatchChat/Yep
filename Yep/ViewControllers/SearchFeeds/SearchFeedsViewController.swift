@@ -366,7 +366,7 @@ final class SearchFeedsViewController: SegueViewController {
 
         let failureHandler: FailureHandler = { reason, errorMessage in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 self?.isFetchingFeeds = false
 
@@ -380,7 +380,7 @@ final class SearchFeedsViewController: SegueViewController {
 
         feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] validFeeds, originalFeedsCount  in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 guard let strongSelf = self else {
                     return
@@ -439,7 +439,7 @@ final class SearchFeedsViewController: SegueViewController {
     }
 
     private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.feedsTableView.reloadData()
 
             if scrollsToTop {
@@ -497,7 +497,7 @@ final class SearchFeedsViewController: SegueViewController {
             vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
 
             vc.afterDeletedFeedAction = { feedID in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     if let strongSelf = self {
                         var deletedFeed: DiscoveredFeed?
                         for feed in strongSelf.feeds {
@@ -542,7 +542,7 @@ final class SearchFeedsViewController: SegueViewController {
 
                                 let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
                                 let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
-                                dispatch_async(dispatch_get_main_queue()) {
+                                SafeDispatch.async {
                                     wayToUpdate.performWithTableView(strongSelf.feedsTableView)
                                 }
                             }
