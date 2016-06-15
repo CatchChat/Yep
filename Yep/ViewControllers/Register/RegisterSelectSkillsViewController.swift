@@ -79,9 +79,10 @@ final class RegisterSelectSkillsViewController: UIViewController {
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
 
         skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
-
         skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
-        skillCategoriesCollectionView.registerNibOf(SkillSelectionCell)
+
+        skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
+        skillsCollectionView.registerNibOf(SkillSelectionCell)
 
         cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
         backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
