@@ -157,7 +157,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
                 messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -183,7 +183,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
                 messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.loadingWithProgress(loadingProgress, image: image)
                     }
                 })
@@ -209,7 +209,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
             let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
 
             messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.loadingWithProgress(loadingProgress, image: image)
                 }
             })
