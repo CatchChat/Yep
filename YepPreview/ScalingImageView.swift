@@ -45,7 +45,14 @@ class ScalingImageView: UIScrollView {
         self.imageType = imageType
         super.init(frame: frame)
 
-        addSubview(imageView)
+        self.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.showsVerticalScrollIndicator = false
+        self.showsHorizontalScrollIndicator = false
+        self.bouncesZoom = true
+        self.decelerationRate = UIScrollViewDecelerationRateFast
+
+        self.addSubview(imageView)
+
         self.image = imageType.image
     }
     
@@ -69,6 +76,7 @@ class ScalingImageView: UIScrollView {
         contentSize = image.size
 
         updateZoomScaleWithImage(image)
+
         centerContent()
     }
 
