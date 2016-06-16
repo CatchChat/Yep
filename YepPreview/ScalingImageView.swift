@@ -27,31 +27,40 @@ class ScalingImageView: UIScrollView {
         }
     }
 
-    let imageType: ImageType
+    private let imageType: ImageType
 
-    lazy var imageView = UIImageView()
+    private lazy var imageView = UIImageView()
+
+    var image: UIImage? {
+        didSet {
+            if let image = image {
+                setupWithImage(image)
+            }
+        }
+    }
+
+    // MARK: Init
 
     init(frame: CGRect, imageType: ImageType) {
         self.imageType = imageType
         super.init(frame: frame)
 
-        setupImageView()
+        addSubview(imageView)
+        self.image = imageType.image
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupImageView() {
+    // MARK: Setup
 
-        if let image = imageType.image {
-            updateImage(image)
-        }
+    private func setupWithImage(image: UIImage) {
 
-        addSubview(imageView)
+        updateWithImage(image)
     }
 
-    private func updateImage(image: UIImage) {
+    private func updateWithImage(image: UIImage) {
 
         imageView.transform = CGAffineTransformIdentity
         imageView.image = image
