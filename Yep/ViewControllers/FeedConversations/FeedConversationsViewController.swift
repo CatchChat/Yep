@@ -16,9 +16,6 @@ final class FeedConversationsViewController: SegueViewController {
         didSet {
             feedConversationsTableView.registerNibOf(FeedConversationCell)
             feedConversationsTableView.registerNibOf(DeletedFeedConversationCell)
-
-            feedConversationsTableView.rowHeight = 80
-            feedConversationsTableView.tableFooterView = UIView()
         }
     }
 
@@ -27,15 +24,15 @@ final class FeedConversationsViewController: SegueViewController {
         return item
     }()
 
-    var realm: Realm!
+    private var realm: Realm!
 
-    var haveUnreadMessages = false {
+    private var haveUnreadMessages = false {
         didSet {
             reloadFeedConversationsTableView()
         }
     }
 
-    lazy var feedConversations: Results<Conversation> = {
+    private lazy var feedConversations: Results<Conversation> = {
         return feedConversationsInRealm(self.realm)
     }()
     private var unreadFeedConversations: Results<Conversation>? {
@@ -83,9 +80,12 @@ final class FeedConversationsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        realm = try! Realm()
+
         title = NSLocalizedString("Feeds", comment: "")
 
-        realm = try! Realm()
+        feedConversationsTableView.rowHeight = 80
+        feedConversationsTableView.tableFooterView = UIView()
 
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
             let predicate = NSPredicate(format: "hasUnreadMessages = true")
