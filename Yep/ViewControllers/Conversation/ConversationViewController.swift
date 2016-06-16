@@ -3251,6 +3251,7 @@ final class ConversationViewController: BaseViewController {
         switch identifier {
 
         case "showContacts":
+
             let vc = segue.destinationViewController as! ContactsViewController
             vc.conversationToShare = self.conversationToShare
             let box = sender as! Box<Conversation>
