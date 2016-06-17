@@ -10,7 +10,15 @@ import UIKit
 
 class PhotosViewController: UIViewController {
 
-    private lazy var pageViewController = UIPageViewController()
+    private lazy var pageViewController: UIPageViewController = {
+        let vc = UIPageViewController(
+            transitionStyle: .Scroll,
+            navigationOrientation: .Horizontal,
+            options: [UIPageViewControllerOptionInterPageSpacingKey: 16])
+        vc.dataSource = self
+        vc.delegate = self
+        return vc
+    }()
 
     private var currentPhotoViewController: PhotoViewController?
 
@@ -47,6 +55,7 @@ class PhotosViewController: UIViewController {
 
         //overlayView...
 
+
         
     }
     
@@ -72,4 +81,27 @@ class PhotosViewController: UIViewController {
 
     }
 }
+
+extension PhotosViewController: UIPageViewControllerDataSource {
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+
+        // TODO
+        return nil
+    }
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        // TODO
+        return nil
+    }
+}
+
+extension PhotosViewController: UIPageViewControllerDelegate {
+
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+
+        // TODO
+    }
+}
+
 
