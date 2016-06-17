@@ -10,28 +10,15 @@ import UIKit
 
 class ScalingImageView: UIScrollView {
 
-    enum ImageType {
-
-        case image(UIImage)
-        case imageData(NSData)
-        case imageURL(NSURL)
-        case imageFileURL(NSURL)
-
-        var image: UIImage? {
-            switch self {
-            case .image(let image): return image
-            case .imageData(let data): return UIImage(data: data)
-            case .imageURL: return nil
-            case .imageFileURL: return nil
-            }
+    var imageType: ImageType? {
+        didSet {
+            self.image = imageType?.image
         }
     }
 
-    private let imageType: ImageType?
-
     private lazy var imageView = UIImageView()
 
-    var image: UIImage? {
+    private var image: UIImage? {
         didSet {
             if let image = image {
                 setupWithImage(image)
@@ -52,8 +39,6 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
-
-        self.image = imageType?.image
     }
     
     required init?(coder aDecoder: NSCoder) {

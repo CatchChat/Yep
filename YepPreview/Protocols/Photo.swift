@@ -10,7 +10,6 @@ import Foundation
 
 protocol Photo: class {
 
-    var image: UIImage? { get }
-    var imageData: NSData? { get }
+    var imageType: ImageType { get }
 }
 

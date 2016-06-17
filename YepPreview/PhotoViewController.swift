@@ -46,6 +46,8 @@ class PhotoViewController: UIViewController {
         self.photo = photo
 
         super.init(nibName: nil, bundle: nil)
+
+        scalingImageView.imageType = photo.imageType
     }
     
     required init?(coder aDecoder: NSCoder) {
