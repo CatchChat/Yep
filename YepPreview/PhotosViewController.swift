@@ -69,6 +69,7 @@ class PhotosViewController: UIViewController {
             }
             initialPhotoViewController = newPhotoViewControllerForPhoto(firstPhoto)
         }
+        setCurrentlyDisplayedViewController(initialPhotoViewController, animated: false)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -86,6 +87,11 @@ class PhotosViewController: UIViewController {
         // ...
 
         return photoViewController
+    }
+
+    private func setCurrentlyDisplayedViewController(vc: PhotoViewController, animated: Bool) {
+
+        pageViewController.setViewControllers([vc], direction: .Forward, animated: animated, completion: nil)
     }
 
     // MARK: Life Circle
