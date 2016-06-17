@@ -509,6 +509,7 @@
 		50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F591D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift */; };
 		50FE6F5D1D13E450009BFEC7 /* PhotoTransitonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F5C1D13E450009BFEC7 /* PhotoTransitonController.swift */; };
 		50FE6F5F1D13E507009BFEC7 /* PhotoTransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F5E1D13E507009BFEC7 /* PhotoTransitionAnimator.swift */; };
+		50FE6F611D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F601D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -1209,6 +1210,7 @@
 		50FE6F591D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotosViewControllerDelegate.swift; path = Protocols/PhotosViewControllerDelegate.swift; sourceTree = "<group>"; };
 		50FE6F5C1D13E450009BFEC7 /* PhotoTransitonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoTransitonController.swift; path = Transiton/PhotoTransitonController.swift; sourceTree = "<group>"; };
 		50FE6F5E1D13E507009BFEC7 /* PhotoTransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoTransitionAnimator.swift; path = Transiton/PhotoTransitionAnimator.swift; sourceTree = "<group>"; };
+		50FE6F601D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoDismissalInteractionController.swift; path = Transiton/PhotoDismissalInteractionController.swift; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -3435,6 +3437,7 @@
 			isa = PBXGroup;
 			children = (
 				50FE6F5E1D13E507009BFEC7 /* PhotoTransitionAnimator.swift */,
+				50FE6F601D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift */,
 				50FE6F5C1D13E450009BFEC7 /* PhotoTransitonController.swift */,
 			);
 			name = Transiton;
@@ -4813,6 +4816,7 @@
 				50FE6F501D138940009BFEC7 /* Photo.swift in Sources */,
 				50FE6F4B1D128DB9009BFEC7 /* ScalingImageView.swift in Sources */,
 				50FE6F5F1D13E507009BFEC7 /* PhotoTransitionAnimator.swift in Sources */,
+				50FE6F611D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift in Sources */,
 				50FE6F4D1D138599009BFEC7 /* PhotoViewController.swift in Sources */,
 				50FE6F521D1390CB009BFEC7 /* ImageType.swift in Sources */,
 				50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */,
