@@ -12,10 +12,30 @@ class PhotoViewController: UIViewController {
 
     let photo: Photo
 
-    private var scalingImageView: ScalingImageView?
+    private lazy var scalingImageView: ScalingImageView = {
+        let view = ScalingImageView(frame: self.view.bounds, imageType: nil)
+        return view
+    }()
+
+    private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer()
+        tap.addTarget(self, action: #selector(doubleTapped(_:)))
+        tap.numberOfTapsRequired = 2
+        return tap
+    }()
+
+    private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+        let longPress = UILongPressGestureRecognizer()
+        longPress.addTarget(self, action: #selector(longPressed(_:)))
+        return longPress
+    }()
+
+    struct Notification {
+        static let photoImageUpdated = "PhotoViewControllerPhotoImageUpdatedNotification"
+    }
 
     deinit {
-        scalingImageView?.delegate = nil
+        scalingImageView.delegate = nil
 
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -33,7 +53,25 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(photoImageUpdated(_:)), name: Notification.photoImageUpdated, object: nil)
+
+        scalingImageView.frame = view.bounds
+        view.addSubview(scalingImageView)
+
+        view.addGestureRecognizer(doubleTapGestureRecognizer)
+        view.addGestureRecognizer(longPressGestureRecognizer)
+    }
+
+    @objc private func photoImageUpdated(sender: NSNotification) {
+        
+    }
+
+    @objc private func doubleTapped(sender: UITapGestureRecognizer) {
+
+    }
+
+    @objc private func longPressed(sender: UILongPressGestureRecognizer) {
+
     }
 }
 

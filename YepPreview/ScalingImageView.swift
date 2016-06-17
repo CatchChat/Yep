@@ -27,7 +27,7 @@ class ScalingImageView: UIScrollView {
         }
     }
 
-    private let imageType: ImageType
+    private let imageType: ImageType?
 
     private lazy var imageView = UIImageView()
 
@@ -41,7 +41,7 @@ class ScalingImageView: UIScrollView {
 
     // MARK: Init
 
-    init(frame: CGRect, imageType: ImageType) {
+    init(frame: CGRect, imageType: ImageType?) {
         self.imageType = imageType
         super.init(frame: frame)
 
@@ -53,7 +53,7 @@ class ScalingImageView: UIScrollView {
 
         self.addSubview(imageView)
 
-        self.image = imageType.image
+        self.image = imageType?.image
     }
     
     required init?(coder aDecoder: NSCoder) {
