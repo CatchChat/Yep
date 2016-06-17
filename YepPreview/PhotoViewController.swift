@@ -17,6 +17,12 @@ class PhotoViewController: UIViewController {
         return view
     }()
 
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
     private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
         tap.addTarget(self, action: #selector(doubleTapped(_:)))
@@ -49,6 +55,10 @@ class PhotoViewController: UIViewController {
 
         scalingImageView.imageType = photo.imageType
         scalingImageView.delegate = self
+
+        if photo.imageType.image == nil {
+            loadingView.startAnimating()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +75,8 @@ class PhotoViewController: UIViewController {
         scalingImageView.frame = view.bounds
         view.addSubview(scalingImageView)
 
+        view.addSubview(loadingView)
+
         view.addGestureRecognizer(doubleTapGestureRecognizer)
         view.addGestureRecognizer(longPressGestureRecognizer)
     }
@@ -73,6 +85,8 @@ class PhotoViewController: UIViewController {
         super.viewWillLayoutSubviews()
 
         scalingImageView.frame = view.bounds
+
+        loadingView.center = CGPoint(x: view.bounds.midX, y: view.bounds.minY)
     }
 
     // MARK: Selectors
