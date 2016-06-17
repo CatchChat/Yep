@@ -92,7 +92,21 @@ class PhotoViewController: UIViewController {
     // MARK: Selectors
 
     @objc private func photoImageUpdated(sender: NSNotification) {
-        
+
+        // TODO: check photo
+
+        guard let photo = sender.object as? Photo else {
+            return
+        }
+
+        scalingImageView.imageType = photo.imageType
+
+        let needLoad = (scalingImageView.imageType?.image == nil)
+        if needLoad {
+            loadingView.startAnimating()
+        } else {
+            loadingView.stopAnimating()
+        }
     }
 
     @objc private func doubleTapped(sender: UITapGestureRecognizer) {
