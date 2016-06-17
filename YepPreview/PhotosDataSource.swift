@@ -15,6 +15,9 @@ class PhotosDataSource: NSObject {
     init(photos: NSArray) {
         self.photos = photos
     }
+}
+
+extension PhotosDataSource: PhotosViewControllerDataSource {
 
     var numberOfPhotos: Int {
 
