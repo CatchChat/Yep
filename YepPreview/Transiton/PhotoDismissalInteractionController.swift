@@ -37,7 +37,7 @@ class PhotoDismissalInteractionController: NSObject {
         fromView.backgroundColor = fromView.backgroundColor?.colorWithAlphaComponent(backgroundAlpha)
 
         if pan.state == .Ended {
-
+            finishPanWithPanGestureRecognizer(pan, verticalDelta: verticalDelta, viewToPan: viewToPan, anchorPoint: anchorPoint)
         }
     }
 
