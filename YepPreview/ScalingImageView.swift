@@ -101,6 +101,5 @@ class ScalingImageView: UIScrollView {
 
         contentInset = UIEdgeInsets(top: verticalInset, left: horizontalInset, bottom: verticalInset, right: horizontalInset)
     }
-
 }
 

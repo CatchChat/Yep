@@ -25,14 +25,14 @@ class PhotoViewController: UIViewController {
 
     private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
-        tap.addTarget(self, action: #selector(doubleTapped(_:)))
+        tap.addTarget(self, action: #selector(didDoubleTap(_:)))
         tap.numberOfTapsRequired = 2
         return tap
     }()
 
     private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
         let longPress = UILongPressGestureRecognizer()
-        longPress.addTarget(self, action: #selector(longPressed(_:)))
+        longPress.addTarget(self, action: #selector(didLongPress(_:)))
         return longPress
     }()
 
@@ -109,7 +109,7 @@ class PhotoViewController: UIViewController {
         }
     }
 
-    @objc private func doubleTapped(sender: UITapGestureRecognizer) {
+    @objc private func didDoubleTap(sender: UITapGestureRecognizer) {
 
         let pointInView = sender.locationInView(scalingImageView.imageView)
 
@@ -130,9 +130,9 @@ class PhotoViewController: UIViewController {
         scalingImageView.zoomToRect(rectToZoomTo, animated: true)
     }
 
-    @objc private func longPressed(sender: UILongPressGestureRecognizer) {
+    @objc private func didLongPress(sender: UILongPressGestureRecognizer) {
 
-        // TODO: longPressed
+        // TODO: didLongPress
     }
 }
 
