@@ -132,6 +132,7 @@ class PhotoViewController: UIViewController {
 
     @objc private func longPressed(sender: UILongPressGestureRecognizer) {
 
+        // TODO: longPressed
     }
 }
 
