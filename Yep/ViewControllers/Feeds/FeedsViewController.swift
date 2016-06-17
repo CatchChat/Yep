@@ -373,7 +373,7 @@ final class FeedsViewController: BaseViewController {
 
         if skill != nil {
             searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
-            activityIndicatorTopConstraint.constant = 200
+            //activityIndicatorTopConstraint.constant = 200
         }
 
         if profileUser != nil {
@@ -712,17 +712,18 @@ final class FeedsViewController: BaseViewController {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-                if let filterOption = filterOption {
-                    switch filterOption {
-                    case .Recommended:
-                        feedSortStyle = .Recommended
-                    case .Lately:
-                        feedSortStyle = .Time
-                    }
-
-                } else {
-                    feedSortStyle = .Time
-                }
+//                if let filterOption = filterOption {
+//                    switch filterOption {
+//                    case .Recommended:
+//                        feedSortStyle = .Recommended
+//                    case .Lately:
+//                        feedSortStyle = .Time
+//                    }
+//
+//                } else {
+//                    feedSortStyle = .Time
+//                }
+                feedSortStyle = .Time
             }
 
             let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
@@ -1129,15 +1130,15 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
-        case Filter
         case UploadingFeed
         case Feed
         case LoadMore
+        case Filter
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 5
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
