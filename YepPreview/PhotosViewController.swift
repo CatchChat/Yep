@@ -59,10 +59,33 @@ class PhotosViewController: UIViewController {
         self.modalPresentationCapturesStatusBarAppearance = true
 
         //overlayView...        
+
+        let initialPhotoViewController: PhotoViewController
+        if dataSource.containsPhoto(initialPhoto) {
+            initialPhotoViewController = newPhotoViewControllerForPhoto(initialPhoto)
+        } else {
+            guard let firstPhoto = dataSource.photoAtIndex(0) else {
+                fatalError("Empty dataSource")
+            }
+            initialPhotoViewController = newPhotoViewControllerForPhoto(firstPhoto)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func newPhotoViewControllerForPhoto(photo: Photo) -> PhotoViewController {
+
+        let photoViewController = PhotoViewController(photo: photo)
+
+        //photoViewController.delegate = self
+
+        singleTapGestureRecognizer.requireGestureRecognizerToFail(photoViewController.doubleTapGestureRecognizer)
+
+        // ...
+
+        return photoViewController
     }
 
     // MARK: Life Circle

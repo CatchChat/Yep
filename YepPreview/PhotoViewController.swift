@@ -23,7 +23,7 @@ class PhotoViewController: UIViewController {
         return view
     }()
 
-    private lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
+    lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
         let tap = UITapGestureRecognizer()
         tap.addTarget(self, action: #selector(didDoubleTap(_:)))
         tap.numberOfTapsRequired = 2
