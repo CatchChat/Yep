@@ -111,6 +111,23 @@ class PhotoViewController: UIViewController {
 
     @objc private func doubleTapped(sender: UITapGestureRecognizer) {
 
+        let pointInView = sender.locationInView(scalingImageView.imageView)
+
+        var newZoomScale = scalingImageView.maximumZoomScale
+        if (scalingImageView.zoomScale >= scalingImageView.maximumZoomScale) || (abs(scalingImageView.zoomScale - scalingImageView.maximumZoomScale) <= 0.01) {
+            newZoomScale = scalingImageView.minimumZoomScale
+        }
+
+        let scrollViewSize = scalingImageView.bounds.size
+
+        let width = scrollViewSize.width / newZoomScale
+        let height = scrollViewSize.height / newZoomScale
+        let originX = pointInView.x - (width / 2)
+        let originY = pointInView.y - (height / 2)
+
+        let rectToZoomTo = CGRect(x: originX, y: originY, width: width, height: height)
+
+        scalingImageView.zoomToRect(rectToZoomTo, animated: true)
     }
 
     @objc private func longPressed(sender: UILongPressGestureRecognizer) {
