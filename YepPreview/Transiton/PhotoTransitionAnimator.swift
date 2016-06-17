@@ -21,11 +21,15 @@ class PhotoTransitionAnimator: NSObject {
     var animationDurationWithZooming: NSTimeInterval = 0.5
     var animationDurationWithoutZooming: NSTimeInterval = 0.3
 
-    var animationDurationFadeRatio: CGFloat = 4
-    var animationDurationEndingViewFadeInRatio: CGFloat = 0.1
-    var animationDurationStartingViewFadeOutRatio: CGFloat = 0.05
+    var animationDurationFadeRatio: NSTimeInterval = 4
+    var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
+    var animationDurationStartingViewFadeOutRatio: NSTimeInterval = 0.05
 
     var zoomingAnimationSpringDamping: CGFloat = 0.9
+
+    var shouldPerformZoomingAnimation: Bool {
+        return (startingView != nil) && (endingView != nil)
+    }
 }
 
 extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
@@ -82,11 +86,38 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         viewToFade.alpha = beginningAlpha
 
-        let duration = transitionDuration(transitionContext)
+        let duration = fadeDurationForTransitionContext(transitionContext)
+
         UIView.animateWithDuration(duration, animations: {
             viewToFade.alpha = endingAlpha
-        }, completion: { finished in
+
+        }, completion: { [unowned self] finished in
+            if self.shouldPerformZoomingAnimation {
+                self.completeTransitionWithTransitionContext(transitionContext)
+            }
         })
+    }
+
+    private func fadeDurationForTransitionContext(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+
+        if shouldPerformZoomingAnimation {
+            return transitionDuration(transitionContext) * animationDurationFadeRatio
+        } else {
+            return transitionDuration(transitionContext)
+        }
+    }
+
+    private func completeTransitionWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+
+        if transitionContext.isInteractive() {
+            if transitionContext.transitionWasCancelled() {
+                transitionContext.cancelInteractiveTransition()
+            } else {
+                transitionContext.finishInteractiveTransition()
+            }
+        }
+
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
     }
 }
 
