@@ -506,6 +506,7 @@
 		50FE6F541D139707009BFEC7 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F531D139707009BFEC7 /* PhotosViewController.swift */; };
 		50FE6F561D139EB3009BFEC7 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F551D139EB3009BFEC7 /* PhotosDataSource.swift */; };
 		50FE6F581D13A1B3009BFEC7 /* PhotosViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F571D13A1B2009BFEC7 /* PhotosViewControllerDataSource.swift */; };
+		50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F591D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift */; };
 		6A56328E1BC90A4500397B53 /* DiscoverCardUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */; };
 		6A56328F1BC90A4500397B53 /* DiscoverCardUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */; };
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
@@ -1203,6 +1204,7 @@
 		50FE6F531D139707009BFEC7 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		50FE6F551D139EB3009BFEC7 /* PhotosDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		50FE6F571D13A1B2009BFEC7 /* PhotosViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotosViewControllerDataSource.swift; path = Protocols/PhotosViewControllerDataSource.swift; sourceTree = "<group>"; };
+		50FE6F591D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotosViewControllerDelegate.swift; path = Protocols/PhotosViewControllerDelegate.swift; sourceTree = "<group>"; };
 		6A56328C1BC90A4500397B53 /* DiscoverCardUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCardUserCell.swift; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.swift; sourceTree = "<group>"; };
 		6A56328D1BC90A4500397B53 /* DiscoverCardUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverCardUserCell.xib; path = Views/Cells/DiscoverCardUser/DiscoverCardUserCell.xib; sourceTree = "<group>"; };
 		6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverNormalUserCell.swift; path = Views/Cells/DiscoverNormalUser/DiscoverNormalUserCell.swift; sourceTree = "<group>"; };
@@ -3419,6 +3421,7 @@
 			children = (
 				50FE6F4F1D138940009BFEC7 /* Photo.swift */,
 				50FE6F571D13A1B2009BFEC7 /* PhotosViewControllerDataSource.swift */,
+				50FE6F591D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4797,6 +4800,7 @@
 				50FE6F4B1D128DB9009BFEC7 /* ScalingImageView.swift in Sources */,
 				50FE6F4D1D138599009BFEC7 /* PhotoViewController.swift in Sources */,
 				50FE6F521D1390CB009BFEC7 /* ImageType.swift in Sources */,
+				50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */,
 				50FE6F581D13A1B3009BFEC7 /* PhotosViewControllerDataSource.swift in Sources */,
 				50FE6F541D139707009BFEC7 /* PhotosViewController.swift in Sources */,
 				50FE6F561D139EB3009BFEC7 /* PhotosDataSource.swift in Sources */,

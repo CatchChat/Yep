@@ -10,7 +10,9 @@ import UIKit
 
 class PhotosViewController: UIViewController {
 
-    let dataSource: PhotosViewControllerDataSource
+    weak var delegate: PhotosViewControllerDelegate?
+
+    private let dataSource: PhotosViewControllerDataSource
 
     private lazy var pageViewController: UIPageViewController = {
         let vc = UIPageViewController(
@@ -43,12 +45,11 @@ class PhotosViewController: UIViewController {
 
     // MARK: Init
 
-    init(photos: [Photo], initialPhoto: Photo) {
+    init(photos: [Photo], initialPhoto: Photo, delegate: PhotosViewControllerDelegate? = nil) {
 
         self.dataSource = PhotosDataSource(photos: photos)
-        
-        // dataSource
-        // delegate
+        self.delegate = delegate
+
         // transitionController
 
         super.init(nibName: nil, bundle: nil)
