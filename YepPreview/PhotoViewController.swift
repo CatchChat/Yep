@@ -22,6 +22,8 @@ class PhotoViewController: UIViewController {
 
     init(photo: Photo) {
         self.photo = photo
+
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
