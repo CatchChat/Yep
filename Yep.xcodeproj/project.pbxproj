@@ -492,8 +492,6 @@
 		50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FD75431C21097A0050A382 /* LinkContainerView.swift */; };
 		50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */; };
 		50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */; };
-		50FE6F1F1D1249AE009BFEC7 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F1E1D1249AE009BFEC7 /* ChatViewController.swift */; };
-		50FE6F211D1249F8009BFEC7 /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50FE6F201D1249F8009BFEC7 /* Chat.storyboard */; };
 		50FE6F301D128B4C009BFEC7 /* YepPreview.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		50FE6F371D128B4D009BFEC7 /* YepPreview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FE6F2D1D128B4C009BFEC7 /* YepPreview.framework */; };
 		50FE6F3E1D128B4D009BFEC7 /* YepPreviewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F3D1D128B4D009BFEC7 /* YepPreviewTests.swift */; };
@@ -1192,8 +1190,6 @@
 		50FD75431C21097A0050A382 /* LinkContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinkContainerView.swift; path = Views/ContainerViews/LinkContainerView.swift; sourceTree = "<group>"; };
 		50FE29CC1C4786AE0067CA03 /* FeedURLCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLCell.swift; path = Views/Cells/Feed/FeedURLCell.swift; sourceTree = "<group>"; };
 		50FE29CE1C478A4A0067CA03 /* FeedURLContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedURLContainerView.swift; path = Views/ContainerViews/FeedURLContainerView.swift; sourceTree = "<group>"; };
-		50FE6F1E1D1249AE009BFEC7 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = ViewControllers/Chat/ChatViewController.swift; sourceTree = "<group>"; };
-		50FE6F201D1249F8009BFEC7 /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Chat.storyboard; path = ViewControllers/Chat/Chat.storyboard; sourceTree = "<group>"; };
 		50FE6F2D1D128B4C009BFEC7 /* YepPreview.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepPreview.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YepPreview.h; sourceTree = "<group>"; };
 		50FE6F311D128B4C009BFEC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1755,7 +1751,6 @@
 				50008D2E1CAE0CD400245296 /* SearchConversations */,
 				50E34C0F1CB4B617007CAE80 /* SearchedUserMessages */,
 				503CAB441AC00CB900DFE830 /* Conversation */,
-				50FE6F1D1D124812009BFEC7 /* Chat */,
 				500EED9B1BF1B81600C6BABC /* MediaPreview */,
 				5053AD4B1AF772CE00B3CBFA /* PickLocation */,
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
@@ -3389,15 +3384,6 @@
 			name = ContainerViews;
 			sourceTree = "<group>";
 		};
-		50FE6F1D1D124812009BFEC7 /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-				50FE6F1E1D1249AE009BFEC7 /* ChatViewController.swift */,
-				50FE6F201D1249F8009BFEC7 /* Chat.storyboard */,
-			);
-			name = Chat;
-			sourceTree = "<group>";
-		};
 		50FE6F2E1D128B4C009BFEC7 /* YepPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -4046,7 +4032,6 @@
 				50E7C7091CF6D9EE00E8D951 /* Contacts.storyboard in Resources */,
 				338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */,
 				50DEE0491BEA04CC00015741 /* SocialWorks.storyboard in Resources */,
-				50FE6F211D1249F8009BFEC7 /* Chat.storyboard in Resources */,
 				501813261BA07CED0025873C /* Activities.xcassets in Resources */,
 				502AE5411AB88862005BD199 /* SkillRankCell.xib in Resources */,
 				505262171C522A3D00292C6A /* FeedConversations.storyboard in Resources */,
@@ -4567,7 +4552,6 @@
 				50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */,
 				50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */,
 				50FD753F1C20FF8D0050A382 /* FeedMediaContainerView.swift in Sources */,
-				50FE6F1F1D1249AE009BFEC7 /* ChatViewController.swift in Sources */,
 				508D16BD1ADCAF0400270E3F /* PullToRefreshView.swift in Sources */,
 				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
@@ -5096,7 +5080,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5194,7 +5178,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = "$(inherited)";
 				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5980,6 +5964,7 @@
 				50FE6F451D128B4D009BFEC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50FE6F491D128B4D009BFEC7 /* Build configuration list for PBXNativeTarget "YepPreviewTests" */ = {
 			isa = XCConfigurationList;
@@ -5988,6 +5973,7 @@
 				50FE6F471D128B4D009BFEC7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

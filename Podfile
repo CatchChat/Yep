@@ -4,7 +4,6 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'AsyncDisplayKit'
     pod 'Appsee'
     pod 'DeviceGuru'
     pod 'FXBlurView'
