@@ -15,24 +15,34 @@ class PhotosViewController: UIViewController {
     private let dataSource: PhotosViewControllerDataSource
 
     private lazy var pageViewController: UIPageViewController = {
+
         let vc = UIPageViewController(
             transitionStyle: .Scroll,
             navigationOrientation: .Horizontal,
             options: [UIPageViewControllerOptionInterPageSpacingKey: 16])
+
         vc.dataSource = self
         vc.delegate = self
+
+        vc.view.backgroundColor = UIColor.clearColor()
+
+        vc.view.addGestureRecognizer(self.panGestureRecognizer)
+        vc.view.addGestureRecognizer(self.singleTapGestureRecognizer)
+
         return vc
     }()
 
     private var currentPhotoViewController: PhotoViewController?
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action: #selector(didPan(_:)))
         return pan
     }()
 
     private lazy var singleTapGestureRecognizer: UITapGestureRecognizer = {
+
         let tap = UITapGestureRecognizer()
         tap.addTarget(self, action: #selector(didSingleTap(_:)))
         return tap
@@ -99,7 +109,16 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.tintColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.blueColor()
+
+        addChildViewController(pageViewController)
+        view.addSubview(pageViewController.view)
+        pageViewController.didMoveToParentViewController(self)
+
+        // TODO: add overlay
+
+        // ...
     }
 
     // MARK: Selectors

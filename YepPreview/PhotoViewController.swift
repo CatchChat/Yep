@@ -13,17 +13,20 @@ class PhotoViewController: UIViewController {
     let photo: Photo
 
     private lazy var scalingImageView: ScalingImageView = {
+
         let view = ScalingImageView(frame: self.view.bounds, imageType: nil)
         return view
     }()
 
     private lazy var loadingView: UIActivityIndicatorView = {
+
         let view = UIActivityIndicatorView(activityIndicatorStyle: .White)
         view.hidesWhenStopped = true
         return view
     }()
 
     lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
+
         let tap = UITapGestureRecognizer()
         tap.addTarget(self, action: #selector(didDoubleTap(_:)))
         tap.numberOfTapsRequired = 2
@@ -31,12 +34,14 @@ class PhotoViewController: UIViewController {
     }()
 
     private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+
         let longPress = UILongPressGestureRecognizer()
         longPress.addTarget(self, action: #selector(didLongPress(_:)))
         return longPress
     }()
 
     struct Notification {
+
         static let photoImageUpdated = "PhotoViewControllerPhotoImageUpdatedNotification"
     }
 
