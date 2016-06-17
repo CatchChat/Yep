@@ -48,6 +48,7 @@ class PhotoViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         scalingImageView.imageType = photo.imageType
+        scalingImageView.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -86,6 +87,28 @@ class PhotoViewController: UIViewController {
 
     @objc private func longPressed(sender: UILongPressGestureRecognizer) {
 
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension PhotoViewController: UIScrollViewDelegate {
+
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+
+        return scalingImageView.imageView
+    }
+
+    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
+
+        scrollView.panGestureRecognizer.enabled = true
+    }
+
+    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView?) {
+
+        if scrollView.zoomScale == scrollView.minimumZoomScale {
+            scrollView.panGestureRecognizer.enabled = false
+        }
     }
 }
 

@@ -16,7 +16,7 @@ class ScalingImageView: UIScrollView {
         }
     }
 
-    private lazy var imageView = UIImageView()
+    lazy var imageView = UIImageView()
 
     private var image: UIImage? {
         didSet {
