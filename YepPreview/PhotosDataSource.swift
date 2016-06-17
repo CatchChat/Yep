@@ -10,10 +10,18 @@ import Foundation
 
 class PhotosDataSource: NSObject {
 
-    let photos: NSArray
+    let photos: [Photo]
 
-    init(photos: NSArray) {
+    private let _photos: NSArray!
+
+    init(photos: [Photo]) {
         self.photos = photos
+
+        let _photos = NSMutableArray()
+        for photo in photos {
+            _photos.addObject(photo)
+        }
+        self._photos = _photos
     }
 }
 
@@ -27,7 +35,7 @@ extension PhotosDataSource: PhotosViewControllerDataSource {
     func photoAtIndex(index: Int) -> Photo? {
 
         if index < numberOfPhotos {
-            return photos[index] as? Photo
+            return photos[index]
         }
 
         return nil
@@ -35,12 +43,12 @@ extension PhotosDataSource: PhotosViewControllerDataSource {
 
     func indexOfPhoto(photo: Photo) -> Int {
 
-        return photos.indexOfObject(photo)
+        return _photos.indexOfObject(photo)
     }
 
     func containsPhoto(photo: Photo) -> Bool {
 
-        return photos.containsObject(photo)
+        return _photos.containsObject(photo)
     }
 }
 

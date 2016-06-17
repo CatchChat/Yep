@@ -10,6 +10,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
 
+    let dataSource: PhotosViewControllerDataSource
+
     private lazy var pageViewController: UIPageViewController = {
         let vc = UIPageViewController(
             transitionStyle: .Scroll,
@@ -43,6 +45,8 @@ class PhotosViewController: UIViewController {
 
     init(photos: [Photo], initialPhoto: Photo) {
 
+        self.dataSource = PhotosDataSource(photos: photos)
+        
         // dataSource
         // delegate
         // transitionController
@@ -53,10 +57,7 @@ class PhotosViewController: UIViewController {
         //self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
-        //overlayView...
-
-
-        
+        //overlayView...        
     }
     
     required init?(coder aDecoder: NSCoder) {
