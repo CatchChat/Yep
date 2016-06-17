@@ -38,6 +38,8 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
 
         setupTransitionContainerHierarchyWithTransitionContext(transitionContext)
+
+        performFadeAnimationWithTransitionContext(transitionContext)
     }
 
     private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
@@ -58,6 +60,33 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         if isDismissing {
             containerView.bringSubviewToFront(fromView)
         }
+    }
+
+    private func performFadeAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+
+        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
+        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+
+        let viewToFade: UIView
+        let beginningAlpha: CGFloat
+        let endingAlpha: CGFloat
+        if isDismissing {
+            viewToFade = fromView
+            beginningAlpha = 1
+            endingAlpha = 0
+        } else {
+            viewToFade = toView
+            beginningAlpha = 0
+            endingAlpha = 1
+        }
+
+        viewToFade.alpha = beginningAlpha
+
+        let duration = transitionDuration(transitionContext)
+        UIView.animateWithDuration(duration, animations: {
+            viewToFade.alpha = endingAlpha
+        }, completion: { finished in
+        })
     }
 }
 
