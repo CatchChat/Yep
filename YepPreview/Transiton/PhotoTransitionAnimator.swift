@@ -26,8 +26,6 @@ class PhotoTransitionAnimator: NSObject {
     var animationDurationStartingViewFadeOutRatio: CGFloat = 0.05
 
     var zoomingAnimationSpringDamping: CGFloat = 0.9
-
-
 }
 
 extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
@@ -38,7 +36,28 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
     }
 
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
+
+        setupTransitionContainerHierarchyWithTransitionContext(transitionContext)
+    }
+
+    private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+
+        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
+        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+
+        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+
+        toView.frame = transitionContext.finalFrameForViewController(toViewController)
+
+        let containerView = transitionContext.containerView()!
+
+        if !toView.isDescendantOfView(containerView) {
+            containerView.addSubview(toView)
+        }
+
+        if isDismissing {
+            containerView.bringSubviewToFront(fromView)
+        }
     }
 }
 
