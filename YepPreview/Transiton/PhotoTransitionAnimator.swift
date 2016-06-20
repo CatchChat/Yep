@@ -30,6 +30,32 @@ class PhotoTransitionAnimator: NSObject {
     var shouldPerformZoomingAnimation: Bool {
         return (startingView != nil) && (endingView != nil)
     }
+
+    class func newAnimationViewFromView(view: UIView) -> UIView {
+
+        let animationView: UIView
+
+        if view.layer.contents != nil {
+            if let image = (view as? UIImageView)?.image {
+                animationView = UIImageView(image: image)
+                animationView.bounds = view.bounds
+            } else {
+                animationView = UIView()
+                animationView.layer.contents = view.layer.contents
+                animationView.layer.bounds = view.layer.bounds
+            }
+
+            animationView.layer.cornerRadius = view.layer.cornerRadius
+            animationView.layer.masksToBounds = view.layer.masksToBounds
+            animationView.contentMode = view.contentMode
+            animationView.transform = view.transform
+
+        } else {
+            animationView = view.snapshotViewAfterScreenUpdates(true)
+        }
+        
+        return animationView
+    }
 }
 
 extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
@@ -116,8 +142,8 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         guard let endingView = endingView else {
             return
         }
-        let startingViewForAnimation = self.startingViewForAnimation ?? newAnimationViewFromView(startingView)
-        let endingViewForAnimation = self.startingViewForAnimation ?? newAnimationViewFromView(endingView)
+        let startingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(startingView)
+        let endingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(endingView)
 
         let finalEndingViewTransform = endingView.transform
 
@@ -166,32 +192,6 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
             self.completeTransitionWithTransitionContext(transitionContext)
         })
-    }
-
-    private func newAnimationViewFromView(view: UIView) -> UIView {
-
-        let animationView: UIView
-
-        if view.layer.contents != nil {
-            if let image = (view as? UIImageView)?.image {
-                animationView = UIImageView(image: image)
-                animationView.bounds = view.bounds
-            } else {
-                animationView = UIView()
-                animationView.layer.contents = view.layer.contents
-                animationView.layer.bounds = view.layer.bounds
-            }
-
-            animationView.layer.cornerRadius = view.layer.cornerRadius
-            animationView.layer.masksToBounds = view.layer.masksToBounds
-            animationView.contentMode = view.contentMode
-            animationView.transform = view.transform
-
-        } else {
-            animationView = view.snapshotViewAfterScreenUpdates(true)
-        }
-
-        return animationView
     }
 
     private func centerPointForView(view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
