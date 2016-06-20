@@ -48,6 +48,7 @@ class ScalingImageView: UIScrollView {
     @objc private func checkImageView(sender: NSTimer) {
         print("imageView: \(imageView)")
         print("imageView.image: \(imageView.image)")
+        print("imageView.superview: \(imageView.superview)")
         print("self: \(self)")
     }
 

@@ -1815,6 +1815,7 @@ final class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            /*
             self?.previewTransitionViews = [transitionView]
 
             let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
@@ -1824,7 +1825,7 @@ final class ConversationViewController: BaseViewController {
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
             self?.presentViewController(photosViewController, animated: true, completion: nil)
             }
-            /*
+             */
             guard image != nil else {
                 return
             }
@@ -1855,7 +1856,6 @@ final class ConversationViewController: BaseViewController {
             mediaPreviewWindow.rootViewController = vc
             mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
             mediaPreviewWindow.makeKeyAndVisible()
-             */
         }
 
         feedView.tapGithubRepoAction = { [weak self] URL in
