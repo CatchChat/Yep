@@ -14,6 +14,8 @@ public class PhotosViewController: UIViewController {
 
     private let dataSource: PhotosViewControllerDataSource
 
+    private lazy var transitionController = PhotoTransitonController()
+
     private lazy var pageViewController: UIPageViewController = {
 
         let vc = UIPageViewController(
@@ -32,7 +34,19 @@ public class PhotosViewController: UIViewController {
         return vc
     }()
 
-    private var currentPhotoViewController: PhotoViewController?
+    private var currentPhotoViewController: PhotoViewController? {
+        return pageViewController.viewControllers?.first as? PhotoViewController
+    }
+    private var currentlyDisplayedPhoto: Photo? {
+        return currentPhotoViewController?.photo
+    }
+    private var referenceViewForCurrentPhoto: UIView? {
+        guard let photo = currentlyDisplayedPhoto else {
+            return nil
+        }
+        
+        return delegate?.photosViewController(self, referenceViewForPhoto: photo)
+    }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
 
@@ -60,12 +74,10 @@ public class PhotosViewController: UIViewController {
         self.dataSource = PhotosDataSource(photos: photos)
         self.delegate = delegate
 
-        // transitionController
-
         super.init(nibName: nil, bundle: nil)
 
         self.modalPresentationStyle = .Custom
-        //self.transitioningDelegate = transitionController
+        self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
         //overlayView...        
@@ -118,14 +130,18 @@ public class PhotosViewController: UIViewController {
 
         // TODO: add overlay
 
-        // ...
+        transitionController.setStartingView(referenceViewForCurrentPhoto)
+
+        if currentlyDisplayedPhoto?.imageType.image != nil {
+            transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+        }
     }
 
     // MARK: Selectors
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
 
-        //transitionController.forcesNonInteractiveDismissal = false
+        transitionController.forcesNonInteractiveDismissal = false
 
         // TODO: didPan
     }

@@ -19,7 +19,7 @@ class PhotoTransitonController: NSObject {
         return animator.startingView
     }
 
-    func setStartingView(view: UIView) {
+    func setStartingView(view: UIView?) {
         animator.startingView = view
     }
 
@@ -27,7 +27,7 @@ class PhotoTransitonController: NSObject {
         return animator.endingView
     }
 
-    func setEndingView(view: UIView) {
+    func setEndingView(view: UIView?) {
         animator.endingView = view
     }
 

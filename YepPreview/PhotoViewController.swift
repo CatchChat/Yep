@@ -12,7 +12,7 @@ class PhotoViewController: UIViewController {
 
     let photo: Photo
 
-    private lazy var scalingImageView: ScalingImageView = {
+    lazy var scalingImageView: ScalingImageView = {
 
         let view = ScalingImageView(frame: self.view.bounds, imageType: nil)
         return view
