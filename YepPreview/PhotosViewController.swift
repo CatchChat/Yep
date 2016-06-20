@@ -51,14 +51,14 @@ public class PhotosViewController: UIViewController {
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
 
         let pan = UIPanGestureRecognizer()
-        pan.addTarget(self, action: #selector(didPan(_:)))
+        pan.addTarget(self, action: #selector(PhotosViewController.didPan(_:)))
         return pan
     }()
 
     private lazy var singleTapGestureRecognizer: UITapGestureRecognizer = {
 
         let tap = UITapGestureRecognizer()
-        tap.addTarget(self, action: #selector(didSingleTap(_:)))
+        tap.addTarget(self, action: #selector(PhotosViewController.didSingleTap(_:)))
         return tap
     }()
 
@@ -149,6 +149,25 @@ public class PhotosViewController: UIViewController {
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
         // TODO: didSingleTap
+        dismissViewControllerAnimated(true, userInitiated: true)
+    }
+
+    // MARK: Dismissal
+
+    private func dismissViewControllerAnimated(animated: Bool, userInitiated: Bool, completion: (() -> Void)? = nil) {
+
+        if presentedViewController != nil {
+            super.dismissViewControllerAnimated(animated, completion: completion)
+        }
+
+        let startingView = currentPhotoViewController?.scalingImageView.imageView
+        transitionController.setStartingView(startingView)
+        transitionController.setEndingView(referenceViewForCurrentPhoto)
+
+        // TODO
+        super.dismissViewControllerAnimated(animated) {
+            completion?()
+        }
     }
 }
 
