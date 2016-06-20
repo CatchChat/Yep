@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Photo: class {
+public protocol Photo: class {
 
     var imageType: ImageType { get }
 }

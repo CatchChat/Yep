@@ -11,6 +11,7 @@ import RealmSwift
 import YepKit
 import YepNetworking
 import OpenGraph
+import YepPreview
 import AVFoundation
 import MobileCoreServices.UTType
 import MapKit
@@ -1812,6 +1813,16 @@ final class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+            let initialPhoto = photos.first!
+
+            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto)
+            //photosViewController.delegate = self
+
+            delay(1) {
+            self?.presentViewController(photosViewController, animated: true, completion: nil)
+            }
+            /*
             guard image != nil else {
                 return
             }
@@ -1842,6 +1853,7 @@ final class ConversationViewController: BaseViewController {
             mediaPreviewWindow.rootViewController = vc
             mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
             mediaPreviewWindow.makeKeyAndVisible()
+             */
         }
 
         feedView.tapGithubRepoAction = { [weak self] URL in

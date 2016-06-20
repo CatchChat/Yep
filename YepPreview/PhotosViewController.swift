@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotosViewController: UIViewController {
+public class PhotosViewController: UIViewController {
 
     weak var delegate: PhotosViewControllerDelegate?
 
@@ -55,7 +55,7 @@ class PhotosViewController: UIViewController {
 
     // MARK: Init
 
-    init(photos: [Photo], initialPhoto: Photo, delegate: PhotosViewControllerDelegate? = nil) {
+    public init(photos: [Photo], initialPhoto: Photo, delegate: PhotosViewControllerDelegate? = nil) {
 
         self.dataSource = PhotosDataSource(photos: photos)
         self.delegate = delegate
@@ -82,7 +82,7 @@ class PhotosViewController: UIViewController {
         setCurrentlyDisplayedViewController(initialPhotoViewController, animated: false)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -106,11 +106,11 @@ class PhotosViewController: UIViewController {
 
     // MARK: Life Circle
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         view.tintColor = UIColor.whiteColor()
-        view.backgroundColor = UIColor.blueColor()
+        view.backgroundColor = UIColor.blackColor()
 
         addChildViewController(pageViewController)
         view.addSubview(pageViewController.view)
@@ -125,22 +125,26 @@ class PhotosViewController: UIViewController {
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
 
+        //transitionController.forcesNonInteractiveDismissal = false
+
+        // TODO: didPan
     }
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
+        // TODO: didSingleTap
     }
 }
 
 extension PhotosViewController: UIPageViewControllerDataSource {
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
         // TODO
         return nil
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         // TODO
         return nil
     }
@@ -148,7 +152,7 @@ extension PhotosViewController: UIPageViewControllerDataSource {
 
 extension PhotosViewController: UIPageViewControllerDelegate {
 
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         // TODO
     }
