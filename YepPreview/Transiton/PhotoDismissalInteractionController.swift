@@ -124,3 +124,13 @@ class PhotoDismissalInteractionController: NSObject {
     }
 }
 
+extension PhotoDismissalInteractionController: UIViewControllerInteractiveTransitioning {
+
+    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+
+        viewToHideWhenBeginningTransition?.alpha = 0
+        
+        self.transitionContext = transitionContext
+    }
+}
+

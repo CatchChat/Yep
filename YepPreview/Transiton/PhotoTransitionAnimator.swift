@@ -18,10 +18,10 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.5
-    var animationDurationWithoutZooming: NSTimeInterval = 0.3
+    var animationDurationWithZooming: NSTimeInterval = 4//0.5
+    var animationDurationWithoutZooming: NSTimeInterval = 2//0.3
 
-    var animationDurationFadeRatio: NSTimeInterval = 4
+    var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
     var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
     var animationDurationStartingViewFadeOutRatio: NSTimeInterval = 0.05
 
@@ -29,6 +29,50 @@ class PhotoTransitionAnimator: NSObject {
 
     var shouldPerformZoomingAnimation: Bool {
         return (startingView != nil) && (endingView != nil)
+    }
+
+    class func newAnimationViewFromView(view: UIView) -> UIView {
+
+        let animationView: UIView
+
+        if view.layer.contents != nil {
+            if let image = (view as? UIImageView)?.image {
+                animationView = UIImageView(image: image)
+                animationView.bounds = view.bounds
+            } else {
+                animationView = UIView()
+                animationView.layer.contents = view.layer.contents
+                animationView.layer.bounds = view.layer.bounds
+            }
+
+            animationView.layer.cornerRadius = view.layer.cornerRadius
+            animationView.layer.masksToBounds = view.layer.masksToBounds
+            animationView.contentMode = view.contentMode
+            animationView.transform = view.transform
+
+        } else {
+            animationView = view.snapshotViewAfterScreenUpdates(true)
+        }
+        
+        return animationView
+    }
+
+    class func centerPointForView(view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
+
+        guard let superview = view.superview else {
+            fatalError("No superview")
+        }
+
+        var centerPoint = view.center
+
+        if let scrollView = superview as? UIScrollView {
+            if scrollView.zoomScale != 1.0 {
+                centerPoint.x += (scrollView.bounds.width - scrollView.contentSize.width) / 2 + scrollView.contentOffset.x
+                centerPoint.y += (scrollView.bounds.height - scrollView.contentSize.height) / 2 + scrollView.contentOffset.y
+            }
+        }
+
+        return superview.convertPoint(centerPoint, toView: containerView)
     }
 }
 
@@ -56,7 +100,6 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
     private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
@@ -70,16 +113,17 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         }
 
         if isDismissing {
+            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
             containerView.bringSubviewToFront(fromView)
         }
     }
 
     private func performFadeAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
+        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
-        let viewToFade: UIView
+        let viewToFade: UIView?
         let beginningAlpha: CGFloat
         let endingAlpha: CGFloat
         if isDismissing {
@@ -92,12 +136,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingAlpha = 1
         }
 
-        viewToFade.alpha = beginningAlpha
+        viewToFade?.alpha = beginningAlpha
 
         let duration = fadeDurationForTransitionContext(transitionContext)
 
         UIView.animateWithDuration(duration, animations: {
-            viewToFade.alpha = endingAlpha
+            viewToFade?.alpha = endingAlpha
 
         }, completion: { [unowned self] finished in
             if self.shouldPerformZoomingAnimation {
@@ -116,15 +160,18 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         guard let endingView = endingView else {
             return
         }
-        let startingViewForAnimation = self.startingViewForAnimation ?? newAnimationViewFromView(startingView)
-        let endingViewForAnimation = self.startingViewForAnimation ?? newAnimationViewFromView(endingView)
+
+        let startingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(startingView)
+        let endingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(endingView)
 
         let finalEndingViewTransform = endingView.transform
 
-        let translatedStartingViewCenter = centerPointForView(startingView, translatedToContainerView: containerView)
+        let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
+
+        let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
+
         startingViewForAnimation.center = translatedStartingViewCenter
 
-        let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
         endingViewForAnimation.transform = CGAffineTransformScale(endingViewForAnimation.transform, endingViewInitialTransform, endingViewInitialTransform)
         endingViewForAnimation.center = translatedStartingViewCenter
         endingViewForAnimation.alpha = 0
@@ -151,11 +198,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         })
 
         let startingViewFinalTransform = 1.0 / endingViewInitialTransform
-        let translatedEndingViewFinalCenter = centerPointForView(endingView, translatedToContainerView: containerView)
+        let translatedEndingViewFinalCenter = PhotoTransitionAnimator.centerPointForView(endingView, translatedToContainerView: containerView)
 
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
             endingViewForAnimation.transform = finalEndingViewTransform
             endingViewForAnimation.center = translatedEndingViewFinalCenter
+            
             startingViewForAnimation.transform = CGAffineTransformScale(startingViewForAnimation.transform, startingViewFinalTransform, startingViewFinalTransform)
             startingViewForAnimation.center = translatedEndingViewFinalCenter
 
@@ -166,50 +214,6 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
             self.completeTransitionWithTransitionContext(transitionContext)
         })
-    }
-
-    private func newAnimationViewFromView(view: UIView) -> UIView {
-
-        let animationView: UIView
-
-        if view.layer.contents != nil {
-            if let image = (view as? UIImageView)?.image {
-                animationView = UIImageView(image: image)
-                animationView.bounds = view.bounds
-            } else {
-                animationView = UIView()
-                animationView.layer.contents = view.layer.contents
-                animationView.layer.bounds = view.layer.bounds
-            }
-
-            animationView.layer.cornerRadius = view.layer.cornerRadius
-            animationView.layer.masksToBounds = view.layer.masksToBounds
-            animationView.contentMode = view.contentMode
-            animationView.transform = view.transform
-
-        } else {
-            animationView = view.snapshotViewAfterScreenUpdates(true)
-        }
-
-        return animationView
-    }
-
-    private func centerPointForView(view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
-
-        guard let superview = view.superview else {
-            fatalError("No superview")
-        }
-
-        var centerPoint = view.center
-
-        if let scrollView = superview as? UIScrollView {
-            if scrollView.zoomScale != 1.0 {
-                centerPoint.x += (scrollView.bounds.width - scrollView.contentSize.width) / 2 + scrollView.contentOffset.x
-                centerPoint.y += (scrollView.bounds.height - scrollView.contentSize.height) / 2 + scrollView.contentOffset.y
-            }
-        }
-
-        return superview.convertPoint(centerPoint, toView: containerView)
     }
 
     private func fadeDurationForTransitionContext(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {

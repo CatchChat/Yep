@@ -12,7 +12,7 @@ class PhotoViewController: UIViewController {
 
     let photo: Photo
 
-    private lazy var scalingImageView: ScalingImageView = {
+    lazy var scalingImageView: ScalingImageView = {
 
         let view = ScalingImageView(frame: self.view.bounds, imageType: nil)
         return view
@@ -28,7 +28,7 @@ class PhotoViewController: UIViewController {
     lazy var doubleTapGestureRecognizer: UITapGestureRecognizer = {
 
         let tap = UITapGestureRecognizer()
-        tap.addTarget(self, action: #selector(didDoubleTap(_:)))
+        tap.addTarget(self, action: #selector(PhotoViewController.didDoubleTap(_:)))
         tap.numberOfTapsRequired = 2
         return tap
     }()
@@ -36,7 +36,7 @@ class PhotoViewController: UIViewController {
     private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
 
         let longPress = UILongPressGestureRecognizer()
-        longPress.addTarget(self, action: #selector(didLongPress(_:)))
+        longPress.addTarget(self, action: #selector(PhotoViewController.didLongPress(_:)))
         return longPress
     }()
 

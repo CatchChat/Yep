@@ -21,6 +21,7 @@ class ScalingImageView: UIScrollView {
     private var image: UIImage? {
         didSet {
             if let image = image {
+                print("setupWithImage: \(image)")
                 setupWithImage(image)
             }
         }
@@ -39,8 +40,17 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
+        self.backgroundColor = UIColor.redColor()
+
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(checkImageView(_:)), userInfo: nil, repeats: true)
     }
-    
+
+    @objc private func checkImageView(sender: NSTimer) {
+        print("imageView: \(imageView)")
+        print("imageView.image: \(imageView.image)")
+        print("self: \(self)")
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,6 +87,10 @@ class ScalingImageView: UIScrollView {
         minimumZoomScale = minScale
         maximumZoomScale = max(minScale, maximumZoomScale)
         zoomScale = minimumZoomScale
+
+        print("zoomScale: \(zoomScale)")
+        print("minimumZoomScale: \(minimumZoomScale)")
+        print("maximumZoomScale: \(maximumZoomScale)")
 
         panGestureRecognizer.enabled = false
     }

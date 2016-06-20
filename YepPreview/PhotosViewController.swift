@@ -8,11 +8,13 @@
 
 import UIKit
 
-class PhotosViewController: UIViewController {
+public class PhotosViewController: UIViewController {
 
-    weak var delegate: PhotosViewControllerDelegate?
+    private weak var delegate: PhotosViewControllerDelegate?
 
     private let dataSource: PhotosViewControllerDataSource
+
+    private lazy var transitionController = PhotoTransitonController()
 
     private lazy var pageViewController: UIPageViewController = {
 
@@ -32,19 +34,31 @@ class PhotosViewController: UIViewController {
         return vc
     }()
 
-    private var currentPhotoViewController: PhotoViewController?
+    private var currentPhotoViewController: PhotoViewController? {
+        return pageViewController.viewControllers?.first as? PhotoViewController
+    }
+    private var currentlyDisplayedPhoto: Photo? {
+        return currentPhotoViewController?.photo
+    }
+    private var referenceViewForCurrentPhoto: UIView? {
+        guard let photo = currentlyDisplayedPhoto else {
+            return nil
+        }
+        
+        return delegate?.photosViewController(self, referenceViewForPhoto: photo)
+    }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
 
         let pan = UIPanGestureRecognizer()
-        pan.addTarget(self, action: #selector(didPan(_:)))
+        pan.addTarget(self, action: #selector(PhotosViewController.didPan(_:)))
         return pan
     }()
 
     private lazy var singleTapGestureRecognizer: UITapGestureRecognizer = {
 
         let tap = UITapGestureRecognizer()
-        tap.addTarget(self, action: #selector(didSingleTap(_:)))
+        tap.addTarget(self, action: #selector(PhotosViewController.didSingleTap(_:)))
         return tap
     }()
 
@@ -55,17 +69,15 @@ class PhotosViewController: UIViewController {
 
     // MARK: Init
 
-    init(photos: [Photo], initialPhoto: Photo, delegate: PhotosViewControllerDelegate? = nil) {
+    public init(photos: [Photo], initialPhoto: Photo, delegate: PhotosViewControllerDelegate? = nil) {
 
         self.dataSource = PhotosDataSource(photos: photos)
         self.delegate = delegate
 
-        // transitionController
-
         super.init(nibName: nil, bundle: nil)
 
         self.modalPresentationStyle = .Custom
-        //self.transitioningDelegate = transitionController
+        self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
         //overlayView...        
@@ -82,7 +94,7 @@ class PhotosViewController: UIViewController {
         setCurrentlyDisplayedViewController(initialPhotoViewController, animated: false)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -106,11 +118,11 @@ class PhotosViewController: UIViewController {
 
     // MARK: Life Circle
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         view.tintColor = UIColor.whiteColor()
-        view.backgroundColor = UIColor.blueColor()
+        view.backgroundColor = UIColor.blackColor()
 
         addChildViewController(pageViewController)
         view.addSubview(pageViewController.view)
@@ -118,29 +130,56 @@ class PhotosViewController: UIViewController {
 
         // TODO: add overlay
 
-        // ...
+        transitionController.setStartingView(referenceViewForCurrentPhoto)
+
+        if currentlyDisplayedPhoto?.imageType.image != nil {
+            transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+        }
     }
 
     // MARK: Selectors
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
 
+        transitionController.forcesNonInteractiveDismissal = false
+
+        // TODO: didPan
     }
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
+        // TODO: didSingleTap
+        dismissViewControllerAnimated(true, userInitiated: true)
+    }
+
+    // MARK: Dismissal
+
+    private func dismissViewControllerAnimated(animated: Bool, userInitiated: Bool, completion: (() -> Void)? = nil) {
+
+        if presentedViewController != nil {
+            super.dismissViewControllerAnimated(animated, completion: completion)
+        }
+
+        let startingView = currentPhotoViewController?.scalingImageView.imageView
+        transitionController.setStartingView(startingView)
+        transitionController.setEndingView(referenceViewForCurrentPhoto)
+
+        // TODO
+        super.dismissViewControllerAnimated(animated) {
+            completion?()
+        }
     }
 }
 
 extension PhotosViewController: UIPageViewControllerDataSource {
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
         // TODO
         return nil
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         // TODO
         return nil
     }
@@ -148,7 +187,7 @@ extension PhotosViewController: UIPageViewControllerDataSource {
 
 extension PhotosViewController: UIPageViewControllerDelegate {
 
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         // TODO
     }

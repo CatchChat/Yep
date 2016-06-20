@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ImageType {
+public enum ImageType {
 
     case image(UIImage)
     case imageData(NSData)

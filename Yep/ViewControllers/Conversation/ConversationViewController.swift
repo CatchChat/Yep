@@ -11,6 +11,7 @@ import RealmSwift
 import YepKit
 import YepNetworking
 import OpenGraph
+import YepPreview
 import AVFoundation
 import MobileCoreServices.UTType
 import MapKit
@@ -727,6 +728,8 @@ final class ConversationViewController: BaseViewController {
     private struct Listener {
         static let Avatar = "ConversationViewController"
     }
+
+    private var previewTransitionViews: [UIView]?
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -1812,6 +1815,16 @@ final class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            self?.previewTransitionViews = [transitionView]
+
+            let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+            let initialPhoto = photos.first!
+
+            delay(2) {
+            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+            self?.presentViewController(photosViewController, animated: true, completion: nil)
+            }
+            /*
             guard image != nil else {
                 return
             }
@@ -1842,6 +1855,7 @@ final class ConversationViewController: BaseViewController {
             mediaPreviewWindow.rootViewController = vc
             mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
             mediaPreviewWindow.makeKeyAndVisible()
+             */
         }
 
         feedView.tapGithubRepoAction = { [weak self] URL in
@@ -5046,5 +5060,24 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 println("sendVideo to group: \(success)")
             })
         }
+    }
+}
+
+extension ConversationViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+        return previewTransitionViews?.first
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) -> Bool {
+        return true
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
     }
 }
