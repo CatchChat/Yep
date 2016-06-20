@@ -238,6 +238,14 @@
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
 		50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBA1C22487900EDE492 /* FeedBasicCell.swift */; };
 		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
+		5087AFC11D17F49C005C180D /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068D1D0669E0002EAB5C /* Kingfisher.framework */; };
+		5087AFC21D17F49C005C180D /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068D1D0669E0002EAB5C /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5087AFC31D17F4A6005C180D /* Ruler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106951D066A2E002EAB5C /* Ruler.framework */; };
+		5087AFC41D17F4A6005C180D /* Ruler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106951D066A2E002EAB5C /* Ruler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5087AFC51D17F4AC005C180D /* Proposer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106971D066A35002EAB5C /* Proposer.framework */; };
+		5087AFC61D17F4AC005C180D /* Proposer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106971D066A35002EAB5C /* Proposer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5087AFC71D17F4B4005C180D /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; };
+		5087AFC81D17F4B4005C180D /* MonkeyKing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -689,7 +697,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				5087AFC61D17F4AC005C180D /* Proposer.framework in Embed Frameworks */,
 				50FE6F431D128B4D009BFEC7 /* YepPreview.framework in Embed Frameworks */,
+				5087AFC41D17F4A6005C180D /* Ruler.framework in Embed Frameworks */,
 				6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */,
 				6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */,
 				6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */,
@@ -698,6 +708,8 @@
 				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
+				5087AFC21D17F49C005C180D /* Kingfisher.framework in Embed Frameworks */,
+				5087AFC81D17F4B4005C180D /* MonkeyKing.framework in Embed Frameworks */,
 				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1254,11 +1266,15 @@
 				6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */,
 				0AD7EA641AC3ED2A00617758 /* SystemConfiguration.framework in Frameworks */,
 				6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */,
+				5087AFC31D17F4A6005C180D /* Ruler.framework in Frameworks */,
+				5087AFC71D17F4B4005C180D /* MonkeyKing.framework in Frameworks */,
 				0AD7EA681AC3ED3600617758 /* Foundation.framework in Frameworks */,
 				0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */,
+				5087AFC51D17F4AC005C180D /* Proposer.framework in Frameworks */,
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
 				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
 				0AD7EA661AC3ED3000617758 /* CoreGraphics.framework in Frameworks */,
+				5087AFC11D17F49C005C180D /* Kingfisher.framework in Frameworks */,
 				0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */,
 				50FE6F421D128B4D009BFEC7 /* YepPreview.framework in Frameworks */,
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
