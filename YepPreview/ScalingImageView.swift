@@ -40,8 +40,17 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
+        self.backgroundColor = UIColor.redColor()
+
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(checkImageView(_:)), userInfo: nil, repeats: true)
     }
-    
+
+    @objc private func checkImageView(sender: NSTimer) {
+        print("imageView: \(imageView)")
+        print("imageView.image: \(imageView.image)")
+        print("self: \(self)")
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -57,8 +66,7 @@ class ScalingImageView: UIScrollView {
 
         imageView.transform = CGAffineTransformIdentity
         imageView.image = image
-        //imageView.frame = CGRect(origin: CGPointZero, size: image.size)
-        imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        imageView.frame = CGRect(origin: CGPointZero, size: image.size)
 
         contentSize = image.size
 

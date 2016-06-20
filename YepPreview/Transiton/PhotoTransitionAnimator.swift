@@ -18,8 +18,8 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.5
-    var animationDurationWithoutZooming: NSTimeInterval = 0.3
+    var animationDurationWithZooming: NSTimeInterval = 4//0.5
+    var animationDurationWithoutZooming: NSTimeInterval = 2//0.3
 
     var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
     var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
@@ -160,15 +160,18 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         guard let endingView = endingView else {
             return
         }
+
         let startingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(startingView)
         let endingViewForAnimation = self.startingViewForAnimation ?? PhotoTransitionAnimator.newAnimationViewFromView(endingView)
 
         let finalEndingViewTransform = endingView.transform
 
+        let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
+
         let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
+
         startingViewForAnimation.center = translatedStartingViewCenter
 
-        let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
         endingViewForAnimation.transform = CGAffineTransformScale(endingViewForAnimation.transform, endingViewInitialTransform, endingViewInitialTransform)
         endingViewForAnimation.center = translatedStartingViewCenter
         endingViewForAnimation.alpha = 0
@@ -200,6 +203,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
             endingViewForAnimation.transform = finalEndingViewTransform
             endingViewForAnimation.center = translatedEndingViewFinalCenter
+            
             startingViewForAnimation.transform = CGAffineTransformScale(startingViewForAnimation.transform, startingViewFinalTransform, startingViewFinalTransform)
             startingViewForAnimation.center = translatedEndingViewFinalCenter
 
