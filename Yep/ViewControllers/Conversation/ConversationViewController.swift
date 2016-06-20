@@ -729,6 +729,8 @@ final class ConversationViewController: BaseViewController {
         static let Avatar = "ConversationViewController"
     }
 
+    private var previewTransitionViews: [UIView]?
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
@@ -1813,11 +1815,12 @@ final class ConversationViewController: BaseViewController {
 
         feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
 
+            self?.previewTransitionViews = [transitionView]
+
             let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
             let initialPhoto = photos.first!
 
-            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto)
-            //photosViewController.delegate = self
+            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
 
             delay(1) {
             self?.presentViewController(photosViewController, animated: true, completion: nil)
@@ -5058,5 +5061,24 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 println("sendVideo to group: \(success)")
             })
         }
+    }
+}
+
+extension ConversationViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+        return previewTransitionViews?.first
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) -> Bool {
+        return true
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
     }
 }

@@ -100,7 +100,6 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
     private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
@@ -114,16 +113,17 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         }
 
         if isDismissing {
+            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
             containerView.bringSubviewToFront(fromView)
         }
     }
 
     private func performFadeAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
+        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
-        let viewToFade: UIView
+        let viewToFade: UIView?
         let beginningAlpha: CGFloat
         let endingAlpha: CGFloat
         if isDismissing {
@@ -136,12 +136,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingAlpha = 1
         }
 
-        viewToFade.alpha = beginningAlpha
+        viewToFade?.alpha = beginningAlpha
 
         let duration = fadeDurationForTransitionContext(transitionContext)
 
         UIView.animateWithDuration(duration, animations: {
-            viewToFade.alpha = endingAlpha
+            viewToFade?.alpha = endingAlpha
 
         }, completion: { [unowned self] finished in
             if self.shouldPerformZoomingAnimation {

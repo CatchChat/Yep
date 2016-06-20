@@ -10,7 +10,7 @@ import UIKit
 
 public class PhotosViewController: UIViewController {
 
-    weak var delegate: PhotosViewControllerDelegate?
+    private weak var delegate: PhotosViewControllerDelegate?
 
     private let dataSource: PhotosViewControllerDataSource
 
