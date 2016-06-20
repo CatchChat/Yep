@@ -78,7 +78,6 @@ class PhotoViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(photoImageUpdated(_:)), name: Notification.photoImageUpdated, object: nil)
 
         scalingImageView.frame = view.bounds
-        scalingImageView.backgroundColor = UIColor.redColor()
         view.addSubview(scalingImageView)
 
         view.addSubview(loadingView)

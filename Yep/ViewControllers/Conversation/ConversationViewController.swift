@@ -1820,9 +1820,8 @@ final class ConversationViewController: BaseViewController {
             let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
             let initialPhoto = photos.first!
 
+            delay(2) {
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-
-            delay(1) {
             self?.presentViewController(photosViewController, animated: true, completion: nil)
             }
             /*

@@ -21,6 +21,7 @@ class ScalingImageView: UIScrollView {
     private var image: UIImage? {
         didSet {
             if let image = image {
+                print("setupWithImage: \(image)")
                 setupWithImage(image)
             }
         }
@@ -56,7 +57,8 @@ class ScalingImageView: UIScrollView {
 
         imageView.transform = CGAffineTransformIdentity
         imageView.image = image
-        imageView.frame = CGRect(origin: CGPointZero, size: image.size)
+        //imageView.frame = CGRect(origin: CGPointZero, size: image.size)
+        imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
 
         contentSize = image.size
 
@@ -77,6 +79,10 @@ class ScalingImageView: UIScrollView {
         minimumZoomScale = minScale
         maximumZoomScale = max(minScale, maximumZoomScale)
         zoomScale = minimumZoomScale
+
+        print("zoomScale: \(zoomScale)")
+        print("minimumZoomScale: \(minimumZoomScale)")
+        print("maximumZoomScale: \(maximumZoomScale)")
 
         panGestureRecognizer.enabled = false
     }

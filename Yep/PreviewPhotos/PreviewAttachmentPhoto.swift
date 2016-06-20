@@ -20,6 +20,7 @@ class PreviewAttachmentPhoto: Photo {
 
         ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
             self.image = image
+            println("PreviewAttachmentPhoto: \(image)")
         }
     }
 
