@@ -3389,8 +3389,8 @@
 			children = (
 				50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */,
 				50FE6F511D1390CB009BFEC7 /* ImageType.swift */,
-				50FE6F4E1D13891F009BFEC7 /* Protocols */,
 				50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */,
+				50FE6F4E1D13891F009BFEC7 /* Protocols */,
 				50FE6F5B1D13E3F7009BFEC7 /* Transiton */,
 				50FE6F4C1D138599009BFEC7 /* PhotoViewController.swift */,
 				50FE6F551D139EB3009BFEC7 /* PhotosDataSource.swift */,
