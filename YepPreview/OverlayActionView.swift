@@ -10,6 +10,8 @@ import UIKit
 
 class OverlayActionView: UIView {
 
+    var shareAction: (() -> Void)?
+
     private lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
         return view
@@ -18,6 +20,7 @@ class OverlayActionView: UIView {
     private lazy var shareButton: UIButton = {
         let button = UIButton()
         button.setTitle("Share", forState: .Normal)
+        button.addTarget(self, action: #selector(OverlayActionView.share(_:)), forControlEvents: .TouchUpInside)
         return button
     }()
 
@@ -54,6 +57,10 @@ class OverlayActionView: UIView {
 
             NSLayoutConstraint.activateConstraints([trailing, bottom])
         }
+    }
+
+    @objc private func share(sender: UIButton) {
+        shareAction?()
     }
 }
 

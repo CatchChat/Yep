@@ -16,7 +16,21 @@ public class PhotosViewController: UIViewController {
 
     private lazy var transitionController = PhotoTransitonController()
 
-    private lazy var overlayActionView: OverlayActionView = OverlayActionView()
+    private lazy var overlayActionView: OverlayActionView = {
+
+        let view = OverlayActionView()
+
+        view.shareAction = { [weak self] in
+            guard let image = self?.currentlyDisplayedPhoto?.imageType.image else {
+                return
+            }
+
+            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self?.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+
+        return view
+    }()
 
     private lazy var pageViewController: UIPageViewController = {
 
