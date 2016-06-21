@@ -12,14 +12,7 @@ import YepPreview
 
 class PreviewAttachmentPhoto: NSObject, Photo {
 
-    var attachment: DiscoveredAttachment {
-        didSet {
-            ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
-                self.image = image
-                println("PreviewAttachmentPhoto: \(image)")
-            }
-        }
-    }
+    let attachment: DiscoveredAttachment
 
     var image: UIImage?
 
@@ -34,6 +27,13 @@ class PreviewAttachmentPhoto: NSObject, Photo {
 
     init(attachment: DiscoveredAttachment) {
         self.attachment = attachment
+
+        super.init()
+
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
+            self.image = image
+            println("PreviewAttachmentPhoto: \(image)")
+        }
     }
 }
 
