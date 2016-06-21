@@ -62,6 +62,10 @@ public class PhotosViewController: UIViewController {
         return tap
     }()
 
+    private var boundsCenterPoint: CGPoint {
+        return CGPoint(x: view.bounds.midX, y: view.bounds.minY)
+    }
+
     deinit {
         pageViewController.dataSource = nil
         pageViewController.delegate = nil
@@ -101,8 +105,6 @@ public class PhotosViewController: UIViewController {
     }
 
     private func newPhotoViewControllerForPhoto(photo: Photo) -> PhotoViewController {
-
-        print("newPhotoViewControllerForPhoto")
 
         let photoViewController = PhotoViewController(photo: photo)
 
@@ -145,15 +147,21 @@ public class PhotosViewController: UIViewController {
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
 
-        transitionController.forcesNonInteractiveDismissal = false
+        switch sender.state {
 
-        // TODO: didPan
+        case .Began:
+            transitionController.forcesNonInteractiveDismissal = false
+            dismissViewControllerAnimated(true, userInitiated: true, completion: nil)
+
+        default:
+            transitionController.forcesNonInteractiveDismissal = true
+            transitionController.didPanWithPanGestureRecognizer(sender, viewToPan: pageViewController.view, anchorPoint: boundsCenterPoint)
+        }
     }
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
         // TODO: didSingleTap
-        dismissViewControllerAnimated(true, userInitiated: true)
     }
 
     // MARK: Dismissal

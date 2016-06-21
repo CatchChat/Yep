@@ -100,20 +100,22 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
     private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+        if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
 
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+            let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
 
-        toView.frame = transitionContext.finalFrameForViewController(toViewController)
+            toView.frame = transitionContext.finalFrameForViewController(toViewController)
 
-        let containerView = transitionContext.containerView()!
+            let containerView = transitionContext.containerView()!
 
-        if !toView.isDescendantOfView(containerView) {
-            containerView.addSubview(toView)
+            if !toView.isDescendantOfView(containerView) {
+                containerView.addSubview(toView)
+            }
         }
 
         if isDismissing {
             let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
+            let containerView = transitionContext.containerView()!
             containerView.bringSubviewToFront(fromView)
         }
     }
@@ -121,7 +123,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
     private func performFadeAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
 
         let viewToFade: UIView?
         let beginningAlpha: CGFloat
