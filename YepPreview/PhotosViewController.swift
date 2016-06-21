@@ -76,9 +76,9 @@ public class PhotosViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-//        self.modalPresentationStyle = .Custom
-//        self.transitioningDelegate = transitionController
-//        self.modalPresentationCapturesStatusBarAppearance = true
+        self.modalPresentationStyle = .Custom
+        self.transitioningDelegate = transitionController
+        self.modalPresentationCapturesStatusBarAppearance = true
 
         //overlayView...        
 

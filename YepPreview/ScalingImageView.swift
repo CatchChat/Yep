@@ -21,7 +21,6 @@ class ScalingImageView: UIScrollView {
     private var image: UIImage? {
         didSet {
             if let image = image {
-                print("setupWithImage: \(image)")
                 setupWithImage(image)
             }
         }
@@ -40,7 +39,6 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
-        self.backgroundColor = UIColor.redColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -79,10 +77,6 @@ class ScalingImageView: UIScrollView {
         minimumZoomScale = minScale
         maximumZoomScale = max(minScale, maximumZoomScale)
         zoomScale = minimumZoomScale
-
-        print("zoomScale: \(zoomScale)")
-        print("minimumZoomScale: \(minimumZoomScale)")
-        print("maximumZoomScale: \(maximumZoomScale)")
 
         panGestureRecognizer.enabled = false
     }

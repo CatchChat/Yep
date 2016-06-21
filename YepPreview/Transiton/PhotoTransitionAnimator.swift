@@ -18,8 +18,8 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 4//0.5
-    var animationDurationWithoutZooming: NSTimeInterval = 2//0.3
+    var animationDurationWithZooming: NSTimeInterval = 8//0.5
+    var animationDurationWithoutZooming: NSTimeInterval = 6//0.3
 
     var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
     var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
