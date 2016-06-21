@@ -246,6 +246,7 @@
 		5087AFC61D17F4AC005C180D /* Proposer.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106971D066A35002EAB5C /* Proposer.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5087AFC71D17F4B4005C180D /* MonkeyKing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; };
 		5087AFC81D17F4B4005C180D /* MonkeyKing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106991D066A3C002EAB5C /* MonkeyKing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5087AFCA1D1934FF005C180D /* OverlayActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5087AFC91D1934FF005C180D /* OverlayActionView.swift */; };
 		50894CF11AEA4726000981AF /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF01AEA4726000981AF /* SettingsViewController.swift */; };
 		50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50894CF31AEA4A01000981AF /* SettingsUserCell.swift */; };
 		50894CF61AEA4A01000981AF /* SettingsUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50894CF41AEA4A01000981AF /* SettingsUserCell.xib */; };
@@ -949,6 +950,7 @@
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
 		50858EBA1C22487900EDE492 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/Feed/FeedBasicCell.swift; sourceTree = "<group>"; };
 		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
+		5087AFC91D1934FF005C180D /* OverlayActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayActionView.swift; sourceTree = "<group>"; };
 		50894CF01AEA4726000981AF /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsViewController.swift; path = ViewControllers/Settings/SettingsViewController.swift; sourceTree = "<group>"; };
 		50894CF31AEA4A01000981AF /* SettingsUserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsUserCell.swift; path = Views/Cells/SettingsUser/SettingsUserCell.swift; sourceTree = "<group>"; };
 		50894CF41AEA4A01000981AF /* SettingsUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingsUserCell.xib; path = Views/Cells/SettingsUser/SettingsUserCell.xib; sourceTree = "<group>"; };
@@ -3417,6 +3419,7 @@
 				50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */,
 				50FE6F511D1390CB009BFEC7 /* ImageType.swift */,
 				50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */,
+				5087AFC91D1934FF005C180D /* OverlayActionView.swift */,
 				50FE6F4E1D13891F009BFEC7 /* Protocols */,
 				50FE6F5B1D13E3F7009BFEC7 /* Transiton */,
 				50FE6F4C1D138599009BFEC7 /* PhotoViewController.swift */,
@@ -4826,6 +4829,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50FE6F501D138940009BFEC7 /* Photo.swift in Sources */,
+				5087AFCA1D1934FF005C180D /* OverlayActionView.swift in Sources */,
 				50FE6F4B1D128DB9009BFEC7 /* ScalingImageView.swift in Sources */,
 				50FE6F5F1D13E507009BFEC7 /* PhotoTransitionAnimator.swift in Sources */,
 				50FE6F611D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift in Sources */,
