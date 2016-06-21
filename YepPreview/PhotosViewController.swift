@@ -63,7 +63,7 @@ public class PhotosViewController: UIViewController {
     }()
 
     private var boundsCenterPoint: CGPoint {
-        return CGPoint(x: view.bounds.midX, y: view.bounds.minY)
+        return CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
 
     deinit {

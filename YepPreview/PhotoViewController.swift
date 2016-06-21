@@ -89,7 +89,7 @@ class PhotoViewController: UIViewController {
 
         scalingImageView.frame = view.bounds
 
-        loadingView.center = CGPoint(x: view.bounds.midX, y: view.bounds.minY)
+        loadingView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
 
     // MARK: Selectors
