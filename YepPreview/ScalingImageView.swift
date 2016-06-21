@@ -33,8 +33,7 @@ class ScalingImageView: UIScrollView {
 
     // MARK: Init
 
-    init(frame: CGRect, imageType: ImageType?) {
-        self.imageType = imageType
+    override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
