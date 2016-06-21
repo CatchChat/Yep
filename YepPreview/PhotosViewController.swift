@@ -20,6 +20,7 @@ public class PhotosViewController: UIViewController {
     private lazy var overlayActionView: OverlayActionView = {
 
         let view = OverlayActionView()
+        view.backgroundColor = UIColor.clearColor()
 
         view.shareAction = { [weak self] in
             guard let image = self?.currentlyDisplayedPhoto?.imageType.image else {
@@ -182,7 +183,7 @@ public class PhotosViewController: UIViewController {
             let leading = overlayActionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 0)
             let trailing = overlayActionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: 0)
             let bottom = overlayActionView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
-            let height = overlayActionView.heightAnchor.constraintEqualToConstant(60)
+            let height = overlayActionView.heightAnchor.constraintEqualToConstant(80)
 
             NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
 
