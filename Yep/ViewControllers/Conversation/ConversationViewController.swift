@@ -730,6 +730,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     private var previewTransitionViews: [UIView?]?
+    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -1818,10 +1819,12 @@ final class ConversationViewController: BaseViewController {
             self?.previewTransitionViews = transitionViews
 
             let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
-            previewAttachmentPhotos.first?.image = image
+            previewAttachmentPhotos[index].image = image
+
+            self?.previewAttachmentPhotos = previewAttachmentPhotos
 
             let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
-            let initialPhoto = photos.first!
+            let initialPhoto = photos[index]
 
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
             self?.presentViewController(photosViewController, animated: true, completion: nil)
@@ -5069,7 +5072,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 extension ConversationViewController: PhotosViewControllerDelegate {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
-        return (previewTransitionViews?.first)!
+
+        if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
+            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
     }
 
     func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
