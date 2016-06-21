@@ -41,15 +41,6 @@ class ScalingImageView: UIScrollView {
 
         self.addSubview(imageView)
         self.backgroundColor = UIColor.redColor()
-
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(checkImageView(_:)), userInfo: nil, repeats: true)
-    }
-
-    @objc private func checkImageView(sender: NSTimer) {
-        print("imageView: \(imageView)")
-        print("imageView.image: \(imageView.image)")
-        print("imageView.superview: \(imageView.superview)")
-        print("self: \(self)")
     }
 
     required init?(coder aDecoder: NSCoder) {
