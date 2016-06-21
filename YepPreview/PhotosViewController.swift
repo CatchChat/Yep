@@ -76,11 +76,13 @@ public class PhotosViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.modalPresentationStyle = .Custom
-        self.transitioningDelegate = transitionController
-        self.modalPresentationCapturesStatusBarAppearance = true
+//        self.modalPresentationStyle = .Custom
+//        self.transitioningDelegate = transitionController
+//        self.modalPresentationCapturesStatusBarAppearance = true
 
         //overlayView...        
+
+        print("initialPhoto.imageType.image: \(initialPhoto.imageType.image)")
 
         let initialPhotoViewController: PhotoViewController
         if dataSource.containsPhoto(initialPhoto) {
@@ -99,6 +101,8 @@ public class PhotosViewController: UIViewController {
     }
 
     private func newPhotoViewControllerForPhoto(photo: Photo) -> PhotoViewController {
+
+        print("newPhotoViewControllerForPhoto")
 
         let photoViewController = PhotoViewController(photo: photo)
 
@@ -175,13 +179,32 @@ extension PhotosViewController: UIPageViewControllerDataSource {
 
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
-        // TODO
-        return nil
+        guard let viewController = viewController as? PhotoViewController else {
+            return nil
+        }
+
+        let photoIndex = dataSource.indexOfPhoto(viewController.photo)
+
+        guard let previousPhoto = dataSource.photoAtIndex(photoIndex - 1) else {
+            return nil
+        }
+
+        return newPhotoViewControllerForPhoto(previousPhoto)
     }
 
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        // TODO
-        return nil
+
+        guard let viewController = viewController as? PhotoViewController else {
+            return nil
+        }
+
+        let photoIndex = dataSource.indexOfPhoto(viewController.photo)
+
+        guard let previousPhoto = dataSource.photoAtIndex(photoIndex + 1) else {
+            return nil
+        }
+
+        return newPhotoViewControllerForPhoto(previousPhoto)
     }
 }
 

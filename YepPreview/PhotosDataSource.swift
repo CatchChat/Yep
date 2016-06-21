@@ -34,7 +34,7 @@ extension PhotosDataSource: PhotosViewControllerDataSource {
 
     func photoAtIndex(index: Int) -> Photo? {
 
-        if index < numberOfPhotos {
+        if (index >= 0) && (index < numberOfPhotos) {
             return photos[index]
         }
 
