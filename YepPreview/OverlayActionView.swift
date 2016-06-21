@@ -49,8 +49,8 @@ class OverlayActionView: UIView {
         }
 
         do {
-            let trailing = shareButton.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: 20)
-            let bottom = shareButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: 20)
+            let trailing = shareButton.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -20)
+            let bottom = shareButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -20)
 
             NSLayoutConstraint.activateConstraints([trailing, bottom])
         }

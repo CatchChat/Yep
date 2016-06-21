@@ -16,6 +16,8 @@ public class PhotosViewController: UIViewController {
 
     private lazy var transitionController = PhotoTransitonController()
 
+    private lazy var overlayActionView: OverlayActionView = OverlayActionView()
+
     private lazy var pageViewController: UIPageViewController = {
 
         let vc = UIPageViewController(
@@ -130,16 +132,30 @@ public class PhotosViewController: UIViewController {
         view.tintColor = UIColor.whiteColor()
         view.backgroundColor = UIColor.blackColor()
 
-        addChildViewController(pageViewController)
-        view.addSubview(pageViewController.view)
-        pageViewController.didMoveToParentViewController(self)
+        do {
+            addChildViewController(pageViewController)
+            view.addSubview(pageViewController.view)
+            pageViewController.didMoveToParentViewController(self)
+        }
 
-        // TODO: add overlay
+        do {
+            view.addSubview(overlayActionView)
+            overlayActionView.translatesAutoresizingMaskIntoConstraints = false
 
-        transitionController.setStartingView(referenceViewForCurrentPhoto)
+            let leading = overlayActionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 0)
+            let trailing = overlayActionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: 0)
+            let bottom = overlayActionView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
+            let height = overlayActionView.heightAnchor.constraintEqualToConstant(60)
 
-        if currentlyDisplayedPhoto?.imageType.image != nil {
-            transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+            NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+        }
+
+        do {
+            transitionController.setStartingView(referenceViewForCurrentPhoto)
+
+            if currentlyDisplayedPhoto?.imageType.image != nil {
+                transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+            }
         }
     }
 
