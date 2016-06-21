@@ -14,7 +14,8 @@ class PhotoViewController: UIViewController {
 
     lazy var scalingImageView: ScalingImageView = {
 
-        let view = ScalingImageView(frame: self.view.bounds, imageType: nil)
+        let view = ScalingImageView(frame: self.view.bounds)
+        view.delegate = self
         return view
     }()
 
@@ -57,13 +58,6 @@ class PhotoViewController: UIViewController {
         self.photo = photo
 
         super.init(nibName: nil, bundle: nil)
-
-        scalingImageView.imageType = photo.imageType
-        scalingImageView.delegate = self
-
-        if photo.imageType.image == nil {
-            loadingView.startAnimating()
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -78,8 +72,12 @@ class PhotoViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(photoImageUpdated(_:)), name: Notification.photoImageUpdated, object: nil)
 
         scalingImageView.frame = view.bounds
+        scalingImageView.imageType = photo.imageType
         view.addSubview(scalingImageView)
 
+        if photo.imageType.image == nil {
+            loadingView.startAnimating()
+        }
         view.addSubview(loadingView)
 
         view.addGestureRecognizer(doubleTapGestureRecognizer)
@@ -91,7 +89,7 @@ class PhotoViewController: UIViewController {
 
         scalingImageView.frame = view.bounds
 
-        loadingView.center = CGPoint(x: view.bounds.midX, y: view.bounds.minY)
+        loadingView.center = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
 
     // MARK: Selectors

@@ -729,7 +729,8 @@ final class ConversationViewController: BaseViewController {
         static let Avatar = "ConversationViewController"
     }
 
-    private var previewTransitionViews: [UIView]?
+    private var previewTransitionViews: [UIView?]?
+    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -1813,19 +1814,24 @@ final class ConversationViewController: BaseViewController {
             }
         }
 
-        feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+        feedView.tapImagesAction = { [weak self] transitionViews, attachments, image, index in
 
-            /*
-            self?.previewTransitionViews = [transitionView]
+            self?.previewTransitionViews = transitionViews
 
-            let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
-            let initialPhoto = photos.first!
+            let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+            previewAttachmentPhotos[index].image = image
 
-            delay(2) {
+            self?.previewAttachmentPhotos = previewAttachmentPhotos
+
+            let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
+            let initialPhoto = photos[index]
+
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
             self?.presentViewController(photosViewController, animated: true, completion: nil)
-            }
-             */
+        }
+
+        feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
+
             guard image != nil else {
                 return
             }
@@ -5066,7 +5072,14 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 extension ConversationViewController: PhotosViewControllerDelegate {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
-        return previewTransitionViews?.first
+
+        if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
+            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
     }
 
     func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {

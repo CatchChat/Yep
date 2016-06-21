@@ -16,6 +16,24 @@ public class PhotosViewController: UIViewController {
 
     private lazy var transitionController = PhotoTransitonController()
 
+    private var overlayActionViewWasHiddenBeforeTransition = false
+    private lazy var overlayActionView: OverlayActionView = {
+
+        let view = OverlayActionView()
+        view.backgroundColor = UIColor.clearColor()
+
+        view.shareAction = { [weak self] in
+            guard let image = self?.currentlyDisplayedPhoto?.imageType.image else {
+                return
+            }
+
+            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self?.presentViewController(activityViewController, animated: true, completion: nil)
+        }
+
+        return view
+    }()
+
     private lazy var pageViewController: UIPageViewController = {
 
         let vc = UIPageViewController(
@@ -62,6 +80,10 @@ public class PhotosViewController: UIViewController {
         return tap
     }()
 
+    private var boundsCenterPoint: CGPoint {
+        return CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+    }
+
     deinit {
         pageViewController.dataSource = nil
         pageViewController.delegate = nil
@@ -82,6 +104,8 @@ public class PhotosViewController: UIViewController {
 
         //overlayView...        
 
+        print("initialPhoto.imageType.image: \(initialPhoto.imageType.image)")
+
         let initialPhotoViewController: PhotoViewController
         if dataSource.containsPhoto(initialPhoto) {
             initialPhotoViewController = newPhotoViewControllerForPhoto(initialPhoto)
@@ -96,6 +120,28 @@ public class PhotosViewController: UIViewController {
     
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setOverlayActionViewHidden(hidden: Bool, animated: Bool) {
+
+        guard overlayActionView.hidden != hidden else {
+            return
+        }
+
+        if animated {
+            overlayActionView.hidden = false
+            overlayActionView.alpha = hidden ? 1 : 0
+
+            UIView.animateWithDuration(1, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
+                self?.overlayActionView.alpha = hidden ? 0 : 1
+
+            }, completion: { [weak self] finished in
+                self?.overlayActionView.hidden = hidden
+            })
+
+        } else {
+            overlayActionView.hidden = hidden
+        }
     }
 
     private func newPhotoViewControllerForPhoto(photo: Photo) -> PhotoViewController {
@@ -124,16 +170,40 @@ public class PhotosViewController: UIViewController {
         view.tintColor = UIColor.whiteColor()
         view.backgroundColor = UIColor.blackColor()
 
-        addChildViewController(pageViewController)
-        view.addSubview(pageViewController.view)
-        pageViewController.didMoveToParentViewController(self)
+        do {
+            addChildViewController(pageViewController)
+            view.addSubview(pageViewController.view)
+            pageViewController.didMoveToParentViewController(self)
+        }
 
-        // TODO: add overlay
+        do {
+            view.addSubview(overlayActionView)
+            overlayActionView.translatesAutoresizingMaskIntoConstraints = false
 
-        transitionController.setStartingView(referenceViewForCurrentPhoto)
+            let leading = overlayActionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 0)
+            let trailing = overlayActionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: 0)
+            let bottom = overlayActionView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
+            let height = overlayActionView.heightAnchor.constraintEqualToConstant(80)
 
-        if currentlyDisplayedPhoto?.imageType.image != nil {
-            transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+            NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+
+            setOverlayActionViewHidden(true, animated: false)
+        }
+
+        do {
+            transitionController.setStartingView(referenceViewForCurrentPhoto)
+
+            if currentlyDisplayedPhoto?.imageType.image != nil {
+                transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+            }
+        }
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !overlayActionViewWasHiddenBeforeTransition {
+            setOverlayActionViewHidden(false, animated: true)
         }
     }
 
@@ -141,15 +211,21 @@ public class PhotosViewController: UIViewController {
 
     @objc private func didPan(sender: UIPanGestureRecognizer) {
 
-        transitionController.forcesNonInteractiveDismissal = false
+        switch sender.state {
 
-        // TODO: didPan
+        case .Began:
+            transitionController.forcesNonInteractiveDismissal = false
+            dismissViewControllerAnimated(true, userInitiated: true, completion: nil)
+
+        default:
+            transitionController.forcesNonInteractiveDismissal = true
+            transitionController.didPanWithPanGestureRecognizer(sender, viewToPan: pageViewController.view, anchorPoint: boundsCenterPoint)
+        }
     }
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
         // TODO: didSingleTap
-        dismissViewControllerAnimated(true, userInitiated: true)
     }
 
     // MARK: Dismissal
@@ -164,8 +240,19 @@ public class PhotosViewController: UIViewController {
         transitionController.setStartingView(startingView)
         transitionController.setEndingView(referenceViewForCurrentPhoto)
 
+        let overlayActionViewWasHidden = overlayActionView.hidden
+        self.overlayActionViewWasHiddenBeforeTransition = overlayActionViewWasHidden
+        setOverlayActionViewHidden(true, animated: animated)
+
         // TODO
-        super.dismissViewControllerAnimated(animated) {
+        super.dismissViewControllerAnimated(animated) { [weak self] in
+
+            let isStillOnscreen = (self?.view.window != nil)
+
+            if (isStillOnscreen && !overlayActionViewWasHidden) {
+                self?.setOverlayActionViewHidden(false, animated: true)
+            }
+
             completion?()
         }
     }
@@ -175,13 +262,32 @@ extension PhotosViewController: UIPageViewControllerDataSource {
 
     public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
-        // TODO
-        return nil
+        guard let viewController = viewController as? PhotoViewController else {
+            return nil
+        }
+
+        let photoIndex = dataSource.indexOfPhoto(viewController.photo)
+
+        guard let previousPhoto = dataSource.photoAtIndex(photoIndex - 1) else {
+            return nil
+        }
+
+        return newPhotoViewControllerForPhoto(previousPhoto)
     }
 
     public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-        // TODO
-        return nil
+
+        guard let viewController = viewController as? PhotoViewController else {
+            return nil
+        }
+
+        let photoIndex = dataSource.indexOfPhoto(viewController.photo)
+
+        guard let previousPhoto = dataSource.photoAtIndex(photoIndex + 1) else {
+            return nil
+        }
+
+        return newPhotoViewControllerForPhoto(previousPhoto)
     }
 }
 

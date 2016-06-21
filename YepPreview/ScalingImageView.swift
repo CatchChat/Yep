@@ -16,12 +16,16 @@ class ScalingImageView: UIScrollView {
         }
     }
 
-    lazy var imageView = UIImageView()
+    lazy var imageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .ScaleAspectFill
+        view.clipsToBounds = true
+        return view
+    }()
 
     private var image: UIImage? {
         didSet {
             if let image = image {
-                print("setupWithImage: \(image)")
                 setupWithImage(image)
             }
         }
@@ -29,8 +33,7 @@ class ScalingImageView: UIScrollView {
 
     // MARK: Init
 
-    init(frame: CGRect, imageType: ImageType?) {
-        self.imageType = imageType
+    override init(frame: CGRect) {
         super.init(frame: frame)
 
         self.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
@@ -40,16 +43,8 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
-        self.backgroundColor = UIColor.redColor()
 
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(checkImageView(_:)), userInfo: nil, repeats: true)
-    }
-
-    @objc private func checkImageView(sender: NSTimer) {
-        print("imageView: \(imageView)")
-        print("imageView.image: \(imageView.image)")
-        print("imageView.superview: \(imageView.superview)")
-        print("self: \(self)")
+        self.clipsToBounds = true
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -88,10 +83,6 @@ class ScalingImageView: UIScrollView {
         minimumZoomScale = minScale
         maximumZoomScale = max(minScale, maximumZoomScale)
         zoomScale = minimumZoomScale
-
-        print("zoomScale: \(zoomScale)")
-        print("minimumZoomScale: \(minimumZoomScale)")
-        print("maximumZoomScale: \(maximumZoomScale)")
 
         panGestureRecognizer.enabled = false
     }

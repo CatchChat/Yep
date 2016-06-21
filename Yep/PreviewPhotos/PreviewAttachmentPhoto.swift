@@ -10,19 +10,11 @@ import Foundation
 import YepKit
 import YepPreview
 
-class PreviewAttachmentPhoto: Photo {
+class PreviewAttachmentPhoto: NSObject, Photo {
 
-    var attachment: DiscoveredAttachment
+    let attachment: DiscoveredAttachment
+
     var image: UIImage?
-
-    init(attachment: DiscoveredAttachment) {
-        self.attachment = attachment
-
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
-            self.image = image
-            println("PreviewAttachmentPhoto: \(image)")
-        }
-    }
 
     var imageType: ImageType {
 
@@ -30,6 +22,17 @@ class PreviewAttachmentPhoto: Photo {
             return .image(image)
         } else {
             return .imageURL(NSURL(string: attachment.URLString)!)
+        }
+    }
+
+    init(attachment: DiscoveredAttachment) {
+        self.attachment = attachment
+
+        super.init()
+
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
+            self.image = image
+            println("PreviewAttachmentPhoto: \(image)")
         }
     }
 }
