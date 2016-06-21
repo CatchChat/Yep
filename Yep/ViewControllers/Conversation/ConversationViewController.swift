@@ -1817,13 +1817,14 @@ final class ConversationViewController: BaseViewController {
 
             self?.previewTransitionViews = [transitionView]
 
-            let photos: [Photo] = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+            let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+            previewAttachmentPhotos.first?.image = image
+
+            let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
             let initialPhoto = photos.first!
 
-            delay(1) {
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
             self?.presentViewController(photosViewController, animated: true, completion: nil)
-            }
             /*
             guard image != nil else {
                 return
