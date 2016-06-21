@@ -178,9 +178,19 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
 
-        let finalEndingViewTransform = endingView?.transform
+        startingViewForAnimation.clipsToBounds = true
+        endingViewForAnimation.clipsToBounds = true
 
-        let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
+        //let finalEndingViewTransform = endingView?.transform
+
+        //let endingViewInitialTransform = startingViewForAnimation.frame.height / endingViewForAnimation.frame.height
+
+        let endingViewForAnimationFinalFrame = endingViewForAnimation.frame
+
+        print("startingViewForAnimation.frame: \(startingViewForAnimation.frame)")
+        print("endingViewForAnimation.frame: \(endingViewForAnimation.frame)")
+
+        endingViewForAnimation.frame = startingViewForAnimation.frame
 
         if let startingView = startingView {
             let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
@@ -188,8 +198,8 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingViewForAnimation.center = translatedStartingViewCenter
         }
 
-        endingViewForAnimation.transform = CGAffineTransformScale(endingViewForAnimation.transform, endingViewInitialTransform, endingViewInitialTransform)
-        endingViewForAnimation.alpha = 0
+        //endingViewForAnimation.transform = CGAffineTransformScale(endingViewForAnimation.transform, endingViewInitialTransform, endingViewInitialTransform)
+        endingViewForAnimation.alpha = 1
 
         containerView.addSubview(startingViewForAnimation)
         containerView.addSubview(endingViewForAnimation)
@@ -197,22 +207,22 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         startingView?.alpha = 0
         endingView?.alpha = 0
 
-        let fadeInDuration = transitionDuration(transitionContext) * animationDurationEndingViewFadeInRatio
-        let fadeOutDuration = transitionDuration(transitionContext) * animationDurationStartingViewFadeOutRatio
+//        let fadeInDuration = transitionDuration(transitionContext) * animationDurationEndingViewFadeInRatio
+//        let fadeOutDuration = transitionDuration(transitionContext) * animationDurationStartingViewFadeOutRatio
+//
+//        UIView.animateWithDuration(fadeInDuration, delay: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
+//            endingViewForAnimation.alpha = 1
+//
+//        }, completion: { finished in
+//            UIView.animateWithDuration(fadeOutDuration, delay: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
+//                startingViewForAnimation.alpha = 0
+//
+//            }, completion: { finished in
+//                startingViewForAnimation.removeFromSuperview()
+//            })
+//        })
 
-        UIView.animateWithDuration(fadeInDuration, delay: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
-            endingViewForAnimation.alpha = 1
-
-        }, completion: { finished in
-            UIView.animateWithDuration(fadeOutDuration, delay: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { 
-                startingViewForAnimation.alpha = 0
-
-            }, completion: { finished in
-                startingViewForAnimation.removeFromSuperview()
-            })
-        })
-
-        let startingViewFinalTransform = 1.0 / endingViewInitialTransform
+        //let startingViewFinalTransform = 1.0 / endingViewInitialTransform
 
         var translatedEndingViewFinalCenter: CGPoint?
         if let endingView = endingView {
@@ -221,22 +231,29 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: {
 
-            if let finalEndingViewTransform = finalEndingViewTransform {
-                endingViewForAnimation.transform = finalEndingViewTransform
-            }
+//            if let finalEndingViewTransform = finalEndingViewTransform {
+//                endingViewForAnimation.transform = finalEndingViewTransform
+//            }
+            endingViewForAnimation.frame = endingViewForAnimationFinalFrame
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
-            startingViewForAnimation.transform = CGAffineTransformScale(startingViewForAnimation.transform, startingViewFinalTransform, startingViewFinalTransform)
+            //startingViewForAnimation.transform = CGAffineTransformScale(startingViewForAnimation.transform, startingViewFinalTransform, startingViewFinalTransform)
+            startingViewForAnimation.frame = endingViewForAnimationFinalFrame
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
             }
 
+            startingViewForAnimation.alpha = 0
+            endingViewForAnimation.alpha = 1
+
         }, completion: { [unowned self] finished in
+            startingViewForAnimation.removeFromSuperview()
             endingViewForAnimation.removeFromSuperview()
+
             self.endingView?.alpha = 1
             self.startingView?.alpha = 1
 

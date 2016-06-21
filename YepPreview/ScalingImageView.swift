@@ -16,7 +16,12 @@ class ScalingImageView: UIScrollView {
         }
     }
 
-    lazy var imageView = UIImageView()
+    lazy var imageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .ScaleAspectFill
+        view.clipsToBounds = true
+        return view
+    }()
 
     private var image: UIImage? {
         didSet {
@@ -39,6 +44,8 @@ class ScalingImageView: UIScrollView {
         self.decelerationRate = UIScrollViewDecelerationRateFast
 
         self.addSubview(imageView)
+
+        self.clipsToBounds = true
     }
 
     required init?(coder aDecoder: NSCoder) {
