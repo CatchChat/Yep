@@ -87,7 +87,7 @@ class PhotoDismissalInteractionController: NSObject {
                 let isPositiveDelta = verticalDelta >= 0
                 let modifier: CGFloat = isPositiveDelta ? 1 : -1
 
-                let finalCenterY = fromView.bounds.minY + modifier * fromView.bounds.height
+                let finalCenterY = fromView.bounds.midY + modifier * fromView.bounds.height
                 finalPageViewCenterPoint = CGPoint(x: fromView.center.x, y: finalCenterY)
 
                 animationDuration = abs(finalPageViewCenterPoint.y - viewToPan.center.y) / abs(velocityY)
