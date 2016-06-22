@@ -1398,6 +1398,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
                 }
 
             case .GithubRepo:
