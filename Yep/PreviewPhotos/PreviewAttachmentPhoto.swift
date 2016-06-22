@@ -42,7 +42,7 @@ class PreviewAttachmentPhoto: NSObject, Photo {
 
             strongSelf.updatedImageType?(imageType: strongSelf.imageType)
 
-            println("PreviewAttachmentPhoto: \(image)")
+            println("sync PreviewAttachmentPhoto: \(image)")
         }
     }
 }

@@ -36,6 +36,21 @@ class PreviewMessagePhoto: NSObject, Photo {
             imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
             image = UIImage(contentsOfFile: imageFileURL.path!) {
             self.image = image
+
+        } else {
+            let url = NSURL(string: message.attachmentURLString)!
+            ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: 0, completion: { [weak self] (url, image, cacheType) in
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.image = image
+
+                strongSelf.updatedImageType?(imageType: strongSelf.imageType)
+
+                println("sync PreviewMessagePhoto: \(image)")
+            })
         }
     }
 }
