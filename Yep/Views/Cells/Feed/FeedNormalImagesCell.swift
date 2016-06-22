@@ -18,7 +18,7 @@ final class FeedNormalImagesCell: FeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    //var tapMediaAction: FeedTapMediaAction?
     var tapImagesAction: FeedTapImagesAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {

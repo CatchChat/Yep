@@ -1337,7 +1337,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
-
+                /*
                 let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
@@ -1368,6 +1368,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
+                 */
 
                 if feed.imageAttachmentsCount == 1 {
                     guard let cell = cell as? FeedBiggerImageCell else {
@@ -1376,7 +1377,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
@@ -1387,7 +1388,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else {
@@ -1397,7 +1398,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
                 }
 

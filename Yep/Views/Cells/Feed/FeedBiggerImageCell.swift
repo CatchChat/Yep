@@ -18,7 +18,7 @@ final class FeedBiggerImageCell: FeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    //var tapMediaAction: FeedTapMediaAction?
     var tapImagesAction: FeedTapImagesAction?
 
     lazy var biggerImageView: UIImageView = {

@@ -65,7 +65,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
         return collectionView
     }()
 
-    var tapMediaAction: FeedTapMediaAction?
+    //var tapMediaAction: FeedTapMediaAction?
     var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
