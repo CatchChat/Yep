@@ -25,13 +25,23 @@ class PreviewAttachmentPhoto: NSObject, Photo {
         }
     }
 
+    var updatedImageType: ((imageType: ImageType) -> Void)?
+
     init(attachment: DiscoveredAttachment) {
         self.attachment = attachment
 
         super.init()
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
-            self.image = image
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { [weak self] (url, image, cacheType) in
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            strongSelf.image = image
+
+            strongSelf.updatedImageType?(imageType: strongSelf.imageType)
+
             println("PreviewAttachmentPhoto: \(image)")
         }
     }
