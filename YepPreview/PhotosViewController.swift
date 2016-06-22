@@ -132,7 +132,7 @@ public class PhotosViewController: UIViewController {
             overlayActionView.hidden = false
             overlayActionView.alpha = hidden ? 1 : 0
 
-            UIView.animateWithDuration(1, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
+            UIView.animateWithDuration(0.25, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
                 self?.overlayActionView.alpha = hidden ? 0 : 1
 
             }, completion: { [weak self] finished in
@@ -255,7 +255,7 @@ public class PhotosViewController: UIViewController {
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
-        // TODO: didSingleTap
+        setOverlayActionViewHidden(!overlayActionView.hidden, animated: true)
     }
 
     // MARK: Dismissal
