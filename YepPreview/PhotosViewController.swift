@@ -244,13 +244,20 @@ public class PhotosViewController: UIViewController {
         self.overlayActionViewWasHiddenBeforeTransition = overlayActionViewWasHidden
         setOverlayActionViewHidden(true, animated: animated)
 
-        // TODO
+        delegate?.photosViewControllerWillDismiss(self)
+
         super.dismissViewControllerAnimated(animated) { [weak self] in
 
             let isStillOnscreen = (self?.view.window != nil)
 
             if (isStillOnscreen && !overlayActionViewWasHidden) {
                 self?.setOverlayActionViewHidden(false, animated: true)
+            }
+
+            if !isStillOnscreen {
+                if let vc = self {
+                    vc.delegate?.photosViewControllerDidDismiss(vc)
+                }
             }
 
             completion?()
