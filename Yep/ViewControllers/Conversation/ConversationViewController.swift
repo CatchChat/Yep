@@ -732,7 +732,6 @@ final class ConversationViewController: BaseViewController {
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     private var previewMessagePhotos: [PreviewMessagePhoto] = []
-    private var previewMessagePhotoInitialIndex: Int = 0
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -3817,20 +3816,35 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let mediaMessagesResult = messages.filter(predicate)
                     let mediaMessages = mediaMessagesResult.map({ $0 })
 
-                    if let index = mediaMessagesResult.indexOf(message) {
-
-                        self.previewTransitionViews = [transitionView]
-
-                        let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
-                        self.previewMessagePhotos = previewMessagePhotos
-                        self.previewMessagePhotoInitialIndex = index
-
-                        let photos: [Photo] = previewMessagePhotos.map({ $0 })
-                        let initialPhoto = photos[index]
-
-                        let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                        self.presentViewController(photosViewController, animated: true, completion: nil)
+                    guard let index = mediaMessagesResult.indexOf(message) else {
+                        return
                     }
+
+                    let transitionViews: [UIView?] = mediaMessages.map({
+                        if let index = messages.indexOf($0) {
+                            let cellIndex = index - displayedMessagesRange.location
+                            let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
+
+                            if let leftImageCell = cell as? ChatLeftImageCell {
+                                return leftImageCell.messageImageView
+                            } else if let rightImageCell = cell as? ChatRightImageCell {
+                                return rightImageCell.messageImageView
+                            }
+                        }
+
+                        return nil
+                    })
+
+                    self.previewTransitionViews = transitionViews
+
+                    let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
+                    self.previewMessagePhotos = previewMessagePhotos
+
+                    let photos: [Photo] = previewMessagePhotos.map({ $0 })
+                    let initialPhoto = photos[index]
+
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self.presentViewController(photosViewController, animated: true, completion: nil)
                 }
 
                 /*
@@ -5135,8 +5149,8 @@ extension ConversationViewController: PhotosViewControllerDelegate {
             }
 
         } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
-            if let index = previewMessagePhotos.indexOf(previewMessagePhoto) where index == previewMessagePhotoInitialIndex {
-                return (previewTransitionViews?.first)!
+            if let index = previewMessagePhotos.indexOf(previewMessagePhoto) {
+                return previewTransitionViews?[index]
             }
         }
 
