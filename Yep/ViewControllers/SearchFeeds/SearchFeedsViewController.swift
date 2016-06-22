@@ -821,7 +821,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
-
+                /*
                 let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
@@ -852,6 +852,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
                 }
+                 */
 
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
 
@@ -861,7 +862,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-                    cell.tapMediaAction = tapMediaAction
+                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else {
@@ -871,7 +872,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-                    cell.tapMediaAction = tapMediaAction
+                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
                 }
 
