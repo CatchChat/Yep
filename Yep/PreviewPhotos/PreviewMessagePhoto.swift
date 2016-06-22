@@ -12,7 +12,7 @@ import YepPreview
 
 class PreviewMessagePhoto: NSObject, Photo {
 
-    let message: Message
+    let attachmentURLString: String
 
     var image: UIImage? {
         didSet {
@@ -26,27 +26,36 @@ class PreviewMessagePhoto: NSObject, Photo {
         if let image = image {
             return .image(image)
         } else {
-            return .imageURL(NSURL(string: message.attachmentURLString)!)
+            return .imageURL(NSURL(string: attachmentURLString)!)
         }
     }
 
     var updatedImageType: ((imageType: ImageType) -> Void)?
 
     init(message: Message) {
-        self.message = message
+        self.attachmentURLString = message.attachmentURLString
 
         super.init()
 
-        if let
-            imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
-            image = UIImage(contentsOfFile: imageFileURL.path!) {
-            self.image = image
+        let localAttachmentName = message.localAttachmentName
+        let attachmentURLString = message.attachmentURLString
 
-        } else {
-            let url = NSURL(string: message.attachmentURLString)!
-            ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: 0, completion: { [weak self] (url, image, cacheType) in
-                self?.image = image
-            })
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+            if let
+                imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName),
+                image = UIImage(contentsOfFile: imageFileURL.path!) {
+
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.image = image
+                }
+
+            } else {
+                if let url = NSURL(string: attachmentURLString) {
+                    ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: 0, completion: { [weak self] (url, image, cacheType) in
+                        self?.image = image
+                    })
+                }
+            }
         }
     }
 }
