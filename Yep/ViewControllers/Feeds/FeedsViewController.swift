@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import YepKit
 import YepNetworking
+import YepPreview
 import AVFoundation
 import MapKit
 import Ruler
@@ -345,7 +346,10 @@ final class FeedsViewController: BaseViewController {
 
     //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    
+
+    private var previewTransitionViews: [UIView?]?
+    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         feedsTableView?.delegate = nil
@@ -1318,6 +1322,22 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Image:
 
+                let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
+
+                    self?.previewTransitionViews = transitionViews
+
+                    let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+                    previewAttachmentPhotos[index].image = image
+
+                    self?.previewAttachmentPhotos = previewAttachmentPhotos
+
+                    let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
+                    let initialPhoto = photos[index]
+
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+                }
+
                 let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
@@ -1357,6 +1377,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
                     cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
@@ -1969,3 +1990,40 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
         showViewController(viewControllerToCommit, sender: self)
     }
 }
+
+// MARK: - PhotosViewControllerDelegate
+
+extension FeedsViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+
+        println("photosViewController:referenceViewForPhoto:\(photo)")
+
+        if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
+            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+        println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerWillDismiss")
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerDidDismiss")
+
+        previewTransitionViews = nil
+        previewAttachmentPhotos = []
+    }
+}
+

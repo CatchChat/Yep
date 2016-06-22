@@ -5069,6 +5069,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     }
 }
 
+// MARK: - PhotosViewControllerDelegate
+
 extension ConversationViewController: PhotosViewControllerDelegate {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
