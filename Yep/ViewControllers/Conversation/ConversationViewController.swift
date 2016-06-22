@@ -3838,6 +3838,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     self.previewTransitionViews = transitionViews
 
                     let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
+                    if let
+                        imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                        image = UIImage(contentsOfFile: imageFileURL.path!) {
+                        previewMessagePhotos[index].image = image
+                    }
                     self.previewMessagePhotos = previewMessagePhotos
 
                     let photos: [Photo] = previewMessagePhotos.map({ $0 })
