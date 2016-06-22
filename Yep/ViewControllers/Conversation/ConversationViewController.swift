@@ -731,6 +731,7 @@ final class ConversationViewController: BaseViewController {
 
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    private var previewMessagePhotos: [PreviewMessagePhoto] = []
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -3783,6 +3784,36 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return
                 }
 
+                if message.mediaType == MessageMediaType.Video.rawValue {
+                    //vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+                    //vc.startIndex = 0
+
+                } else {
+                    let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
+                    let mediaMessagesResult = messages.filter(predicate)
+                    let mediaMessages = mediaMessagesResult.map({ $0 })
+
+                    if let index = mediaMessagesResult.indexOf(message) {
+
+                        self.previewTransitionViews = [transitionView]
+
+                        let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
+                        self.previewMessagePhotos = previewMessagePhotos
+
+                        let photos: [Photo] = previewMessagePhotos.map({ $0 })
+                        let initialPhoto = photos[index]
+
+                        let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                        self.presentViewController(photosViewController, animated: true, completion: nil)
+
+                        //vc.previewMedias = mediaMessages.map({ PreviewMedia.MessageType(message: $0) })
+                        //vc.startIndex = index
+                    }
+                }
+
+
+
+                /*
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
                 if message.mediaType == MessageMediaType.Video.rawValue {
@@ -3818,6 +3849,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 mediaPreviewWindow.rootViewController = vc
                 mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                 mediaPreviewWindow.makeKeyAndVisible()
+                 */
             }
         }
     }
