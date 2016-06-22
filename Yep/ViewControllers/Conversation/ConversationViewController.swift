@@ -732,6 +732,7 @@ final class ConversationViewController: BaseViewController {
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     private var previewMessagePhotos: [PreviewMessagePhoto] = []
+    private var previewMessagePhotoInitialIndex: Int = 0
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -3799,6 +3800,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
                         self.previewMessagePhotos = previewMessagePhotos
+                        self.previewMessagePhotoInitialIndex = index
 
                         let photos: [Photo] = previewMessagePhotos.map({ $0 })
                         let initialPhoto = photos[index]
@@ -5109,8 +5111,10 @@ extension ConversationViewController: PhotosViewControllerDelegate {
                 return previewTransitionViews?[index]
             }
 
-        } else if photo is PreviewMessagePhoto {
-            return (previewTransitionViews?.first)!
+        } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
+            if let index = previewMessagePhotos.indexOf(previewMessagePhoto) where index == previewMessagePhotoInitialIndex {
+                return (previewTransitionViews?.first)!
+            }
         }
 
         return nil
