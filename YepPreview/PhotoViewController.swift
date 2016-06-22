@@ -41,11 +41,6 @@ class PhotoViewController: UIViewController {
         return longPress
     }()
 
-    struct Notification {
-
-        static let photoImageUpdated = "PhotoViewControllerPhotoImageUpdatedNotification"
-    }
-
     deinit {
         scalingImageView.delegate = nil
 
@@ -68,8 +63,6 @@ class PhotoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(photoImageUpdated(_:)), name: Notification.photoImageUpdated, object: nil)
 
         scalingImageView.frame = view.bounds
         scalingImageView.imageType = photo.imageType
@@ -101,24 +94,6 @@ class PhotoViewController: UIViewController {
     }
 
     // MARK: Selectors
-
-    @objc private func photoImageUpdated(sender: NSNotification) {
-
-        // TODO: check photo
-
-        guard let photo = sender.object as? Photo else {
-            return
-        }
-
-        scalingImageView.imageType = photo.imageType
-
-        let needLoad = (scalingImageView.imageType?.image == nil)
-        if needLoad {
-            loadingView.startAnimating()
-        } else {
-            loadingView.stopAnimating()
-        }
-    }
 
     @objc private func didDoubleTap(sender: UITapGestureRecognizer) {
 
