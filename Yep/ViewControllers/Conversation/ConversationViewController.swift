@@ -3805,13 +3805,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                         self.presentViewController(photosViewController, animated: true, completion: nil)
-
-                        //vc.previewMedias = mediaMessages.map({ PreviewMedia.MessageType(message: $0) })
-                        //vc.startIndex = index
                     }
                 }
-
-
 
                 /*
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
@@ -5113,6 +5108,9 @@ extension ConversationViewController: PhotosViewControllerDelegate {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
                 return previewTransitionViews?[index]
             }
+
+        } else if photo is PreviewMessagePhoto {
+            return (previewTransitionViews?.first)!
         }
 
         return nil
@@ -5134,6 +5132,7 @@ extension ConversationViewController: PhotosViewControllerDelegate {
 
         previewTransitionViews = nil
         previewAttachmentPhotos = []
+        previewMessagePhotos = []
     }
 }
 
