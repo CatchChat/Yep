@@ -3786,10 +3786,33 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 }
 
                 if message.mediaType == MessageMediaType.Video.rawValue {
-                    //vc.previewMedias = [PreviewMedia.MessageType(message: message)]
-                    //vc.startIndex = 0
 
-                } else {
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+                    vc.startIndex = 0
+
+                    vc.previewImageViewInitalFrame = frame
+                    vc.topPreviewImage = message.thumbnailImage
+                    vc.bottomPreviewImage = image
+
+                    vc.transitionView = transitionView
+
+                    delay(0) {
+                        transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    }
+
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView?.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
+
+                } else if message.mediaType == MessageMediaType.Image.rawValue {
+
                     let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
                     let mediaMessagesResult = messages.filter(predicate)
                     let mediaMessages = mediaMessagesResult.map({ $0 })
