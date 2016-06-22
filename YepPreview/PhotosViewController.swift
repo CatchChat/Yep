@@ -302,7 +302,14 @@ extension PhotosViewController: UIPageViewControllerDelegate {
 
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
-        // TODO
+        guard completed else {
+            return
+        }
+
+        if let photo = currentlyDisplayedPhoto {
+            let index = dataSource.indexOfPhoto(photo)
+            delegate?.photosViewController(self, didNavigateToPhoto: photo, atIndex: index)
+        }
     }
 }
 
