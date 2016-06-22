@@ -244,13 +244,20 @@ public class PhotosViewController: UIViewController {
         self.overlayActionViewWasHiddenBeforeTransition = overlayActionViewWasHidden
         setOverlayActionViewHidden(true, animated: animated)
 
-        // TODO
+        delegate?.photosViewControllerWillDismiss(self)
+
         super.dismissViewControllerAnimated(animated) { [weak self] in
 
             let isStillOnscreen = (self?.view.window != nil)
 
             if (isStillOnscreen && !overlayActionViewWasHidden) {
                 self?.setOverlayActionViewHidden(false, animated: true)
+            }
+
+            if !isStillOnscreen {
+                if let vc = self {
+                    vc.delegate?.photosViewControllerDidDismiss(vc)
+                }
             }
 
             completion?()
@@ -295,8 +302,14 @@ extension PhotosViewController: UIPageViewControllerDelegate {
 
     public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
-        // TODO
+        guard completed else {
+            return
+        }
+
+        if let photo = currentlyDisplayedPhoto {
+            let index = dataSource.indexOfPhoto(photo)
+            delegate?.photosViewController(self, didNavigateToPhoto: photo, atIndex: index)
+        }
     }
 }
-
 

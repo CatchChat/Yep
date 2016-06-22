@@ -18,7 +18,8 @@ final class FeedBiggerImageCell: FeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    //var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     lazy var biggerImageView: UIImageView = {
         let imageView = UIImageView()
@@ -83,7 +84,8 @@ final class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let attachments = feed?.imageAttachments {
-            tapMediaAction?(transitionView: biggerImageView, image: biggerImageView.image, attachments: attachments, index: 0)
+            //tapMediaAction?(transitionView: biggerImageView, image: biggerImageView.image, attachments: attachments, index: 0)
+            tapImagesAction?(transitionViews: [biggerImageView], attachments: attachments, image: biggerImageView.image, index: 0)
         }
     }
 }

@@ -29,22 +29,18 @@ final class ImageCache {
     class func attachmentSideLengthKeyWithURLString(URLString: String, sideLength: CGFloat) -> String {
         return "attachment-\(sideLength)-\(URLString)"
     }
-    
-    func imageOfAttachment(attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
 
-        guard let attachmentURL = NSURL(string: attachment.URLString) else {
-            return
-        }
+    func imageOfURL(url: NSURL, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
 
         var sideLength: CGFloat = 0
 
         if let withMinSideLength = withMinSideLength {
             sideLength = withMinSideLength
         }
-        
-        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(attachmentURL.absoluteString)
 
-        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(attachmentURL.absoluteString, sideLength: sideLength)
+        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
+
+        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
 
         //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
@@ -59,20 +55,20 @@ final class ImageCache {
 
             if let image = image?.decodedImage() {
                 SafeDispatch.async {
-                    completion(url: attachmentURL, image: image, cacheType: type)
+                    completion(url: url, image: image, cacheType: type)
                 }
 
             } else {
-                
+
                 //查找原图
-                
+
                 Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentOriginKey, options: options) { (image, type) -> () in
 
                     if let image = image {
-                        
+
                         //裁剪并存储
                         var finalImage = image
-                        
+
                         if sideLength != 0 {
                             finalImage = finalImage.scaleToMinSideLength(sideLength)
 
@@ -81,42 +77,42 @@ final class ImageCache {
                             Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
-                        
+
                         SafeDispatch.async {
-                            completion(url: attachmentURL, image: finalImage, cacheType: type)
+                            completion(url: url, image: finalImage, cacheType: type)
                         }
-                        
+
                     } else {
-                        
+
                         // 下载
-                        
-                        ImageDownloader.defaultDownloader.downloadImageWithURL(attachmentURL, options: options, progressBlock: { receivedSize, totalSize  in
-                            
-                        }, completionHandler: {  image, error , imageURL, originalData in
-                            
+
+                        ImageDownloader.defaultDownloader.downloadImageWithURL(url, options: options, progressBlock: { receivedSize, totalSize  in
+
+                        }, completionHandler: { image, error , imageURL, originalData in
+
                             if let image = image {
-                                
+
                                 Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
-                                
+
                                 var storeImage = image
-                                
+
                                 if sideLength != 0 {
                                     storeImage = storeImage.scaleToMinSideLength(sideLength)
                                 }
 
                                 Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
-                                
+
                                 let finalImage = storeImage.decodedImage()
-                                
+
                                 //println("Image Decode size \(storeImage.size)")
-                                
+
                                 SafeDispatch.async {
-                                    completion(url: attachmentURL, image: finalImage, cacheType: .None)
+                                    completion(url: url, image: finalImage, cacheType: .None)
                                 }
 
                             } else {
                                 SafeDispatch.async {
-                                    completion(url: attachmentURL, image: nil, cacheType: .None)
+                                    completion(url: url, image: nil, cacheType: .None)
                                 }
                             }
                         })
@@ -124,6 +120,15 @@ final class ImageCache {
                 }
             }
         }
+    }
+
+    func imageOfAttachment(attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+
+        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+            return
+        }
+
+        imageOfURL(attachmentURL, withMinSideLength: withMinSideLength, completion: completion)
     }
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {

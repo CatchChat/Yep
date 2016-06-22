@@ -11,5 +11,7 @@ import Foundation
 public protocol Photo: class {
 
     var imageType: ImageType { get }
+
+    var updatedImageType: ((imageType: ImageType) -> Void)? { get set }
 }
 

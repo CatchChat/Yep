@@ -41,11 +41,6 @@ class PhotoViewController: UIViewController {
         return longPress
     }()
 
-    struct Notification {
-
-        static let photoImageUpdated = "PhotoViewControllerPhotoImageUpdatedNotification"
-    }
-
     deinit {
         scalingImageView.delegate = nil
 
@@ -69,11 +64,17 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(photoImageUpdated(_:)), name: Notification.photoImageUpdated, object: nil)
-
         scalingImageView.frame = view.bounds
         scalingImageView.imageType = photo.imageType
         view.addSubview(scalingImageView)
+
+        photo.updatedImageType = { [weak self] imageType in
+            self?.scalingImageView.imageType = imageType
+
+            if imageType.image != nil {
+                self?.loadingView.stopAnimating()
+            }
+        }
 
         if photo.imageType.image == nil {
             loadingView.startAnimating()
@@ -94,30 +95,12 @@ class PhotoViewController: UIViewController {
 
     // MARK: Selectors
 
-    @objc private func photoImageUpdated(sender: NSNotification) {
-
-        // TODO: check photo
-
-        guard let photo = sender.object as? Photo else {
-            return
-        }
-
-        scalingImageView.imageType = photo.imageType
-
-        let needLoad = (scalingImageView.imageType?.image == nil)
-        if needLoad {
-            loadingView.startAnimating()
-        } else {
-            loadingView.stopAnimating()
-        }
-    }
-
     @objc private func didDoubleTap(sender: UITapGestureRecognizer) {
 
         let pointInView = sender.locationInView(scalingImageView.imageView)
 
-        var newZoomScale = scalingImageView.maximumZoomScale
-        if (scalingImageView.zoomScale >= scalingImageView.maximumZoomScale) || (abs(scalingImageView.zoomScale - scalingImageView.maximumZoomScale) <= 0.01) {
+        var newZoomScale = min(scalingImageView.maximumZoomScale, scalingImageView.minimumZoomScale * 2)
+        if (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01) {
             newZoomScale = scalingImageView.minimumZoomScale
         }
 

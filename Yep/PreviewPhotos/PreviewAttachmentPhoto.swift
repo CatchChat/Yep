@@ -14,7 +14,12 @@ class PreviewAttachmentPhoto: NSObject, Photo {
 
     let attachment: DiscoveredAttachment
 
-    var image: UIImage?
+    var image: UIImage? {
+        didSet {
+            self.updatedImageType?(imageType: imageType)
+            println("PreviewAttachmentPhoto updatedImageType: \(image)")
+        }
+    }
 
     var imageType: ImageType {
 
@@ -25,14 +30,15 @@ class PreviewAttachmentPhoto: NSObject, Photo {
         }
     }
 
+    var updatedImageType: ((imageType: ImageType) -> Void)?
+
     init(attachment: DiscoveredAttachment) {
         self.attachment = attachment
 
         super.init()
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { (url, image, cacheType) in
-            self.image = image
-            println("PreviewAttachmentPhoto: \(image)")
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { [weak self] (url, image, cacheType) in
+            self?.image = image
         }
     }
 }

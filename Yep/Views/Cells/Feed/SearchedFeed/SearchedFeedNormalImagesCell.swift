@@ -18,7 +18,8 @@ final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    //var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {
         let imageView = UIImageView()
@@ -144,7 +145,9 @@ final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
         if let imageView = sender.view as? UIImageView, index = imageViews.indexOf(imageView) {
 
             if let attachments = feed?.imageAttachments {
-                tapMediaAction?(transitionView: imageView, image: imageView.image, attachments: attachments, index: index)
+                //tapMediaAction?(transitionView: imageView, image: imageView.image, attachments: attachments, index: index)
+                let transitionViews: [UIView?] = imageViews.map({ $0 })
+                tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: imageView.image, index: index)
             }
         }
     }

@@ -731,6 +731,7 @@ final class ConversationViewController: BaseViewController {
 
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    private var previewMessagePhotos: [PreviewMessagePhoto] = []
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -3783,6 +3784,70 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return
                 }
 
+                if message.mediaType == MessageMediaType.Video.rawValue {
+
+                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+
+                    vc.previewMedias = [PreviewMedia.MessageType(message: message)]
+                    vc.startIndex = 0
+
+                    vc.previewImageViewInitalFrame = frame
+                    vc.topPreviewImage = message.thumbnailImage
+                    vc.bottomPreviewImage = image
+
+                    vc.transitionView = transitionView
+
+                    delay(0) {
+                        transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    }
+
+                    vc.afterDismissAction = { [weak self] in
+                        transitionView?.alpha = 1
+                        self?.view.window?.makeKeyAndVisible()
+                    }
+
+                    mediaPreviewWindow.rootViewController = vc
+                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
+                    mediaPreviewWindow.makeKeyAndVisible()
+
+                } else if message.mediaType == MessageMediaType.Image.rawValue {
+
+                    let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
+                    let mediaMessagesResult = messages.filter(predicate)
+                    let mediaMessages = mediaMessagesResult.map({ $0 })
+
+                    guard let index = mediaMessagesResult.indexOf(message) else {
+                        return
+                    }
+
+                    let transitionViews: [UIView?] = mediaMessages.map({
+                        if let index = messages.indexOf($0) {
+                            let cellIndex = index - displayedMessagesRange.location
+                            let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
+
+                            if let leftImageCell = cell as? ChatLeftImageCell {
+                                return leftImageCell.messageImageView
+                            } else if let rightImageCell = cell as? ChatRightImageCell {
+                                return rightImageCell.messageImageView
+                            }
+                        }
+
+                        return nil
+                    })
+
+                    self.previewTransitionViews = transitionViews
+
+                    let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
+                    self.previewMessagePhotos = previewMessagePhotos
+
+                    let photos: [Photo] = previewMessagePhotos.map({ $0 })
+                    let initialPhoto = photos[index]
+
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self.presentViewController(photosViewController, animated: true, completion: nil)
+                }
+
+                /*
                 let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
                 if message.mediaType == MessageMediaType.Video.rawValue {
@@ -3818,6 +3883,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 mediaPreviewWindow.rootViewController = vc
                 mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                 mediaPreviewWindow.makeKeyAndVisible()
+                 */
             }
         }
     }
@@ -5069,12 +5135,21 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
     }
 }
 
+// MARK: - PhotosViewControllerDelegate
+
 extension ConversationViewController: PhotosViewControllerDelegate {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
 
+        println("photosViewController:referenceViewForPhoto:\(photo)")
+
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+
+        } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
+            if let index = previewMessagePhotos.indexOf(previewMessagePhoto) {
                 return previewTransitionViews?[index]
             }
         }
@@ -5084,13 +5159,21 @@ extension ConversationViewController: PhotosViewControllerDelegate {
 
     func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
 
+        println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) -> Bool {
-        return true
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerWillDismiss")
     }
 
     func photosViewControllerDidDismiss(vc: PhotosViewController) {
 
+        println("photosViewControllerDidDismiss")
+
+        previewTransitionViews = nil
+        previewAttachmentPhotos = []
+        previewMessagePhotos = []
     }
 }
+
