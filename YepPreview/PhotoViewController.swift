@@ -99,8 +99,8 @@ class PhotoViewController: UIViewController {
 
         let pointInView = sender.locationInView(scalingImageView.imageView)
 
-        var newZoomScale = scalingImageView.maximumZoomScale
-        if (scalingImageView.zoomScale >= scalingImageView.maximumZoomScale) || (abs(scalingImageView.zoomScale - scalingImageView.maximumZoomScale) <= 0.01) {
+        var newZoomScale = min(scalingImageView.maximumZoomScale, scalingImageView.minimumZoomScale * 2)
+        if (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01) {
             newZoomScale = scalingImageView.minimumZoomScale
         }
 
