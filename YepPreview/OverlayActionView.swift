@@ -51,8 +51,8 @@ class OverlayActionView: UIView {
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
         do {
-            let trailing = shareButton.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -20)
-            let bottom = shareButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -20)
+            let trailing = shareButton.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -30)
+            let bottom = shareButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -30)
 
             NSLayoutConstraint.activateConstraints([trailing, bottom])
         }
