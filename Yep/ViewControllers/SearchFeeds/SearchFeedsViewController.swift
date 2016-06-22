@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import YepKit
 import YepNetworking
+import YepPreview
 import AVFoundation
 import MapKit
 import Ruler
@@ -271,6 +272,9 @@ final class SearchFeedsViewController: SegueViewController {
         setAudioPlayedDuration(currentTime, ofFeedAudio: playingFeedAudio )
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
+
+    private var previewTransitionViews: [UIView?]?
+    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
 
     // MARK: Life Circle
 
@@ -802,6 +806,22 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Image:
 
+                let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
+
+                    self?.previewTransitionViews = transitionViews
+
+                    let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+                    previewAttachmentPhotos[index].image = image
+
+                    self?.previewAttachmentPhotos = previewAttachmentPhotos
+
+                    let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
+                    let initialPhoto = photos[index]
+
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+                }
+
                 let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
 
                     guard image != nil else {
@@ -842,6 +862,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                     cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
 
                 } else {
                     guard let cell = cell as? SearchedFeedAnyImagesCell else {
@@ -1221,3 +1242,40 @@ extension SearchFeedsViewController: AVAudioPlayerDelegate {
         feedAudioDidFinishPlaying()
     }
 }
+
+// MARK: - PhotosViewControllerDelegate
+
+extension SearchFeedsViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+
+        println("photosViewController:referenceViewForPhoto:\(photo)")
+
+        if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
+            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+        println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerWillDismiss")
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerDidDismiss")
+
+        previewTransitionViews = nil
+        previewAttachmentPhotos = []
+    }
+}
+
