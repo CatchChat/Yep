@@ -39,7 +39,7 @@ public class PhotosViewController: UIViewController {
         let vc = UIPageViewController(
             transitionStyle: .Scroll,
             navigationOrientation: .Horizontal,
-            options: [UIPageViewControllerOptionInterPageSpacingKey: 16])
+            options: [UIPageViewControllerOptionInterPageSpacingKey: 30])
 
         vc.dataSource = self
         vc.delegate = self
