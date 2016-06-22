@@ -102,10 +102,6 @@ public class PhotosViewController: UIViewController {
         self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
-        //overlayView...        
-
-        print("initialPhoto.imageType.image: \(initialPhoto.imageType.image)")
-
         let initialPhotoViewController: PhotoViewController
         if dataSource.containsPhoto(initialPhoto) {
             initialPhotoViewController = newPhotoViewControllerForPhoto(initialPhoto)
@@ -132,7 +128,7 @@ public class PhotosViewController: UIViewController {
             overlayActionView.hidden = false
             overlayActionView.alpha = hidden ? 1 : 0
 
-            UIView.animateWithDuration(1, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
+            UIView.animateWithDuration(0.25, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
                 self?.overlayActionView.alpha = hidden ? 0 : 1
 
             }, completion: { [weak self] finished in
@@ -148,11 +144,7 @@ public class PhotosViewController: UIViewController {
 
         let photoViewController = PhotoViewController(photo: photo)
 
-        //photoViewController.delegate = self
-
         singleTapGestureRecognizer.requireGestureRecognizerToFail(photoViewController.doubleTapGestureRecognizer)
-
-        // ...
 
         return photoViewController
     }
@@ -199,12 +191,42 @@ public class PhotosViewController: UIViewController {
         }
     }
 
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
+            self?.statusBarHidden = true
+        }
+    }
+
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
         if !overlayActionViewWasHiddenBeforeTransition {
             setOverlayActionViewHidden(false, animated: true)
         }
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        statusBarHidden = false
+    }
+
+    // MARK: Status Bar
+
+    var statusBarHidden: Bool = false {
+        didSet {
+            setNeedsStatusBarAppearanceUpdate()
+        }
+    }
+
+    public override func prefersStatusBarHidden() -> Bool {
+        return statusBarHidden
+    }
+
+    public override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return .Fade
     }
 
     // MARK: Selectors
@@ -225,7 +247,7 @@ public class PhotosViewController: UIViewController {
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
-        // TODO: didSingleTap
+        setOverlayActionViewHidden(!overlayActionView.hidden, animated: true)
     }
 
     // MARK: Dismissal
