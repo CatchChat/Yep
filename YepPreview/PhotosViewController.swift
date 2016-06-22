@@ -102,10 +102,6 @@ public class PhotosViewController: UIViewController {
         self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
-        //overlayView...        
-
-        print("initialPhoto.imageType.image: \(initialPhoto.imageType.image)")
-
         let initialPhotoViewController: PhotoViewController
         if dataSource.containsPhoto(initialPhoto) {
             initialPhotoViewController = newPhotoViewControllerForPhoto(initialPhoto)
@@ -148,11 +144,7 @@ public class PhotosViewController: UIViewController {
 
         let photoViewController = PhotoViewController(photo: photo)
 
-        //photoViewController.delegate = self
-
         singleTapGestureRecognizer.requireGestureRecognizerToFail(photoViewController.doubleTapGestureRecognizer)
-
-        // ...
 
         return photoViewController
     }
