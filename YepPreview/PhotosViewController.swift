@@ -313,4 +313,3 @@ extension PhotosViewController: UIPageViewControllerDelegate {
     }
 }
 
-
