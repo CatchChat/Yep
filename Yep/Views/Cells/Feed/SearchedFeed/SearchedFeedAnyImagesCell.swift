@@ -60,6 +60,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
     }()
 
     var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -138,7 +139,13 @@ extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionVie
 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
-        let transitionView = cell.imageView
-        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
+        //let transitionView = cell.imageView
+        //tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
+
+        let transitionViews: [UIView?] = (0..<attachments.count).map({
+            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+            return cell?.imageView
+        })
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }

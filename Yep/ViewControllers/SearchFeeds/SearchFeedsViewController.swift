@@ -872,6 +872,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
                     cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
                 }
 
             case .GithubRepo:
