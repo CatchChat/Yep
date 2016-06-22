@@ -5086,11 +5086,14 @@ extension ConversationViewController: PhotosViewControllerDelegate {
 
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) -> Bool {
-        return true
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
     }
 
     func photosViewControllerDidDismiss(vc: PhotosViewController) {
 
+        previewTransitionViews = nil
+        previewAttachmentPhotos = []
     }
 }
+

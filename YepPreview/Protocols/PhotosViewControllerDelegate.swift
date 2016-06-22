@@ -12,7 +12,7 @@ public protocol PhotosViewControllerDelegate: class {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView?
     func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int)
-    func photosViewControllerWillDismiss(vc: PhotosViewController) -> Bool
+    func photosViewControllerWillDismiss(vc: PhotosViewController)
     func photosViewControllerDidDismiss(vc: PhotosViewController)
 }
 
