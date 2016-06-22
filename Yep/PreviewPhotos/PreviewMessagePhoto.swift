@@ -14,7 +14,12 @@ class PreviewMessagePhoto: NSObject, Photo {
 
     let message: Message
 
-    var image: UIImage?
+    var image: UIImage? {
+        didSet {
+            self.updatedImageType?(imageType: imageType)
+            println("PreviewMessagePhoto updatedImageType: \(image)")
+        }
+    }
 
     var imageType: ImageType {
 
@@ -40,16 +45,7 @@ class PreviewMessagePhoto: NSObject, Photo {
         } else {
             let url = NSURL(string: message.attachmentURLString)!
             ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: 0, completion: { [weak self] (url, image, cacheType) in
-
-                guard let strongSelf = self else {
-                    return
-                }
-
-                strongSelf.image = image
-
-                strongSelf.updatedImageType?(imageType: strongSelf.imageType)
-
-                println("sync PreviewMessagePhoto: \(image)")
+                self?.image = image
             })
         }
     }
