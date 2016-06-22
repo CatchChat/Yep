@@ -77,6 +77,10 @@ class PhotoViewController: UIViewController {
 
         photo.updatedImageType = { [weak self] imageType in
             self?.scalingImageView.imageType = imageType
+
+            if imageType.image != nil {
+                self?.loadingView.stopAnimating()
+            }
         }
 
         if photo.imageType.image == nil {
