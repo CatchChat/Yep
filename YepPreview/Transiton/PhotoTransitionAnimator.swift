@@ -18,7 +18,7 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.5
+    var animationDurationWithZooming: NSTimeInterval = 0.4
     var animationDurationWithoutZooming: NSTimeInterval = 0.3
 
     var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
@@ -199,7 +199,8 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         }
 
         //endingViewForAnimation.transform = CGAffineTransformScale(endingViewForAnimation.transform, endingViewInitialTransform, endingViewInitialTransform)
-        endingViewForAnimation.alpha = 1
+        startingViewForAnimation.alpha = 1
+        endingViewForAnimation.alpha = 0
 
         containerView.addSubview(startingViewForAnimation)
         containerView.addSubview(endingViewForAnimation)
