@@ -765,21 +765,7 @@ final class NewFeedViewController: SegueViewController {
 
             mediaImages.forEach({ image in
 
-                let imageWidth = image.size.width
-                let imageHeight = image.size.height
-
-                let fixedImageWidth: CGFloat
-                let fixedImageHeight: CGFloat
-
-                if imageWidth > imageHeight {
-                    fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
-                    fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                } else {
-                    fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
-                    fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                }
-
-                let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                let fixedSize = image.yep_fixedSize
 
                 // resize to smaller, not need fixRotation
 
