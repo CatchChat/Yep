@@ -577,21 +577,7 @@ final class NewFeedViewController: SegueViewController {
 
                 let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
 
-                    let imageWidth = image.size.width
-                    let imageHeight = image.size.height
-
-                    let fixedImageWidth: CGFloat
-                    let fixedImageHeight: CGFloat
-
-                    if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, Config.Media.miniImageWidth)
-                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                    } else {
-                        fixedImageHeight = min(imageHeight, Config.Media.miniImageHeight)
-                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                    }
-
-                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                    let fixedSize = image.yep_fixedSize
 
                     // resize to smaller, not need fixRotation
 
@@ -769,7 +755,7 @@ final class NewFeedViewController: SegueViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium), imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium), imageData = UIImageJPEGRepresentation(image, 0.7) {
 
                     let source: UploadAttachment.Source = .Data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
