@@ -178,18 +178,25 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
 
-        let startingMaskView = startingView?.maskView
-        let endingMaskView = endingView?.maskView
-
-        startingViewForAnimation.maskView = startingMaskView
-        endingViewForAnimation.maskView = endingMaskView
-
         startingViewForAnimation.clipsToBounds = true
         endingViewForAnimation.clipsToBounds = true
 
         let endingViewForAnimationFinalFrame = endingViewForAnimation.frame
 
         endingViewForAnimation.frame = startingViewForAnimation.frame
+
+        var startingMaskView: UIView?
+        if let _startingMaskView = startingView?.maskView {
+            startingMaskView = PhotoTransitionAnimator.newAnimationViewFromView(_startingMaskView)
+            startingMaskView?.frame = startingViewForAnimation.bounds
+        }
+        var endingMaskView: UIView?
+        if let _endingMaskView = endingView?.maskView {
+            endingMaskView = PhotoTransitionAnimator.newAnimationViewFromView(_endingMaskView)
+            endingMaskView?.frame = endingViewForAnimation.bounds
+        }
+        startingViewForAnimation.maskView = startingMaskView
+        endingViewForAnimation.maskView = endingMaskView
 
         if let startingView = startingView {
             let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
@@ -231,6 +238,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingViewForAnimation.alpha = 1
 
         }, completion: { [unowned self] finished in
+
             startingViewForAnimation.removeFromSuperview()
             endingViewForAnimation.removeFromSuperview()
 
