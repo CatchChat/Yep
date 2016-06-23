@@ -178,6 +178,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
 
+        let startingMaskView = startingView?.maskView
+        let endingMaskView = endingView?.maskView
+
+        startingViewForAnimation.maskView = startingMaskView
+        endingViewForAnimation.maskView = endingMaskView
+
         startingViewForAnimation.clipsToBounds = true
         endingViewForAnimation.clipsToBounds = true
 
@@ -208,12 +214,14 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: {
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
+            endingMaskView?.frame = endingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
+            startingMaskView?.frame = startingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
