@@ -99,17 +99,15 @@ class PhotoViewController: UIViewController {
 
         let scrollViewSize = scalingImageView.bounds.size
 
-        print("scalingImageView.minimumZoomScale: \(scalingImageView.minimumZoomScale)")
-        print("scalingImageView.maximumZoomScale: \(scalingImageView.maximumZoomScale)")
-        print("scalingImageView.zoomScale: \(scalingImageView.zoomScale)")
-
-        let pointInView = sender.locationInView(scalingImageView.imageView)
+        var pointInView = sender.locationInView(scalingImageView.imageView)
 
         var newZoomScale = min(scalingImageView.maximumZoomScale, scalingImageView.minimumZoomScale * 2)
 
         if let imageSize = scalingImageView.imageView.image?.size where (imageSize.height / imageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
+
+            pointInView.x = scalingImageView.imageView.bounds.width / 2
+
             let widthScale = scrollViewSize.width / imageSize.width
-            print("widthScale: \(widthScale)")
             newZoomScale = widthScale
         }
 
