@@ -114,7 +114,7 @@ final class SearchContactsViewController: SegueViewController {
         recoverSearchTransition()
 
         UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarTopConstraint.constant = 0
+            self?.searchBarTopConstraint.constant = 20
             self?.view.layoutIfNeeded()
         }, completion: nil)
 
