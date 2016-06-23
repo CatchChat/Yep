@@ -53,12 +53,15 @@ public class PhotosViewController: UIViewController {
     }()
 
     private var currentPhotoViewController: PhotoViewController? {
+
         return pageViewController.viewControllers?.first as? PhotoViewController
     }
     private var currentlyDisplayedPhoto: Photo? {
+
         return currentPhotoViewController?.photo
     }
     private var referenceViewForCurrentPhoto: UIView? {
+
         guard let photo = currentlyDisplayedPhoto else {
             return nil
         }
@@ -81,10 +84,12 @@ public class PhotosViewController: UIViewController {
     }()
 
     private var boundsCenterPoint: CGPoint {
+
         return CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
 
     deinit {
+
         pageViewController.dataSource = nil
         pageViewController.delegate = nil
     }
