@@ -581,7 +581,7 @@ final class NewFeedViewController: SegueViewController {
 
                     // resize to smaller, not need fixRotation
 
-                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
                         return DiscoveredAttachment(metadata: "", URLString: "", image: image)
                     } else {
                         return nil
@@ -755,7 +755,7 @@ final class NewFeedViewController: SegueViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium), imageData = UIImageJPEGRepresentation(image, 0.7) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Default), imageData = UIImageJPEGRepresentation(image, 0.95) {
 
                     let source: UploadAttachment.Source = .Data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)

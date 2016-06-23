@@ -4898,7 +4898,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
                         sendImage(fixedImage)
                     }
                 }
