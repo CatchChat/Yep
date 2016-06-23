@@ -111,9 +111,13 @@ class PhotoViewController: UIViewController {
             newZoomScale = widthScale
         }
 
-        if (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01) {
+        let isZoomIn = (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01)
+
+        if isZoomIn {
             newZoomScale = scalingImageView.minimumZoomScale
         }
+
+        scalingImageView.directionalLockEnabled = !isZoomIn
 
         let width = scrollViewSize.width / newZoomScale
         let height = scrollViewSize.height / newZoomScale
