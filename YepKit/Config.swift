@@ -72,8 +72,8 @@ final public class Config {
     }
 
     public struct Media {
-        public static let imageWidth: CGFloat = 2048
-        public static let imageHeight: CGFloat = 2048
+        public static let imageWidth: CGFloat = 1024
+        public static let imageHeight: CGFloat = 1024
 
         public static let miniImageWidth: CGFloat = 200
         public static let miniImageHeight: CGFloat = 200

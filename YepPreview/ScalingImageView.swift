@@ -81,7 +81,12 @@ class ScalingImageView: UIScrollView {
 
         let minScale = min(widthScale, heightScale)
         minimumZoomScale = minScale
-        maximumZoomScale = max(minScale, maximumZoomScale)
+
+        maximumZoomScale = minScale * 4
+        if (imageSize.height / imageSize.width) > (scrollViewFrame.height / scrollViewFrame.width) {
+            maximumZoomScale = max(maximumZoomScale, widthScale)
+        }
+
         zoomScale = minimumZoomScale
 
         panGestureRecognizer.enabled = false

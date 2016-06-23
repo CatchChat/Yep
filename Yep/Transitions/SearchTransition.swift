@@ -97,7 +97,7 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
         UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
 
-            searchActionRepresentation.searchBarTopConstraint.constant = 44
+            searchActionRepresentation.searchBarTopConstraint.constant = 64
             fromVC.view.layoutIfNeeded()
 
         }, completion: { finished in

@@ -31,30 +31,37 @@ class PhotoTransitionAnimator: NSObject {
         return (startingView != nil) && (endingView != nil)
     }
 
-    class func newAnimationViewFromView(view: UIView) -> UIView {
+    private class func newViewFromView(view: UIView) -> UIView {
 
-        let animationView: UIView
+        let newView: UIView
 
         if view.layer.contents != nil {
+
             if let image = (view as? UIImageView)?.image {
-                animationView = UIImageView(image: image)
-                animationView.bounds = view.bounds
+                newView = UIImageView(image: image)
+                newView.bounds = view.bounds
+
             } else {
-                animationView = UIView()
-                animationView.layer.contents = view.layer.contents
-                animationView.layer.bounds = view.layer.bounds
+                newView = UIView()
+                newView.layer.contents = view.layer.contents
+                newView.layer.bounds = view.layer.bounds
             }
 
-            animationView.layer.cornerRadius = view.layer.cornerRadius
-            animationView.layer.masksToBounds = view.layer.masksToBounds
-            animationView.contentMode = view.contentMode
-            animationView.transform = view.transform
+            newView.layer.cornerRadius = view.layer.cornerRadius
+            newView.layer.masksToBounds = view.layer.masksToBounds
+            newView.contentMode = view.contentMode
+            newView.transform = view.transform
 
         } else {
-            animationView = view.snapshotViewAfterScreenUpdates(true)
+            newView = view.snapshotViewAfterScreenUpdates(true)
         }
-        
-        return animationView
+
+        return newView
+    }
+
+    class func newAnimationViewFromView(view: UIView) -> UIView {
+
+        return newViewFromView(view)
     }
 
     class func centerPointForView(view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
@@ -185,6 +192,19 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         endingViewForAnimation.frame = startingViewForAnimation.frame
 
+        var startingMaskView: UIView?
+        if let _startingMaskView = startingView?.maskView {
+            startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
+            startingMaskView?.frame = startingViewForAnimation.bounds
+        }
+        var endingMaskView: UIView?
+        if let _endingMaskView = endingView?.maskView {
+            endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
+            endingMaskView?.frame = endingViewForAnimation.bounds
+        }
+        startingViewForAnimation.maskView = startingMaskView
+        endingViewForAnimation.maskView = endingMaskView
+
         if let startingView = startingView {
             let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
             startingViewForAnimation.center = translatedStartingViewCenter
@@ -208,12 +228,14 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: {
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
+            endingMaskView?.frame = endingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
+            startingMaskView?.frame = startingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
@@ -223,11 +245,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingViewForAnimation.alpha = 1
 
         }, completion: { [unowned self] finished in
-            startingViewForAnimation.removeFromSuperview()
-            endingViewForAnimation.removeFromSuperview()
 
             self.endingView?.alpha = 1
             self.startingView?.alpha = 1
+
+            startingViewForAnimation.removeFromSuperview()
+            endingViewForAnimation.removeFromSuperview()
 
             self.completeTransitionWithTransitionContext(transitionContext)
         })

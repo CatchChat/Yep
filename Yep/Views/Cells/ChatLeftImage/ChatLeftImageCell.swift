@@ -16,6 +16,7 @@ final class ChatLeftImageCell: ChatBaseCell {
         imageView.contentMode = .ScaleAspectFill
         imageView.tintColor = UIColor.leftBubbleTintColor()
         imageView.maskView = self.messageImageMaskImageView
+        imageView.clipsToBounds = true
         return imageView
     }()
 

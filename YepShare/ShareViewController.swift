@@ -366,25 +366,11 @@ class ShareViewController: SLComposeServiceViewController {
 
             mediaImages.forEach({ image in
 
-                let imageWidth = image.size.width
-                let imageHeight = image.size.height
-
-                let fixedImageWidth: CGFloat
-                let fixedImageHeight: CGFloat
-
-                if imageWidth > imageHeight {
-                    fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
-                    fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                } else {
-                    fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
-                    fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                }
-
-                let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                let fixedSize = image.yep_fixedSize
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: CGInterpolationQuality.High), imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High), imageData = UIImageJPEGRepresentation(image, 0.95) {
 
                     let source: UploadAttachment.Source = .Data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)

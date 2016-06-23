@@ -491,27 +491,13 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
-                    let imageWidth = image.size.width
-                    let imageHeight = image.size.height
-
-                    let fixedImageWidth: CGFloat
-                    let fixedImageHeight: CGFloat
-
-                    if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
-                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                    } else {
-                        fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
-                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                    }
-
-                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                    let fixedSize = image.yep_fixedSize
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
 
-                        let data = UIImageJPEGRepresentation(fixedImage, 0.7)
+                        let data = UIImageJPEGRepresentation(fixedImage, 0.95)
 
                         if let skillID = skill?.ID {
 

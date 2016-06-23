@@ -97,14 +97,27 @@ class PhotoViewController: UIViewController {
 
     @objc private func didDoubleTap(sender: UITapGestureRecognizer) {
 
-        let pointInView = sender.locationInView(scalingImageView.imageView)
+        let scrollViewSize = scalingImageView.bounds.size
+
+        var pointInView = sender.locationInView(scalingImageView.imageView)
 
         var newZoomScale = min(scalingImageView.maximumZoomScale, scalingImageView.minimumZoomScale * 2)
-        if (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01) {
+
+        if let imageSize = scalingImageView.imageView.image?.size where (imageSize.height / imageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
+
+            pointInView.x = scalingImageView.imageView.bounds.width / 2
+
+            let widthScale = scrollViewSize.width / imageSize.width
+            newZoomScale = widthScale
+        }
+
+        let isZoomIn = (scalingImageView.zoomScale >= newZoomScale) || (abs(scalingImageView.zoomScale - newZoomScale) <= 0.01)
+
+        if isZoomIn {
             newZoomScale = scalingImageView.minimumZoomScale
         }
 
-        let scrollViewSize = scalingImageView.bounds.size
+        scalingImageView.directionalLockEnabled = !isZoomIn
 
         let width = scrollViewSize.width / newZoomScale
         let height = scrollViewSize.height / newZoomScale
