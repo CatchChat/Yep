@@ -1831,40 +1831,6 @@ final class ConversationViewController: BaseViewController {
             self?.presentViewController(photosViewController, animated: true, completion: nil)
         }
 
-        feedView.tapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-            guard image != nil else {
-                return
-            }
-
-            let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-            vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-            vc.startIndex = index
-
-            let transitionView = transitionView
-            let frame = transitionView.convertRect(transitionView.frame, toView: self?.view)
-            vc.previewImageViewInitalFrame = frame
-            vc.bottomPreviewImage = image
-
-            vc.transitionView = transitionView
-
-            self?.view.endEditing(true)
-
-            delay(0.3, work: { () -> Void in
-                transitionView.alpha = 0 // 加 Delay 避免图片闪烁
-            })
-
-            vc.afterDismissAction = { [weak self] in
-                transitionView.alpha = 1
-                self?.view.window?.makeKeyAndVisible()
-            }
-
-            mediaPreviewWindow.rootViewController = vc
-            mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-            mediaPreviewWindow.makeKeyAndVisible()
-        }
-
         feedView.tapGithubRepoAction = { [weak self] URL in
             self?.yep_openURL(URL)
         }
@@ -3851,44 +3817,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self.presentViewController(photosViewController, animated: true, completion: nil)
                 }
-
-                /*
-                let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                if message.mediaType == MessageMediaType.Video.rawValue {
-                    vc.previewMedias = [PreviewMedia.MessageType(message: message)]
-                    vc.startIndex = 0
-
-                } else {
-                    let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
-                    let mediaMessagesResult = messages.filter(predicate)
-                    let mediaMessages = mediaMessagesResult.map({ $0 })
-
-                    if let index = mediaMessagesResult.indexOf(message) {
-                        vc.previewMedias = mediaMessages.map({ PreviewMedia.MessageType(message: $0) })
-                        vc.startIndex = index
-                    }
-                }
-
-                vc.previewImageViewInitalFrame = frame
-                vc.topPreviewImage = message.thumbnailImage
-                vc.bottomPreviewImage = image
-
-                vc.transitionView = transitionView
-
-                delay(0.0, work: { () -> Void in
-                    transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                })
-
-                vc.afterDismissAction = { [weak self] in
-                    transitionView?.alpha = 1
-                    self?.view.window?.makeKeyAndVisible()
-                }
-
-                mediaPreviewWindow.rootViewController = vc
-                mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                mediaPreviewWindow.makeKeyAndVisible()
-                 */
             }
         }
     }

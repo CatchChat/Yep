@@ -819,38 +819,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
-                /*
-                let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-                    guard image != nil else {
-                        return
-                    }
-
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                    vc.startIndex = index
-
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
-
-                    vc.transitionView = transitionView
-
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
-
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
-                }
-                 */
 
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
 
@@ -860,7 +828,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else {
@@ -870,7 +837,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                     cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
                 }
 
@@ -917,30 +883,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self?.presentViewController(photosViewController, animated: true, completion: nil)
-
-                    /*
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                    vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
-                    vc.startIndex = 0
-
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
-
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
-
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
-                     */
                 }
 
             case .Audio:
