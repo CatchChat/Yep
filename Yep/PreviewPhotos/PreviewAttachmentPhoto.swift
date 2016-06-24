@@ -12,20 +12,15 @@ import YepPreview
 
 class PreviewAttachmentPhoto: NSObject, Photo {
 
-    let attachment: DiscoveredAttachment
-
     var image: UIImage? {
         didSet {
             self.updatedImage?(image: image)
-            println("PreviewAttachmentPhoto updatedImageType: \(image)")
         }
     }
 
     var updatedImage: ((image: UIImage?) -> Void)?
 
     init(attachment: DiscoveredAttachment) {
-        self.attachment = attachment
-
         super.init()
 
         ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { [weak self] (url, image, cacheType) in

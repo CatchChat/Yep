@@ -12,8 +12,6 @@ import YepPreview
 
 class PreviewMessagePhoto: NSObject, Photo {
 
-    let attachmentURLString: String
-
     var image: UIImage? {
         didSet {
             self.updatedImage?(image: image)
@@ -23,8 +21,6 @@ class PreviewMessagePhoto: NSObject, Photo {
     var updatedImage: ((image: UIImage?) -> Void)?
 
     init(message: Message) {
-        self.attachmentURLString = message.attachmentURLString
-
         super.init()
 
         let localAttachmentName = message.localAttachmentName

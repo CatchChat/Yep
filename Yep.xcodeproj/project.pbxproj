@@ -511,7 +511,6 @@
 		50FE6F4B1D128DB9009BFEC7 /* ScalingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */; };
 		50FE6F4D1D138599009BFEC7 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F4C1D138599009BFEC7 /* PhotoViewController.swift */; };
 		50FE6F501D138940009BFEC7 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F4F1D138940009BFEC7 /* Photo.swift */; };
-		50FE6F521D1390CB009BFEC7 /* ImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F511D1390CB009BFEC7 /* ImageType.swift */; };
 		50FE6F541D139707009BFEC7 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F531D139707009BFEC7 /* PhotosViewController.swift */; };
 		50FE6F561D139EB3009BFEC7 /* PhotosDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F551D139EB3009BFEC7 /* PhotosDataSource.swift */; };
 		50FE6F581D13A1B3009BFEC7 /* PhotosViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FE6F571D13A1B2009BFEC7 /* PhotosViewControllerDataSource.swift */; };
@@ -1217,7 +1216,6 @@
 		50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScalingImageView.swift; sourceTree = "<group>"; };
 		50FE6F4C1D138599009BFEC7 /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		50FE6F4F1D138940009BFEC7 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = Protocols/Photo.swift; sourceTree = "<group>"; };
-		50FE6F511D1390CB009BFEC7 /* ImageType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageType.swift; sourceTree = "<group>"; };
 		50FE6F531D139707009BFEC7 /* PhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		50FE6F551D139EB3009BFEC7 /* PhotosDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosDataSource.swift; sourceTree = "<group>"; };
 		50FE6F571D13A1B2009BFEC7 /* PhotosViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotosViewControllerDataSource.swift; path = Protocols/PhotosViewControllerDataSource.swift; sourceTree = "<group>"; };
@@ -3420,7 +3418,6 @@
 			isa = PBXGroup;
 			children = (
 				50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */,
-				50FE6F511D1390CB009BFEC7 /* ImageType.swift */,
 				50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */,
 				5087AFC91D1934FF005C180D /* OverlayActionView.swift */,
 				50FE6F4E1D13891F009BFEC7 /* Protocols */,
@@ -4838,7 +4835,6 @@
 				50FE6F5F1D13E507009BFEC7 /* PhotoTransitionAnimator.swift in Sources */,
 				50FE6F611D13F64C009BFEC7 /* PhotoDismissalInteractionController.swift in Sources */,
 				50FE6F4D1D138599009BFEC7 /* PhotoViewController.swift in Sources */,
-				50FE6F521D1390CB009BFEC7 /* ImageType.swift in Sources */,
 				50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */,
 				50FE6F581D13A1B3009BFEC7 /* PhotosViewControllerDataSource.swift in Sources */,
 				50FE6F541D139707009BFEC7 /* PhotosViewController.swift in Sources */,
