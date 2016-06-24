@@ -65,7 +65,6 @@ final class FeedAnyImagesCell: FeedBasicCell {
         return collectionView
     }()
 
-    //var tapMediaAction: FeedTapMediaAction?
     var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
@@ -119,9 +118,6 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
         let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         
         if let attachment = attachments[safe: indexPath.item] {
-
-            //println("attachment imageURL: \(imageURL)")
-            
             cell.configureWithAttachment(attachment, bigger: (attachments.count == 1))
         }
 
@@ -144,9 +140,6 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
         }
 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
-
-        //let transitionView = cell.imageView
-        //tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
 
         let transitionViews: [UIView?] = (0..<attachments.count).map({
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell

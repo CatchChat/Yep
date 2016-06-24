@@ -23,7 +23,7 @@ public class PhotosViewController: UIViewController {
         view.backgroundColor = UIColor.clearColor()
 
         view.shareAction = { [weak self] in
-            guard let image = self?.currentlyDisplayedPhoto?.imageType.image else {
+            guard let image = self?.currentlyDisplayedPhoto?.image else {
                 return
             }
 
@@ -190,7 +190,7 @@ public class PhotosViewController: UIViewController {
         do {
             transitionController.setStartingView(referenceViewForCurrentPhoto)
 
-            if currentlyDisplayedPhoto?.imageType.image != nil {
+            if currentlyDisplayedPhoto?.image != nil {
                 transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
             }
         }
@@ -199,7 +199,7 @@ public class PhotosViewController: UIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.15 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
             self?.statusBarHidden = true
         }
     }

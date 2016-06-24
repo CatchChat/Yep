@@ -349,6 +349,7 @@ final class FeedsViewController: BaseViewController {
 
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -1337,38 +1338,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
                     self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
-                /*
-                let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
-
-                    guard image != nil else {
-                        return
-                    }
-
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
-
-                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                    vc.startIndex = index
-
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
-
-                    vc.transitionView = transitionView
-
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
-
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
-                }
-                 */
 
                 if feed.imageAttachmentsCount == 1 {
                     guard let cell = cell as? FeedBiggerImageCell else {
@@ -1377,7 +1346,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
@@ -1388,7 +1356,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
 
                 } else {
@@ -1398,7 +1365,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    //cell.tapMediaAction = tapMediaAction
                     cell.tapImagesAction = tapImagesAction
                 }
 
@@ -1432,27 +1398,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
 
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+                    self?.previewTransitionViews = [transitionView]
 
-                    vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
-                    vc.startIndex = 0
+                    let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
+                    previewDribbblePhoto.image = image
 
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
+                    let previewDribbblePhotos = [previewDribbblePhoto]
+                    self?.previewDribbblePhotos = previewDribbblePhotos
 
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
+                    let photos: [Photo] = previewDribbblePhotos.map({ $0 })
+                    let initialPhoto = photos[0]
 
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
 
             case .Audio:
@@ -2006,6 +1964,11 @@ extension FeedsViewController: PhotosViewControllerDelegate {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
                 return previewTransitionViews?[index]
             }
+
+        } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
+            if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
+                return previewTransitionViews?[index]
+            }
         }
 
         return nil
@@ -2027,6 +1990,7 @@ extension FeedsViewController: PhotosViewControllerDelegate {
 
         previewTransitionViews = nil
         previewAttachmentPhotos = []
+        previewDribbblePhotos = []
     }
 }
 

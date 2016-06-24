@@ -40,8 +40,6 @@ final class FeedView: UIView {
         }
     }
 
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
-
     var tapImagesAction: ((transitionViews: [UIView?], attachments: [DiscoveredAttachment], image: UIImage?, index: Int) -> Void)?
 
     var tapGithubRepoAction: (NSURL -> Void)?
