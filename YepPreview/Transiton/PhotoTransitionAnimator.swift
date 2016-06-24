@@ -18,8 +18,8 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.4
-    var animationDurationWithoutZooming: NSTimeInterval = 0.25
+    var animationDurationWithZooming: NSTimeInterval = 0.5
+    var animationDurationWithoutZooming: NSTimeInterval = 0.3
 
     var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
     var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
@@ -211,8 +211,13 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             endingViewForAnimation.center = translatedStartingViewCenter
         }
 
-        startingViewForAnimation.alpha = 1
-        endingViewForAnimation.alpha = 0
+        if isDismissing {
+            startingViewForAnimation.alpha = 1
+            endingViewForAnimation.alpha = 1
+        } else {
+            startingViewForAnimation.alpha = 1
+            endingViewForAnimation.alpha = 0
+        }
 
         containerView.addSubview(startingViewForAnimation)
         containerView.addSubview(endingViewForAnimation)
@@ -225,7 +230,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             translatedEndingViewFinalCenter = PhotoTransitionAnimator.centerPointForView(endingView, translatedToContainerView: containerView)
         }
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: {
+        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
             endingMaskView?.frame = endingViewForAnimation.bounds
@@ -241,8 +246,11 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
             }
 
-            startingViewForAnimation.alpha = 0
-            endingViewForAnimation.alpha = 1
+            if self.isDismissing {
+                startingViewForAnimation.alpha = 0
+            } else {
+                endingViewForAnimation.alpha = 1
+            }
 
         }, completion: { [unowned self] finished in
 
