@@ -29,8 +29,11 @@ class PreviewDribbblePhoto: NSObject, Photo {
         imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) in
 
             SafeDispatch.async { [weak self] in
-                self?.image = image
+                if let image = image {
+                    self?.image = image
+                }
             }
         })
     }
 }
+
