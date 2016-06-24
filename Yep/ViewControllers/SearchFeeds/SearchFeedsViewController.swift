@@ -275,6 +275,7 @@ final class SearchFeedsViewController: SegueViewController {
 
     private var previewTransitionViews: [UIView?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
 
     // MARK: Life Circle
 
@@ -903,6 +904,21 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
+                    self?.previewTransitionViews = [transitionView]
+
+                    let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
+                    previewDribbblePhoto.image = image
+
+                    let previewDribbblePhotos = [previewDribbblePhoto]
+                    self?.previewDribbblePhotos = previewDribbblePhotos
+
+                    let photos: [Photo] = previewDribbblePhotos.map({ $0 })
+                    let initialPhoto = photos[0]
+
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+
+                    /*
                     let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
 
                     vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
@@ -924,6 +940,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     mediaPreviewWindow.rootViewController = vc
                     mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
                     mediaPreviewWindow.makeKeyAndVisible()
+                     */
                 }
 
             case .Audio:
@@ -1254,6 +1271,11 @@ extension SearchFeedsViewController: PhotosViewControllerDelegate {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
                 return previewTransitionViews?[index]
             }
+
+        } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
+            if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
+                return previewTransitionViews?[index]
+            }
         }
 
         return nil
@@ -1275,6 +1297,7 @@ extension SearchFeedsViewController: PhotosViewControllerDelegate {
 
         previewTransitionViews = nil
         previewAttachmentPhotos = []
+        previewDribbblePhotos = []
     }
 }
 
