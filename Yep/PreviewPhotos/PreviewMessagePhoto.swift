@@ -26,7 +26,7 @@ class PreviewMessagePhoto: NSObject, Photo {
         let localAttachmentName = message.localAttachmentName
         let attachmentURLString = message.attachmentURLString
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
             if let
                 imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName),
                 image = UIImage(contentsOfFile: imageFileURL.path!) {
@@ -37,7 +37,7 @@ class PreviewMessagePhoto: NSObject, Photo {
 
             } else {
                 if let url = NSURL(string: attachmentURLString) {
-                    ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: 0, completion: { [weak self] (url, image, cacheType) in
+                    ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: nil, completion: { [weak self] (url, image, cacheType) in
                         self?.image = image
                     })
                 }
