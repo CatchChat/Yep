@@ -29,7 +29,7 @@ class PreviewMessagePhoto: NSObject, Photo {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
             if let
                 imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName),
-                image = UIImage(contentsOfFile: imageFileURL.path!) {
+                image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
 
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.image = image
