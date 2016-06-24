@@ -8,16 +8,16 @@
 
 import UIKit
 
-public enum ImageType {
-
-    case image(UIImage)
-    case imageURL(NSURL)
-
-    var image: UIImage? {
-        switch self {
-        case .image(let image): return image
-        case .imageURL: return nil
-        }
-    }
-}
+//public enum ImageType {
+//
+//    case image(UIImage)
+//    case imageURL(NSURL)
+//
+//    var image: UIImage? {
+//        switch self {
+//        case .image(let image): return image
+//        case .imageURL: return nil
+//        }
+//    }
+//}
 

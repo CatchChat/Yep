@@ -23,7 +23,7 @@ public class PhotosViewController: UIViewController {
         view.backgroundColor = UIColor.clearColor()
 
         view.shareAction = { [weak self] in
-            guard let image = self?.currentlyDisplayedPhoto?.imageType.image else {
+            guard let image = self?.currentlyDisplayedPhoto?.image else {
                 return
             }
 
@@ -190,7 +190,7 @@ public class PhotosViewController: UIViewController {
         do {
             transitionController.setStartingView(referenceViewForCurrentPhoto)
 
-            if currentlyDisplayedPhoto?.imageType.image != nil {
+            if currentlyDisplayedPhoto?.image != nil {
                 transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
             }
         }

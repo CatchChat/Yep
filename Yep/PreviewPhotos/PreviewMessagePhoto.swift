@@ -16,21 +16,11 @@ class PreviewMessagePhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImageType?(imageType: imageType)
-            println("PreviewMessagePhoto updatedImageType: \(image)")
+            self.updatedImage?(image: image)
         }
     }
 
-    var imageType: ImageType {
-
-        if let image = image {
-            return .image(image)
-        } else {
-            return .imageURL(NSURL(string: attachmentURLString)!)
-        }
-    }
-
-    var updatedImageType: ((imageType: ImageType) -> Void)?
+    var updatedImage: ((image: UIImage?) -> Void)?
 
     init(message: Message) {
         self.attachmentURLString = message.attachmentURLString

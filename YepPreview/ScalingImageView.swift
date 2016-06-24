@@ -10,12 +10,6 @@ import UIKit
 
 class ScalingImageView: UIScrollView {
 
-    var imageType: ImageType? {
-        didSet {
-            self.image = imageType?.image
-        }
-    }
-
     lazy var imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .ScaleAspectFill
@@ -23,7 +17,7 @@ class ScalingImageView: UIScrollView {
         return view
     }()
 
-    private var image: UIImage? {
+    var image: UIImage? {
         didSet {
             if let image = image {
                 setupWithImage(image)

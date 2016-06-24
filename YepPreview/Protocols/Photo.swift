@@ -10,8 +10,8 @@ import Foundation
 
 public protocol Photo: class {
 
-    var imageType: ImageType { get }
+    var image: UIImage? { get }
 
-    var updatedImageType: ((imageType: ImageType) -> Void)? { get set }
+    var updatedImage: ((image: UIImage?) -> Void)? { get set }
 }
 
