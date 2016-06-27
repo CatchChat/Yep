@@ -109,9 +109,27 @@ extension YepFayeService {
             }
 
             self?.fayeClient.subscribeToChannel(personalChannel) { data in
-                println("subscribeToChannel: \(data)")
+
+                println("receive faye data: \(data)")
 
                 let messageInfo: JSONDictionary = data
+
+                // Service 消息
+                if let _messageInfo = messageInfo["message"] as? JSONDictionary {
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+                    let isServiceMessage = isServiceMessageAndHandleMessageInfo(_messageInfo, inRealm: realm)
+                    _ = try? realm.commitWrite()
+
+                    if isServiceMessage {
+                        return
+                    }
+                }
+
                 guard let
                     messageTypeString = messageInfo["message_type"] as? String,
                     messageType = MessageType(rawValue: messageTypeString)

@@ -390,7 +390,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
+public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterSynced: (() -> Void)? = nil) {
 
     myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
@@ -461,6 +461,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         }
 
         YepUserDefaults.syncedConversations.value = true
+
+        afterSynced?()
     }
 }
 
@@ -573,6 +575,7 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
+/*
 public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
     groups(failureHandler: nil) { allGroups in
@@ -656,6 +659,7 @@ public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
         }
     }
 }
+*/
 
 public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
 
@@ -986,6 +990,73 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
     }
 }
 
+enum ServiceMessageActionType: String {
+
+    case groupCreate = "CircleCreate"
+    case feedDelete = "TopicDelete"
+    case groupAddUser = "CircleAddUser"
+    case groupDeleteUser = "CircleDeleteUser"
+}
+
+public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm) -> Bool {
+
+    guard let actionInfo = messageInfo["action"] as? JSONDictionary else {
+        return false
+    }
+
+    println("actionInfo: \(actionInfo)")
+
+    guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
+        return false
+    }
+
+    println("type: \(type)")
+
+    switch type {
+
+    case .groupCreate:
+        break
+
+    case .feedDelete:
+        if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
+
+            if let feedID = group.withFeed?.feedID {
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+            }
+
+            // 有关联的 Feed 时就标记，不然删除
+
+            if let feed = group.withFeed {
+
+                if group.includeMe {
+
+                    feed.deleted = true
+
+                    // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
+                    group.conversation?.messages.forEach { $0.readed = true }
+                    group.conversation?.mentionedMe = false
+                    group.conversation?.hasUnreadMessages = false
+                }
+
+            } else {
+                group.cascadeDeleteInRealm(realm)
+            }
+
+            delay(1) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            }
+        }
+
+    case .groupAddUser:
+        break
+
+    case .groupDeleteUser:
+        break
+    }
+
+    return true
+}
+
 public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
@@ -1005,6 +1076,11 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                     return
                 }
             }
+        }
+
+        // Service 消息
+        if isServiceMessageAndHandleMessageInfo(messageInfo, inRealm: realm) {
+            return
         }
 
         if message == nil {
@@ -1087,7 +1163,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                         
                                         // 若提及我，才同步group进而得到feed
                                         if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
-                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
+                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
                                                 dispatch_async(realmQueue) {
 
                                                     guard let realm = try? Realm() else {
@@ -1095,18 +1171,10 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                                     }
 
                                                     realm.beginWrite()
+                                                    syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+                                                    _ = try? realm.commitWrite()
 
-                                                    if let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm) {
-                                                        if let
-                                                            feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                            feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                                saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                                                        }
-                                                    }
-
-                                                    let _ = try? realm.commitWrite()
-
-                                                    delay(1) {
+                                                    delay(0.5) {
                                                         SafeDispatch.async {
                                                             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
                                                         }

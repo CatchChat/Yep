@@ -158,8 +158,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // index searchable items
 
         if YepUserDefaults.isLogined {
-            indexUserSearchableItems()
-            indexFeedSearchableItems()
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler { [weak self] error in
+
+                guard error == nil else {
+                    return
+                }
+
+                self?.indexUserSearchableItems()
+                self?.indexFeedSearchableItems()
+            }
 
         } else {
             CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
@@ -557,23 +564,26 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         refreshGroupTypeForAllGroups()
 
-        if !YepUserDefaults.isSyncedConversations {
-            syncMyConversations()
-        }
-
-        syncUnreadMessages {
+        let moreSync = {
             syncFriendshipsAndDoFurtherAction {
-                syncGroupsAndDoFurtherAction {
-                    syncSocialWorksToMessagesForYepTeam()
+                syncSocialWorksToMessagesForYepTeam()
 
-                    syncMyInfoAndDoFurtherAction {
-                    }
-                }
+                syncMyInfoAndDoFurtherAction {}
+            }
+
+            officialMessages { messagesCount in
+                println("new officialMessages count: \(messagesCount)")
             }
         }
 
-        officialMessages { messagesCount in
-            println("new officialMessages count: \(messagesCount)")
+        if YepUserDefaults.isSyncedConversations {
+            syncUnreadMessages {
+                moreSync()
+            }
+        } else {
+            syncMyConversations {
+                moreSync()
+            }
         }
     }
 

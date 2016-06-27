@@ -26,6 +26,7 @@ final class SyncTests: XCTestCase {
         waitForExpectationsWithTimeout(5, handler: nil)
     }
 
+    /*
     func testSyncGroups() {
 
         guard YepUserDefaults.isLogined else {
@@ -40,6 +41,7 @@ final class SyncTests: XCTestCase {
 
         waitForExpectationsWithTimeout(5, handler: nil)
     }
+     */
 
     func testSyncUnreadMessages() {
 
