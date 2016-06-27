@@ -1152,7 +1152,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                         
                                         // 若提及我，才同步group进而得到feed
                                         if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
-                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
+                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
                                                 dispatch_async(realmQueue) {
 
                                                     guard let realm = try? Realm() else {
@@ -1160,18 +1160,10 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                                     }
 
                                                     realm.beginWrite()
+                                                    syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+                                                    _ = try? realm.commitWrite()
 
-                                                    if let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm) {
-                                                        if let
-                                                            feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                            feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                                saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                                                        }
-                                                    }
-
-                                                    let _ = try? realm.commitWrite()
-
-                                                    delay(1) {
+                                                    delay(0.5) {
                                                         SafeDispatch.async {
                                                             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
                                                         }
