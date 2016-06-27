@@ -990,6 +990,14 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
     }
 }
 
+enum ServiceMessageActionType: String {
+
+    case groupCreate = "CircleCreate"
+    case groupAddUser = "CircleAddUser"
+    case groupDeleteUser = "CircleDeleteUser"
+    case groupDelete = "TopicDelete"
+}
+
 public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
@@ -1016,7 +1024,8 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
         if let actionInfo = messageInfo["action"] as? JSONDictionary {
 
             println("actionInfo: \(actionInfo)")
-            if let type = actionInfo["type"] as? String {
+
+            if let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) {
                 println("type: \(type)")
             }
 
