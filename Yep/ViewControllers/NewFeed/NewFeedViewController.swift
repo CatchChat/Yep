@@ -700,8 +700,6 @@ final class NewFeedViewController: SegueViewController {
                             self?.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
-                    
-                    syncMyConversations()
                 })
             }
 
