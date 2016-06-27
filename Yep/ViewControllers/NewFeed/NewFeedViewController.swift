@@ -714,6 +714,12 @@ final class NewFeedViewController: SegueViewController {
                             realm.beginWrite()
                             syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
                             _ = try? realm.commitWrite()
+
+                            delay(0.5) {
+                                SafeDispatch.async {
+                                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                                }
+                            }
                         })
                     }
                 })
