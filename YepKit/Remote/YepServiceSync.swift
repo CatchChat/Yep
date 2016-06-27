@@ -1004,13 +1004,11 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
         return false
     }
 
-    println("actionInfo: \(actionInfo)")
+    //println("actionInfo: \(actionInfo)")
 
     guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
         return false
     }
-
-    println("type: \(type)")
 
     switch type {
 
