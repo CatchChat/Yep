@@ -557,19 +557,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         refreshGroupTypeForAllGroups()
 
-        if !YepUserDefaults.isSyncedConversations {
+        if YepUserDefaults.isSyncedConversations {
+            syncUnreadMessages {
+            }
+        } else {
             syncMyConversations()
         }
 
-        syncUnreadMessages {
-            syncFriendshipsAndDoFurtherAction {
-                //syncGroupsAndDoFurtherAction {
-                    syncSocialWorksToMessagesForYepTeam()
+        syncFriendshipsAndDoFurtherAction {
+            syncSocialWorksToMessagesForYepTeam()
 
-                    syncMyInfoAndDoFurtherAction {
-                    }
-                //}
-            }
+            syncMyInfoAndDoFurtherAction {}
         }
 
         officialMessages { messagesCount in
