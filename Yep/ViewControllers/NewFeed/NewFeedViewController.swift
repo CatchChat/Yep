@@ -700,6 +700,22 @@ final class NewFeedViewController: SegueViewController {
                             self?.dismissViewControllerAnimated(true, completion: nil)
                         }
                     }
+
+                    // Sync to local
+
+                    if let groupInfo = data["circle"] as? JSONDictionary, groupID = groupInfo["id"] as? String {
+
+                        groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
+
+                            guard let realm = try? Realm() else {
+                                return
+                            }
+                            
+                            realm.beginWrite()
+                            syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+                            _ = try? realm.commitWrite()
+                        })
+                    }
                 })
             }
 
