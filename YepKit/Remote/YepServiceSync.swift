@@ -998,6 +998,61 @@ public enum ServiceMessageActionType: String {
     case groupDeleteUser = "CircleDeleteUser"
 }
 
+func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm) -> Bool {
+
+    guard let actionInfo = messageInfo["action"] as? JSONDictionary else {
+        return false
+    }
+
+    println("actionInfo: \(actionInfo)")
+
+    guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
+        return false
+    }
+
+    println("type: \(type)")
+
+    switch type {
+
+    case .groupCreate:
+        break
+
+    case .feedDelete:
+        if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
+
+            if let feedID = group.withFeed?.feedID {
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+            }
+
+            // 有关联的 Feed 时就标记，不然删除
+
+            if let feed = group.withFeed {
+
+                if group.includeMe {
+
+                    feed.deleted = true
+
+                    // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
+                    group.conversation?.messages.forEach { $0.readed = true }
+                    group.conversation?.mentionedMe = false
+                    group.conversation?.hasUnreadMessages = false
+                }
+
+            } else {
+                group.cascadeDeleteInRealm(realm)
+            }
+        }
+
+    case .groupAddUser:
+        break
+
+    case .groupDeleteUser:
+        break
+    }
+
+    return true
+}
+
 public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
@@ -1020,6 +1075,9 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
         }
 
         // Service 消息
+        if isServiceMessageAndHandleMessageInfo(messageInfo, inRealm: realm) {
+            return
+        }
 
         if let actionInfo = messageInfo["action"] as? JSONDictionary {
 
