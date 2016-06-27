@@ -563,12 +563,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         syncUnreadMessages {
             syncFriendshipsAndDoFurtherAction {
-                syncGroupsAndDoFurtherAction {
+                //syncGroupsAndDoFurtherAction {
                     syncSocialWorksToMessagesForYepTeam()
 
                     syncMyInfoAndDoFurtherAction {
                     }
-                }
+                //}
             }
         }
 

@@ -573,6 +573,7 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
+/*
 public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
 
     groups(failureHandler: nil) { allGroups in
@@ -656,6 +657,7 @@ public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
         }
     }
 }
+*/
 
 public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
 

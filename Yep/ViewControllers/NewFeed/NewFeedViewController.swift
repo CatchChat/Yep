@@ -701,7 +701,8 @@ final class NewFeedViewController: SegueViewController {
                         }
                     }
                     
-                    syncGroupsAndDoFurtherAction {}
+                    //syncGroupsAndDoFurtherAction {}
+                    syncMyConversations()
                 })
             }
 
