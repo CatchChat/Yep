@@ -993,7 +993,7 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
 enum ServiceMessageActionType: String {
 
     case groupCreate = "CircleCreate"
-    case groupDelete = "TopicDelete"
+    case feedDelete = "TopicDelete"
     case groupAddUser = "CircleAddUser"
     case groupDeleteUser = "CircleDeleteUser"
 }
@@ -1036,7 +1036,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
             case .groupCreate:
                 break
 
-            case .groupDelete:
+            case .feedDelete:
                 if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
 
                     if let feedID = group.withFeed?.feedID {

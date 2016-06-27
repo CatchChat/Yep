@@ -1899,6 +1899,8 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
 
     headUnreadMessagesAfterMessageWithID(messageID, failureHandler: failureHandler, completion: { result in
 
+        //println("headUnreadMessagesAfterMessageWithID result: \(result)")
+
         guard let page1UnreadMessagesData = result["messages"] as? [JSONDictionary] else {
             completion([])
             return
