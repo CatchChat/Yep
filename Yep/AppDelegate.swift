@@ -158,8 +158,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // index searchable items
 
         if YepUserDefaults.isLogined {
-            indexUserSearchableItems()
-            indexFeedSearchableItems()
+            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler { [weak self] error in
+
+                guard error == nil else {
+                    return
+                }
+
+                self?.indexUserSearchableItems()
+                self?.indexFeedSearchableItems()
+            }
 
         } else {
             CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
