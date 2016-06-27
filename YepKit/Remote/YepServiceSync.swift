@@ -1011,6 +1011,18 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
             }
         }
 
+        // Service 消息
+
+        if let actionInfo = messageInfo["action"] as? JSONDictionary {
+
+            println("actionInfo: \(actionInfo)")
+            if let type = actionInfo["type"] as? String {
+                println("type: \(type)")
+            }
+
+            return
+        }
+
         if message == nil {
             let newMessage = Message()
             newMessage.messageID = messageID
