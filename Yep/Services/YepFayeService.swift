@@ -109,9 +109,69 @@ extension YepFayeService {
             }
 
             self?.fayeClient.subscribeToChannel(personalChannel) { data in
-                println("subscribeToChannel: \(data)")
+
+                println("receive faye data: \(data)")
 
                 let messageInfo: JSONDictionary = data
+
+                if let messageDataInfo = messageInfo["message"] as? JSONDictionary, actionInfo = messageDataInfo["action"] as? JSONDictionary {
+
+                    println("actionInfo: \(actionInfo)")
+
+                    guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
+                        return
+                    }
+
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+
+                    switch type {
+
+                    case .groupCreate:
+                        break
+
+                    case .feedDelete:
+                        if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
+
+                            if let feedID = group.withFeed?.feedID {
+                                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                            }
+
+                            // 有关联的 Feed 时就标记，不然删除
+
+                            if let feed = group.withFeed {
+
+                                if group.includeMe {
+
+                                    feed.deleted = true
+
+                                    // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
+                                    group.conversation?.messages.forEach { $0.readed = true }
+                                    group.conversation?.mentionedMe = false
+                                    group.conversation?.hasUnreadMessages = false
+                                }
+                                
+                            } else {
+                                group.cascadeDeleteInRealm(realm)
+                            }
+                        }
+                        
+                    case .groupAddUser:
+                        break
+                        
+                    case .groupDeleteUser:
+                        break
+                    }
+
+                    _ = try? realm.commitWrite()
+
+                    return
+                }
+
                 guard let
                     messageTypeString = messageInfo["message_type"] as? String,
                     messageType = MessageType(rawValue: messageTypeString)

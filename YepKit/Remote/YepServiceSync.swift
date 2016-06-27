@@ -990,7 +990,7 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
     }
 }
 
-enum ServiceMessageActionType: String {
+public enum ServiceMessageActionType: String {
 
     case groupCreate = "CircleCreate"
     case feedDelete = "TopicDelete"
