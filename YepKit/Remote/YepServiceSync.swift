@@ -390,7 +390,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
+public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterSynced: (() -> Void)? = nil) {
 
     myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
@@ -461,6 +461,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         }
 
         YepUserDefaults.syncedConversations.value = true
+
+        afterSynced?()
     }
 }
 

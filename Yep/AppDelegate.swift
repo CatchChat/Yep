@@ -557,21 +557,26 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         refreshGroupTypeForAllGroups()
 
+        let moreSync = {
+            syncFriendshipsAndDoFurtherAction {
+                syncSocialWorksToMessagesForYepTeam()
+
+                syncMyInfoAndDoFurtherAction {}
+            }
+
+            officialMessages { messagesCount in
+                println("new officialMessages count: \(messagesCount)")
+            }
+        }
+
         if YepUserDefaults.isSyncedConversations {
             syncUnreadMessages {
+                moreSync()
             }
         } else {
-            syncMyConversations()
-        }
-
-        syncFriendshipsAndDoFurtherAction {
-            syncSocialWorksToMessagesForYepTeam()
-
-            syncMyInfoAndDoFurtherAction {}
-        }
-
-        officialMessages { messagesCount in
-            println("new officialMessages count: \(messagesCount)")
+            syncMyConversations {
+                moreSync()
+            }
         }
     }
 
