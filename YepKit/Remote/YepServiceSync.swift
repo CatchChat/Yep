@@ -1041,6 +1041,10 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
             } else {
                 group.cascadeDeleteInRealm(realm)
             }
+
+            delay(1) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            }
         }
 
     case .groupAddUser:
