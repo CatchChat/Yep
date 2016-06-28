@@ -1315,6 +1315,17 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
     }).count
 }
 
+public func firstValidMessageInMessageResults(results: Results<Message>) -> Message? {
+
+    for message in results {
+        if !message.deletedByCreator {
+            return message
+        }
+    }
+
+    return nil
+}
+
 public func latestValidMessageInRealm(realm: Realm) -> Message? {
 
     let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
