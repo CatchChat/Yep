@@ -558,24 +558,7 @@ final class ConversationViewController: BaseViewController {
     }()
 
     private lazy var waverView: YepWaverView = {
-        let frame = self.view.bounds
-        let view = YepWaverView(frame: frame)
-
-        view.waver.waverCallback = { waver in
-
-            if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
-
-                if (audioRecorder.recording) {
-                    //println("Update waver")
-                    audioRecorder.updateMeters()
-
-                    let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-
-                    waver.level = CGFloat(normalizedValue)
-                }
-            }
-        }
-
+        let view = self.makeWaverView()
         return view
     }()
     private var samplesCount = 0
