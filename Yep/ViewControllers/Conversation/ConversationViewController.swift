@@ -196,62 +196,7 @@ final class ConversationViewController: BaseViewController {
     }()
 
     private lazy var moreMessageTypesView: MoreMessageTypesView = {
-
-        let view =  MoreMessageTypesView()
-
-        view.alertCanNotAccessCameraRollAction = { [weak self] in
-            self?.alertCanNotAccessCameraRoll()
-        }
-
-        view.sendImageAction = { [weak self] image in
-            self?.sendImage(image)
-        }
-
-        view.takePhotoAction = { [weak self] in
-
-            let openCamera: ProposerAction = { [weak self] in
-
-                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
-                    self?.alertCanNotOpenCamera()
-                    return
-                }
-
-                if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .Camera
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                }
-            }
-
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                self?.alertCanNotOpenCamera()
-            })
-        }
-
-        view.choosePhotoAction = { [weak self] in
-
-            let openCameraRoll: ProposerAction = { [weak self] in
-
-                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
-                    self?.alertCanNotAccessCameraRoll()
-                    return
-                }
-
-                if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .PhotoLibrary
-                    
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
-                }
-            }
-
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self?.alertCanNotAccessCameraRoll()
-            })
-        }
-
-        view.pickLocationAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
-        }
-
+        let view = self.makeMoreMessageTypesView()
         return view
     }()
 
@@ -315,7 +260,7 @@ final class ConversationViewController: BaseViewController {
     let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
     let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
-    private lazy var imagePicker: UIImagePickerController = {
+    lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
