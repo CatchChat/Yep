@@ -328,6 +328,7 @@
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
 		50B9C5D91D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */; };
+		50B9C5DB1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1034,6 +1035,7 @@
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
 		50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+CollectionView.swift"; path = "ViewControllers/Conversation/ConversationViewController+CollectionView.swift"; sourceTree = "<group>"; };
+		50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+LoadPreviousMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+LoadPreviousMessages.swift"; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -2253,6 +2255,7 @@
 				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
+				50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */,
 				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
@@ -4424,6 +4427,7 @@
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
 				5020B8A51C059662006CE8EA /* VoiceRecordSampleView.swift in Sources */,
+				50B9C5DB1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift in Sources */,
 				5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
 				500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */,
