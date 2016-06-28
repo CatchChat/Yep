@@ -39,7 +39,6 @@ final class ContactsViewController: BaseViewController {
         return searchBar
     }()
 
-    var conversationToShare: Conversation?
     #if DEBUG
     private lazy var contactsFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -233,15 +232,13 @@ final class ContactsViewController: BaseViewController {
         switch identifier {
             
         case "showConversation":
+
             guard let realm = try? Realm() else {
                 return
             }
+
             let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversationToShare = self.conversationToShare
-            if self.conversationToShare != nil {
 
-
-            }
             if let user = sender as? User {
                 if user.userID != YepUserDefaults.userID.value {
                     if user.friendState != UserFriendState.Me.rawValue {
@@ -256,7 +253,9 @@ final class ContactsViewController: BaseViewController {
                                 realm.add(newConversation)
                             }
                         }
+
                         vc.conversation = user.conversation
+
                         NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                     }
                 }
@@ -439,17 +438,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             
             if let friend = friendAtIndexPath(indexPath) {
                 searchController?.active = false
-                if self.conversationToShare != nil {
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("确定发送?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
-                        
-                        self?.performSegueWithIdentifier("showConversation", sender: friend)
-                        
-                        }, cancelAction: { () -> Void in
-                            
-                    })
-                } else {
-                    performSegueWithIdentifier("showProfile", sender: friend)
-                }
+                performSegueWithIdentifier("showProfile", sender: friend)
             }
             
         case .Online:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,7 +26,7 @@
                                     <outlet property="delegate" destination="lzL-dF-yCi" id="2Pz-q9-Qk1"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
                                 <rect key="frame" x="0.0" y="151" width="320" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erl-b0-CMQ">
@@ -52,7 +52,7 @@
                                     <constraint firstItem="WVE-v0-1iA" firstAttribute="centerX" secondItem="erl-b0-CMQ" secondAttribute="centerX" id="bT3-2i-iB2"/>
                                 </constraints>
                             </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="271" width="320" height="49"/>
                                 <items/>
                             </toolbar>
@@ -90,7 +90,6 @@
                         <segue destination="bhi-Zn-U0N" kind="show" identifier="showProfile" id="HJ6-Sc-tfw"/>
                         <segue destination="9xD-Rm-9US" kind="presentation" identifier="presentNewFeed" id="e4k-KG-exv"/>
                         <segue destination="8Oq-Nk-eYq" kind="show" identifier="showProfileWithUsername" id="l5Y-gH-p57"/>
-                        <segue destination="qqw-mR-9Vz" kind="show" identifier="showContacts" id="JCT-8K-tpC"/>
                         <segue destination="Mkb-3b-e2M" kind="show" identifier="showConversationWithFeed" id="Zv0-jA-n7B"/>
                     </connections>
                 </viewController>
@@ -138,21 +137,13 @@
             </objects>
             <point key="canvasLocation" x="54" y="1769"/>
         </scene>
-        <!--ContactsViewController-->
-        <scene sceneID="Qpo-IT-xSc">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Contacts" referencedIdentifier="ContactsViewController" id="qqw-mR-9Vz" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Tf-55-Pis" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="70.5" y="1856"/>
-        </scene>
         <!--ConversationViewController-->
         <scene sceneID="LhU-Sz-nIV">
             <objects>
                 <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="Mkb-3b-e2M" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="liy-9W-Qjc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="58" y="1942"/>
+            <point key="canvasLocation" x="80" y="1867"/>
         </scene>
     </scenes>
     <resources>
