@@ -606,32 +606,7 @@ final class ConversationViewController: BaseViewController {
     }()
 
     private lazy var mentionView: MentionView = {
-        let view = MentionView()
-
-        self.view.insertSubview(view, belowSubview: self.messageToolbar)
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        let top = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
-
-        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: MentionView.height)
-        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: MentionView.height)
-
-        bottom.priority = UILayoutPriorityDefaultHigh
-
-        NSLayoutConstraint.activateConstraints([top, leading, trailing, bottom, height])
-        self.view.layoutIfNeeded()
-
-        view.heightConstraint = height
-        view.bottomConstraint = bottom
-
-        view.pickUserAction = { [weak self] username in
-            self?.messageToolbar.replaceMentionedUsername(username)
-            self?.mentionView.hide()
-        }
-
+        let view = self.makeMentionView()
         return view
     }()
 
