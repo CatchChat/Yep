@@ -1315,6 +1315,21 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
     }).count
 }
 
+public func firstValidMessageInMessageResults(results: Results<Message>) -> (message: Message, headInvalidMessageIDSet: Set<String>)? {
+
+    var headInvalidMessageIDSet: Set<String> = []
+
+    for message in results {
+        if !message.deletedByCreator && (message.mediaType != MessageMediaType.SectionDate.rawValue) {
+            return (message, headInvalidMessageIDSet)
+        } else {
+            headInvalidMessageIDSet.insert(message.messageID)
+        }
+    }
+
+    return nil
+}
+
 public func latestValidMessageInRealm(realm: Realm) -> Message? {
 
     let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)

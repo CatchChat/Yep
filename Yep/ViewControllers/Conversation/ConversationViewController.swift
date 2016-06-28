@@ -2370,8 +2370,11 @@ final class ConversationViewController: BaseViewController {
             if let recipient = recipient {
 
                 let timeDirection: TimeDirection
-                if let maxMessageID = messages.first?.messageID {
+                var invalidMessageIDSet: Set<String>?
+                if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
+                    let maxMessageID = message.messageID
                     timeDirection = .Past(maxMessageID: maxMessageID)
+                    invalidMessageIDSet = headInvalidMessageIDSet
                 } else {
                     timeDirection = .None
                 }
@@ -2383,8 +2386,20 @@ final class ConversationViewController: BaseViewController {
                         completion()
                     }
 
-                }, completion: { messageIDs, noMore in
-                    println("messagesFromRecipient: \(messageIDs.count)")
+                }, completion: { _messageIDs, noMore in
+                    println("@ messagesFromRecipient: \(_messageIDs.count)")
+
+                    var messageIDs: [String] = []
+                    if let invalidMessageIDSet = invalidMessageIDSet {
+                        for messageID in _messageIDs {
+                            if !invalidMessageIDSet.contains(messageID) {
+                                messageIDs.append(messageID)
+                            }
+                        }
+                    } else {
+                        messageIDs = _messageIDs
+                    }
+                    println("# messagesFromRecipient: \(messageIDs.count)")
 
                     SafeDispatch.async { [weak self] in
 
