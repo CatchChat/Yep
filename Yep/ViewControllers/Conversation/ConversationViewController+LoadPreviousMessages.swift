@@ -8,6 +8,7 @@
 
 import Foundation
 import YepKit
+import YepNetworking
 
 extension ConversationViewController {
 
@@ -37,7 +38,7 @@ extension ConversationViewController {
                 }
 
                 messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                    //defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     SafeDispatch.async {
                         completion()

@@ -10,7 +10,6 @@ import UIKit
 import RealmSwift
 import YepKit
 import YepNetworking
-import OpenGraph
 import YepPreview
 import AVFoundation
 import MobileCoreServices.UTType
