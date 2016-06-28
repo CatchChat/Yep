@@ -26,14 +26,19 @@ class PreviewDribbblePhoto: NSObject, Photo {
 
         let imageView = UIImageView()
 
-        imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) in
+        let optionsInfos: KingfisherOptionsInfo = [
+            .PreloadAllGIFData,
+            .BackgroundDecode,
+        ]
+
+        imageView.kf_setImageWithURL(imageURL, optionsInfo: optionsInfos) { (image, error, cacheType, imageURL) in
 
             SafeDispatch.async { [weak self] in
                 if let image = image {
                     self?.image = image
                 }
             }
-        })
+        }
     }
 }
 
