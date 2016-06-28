@@ -277,36 +277,7 @@ final class ConversationViewController: BaseViewController {
     }()
 
     let conversationCollectionViewContentInsetYOffset: CGFloat = 5
-    @IBOutlet weak var conversationCollectionView: UICollectionView! {
-        didSet {
-            conversationCollectionView.keyboardDismissMode = .OnDrag
-            conversationCollectionView.alwaysBounceVertical = true
-            conversationCollectionView.bounces = true
-
-            conversationCollectionView.registerNibOf(LoadMoreCollectionViewCell)
-            conversationCollectionView.registerNibOf(ChatSectionDateCell)
-
-            conversationCollectionView.registerClassOf(ChatTextIndicatorCell)
-
-            conversationCollectionView.registerClassOf(ChatLeftTextCell)
-            conversationCollectionView.registerClassOf(ChatLeftTextURLCell)
-            conversationCollectionView.registerClassOf(ChatLeftImageCell)
-            conversationCollectionView.registerClassOf(ChatLeftAudioCell)
-            conversationCollectionView.registerClassOf(ChatLeftVideoCell)
-            conversationCollectionView.registerClassOf(ChatLeftLocationCell)
-            conversationCollectionView.registerNibOf(ChatLeftSocialWorkCell)
-
-            conversationCollectionView.registerClassOf(ChatRightTextCell)
-            conversationCollectionView.registerClassOf(ChatRightTextURLCell)
-            conversationCollectionView.registerClassOf(ChatRightImageCell)
-            conversationCollectionView.registerClassOf(ChatRightAudioCell)
-            conversationCollectionView.registerClassOf(ChatRightVideoCell)
-            conversationCollectionView.registerClassOf(ChatRightLocationCell)
-
-            let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
-            conversationCollectionView.addGestureRecognizer(tap)
-        }
-    }
+    @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
     @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint! {
@@ -406,6 +377,12 @@ final class ConversationViewController: BaseViewController {
         }
 
         navigationController?.interactivePopGestureRecognizer?.delaysTouchesBegan = false
+
+        do {
+            prepareConversationCollectionView()
+            let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.tapToCollapseMessageToolBar(_:)))
+            conversationCollectionView.addGestureRecognizer(tap)
+        }
 
         if let indexOfSearchedMessage = indexOfSearchedMessage {
             let fixedIndexOfSearchedMessage = max(0, indexOfSearchedMessage - Ruler.iPhoneVertical(5, 6, 8, 10).value)

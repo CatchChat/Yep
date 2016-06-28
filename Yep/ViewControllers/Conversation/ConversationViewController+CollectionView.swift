@@ -14,6 +14,36 @@ import YepPreview
 import OpenGraph
 import RealmSwift
 
+extension ConversationViewController {
+
+    func prepareConversationCollectionView() {
+
+        conversationCollectionView.keyboardDismissMode = .OnDrag
+        conversationCollectionView.alwaysBounceVertical = true
+        conversationCollectionView.bounces = true
+
+        conversationCollectionView.registerNibOf(LoadMoreCollectionViewCell)
+        conversationCollectionView.registerNibOf(ChatSectionDateCell)
+
+        conversationCollectionView.registerClassOf(ChatTextIndicatorCell)
+
+        conversationCollectionView.registerClassOf(ChatLeftTextCell)
+        conversationCollectionView.registerClassOf(ChatLeftTextURLCell)
+        conversationCollectionView.registerClassOf(ChatLeftImageCell)
+        conversationCollectionView.registerClassOf(ChatLeftAudioCell)
+        conversationCollectionView.registerClassOf(ChatLeftVideoCell)
+        conversationCollectionView.registerClassOf(ChatLeftLocationCell)
+        conversationCollectionView.registerNibOf(ChatLeftSocialWorkCell)
+
+        conversationCollectionView.registerClassOf(ChatRightTextCell)
+        conversationCollectionView.registerClassOf(ChatRightTextURLCell)
+        conversationCollectionView.registerClassOf(ChatRightImageCell)
+        conversationCollectionView.registerClassOf(ChatRightAudioCell)
+        conversationCollectionView.registerClassOf(ChatRightVideoCell)
+        conversationCollectionView.registerClassOf(ChatRightLocationCell)
+    }
+}
+
 extension ConversationViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     @objc func didRecieveMenuWillHideNotification(notification: NSNotification) {
