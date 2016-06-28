@@ -2075,7 +2075,7 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
         let perPage = (data["per_page"] as? Int) ?? 100
         let noMore = (count == 0) || (count < perPage)
 
-        //println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
+        println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
 
         var messageIDs = [String]()
 

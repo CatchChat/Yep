@@ -1318,7 +1318,7 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
 public func firstValidMessageInMessageResults(results: Results<Message>) -> Message? {
 
     for message in results {
-        if !message.deletedByCreator {
+        if !message.deletedByCreator && (message.mediaType != MessageMediaType.SectionDate.rawValue) {
             return message
         }
     }
