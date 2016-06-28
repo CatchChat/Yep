@@ -419,7 +419,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private lazy var moreViewManager: ConversationMoreViewManager = {
+    lazy var moreViewManager: ConversationMoreViewManager = {
 
         let manager = ConversationMoreViewManager()
 
@@ -567,8 +567,8 @@ final class ConversationViewController: BaseViewController {
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
 
-    private var isSubscribeViewShowing = false
-    private lazy var subscribeView: SubscribeView = {
+    var isSubscribeViewShowing = false
+    lazy var subscribeView: SubscribeView = {
         let view = self.makeSubscribeView()
         return view
     }()
@@ -1718,7 +1718,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
+    func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
             conversationCollectionView.contentInset.bottom = bottom
@@ -2084,118 +2084,6 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryShowSubscribeView() {
-
-        guard let group = conversation.withGroup where !group.includeMe else {
-            return
-        }
-
-        let groupID = group.groupID
-
-        meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { meIsMember in
-
-            println("meIsMember: \(meIsMember)")
-
-            SafeDispatch.async { [weak self] in
-                if let strongSelf = self {
-                    if !group.invalidated {
-                        let _ = try? strongSelf.realm.write {
-                            group.includeMe = meIsMember
-                        }
-                    }
-                }
-            }
-
-            guard !meIsMember else {
-                return
-            }
-
-            // 最多显示一次
-            guard SubscriptionViewShown.canShow(groupID: groupID) else {
-                return
-            }
-
-            delay(3) { [weak self] in
-
-                guard !group.invalidated else {
-                    return
-                }
-
-                guard !group.includeMe else {
-                    return
-                }
-
-                self?.subscribeView.subscribeAction = { [weak self] in
-                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
-                        println("subscribe OK")
-
-                        SafeDispatch.async { [weak self] in
-                            if let strongSelf = self {
-                                if !group.invalidated {
-                                    let _ = try? strongSelf.realm.write {
-                                        group.includeMe = true
-                                        group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                                        strongSelf.moreViewManager.updateForGroupAffair()
-                                    }
-                                }
-                            }
-                        }
-                    })
-                }
-
-                self?.subscribeView.showWithChangeAction = { [weak self] in
-                    if let strongSelf = self {
-
-                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
-
-                        let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
-
-                        let newContentOffsetY: CGFloat
-                        if extraPart > 0 {
-                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
-                        } else {
-                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y
-                        }
-
-                        //println("extraPart: \(extraPart), newContentOffsetY: \(newContentOffsetY)")
-
-                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                        self?.isSubscribeViewShowing = true
-                    }
-                }
-
-                self?.subscribeView.hideWithChangeAction = { [weak self] in
-                    if let strongSelf = self {
-
-                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
-
-                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
-
-                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                        self?.isSubscribeViewShowing = false
-                    }
-                }
-
-                self?.subscribeView.show()
-
-                // 记下已显示过
-                do {
-                    guard self != nil else {
-                        return
-                    }
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-                    let shown = SubscriptionViewShown(groupID: groupID)
-                    let _ = try? realm.write {
-                        realm.add(shown, update: true)
-                    }
-                }
-            }
-        })
-    }
 
     var isLoadingPreviousMessages = false
     var noMorePreviousMessages = false
