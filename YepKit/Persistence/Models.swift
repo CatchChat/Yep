@@ -1315,15 +1315,15 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
     }).count
 }
 
-public func firstValidMessageInMessageResults(results: Results<Message>) -> (message: Message, headInvalidMessageIDs: [String])? {
+public func firstValidMessageInMessageResults(results: Results<Message>) -> (message: Message, headInvalidMessageIDSet: Set<String>)? {
 
-    var headInvalidMessageIDs: [String] = []
+    var headInvalidMessageIDSet: Set<String> = []
 
     for message in results {
         if !message.deletedByCreator && (message.mediaType != MessageMediaType.SectionDate.rawValue) {
-            return (message, headInvalidMessageIDs)
+            return (message, headInvalidMessageIDSet)
         } else {
-            headInvalidMessageIDs.append(message.messageID)
+            headInvalidMessageIDSet.insert(message.messageID)
         }
     }
 
