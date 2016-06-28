@@ -2370,7 +2370,8 @@ final class ConversationViewController: BaseViewController {
             if let recipient = recipient {
 
                 let timeDirection: TimeDirection
-                if let maxMessageID = messages.first?.messageID {
+                if let maxMessageID = firstValidMessageInMessageResults(messages)?.messageID {
+                //if let maxMessageID = messages.first?.messageID {
                     timeDirection = .Past(maxMessageID: maxMessageID)
                 } else {
                     timeDirection = .None
