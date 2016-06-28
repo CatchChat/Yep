@@ -331,6 +331,7 @@
 		50B9C5DD1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5DC1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift */; };
 		50B9C5DF1D226B4500BCB8BD /* ConversationViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */; };
 		50B9C5E11D22719A00BCB8BD /* ConversationFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */; };
+		50B9C5E31D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1040,6 +1041,7 @@
 		50B9C5DC1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+PhotosViewControllerDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+PhotosViewControllerDelegate.swift"; sourceTree = "<group>"; };
 		50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Views.swift"; path = "ViewControllers/Conversation/ConversationViewController+Views.swift"; sourceTree = "<group>"; };
 		50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationFeed.swift; path = ViewControllers/Conversation/ConversationFeed.swift; sourceTree = "<group>"; };
+		50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+MoreViewManager.swift"; path = "ViewControllers/Conversation/ConversationViewController+MoreViewManager.swift"; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -2260,6 +2262,7 @@
 				50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */,
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */,
+				50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */,
 				50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */,
 				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
@@ -4537,6 +4540,7 @@
 				503E10231CF825D5000FA7C6 /* GeniusInterviewCell.swift in Sources */,
 				50B9C5DD1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift in Sources */,
 				0A5D83941AC5D3C8000045BF /* YepTabBarController.swift in Sources */,
+				50B9C5E31D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift in Sources */,
 				50E114FC1ABC549300F13000 /* ContactsCell.swift in Sources */,
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,

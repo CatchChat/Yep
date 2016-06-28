@@ -13,9 +13,9 @@ import YepPreview
 import RealmSwift
 import Proposer
 
-extension ConversationViewController {
+// MARK: - FeedView
 
-    // MARK: FeedView
+extension ConversationViewController {
 
     func makeFeedViewWithFeed(feed: ConversationFeed) {
 
@@ -108,8 +108,11 @@ extension ConversationViewController {
         
         self.feedView = feedView
     }
+}
 
-    // MARK: MentionView
+// MARK: - MentionView
+
+extension ConversationViewController {
 
     func makeMentionView() -> MentionView {
 
@@ -141,8 +144,11 @@ extension ConversationViewController {
         
         return view
     }
+}
 
-    // MARK: WaverView
+// MARK: - WaverView
+
+extension ConversationViewController {
 
     func makeWaverView() -> YepWaverView {
 
@@ -165,8 +171,11 @@ extension ConversationViewController {
         
         return view
     }
+}
 
-    // MARK: MoreMessageTypesView
+// MARK: - MoreMessageTypesView
+
+extension ConversationViewController {
 
     func makeMoreMessageTypesView() -> MoreMessageTypesView {
 
@@ -227,8 +236,11 @@ extension ConversationViewController {
         
         return view
     }
+}
 
-    // MARK: SubscribeView
+// MARK: - SubscribeView
+
+extension ConversationViewController {
 
     func makeSubscribeView() -> SubscribeView {
 
