@@ -569,22 +569,7 @@ final class ConversationViewController: BaseViewController {
 
     private var isSubscribeViewShowing = false
     private lazy var subscribeView: SubscribeView = {
-        let view = SubscribeView()
-
-        self.view.insertSubview(view, belowSubview: self.messageToolbar)
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-
-        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
-        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
-
-        NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
-        self.view.layoutIfNeeded()
-
-        view.bottomConstraint = bottom
-
+        let view = self.makeSubscribeView()
         return view
     }()
 
