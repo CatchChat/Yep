@@ -127,71 +127,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     lazy var moreViewManager: ConversationMoreViewManager = {
-
-        let manager = ConversationMoreViewManager()
-
-        manager.conversation = self.conversation
-
-        manager.showProfileAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: nil)
-        }
-
-        manager.toggleDoNotDisturbAction = { [weak self] in
-            self?.toggleDoNotDisturb()
-        }
-
-        manager.reportAction = { [weak self] in
-            self?.tryReport()
-        }
-
-        manager.toggleBlockAction = { [weak self] in
-            self?.toggleBlock()
-        }
-
-        manager.shareFeedAction = { [weak self] in
-            guard let
-                description = self?.conversation.withGroup?.withFeed?.body,
-                groupID = self?.conversation.withGroup?.groupID else {
-                    return
-            }
-
-            guard let groupShareURLString = self?.groupShareURLString else {
-
-                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
-
-                    self?.groupShareURLString = groupShareURLString
-
-                    SafeDispatch.async { [weak self] in
-                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
-                    }
-                })
-
-                return
-            }
-
-            self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
-        }
-
-        manager.updateGroupAffairAction = { [weak self, weak manager] in
-            self?.tryUpdateGroupAffair(afterSubscribed: { [weak self] in
-                guard let strongSelf = self else { return }
-                manager?.updateForGroupAffair()
-
-                if strongSelf.isSubscribeViewShowing {
-                    strongSelf.subscribeView.hide()
-                }
-            })
-        }
-
-        manager.afterGotSettingsForUserAction = { [weak self] userID, blocked, doNotDisturb in
-            self?.updateNotificationEnabled(!doNotDisturb, forUserWithUserID: userID)
-            self?.updateBlocked(blocked, forUserWithUserID: userID)
-        }
-
-        manager.afterGotSettingsForGroupAction = { [weak self] groupID, notificationEnabled in
-            self?.updateNotificationEnabled(notificationEnabled, forGroupWithGroupID: groupID)
-        }
-
+        let manager = self.makeConversationMoreViewManager()
         return manager
     }()
 

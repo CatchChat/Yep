@@ -329,7 +329,7 @@ extension ConversationViewController {
         }
     }
 
-    private func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
+    func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
 
         guard let realm = try? Realm() else {
             return
