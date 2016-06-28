@@ -327,6 +327,7 @@
 		50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
+		50B9C5D91D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1032,6 +1033,7 @@
 		50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectKeypathObserver.swift; path = Helpers/KVO/ObjectKeypathObserver.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
+		50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+CollectionView.swift"; path = "ViewControllers/Conversation/ConversationViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -2251,6 +2253,7 @@
 				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
+				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
 				50DEE0601BEA146900015741 /* Conversation.storyboard */,
@@ -4527,6 +4530,7 @@
 				50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */,
 				50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */,
 				505EC81C1ADFBE1B001D27E0 /* SkillSelectionCell.swift in Sources */,
+				50B9C5D91D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift in Sources */,
 				50098D471CB348FA009275FE /* SearchedUserCell.swift in Sources */,
 				50A1FA761C0D47D300EEDA74 /* SubscribeView.swift in Sources */,
 				50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */,
