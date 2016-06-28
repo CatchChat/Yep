@@ -39,7 +39,6 @@
 		161BAAEC95E9A42987E9FF3E /* Pods_YepTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8147984A01C379963DE15090 /* Pods_YepTests.framework */; };
 		1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D88D58074F2396616E9D7E3 /* Pods_Yep.framework */; };
 		27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34A6628BE8C7FFA96376C5C6 /* CoreText.framework */; };
-		33180F5C1CC9C58100CACF38 /* DataSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33180F5B1CC9C58100CACF38 /* DataSample.swift */; };
 		336563F81CCF2FF800598378 /* LeftShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */; };
 		336563FA1CCF300200598378 /* RightShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F91CCF300200598378 /* RightShareFeedCell.swift */; };
 		33893E3A1CB7C62E00B276C1 /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33893E371CB7C62E00B276C1 /* NewFeed.storyboard */; };
@@ -757,7 +756,6 @@
 		0AD7EA691AC3ED3D00617758 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0AD7EA6B1AC3ED4300617758 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0AEB1CC51B0E742400178C9C /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
-		33180F5B1CC9C58100CACF38 /* DataSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSample.swift; sourceTree = "<group>"; };
 		336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftShareFeedCell.swift; sourceTree = "<group>"; };
 		336563F91CCF300200598378 /* RightShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightShareFeedCell.swift; sourceTree = "<group>"; };
 		33893E371CB7C62E00B276C1 /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewFeed.storyboard; sourceTree = "<group>"; };
@@ -2257,7 +2255,6 @@
 		503CAB441AC00CB900DFE830 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
-				33180F5B1CC9C58100CACF38 /* DataSample.swift */,
 				50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */,
 				50165C441AC2860900C7AEBE /* ConversationLayout.swift */,
 				50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */,
@@ -4712,7 +4709,6 @@
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
 				50CB057E1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift in Sources */,
-				33180F5C1CC9C58100CACF38 /* DataSample.swift in Sources */,
 				5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */,
 				5053AD4A1AF772C500B3CBFA /* PickLocationViewController.swift in Sources */,
 				502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */,
