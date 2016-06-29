@@ -86,9 +86,6 @@ final class ConversationViewController: BaseViewController {
         return dateFormatter
     }()
 
-    //var messagePreviewTransitionManager: ConversationMessagePreviewTransitionManager?
-    //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
-
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     var checkTypingStatusTimer: NSTimer?
@@ -156,8 +153,6 @@ final class ConversationViewController: BaseViewController {
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     var isTryingShowFriendRequestView = false
-
-    //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
