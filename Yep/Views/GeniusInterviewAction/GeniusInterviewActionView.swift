@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Ruler
 
 class GeniusInterviewActionView: UIView {
 
@@ -20,7 +21,8 @@ class GeniusInterviewActionView: UIView {
     }()
 
     lazy var sayHiButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 30))
+        let width: CGFloat = Ruler.iPhoneHorizontal(150, 185, 185).value
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 30))
         button.titleLabel?.font = UIFont.systemFontOfSize(14)
         button.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
