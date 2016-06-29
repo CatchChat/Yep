@@ -13,7 +13,7 @@ class MeetGeniusViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.rowHeight = 90
-            tableView.tableFooterView = InfoView(NSLocalizedString("To be continue.", comment: ""))
+            //tableView.tableHeaderView = InfoView(NSLocalizedString("To be continue.", comment: ""))
 
             tableView.registerNibOf(GeniusInterviewCell)
         }
@@ -21,6 +21,8 @@ class MeetGeniusViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
     }
 
     /*

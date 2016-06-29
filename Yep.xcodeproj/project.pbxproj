@@ -304,6 +304,7 @@
 		50A6A7B31D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */; };
 		50A6A7B51D23676300E01190 /* ConversationViewController+SendMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */; };
 		50A6A7B71D2377E100E01190 /* ConversationViewController+SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */; };
+		50A6A7BA1D23AD4000E01190 /* MeetGeniusShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
@@ -1020,6 +1021,7 @@
 		50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+YepFayeServiceDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+YepFayeServiceDelegate.swift"; sourceTree = "<group>"; };
 		50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SendMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SendMessages.swift"; sourceTree = "<group>"; };
 		50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SyncMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SyncMessages.swift"; sourceTree = "<group>"; };
+		50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeetGeniusShowView.swift; path = Views/MeetGeniusShow/MeetGeniusShowView.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
@@ -1911,6 +1913,7 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				50A6A7B81D23AD1600E01190 /* MeetGeniusShow */,
 				50B6A03D1CA282B100C460E3 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
@@ -2818,6 +2821,14 @@
 				50DEE0521BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard */,
 			);
 			name = DoNotDisturbPeriod;
+			sourceTree = "<group>";
+		};
+		50A6A7B81D23AD1600E01190 /* MeetGeniusShow */ = {
+			isa = PBXGroup;
+			children = (
+				50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */,
+			);
+			name = MeetGeniusShow;
 			sourceTree = "<group>";
 		};
 		50A93A9E1BD8C51D007005DB /* PickerItems */ = {
@@ -4463,6 +4474,7 @@
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
+				50A6A7BA1D23AD4000E01190 /* MeetGeniusShowView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */,
 				84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */,
