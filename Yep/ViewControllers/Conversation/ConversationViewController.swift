@@ -2241,22 +2241,8 @@ final class ConversationViewController: BaseViewController {
                 if let user = self?.conversation.withFriend {
                     self?.sendLocationInfo(locationInfo, toUser: user)
 
-                } else if let withGroup = self?.conversation.withGroup {
-
-                    sendLocationWithLocationInfo(locationInfo, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { message in
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-                    }, completion: { success -> Void in
-                        println("sendLocation to group: \(success)")
-                    })
+                } else if let group = self?.conversation.withGroup {
+                    self?.sendLocationInfo(locationInfo, toGroup: group)
                 }
             }
 
