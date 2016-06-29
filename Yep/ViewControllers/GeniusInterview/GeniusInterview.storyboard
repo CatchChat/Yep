@@ -15,7 +15,21 @@
                     <view key="view" contentMode="scaleToFill" id="XID-Kd-vg1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WKo-OQ-JTf" customClass="GeniusInterviewActionView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="y2l-YR-EBQ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="WKo-OQ-JTf" firstAttribute="leading" secondItem="XID-Kd-vg1" secondAttribute="leading" id="G8p-jH-3e2"/>
+                            <constraint firstAttribute="trailing" secondItem="WKo-OQ-JTf" secondAttribute="trailing" id="T1s-Bz-XOW"/>
+                            <constraint firstItem="WKo-OQ-JTf" firstAttribute="top" secondItem="XID-Kd-vg1" secondAttribute="bottom" constant="-50" id="Wjw-z9-DhY"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>

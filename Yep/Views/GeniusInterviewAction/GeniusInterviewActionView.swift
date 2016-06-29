@@ -19,7 +19,7 @@ class GeniusInterviewActionView: UIView {
     }()
 
     lazy var sayHiButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 185, height: 30))
         button.titleLabel?.font = UIFont.systemFontOfSize(14)
         button.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
@@ -29,8 +29,10 @@ class GeniusInterviewActionView: UIView {
         return button
     }()
 
-    @objc private func sayHi(sender: UIButton) {
-        println("Say Hi")
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+
+        makeUI()
     }
 
     private func makeUI() {
@@ -48,11 +50,25 @@ class GeniusInterviewActionView: UIView {
 
         do {
             let avatarItem = UIBarButtonItem(customView: avatarImageView)
+
+            let gap0Item = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            gap0Item.width = 11
+            let gap1Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            gap1Item.width = 20
+
             let sayHiItem = UIBarButtonItem(customView: sayHiButton)
+
+            let gap2Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            gap2Item.width = 20
+
             let shareItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(GeniusInterviewActionView.share(_:)))
 
-            toolbar.setItems([avatarItem, sayHiItem, shareItem], animated: false)
+            toolbar.setItems([avatarItem, gap0Item, gap1Item, sayHiItem, gap2Item, shareItem], animated: false)
         }
+    }
+
+    @objc private func sayHi(sender: UIButton) {
+        println("Say Hi")
     }
 
     @objc private func share(sender: UIBarButtonItem) {
