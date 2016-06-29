@@ -2238,27 +2238,8 @@ final class ConversationViewController: BaseViewController {
 
             vc.sendLocationAction = { [weak self] locationInfo in
 
-                if let withFriend = self?.conversation.withFriend {
-
-                    sendLocationWithLocationInfo(locationInfo, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { message in
-
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        self?.promptSendMessageFailed(
-                            reason: reason,
-                            errorMessage: errorMessage,
-                            reserveErrorMessage: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
-                        )
-
-                    }, completion: { success -> Void in
-                        println("sendLocation to friend: \(success)")
-                    })
+                if let user = self?.conversation.withFriend {
+                    self?.sendLocationInfo(locationInfo, toUser: user)
 
                 } else if let withGroup = self?.conversation.withGroup {
 
