@@ -92,7 +92,7 @@ final class ConversationViewController: BaseViewController {
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     var checkTypingStatusTimer: NSTimer?
-    private var typingResetDelay: Float = 0
+    var typingResetDelay: Float = 0
 
     // KeyboardMan 帮助我们做键盘动画
     private let keyboardMan = KeyboardMan()
@@ -100,7 +100,7 @@ final class ConversationViewController: BaseViewController {
 
     private var isFirstAppear = true
 
-    private lazy var titleView: ConversationTitleView = {
+    lazy var titleView: ConversationTitleView = {
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
 
         if nameOfConversation(self.conversation) != "" {
@@ -2346,53 +2346,6 @@ extension ConversationViewController: UIGestureRecognizerDelegate {
     }
 }
 
-// MARK: FayeServiceDelegate
-
-extension ConversationViewController: YepFayeServiceDelegate {
-
-    func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String) {
-
-        if let withFriend = conversation.withFriend {
-
-            if userID == withFriend.userID {
-
-                let content = NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
-
-                titleView.stateInfoLabel.text = "\(content)..."
-                titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
-
-                switch instantStateType {
-
-                case .Text:
-                    self.typingResetDelay = 2
-
-                case .Audio:
-                    self.typingResetDelay = 2.5
-                }
-            }
-        }
-    }
-
-    /*
-    func fayeRecievedNewMessages(messageIDs: [String], messageAgeRawValue: MessageAge.RawValue) {
-
-        guard let
-            messageAge = MessageAge(rawValue: messageAgeRawValue) else {
-                println("Can NOT handleReceivedNewMessagesNotification")
-                return
-        }
-
-        handleRecievedNewMessages(messageIDs, messageAge: messageAge)
-    }
-
-    func fayeMessagesMarkAsReadByRecipient(lastReadAt: NSTimeInterval, recipientType: String, recipientID: String) {
-
-        if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
-            self.markAsReadAllSentMesagesBeforeUnixTime(lastReadAt)
-        }
-    }
-    */
-}
 
 
 
