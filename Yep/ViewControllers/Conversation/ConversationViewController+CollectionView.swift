@@ -16,6 +16,19 @@ import RealmSwift
 
 extension ConversationViewController {
 
+    private func tryShowConversationWithFeed(feed: DiscoveredFeed?) {
+
+        if let feed = feed {
+            performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+
+        } else {
+            YepAlert.alertSorry(message: NSLocalizedString("Feed not found!", comment: ""), inViewController: self)
+        }
+    }
+}
+
+extension ConversationViewController {
+
     func prepareConversationCollectionView() {
 
         conversationCollectionView.keyboardDismissMode = .OnDrag

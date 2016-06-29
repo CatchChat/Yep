@@ -2110,16 +2110,6 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Navigation
 
-    func tryShowConversationWithFeed(feed: DiscoveredFeed?) {
-
-        if let feed = feed {
-            performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
-
-        } else {
-            YepAlert.alertSorry(message: NSLocalizedString("Feed not found!", comment: ""), inViewController: self)
-        }
-    }
-
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         guard let identifier = segue.identifier else {
