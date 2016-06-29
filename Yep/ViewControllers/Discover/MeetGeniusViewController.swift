@@ -10,6 +10,8 @@ import UIKit
 
 class MeetGeniusViewController: UIViewController {
 
+    var showGeniusInterviewAction: (() -> Void)?
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
@@ -50,10 +52,17 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
         let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
         cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
         cell.numberLabel.text = String(format: "#%03d", indexPath.row)
+
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        showGeniusInterviewAction?()
     }
 }
 
