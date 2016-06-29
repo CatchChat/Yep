@@ -7,7 +7,7 @@
         <!--Genius Interview View Controller-->
         <scene sceneID="uoB-oz-9jm">
             <objects>
-                <viewController storyboardIdentifier="GeniusInterviewViewController" id="sT6-T2-6OH" customClass="GeniusInterviewViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GeniusInterviewViewController" hidesBottomBarWhenPushed="YES" id="sT6-T2-6OH" customClass="GeniusInterviewViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fhq-Rz-rtd"/>
                         <viewControllerLayoutGuide type="bottom" id="rPS-Sv-fzM"/>
