@@ -109,6 +109,17 @@ extension ConversationViewController {
         
         self.feedView = feedView
     }
+
+    func tryFoldFeedView() {
+
+        guard let feedView = feedView else {
+            return
+        }
+
+        if feedView.foldProgress != 1.0 {
+            feedView.foldProgress = 1.0
+        }
+    }
 }
 
 // MARK: - MentionView
