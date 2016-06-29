@@ -27,6 +27,16 @@ class MeetGeniusShowView: UIView {
         return label
     }()
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        makeUI()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     func makeUI() {
 
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false

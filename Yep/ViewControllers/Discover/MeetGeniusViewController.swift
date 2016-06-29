@@ -14,6 +14,7 @@ class MeetGeniusViewController: UIViewController {
         didSet {
             tableView.rowHeight = 90
             //tableView.tableHeaderView = InfoView(NSLocalizedString("To be continue.", comment: ""))
+            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
 
             tableView.registerNibOf(GeniusInterviewCell)
         }
