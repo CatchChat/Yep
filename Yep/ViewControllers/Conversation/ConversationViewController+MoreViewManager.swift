@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import YepKit
 import RealmSwift
 import MonkeyKing
