@@ -303,6 +303,7 @@
 		50A6A7B11D23621E00E01190 /* ConversationViewController+AVAudioRecorderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B01D23621E00E01190 /* ConversationViewController+AVAudioRecorderDelegate.swift */; };
 		50A6A7B31D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */; };
 		50A6A7B51D23676300E01190 /* ConversationViewController+SendMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */; };
+		50A6A7B71D2377E100E01190 /* ConversationViewController+SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
@@ -1018,6 +1019,7 @@
 		50A6A7B01D23621E00E01190 /* ConversationViewController+AVAudioRecorderDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+AVAudioRecorderDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+AVAudioRecorderDelegate.swift"; sourceTree = "<group>"; };
 		50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+YepFayeServiceDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+YepFayeServiceDelegate.swift"; sourceTree = "<group>"; };
 		50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SendMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SendMessages.swift"; sourceTree = "<group>"; };
+		50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SyncMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SyncMessages.swift"; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
@@ -2273,6 +2275,7 @@
 				503CAB421AC00CB100DFE830 /* ConversationViewController.swift */,
 				50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */,
 				50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */,
+				50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */,
 				50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */,
 				50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */,
 				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
@@ -4485,6 +4488,7 @@
 				509B120F1C436E7C0000BE71 /* MentionView.swift in Sources */,
 				50B3C9581CC9BA9000623E29 /* SearchTriggerRepresentation.swift in Sources */,
 				50CB05801CC5E1200024BE06 /* SearchedFeedLocationCell.swift in Sources */,
+				50A6A7B71D2377E100E01190 /* ConversationViewController+SyncMessages.swift in Sources */,
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
