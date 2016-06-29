@@ -9,6 +9,7 @@
 import Foundation
 import YepKit
 import YepNetworking
+import RealmSwift
 
 extension ConversationViewController {
 
@@ -91,6 +92,48 @@ extension ConversationViewController {
                 self?.markAsReadAllSentMesagesBeforeUnixTime(lastMessageRead.unixTime, lastReadMessageID: lastMessageRead.messageID)
             }
         })
+    }
+
+    func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
+
+        guard let recipient = recipient else {
+            return
+        }
+
+        dispatch_async(realmQueue) {
+
+            guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
+                return
+            }
+
+            var lastMessageCreatedUnixTime = unixTime
+            //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
+            if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
+                let createdUnixTime = message.createdUnixTime
+                //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
+                if createdUnixTime > lastMessageCreatedUnixTime {
+                    println("NOTICE: markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), lastMessageCreatedUnixTime: \(createdUnixTime)")
+                    lastMessageCreatedUnixTime = createdUnixTime
+                }
+            }
+
+            let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.Successed.rawValue, UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
+
+            let sendSuccessedMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
+
+            println("sendSuccessedMessages.count: \(sendSuccessedMessages.count)")
+
+            let _ = try? realm.write {
+                sendSuccessedMessages.forEach {
+                    $0.readed = true
+                    $0.sendState = MessageSendState.Read.rawValue
+                }
+            }
+
+            delay(0.5) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+            }
+        }
     }
 }
 
