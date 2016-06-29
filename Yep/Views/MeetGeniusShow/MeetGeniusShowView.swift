@@ -12,7 +12,7 @@ class MeetGeniusShowView: UIView {
 
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.blueColor()
         return view
     }()
 
@@ -46,8 +46,6 @@ class MeetGeniusShowView: UIView {
 
         let views = [
             "backgroundImageView": backgroundImageView,
-            "showButton": showButton,
-            "titleLabel": titleLabel,
         ]
 
         do {
@@ -57,6 +55,7 @@ class MeetGeniusShowView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsV)
         }
 
+        /*
         do {
             showButton.translatesAutoresizingMaskIntoConstraints = false
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +74,7 @@ class MeetGeniusShowView: UIView {
             let centerY = stackView.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
             NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
+         */
     }
 }
 
