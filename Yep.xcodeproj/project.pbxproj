@@ -299,6 +299,7 @@
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
 		50A6A7AD1D235DE900E01190 /* ConversationViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */; };
+		50A6A7AF1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7AE1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
@@ -1010,6 +1011,7 @@
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
 		50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+ImagePicker.swift"; path = "ViewControllers/Conversation/ConversationViewController+ImagePicker.swift"; sourceTree = "<group>"; };
+		50A6A7AE1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+AVAudioPlayerDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+AVAudioPlayerDelegate.swift"; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
@@ -2268,6 +2270,7 @@
 				50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */,
 				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
 				50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */,
+				50A6A7AE1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
 				50B9C5DC1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift */,
@@ -4594,6 +4597,7 @@
 				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
+				50A6A7AF1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift in Sources */,
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
