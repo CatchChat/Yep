@@ -429,3 +429,137 @@ extension ConversationViewController {
     }
 }
 
+// MARK: - FriendRequestView
+
+extension ConversationViewController {
+
+   func makeFriendRequestViewWithUser(user: User, state: FriendRequestView.State) {
+
+        let friendRequestView = FriendRequestView(state: state)
+
+        friendRequestView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(friendRequestView)
+
+        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
+        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
+        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64 - FriendRequestView.height)
+        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+
+        NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
+
+        view.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.conversationCollectionView.contentInset.top += FriendRequestView.height
+
+            friendRequestViewTop.constant += FriendRequestView.height
+            self.view.layoutIfNeeded()
+
+        }, completion: { _ in })
+
+        friendRequestView.user = user
+
+        let userID = user.userID
+
+        let hideFriendRequestView: () -> Void = {
+            SafeDispatch.async { [weak self] in
+
+                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    if let strongSelf = self {
+                        strongSelf.conversationCollectionView.contentInset.top = 64 + strongSelf.conversationCollectionViewContentInsetYOffset
+
+                        friendRequestViewTop.constant -= FriendRequestView.height
+                        strongSelf.view.layoutIfNeeded()
+                    }
+
+                }, completion: { _ in
+                    friendRequestView.removeFromSuperview()
+
+                    if let strongSelf = self {
+                        strongSelf.isTryingShowFriendRequestView = false
+                    }
+                })
+            }
+        }
+
+        friendRequestView.addAction = { [weak self] friendRequestView in
+            println("try Send Friend Request")
+
+            sendFriendRequestToUser(user, failureHandler: { [weak self] reason, errorMessage in
+                YepAlert.alertSorry(message: NSLocalizedString("Send Friend Request failed!", comment: ""), inViewController: self)
+
+            }, completion: { friendRequestState in
+                println("friendRequestState: \(friendRequestState.rawValue)")
+
+                SafeDispatch.async {
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+                    if let user = userWithUserID(userID, inRealm: realm) {
+                        let _ = try? realm.write {
+                            user.friendState = UserFriendState.IssuedRequest.rawValue
+                        }
+                    }
+                }
+
+                hideFriendRequestView()
+            })
+        }
+
+        friendRequestView.acceptAction = { [weak self] friendRequestView in
+            println("friendRequestView.acceptAction")
+
+            if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                acceptFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
+                    YepAlert.alertSorry(message: NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
+
+                }, completion: { success in
+                    println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
+
+                    SafeDispatch.async {
+                        guard let realm = try? Realm() else {
+                            return
+                        }
+                        if let user = userWithUserID(userID, inRealm: realm) {
+                            let _ = try? realm.write {
+                                user.friendState = UserFriendState.Normal.rawValue
+                            }
+                        }
+                    }
+
+                    hideFriendRequestView()
+                })
+
+            } else {
+                println("NOT friendRequestID for acceptFriendRequestWithID")
+            }
+        }
+
+        friendRequestView.rejectAction = { [weak self] friendRequestView in
+            println("friendRequestView.rejectAction")
+
+            let confirmAction: () -> Void = {
+
+                if let friendRequestID = friendRequestView.state.friendRequestID {
+
+                    rejectFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
+                        YepAlert.alertSorry(message: NSLocalizedString("Reject Friend Request failed!", comment: ""), inViewController: self)
+
+                    }, completion: { success in
+                        println("rejectFriendRequestWithID: \(friendRequestID), \(success)")
+
+                        hideFriendRequestView()
+                    })
+
+                } else {
+                    println("NOT friendRequestID for rejectFriendRequestWithID")
+                }
+            }
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to reject this friend request?", comment: "")
+                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+            })
+        }
+    }
+}
+
