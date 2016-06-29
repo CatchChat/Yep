@@ -298,6 +298,7 @@
 		50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */; };
 		50A640EA1B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */; };
 		50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */; };
+		50A6A7AD1D235DE900E01190 /* ConversationViewController+ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
@@ -1008,6 +1009,7 @@
 		50A640E71B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodCell.swift; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.swift; sourceTree = "<group>"; };
 		50A640E81B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DoNotDisturbPeriodCell.xib; path = Views/Cells/DoNotDisturb/DoNotDisturbPeriodCell.xib; sourceTree = "<group>"; };
 		50A640EB1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DoNotDisturbPeriodViewController.swift; path = ViewControllers/DoNotDisturbPeriod/DoNotDisturbPeriodViewController.swift; sourceTree = "<group>"; };
+		50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+ImagePicker.swift"; path = "ViewControllers/Conversation/ConversationViewController+ImagePicker.swift"; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
@@ -2265,6 +2267,7 @@
 				50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */,
 				50B9C5DA1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift */,
 				50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */,
+				50A6A7AC1D235DE900E01190 /* ConversationViewController+ImagePicker.swift */,
 				500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */,
 				50E34C321CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift */,
 				50B9C5DC1D22697800BCB8BD /* ConversationViewController+PhotosViewControllerDelegate.swift */,
@@ -4535,6 +4538,7 @@
 				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,
 				50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */,
 				50EB8C5E1AE78AB9001AC1EE /* YepAsset.swift in Sources */,
+				50A6A7AD1D235DE900E01190 /* ConversationViewController+ImagePicker.swift in Sources */,
 				508C2AA41AD661B3002B8097 /* UserStateCell.swift in Sources */,
 				502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */,
 				503E10231CF825D5000FA7C6 /* GeniusInterviewCell.swift in Sources */,
@@ -5082,7 +5086,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
