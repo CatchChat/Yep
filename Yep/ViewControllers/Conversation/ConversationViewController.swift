@@ -1508,7 +1508,7 @@ final class ConversationViewController: BaseViewController {
         return 0
     }
 
-    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
+    func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -2394,16 +2394,5 @@ extension ConversationViewController: YepFayeServiceDelegate {
     */
 }
 
-// MARK: AVAudioRecorderDelegate
 
-extension ConversationViewController: AVAudioRecorderDelegate {
-
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        println("finished recording \(flag)")
-    }
-
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
-        println("\(error?.localizedDescription)")
-    }
-}
 

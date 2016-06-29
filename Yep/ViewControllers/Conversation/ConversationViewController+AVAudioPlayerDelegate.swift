@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import YepKit
 
 extension ConversationViewController: AVAudioPlayerDelegate {
 
