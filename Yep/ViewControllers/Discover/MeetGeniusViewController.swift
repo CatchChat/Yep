@@ -12,9 +12,9 @@ class MeetGeniusViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+
             tableView.rowHeight = 90
-            //tableView.tableHeaderView = InfoView(NSLocalizedString("To be continue.", comment: ""))
-            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
 
             tableView.registerNibOf(GeniusInterviewCell)
         }

@@ -12,12 +12,14 @@ class MeetGeniusShowView: UIView {
 
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
+        view.backgroundColor = UIColor.lightGrayColor()
         return view
     }()
 
     lazy var showButton: UIButton = {
         let button = UIButton()
         button.setTitle("SHOW", forState: .Normal)
+        button.backgroundColor = UIColor.blueColor()
         return button
     }()
 
@@ -61,6 +63,8 @@ class MeetGeniusShowView: UIView {
 
             let stackView = UIStackView()
             stackView.axis = .Vertical
+            stackView.spacing = 12
+
             stackView.addArrangedSubview(showButton)
             stackView.addArrangedSubview(titleLabel)
 
