@@ -10,6 +10,95 @@ import UIKit
 import AVFoundation
 import YepKit
 
+extension ConversationViewController {
+
+    func playMessageAudioWithMessage(message: Message?) {
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+                if audioPlayer.playing {
+
+                    audioPlayer.pause()
+
+                    if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                        playbackTimer.invalidate()
+                    }
+
+                    if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+
+                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+
+                        if sender.friendState != UserFriendState.Me.rawValue {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                                cell.playing = false
+                            }
+
+                        } else {
+                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                                cell.playing = false
+                            }
+                        }
+                    }
+
+                    if let message = message {
+                        if message.messageID == playingMessage.messageID {
+                            YepAudioService.sharedManager.resetToDefault()
+                            return
+                        }
+                    }
+                }
+            }
+        }
+
+        if let message = message {
+            let audioPlayedDuration = audioPlayedDurationOfMessage(message)
+            YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
+                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(ConversationViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                YepAudioService.sharedManager.playbackTimer = playbackTimer
+            }
+
+        } else {
+            YepAudioService.sharedManager.resetToDefault()
+        }
+    }
+
+    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+
+        func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
+
+            if let messageIndex = messages.indexOf(message) {
+
+                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+
+                if let sender = message.fromFriend {
+                    if sender.friendState != UserFriendState.Me.rawValue {
+                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                            cell.audioPlayedDuration = currentTime
+                        }
+
+                    } else {
+                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                            cell.audioPlayedDuration = currentTime
+                        }
+                    }
+                }
+            }
+        }
+
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+
+            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+
+                let currentTime = audioPlayer.currentTime
+
+                setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+                
+                updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
+            }
+        }
+    }
+}
+
 extension ConversationViewController: AVAudioPlayerDelegate {
 
     func audioPlayerBeginInterruption(player: AVAudioPlayer) {
