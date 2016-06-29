@@ -10,9 +10,16 @@ import UIKit
 
 class MeetGeniusShowView: UIView {
 
+    var tapAction: (() -> Void)?
+
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
         view.backgroundColor = UIColor.blueColor()
+        view.userInteractionEnabled = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(MeetGeniusShowView.didTap(_:)))
+        view.addGestureRecognizer(tap)
+
         return view
     }()
 
@@ -39,7 +46,7 @@ class MeetGeniusShowView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func makeUI() {
+    private func makeUI() {
 
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(backgroundImageView)
@@ -75,6 +82,12 @@ class MeetGeniusShowView: UIView {
             NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
          */
+    }
+
+    @objc private func didTap(sender: UITapGestureRecognizer) {
+        println("tap MeetGeniusShowView")
+
+        tapAction?()
     }
 }
 
