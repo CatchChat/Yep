@@ -39,7 +39,7 @@ class MeetGeniusViewController: UIViewController {
 extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 0
+        return 1
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
