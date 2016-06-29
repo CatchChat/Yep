@@ -377,3 +377,55 @@ extension ConversationViewController {
     }
 }
 
+// MARK: TitleView {
+
+extension ConversationViewController {
+
+    func makeTitleView() -> ConversationTitleView {
+
+        let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
+
+        if nameOfConversation(self.conversation) != "" {
+            titleView.nameLabel.text = nameOfConversation(self.conversation)
+        } else {
+            titleView.nameLabel.text = NSLocalizedString("Discussion", comment: "")
+        }
+
+        self.updateStateInfoOfTitleView(titleView)
+
+        titleView.userInteractionEnabled = true
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.showFriendProfile(_:)))
+
+        titleView.addGestureRecognizer(tap)
+        
+        return titleView
+    }
+
+    func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
+        SafeDispatch.async { [weak self] in
+            if let strongSelf = self {
+                guard !strongSelf.conversation.invalidated else {
+                    return
+                }
+
+                if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
+                    titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), timeAgo.lowercaseString)
+                } else if let friend = strongSelf.conversation.withFriend {
+                    titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
+                } else {
+                    titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+                }
+
+                titleView.stateInfoLabel.textColor = UIColor.grayColor()
+            }
+        }
+    }
+
+    @objc private func showFriendProfile(sender: UITapGestureRecognizer) {
+        if let user = conversation.withFriend {
+            performSegueWithIdentifier("showProfile", sender: user)
+        }
+    }
+}
+
