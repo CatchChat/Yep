@@ -48,14 +48,14 @@ class MeetGeniusShowView: UIView {
 
     private func makeUI() {
 
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(backgroundImageView)
-
-        let views = [
-            "backgroundImageView": backgroundImageView,
-        ]
-
         do {
+            backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(backgroundImageView)
+
+            let views = [
+                "backgroundImageView": backgroundImageView,
+            ]
+
             let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
             let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
             NSLayoutConstraint.activateConstraints(constraintsH)
