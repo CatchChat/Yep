@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 class MeetGeniusViewController: UIViewController {
 
@@ -21,6 +22,8 @@ class MeetGeniusViewController: UIViewController {
             tableView.registerNibOf(GeniusInterviewCell)
         }
     }
+
+    var geniusInterviews: [GeniusInterview] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,14 +51,14 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return geniusInterviews.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
-        cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
-        cell.numberLabel.text = String(format: "#%03d", indexPath.row)
+        let geniusInterview = geniusInterviews[indexPath.row]
+        cell.configure(withGeniusInterview: geniusInterview)
 
         return cell
     }
