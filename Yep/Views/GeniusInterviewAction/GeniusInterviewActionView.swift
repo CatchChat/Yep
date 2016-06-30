@@ -12,6 +12,7 @@ import Ruler
 class GeniusInterviewActionView: UIView {
 
     var tapAvatarAction: (() -> Void)?
+    var sayHiAction: (() -> Void)?
 
     lazy var toolbar = UIToolbar()
 
@@ -77,6 +78,7 @@ class GeniusInterviewActionView: UIView {
 
     @objc private func sayHi(sender: UIButton) {
         println("Say Hi")
+        sayHiAction?()
     }
 
     @objc private func share(sender: UIBarButtonItem) {
