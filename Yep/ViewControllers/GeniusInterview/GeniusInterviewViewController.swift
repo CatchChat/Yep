@@ -92,23 +92,6 @@ class GeniusInterviewViewController: UIViewController {
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 // MARK: - WKNavigationDelegate
@@ -139,9 +122,9 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
         let scrollViewHeight = scrollView.bounds.height
         let scrollViewContentSizeHeight = scrollView.contentSize.height
 
-        println("scrollViewContentOffsetY: \(scrollViewContentOffsetY)")
-        println("scrollViewHeight: \(scrollViewHeight)")
-        println("scrollViewContentSizeHeight: \(scrollViewContentSizeHeight)")
+        //println("scrollViewContentOffsetY: \(scrollViewContentOffsetY)")
+        //println("scrollViewHeight: \(scrollViewHeight)")
+        //println("scrollViewContentSizeHeight: \(scrollViewContentSizeHeight)")
 
         let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
         if y > 0 {
