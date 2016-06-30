@@ -11,6 +11,8 @@ import Ruler
 
 class GeniusInterviewActionView: UIView {
 
+    var tapAvatarAction: (() -> Void)?
+
     lazy var toolbar = UIToolbar()
 
     lazy var avatarImageView: UIImageView = {
@@ -53,6 +55,8 @@ class GeniusInterviewActionView: UIView {
 
         do {
             let avatarItem = UIBarButtonItem(customView: avatarImageView)
+            avatarItem.target = self
+            avatarItem.action = #selector(GeniusInterviewActionView.tapAvatar(_:))
 
             let gap1Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 
@@ -64,6 +68,11 @@ class GeniusInterviewActionView: UIView {
 
             toolbar.setItems([avatarItem, gap1Item, sayHiItem, gap2Item, shareItem], animated: false)
         }
+    }
+
+    @objc private func tapAvatar(sender: UIBarButtonItem) {
+        println("tapAvatar")
+        tapAvatarAction?()
     }
 
     @objc private func sayHi(sender: UIButton) {
