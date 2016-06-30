@@ -93,6 +93,8 @@ class GeniusInterviewViewController: UIViewController {
 
 }
 
+// MARK: - UIScrollViewDelegate
+
 extension GeniusInterviewViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
@@ -108,17 +110,18 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
         println("scrollViewHeight: \(scrollViewHeight)")
         println("scrollViewContentSizeHeight: \(scrollViewContentSizeHeight)")
 
-//        if scrollViewContentOffsetY + scrollViewHeight == (scrollViewContentSizeHeight - 50) {
-//            actionViewTopConstraint?.constant = -50
-//        }
-
         let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
         if y > 0 {
-            actionViewTopConstraint?.constant = -min(y, 50)
+            UIView.animateWithDuration(0.25, animations: { [weak self] in
+                self?.actionViewTopConstraint?.constant = -50
+                self?.view.layoutIfNeeded()
+            })
         } else {
-            //actionViewTopConstraint?.constant = min(y, 0)
+            UIView.animateWithDuration(0.25, animations: { [weak self] in
+                self?.actionViewTopConstraint?.constant = 0
+                self?.view.layoutIfNeeded()
+            })
         }
     }
-
 }
 
