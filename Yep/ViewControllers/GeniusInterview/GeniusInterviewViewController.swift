@@ -12,40 +12,55 @@ import WebKit
 class GeniusInterviewViewController: UIViewController {
 
     lazy var webView: WKWebView = {
+
         let view = WKWebView()
         let request = NSURLRequest(URL: NSURL(string: "https://soyep.com")!)
         view.loadRequest(request)
         return view
     }()
 
-    @IBOutlet weak var actionView: GeniusInterviewActionView! {
-        didSet {
-            actionView.tapAvatarAction = {
-                println("tapAvatarAction")
-            }
+    lazy var actionView: GeniusInterviewActionView = {
 
-            actionView.sayHiAction = {
-                println("sayHiAction")
-            }
+        let view = GeniusInterviewActionView()
 
-            actionView.shareAction = {
-                println("shareAction")
-            }
+        view.tapAvatarAction = {
+            println("tapAvatarAction")
         }
-    }
+
+        view.sayHiAction = {
+            println("sayHiAction")
+        }
+
+        view.shareAction = {
+            println("shareAction")
+        }
+
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         do {
             webView.translatesAutoresizingMaskIntoConstraints = false
-            view.insertSubview(webView, atIndex: 0)
+            view.addSubview(webView)
 
             let leading = webView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
             let trailing = webView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
             let top = webView.topAnchor.constraintEqualToAnchor(view.topAnchor)
             let bottom = webView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, bottom])
+        }
+
+        do {
+            actionView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(actionView)
+
+            let leading = actionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
+            let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
+            let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -50)
+            let height = actionView.heightAnchor.constraintEqualToConstant(50)
+            NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
     }
 
