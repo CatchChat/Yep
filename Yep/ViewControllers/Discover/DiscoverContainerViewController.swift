@@ -92,7 +92,7 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
 
-                //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
+                navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
@@ -101,10 +101,10 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //navigationItem.titleView = nil
-        //navigationItem.title = NSLocalizedString("Discover", comment: "")
+        navigationItem.titleView = nil
+        navigationItem.title = NSLocalizedString("Discover", comment: "")
 
-        currentOption = .MeetGenius
+        currentOption = .FindAll
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)

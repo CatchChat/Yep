@@ -28,7 +28,7 @@ class MeetGeniusViewController: UIViewController {
     var geniusInterviews: [GeniusInterview] = []
 
     private var canLoadMore: Bool = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
