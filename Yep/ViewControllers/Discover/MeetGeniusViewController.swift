@@ -62,6 +62,10 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
         showGeniusInterviewAction?()
     }
 }

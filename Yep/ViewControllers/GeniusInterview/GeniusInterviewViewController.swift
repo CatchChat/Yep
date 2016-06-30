@@ -13,6 +13,8 @@ class GeniusInterviewViewController: UIViewController {
 
     lazy var webView: WKWebView = {
         let view = WKWebView()
+        let request = NSURLRequest(URL: NSURL(string: "https://soyep.com")!)
+        view.loadRequest(request)
         return view
     }()
 
