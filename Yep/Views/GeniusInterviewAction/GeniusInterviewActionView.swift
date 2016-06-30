@@ -13,6 +13,7 @@ class GeniusInterviewActionView: UIView {
 
     var tapAvatarAction: (() -> Void)?
     var sayHiAction: (() -> Void)?
+    var shareAction: (() -> Void)?
 
     lazy var toolbar = UIToolbar()
 
@@ -20,6 +21,11 @@ class GeniusInterviewActionView: UIView {
         let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         view.backgroundColor = UIColor.redColor()
         view.layer.cornerRadius = 15
+
+        view.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(GeniusInterviewActionView.tapAvatar(_:)))
+        view.addGestureRecognizer(tap)
+
         return view
     }()
 
@@ -56,8 +62,6 @@ class GeniusInterviewActionView: UIView {
 
         do {
             let avatarItem = UIBarButtonItem(customView: avatarImageView)
-            avatarItem.target = self
-            avatarItem.action = #selector(GeniusInterviewActionView.tapAvatar(_:))
 
             let gap1Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
 
@@ -71,18 +75,19 @@ class GeniusInterviewActionView: UIView {
         }
     }
 
-    @objc private func tapAvatar(sender: UIBarButtonItem) {
+    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
         println("tapAvatar")
         tapAvatarAction?()
     }
 
     @objc private func sayHi(sender: UIButton) {
-        println("Say Hi")
+        println("sayHi")
         sayHiAction?()
     }
 
     @objc private func share(sender: UIBarButtonItem) {
         println("share")
+        shareAction?()
     }
 }
 
