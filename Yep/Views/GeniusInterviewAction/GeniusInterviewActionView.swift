@@ -18,6 +18,7 @@ class GeniusInterviewActionView: UIView {
     lazy var toolbar = UIToolbar()
 
     lazy var avatarImageView: UIImageView = {
+
         let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
         view.backgroundColor = UIColor.redColor()
         view.layer.cornerRadius = 15
@@ -30,6 +31,7 @@ class GeniusInterviewActionView: UIView {
     }()
 
     lazy var sayHiButton: UIButton = {
+
         let width: CGFloat = Ruler.iPhoneHorizontal(150, 185, 185).value
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 30))
         button.titleLabel?.font = UIFont.systemFontOfSize(14)
@@ -37,7 +39,9 @@ class GeniusInterviewActionView: UIView {
         button.backgroundColor = UIColor.yepTintColor()
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.layer.cornerRadius = 5
+
         button.addTarget(self, action: #selector(GeniusInterviewActionView.sayHi(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+
         return button
     }()
 
@@ -76,17 +80,17 @@ class GeniusInterviewActionView: UIView {
     }
 
     @objc private func tapAvatar(sender: UITapGestureRecognizer) {
-        println("tapAvatar")
+
         tapAvatarAction?()
     }
 
     @objc private func sayHi(sender: UIButton) {
-        println("sayHi")
+
         sayHiAction?()
     }
 
     @objc private func share(sender: UIBarButtonItem) {
-        println("share")
+
         shareAction?()
     }
 }

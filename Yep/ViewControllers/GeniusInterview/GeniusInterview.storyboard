@@ -32,6 +32,9 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="actionView" destination="WKo-OQ-JTf" id="edU-Rt-tAE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdw-r0-PHT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

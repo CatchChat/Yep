@@ -18,6 +18,22 @@ class GeniusInterviewViewController: UIViewController {
         return view
     }()
 
+    @IBOutlet weak var actionView: GeniusInterviewActionView! {
+        didSet {
+            actionView.tapAvatarAction = {
+                println("tapAvatarAction")
+            }
+
+            actionView.sayHiAction = {
+                println("sayHiAction")
+            }
+
+            actionView.shareAction = {
+                println("shareAction")
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
