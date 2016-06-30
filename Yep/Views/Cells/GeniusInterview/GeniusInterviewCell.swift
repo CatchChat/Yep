@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import Navi
 
 class GeniusInterviewCell: UITableViewCell {
 
@@ -27,5 +29,15 @@ class GeniusInterviewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
+
+    func configure(withGeniusInterview geniusInterview: GeniusInterview) {
+
+        let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
+        avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+
+        numberLabel.text = String(format: "#%03d", geniusInterview.number)
+        titleLabel.text = geniusInterview.title
+        detailLabel.text = geniusInterview.detail
+    }
 }
+

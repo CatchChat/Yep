@@ -155,6 +155,15 @@ class DiscoverContainerViewController: UIViewController {
 
         switch identifier {
 
+        case "embedMeetGenius":
+            let vc = segue.destinationViewController as! MeetGeniusViewController
+
+            vc.showGeniusInterviewAction = {
+                SafeDispatch.async { [weak self] in
+                    self?.performSegueWithIdentifier("showGeniusInterview", sender: nil)
+                }
+            }
+
         case "embedDiscover":
 
             let vc = segue.destinationViewController as! DiscoverViewController

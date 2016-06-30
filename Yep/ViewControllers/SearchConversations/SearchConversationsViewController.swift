@@ -15,7 +15,7 @@ final class SearchConversationsViewController: SegueViewController {
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")

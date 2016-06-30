@@ -304,6 +304,10 @@
 		50A6A7B31D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */; };
 		50A6A7B51D23676300E01190 /* ConversationViewController+SendMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */; };
 		50A6A7B71D2377E100E01190 /* ConversationViewController+SyncMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */; };
+		50A6A7BA1D23AD4000E01190 /* MeetGeniusShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */; };
+		50A6A7BD1D23BED600E01190 /* GeniusInterviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */; };
+		50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */; };
+		50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */; };
 		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
@@ -1020,6 +1024,10 @@
 		50A6A7B21D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+YepFayeServiceDelegate.swift"; path = "ViewControllers/Conversation/ConversationViewController+YepFayeServiceDelegate.swift"; sourceTree = "<group>"; };
 		50A6A7B41D23676300E01190 /* ConversationViewController+SendMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SendMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SendMessages.swift"; sourceTree = "<group>"; };
 		50A6A7B61D2377E100E01190 /* ConversationViewController+SyncMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+SyncMessages.swift"; path = "ViewControllers/Conversation/ConversationViewController+SyncMessages.swift"; sourceTree = "<group>"; };
+		50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MeetGeniusShowView.swift; path = Views/MeetGeniusShow/MeetGeniusShowView.swift; sourceTree = "<group>"; };
+		50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewViewController.swift; path = ViewControllers/GeniusInterview/GeniusInterviewViewController.swift; sourceTree = "<group>"; };
+		50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = GeniusInterview.storyboard; path = ViewControllers/GeniusInterview/GeniusInterview.storyboard; sourceTree = "<group>"; };
+		50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewActionView.swift; path = Views/GeniusInterviewAction/GeniusInterviewActionView.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
@@ -1804,6 +1812,7 @@
 				502048251B0F1BB8002EBFC7 /* SearchedUsers */,
 				502280F91B1C3F2F00E984EE /* FriendsInContacts */,
 				5023DE2E1AB685F100B3EE96 /* Discover */,
+				50A6A7BB1D23BE7600E01190 /* GeniusInterview */,
 				5023DE311AB6861900B3EE96 /* Profile */,
 				845E1A671B788EFC001E0789 /* EditSkills */,
 				502AE51C1AB70DE5005BD199 /* Welcome */,
@@ -1911,6 +1920,8 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				50A6A7B81D23AD1600E01190 /* MeetGeniusShow */,
+				50A6A7C01D23C28D00E01190 /* GeniusInterviewActionView */,
 				50B6A03D1CA282B100C460E3 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
@@ -2818,6 +2829,31 @@
 				50DEE0521BEA0AAC00015741 /* DoNotDisturbPeriod.storyboard */,
 			);
 			name = DoNotDisturbPeriod;
+			sourceTree = "<group>";
+		};
+		50A6A7B81D23AD1600E01190 /* MeetGeniusShow */ = {
+			isa = PBXGroup;
+			children = (
+				50A6A7B91D23AD4000E01190 /* MeetGeniusShowView.swift */,
+			);
+			name = MeetGeniusShow;
+			sourceTree = "<group>";
+		};
+		50A6A7BB1D23BE7600E01190 /* GeniusInterview */ = {
+			isa = PBXGroup;
+			children = (
+				50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */,
+				50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */,
+			);
+			name = GeniusInterview;
+			sourceTree = "<group>";
+		};
+		50A6A7C01D23C28D00E01190 /* GeniusInterviewActionView */ = {
+			isa = PBXGroup;
+			children = (
+				50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */,
+			);
+			name = GeniusInterviewActionView;
 			sourceTree = "<group>";
 		};
 		50A93A9E1BD8C51D007005DB /* PickerItems */ = {
@@ -4130,6 +4166,7 @@
 				84385C461B8594E80071130D /* Show.xcassets in Resources */,
 				50894CFB1AEA54BA000981AF /* SettingsMoreCell.xib in Resources */,
 				50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */,
+				50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */,
 				505EC8181ADF8151001D27E0 /* SkillCategoryCell.xib in Resources */,
 				6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */,
 				50DEE0451BEA025100015741 /* About.storyboard in Resources */,
@@ -4463,6 +4500,7 @@
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
+				50A6A7BA1D23AD4000E01190 /* MeetGeniusShowView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
 				50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */,
 				84C959891B731FD20017D3ED /* ChatBaseCell.swift in Sources */,
@@ -4528,6 +4566,7 @@
 				5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */,
 				0A1CAC731AFA526200826B45 /* SkillHomeSectionButton.swift in Sources */,
 				50E392BC1C22752C00C0CECB /* FeedNormalImagesCell.swift in Sources */,
+				50A6A7BD1D23BED600E01190 /* GeniusInterviewViewController.swift in Sources */,
 				50E34C261CBB8A37007CAE80 /* SearchFeedsViewController.swift in Sources */,
 				50B38FCC1B6B37F00064C132 /* FeedbackViewController.swift in Sources */,
 				50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */,
@@ -4609,6 +4648,7 @@
 				338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */,
 				502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */,
 				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
+				50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
 				50A6A7AF1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift in Sources */,
@@ -5106,7 +5146,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};

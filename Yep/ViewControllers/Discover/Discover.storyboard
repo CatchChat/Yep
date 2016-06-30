@@ -49,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="691"/>
+            <point key="canvasLocation" x="1094" y="717"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RtR-Fj-qI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="41"/>
+            <point key="canvasLocation" x="1094" y="-3"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -94,7 +94,15 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1015" y="342"/>
+            <point key="canvasLocation" x="1015" y="379"/>
+        </scene>
+        <!--GeniusInterviewViewController-->
+        <scene sceneID="rFU-Ru-Gmf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="mSt-h3-goH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="et6-lG-1Em" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1044.5" y="299"/>
         </scene>
         <!--Discover Container View Controller-->
         <scene sceneID="O2C-is-rbL">
@@ -111,7 +119,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-aI-clV">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <connections>
-                                    <segue destination="T3K-r6-koR" kind="embed" id="ldB-jB-1ZQ"/>
+                                    <segue destination="T3K-r6-koR" kind="embed" identifier="embedMeetGenius" id="ldB-jB-1ZQ"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
@@ -150,6 +158,7 @@
                         <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
                         <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
                         <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
+                        <segue destination="mSt-h3-goH" kind="show" identifier="showGeniusInterview" id="4mo-zj-Hna"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>

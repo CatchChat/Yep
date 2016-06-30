@@ -7,20 +7,32 @@
 //
 
 import UIKit
+import YepKit
 
 class MeetGeniusViewController: UIViewController {
 
+    var showGeniusInterviewAction: (() -> Void)?
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
+            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            tableView.tableFooterView = UIView()
+
             tableView.rowHeight = 90
-            tableView.tableFooterView = InfoView(NSLocalizedString("To be continue.", comment: ""))
 
             tableView.registerNibOf(GeniusInterviewCell)
+            tableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
 
+    var geniusInterviews: [GeniusInterview] = []
+
+    private var canLoadMore: Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
     }
 
     /*
@@ -38,19 +50,102 @@ class MeetGeniusViewController: UIViewController {
 
 extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
+    private enum Section: Int {
+        case GeniusInterview
+        case LoadMore
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 0
+
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            return geniusInterviews.count
+
+        case .LoadMore:
+            return 1
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
-        cell.avatarImageView.image = UIImage(named: "yep_icon_solo")
-        cell.numberLabel.text = String(format: "#%03d", indexPath.row)
-        return cell
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
+            let geniusInterview = geniusInterviews[indexPath.row]
+            cell.configure(withGeniusInterview: geniusInterview)
+            return cell
+
+        case .LoadMore:
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
+            cell.isLoading = true
+            return cell
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            break
+
+        case .LoadMore:
+            guard let cell = cell as? LoadMoreTableViewCell else {
+                break
+            }
+
+            guard canLoadMore else {
+                cell.isLoading = false
+                break
+            }
+
+            println("load more feeds")
+
+            if !cell.isLoading {
+                cell.isLoading = true
+            }
+
+            // TODO
+        }
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        defer {
+            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            showGeniusInterviewAction?()
+
+        case .LoadMore:
+            break
+        }
     }
 }
 
