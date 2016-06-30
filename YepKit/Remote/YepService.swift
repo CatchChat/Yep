@@ -3878,3 +3878,20 @@ public func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler:
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+// MARK: - GeniusInterview
+
+public struct GeniusInterview {
+
+    public let user: DiscoveredUser
+
+    public let number: Int
+    public let title: String
+    public let abstract: String
+    public let url: NSURL
+
+    public init?(_ info: JSONDictionary) {
+        return nil
+    }
+}
+
+
