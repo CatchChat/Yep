@@ -30,7 +30,7 @@ extension UISearchBar {
         yep_cancelButton?.enabled = true
     }
 
-    func yep_makeSureCancelButtonAlwaysEnabled() -> ObjectKeypathObserver? {
+    func yep_makeSureCancelButtonAlwaysEnabled() -> ObjectKeypathObserver<UIButton>? {
 
         guard let cancelButton = yep_cancelButton else {
             println("Not cancelButton in searchBar!")
@@ -38,10 +38,9 @@ extension UISearchBar {
         }
 
         return ObjectKeypathObserver(object: cancelButton, keypath: "enabled", afterValueChanged: { object in
-            if let cancelButton = object as? UIButton {
-                if !cancelButton.enabled {
-                    cancelButton.enabled = true
-                }
+            let cancelButton = object
+            if !cancelButton.enabled {
+                cancelButton.enabled = true
             }
         })
     }

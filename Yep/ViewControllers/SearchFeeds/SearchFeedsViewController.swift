@@ -27,7 +27,7 @@ final class SearchFeedsViewController: SegueViewController {
     var skill: Skill?
     var profileUser: ProfileUser?
 
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)

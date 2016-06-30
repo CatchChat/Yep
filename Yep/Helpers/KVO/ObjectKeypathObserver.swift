@@ -8,18 +8,18 @@
 
 import UIKit
 
-final class ObjectKeypathObserver: NSObject {
+final class ObjectKeypathObserver<Object: NSObject>: NSObject {
 
-    weak var object: NSObject?
+    weak var object: Object?
     var keypath: String
-    typealias AfterValueChanged = (object: NSObject) -> Void
+    typealias AfterValueChanged = (object: Object) -> Void
     var afterValueChanged: AfterValueChanged?
 
     deinit {
         object?.removeObserver(self, forKeyPath: keypath)
     }
 
-    init(object: NSObject, keypath: String, afterValueChanged: AfterValueChanged) {
+    init(object: Object, keypath: String, afterValueChanged: AfterValueChanged) {
 
         self.object = object
         self.keypath = keypath
@@ -32,7 +32,7 @@ final class ObjectKeypathObserver: NSObject {
 
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
 
-        guard let object = object as? NSObject else {
+        guard let object = object as? Object else {
             return
         }
 
