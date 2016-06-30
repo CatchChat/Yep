@@ -24,6 +24,14 @@ class GeniusInterviewViewController: UIViewController {
         return view
     }()
 
+    lazy var indicatorView: UIActivityIndicatorView = {
+
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        view.hidesWhenStopped = true
+        view.startAnimating()
+        return view
+    }()
+
     private var actionViewTopConstraint: NSLayoutConstraint?
     lazy var actionView: GeniusInterviewActionView = {
 
@@ -60,6 +68,15 @@ class GeniusInterviewViewController: UIViewController {
             let top = webView.topAnchor.constraintEqualToAnchor(view.topAnchor)
             let bottom = webView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, bottom])
+        }
+
+        do {
+            indicatorView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(indicatorView)
+
+            let centerX = indicatorView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
+            let centerY = indicatorView.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
+            NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
 
         do {
