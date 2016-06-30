@@ -27,6 +27,8 @@ class MeetGeniusViewController: UIViewController {
 
     var geniusInterviews: [GeniusInterview] = []
 
+    private var canLoadMore: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,6 +94,37 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             cell.isLoading = true
             return cell
+        }
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            break
+
+        case .LoadMore:
+            guard let cell = cell as? LoadMoreTableViewCell else {
+                break
+            }
+
+            guard canLoadMore else {
+                cell.isLoading = false
+                break
+            }
+
+            println("load more feeds")
+
+            if !cell.isLoading {
+                cell.isLoading = true
+            }
+
+            // TODO
         }
     }
 
