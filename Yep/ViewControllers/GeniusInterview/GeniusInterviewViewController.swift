@@ -24,6 +24,7 @@ class GeniusInterviewViewController: UIViewController {
         return view
     }()
 
+    private var actionViewTopConstraint: NSLayoutConstraint?
     lazy var actionView: GeniusInterviewActionView = {
 
         let view = GeniusInterviewActionView()
@@ -42,6 +43,10 @@ class GeniusInterviewViewController: UIViewController {
 
         return view
     }()
+
+    deinit {
+        webView.scrollView.delegate = nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +68,8 @@ class GeniusInterviewViewController: UIViewController {
 
             let leading = actionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
             let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
-            let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: -50)
+            let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
+            self.actionViewTopConstraint = top
             let height = actionView.heightAnchor.constraintEqualToConstant(50)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
@@ -91,8 +97,28 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        println("scrollView.contentOffset.y: \(scrollView.contentOffset.y)")
-        println("scrollView.contentSize.height: \(scrollView.contentSize.height)")
+        let scrollViewContentOffsetY = scrollView.contentOffset.y
+        guard scrollViewContentOffsetY > 0 else {
+            return
+        }
+        let scrollViewHeight = scrollView.bounds.height
+        let scrollViewContentSizeHeight = scrollView.contentSize.height
+
+        println("scrollViewContentOffsetY: \(scrollViewContentOffsetY)")
+        println("scrollViewHeight: \(scrollViewHeight)")
+        println("scrollViewContentSizeHeight: \(scrollViewContentSizeHeight)")
+
+//        if scrollViewContentOffsetY + scrollViewHeight == (scrollViewContentSizeHeight - 50) {
+//            actionViewTopConstraint?.constant = -50
+//        }
+
+        let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
+        if y > 0 {
+            actionViewTopConstraint?.constant = -min(y, 50)
+        } else {
+            //actionViewTopConstraint?.constant = min(y, 0)
+        }
     }
+
 }
 
