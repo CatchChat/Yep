@@ -16,6 +16,7 @@ class MeetGeniusViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            tableView.tableFooterView = UIView()
 
             tableView.rowHeight = 90
 
@@ -89,6 +90,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .LoadMore:
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
+            cell.isLoading = true
             return cell
         }
     }
