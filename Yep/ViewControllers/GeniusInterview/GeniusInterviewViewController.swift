@@ -14,8 +14,13 @@ class GeniusInterviewViewController: UIViewController {
     lazy var webView: WKWebView = {
 
         let view = WKWebView()
+
+        view.scrollView.contentInset.bottom = 50
+        view.scrollView.delegate = self
+
         let request = NSURLRequest(URL: NSURL(string: "https://soyep.com")!)
         view.loadRequest(request)
+
         return view
     }()
 
@@ -81,3 +86,13 @@ class GeniusInterviewViewController: UIViewController {
     */
 
 }
+
+extension GeniusInterviewViewController: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        println("scrollView.contentOffset.y: \(scrollView.contentOffset.y)")
+        println("scrollView.contentSize.height: \(scrollView.contentSize.height)")
+    }
+}
+
