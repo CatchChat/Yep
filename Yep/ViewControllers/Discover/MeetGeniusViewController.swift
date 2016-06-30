@@ -20,6 +20,7 @@ class MeetGeniusViewController: UIViewController {
             tableView.rowHeight = 90
 
             tableView.registerNibOf(GeniusInterviewCell)
+            tableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
 
@@ -46,21 +47,50 @@ class MeetGeniusViewController: UIViewController {
 
 extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
+    private enum Section: Int {
+        case GeniusInterview
+        case LoadMore
+    }
+
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return geniusInterviews.count
+
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            return geniusInterviews.count
+
+        case .LoadMore:
+            return 1
+        }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
-        let geniusInterview = geniusInterviews[indexPath.row]
-        cell.configure(withGeniusInterview: geniusInterview)
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
 
-        return cell
+        switch section {
+
+        case .GeniusInterview:
+            let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
+            let geniusInterview = geniusInterviews[indexPath.row]
+            cell.configure(withGeniusInterview: geniusInterview)
+            return cell
+
+        case .LoadMore:
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -69,7 +99,18 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
         }
 
-        showGeniusInterviewAction?()
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            showGeniusInterviewAction?()
+
+        case .LoadMore:
+            break
+        }
     }
 }
 
