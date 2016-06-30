@@ -3886,7 +3886,7 @@ public struct GeniusInterview {
 
     public let number: Int
     public let title: String
-    public let abstract: String
+    public let detail: String
     public let url: NSURL
 
     public init?(_ info: JSONDictionary) {
