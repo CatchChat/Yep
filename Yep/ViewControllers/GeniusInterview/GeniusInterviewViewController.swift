@@ -15,6 +15,8 @@ class GeniusInterviewViewController: UIViewController {
 
         let view = WKWebView()
 
+        view.navigationDelegate = self
+
         view.scrollView.contentInset.bottom = 50
         view.scrollView.delegate = self
 
@@ -28,7 +30,6 @@ class GeniusInterviewViewController: UIViewController {
 
         let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         view.hidesWhenStopped = true
-        view.startAnimating()
         return view
     }()
 
@@ -108,6 +109,21 @@ class GeniusInterviewViewController: UIViewController {
     }
     */
 
+}
+
+// MARK: - WKNavigationDelegate
+
+extension GeniusInterviewViewController: WKNavigationDelegate {
+
+    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+
+        indicatorView.startAnimating()
+    }
+
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+
+        indicatorView.stopAnimating()
+    }
 }
 
 // MARK: - UIScrollViewDelegate
