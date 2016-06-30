@@ -7,13 +7,28 @@
 //
 
 import UIKit
+import WebKit
 
 class GeniusInterviewViewController: UIViewController {
+
+    lazy var webView: WKWebView = {
+        let view = WKWebView()
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        do {
+            webView.translatesAutoresizingMaskIntoConstraints = false
+            view.insertSubview(webView, atIndex: 0)
+
+            let leading = webView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
+            let trailing = webView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
+            let top = webView.topAnchor.constraintEqualToAnchor(view.topAnchor)
+            let bottom = webView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
+            NSLayoutConstraint.activateConstraints([leading, trailing, top, bottom])
+        }
     }
 
     override func didReceiveMemoryWarning() {
