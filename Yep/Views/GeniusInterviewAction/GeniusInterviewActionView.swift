@@ -20,8 +20,6 @@ class GeniusInterviewActionView: UIView {
     lazy var avatarImageView: UIImageView = {
 
         let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        view.backgroundColor = UIColor.redColor()
-        view.layer.cornerRadius = 15
 
         view.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(GeniusInterviewActionView.tapAvatar(_:)))

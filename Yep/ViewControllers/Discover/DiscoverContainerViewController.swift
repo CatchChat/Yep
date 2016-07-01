@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import RealmSwift
 
 class DiscoverContainerViewController: UIViewController {
 
@@ -92,7 +93,7 @@ class DiscoverContainerViewController: UIViewController {
                 geniusesContainerView.hidden = true
                 discoveredUsersContainerView.hidden = false
 
-                navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
+                //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
             }
         }
@@ -101,10 +102,10 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.titleView = nil
-        navigationItem.title = NSLocalizedString("Discover", comment: "")
+        //navigationItem.titleView = nil
+        //navigationItem.title = NSLocalizedString("Discover", comment: "")
 
-        currentOption = .FindAll
+        currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
         segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
@@ -158,9 +159,13 @@ class DiscoverContainerViewController: UIViewController {
         case "embedMeetGenius":
             let vc = segue.destinationViewController as! MeetGeniusViewController
 
-            vc.showGeniusInterviewAction = {
+            vc.tapBannerAction = { [weak self] url in
+                self?.yep_openURL(url)
+            }
+
+            vc.showGeniusInterviewAction = { geniusInterview in
                 SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterview", sender: nil)
+                    self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
                 }
             }
 
@@ -189,6 +194,53 @@ class DiscoverContainerViewController: UIViewController {
             let vc = segue.destinationViewController as! ProfileViewController
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
             prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
+
+        case "showGeniusInterview":
+
+            let vc = segue.destinationViewController as! GeniusInterviewViewController
+
+            let geniusInterview = (sender as! Box<GeniusInterview>).value
+            vc.geniusInterview = geniusInterview
+
+            vc.tapAvatarAction = { user in
+
+                SafeDispatch.async { [weak self] in
+                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
+                }
+            }
+
+            vc.sayHiAction = {user in
+
+                SafeDispatch.async { [weak self] in
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+                    let conversation = conversationWithDiscoveredUser(user, inRealm: realm)
+                    _ = try? realm.commitWrite()
+
+                    if let conversation = conversation {
+                        self?.performSegueWithIdentifier("showConversation", sender: conversation)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                    }
+                }
+            }
+
+            vc.shareAction = { url in
+
+                SafeDispatch.async { [weak self] in
+                    let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                    self?.presentViewController(activityViewController, animated: true, completion: nil)
+                }
+            }
+
+        case "showConversation":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
 
         default:
             break

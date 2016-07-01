@@ -94,7 +94,7 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1015" y="379"/>
+            <point key="canvasLocation" x="1015" y="397"/>
         </scene>
         <!--GeniusInterviewViewController-->
         <scene sceneID="rFU-Ru-Gmf">
@@ -102,7 +102,15 @@
                 <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="mSt-h3-goH" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="et6-lG-1Em" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1044.5" y="299"/>
+            <point key="canvasLocation" x="1044.5" y="287"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="dCv-9T-haP">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="HA2-lz-fqY" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LRr-ry-DWX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1105" y="342"/>
         </scene>
         <!--Discover Container View Controller-->
         <scene sceneID="O2C-is-rbL">
@@ -159,6 +167,7 @@
                         <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
                         <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
                         <segue destination="mSt-h3-goH" kind="show" identifier="showGeniusInterview" id="4mo-zj-Hna"/>
+                        <segue destination="HA2-lz-fqY" kind="show" identifier="showConversation" id="cnD-K9-H6x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>

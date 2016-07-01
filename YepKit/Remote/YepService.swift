@@ -3890,8 +3890,95 @@ public struct GeniusInterview {
     public let url: NSURL
 
     public init?(_ info: JSONDictionary) {
-        return nil
+
+        guard let
+            userInfo = info["user"] as? JSONDictionary,
+            number = info["no"] as? Int,
+            title = info["title"] as? String,
+            detail = info["description"] as? String,
+            urlString = info["link"] as? String else {
+            return nil
+        }
+
+        guard let user = parseDiscoveredUser(userInfo) else {
+            return nil
+        }
+
+        guard let url = NSURL(string: urlString) else {
+            return nil
+        }
+
+        self.user = user
+        self.number = number
+        self.title = title
+        self.detail = detail
+        self.url = url
     }
 }
 
+public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "count": count,
+    ]
+    if let number = number {
+        requestParameters["max_no"] = number
+    }
+
+    let parse: JSONDictionary -> [GeniusInterview]? = { data in
+        println("GeniusInterview: \(data)")
+
+        if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
+
+            let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
+            return geniusInterviews
+        }
+        
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interviews", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+public struct GeniusInterviewBanner {
+
+    public let imageURL: NSURL
+    public let linkURL: NSURL
+
+    public init?(_ info: JSONDictionary) {
+
+        guard let
+            imageURLString = info["url"] as? String,
+            linkURLString = info["link"] as? String else {
+            return nil
+        }
+
+        guard let imageURL = NSURL(string: imageURLString) else {
+            return nil
+        }
+
+        guard let linkURL = NSURL(string: linkURLString) else {
+            return nil
+        }
+
+        self.imageURL = imageURL
+        self.linkURL = linkURL
+    }
+}
+
+public func latestGeniusInterviewBanner(failureHandler failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
+
+    let parse: JSONDictionary -> GeniusInterviewBanner? = { data in
+        println("GeniusInterviewBanner: \(data)")
+
+        let banner = GeniusInterviewBanner(data)
+        return banner
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interview_banners/current", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
 

@@ -8,14 +8,21 @@
 
 import UIKit
 import YepKit
+import YepNetworking
 
 class MeetGeniusViewController: UIViewController {
 
-    var showGeniusInterviewAction: (() -> Void)?
+    var tapBannerAction: ((url: NSURL) -> Void)?
+    var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            view.tapAction = { [weak self] url in
+                self?.tapBannerAction?(url: url)
+            }
+
+            tableView.tableHeaderView = view
             tableView.tableFooterView = UIView()
 
             tableView.rowHeight = 90
@@ -28,12 +35,107 @@ class MeetGeniusViewController: UIViewController {
     var geniusInterviews: [GeniusInterview] = []
 
     private var canLoadMore: Bool = false
+    private var isFetchingGeniusInterviews: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
+
+        updateGeniusInterviews()
     }
+
+    private enum UpdateGeniusInterviewsMode {
+        case Top
+        case LoadMore
+    }
+
+    private func updateGeniusInterviews(mode mode: UpdateGeniusInterviewsMode = .Top, finish: (() -> Void)? = nil) {
+
+        if isFetchingGeniusInterviews {
+            finish?()
+            return
+        }
+
+        isFetchingGeniusInterviews = true
+
+        let maxNumber: Int?
+        switch mode {
+        case .Top:
+            canLoadMore = true
+            maxNumber = nil
+        case .LoadMore:
+            maxNumber = geniusInterviews.last?.number
+        }
+
+        let failureHandler: FailureHandler = { reason, errorMessage in
+
+            SafeDispatch.async { [weak self] in
+
+                self?.isFetchingGeniusInterviews = false
+
+                finish?()
+            }
+
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        }
+
+        let count = 5
+        geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
+
+            SafeDispatch.async { [weak self] in
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.canLoadMore = (geniusInterviews.count == count)
+
+                let newGeniusInterviews = geniusInterviews
+                let oldGeniusInterviews = strongSelf.geniusInterviews
+
+                var wayToUpdate: UITableView.WayToUpdate = .None
+
+                if oldGeniusInterviews.isEmpty {
+                    wayToUpdate = .ReloadData
+                }
+
+                switch mode {
+
+                case .Top:
+                    strongSelf.geniusInterviews = newGeniusInterviews
+
+                    wayToUpdate = .ReloadData
+
+                case .LoadMore:
+                    let oldGeniusInterviewsCount = oldGeniusInterviews.count
+
+                    let oldGeniusInterviewNumberSet = Set<Int>(oldGeniusInterviews.map({ $0.number }))
+                    var realNewGeniusInterviews = [GeniusInterview]()
+                    for geniusInterview in newGeniusInterviews {
+                        if !oldGeniusInterviewNumberSet.contains(geniusInterview.number) {
+                            realNewGeniusInterviews.append(geniusInterview)
+                        }
+                    }
+                    strongSelf.geniusInterviews += realNewGeniusInterviews
+
+                    let newGeniusInterviewsCount = strongSelf.geniusInterviews.count
+
+                    let indexPaths = Array(oldGeniusInterviewsCount..<newGeniusInterviewsCount).map({ NSIndexPath(forRow: $0, inSection: Section.GeniusInterview.rawValue) })
+                    if !indexPaths.isEmpty {
+                        wayToUpdate = .Insert(indexPaths)
+                    }
+                }
+
+                wayToUpdate.performWithTableView(strongSelf.tableView)
+
+                self?.isFetchingGeniusInterviews = false
+
+                finish?()
+            }
+        })
+    }
+
 
     /*
     // MARK: - Navigation
@@ -72,7 +174,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
             return geniusInterviews.count
 
         case .LoadMore:
-            return 1
+            return geniusInterviews.isEmpty ? 0 : 1
         }
     }
 
@@ -124,7 +226,11 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.isLoading = true
             }
 
-            // TODO
+            updateGeniusInterviews(mode: .LoadMore, finish: {
+                delay(0.5) { [weak cell] in
+                    cell?.isLoading = false
+                }
+            })
         }
     }
 
@@ -141,7 +247,8 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
 
         case .GeniusInterview:
-            showGeniusInterviewAction?()
+            let geniusInterview = geniusInterviews[indexPath.row]
+            showGeniusInterviewAction?(geniusInterview: geniusInterview)
 
         case .LoadMore:
             break

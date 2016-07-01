@@ -8,8 +8,15 @@
 
 import UIKit
 import WebKit
+import YepKit
 
 class GeniusInterviewViewController: UIViewController {
+
+    var geniusInterview: GeniusInterview!
+
+    var tapAvatarAction: ((user: DiscoveredUser) -> Void)?
+    var sayHiAction: ((user: DiscoveredUser) -> Void)?
+    var shareAction: ((url: NSURL) -> Void)?
 
     lazy var webView: WKWebView = {
 
@@ -19,9 +26,6 @@ class GeniusInterviewViewController: UIViewController {
 
         view.scrollView.contentInset.bottom = 50
         view.scrollView.delegate = self
-
-        let request = NSURLRequest(URL: NSURL(string: "https://soyep.com")!)
-        view.loadRequest(request)
 
         return view
     }()
@@ -38,15 +42,24 @@ class GeniusInterviewViewController: UIViewController {
 
         let view = GeniusInterviewActionView()
 
-        view.tapAvatarAction = {
+        view.tapAvatarAction = { [weak self] in
+            if let user = self?.geniusInterview.user {
+                self?.tapAvatarAction?(user: user)
+            }
             println("tapAvatarAction")
         }
 
-        view.sayHiAction = {
+        view.sayHiAction = { [weak self] in
+            if let user = self?.geniusInterview.user {
+                self?.sayHiAction?(user: user)
+            }
             println("sayHiAction")
         }
 
-        view.shareAction = {
+        view.shareAction = { [weak self] in
+            if let url = self?.geniusInterview.url {
+                self?.shareAction?(url: url)
+            }
             println("shareAction")
         }
 
@@ -90,6 +103,16 @@ class GeniusInterviewViewController: UIViewController {
             self.actionViewTopConstraint = top
             let height = actionView.heightAnchor.constraintEqualToConstant(50)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
+        }
+
+        do {
+            let request = NSURLRequest(URL: geniusInterview.url)
+            webView.loadRequest(request)
+        }
+
+        do {
+            let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
+            actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
     }
 }
