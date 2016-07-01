@@ -1500,10 +1500,6 @@ final class ConversationViewController: BaseViewController {
 
     private func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
 
-        guard let messageIDs = messageIDs else {
-            return
-        }
-
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -1515,13 +1511,15 @@ final class ConversationViewController: BaseViewController {
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
 
         // 异常：两种计数不相等，治标：reload，避免插入
-        if newMessagesCount != messageIDs.count {
-            reloadConversationCollectionView()
-            println("newMessagesCount != messageIDs.count")
-            #if DEBUG
-                YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count): \(messageIDs)", inViewController: self)
-            #endif
-            return
+        if let messageIDs = messageIDs {
+            if newMessagesCount != messageIDs.count {
+                reloadConversationCollectionView()
+                println("newMessagesCount != messageIDs.count")
+                #if DEBUG
+                    YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count)", inViewController: self)
+                #endif
+                return
+            }
         }
 
         let lastDisplayedMessagesRange = displayedMessagesRange
@@ -1532,32 +1530,83 @@ final class ConversationViewController: BaseViewController {
 
         if newMessagesCount > 0 {
 
-            var indexPaths = [NSIndexPath]()
+            if let messageIDs = messageIDs {
 
-            for messageID in messageIDs {
-                if let
-                    message = messageWithMessageID(messageID, inRealm: realm),
-                    index = messages.indexOf(message) {
+                var indexPaths = [NSIndexPath]()
+
+                for messageID in messageIDs {
+                    if let
+                        message = messageWithMessageID(messageID, inRealm: realm),
+                        index = messages.indexOf(message) {
                         let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
                         //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
 
                         indexPaths.append(indexPath)
 
-                } else {
-                    println("unknown message")
+                    } else {
+                        println("unknown message")
 
-                    #if DEBUG
-                        YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
-                    #endif
+                        #if DEBUG
+                            YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
+                        #endif
 
-                    reloadConversationCollectionView()
-                    return
+                        reloadConversationCollectionView()
+                        return
+                    }
                 }
-            }
 
-            switch messageAge {
+                switch messageAge {
 
-            case .New:
+                case .New:
+                    conversationCollectionView.performBatchUpdates({ [weak self] in
+                        if needReloadLoadPreviousSection {
+                            self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            self?.needReloadLoadPreviousSection = false
+                        }
+
+                        self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                    }, completion: nil)
+
+                case .Old:
+                    // 用 CATransaction 保证 CollectionView 在插入后不闪动
+                    CATransaction.begin()
+                    CATransaction.setDisableActions(true)
+
+                    let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
+
+                    conversationCollectionView.performBatchUpdates({ [weak self] in
+                        if needReloadLoadPreviousSection {
+                            self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            self?.needReloadLoadPreviousSection = false
+                        }
+
+                        self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                    }, completion: { [weak self] finished in
+                        if let strongSelf = self {
+                            var contentOffset = strongSelf.conversationCollectionView.contentOffset
+                            contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
+
+                            strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
+
+                            CATransaction.commit()
+                        }
+                    })
+                }
+
+                println("insert other messages")
+
+            } else {
+                // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
+
+                var indexPaths = [NSIndexPath]()
+
+                for i in 0..<newMessagesCount {
+                    let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: Section.Message.rawValue)
+                    indexPaths.append(indexPath)
+                }
+
                 conversationCollectionView.performBatchUpdates({ [weak self] in
                     if needReloadLoadPreviousSection {
                         self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
@@ -1566,62 +1615,10 @@ final class ConversationViewController: BaseViewController {
 
                     self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
-                }, completion: { _ in
-                })
+                }, completion: nil)
 
-            case .Old:
-                // 用 CATransaction 保证 CollectionView 在插入后不闪动
-                CATransaction.begin()
-                CATransaction.setDisableActions(true)
-
-                let bottomOffset = conversationCollectionView.contentSize.height - conversationCollectionView.contentOffset.y
-
-                conversationCollectionView.performBatchUpdates({ [weak self] in
-                    if needReloadLoadPreviousSection {
-                        self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
-                        self?.needReloadLoadPreviousSection = false
-                    }
-
-                    self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                }, completion: { [weak self] finished in
-                    if let strongSelf = self {
-                        var contentOffset = strongSelf.conversationCollectionView.contentOffset
-                        contentOffset.y = strongSelf.conversationCollectionView.contentSize.height - bottomOffset
-
-                        strongSelf.conversationCollectionView.setContentOffset(contentOffset, animated: false)
-
-                        CATransaction.commit()
-                    }
-                })
+                println("insert self messages")
             }
-
-            println("insert messages A")
-
-        } else {
-            println("self message")
-
-            // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
-
-            var indexPaths = [NSIndexPath]()
-
-            for i in 0..<newMessagesCount {
-                let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: Section.Message.rawValue)
-                indexPaths.append(indexPath)
-            }
-
-            conversationCollectionView.performBatchUpdates({ [weak self] in
-                if needReloadLoadPreviousSection {
-                    self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
-                    self?.needReloadLoadPreviousSection = false
-                }
-
-                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-            }, completion: { _ in
-            })
-
-            println("insert messages B")
         }
 
         if newMessagesCount > 0 {
