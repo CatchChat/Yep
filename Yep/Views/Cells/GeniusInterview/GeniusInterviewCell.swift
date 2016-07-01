@@ -21,6 +21,15 @@ class GeniusInterviewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        numberLabel.font = UIFont.systemFontOfSize(16)
+        numberLabel.textColor = UIColor.yepTintColor()
+
+        titleLabel.font = UIFont.systemFontOfSize(16)
+        titleLabel.textColor = UIColor.blackColor()
+
+        detailLabel.font = UIFont.systemFontOfSize(13)
+        detailLabel.textColor = UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1)
+
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
@@ -35,7 +44,7 @@ class GeniusInterviewCell: UITableViewCell {
         let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
-        numberLabel.text = String(format: "#%03d", geniusInterview.number)
+        numberLabel.text = String(format: "#%02d", geniusInterview.number)
         titleLabel.text = geniusInterview.title
         detailLabel.text = geniusInterview.detail
     }
