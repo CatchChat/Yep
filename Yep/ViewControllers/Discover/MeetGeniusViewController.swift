@@ -165,7 +165,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
             return geniusInterviews.count
 
         case .LoadMore:
-            return 1
+            return geniusInterviews.isEmpty ? 0 : 1
         }
     }
 
