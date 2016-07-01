@@ -76,10 +76,49 @@ class MeetGeniusViewController: UIViewController {
 
         geniusInterviewsWithCount(10, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
-            self?.geniusInterviews = geniusInterviews
-
             SafeDispatch.async { [weak self] in
-                self?.tableView.reloadData()
+
+                guard let strongSelf = self else {
+                    return
+                }
+
+                let newGeniusInterviews = geniusInterviews
+                let oldGeniusInterviews = strongSelf.geniusInterviews
+
+                var wayToUpdate: UITableView.WayToUpdate = .None
+
+                if oldGeniusInterviews.isEmpty {
+                    wayToUpdate = .ReloadData
+                }
+
+                switch mode {
+
+                case .Top:
+                    strongSelf.geniusInterviews = newGeniusInterviews
+
+                    wayToUpdate = .ReloadData
+
+                case .LoadMore:
+                    let oldGeniusInterviewsCount = oldGeniusInterviews.count
+
+                    let oldGeniusInterviewNumberSet = Set<Int>(oldGeniusInterviews.map({ $0.number }))
+                    var realNewGeniusInterviews = [GeniusInterview]()
+                    for geniusInterview in newGeniusInterviews {
+                        if !oldGeniusInterviewNumberSet.contains(geniusInterview.number) {
+                            realNewGeniusInterviews.append(geniusInterview)
+                        }
+                    }
+                    strongSelf.geniusInterviews += realNewGeniusInterviews
+
+                    let newGeniusInterviewsCount = strongSelf.geniusInterviews.count
+
+                    let indexPaths = Array(oldGeniusInterviewsCount..<newGeniusInterviewsCount).map({ NSIndexPath(forRow: $0, inSection: Section.GeniusInterview.rawValue) })
+                    if !indexPaths.isEmpty {
+                        wayToUpdate = .Insert(indexPaths)
+                    }
+                }
+
+                wayToUpdate.performWithTableView(strongSelf.tableView)
 
                 self?.isFetchingGeniusInterviews = false
 
@@ -178,7 +217,11 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.isLoading = true
             }
 
-            // TODO
+            updateGeniusInterviews(mode: .LoadMore, finish: {
+                delay(0.5) { [weak cell] in
+                    cell?.isLoading = false
+                }
+            })
         }
     }
 
