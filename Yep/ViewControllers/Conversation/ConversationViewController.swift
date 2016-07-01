@@ -1510,23 +1510,23 @@ final class ConversationViewController: BaseViewController {
 
         let newMessagesCount = Int(messages.count - _lastTimeMessagesCount)
 
-        let lastDisplayedMessagesRange = displayedMessagesRange
-
-        displayedMessagesRange.length += newMessagesCount
-
-        let needReloadLoadPreviousSection = self.needReloadLoadPreviousSection
-
         // 异常：两种计数不相等，治标：reload，避免插入
         if let messageIDs = messageIDs {
             if newMessagesCount != messageIDs.count {
                 reloadConversationCollectionView()
                 println("newMessagesCount != messageIDs.count")
                 #if DEBUG
-                    YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count): \(messageIDs)", inViewController: self)
+                    YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count)", inViewController: self)
                 #endif
                 return
             }
         }
+
+        let lastDisplayedMessagesRange = displayedMessagesRange
+
+        displayedMessagesRange.length += newMessagesCount
+
+        let needReloadLoadPreviousSection = self.needReloadLoadPreviousSection
 
         if newMessagesCount > 0 {
 
@@ -1538,10 +1538,10 @@ final class ConversationViewController: BaseViewController {
                     if let
                         message = messageWithMessageID(messageID, inRealm: realm),
                         index = messages.indexOf(message) {
-                            let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
-                            //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
+                        let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+                        //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
 
-                            indexPaths.append(indexPath)
+                        indexPaths.append(indexPath)
 
                     } else {
                         println("unknown message")
@@ -1566,8 +1566,7 @@ final class ConversationViewController: BaseViewController {
 
                         self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
-                    }, completion: { _ in
-                    })
+                    }, completion: nil)
 
                 case .Old:
                     // 用 CATransaction 保证 CollectionView 在插入后不闪动
@@ -1596,11 +1595,9 @@ final class ConversationViewController: BaseViewController {
                     })
                 }
 
-                println("insert messages A")
+                println("insert other messages")
 
             } else {
-                println("self message")
-
                 // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
 
                 var indexPaths = [NSIndexPath]()
@@ -1618,10 +1615,9 @@ final class ConversationViewController: BaseViewController {
 
                     self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
-                }, completion: { _ in
-                })
+                }, completion: nil)
 
-                println("insert messages B")
+                println("insert self messages")
             }
         }
 
