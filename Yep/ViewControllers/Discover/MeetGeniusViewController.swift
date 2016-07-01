@@ -40,8 +40,6 @@ class MeetGeniusViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
-
         updateGeniusInterviews()
     }
 
@@ -80,7 +78,7 @@ class MeetGeniusViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        let count = 5
+        let count = 10
         geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
@@ -135,17 +133,6 @@ class MeetGeniusViewController: UIViewController {
             }
         })
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate

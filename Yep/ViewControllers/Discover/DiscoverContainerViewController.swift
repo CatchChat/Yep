@@ -157,6 +157,7 @@ class DiscoverContainerViewController: UIViewController {
         switch identifier {
 
         case "embedMeetGenius":
+
             let vc = segue.destinationViewController as! MeetGeniusViewController
 
             vc.tapBannerAction = { [weak self] url in

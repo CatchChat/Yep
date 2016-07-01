@@ -46,27 +46,25 @@ class GeniusInterviewViewController: UIViewController {
             if let user = self?.geniusInterview.user {
                 self?.tapAvatarAction?(user: user)
             }
-            println("tapAvatarAction")
         }
 
         view.sayHiAction = { [weak self] in
             if let user = self?.geniusInterview.user {
                 self?.sayHiAction?(user: user)
             }
-            println("sayHiAction")
         }
 
         view.shareAction = { [weak self] in
             if let url = self?.geniusInterview.url {
                 self?.shareAction?(url: url)
             }
-            println("shareAction")
         }
 
         return view
     }()
 
     deinit {
+        webView.navigationDelegate = nil
         webView.scrollView.delegate = nil
     }
 
