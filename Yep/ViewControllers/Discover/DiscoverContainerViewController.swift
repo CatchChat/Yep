@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import RealmSwift
 
 class DiscoverContainerViewController: UIViewController {
 
@@ -202,6 +203,30 @@ class DiscoverContainerViewController: UIViewController {
                     self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
                 }
             }
+
+            vc.sayHiAction = { [weak self] user in
+
+                SafeDispatch.async { [weak self] in
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+                    let conversation = conversationWithDiscoveredUser(user, inRealm: realm)
+                    _ = try? realm.commitWrite()
+
+                    if let conversation = conversation {
+                        self?.performSegueWithIdentifier("showConversation", sender: conversation)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                    }
+                }
+            }
+
+        case "showConversation":
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
 
         default:
             break
