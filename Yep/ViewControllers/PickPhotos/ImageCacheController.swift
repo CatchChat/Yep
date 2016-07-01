@@ -12,9 +12,9 @@ import Photos
 final class ImageCacheController {
 
     private var cachedIndices = NSIndexSet()
-    var cachePreheatSize: Int
-    var imageCache: PHCachingImageManager
-    var images: PHFetchResult
+    let cachePreheatSize: Int
+    let imageCache: PHCachingImageManager
+    let images: PHFetchResult
     var targetSize = CGSize(width: 80, height: 80)
     var contentMode = PHImageContentMode.AspectFill
 
