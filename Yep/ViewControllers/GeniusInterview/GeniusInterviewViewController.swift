@@ -14,6 +14,10 @@ class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
+    var tapAvatarAction: ((user: DiscoveredUser) -> Void)?
+    var sayHiAction: ((user: DiscoveredUser) -> Void)?
+    var shareAction: ((url: NSURL) -> Void)?
+
     lazy var webView: WKWebView = {
 
         let view = WKWebView()
@@ -38,15 +42,24 @@ class GeniusInterviewViewController: UIViewController {
 
         let view = GeniusInterviewActionView()
 
-        view.tapAvatarAction = {
+        view.tapAvatarAction = { [weak self] in
+            if let user = self?.geniusInterview.user {
+                self?.tapAvatarAction?(user: user)
+            }
             println("tapAvatarAction")
         }
 
-        view.sayHiAction = {
+        view.sayHiAction = { [weak self] in
+            if let user = self?.geniusInterview.user {
+                self?.sayHiAction?(user: user)
+            }
             println("sayHiAction")
         }
 
-        view.shareAction = {
+        view.shareAction = { [weak self] in
+            if let url = self?.geniusInterview.url {
+                self?.shareAction?(url: url)
+            }
             println("shareAction")
         }
 
