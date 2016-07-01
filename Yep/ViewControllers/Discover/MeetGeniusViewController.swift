@@ -80,13 +80,16 @@ class MeetGeniusViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        geniusInterviewsWithCount(20, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
+        let count = 5
+        geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
 
                 guard let strongSelf = self else {
                     return
                 }
+
+                strongSelf.canLoadMore = (geniusInterviews.count == count)
 
                 let newGeniusInterviews = geniusInterviews
                 let oldGeniusInterviews = strongSelf.geniusInterviews
