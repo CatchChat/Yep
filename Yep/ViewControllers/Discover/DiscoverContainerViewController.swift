@@ -159,6 +159,10 @@ class DiscoverContainerViewController: UIViewController {
         case "embedMeetGenius":
             let vc = segue.destinationViewController as! MeetGeniusViewController
 
+            vc.tapBannerAction = { [weak self] url in
+                self?.yep_openURL(url)
+            }
+
             vc.showGeniusInterviewAction = { geniusInterview in
                 SafeDispatch.async { [weak self] in
                     self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))

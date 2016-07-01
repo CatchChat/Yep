@@ -12,11 +12,11 @@ import Kingfisher
 
 class MeetGeniusShowView: UIView {
 
-    var tapAction: (() -> Void)?
+    var tapAction: ((url: NSURL) -> Void)?
 
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
-        view.backgroundColor = UIColor.blueColor()
+        view.contentMode = .ScaleAspectFill
         view.userInteractionEnabled = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(MeetGeniusShowView.didTap(_:)))
@@ -38,12 +38,16 @@ class MeetGeniusShowView: UIView {
         return label
     }()
 
+    private var geniusInterviewBanner: GeniusInterviewBanner?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         makeUI()
 
         latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
+
+            self?.geniusInterviewBanner = geniusInterviewBanner
 
             SafeDispatch.async { [weak self] in
                 let imageURL = geniusInterviewBanner.imageURL
@@ -97,7 +101,9 @@ class MeetGeniusShowView: UIView {
     @objc private func didTap(sender: UITapGestureRecognizer) {
         println("tap MeetGeniusShowView")
 
-        tapAction?()
+        if let url = geniusInterviewBanner?.linkURL {
+            tapAction?(url: url)
+        }
     }
 }
 

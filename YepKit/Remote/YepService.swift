@@ -3896,8 +3896,8 @@ public struct GeniusInterview {
             number = info["no"] as? Int,
             title = info["title"] as? String,
             detail = info["description"] as? String,
-            urlString = info["url"] as? String else {
-                return nil
+            urlString = info["link"] as? String else {
+            return nil
         }
 
         guard let user = parseDiscoveredUser(userInfo) else {

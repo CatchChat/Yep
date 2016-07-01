@@ -12,11 +12,17 @@ import YepNetworking
 
 class MeetGeniusViewController: UIViewController {
 
+    var tapBannerAction: ((url: NSURL) -> Void)?
     var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            tableView.tableHeaderView = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+            view.tapAction = { [weak self] url in
+                self?.tapBannerAction?(url: url)
+            }
+
+            tableView.tableHeaderView = view
             tableView.tableFooterView = UIView()
 
             tableView.rowHeight = 90
@@ -74,7 +80,7 @@ class MeetGeniusViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        geniusInterviewsWithCount(10, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
+        geniusInterviewsWithCount(20, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
 
