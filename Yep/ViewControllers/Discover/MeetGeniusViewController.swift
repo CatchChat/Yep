@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepNetworking
 
 class MeetGeniusViewController: UIViewController {
 
@@ -28,21 +29,65 @@ class MeetGeniusViewController: UIViewController {
     var geniusInterviews: [GeniusInterview] = []
 
     private var canLoadMore: Bool = false
+    private var isFetchingGeniusInterviews: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
 
-        geniusInterviewsWithCount(20, afterNumber: nil, failureHandler: nil, completion: { [weak self] geniusInterviews in
+        updateGeniusInterviews()
+    }
+
+    private enum UpdateGeniusInterviewsMode {
+        case Top
+        case LoadMore
+    }
+
+    private func updateGeniusInterviews(mode mode: UpdateGeniusInterviewsMode = .Top, finish: (() -> Void)? = nil) {
+
+        if isFetchingGeniusInterviews {
+            finish?()
+            return
+        }
+
+        isFetchingGeniusInterviews = true
+
+        let maxNumber: Int?
+        switch mode {
+        case .Top:
+            canLoadMore = true
+            maxNumber = nil
+        case .LoadMore:
+            maxNumber = geniusInterviews.last?.number
+        }
+
+        let failureHandler: FailureHandler = { reason, errorMessage in
+
+            SafeDispatch.async { [weak self] in
+
+                self?.isFetchingGeniusInterviews = false
+
+                finish?()
+            }
+
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        }
+
+        geniusInterviewsWithCount(10, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             self?.geniusInterviews = geniusInterviews
 
             SafeDispatch.async { [weak self] in
                 self?.tableView.reloadData()
+
+                self?.isFetchingGeniusInterviews = false
+
+                finish?()
             }
         })
     }
+
 
     /*
     // MARK: - Navigation
