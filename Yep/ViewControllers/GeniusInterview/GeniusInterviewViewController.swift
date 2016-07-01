@@ -109,6 +109,11 @@ class GeniusInterviewViewController: UIViewController {
             let request = NSURLRequest(URL: geniusInterview.url)
             webView.loadRequest(request)
         }
+
+        do {
+            let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
+            actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        }
     }
 }
 
