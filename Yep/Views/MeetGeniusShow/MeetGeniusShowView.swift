@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import YepKit
+import Kingfisher
 
 class MeetGeniusShowView: UIView {
 
@@ -40,6 +42,14 @@ class MeetGeniusShowView: UIView {
         super.init(frame: frame)
 
         makeUI()
+
+        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
+
+            SafeDispatch.async { [weak self] in
+                let imageURL = geniusInterviewBanner.imageURL
+                self?.backgroundImageView.kf_setImageWithURL(imageURL)
+            }
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {
