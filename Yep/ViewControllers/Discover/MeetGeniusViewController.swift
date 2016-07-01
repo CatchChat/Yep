@@ -33,6 +33,15 @@ class MeetGeniusViewController: UIViewController {
         super.viewDidLoad()
 
         println("tableView.tableHeaderView: \(tableView.tableHeaderView)")
+
+        geniusInterviewsWithCount(20, afterNumber: nil, failureHandler: nil, completion: { [weak self] geniusInterviews in
+
+            self?.geniusInterviews = geniusInterviews
+
+            SafeDispatch.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        })
     }
 
     /*

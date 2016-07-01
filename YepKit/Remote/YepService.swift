@@ -3916,7 +3916,7 @@ public struct GeniusInterview {
     }
 }
 
-public func geniusInterviews(count count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
+public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "count": count,
