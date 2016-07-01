@@ -3968,3 +3968,17 @@ public struct GeniusInterviewBanner {
     }
 }
 
+public func latestGeniusInterviewBanner(failureHandler failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
+
+    let parse: JSONDictionary -> GeniusInterviewBanner? = { data in
+        println("GeniusInterviewBanner: \(data)")
+
+        let banner = GeniusInterviewBanner(data)
+        return banner
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interview_banners/current", method: .GET, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
