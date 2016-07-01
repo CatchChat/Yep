@@ -234,6 +234,7 @@ class DiscoverContainerViewController: UIViewController {
             }
 
         case "showConversation":
+
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
 

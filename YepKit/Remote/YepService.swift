@@ -3951,7 +3951,7 @@ public struct GeniusInterviewBanner {
 
         guard let
             imageURLString = info["url"] as? String,
-            linkURLString = info["url"] as? String else {
+            linkURLString = info["link"] as? String else {
             return nil
         }
 
