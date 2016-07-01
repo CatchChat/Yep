@@ -193,8 +193,15 @@ class DiscoverContainerViewController: UIViewController {
         case "showGeniusInterview":
 
             let vc = segue.destinationViewController as! GeniusInterviewViewController
+
             let geniusInterview = (sender as! Box<GeniusInterview>).value
             vc.geniusInterview = geniusInterview
+
+            vc.tapAvatarAction = { [weak self] user in
+                SafeDispatch.async { [weak self] in
+                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
+                }
+            }
 
         default:
             break
