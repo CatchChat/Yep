@@ -198,13 +198,14 @@ class DiscoverContainerViewController: UIViewController {
             let geniusInterview = (sender as! Box<GeniusInterview>).value
             vc.geniusInterview = geniusInterview
 
-            vc.tapAvatarAction = { [weak self] user in
+            vc.tapAvatarAction = { user in
+
                 SafeDispatch.async { [weak self] in
                     self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
                 }
             }
 
-            vc.sayHiAction = { [weak self] user in
+            vc.sayHiAction = {user in
 
                 SafeDispatch.async { [weak self] in
 
@@ -221,6 +222,14 @@ class DiscoverContainerViewController: UIViewController {
 
                         NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                     }
+                }
+            }
+
+            vc.shareAction = { url in
+
+                SafeDispatch.async { [weak self] in
+                    let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                    self?.presentViewController(activityViewController, animated: true, completion: nil)
                 }
             }
 
