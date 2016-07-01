@@ -12,7 +12,7 @@ import YepNetworking
 
 class MeetGeniusViewController: UIViewController {
 
-    var showGeniusInterviewAction: (() -> Void)?
+    var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -238,7 +238,8 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
 
         case .GeniusInterview:
-            showGeniusInterviewAction?()
+            let geniusInterview = geniusInterviews[indexPath.row]
+            showGeniusInterviewAction?(geniusInterview: geniusInterview)
 
         case .LoadMore:
             break

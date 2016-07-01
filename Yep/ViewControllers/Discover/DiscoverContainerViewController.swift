@@ -158,9 +158,9 @@ class DiscoverContainerViewController: UIViewController {
         case "embedMeetGenius":
             let vc = segue.destinationViewController as! MeetGeniusViewController
 
-            vc.showGeniusInterviewAction = {
+            vc.showGeniusInterviewAction = { geniusInterview in
                 SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterview", sender: nil)
+                    self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
                 }
             }
 
@@ -189,6 +189,12 @@ class DiscoverContainerViewController: UIViewController {
             let vc = segue.destinationViewController as! ProfileViewController
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
             prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
+
+        case "showGeniusInterview":
+
+            let vc = segue.destinationViewController as! GeniusInterviewViewController
+            let geniusInterview = (sender as! Box<GeniusInterview>).value
+            vc.geniusInterview = geniusInterview
 
         default:
             break

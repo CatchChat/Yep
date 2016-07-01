@@ -8,8 +8,11 @@
 
 import UIKit
 import WebKit
+import YepKit
 
 class GeniusInterviewViewController: UIViewController {
+
+    var geniusInterview: GeniusInterview!
 
     lazy var webView: WKWebView = {
 
@@ -19,9 +22,6 @@ class GeniusInterviewViewController: UIViewController {
 
         view.scrollView.contentInset.bottom = 50
         view.scrollView.delegate = self
-
-        let request = NSURLRequest(URL: NSURL(string: "https://soyep.com")!)
-        view.loadRequest(request)
 
         return view
     }()
@@ -90,6 +90,11 @@ class GeniusInterviewViewController: UIViewController {
             self.actionViewTopConstraint = top
             let height = actionView.heightAnchor.constraintEqualToConstant(50)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
+        }
+
+        do {
+            let request = NSURLRequest(URL: geniusInterview.url)
+            webView.loadRequest(request)
         }
     }
 }
