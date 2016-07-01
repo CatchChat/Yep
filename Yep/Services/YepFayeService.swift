@@ -108,7 +108,7 @@ extension YepFayeService {
                 return
             }
 
-            self?.fayeClient.subscribeToChannel(personalChannel) { data in
+            self?.fayeClient.subscribeToChannel(personalChannel) { [weak self] data in
 
                 println("receive faye data: \(data)")
 

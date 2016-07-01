@@ -29,7 +29,7 @@ public typealias FayeClientPrivateHandler = (message: FayeMessage) -> Void
 public class FayeClient: NSObject {
 
     public private(set) var webSocket: SRWebSocket?
-    public private(set)var serverURL: NSURL!
+    public private(set) var serverURL: NSURL!
     public private(set) var clientID: String!
 
     public private(set) var sentMessageCount: Int = 0
