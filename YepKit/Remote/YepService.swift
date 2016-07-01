@@ -3942,3 +3942,29 @@ public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, fail
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+public struct GeniusInterviewBanner {
+
+    public let imageURL: NSURL
+    public let linkURL: NSURL
+
+    public init?(_ info: JSONDictionary) {
+
+        guard let
+            imageURLString = info["url"] as? String,
+            linkURLString = info["url"] as? String else {
+            return nil
+        }
+
+        guard let imageURL = NSURL(string: imageURLString) else {
+            return nil
+        }
+
+        guard let linkURL = NSURL(string: linkURLString) else {
+            return nil
+        }
+
+        self.imageURL = imageURL
+        self.linkURL = linkURL
+    }
+}
+
