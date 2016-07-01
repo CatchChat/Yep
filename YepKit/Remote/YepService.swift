@@ -3916,4 +3916,29 @@ public struct GeniusInterview {
     }
 }
 
+public func geniusInterviews(count count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "count": count,
+    ]
+    if let number = number {
+        requestParameters["max_no"] = number
+    }
+
+    let parse: JSONDictionary -> [GeniusInterview]? = { data in
+        println("GeniusInterview: \(data)")
+
+        if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
+
+            let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
+            return geniusInterviews
+        }
+        
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interviews", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
 
