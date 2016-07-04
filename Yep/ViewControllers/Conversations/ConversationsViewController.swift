@@ -366,9 +366,7 @@ final class ConversationsViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let user = sender as! User
-            vc.profileUser = ProfileUser.UserType(user)
-
-            vc.setBackButtonWithTitle()
+            vc.prepare(withUser: user)
 
             recoverOriginalNavigationDelegate()
             
