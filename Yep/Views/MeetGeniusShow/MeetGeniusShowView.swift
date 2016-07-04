@@ -45,15 +45,7 @@ class MeetGeniusShowView: UIView {
 
         makeUI()
 
-        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
-
-            self?.geniusInterviewBanner = geniusInterviewBanner
-
-            SafeDispatch.async { [weak self] in
-                let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf_setImageWithURL(imageURL)
-            }
-        })
+        getLatestGeniusInterviewBanner()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -96,6 +88,19 @@ class MeetGeniusShowView: UIView {
             NSLayoutConstraint.activateConstraints([centerX, centerY])
         }
          */
+    }
+
+    func getLatestGeniusInterviewBanner() {
+
+        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
+
+            self?.geniusInterviewBanner = geniusInterviewBanner
+
+            SafeDispatch.async { [weak self] in
+                let imageURL = geniusInterviewBanner.imageURL
+                self?.backgroundImageView.kf_setImageWithURL(imageURL)
+            }
+        })
     }
 
     @objc private func didTap(sender: UITapGestureRecognizer) {

@@ -171,6 +171,8 @@ class MeetGeniusViewController: UIViewController {
 
     @objc private func refresh(sender: UIRefreshControl) {
 
+        meetGeniusShowView.getLatestGeniusInterviewBanner()
+
         updateGeniusInterviews(mode: .Top) {
             SafeDispatch.async {
                 sender.endRefreshing()
