@@ -1700,35 +1700,31 @@ final class ConversationViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
 
-            let box = sender as! Box<ProfileUser>
-            vc.profileUser = box.value
+            let profileUser = (sender as! Box<ProfileUser>).value
+            vc.prepare(withProfileUser: profileUser)
 
             vc.fromType = .GroupConversation
-            vc.setBackButtonWithTitle()
 
         case "showProfileFromFeedView":
 
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = feedView?.feed?.creator {
-                vc.profileUser = ProfileUser.UserType(user)
+                vc.prepare(withUser: user)
             }
 
             vc.fromType = .GroupConversation
-            vc.setBackButtonWithTitle()
 
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
-                vc.profileUser = ProfileUser.UserType(user)
+                vc.prepare(withUser: user)
 
             } else {
                 if let withFriend = conversation?.withFriend {
-                    if withFriend.userID != YepUserDefaults.userID.value {
-                        vc.profileUser = ProfileUser.UserType(withFriend)
-                    }
+                    vc.prepare(withUser: withFriend)
                 }
             }
 
@@ -1740,8 +1736,6 @@ final class ConversationViewController: BaseViewController {
             default:
                 break
             }
-
-            vc.setBackButtonWithTitle()
 
         case "showConversationWithFeed":
 
