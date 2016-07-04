@@ -22,7 +22,6 @@ class MeetGeniusViewController: UIViewController {
             tableView.tableHeaderView = self.meetGeniusShowView
             tableView.tableFooterView = UIView()
 
-            tableView.rowHeight = 90
             tableView.separatorInset = UIEdgeInsets(top: 0, left: 95, bottom: 0, right: 0)
 
             tableView.registerNibOf(GeniusInterviewCell)
@@ -265,6 +264,22 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                     cell?.isLoading = false
                 }
             })
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            return 105
+
+        case .LoadMore:
+            return 60
         }
     }
 

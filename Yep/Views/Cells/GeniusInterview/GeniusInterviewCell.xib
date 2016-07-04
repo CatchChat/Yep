@@ -33,7 +33,7 @@
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_accessory_mini" translatesAutoresizingMaskIntoConstraints="NO" id="lEA-SK-CM9" userLabel="Accessory Image View">
-                        <rect key="frame" x="289" y="17" width="11" height="13"/>
+                        <rect key="frame" x="294" y="17" width="11" height="13"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="11" id="LMN-IV-ow6"/>
                             <constraint firstAttribute="height" constant="13" id="cGc-hx-2ea"/>
@@ -47,7 +47,7 @@
                         </variation>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Compilers: Principles, Techniques, &amp; Tools. Compilers: Principles, Techniques, &amp; Tools" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47W-Lu-a59">
-                        <rect key="frame" x="95" y="41" width="184" height="48"/>
+                        <rect key="frame" x="95" y="41" width="189" height="48"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -58,7 +58,7 @@
                     <constraint firstItem="lEA-SK-CM9" firstAttribute="leading" secondItem="47W-Lu-a59" secondAttribute="trailing" constant="10" id="IIA-sj-4Fb"/>
                     <constraint firstItem="qCJ-uN-Ia3" firstAttribute="leading" secondItem="kVa-cM-2fV" secondAttribute="trailing" constant="5" id="PUh-6d-UQc"/>
                     <constraint firstItem="iYv-nf-0kD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="Pv1-H2-fCd"/>
-                    <constraint firstAttribute="trailing" secondItem="lEA-SK-CM9" secondAttribute="trailing" constant="20" id="UBq-H6-SzB"/>
+                    <constraint firstAttribute="trailing" secondItem="lEA-SK-CM9" secondAttribute="trailing" constant="15" id="UBq-H6-SzB"/>
                     <constraint firstItem="47W-Lu-a59" firstAttribute="leading" secondItem="kVa-cM-2fV" secondAttribute="leading" id="Vsg-jW-4vs"/>
                     <constraint firstItem="iYv-nf-0kD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="ZLh-uS-Cpl"/>
                     <constraint firstItem="qCJ-uN-Ia3" firstAttribute="baseline" secondItem="kVa-cM-2fV" secondAttribute="baseline" id="bAM-Zn-Zg1"/>
