@@ -149,17 +149,11 @@ final class SearchContactsViewController: SegueViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
-                if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = .UserType(user)
-                }
+                vc.prepare(withUser: user)
 
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
-
-            vc.hidesBottomBarWhenPushed = true
-            
-            vc.setBackButtonWithTitle()
 
             prepareOriginalNavigationControllerDelegate()
 
