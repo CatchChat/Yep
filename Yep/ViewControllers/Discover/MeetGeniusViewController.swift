@@ -17,14 +17,9 @@ class MeetGeniusViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
-            view.tapAction = { [weak self] url in
-                self?.tapBannerAction?(url: url)
-            }
-
             tableView.addSubview(self.refreshControl)
 
-            tableView.tableHeaderView = view
+            tableView.tableHeaderView = self.meetGeniusShowView
             tableView.tableFooterView = UIView()
 
             tableView.rowHeight = 90
@@ -40,6 +35,14 @@ class MeetGeniusViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), forControlEvents: .ValueChanged)
         refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         return refreshControl
+    }()
+
+    private lazy var meetGeniusShowView: MeetGeniusShowView = {
+        let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+        view.tapAction = { [weak self] url in
+            self?.tapBannerAction?(url: url)
+        }
+        return view
     }()
 
     private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
