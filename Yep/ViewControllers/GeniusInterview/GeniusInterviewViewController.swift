@@ -15,13 +15,15 @@ class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
+    private let actionViewHeight: CGFloat = 50
+
     lazy var webView: WKWebView = {
 
         let view = WKWebView()
 
         view.navigationDelegate = self
 
-        view.scrollView.contentInset.bottom = 50
+        view.scrollView.contentInset.bottom = self.actionViewHeight
         view.scrollView.delegate = self
 
         return view
@@ -122,7 +124,7 @@ class GeniusInterviewViewController: UIViewController {
             let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
             let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
             self.actionViewTopConstraint = top
-            let height = actionView.heightAnchor.constraintEqualToConstant(50)
+            let height = actionView.heightAnchor.constraintEqualToConstant(actionViewHeight)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
 
@@ -195,8 +197,9 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
 
         let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
         if y > 0 {
+            let actionViewHeight = self.actionViewHeight
             UIView.animateWithDuration(0.5, animations: { [weak self] in
-                self?.actionViewTopConstraint?.constant = -50
+                self?.actionViewTopConstraint?.constant = -actionViewHeight
                 self?.view.layoutIfNeeded()
             })
         } else {
