@@ -32,6 +32,8 @@ class MeetGeniusViewController: UIViewController {
         }
     }
 
+    private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
+
     var geniusInterviews: [GeniusInterview] = []
 
     private var canLoadMore: Bool = false
@@ -82,6 +84,12 @@ class MeetGeniusViewController: UIViewController {
         geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
+
+                if case .Top = mode where geniusInterviews.isEmpty {
+                    self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
+                } else {
+                    self?.tableView.tableFooterView = UIView()
+                }
 
                 guard let strongSelf = self else {
                     return

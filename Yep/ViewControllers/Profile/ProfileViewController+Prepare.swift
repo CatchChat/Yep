@@ -37,7 +37,9 @@ extension ProfileViewController {
     }
 
     private func prepareUI() {
+
         self.setBackButtonWithTitle()
+
         self.hidesBottomBarWhenPushed = true
     }
 }
