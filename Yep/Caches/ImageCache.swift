@@ -20,7 +20,6 @@ final class ImageCache {
     let cache = NSCache()
     let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_SERIAL)
     let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
-//    let cacheQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
 
     class func attachmentOriginKeyWithURLString(URLString: String) -> String {
         return "attachment-0.0-\(URLString)"
