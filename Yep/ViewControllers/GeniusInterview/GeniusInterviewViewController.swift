@@ -14,7 +14,6 @@ class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
-    var tapAvatarAction: ((user: DiscoveredUser) -> Void)?
     var sayHiAction: ((user: DiscoveredUser) -> Void)?
     var shareAction: ((url: NSURL) -> Void)?
 
@@ -44,7 +43,9 @@ class GeniusInterviewViewController: UIViewController {
 
         view.tapAvatarAction = { [weak self] in
             if let user = self?.geniusInterview.user {
-                self?.tapAvatarAction?(user: user)
+                SafeDispatch.async { [weak self] in
+                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
+                }
             }
         }
 
@@ -111,6 +112,33 @@ class GeniusInterviewViewController: UIViewController {
         do {
             let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
             actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        }
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+
+            if discoveredUser.id != YepUserDefaults.userID.value {
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            }
+
+            vc.setBackButtonWithTitle()
+            
+            vc.hidesBottomBarWhenPushed = true
+
+        default:
+            break
         }
     }
 }

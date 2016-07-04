@@ -203,13 +203,6 @@ class DiscoverContainerViewController: UIViewController {
             let geniusInterview = (sender as! Box<GeniusInterview>).value
             vc.geniusInterview = geniusInterview
 
-            vc.tapAvatarAction = { user in
-
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
-                }
-            }
-
             vc.sayHiAction = {user in
 
                 SafeDispatch.async { [weak self] in
