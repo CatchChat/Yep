@@ -921,19 +921,14 @@ final class FeedsViewController: BaseViewController {
                     break
                 case .UploadingFeed:
                     let discoveredUser = uploadingFeeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    vc.prepare(withDiscoveredUser: discoveredUser)
                 case .Feed:
                     let discoveredUser = feeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    vc.prepare(withDiscoveredUser: discoveredUser)
                 case .LoadMore:
                     break
                 }
             }
-
-            vc.fromType = .None
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
 
             recoverOriginalNavigationDelegate()
 
