@@ -283,6 +283,7 @@
 		508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */; };
 		508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */; };
 		508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */; };
+		50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50901DFC1D29FA160085BB7D /* ProfileViewController+Prepare.swift */; };
 		509202D41D112FA700E6FF33 /* SafeDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509202D31D112FA700E6FF33 /* SafeDispatch.swift */; };
 		5093C1AF1D1D13D000559217 /* PreviewDribbblePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093C1AE1D1D13D000559217 /* PreviewDribbblePhoto.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
@@ -1003,6 +1004,7 @@
 		508F8FDA1B0479E700461B0B /* SocialWorkInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocialWorkInstagramViewController.swift; path = ViewControllers/SocialWorks/SocialWorkInstagramViewController.swift; sourceTree = "<group>"; };
 		508F8FDC1B049ACF00461B0B /* InstagramMediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstagramMediaCell.swift; path = Views/Cells/InstagramMedia/InstagramMediaCell.swift; sourceTree = "<group>"; };
 		508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramMediaCell.xib; path = Views/Cells/InstagramMedia/InstagramMediaCell.xib; sourceTree = "<group>"; };
+		50901DFC1D29FA160085BB7D /* ProfileViewController+Prepare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ProfileViewController+Prepare.swift"; path = "ViewControllers/Profile/ProfileViewController+Prepare.swift"; sourceTree = "<group>"; };
 		509202D31D112FA700E6FF33 /* SafeDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SafeDispatch.swift; path = Helpers/SafeDispatch.swift; sourceTree = "<group>"; };
 		5093C1AE1D1D13D000559217 /* PreviewDribbblePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewDribbblePhoto.swift; path = PreviewPhotos/PreviewDribbblePhoto.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
@@ -1882,6 +1884,7 @@
 			children = (
 				504F41561AD4D35400FBB19A /* ProfileLayout.swift */,
 				5023DE2F1AB6861500B3EE96 /* ProfileViewController.swift */,
+				50901DFC1D29FA160085BB7D /* ProfileViewController+Prepare.swift */,
 				50E7C7041CF6D59700E8D951 /* Profile.storyboard */,
 			);
 			name = Profile;
@@ -4639,6 +4642,7 @@
 				50E34C1D1CB7516C007CAE80 /* UserRepresentation.swift in Sources */,
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
+				50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
