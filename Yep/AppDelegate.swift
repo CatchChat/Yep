@@ -459,11 +459,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     return
             }
 
-            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-            vc.fromType = .None
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
             delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
@@ -490,11 +486,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return false
             }
 
-            vc.profileUser = ProfileUser.UserType(user)
-            vc.fromType = .None
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
+            vc.prepare(withUser: user)
 
             delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
