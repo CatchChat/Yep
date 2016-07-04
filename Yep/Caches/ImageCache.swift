@@ -462,7 +462,7 @@ final class ImageCache {
                         return
                     }
 
-                    let image = snapshot.image
+                    let image = snapshot.image.decodedImage()
 
                     self.cache.setObject(image, forKey: imageKey)
 
