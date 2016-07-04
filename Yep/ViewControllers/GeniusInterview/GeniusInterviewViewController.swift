@@ -110,7 +110,7 @@ class GeniusInterviewViewController: UIViewController {
             view.addSubview(indicatorView)
 
             let centerX = indicatorView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
-            let top = indicatorView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 120)
+            let top = indicatorView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 64 + 120)
             NSLayoutConstraint.activateConstraints([centerX, top])
         }
 
@@ -129,6 +129,8 @@ class GeniusInterviewViewController: UIViewController {
         do {
             let request = NSURLRequest(URL: geniusInterview.url)
             webView.loadRequest(request)
+
+            indicatorView.startAnimating()
         }
 
         do {
@@ -172,7 +174,7 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
         indicatorView.startAnimating()
     }
 
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
 
         indicatorView.stopAnimating()
     }
