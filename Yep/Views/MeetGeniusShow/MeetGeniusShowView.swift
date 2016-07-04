@@ -67,27 +67,6 @@ class MeetGeniusShowView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
         }
-
-        /*
-        do {
-            showButton.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
-            let stackView = UIStackView()
-            stackView.axis = .Vertical
-            stackView.spacing = 12
-
-            stackView.addArrangedSubview(showButton)
-            stackView.addArrangedSubview(titleLabel)
-
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(stackView)
-
-            let centerX = stackView.centerXAnchor.constraintEqualToAnchor(centerXAnchor)
-            let centerY = stackView.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
-        }
-         */
     }
 
     func getLatestGeniusInterviewBanner() {

@@ -33,7 +33,7 @@ class MeetGeniusViewController: UIViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor.lightGrayColor()
         refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), forControlEvents: .ValueChanged)
-        refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
+        refreshControl.layer.zPosition = -1
         return refreshControl
     }()
 
@@ -253,7 +253,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                 break
             }
 
-            println("load more feeds")
+            println("load more geniusInterviews")
 
             if !cell.isLoading {
                 cell.isLoading = true
