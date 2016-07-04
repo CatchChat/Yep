@@ -110,8 +110,8 @@ class GeniusInterviewViewController: UIViewController {
             view.addSubview(indicatorView)
 
             let centerX = indicatorView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
-            let centerY = indicatorView.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
+            let top = indicatorView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 120)
+            NSLayoutConstraint.activateConstraints([centerX, top])
         }
 
         do {
