@@ -9,14 +9,11 @@
 import UIKit
 import WebKit
 import YepKit
+import RealmSwift
 
 class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
-
-    var tapAvatarAction: ((user: DiscoveredUser) -> Void)?
-    var sayHiAction: ((user: DiscoveredUser) -> Void)?
-    var shareAction: ((url: NSURL) -> Void)?
 
     lazy var webView: WKWebView = {
 
@@ -43,20 +40,46 @@ class GeniusInterviewViewController: UIViewController {
         let view = GeniusInterviewActionView()
 
         view.tapAvatarAction = { [weak self] in
-            if let user = self?.geniusInterview.user {
-                self?.tapAvatarAction?(user: user)
+            guard let user = self?.geniusInterview.user else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
             }
         }
 
         view.sayHiAction = { [weak self] in
-            if let user = self?.geniusInterview.user {
-                self?.sayHiAction?(user: user)
+            guard let user = self?.geniusInterview.user else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+
+                guard let realm = try? Realm() else {
+                    return
+                }
+
+                realm.beginWrite()
+                let conversation = conversationWithDiscoveredUser(user, inRealm: realm)
+                _ = try? realm.commitWrite()
+
+                if let conversation = conversation {
+                    self?.performSegueWithIdentifier("showConversation", sender: conversation)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                }
             }
         }
 
         view.shareAction = { [weak self] in
-            if let url = self?.geniusInterview.url {
-                self?.shareAction?(url: url)
+            guard let url = self?.geniusInterview.url else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+                let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
         }
 
@@ -111,6 +134,39 @@ class GeniusInterviewViewController: UIViewController {
         do {
             let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
             actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+        }
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        switch identifier {
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+
+            if discoveredUser.id != YepUserDefaults.userID.value {
+                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            }
+
+            vc.setBackButtonWithTitle()
+            
+            vc.hidesBottomBarWhenPushed = true
+
+
+        case "showConversation":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
+
+        default:
+            break
         }
     }
 }

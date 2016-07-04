@@ -18,10 +18,30 @@
                         <color key="backgroundColor" red="1" green="0.80000001190000003" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="pcP-2x-qqu" kind="show" identifier="showProfile" id="bIk-ST-xKY"/>
+                        <segue destination="dlp-FI-bb8" kind="show" identifier="showConversation" id="o3i-cv-D7r"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mdw-r0-PHT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="386" y="427"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="E88-vy-Jdk">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="pcP-2x-qqu" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="il1-EI-zY7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="815" y="357"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="f1z-xS-8w7">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="dlp-FI-bb8" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QLT-z6-Q9Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="835" y="490"/>
         </scene>
     </scenes>
 </document>

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import RealmSwift
 
 class DiscoverContainerViewController: UIViewController {
 
@@ -202,46 +201,6 @@ class DiscoverContainerViewController: UIViewController {
 
             let geniusInterview = (sender as! Box<GeniusInterview>).value
             vc.geniusInterview = geniusInterview
-
-            vc.tapAvatarAction = { user in
-
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
-                }
-            }
-
-            vc.sayHiAction = {user in
-
-                SafeDispatch.async { [weak self] in
-
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-
-                    realm.beginWrite()
-                    let conversation = conversationWithDiscoveredUser(user, inRealm: realm)
-                    _ = try? realm.commitWrite()
-
-                    if let conversation = conversation {
-                        self?.performSegueWithIdentifier("showConversation", sender: conversation)
-
-                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
-                    }
-                }
-            }
-
-            vc.shareAction = { url in
-
-                SafeDispatch.async { [weak self] in
-                    let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-                    self?.presentViewController(activityViewController, animated: true, completion: nil)
-                }
-            }
-
-        case "showConversation":
-
-            let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
 
         default:
             break
