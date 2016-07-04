@@ -17,9 +17,7 @@ extension ProfileViewController {
             self.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
         }
 
-        self.setBackButtonWithTitle()
-
-        self.hidesBottomBarWhenPushed = true
+        prepareUI()
     }
 
     func prepare(withUser user: User) {
@@ -28,17 +26,18 @@ extension ProfileViewController {
             self.profileUser = ProfileUser.UserType(user)
         }
 
-        self.setBackButtonWithTitle()
-
-        self.hidesBottomBarWhenPushed = true
+        prepareUI()
     }
 
     func prepare(withProfileUser profileUser: ProfileUser) {
 
         self.profileUser = profileUser
 
-        self.setBackButtonWithTitle()
+        prepareUI()
+    }
 
+    private func prepareUI() {
+        self.setBackButtonWithTitle()
         self.hidesBottomBarWhenPushed = true
     }
 }
