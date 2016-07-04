@@ -193,7 +193,7 @@ class DiscoverContainerViewController: UIViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
         case "showGeniusInterview":
 
@@ -205,17 +205,6 @@ class DiscoverContainerViewController: UIViewController {
         default:
             break
         }
-    }
-
-    private func prepareProfileViewController(vc: ProfileViewController, withDiscoveredUser discoveredUser: DiscoveredUser) {
-
-        if discoveredUser.id != YepUserDefaults.userID.value {
-            vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-        }
-
-        vc.setBackButtonWithTitle()
-
-        vc.hidesBottomBarWhenPushed = true
     }
 }
 
@@ -247,7 +236,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
             return nil
         }
 
-        prepareProfileViewController(vc, withDiscoveredUser: discoveredUser)
+        vc.prepare(withDiscoveredUser: discoveredUser)
 
         return vc
     }

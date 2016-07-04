@@ -195,11 +195,7 @@ final class SearchConversationsViewController: SegueViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let user = sender as! User
-            vc.profileUser = .UserType(user)
-
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
+            vc.prepare(withUser: user)
 
             prepareOriginalNavigationControllerDelegate()
 
