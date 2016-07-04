@@ -22,6 +22,8 @@ class MeetGeniusViewController: UIViewController {
                 self?.tapBannerAction?(url: url)
             }
 
+            tableView.addSubview(self.refreshControl)
+
             tableView.tableHeaderView = view
             tableView.tableFooterView = UIView()
 
@@ -31,6 +33,14 @@ class MeetGeniusViewController: UIViewController {
             tableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.lightGrayColor()
+        refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
+        return refreshControl
+    }()
 
     private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
     private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
@@ -44,6 +54,12 @@ class MeetGeniusViewController: UIViewController {
         super.viewDidLoad()
 
         updateGeniusInterviews()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        refreshControl.endRefreshing()
     }
 
     private enum UpdateGeniusInterviewsMode {
@@ -148,6 +164,15 @@ class MeetGeniusViewController: UIViewController {
                 finish?()
             }
         })
+    }
+
+    @objc private func refresh(sender: UIRefreshControl) {
+
+        updateGeniusInterviews(mode: .Top) {
+            SafeDispatch.async {
+                sender.endRefreshing()
+            }
+        }
     }
 }
 
