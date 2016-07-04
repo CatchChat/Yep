@@ -3926,7 +3926,7 @@ public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, fail
     }
 
     let parse: JSONDictionary -> [GeniusInterview]? = { data in
-        println("GeniusInterview: \(data)")
+        //println("GeniusInterview: \(data)")
 
         if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
 
@@ -3971,7 +3971,7 @@ public struct GeniusInterviewBanner {
 public func latestGeniusInterviewBanner(failureHandler failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
 
     let parse: JSONDictionary -> GeniusInterviewBanner? = { data in
-        println("GeniusInterviewBanner: \(data)")
+        //println("GeniusInterviewBanner: \(data)")
 
         let banner = GeniusInterviewBanner(data)
         return banner

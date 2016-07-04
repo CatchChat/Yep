@@ -98,13 +98,12 @@ class MeetGeniusShowView: UIView {
 
             SafeDispatch.async { [weak self] in
                 let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf_setImageWithURL(imageURL)
+                self?.backgroundImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
             }
         })
     }
 
     @objc private func didTap(sender: UITapGestureRecognizer) {
-        println("tap MeetGeniusShowView")
 
         if let url = geniusInterviewBanner?.linkURL {
             tapAction?(url: url)
