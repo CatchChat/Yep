@@ -73,6 +73,11 @@ class MeetGeniusViewController: UIViewController {
 
             SafeDispatch.async { [weak self] in
 
+                if case .Top = mode {
+                    self?.geniusInterviews = []
+                    self?.tableView.reloadData()
+                }
+
                 self?.tableView.tableFooterView = self?.fetchFailedFooterView
 
                 self?.isFetchingGeniusInterviews = false
