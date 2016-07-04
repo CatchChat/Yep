@@ -202,14 +202,6 @@ class DiscoverContainerViewController: UIViewController {
             let geniusInterview = (sender as! Box<GeniusInterview>).value
             vc.geniusInterview = geniusInterview
 
-            vc.shareAction = { url in
-
-                SafeDispatch.async { [weak self] in
-                    let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-                    self?.presentViewController(activityViewController, animated: true, completion: nil)
-                }
-            }
-
         default:
             break
         }

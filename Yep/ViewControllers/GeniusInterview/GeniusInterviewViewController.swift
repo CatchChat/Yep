@@ -15,8 +15,6 @@ class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
-    var shareAction: ((url: NSURL) -> Void)?
-
     lazy var webView: WKWebView = {
 
         let view = WKWebView()
@@ -75,8 +73,13 @@ class GeniusInterviewViewController: UIViewController {
         }
 
         view.shareAction = { [weak self] in
-            if let url = self?.geniusInterview.url {
-                self?.shareAction?(url: url)
+            guard let url = self?.geniusInterview.url else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+                let activityViewController = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                self?.presentViewController(activityViewController, animated: true, completion: nil)
             }
         }
 
