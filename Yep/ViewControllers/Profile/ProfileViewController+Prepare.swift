@@ -21,5 +21,16 @@ extension ProfileViewController {
 
         self.hidesBottomBarWhenPushed = true
     }
+
+    func prepare(withUser user: User) {
+
+        if user.userID != YepUserDefaults.userID.value {
+            self.profileUser = ProfileUser.UserType(user)
+        }
+
+        self.setBackButtonWithTitle()
+
+        self.hidesBottomBarWhenPushed = true
+    }
 }
 
