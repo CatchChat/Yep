@@ -9,12 +9,12 @@
 import UIKit
 import WebKit
 import YepKit
+import RealmSwift
 
 class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
-    var sayHiAction: ((user: DiscoveredUser) -> Void)?
     var shareAction: ((url: NSURL) -> Void)?
 
     lazy var webView: WKWebView = {
@@ -42,16 +42,35 @@ class GeniusInterviewViewController: UIViewController {
         let view = GeniusInterviewActionView()
 
         view.tapAvatarAction = { [weak self] in
-            if let user = self?.geniusInterview.user {
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
-                }
+            guard let user = self?.geniusInterview.user else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
             }
         }
 
         view.sayHiAction = { [weak self] in
-            if let user = self?.geniusInterview.user {
-                self?.sayHiAction?(user: user)
+            guard let user = self?.geniusInterview.user else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+
+                guard let realm = try? Realm() else {
+                    return
+                }
+
+                realm.beginWrite()
+                let conversation = conversationWithDiscoveredUser(user, inRealm: realm)
+                _ = try? realm.commitWrite()
+
+                if let conversation = conversation {
+                    self?.performSegueWithIdentifier("showConversation", sender: conversation)
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                }
             }
         }
 
@@ -136,6 +155,12 @@ class GeniusInterviewViewController: UIViewController {
             vc.setBackButtonWithTitle()
             
             vc.hidesBottomBarWhenPushed = true
+
+
+        case "showConversation":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+            vc.conversation = sender as! Conversation
 
         default:
             break
