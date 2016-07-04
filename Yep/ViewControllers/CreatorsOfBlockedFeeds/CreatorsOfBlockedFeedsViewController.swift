@@ -71,13 +71,8 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
         case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
-            }
-
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
         default:
             break

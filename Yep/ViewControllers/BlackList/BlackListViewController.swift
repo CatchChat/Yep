@@ -72,14 +72,9 @@ final class BlackListViewController: BaseViewController {
         case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
-            }
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
-            
         default:
             break
         }

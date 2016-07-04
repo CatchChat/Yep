@@ -468,15 +468,11 @@ final class SearchFeedsViewController: SegueViewController {
                 switch section {
                 case .Feed:
                     let discoveredUser = feeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    vc.prepare(withDiscoveredUser: discoveredUser)
                 case .LoadMore:
                     break
                 }
             }
-
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
 
             prepareOriginalNavigationControllerDelegate()
 

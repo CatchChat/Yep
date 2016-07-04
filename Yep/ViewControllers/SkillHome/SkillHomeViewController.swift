@@ -436,17 +436,10 @@ final class SkillHomeViewController: BaseViewController {
 
             if let indexPath = sender as? NSIndexPath {
 
-                let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
-                
                 let vc = segue.destinationViewController as! ProfileViewController
 
-                if discoveredUser.id != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                }
-                
-                vc.hidesBottomBarWhenPushed = true
-                
-                vc.setBackButtonWithTitle()
+                let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
         }
     }

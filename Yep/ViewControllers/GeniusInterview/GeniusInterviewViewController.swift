@@ -150,15 +150,7 @@ class GeniusInterviewViewController: UIViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-
-            if discoveredUser.id != YepUserDefaults.userID.value {
-                vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-            }
-
-            vc.setBackButtonWithTitle()
-            
-            vc.hidesBottomBarWhenPushed = true
-
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
         case "showConversation":
 
