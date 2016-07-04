@@ -33,6 +33,7 @@ class MeetGeniusViewController: UIViewController {
     }
 
     private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
 
     var geniusInterviews: [GeniusInterview] = []
 
@@ -71,6 +72,8 @@ class MeetGeniusViewController: UIViewController {
         let failureHandler: FailureHandler = { reason, errorMessage in
 
             SafeDispatch.async { [weak self] in
+
+                self?.tableView.tableFooterView = self?.fetchFailedFooterView
 
                 self?.isFetchingGeniusInterviews = false
 
