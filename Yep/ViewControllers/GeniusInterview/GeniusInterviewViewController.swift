@@ -23,6 +23,7 @@ class GeniusInterviewViewController: UIViewController {
 
         view.navigationDelegate = self
 
+        view.scrollView.scrollEnabled = false
         view.scrollView.contentInset.bottom = self.actionViewHeight
         view.scrollView.delegate = self
 
@@ -179,6 +180,8 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
     func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
 
         indicatorView.stopAnimating()
+
+        webView.scrollView.scrollEnabled = true
     }
 }
 
