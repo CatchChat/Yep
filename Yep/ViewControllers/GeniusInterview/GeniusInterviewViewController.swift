@@ -193,12 +193,12 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
 
         let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
         if y > 0 {
-            UIView.animateWithDuration(0.25, animations: { [weak self] in
+            UIView.animateWithDuration(0.5, animations: { [weak self] in
                 self?.actionViewTopConstraint?.constant = -50
                 self?.view.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(0.25, animations: { [weak self] in
+            UIView.animateWithDuration(0.5, animations: { [weak self] in
                 self?.actionViewTopConstraint?.constant = 0
                 self?.view.layoutIfNeeded()
             })
