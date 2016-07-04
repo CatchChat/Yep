@@ -38,6 +38,8 @@ class DiscoverContainerViewController: UIViewController {
     @IBOutlet weak var geniusesContainerView: UIView!
     @IBOutlet weak var discoveredUsersContainerView: UIView!
 
+    private weak var meetGeniusViewController: MeetGeniusViewController?
+
     private weak var discoverViewController: DiscoverViewController?
     private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
@@ -159,6 +161,8 @@ class DiscoverContainerViewController: UIViewController {
 
             let vc = segue.destinationViewController as! MeetGeniusViewController
 
+            self.meetGeniusViewController = vc
+
             vc.tapBannerAction = { [weak self] url in
                 self?.yep_openURL(url)
             }
@@ -173,13 +177,13 @@ class DiscoverContainerViewController: UIViewController {
 
             let vc = segue.destinationViewController as! DiscoverViewController
 
+            self.discoverViewController = vc
+
             vc.showProfileOfDiscoveredUserAction = { discoveredUser in
                 SafeDispatch.async { [weak self] in
                     self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
                 }
             }
-
-            discoverViewController = vc
 
             vc.didChangeLayoutModeAction = { [weak self] layoutMode in
                 self?.discoveredUsersLayoutMode = layoutMode
@@ -214,31 +218,56 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard case .FindAll = currentOption else {
-            return nil
+        switch currentOption {
+
+        case .MeetGenius:
+
+            guard let tableView = meetGeniusViewController?.tableView else {
+                return nil
+            }
+
+            let fixedLocation = view.convertPoint(location, toView: tableView)
+
+            guard let indexPath = tableView.indexPathForRowAtPoint(fixedLocation), cell = tableView.cellForRowAtIndexPath(indexPath) else {
+                return nil
+            }
+
+            previewingContext.sourceRect = cell.frame
+
+            let vc = UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
+
+            guard let geniusInterview = meetGeniusViewController?.geniusInterviews[indexPath.row] else {
+                return nil
+            }
+            
+            vc.geniusInterview = geniusInterview
+
+            return vc
+
+        case .FindAll:
+
+            guard let discoveredUsersCollectionView = discoverViewController?.discoveredUsersCollectionView else {
+                return nil
+            }
+
+            let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
+
+            guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
+                return nil
+            }
+
+            previewingContext.sourceRect = cell.frame
+
+            let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+
+            guard let discoveredUser = discoverViewController?.discoveredUsers[indexPath.item] else {
+                return nil
+            }
+
+            vc.prepare(withDiscoveredUser: discoveredUser)
+
+            return vc
         }
-
-        guard let discoveredUsersCollectionView = discoverViewController?.discoveredUsersCollectionView else {
-            return nil
-        }
-
-        let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
-
-        guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
-            return nil
-        }
-
-        previewingContext.sourceRect = cell.frame
-
-        let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-
-        guard let discoveredUser = discoverViewController?.discoveredUsers[indexPath.row] else {
-            return nil
-        }
-
-        vc.prepare(withDiscoveredUser: discoveredUser)
-
-        return vc
     }
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {

@@ -17,20 +17,36 @@ class MeetGeniusViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
-            let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
-            view.tapAction = { [weak self] url in
-                self?.tapBannerAction?(url: url)
-            }
+            tableView.addSubview(self.refreshControl)
 
-            tableView.tableHeaderView = view
+            tableView.tableHeaderView = self.meetGeniusShowView
             tableView.tableFooterView = UIView()
 
-            tableView.rowHeight = 90
+            tableView.separatorInset = UIEdgeInsets(top: 0, left: 95, bottom: 0, right: 0)
 
             tableView.registerNibOf(GeniusInterviewCell)
             tableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor.lightGrayColor()
+        refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.layer.zPosition = -1
+        return refreshControl
+    }()
+
+    private lazy var meetGeniusShowView: MeetGeniusShowView = {
+        let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
+        view.tapAction = { [weak self] url in
+            self?.tapBannerAction?(url: url)
+        }
+        return view
+    }()
+
+    private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
 
     var geniusInterviews: [GeniusInterview] = []
 
@@ -41,6 +57,12 @@ class MeetGeniusViewController: UIViewController {
         super.viewDidLoad()
 
         updateGeniusInterviews()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        refreshControl.endRefreshing()
     }
 
     private enum UpdateGeniusInterviewsMode {
@@ -70,6 +92,13 @@ class MeetGeniusViewController: UIViewController {
 
             SafeDispatch.async { [weak self] in
 
+                if case .Top = mode {
+                    self?.geniusInterviews = []
+                    self?.tableView.reloadData()
+                }
+
+                self?.tableView.tableFooterView = self?.fetchFailedFooterView
+
                 self?.isFetchingGeniusInterviews = false
 
                 finish?()
@@ -82,6 +111,12 @@ class MeetGeniusViewController: UIViewController {
         geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
+
+                if case .Top = mode where geniusInterviews.isEmpty {
+                    self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
+                } else {
+                    self?.tableView.tableFooterView = UIView()
+                }
 
                 guard let strongSelf = self else {
                     return
@@ -132,6 +167,17 @@ class MeetGeniusViewController: UIViewController {
                 finish?()
             }
         })
+    }
+
+    @objc private func refresh(sender: UIRefreshControl) {
+
+        meetGeniusShowView.getLatestGeniusInterviewBanner()
+
+        updateGeniusInterviews(mode: .Top) {
+            SafeDispatch.async {
+                sender.endRefreshing()
+            }
+        }
     }
 }
 
@@ -207,7 +253,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                 break
             }
 
-            println("load more feeds")
+            println("load more geniusInterviews")
 
             if !cell.isLoading {
                 cell.isLoading = true
@@ -218,6 +264,22 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                     cell?.isLoading = false
                 }
             })
+        }
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid Section")
+        }
+
+        switch section {
+
+        case .GeniusInterview:
+            return 105
+
+        case .LoadMore:
+            return 60
         }
     }
 

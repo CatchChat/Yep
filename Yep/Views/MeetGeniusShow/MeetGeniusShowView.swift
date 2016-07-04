@@ -45,15 +45,7 @@ class MeetGeniusShowView: UIView {
 
         makeUI()
 
-        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
-
-            self?.geniusInterviewBanner = geniusInterviewBanner
-
-            SafeDispatch.async { [weak self] in
-                let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf_setImageWithURL(imageURL)
-            }
-        })
+        getLatestGeniusInterviewBanner()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -75,31 +67,22 @@ class MeetGeniusShowView: UIView {
             NSLayoutConstraint.activateConstraints(constraintsH)
             NSLayoutConstraint.activateConstraints(constraintsV)
         }
+    }
 
-        /*
-        do {
-            showButton.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    func getLatestGeniusInterviewBanner() {
 
-            let stackView = UIStackView()
-            stackView.axis = .Vertical
-            stackView.spacing = 12
+        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
 
-            stackView.addArrangedSubview(showButton)
-            stackView.addArrangedSubview(titleLabel)
+            self?.geniusInterviewBanner = geniusInterviewBanner
 
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            addSubview(stackView)
-
-            let centerX = stackView.centerXAnchor.constraintEqualToAnchor(centerXAnchor)
-            let centerY = stackView.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
-        }
-         */
+            SafeDispatch.async { [weak self] in
+                let imageURL = geniusInterviewBanner.imageURL
+                self?.backgroundImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            }
+        })
     }
 
     @objc private func didTap(sender: UITapGestureRecognizer) {
-        println("tap MeetGeniusShowView")
 
         if let url = geniusInterviewBanner?.linkURL {
             tapAction?(url: url)

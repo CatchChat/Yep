@@ -15,13 +15,16 @@ class GeniusInterviewViewController: UIViewController {
 
     var geniusInterview: GeniusInterview!
 
+    private let actionViewHeight: CGFloat = 50
+
     lazy var webView: WKWebView = {
 
         let view = WKWebView()
 
         view.navigationDelegate = self
 
-        view.scrollView.contentInset.bottom = 50
+        view.scrollView.scrollEnabled = false
+        view.scrollView.contentInset.bottom = self.actionViewHeight
         view.scrollView.delegate = self
 
         return view
@@ -110,8 +113,8 @@ class GeniusInterviewViewController: UIViewController {
             view.addSubview(indicatorView)
 
             let centerX = indicatorView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
-            let centerY = indicatorView.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor)
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
+            let top = indicatorView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 64 + 120)
+            NSLayoutConstraint.activateConstraints([centerX, top])
         }
 
         do {
@@ -122,13 +125,15 @@ class GeniusInterviewViewController: UIViewController {
             let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
             let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
             self.actionViewTopConstraint = top
-            let height = actionView.heightAnchor.constraintEqualToConstant(50)
+            let height = actionView.heightAnchor.constraintEqualToConstant(actionViewHeight)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
 
         do {
             let request = NSURLRequest(URL: geniusInterview.url)
             webView.loadRequest(request)
+
+            indicatorView.startAnimating()
         }
 
         do {
@@ -172,9 +177,11 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
         indicatorView.startAnimating()
     }
 
-    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
 
         indicatorView.stopAnimating()
+
+        webView.scrollView.scrollEnabled = true
     }
 }
 
@@ -191,18 +198,15 @@ extension GeniusInterviewViewController: UIScrollViewDelegate {
         let scrollViewHeight = scrollView.bounds.height
         let scrollViewContentSizeHeight = scrollView.contentSize.height
 
-        //println("scrollViewContentOffsetY: \(scrollViewContentOffsetY)")
-        //println("scrollViewHeight: \(scrollViewHeight)")
-        //println("scrollViewContentSizeHeight: \(scrollViewContentSizeHeight)")
-
         let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
         if y > 0 {
-            UIView.animateWithDuration(0.25, animations: { [weak self] in
-                self?.actionViewTopConstraint?.constant = -50
+            let actionViewHeight = self.actionViewHeight
+            UIView.animateWithDuration(0.5, animations: { [weak self] in
+                self?.actionViewTopConstraint?.constant = -actionViewHeight
                 self?.view.layoutIfNeeded()
             })
         } else {
-            UIView.animateWithDuration(0.25, animations: { [weak self] in
+            UIView.animateWithDuration(0.5, animations: { [weak self] in
                 self?.actionViewTopConstraint?.constant = 0
                 self?.view.layoutIfNeeded()
             })
