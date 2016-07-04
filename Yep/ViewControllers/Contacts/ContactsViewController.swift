@@ -266,16 +266,13 @@ final class ContactsViewController: BaseViewController {
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
-            var profileUser: ProfileUser?
+
             if let user = sender as? User {
-                if user.userID != YepUserDefaults.userID.value {
-                    profileUser = .UserType(user)
-                }
+               vc.prepare(withUser: user)
                 
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                profileUser = .DiscoveredUserType(discoveredUser)
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
-            prepareProfileViewController(vc, withProfileUser: profileUser)
 
             recoverOriginalNavigationDelegate()
             
@@ -291,15 +288,6 @@ final class ContactsViewController: BaseViewController {
         default:
             break
         }
-    }
-
-    private func prepareProfileViewController(vc: ProfileViewController, withProfileUser profileUser: ProfileUser?) {
-
-        vc.profileUser = profileUser
-
-        vc.hidesBottomBarWhenPushed = true
-
-        vc.setBackButtonWithTitle()
     }
 }
 
@@ -543,8 +531,7 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
         let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
 
         let user = friends[indexPath.row]
-        let profileUser: ProfileUser = .UserType(user)
-        prepareProfileViewController(vc, withProfileUser: profileUser)
+        vc.prepare(withUser: user)
 
         recoverOriginalNavigationDelegate()
 
