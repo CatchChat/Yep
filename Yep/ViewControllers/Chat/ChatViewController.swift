@@ -105,6 +105,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
         case .SectionDate:
             let node = ChatSectionDateCellNode()
+            node.configure(withMessage: message)
             return node
 
         default:

@@ -15,10 +15,9 @@ class ChatSectionDateCellNode: ASCellNode {
 
     lazy var textNode: ASTextNode = {
         let node = ASTextNode()
-        node.contentMode = .Center
+        //node.contentMode = .Center
         return node
     }()
-
 
     override init() {
         super.init()
@@ -26,15 +25,30 @@ class ChatSectionDateCellNode: ASCellNode {
         addSubnode(textNode)
     }
 
+    func configure(withMessage message: Message) {
+
+        let text = message.sectionDateString
+        let attributes = [
+            NSForegroundColorAttributeName: UIColor.darkGrayColor(),
+            NSFontAttributeName: UIFont.systemFontOfSize(12),
+        ]
+        textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
+    }
+
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        return CGSize(width: constrainedSize.width, height: 20)
+        let textMaxWidth = constrainedSize.width - (15 + 15)
+        textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
+
+        let height = max(20, textNode.calculatedSize.height)
+        return CGSize(width: constrainedSize.width, height: height)
     }
 
     override func layout() {
         super.layout()
 
-        textNode.frame = bounds.insetBy(dx: 15, dy: 0)
+        textNode.frame = CGRect(x: 15, y: 0, width: calculatedSize.width - (15 + 15), height: calculatedSize.height)
+        //textNode.frame = CGRect(x: 15, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
     }
 }
 
