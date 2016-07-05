@@ -93,14 +93,25 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
-        let node = ChatLeftTextCellNode()
-
         guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
             fatalError()
         }
-        node.configure(withMessage: message)
-        
-        return node
+
+        guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
+            fatalError()
+        }
+
+        switch mediaType {
+
+        case .SectionDate:
+            let node = ChatSectionDateCellNode()
+            return node
+
+        default:
+            let node = ChatLeftTextCellNode()
+            node.configure(withMessage: message)
+            return node
+        }
     }
 }
 
