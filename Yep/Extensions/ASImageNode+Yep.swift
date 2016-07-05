@@ -22,7 +22,7 @@ extension ASImageNode {
         objc_setAssociatedObject(self, &avatarKeyAssociatedObject, avatarKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
-    func navi_setAvatar(avatar: Avatar, withFadeTransitionDuration fadeTransitionDuration: NSTimeInterval = 0) {
+    func navi_setAvatar(avatar: Navi.Avatar, withFadeTransitionDuration fadeTransitionDuration: NSTimeInterval = 0) {
 
         navi_setAvatarKey(avatar.key)
 
