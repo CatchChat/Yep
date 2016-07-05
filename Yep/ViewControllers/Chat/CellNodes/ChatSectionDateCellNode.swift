@@ -15,7 +15,7 @@ class ChatSectionDateCellNode: ASCellNode {
 
     lazy var textNode: ASTextNode = {
         let node = ASTextNode()
-        //node.contentMode = .Center
+        node.layerBacked = true
         return node
     }()
 
@@ -47,8 +47,9 @@ class ChatSectionDateCellNode: ASCellNode {
     override func layout() {
         super.layout()
 
-        textNode.frame = CGRect(x: 15, y: 0, width: calculatedSize.width - (15 + 15), height: calculatedSize.height)
-        //textNode.frame = CGRect(x: 15, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
+        let x = (calculatedSize.width - textNode.calculatedSize.width) / 2
+        let origin = CGPoint(x: x, y: 0)
+        textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
     }
 }
 
