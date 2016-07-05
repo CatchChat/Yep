@@ -573,7 +573,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         case Section.Conversation.rawValue:
             if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
 
-                #if STAGING
+                #if ASYNC_DISPLAY
                     let conversation = cell.conversation
                     if conversation.withFriend?.username == "init" || conversation.withFriend?.username == "nixzhu" {
                         performSegueWithIdentifier("showChat", sender: cell.conversation)
