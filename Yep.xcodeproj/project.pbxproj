@@ -348,6 +348,7 @@
 		50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */; };
 		50BAED811D2B6A040046B4AB /* ChatLeftTextCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */; };
 		50BAED831D2B8E2C0046B4AB /* ASImageNode+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */; };
+		50BAED851D2B94B40046B4AB /* ChatSectionDateCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1074,6 +1075,7 @@
 		50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCellNode.swift; path = CellNodes/ChatBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCellNode.swift; path = CellNodes/ChatLeftTextCellNode.swift; sourceTree = "<group>"; };
 		50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ASImageNode+Yep.swift"; path = "Extensions/ASImageNode+Yep.swift"; sourceTree = "<group>"; };
+		50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCellNode.swift; path = CellNodes/ChatSectionDateCellNode.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -3048,6 +3050,7 @@
 		50BAED7B1D2B57E70046B4AB /* CellNodes */ = {
 			isa = PBXGroup;
 			children = (
+				50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */,
 				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
 				50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */,
 			);
@@ -4794,6 +4797,7 @@
 				50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
 				50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */,
+				50BAED851D2B94B40046B4AB /* ChatSectionDateCellNode.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				5093C1AF1D1D13D000559217 /* PreviewDribbblePhoto.swift in Sources */,
 				50B3C95A1CC9BB2F00623E29 /* SearchActionRepresentation.swift in Sources */,
