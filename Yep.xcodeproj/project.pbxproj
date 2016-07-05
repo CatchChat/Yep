@@ -345,6 +345,7 @@
 		50B9C5E31D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */; };
 		50BAED791D2B4A4D0046B4AB /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BAED771D2B4A4D0046B4AB /* Chat.storyboard */; };
 		50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */; };
+		50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1068,6 +1069,7 @@
 		50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+MoreViewManager.swift"; path = "ViewControllers/Conversation/ConversationViewController+MoreViewManager.swift"; sourceTree = "<group>"; };
 		50BAED771D2B4A4D0046B4AB /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCellNode.swift; path = CellNodes/ChatBaseCellNode.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -3030,11 +3032,20 @@
 		50BAED761D2B4A4D0046B4AB /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				50BAED7B1D2B57E70046B4AB /* CellNodes */,
 				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
 				50BAED771D2B4A4D0046B4AB /* Chat.storyboard */,
 			);
 			name = Chat;
 			path = ViewControllers/Chat;
+			sourceTree = "<group>";
+		};
+		50BAED7B1D2B57E70046B4AB /* CellNodes */ = {
+			isa = PBXGroup;
+			children = (
+				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
+			);
+			name = CellNodes;
 			sourceTree = "<group>";
 		};
 		50C090A21ADE391900CC6389 /* AddSkills */ = {
@@ -4789,6 +4800,7 @@
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
+				50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */,
 				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
 				50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */,
 				50E392C21C22B9E400C0CECB /* FeedDribbbleShotCell.swift in Sources */,

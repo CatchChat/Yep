@@ -61,7 +61,7 @@ extension ChatViewController: ASCollectionDataSource, ASCollectionDelegate {
 
     func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
-        let node = ASCellNode()
+        let node = ChatBaseCellNode()
         node.backgroundColor = UIColor.yepTintColor()
         return node
     }
