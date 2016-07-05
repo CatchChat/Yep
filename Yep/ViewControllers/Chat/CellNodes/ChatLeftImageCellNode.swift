@@ -35,39 +35,15 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         self.user = message.fromFriend
 
-        let imageSize: CGSize
+        do {
+            let imageSize = message.fixedImageSize
 
-        if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
+            self.imageSize = imageSize
 
-            let aspectRatio = imageWidth / imageHeight
-
-            let realImagePreferredWidth = max(imagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-            let realImagePreferredHeight = max(imagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-            if aspectRatio >= 1 {
-                var size = CGSize(width: realImagePreferredWidth, height: ceil(realImagePreferredWidth / aspectRatio))
-                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
-
-                imageSize = size
-
-            } else {
-                var size = CGSize(width: realImagePreferredHeight * aspectRatio, height: realImagePreferredHeight)
-                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
-
-                imageSize = size
-            }
-
-        } else {
-            let size = CGSize(width: imagePreferredWidth, height: ceil(imagePreferredWidth / imagePreferredAspectRatio))
-
-            imageSize = size
+            imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
+                self?.imageNode.image = image
+            })
         }
-
-        self.imageSize = imageSize
-
-        imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
-            self?.imageNode.image = image
-        })
     }
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
