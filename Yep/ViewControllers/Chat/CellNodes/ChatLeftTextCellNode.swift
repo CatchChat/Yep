@@ -12,6 +12,11 @@ import AsyncDisplayKit
 
 class ChatLeftTextCellNode: ChatBaseCellNode {
 
+    static let textAttributes = [
+        NSForegroundColorAttributeName: UIColor.blackColor(),
+        NSFontAttributeName: UIFont.chatTextFont(),
+    ]
+
     lazy var textNode = ASTextNode()
 
     override init() {
@@ -27,11 +32,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
 
         do {
             let text = message.textContent
-            let attributes = [
-                NSForegroundColorAttributeName: UIColor.blackColor(),
-                NSFontAttributeName: UIFont.chatTextFont(),
-            ]
-            textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
+            textNode.attributedText = NSAttributedString(string: text, attributes: ChatLeftTextCellNode.textAttributes)
         }
     }
 
