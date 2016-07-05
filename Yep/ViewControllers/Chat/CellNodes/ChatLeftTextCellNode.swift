@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
-class ChatLeftTextCellNode: ChatBaseCellNode {
+class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
     static let textAttributes = [
         NSForegroundColorAttributeName: UIColor.blackColor(),
@@ -38,7 +38,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        let textMaxWidth = constrainedSize.width - (15 + 40 + 5 + 15)
+        let textMaxWidth = constrainedSize.width - (15 + ChatBaseCellNode.avatarSize.width + 5 + 15)
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
         let height = max(textNode.calculatedSize.height, ChatBaseCellNode.avatarSize.height)
@@ -49,7 +49,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
     override func layout() {
         super.layout()
 
-        textNode.frame = CGRect(x: 15 + 40 + 5, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
+        textNode.frame = CGRect(x: 15 + ChatBaseCellNode.avatarSize.width + 5, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
     }
 }
 

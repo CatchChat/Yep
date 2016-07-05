@@ -47,15 +47,5 @@ class ChatBaseCellNode: ASCellNode {
             tapAvatarAction?(user: user)
         }
     }
-
-    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
-
-        return CGSize(width: constrainedSize.width, height: ChatBaseCellNode.avatarSize.height)
-    }
-
-    override func layout() {
-        super.layout()
-
-        avatarImageNode.frame = CGRect(origin: CGPoint(x: 15, y: 0), size: ChatBaseCellNode.avatarSize)
-    }
 }
+
