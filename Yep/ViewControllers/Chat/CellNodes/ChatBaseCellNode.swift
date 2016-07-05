@@ -13,7 +13,14 @@ import AsyncDisplayKit
 
 class ChatBaseCellNode: ASCellNode {
 
-    var user: User?
+    var user: User? {
+        didSet {
+            if let user = user {
+                let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
+                //avatarImageNode.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+            }
+        }
+    }
     var tapAvatarAction: ((user: User) -> Void)?
 
     lazy var nameNode = ASTextNode()

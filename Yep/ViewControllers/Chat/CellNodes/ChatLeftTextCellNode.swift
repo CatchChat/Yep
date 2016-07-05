@@ -22,16 +22,34 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
         textNode.backgroundColor = UIColor.greenColor()
     }
 
+    func configure(withMessage message: Message, layoutCache: ChatTextCellLayoutCache) {
+
+        self.user = message.fromFriend
+
+        do {
+            let text = message.textContent
+            let attributes = [
+                NSForegroundColorAttributeName: UIColor.blackColor(),
+                NSFontAttributeName: UIFont.systemFontOfSize(17)
+            ]
+            textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
+        }
+    }
+
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        return CGSize(width: constrainedSize.width, height: 50)
+        let textMaxWidth = constrainedSize.width - (15 + 40 + 5 + 15)
+        textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
+
+        let height = max(textNode.calculatedSize.height, avatarImageNode.bounds.height)
+
+        return CGSize(width: constrainedSize.width, height: height)
     }
 
     override func layout() {
         super.layout()
 
-        avatarImageNode.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
-        textNode.frame = CGRect(x: 65, y: 0, width: 120, height: 40)
+        textNode.frame = CGRect(x: 15 + 40 + 5, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
     }
 }
 
