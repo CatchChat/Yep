@@ -94,12 +94,48 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
             return node
         }
 
-        switch mediaType {
+        guard let sender = message.fromFriend else {
 
-        default:
-            let node = ChatLeftTextCellNode()
-            node.configure(withMessage: message)
+            if message.blockedByRecipient {
+                // TODO:
+            }
+
+            let node = ChatSectionDateCellNode()
+            node.configure(withText: "🐌")
             return node
+        }
+
+        if sender.friendState != UserFriendState.Me.rawValue { // from Friend
+
+            switch mediaType {
+
+            case .Text:
+
+                let node = ChatLeftTextCellNode()
+                node.configure(withMessage: message)
+                return node
+
+            default:
+                let node = ChatLeftTextCellNode()
+                node.configure(withMessage: message)
+                return node
+            }
+
+        } else { // from Me
+
+            switch mediaType {
+
+            case .Text:
+
+                let node = ChatRightTextCellNode()
+                node.configure(withMessage: message)
+                return node
+
+            default:
+                let node = ChatRightTextCellNode()
+                node.configure(withMessage: message)
+                return node
+            }
         }
     }
 }
