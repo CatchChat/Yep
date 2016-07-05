@@ -22,7 +22,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
         textNode.backgroundColor = UIColor.greenColor()
     }
 
-    func configure(withMessage message: Message, layoutCache: ChatTextCellLayoutCache) {
+    func configure(withMessage message: Message) {
 
         self.user = message.fromFriend
 
@@ -30,7 +30,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
             let text = message.textContent
             let attributes = [
                 NSForegroundColorAttributeName: UIColor.blackColor(),
-                NSFontAttributeName: UIFont.systemFontOfSize(17)
+                NSFontAttributeName: UIFont.chatTextFont(),
             ]
             textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
         }
@@ -41,7 +41,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
         let textMaxWidth = constrainedSize.width - (15 + 40 + 5 + 15)
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
-        let height = max(textNode.calculatedSize.height, avatarImageNode.bounds.height)
+        let height = max(textNode.calculatedSize.height, ChatBaseCellNode.avatarSize.height)
 
         return CGSize(width: constrainedSize.width, height: height)
     }

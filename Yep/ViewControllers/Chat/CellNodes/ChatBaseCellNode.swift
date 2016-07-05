@@ -13,6 +13,8 @@ import AsyncDisplayKit
 
 class ChatBaseCellNode: ASCellNode {
 
+    static let avatarSize = CGSize(width: 40, height: 40)
+
     var user: User? {
         didSet {
             if let user = user {
@@ -48,12 +50,12 @@ class ChatBaseCellNode: ASCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        return CGSize(width: constrainedSize.width, height: 50)
+        return CGSize(width: constrainedSize.width, height: ChatBaseCellNode.avatarSize.height)
     }
 
     override func layout() {
         super.layout()
 
-        avatarImageNode.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
+        avatarImageNode.frame = CGRect(origin: CGPoint(x: 15, y: 0), size: ChatBaseCellNode.avatarSize)
     }
 }

@@ -14,6 +14,14 @@ import AsyncDisplayKit
 class ChatViewController: BaseViewController {
 
     var conversation: Conversation!
+    var realm: Realm!
+
+    lazy var messages: Results<Message> = {
+        return messagesOfConversation(self.conversation, inRealm: self.realm)
+    }()
+
+    let messagesBunchCount = 20
+    var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
         let node = ASTableNode()
@@ -58,6 +66,16 @@ class ChatViewController: BaseViewController {
             view.addSubview(tableNode.view)
             //view.addSubview(collectionNode.view)
         }
+
+        realm = conversation.realm!
+
+        do {
+            if messages.count >= messagesBunchCount {
+                displayedMessagesRange = NSRange(location: messages.count - messagesBunchCount, length: messagesBunchCount)
+            } else {
+                displayedMessagesRange = NSRange(location: 0, length: messages.count)
+            }
+        }
     }
 }
 
@@ -70,13 +88,18 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return 20
+        return displayedMessagesRange.length
     }
 
     func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
         let node = ChatLeftTextCellNode()
-        node.backgroundColor = UIColor.yepTintColor()
+
+        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
+            fatalError()
+        }
+        node.configure(withMessage: message)
+        
         return node
     }
 }
