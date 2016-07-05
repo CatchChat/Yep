@@ -361,6 +361,14 @@ final class ConversationsViewController: BaseViewController {
 
             recoverOriginalNavigationDelegate()
 
+        case "showChat":
+
+            let vc = segue.destinationViewController as! ChatViewController
+            let conversation = sender as! Conversation
+            vc.conversation = conversation
+
+            recoverOriginalNavigationDelegate()
+
         case "showProfile":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -564,7 +572,17 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.Conversation.rawValue:
             if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                performSegueWithIdentifier("showConversation", sender: cell.conversation)
+
+                #if ASYNC_DISPLAY
+                    let conversation = cell.conversation
+                    if conversation.withFriend?.username == "init" || conversation.withFriend?.username == "nixzhu" {
+                        performSegueWithIdentifier("showChat", sender: cell.conversation)
+                    } else {
+                        performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                    }
+                #else
+                    performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                #endif
             }
 
         default:
