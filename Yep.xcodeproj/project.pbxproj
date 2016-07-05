@@ -346,6 +346,7 @@
 		50BAED791D2B4A4D0046B4AB /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BAED771D2B4A4D0046B4AB /* Chat.storyboard */; };
 		50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */; };
 		50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */; };
+		50BAED811D2B6A040046B4AB /* ChatLeftTextCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1070,6 +1071,7 @@
 		50BAED771D2B4A4D0046B4AB /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
 		50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCellNode.swift; path = CellNodes/ChatBaseCellNode.swift; sourceTree = "<group>"; };
+		50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCellNode.swift; path = CellNodes/ChatLeftTextCellNode.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -3044,6 +3046,7 @@
 			isa = PBXGroup;
 			children = (
 				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
+				50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */,
 			);
 			name = CellNodes;
 			sourceTree = "<group>";
@@ -4794,6 +4797,7 @@
 				6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */,
 				5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */,
 				50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */,
+				50BAED811D2B6A040046B4AB /* ChatLeftTextCellNode.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
 				502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */,
 				50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */,

@@ -75,7 +75,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
-        let node = ChatBaseCellNode()
+        let node = ChatLeftTextCellNode()
         node.backgroundColor = UIColor.yepTintColor()
         return node
     }
