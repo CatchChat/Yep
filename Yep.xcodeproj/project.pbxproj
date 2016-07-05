@@ -350,6 +350,8 @@
 		50BAED831D2B8E2C0046B4AB /* ASImageNode+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */; };
 		50BAED851D2B94B40046B4AB /* ChatSectionDateCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */; };
 		50BAED871D2B98050046B4AB /* Message+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED861D2B98050046B4AB /* Message+Yep.swift */; };
+		50BAED891D2BA7D00046B4AB /* ChatRightTextCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED881D2BA7D00046B4AB /* ChatRightTextCellNode.swift */; };
+		50BAED8B1D2BA8380046B4AB /* ChatRightBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1078,6 +1080,8 @@
 		50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ASImageNode+Yep.swift"; path = "Extensions/ASImageNode+Yep.swift"; sourceTree = "<group>"; };
 		50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCellNode.swift; path = CellNodes/ChatSectionDateCellNode.swift; sourceTree = "<group>"; };
 		50BAED861D2B98050046B4AB /* Message+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Message+Yep.swift"; path = "Extensions/Message+Yep.swift"; sourceTree = "<group>"; };
+		50BAED881D2BA7D00046B4AB /* ChatRightTextCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCellNode.swift; path = CellNodes/ChatRightTextCellNode.swift; sourceTree = "<group>"; };
+		50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightBaseCellNode.swift; path = CellNodes/ChatRightBaseCellNode.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -3056,6 +3060,8 @@
 				50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */,
 				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
 				50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */,
+				50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */,
+				50BAED881D2BA7D00046B4AB /* ChatRightTextCellNode.swift */,
 			);
 			name = CellNodes;
 			sourceTree = "<group>";
@@ -4659,6 +4665,7 @@
 				5000AB161D1A6F3A00F2085F /* PreviewMessagePhoto.swift in Sources */,
 				33893E3B1CB7C62E00B276C1 /* NewFeedPreviewViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
+				50BAED8B1D2BA8380046B4AB /* ChatRightBaseCellNode.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
 				5064F6541B0B0E160089FAD4 /* AddFriendSearchCell.swift in Sources */,
 				504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */,
@@ -4814,6 +4821,7 @@
 				50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
+				50BAED891D2BA7D00046B4AB /* ChatRightTextCellNode.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */,
 				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,

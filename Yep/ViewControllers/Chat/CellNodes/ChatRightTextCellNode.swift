@@ -1,5 +1,5 @@
 //
-//  ChatLeftTextCellNode.swift
+//  ChatRightTextCellNode.swift
 //  Yep
 //
 //  Created by NIX on 16/7/5.
@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
-class ChatLeftTextCellNode: ChatBaseCellNode {
+class ChatRightTextCellNode: ChatRightBaseCellNode {
 
     lazy var textNode = ASTextNode()
 
@@ -30,7 +30,7 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
             let attributes = [
                 NSForegroundColorAttributeName: UIColor.blackColor(),
                 NSFontAttributeName: UIFont.chatTextFont(),
-            ]
+                ]
             textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
         }
     }
@@ -48,7 +48,10 @@ class ChatLeftTextCellNode: ChatBaseCellNode {
     override func layout() {
         super.layout()
 
-        textNode.frame = CGRect(x: 15 + 40 + 5, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
+        let x = calculatedSize.width - (textNode.calculatedSize.width + 5 + ChatBaseCellNode.avatarSize.width + 15)
+        let y: CGFloat = 0
+        let origin = CGPoint(x: x, y: y)
+        textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
     }
 }
 
