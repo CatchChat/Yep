@@ -48,7 +48,8 @@ class ChatSectionDateCellNode: ASCellNode {
         super.layout()
 
         let x = (calculatedSize.width - textNode.calculatedSize.width) / 2
-        let origin = CGPoint(x: x, y: 0)
+        let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
+        let origin = CGPoint(x: x, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
     }
 }
