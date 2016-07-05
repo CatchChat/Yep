@@ -35,6 +35,8 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         self.user = message.fromFriend
 
+        let imageSize: CGSize
+
         if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
 
             let aspectRatio = imageWidth / imageHeight
@@ -43,46 +45,29 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
             let realImagePreferredHeight = max(imagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
-
-                let width = min(realImagePreferredWidth, YepConfig.ChatCell.imageMaxWidth)
                 var size = CGSize(width: realImagePreferredWidth, height: ceil(realImagePreferredWidth / aspectRatio))
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
-                self.imageSize = size
-
-                imageNode.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
-                    self?.imageNode.image = image
-//                    SafeDispatch.async { [weak self] in
-//                        self?.loadingWithProgress(loadingProgress, image: image)
-//                    }
-                })
+                imageSize = size
 
             } else {
                 var size = CGSize(width: realImagePreferredHeight * aspectRatio, height: realImagePreferredHeight)
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
-                self.imageSize = size
-
-                imageNode.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
-                    self?.imageNode.image = image
-//                    SafeDispatch.async { [weak self] in
-//                        self?.loadingWithProgress(loadingProgress, image: image)
-//                    }
-                })
+                imageSize = size
             }
 
         } else {
             let size = CGSize(width: imagePreferredWidth, height: ceil(imagePreferredWidth / imagePreferredAspectRatio))
 
-            self.imageSize = size
-
-            imageNode.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
-                self?.imageNode.image = image
-//                    SafeDispatch.async { [weak self] in
-//                        self?.loadingWithProgress(loadingProgress, image: image)
-//                    }
-            })
+            imageSize = size
         }
+
+        self.imageSize = imageSize
+
+        imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
+            self?.imageNode.image = image
+        })
     }
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
