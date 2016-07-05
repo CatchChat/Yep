@@ -347,6 +347,7 @@
 		50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */; };
 		50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */; };
 		50BAED811D2B6A040046B4AB /* ChatLeftTextCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */; };
+		50BAED831D2B8E2C0046B4AB /* ASImageNode+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1072,6 +1073,7 @@
 		50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBaseCellNode.swift; path = CellNodes/ChatBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCellNode.swift; path = CellNodes/ChatLeftTextCellNode.swift; sourceTree = "<group>"; };
+		50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ASImageNode+Yep.swift"; path = "Extensions/ASImageNode+Yep.swift"; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -1918,6 +1920,7 @@
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* NSURL+Yep.swift */,
 				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
+				50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */,
 				508A084D1C166EBA000A3305 /* CLPlacemark+Yep.swift */,
 				50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */,
 				50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */,
@@ -4811,6 +4814,7 @@
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
 				50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */,
 				84385C481B85AC890071130D /* ShowStepMatchViewController.swift in Sources */,
+				50BAED831D2B8E2C0046B4AB /* ASImageNode+Yep.swift in Sources */,
 				50894D0C1AEE0177000981AF /* EditProfileColoredTitleCell.swift in Sources */,
 				5053AD501AF82A1700B3CBFA /* PickLocationCell.swift in Sources */,
 				50CB057E1CC5DC260024BE06 /* SearchedFeedVoiceCell.swift in Sources */,

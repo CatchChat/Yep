@@ -19,7 +19,7 @@ class ChatBaseCellNode: ASCellNode {
         didSet {
             if let user = user {
                 let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
-                //avatarImageNode.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
+                avatarImageNode.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
             }
         }
     }
