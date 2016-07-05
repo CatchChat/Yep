@@ -18,9 +18,18 @@ class ChatViewController: BaseViewController {
     lazy var collectionNode: ASCollectionNode = {
         let layout = ConversationLayout()
         let node = ASCollectionNode(collectionViewLayout: layout)
-        node.backgroundColor = UIColor.redColor()
+        node.backgroundColor = UIColor.lightGrayColor()
+
+        node.dataSource = self
+        node.delegate = self
+
         return node
     }()
+
+    deinit {
+        collectionNode.dataSource = nil
+        collectionNode.delegate = nil
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -36,21 +45,25 @@ class ChatViewController: BaseViewController {
             view.addSubview(collectionNode.view)
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension ChatViewController: ASCollectionDataSource, ASCollectionDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+        return 20
+    }
+
+    func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+
+        let node = ASCellNode()
+        node.backgroundColor = UIColor.yepTintColor()
+        return node
+    }
+}
+
