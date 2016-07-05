@@ -13,6 +13,11 @@ import AsyncDisplayKit
 
 class ChatSectionDateCellNode: ASCellNode {
 
+    static let textAttributes = [
+        NSForegroundColorAttributeName: UIColor.darkGrayColor(),
+        NSFontAttributeName: UIFont.systemFontOfSize(12),
+    ]
+
     lazy var textNode: ASTextNode = {
         let node = ASTextNode()
         node.layerBacked = true
@@ -28,11 +33,12 @@ class ChatSectionDateCellNode: ASCellNode {
     func configure(withMessage message: Message) {
 
         let text = message.sectionDateString
-        let attributes = [
-            NSForegroundColorAttributeName: UIColor.darkGrayColor(),
-            NSFontAttributeName: UIFont.systemFontOfSize(12),
-        ]
-        textNode.attributedText = NSAttributedString(string: text, attributes: attributes)
+        textNode.attributedText = NSAttributedString(string: text, attributes: ChatSectionDateCellNode.textAttributes)
+    }
+
+    func configure(withText text: String) {
+
+        textNode.attributedText = NSAttributedString(string: text, attributes: ChatSectionDateCellNode.textAttributes)
     }
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
