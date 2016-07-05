@@ -11,14 +11,30 @@ import YepKit
 import RealmSwift
 import AsyncDisplayKit
 
-class ChatViewController: ASViewController {
+class ChatViewController: BaseViewController {
 
     var conversation: Conversation!
+
+    lazy var collectionNode: ASCollectionNode = {
+        let layout = ConversationLayout()
+        let node = ASCollectionNode(collectionViewLayout: layout)
+        node.backgroundColor = UIColor.redColor()
+        return node
+    }()
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        collectionNode.frame = view.bounds
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        do {
+            //view.addSubnode(collectionNode)
+            view.addSubview(collectionNode.view)
+        }
     }
 
     override func didReceiveMemoryWarning() {
