@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import YepKit
+import RealmSwift
 import AsyncDisplayKit
 
 class ChatViewController: ASViewController {
+
+    var conversation: Conversation!
 
     override func viewDidLoad() {
         super.viewDidLoad()
