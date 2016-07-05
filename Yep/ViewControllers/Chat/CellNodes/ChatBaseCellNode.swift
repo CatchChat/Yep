@@ -24,13 +24,14 @@ class ChatBaseCellNode: ASCellNode {
         avatarImageView.backgroundColor = UIColor.redColor()
     }
 
+    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
+
+        return CGSize(width: constrainedSize.width, height: 50)
+    }
+
     override func layout() {
         super.layout()
 
         avatarImageView.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
-    }
-
-    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
-        return CGSize(width: 100, height: 50)
     }
 }
