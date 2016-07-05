@@ -12,6 +12,10 @@ import AsyncDisplayKit
 
 class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
+    let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
+    let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
+    let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
+
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
@@ -27,20 +31,21 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
     var imageSize: CGSize?
 
-    func configure(withMessage message: Message, messageImagePreferredWidth: CGFloat, messageImagePreferredHeight: CGFloat, messageImagePreferredAspectRatio: CGFloat) {
+    func configure(withMessage message: Message) {
 
         self.user = message.fromFriend
 
         if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
+
             let aspectRatio = imageWidth / imageHeight
 
-            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
+            let realImagePreferredWidth = max(imagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
+            let realImagePreferredHeight = max(imagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
 
             if aspectRatio >= 1 {
 
-                let width = min(messageImagePreferredWidth, YepConfig.ChatCell.imageMaxWidth)
-                var size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
+                let width = min(realImagePreferredWidth, YepConfig.ChatCell.imageMaxWidth)
+                var size = CGSize(width: realImagePreferredWidth, height: ceil(realImagePreferredWidth / aspectRatio))
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
                 self.imageSize = size
@@ -53,7 +58,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
                 })
 
             } else {
-                var size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
+                var size = CGSize(width: realImagePreferredHeight * aspectRatio, height: realImagePreferredHeight)
                 size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
 
                 self.imageSize = size
@@ -67,7 +72,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
             }
 
         } else {
-            let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
+            let size = CGSize(width: imagePreferredWidth, height: ceil(imagePreferredWidth / imagePreferredAspectRatio))
 
             self.imageSize = size
 
