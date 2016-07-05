@@ -343,6 +343,8 @@
 		50B9C5DF1D226B4500BCB8BD /* ConversationViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */; };
 		50B9C5E11D22719A00BCB8BD /* ConversationFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */; };
 		50B9C5E31D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */; };
+		50BAED791D2B4A4D0046B4AB /* Chat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50BAED771D2B4A4D0046B4AB /* Chat.storyboard */; };
+		50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1064,6 +1066,8 @@
 		50B9C5DE1D226B4500BCB8BD /* ConversationViewController+Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Views.swift"; path = "ViewControllers/Conversation/ConversationViewController+Views.swift"; sourceTree = "<group>"; };
 		50B9C5E01D22719A00BCB8BD /* ConversationFeed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationFeed.swift; path = ViewControllers/Conversation/ConversationFeed.swift; sourceTree = "<group>"; };
 		50B9C5E21D22795F00BCB8BD /* ConversationViewController+MoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+MoreViewManager.swift"; path = "ViewControllers/Conversation/ConversationViewController+MoreViewManager.swift"; sourceTree = "<group>"; };
+		50BAED771D2B4A4D0046B4AB /* Chat.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Chat.storyboard; sourceTree = "<group>"; };
+		50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -1806,6 +1810,7 @@
 				50008D2E1CAE0CD400245296 /* SearchConversations */,
 				50E34C0F1CB4B617007CAE80 /* SearchedUserMessages */,
 				503CAB441AC00CB900DFE830 /* Conversation */,
+				50BAED761D2B4A4D0046B4AB /* Chat */,
 				500EED9B1BF1B81600C6BABC /* MediaPreview */,
 				5053AD4B1AF772CE00B3CBFA /* PickLocation */,
 				5023DE2B1AB685BD00B3EE96 /* Contacts */,
@@ -3022,6 +3027,16 @@
 			name = ProgressViews;
 			sourceTree = "<group>";
 		};
+		50BAED761D2B4A4D0046B4AB /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
+				50BAED771D2B4A4D0046B4AB /* Chat.storyboard */,
+			);
+			name = Chat;
+			path = ViewControllers/Chat;
+			sourceTree = "<group>";
+		};
 		50C090A21ADE391900CC6389 /* AddSkills */ = {
 			isa = PBXGroup;
 			children = (
@@ -4180,6 +4195,7 @@
 				50894D0D1AEE0177000981AF /* EditProfileColoredTitleCell.xib in Resources */,
 				50DEE0471BEA030900015741 /* PodsHelpYep.storyboard in Resources */,
 				508C2AA51AD661B3002B8097 /* UserStateCell.xib in Resources */,
+				50BAED791D2B4A4D0046B4AB /* Chat.storyboard in Resources */,
 				508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */,
 				848806B11B789A2D000C5424 /* EditSkillCell.xib in Resources */,
 				50E114FD1ABC549300F13000 /* ContactsCell.xib in Resources */,
@@ -4760,6 +4776,7 @@
 				0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */,
 				50FE29CD1C4786AE0067CA03 /* FeedURLCell.swift in Sources */,
 				50894CF51AEA4A01000981AF /* SettingsUserCell.swift in Sources */,
+				50BAED7A1D2B4A4D0046B4AB /* ChatViewController.swift in Sources */,
 				84385C441B8592120071130D /* ShowStepGeniusViewController.swift in Sources */,
 				5093C1AF1D1D13D000559217 /* PreviewDribbblePhoto.swift in Sources */,
 				50B3C95A1CC9BB2F00623E29 /* SearchActionRepresentation.swift in Sources */,
