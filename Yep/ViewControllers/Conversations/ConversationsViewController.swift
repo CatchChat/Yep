@@ -575,7 +575,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 #if STAGING
                     let conversation = cell.conversation
-                    if conversation.withFriend?.username == "init" {
+                    if conversation.withFriend?.username == "init" || conversation.withFriend?.username == "nixzhu" {
                         performSegueWithIdentifier("showChat", sender: cell.conversation)
                     } else {
                         performSegueWithIdentifier("showConversation", sender: cell.conversation)

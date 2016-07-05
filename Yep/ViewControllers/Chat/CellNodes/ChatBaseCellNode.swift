@@ -13,15 +13,30 @@ import AsyncDisplayKit
 
 class ChatBaseCellNode: ASCellNode {
 
-    lazy var nameLabel = ASTextNode()
-    lazy var avatarImageView = ASImageNode()
+    var user: User?
+    var tapAvatarAction: ((user: User) -> Void)?
+
+    lazy var nameNode = ASTextNode()
+    lazy var avatarImageNode = ASImageNode()
 
     override init() {
         super.init()
 
-        //addSubnode(nameLabel)
-        addSubnode(avatarImageView)
-        avatarImageView.backgroundColor = UIColor.redColor()
+        //addSubnode(nameNode)
+        addSubnode(avatarImageNode)
+        avatarImageNode.backgroundColor = UIColor.redColor()
+
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatBaseCellNode.tapAvatar(_:)))
+        avatarImageNode.userInteractionEnabled = true
+        avatarImageNode.view.addGestureRecognizer(tapAvatar)
+    }
+
+    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
+        println("tapAvatar")
+
+        if let user = user {
+            tapAvatarAction?(user: user)
+        }
     }
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
@@ -32,6 +47,6 @@ class ChatBaseCellNode: ASCellNode {
     override func layout() {
         super.layout()
 
-        avatarImageView.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
+        avatarImageNode.frame = CGRect(x: 15, y: 0, width: 40, height: 40)
     }
 }
