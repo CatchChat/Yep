@@ -16,9 +16,9 @@ class PhotoDismissalInteractionController: NSObject {
 
     var shouldAnimateUsingAnimator = true
 
-    private let PhotoDismissalInteractionControllerPanDismissDistanceRatio: CGFloat = 50.0 / 667.0
-    private let PhotoDismissalInteractionControllerPanDismissMaximumDuration: CGFloat = 0.45
-    private let PhotoDismissalInteractionControllerReturnToCenterVelocityAnimationRatio: CGFloat = 0.00007
+    private let panDismissDistanceRatio: CGFloat = 50.0 / 667.0
+    private let panDismissMaximumDuration: CGFloat = 0.45
+    private let returnToCenterVelocityAnimationRatio: CGFloat = 0.00007
 
     func didPanWithPanGestureRecognizer(pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
 
@@ -64,13 +64,13 @@ class PhotoDismissalInteractionController: NSObject {
         }
 
         let velocityY = pan.velocityInView(pan.view).y
-        var animationDuration = (abs(velocityY) * PhotoDismissalInteractionControllerReturnToCenterVelocityAnimationRatio) + 0.2
+        var animationDuration = (abs(velocityY) * returnToCenterVelocityAnimationRatio) + 0.2
 
         let animationCurve: UIViewAnimationOptions = [.CurveEaseOut]
         var finalPageViewCenterPoint = anchorPoint
         var finalBackgroundAlpha: CGFloat = 1.0
 
-        let dismissDistance = PhotoDismissalInteractionControllerPanDismissDistanceRatio * fromView.bounds.height
+        let dismissDistance = panDismissDistanceRatio * fromView.bounds.height
         let isDismissing = abs(verticalDelta) > dismissDistance
 
         var didAnimateUsingAnimator = false
@@ -91,7 +91,7 @@ class PhotoDismissalInteractionController: NSObject {
                 finalPageViewCenterPoint = CGPoint(x: fromView.center.x, y: finalCenterY)
 
                 animationDuration = abs(finalPageViewCenterPoint.y - viewToPan.center.y) / abs(velocityY)
-                animationDuration = min(animationDuration, PhotoDismissalInteractionControllerPanDismissMaximumDuration)
+                animationDuration = min(animationDuration, panDismissMaximumDuration)
 
                 finalBackgroundAlpha = 0
             }
