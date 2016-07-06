@@ -1045,7 +1045,10 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
     switch type {
 
     case .groupCreate:
-        break
+
+        if let groupID = messageInfo["recipient_id"] as? String {
+            syncGroupWithGroupID(groupID)
+        }
 
     case .feedDelete:
 
