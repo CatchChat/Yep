@@ -30,6 +30,10 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    var previewTransitionViews: [UIView?]?
+    var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    var previewMessagePhotos: [PreviewMessagePhoto] = []
+
     deinit {
         tableNode.dataSource = nil
         tableNode.delegate = nil
@@ -127,8 +131,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 let node = ChatLeftImageCellNode()
                 node.configure(withMessage: message)
-                node.tapImageAction = {
-                    println("tapImageAction")
+                node.tapImageAction = { [weak self] imageNode in
+                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
                 }
                 return node
 
