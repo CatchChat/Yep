@@ -1004,6 +1004,7 @@ public enum OfflineJSONName: String {
 
     case Feeds
     case DiscoveredUsers
+    case GeniusInterviews
 }
 
 public class OfflineJSON: Object {

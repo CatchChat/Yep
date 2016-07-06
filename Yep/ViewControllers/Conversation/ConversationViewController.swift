@@ -591,18 +591,10 @@ final class ConversationViewController: BaseViewController {
                             reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
                         )
 
-                    }, completion: { success in
+                    }, completion: { [weak self] success in
                         println("sendText to friend: \(success)")
 
-                        // 发送过消息后才提示加好友
-                        SafeDispatch.async { [weak self] in
-                            if let strongSelf = self {
-                                if !strongSelf.isTryingShowFriendRequestView {
-                                    strongSelf.isTryingShowFriendRequestView = true
-                                    strongSelf.tryShowFriendRequestView()
-                                }
-                            }
-                        }
+                        self?.showFriendRequestViewIfNeed()
                     })
 
                 } else if let withGroup = self?.conversation.withGroup {
@@ -621,8 +613,10 @@ final class ConversationViewController: BaseViewController {
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                         }
 
-                    }, completion: { success in
+                    }, completion: { [weak self] success in
                         println("sendText to group: \(success)")
+
+                        self?.updateGroupToIncludeMe()
                     })
                 }
 
@@ -701,8 +695,10 @@ final class ConversationViewController: BaseViewController {
                                 reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
                             )
 
-                        }, completion: { success in
+                        }, completion: { [weak self] success in
                             println("send audio to friend: \(success)")
+
+                            self?.showFriendRequestViewIfNeed()
                         })
 
                     } else if let withGroup = self?.conversation.withGroup {
@@ -728,8 +724,10 @@ final class ConversationViewController: BaseViewController {
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
-                        }, completion: { success in
+                        }, completion: { [weak self] success in
                             println("send audio to group: \(success)")
+
+                            self?.updateGroupToIncludeMe()
                         })
                     }
                 }
@@ -1074,6 +1072,44 @@ final class ConversationViewController: BaseViewController {
                 strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
             }
         }, completion: { _ in })
+    }
+
+    // MARK: After send message
+
+    func showFriendRequestViewIfNeed() {
+
+        SafeDispatch.async { [weak self] in
+            if let strongSelf = self {
+                if !strongSelf.isTryingShowFriendRequestView {
+                    strongSelf.isTryingShowFriendRequestView = true
+                    strongSelf.tryShowFriendRequestView()
+                }
+            }
+        }
+    }
+
+    func updateGroupToIncludeMe() {
+
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            guard !strongSelf.conversation.invalidated else {
+                return
+            }
+
+            guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
+                return
+            }
+
+            _ = try? strongSelf.realm.write {
+                group.includeMe = true
+                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
+                strongSelf.moreViewManager.updateForGroupAffair()
+            }
+
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+        }
     }
 
     // MARK: Private
