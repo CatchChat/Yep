@@ -76,6 +76,8 @@ final class SearchContactsViewController: SegueViewController {
     }
 
     deinit {
+        searchBarCancelButtonEnabledObserver = nil
+
         println("deinit SearchContacts")
     }
 

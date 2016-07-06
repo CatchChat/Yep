@@ -280,6 +280,7 @@ final class SearchFeedsViewController: SegueViewController {
     // MARK: Life Circle
 
     deinit {
+        searchBarCancelButtonEnabledObserver = nil
         NSNotificationCenter.defaultCenter().removeObserver(self)
         println("deinit SearchFeeds")
     }
