@@ -305,7 +305,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.enableDoNotDisturb(failed: {
                             SafeDispatch.async {
                                 self?.doNotDisturbPeriod.isOn = false
-                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                             }
                         })
 
@@ -314,7 +314,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                             return
                         }
 
-                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
                         self?.disableDoNotDisturb(failed: {
                             SafeDispatch.async {
