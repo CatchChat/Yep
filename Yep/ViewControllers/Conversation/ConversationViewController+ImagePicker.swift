@@ -90,8 +90,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     reserveErrorMessage: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: "")
                 )
 
-            }, completion: { success -> Void in
-                println("sendImage to friend: \(success)")
+            }, completion: { [weak self] success in
+                println("send image to friend: \(success)")
+
+                self?.showFriendRequestViewIfNeed()
             })
 
         } else if let withGroup = conversation.withGroup {
@@ -120,8 +122,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
-            }, completion: { success in
-                println("sendImage to group: \(success)")
+            }, completion: { [weak self] success in
+                println("send image to group: \(success)")
+
+                self?.updateGroupToIncludeMe()
             })
         }
     }
@@ -229,8 +233,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                     reserveErrorMessage: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: "")
                 )
 
-            }, completion: { success in
-                println("sendVideo to friend: \(success)")
+            }, completion: { [weak self] success in
+                println("send video to friend: \(success)")
+
+                self?.showFriendRequestViewIfNeed()
             })
 
         } else if let withGroup = conversation.withGroup {
@@ -240,8 +246,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
-            }, completion: { success in
-                println("sendVideo to group: \(success)")
+            }, completion: { [weak self] success in
+                println("send video to group: \(success)")
+
+                self?.updateGroupToIncludeMe()
             })
         }
     }

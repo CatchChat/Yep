@@ -30,8 +30,10 @@ extension ConversationViewController {
                 reserveErrorMessage: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
             )
 
-        }, completion: { success -> Void in
-            println("sendLocation to friend: \(success)")
+        }, completion: { [weak self] success in
+            println("send location to friend: \(success)")
+
+            self?.showFriendRequestViewIfNeed()
         })
     }
 
@@ -48,8 +50,10 @@ extension ConversationViewController {
 
             YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
-        }, completion: { success -> Void in
-            println("sendLocation to group: \(success)")
+        }, completion: { [weak self] success in
+            println("send location to group: \(success)")
+
+            self?.updateGroupToIncludeMe()
         })
     }
 }

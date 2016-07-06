@@ -695,8 +695,10 @@ final class ConversationViewController: BaseViewController {
                                 reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
                             )
 
-                        }, completion: { success in
+                        }, completion: { [weak self] success in
                             println("send audio to friend: \(success)")
+
+                            self?.showFriendRequestViewIfNeed()
                         })
 
                     } else if let withGroup = self?.conversation.withGroup {
@@ -722,8 +724,10 @@ final class ConversationViewController: BaseViewController {
 
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
 
-                        }, completion: { success in
+                        }, completion: { [weak self] success in
                             println("send audio to group: \(success)")
+
+                            self?.updateGroupToIncludeMe()
                         })
                     }
                 }
