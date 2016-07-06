@@ -161,6 +161,7 @@
 		50512A8C1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */; };
 		50512A8E1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */; };
 		50512A901D2CFF4D007BBBF3 /* Previewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */; };
+		50512A921D2D00EB007BBBF3 /* ChatRightImageCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A911D2D00EB007BBBF3 /* ChatRightImageCellNode.swift */; };
 		505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243A71CD983160094B471 /* ChangeMobileViewController.swift */; };
 		505243AA1CD983390094B471 /* ChangeMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243A91CD983390094B471 /* ChangeMobile.storyboard */; };
 		505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */; };
@@ -911,6 +912,7 @@
 		50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatPromptCellNode.swift; path = CellNodes/ChatPromptCellNode.swift; sourceTree = "<group>"; };
 		50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Preview.swift"; sourceTree = "<group>"; };
 		50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Previewable.swift; path = Protocols/Previewable.swift; sourceTree = "<group>"; };
+		50512A911D2D00EB007BBBF3 /* ChatRightImageCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCellNode.swift; path = CellNodes/ChatRightImageCellNode.swift; sourceTree = "<group>"; };
 		505243A71CD983160094B471 /* ChangeMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeMobileViewController.swift; path = ViewControllers/ChangeMobile/ChangeMobileViewController.swift; sourceTree = "<group>"; };
 		505243A91CD983390094B471 /* ChangeMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ChangeMobile.storyboard; path = ViewControllers/ChangeMobile/ChangeMobile.storyboard; sourceTree = "<group>"; };
 		505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = VerifyChangedMobile.storyboard; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobile.storyboard; sourceTree = "<group>"; };
@@ -3076,6 +3078,7 @@
 				50BAED8E1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift */,
 				50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */,
 				50BAED881D2BA7D00046B4AB /* ChatRightTextCellNode.swift */,
+				50512A911D2D00EB007BBBF3 /* ChatRightImageCellNode.swift */,
 			);
 			name = CellNodes;
 			sourceTree = "<group>";
@@ -4707,6 +4710,7 @@
 				50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
+				50512A921D2D00EB007BBBF3 /* ChatRightImageCellNode.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,

@@ -152,6 +152,12 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                 node.configure(withMessage: message)
                 return node
 
+            case .Image:
+
+                let node = ChatRightImageCellNode()
+                node.configure(withMessage: message)
+                return node
+
             default:
                 let node = ChatRightTextCellNode()
                 node.configure(withMessage: message)
