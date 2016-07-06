@@ -158,6 +158,7 @@
 		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
 		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
+		50512A8C1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */; };
 		505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243A71CD983160094B471 /* ChangeMobileViewController.swift */; };
 		505243AA1CD983390094B471 /* ChangeMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243A91CD983390094B471 /* ChangeMobile.storyboard */; };
 		505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */; };
@@ -905,6 +906,7 @@
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
+		50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatPromptCellNode.swift; path = CellNodes/ChatPromptCellNode.swift; sourceTree = "<group>"; };
 		505243A71CD983160094B471 /* ChangeMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeMobileViewController.swift; path = ViewControllers/ChangeMobile/ChangeMobileViewController.swift; sourceTree = "<group>"; };
 		505243A91CD983390094B471 /* ChangeMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ChangeMobile.storyboard; path = ViewControllers/ChangeMobile/ChangeMobile.storyboard; sourceTree = "<group>"; };
 		505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = VerifyChangedMobile.storyboard; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobile.storyboard; sourceTree = "<group>"; };
@@ -3062,6 +3064,7 @@
 			isa = PBXGroup;
 			children = (
 				50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */,
+				50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */,
 				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
 				50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */,
 				50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */,
@@ -4826,6 +4829,7 @@
 				50BAED811D2B6A040046B4AB /* ChatLeftTextCellNode.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
 				502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */,
+				50512A8C1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift in Sources */,
 				50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
