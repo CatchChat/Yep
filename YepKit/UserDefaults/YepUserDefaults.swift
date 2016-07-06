@@ -159,29 +159,53 @@ final public class YepUserDefaults {
 
     public class func cleanAllUserDefaults() {
 
-        v1AccessToken.removeAllListeners()
-        userID.removeAllListeners()
-        nickname.removeAllListeners()
-        introduction.removeAllListeners()
-        avatarURLString.removeAllListeners()
-        badge.removeAllListeners()
-        blogURLString.removeAllListeners()
-        blogTitle.removeAllListeners()
-        pusherID.removeAllListeners()
-        admin.removeAllListeners()
-        areaCode.removeAllListeners()
-        mobile.removeAllListeners()
-        discoveredUserSortStyle.removeAllListeners()
-        feedSortStyle.removeAllListeners()
-        latitudeShift.removeAllListeners()
-        longitudeShift.removeAllListeners()
-        userCoordinateLatitude.removeAllListeners()
-        userCoordinateLongitude.removeAllListeners()
-        userLocationName.removeAllListeners()
-        syncedConversations.removeAllListeners()
-        appLaunchCount.removeAllListeners()
-        tabBarItemTextEnabled.removeAllListeners()
+        do {
+            v1AccessToken.removeAllListeners()
+            userID.removeAllListeners()
+            nickname.removeAllListeners()
+            introduction.removeAllListeners()
+            avatarURLString.removeAllListeners()
+            badge.removeAllListeners()
+            blogURLString.removeAllListeners()
+            blogTitle.removeAllListeners()
+            pusherID.removeAllListeners()
+            admin.removeAllListeners()
+            areaCode.removeAllListeners()
+            mobile.removeAllListeners()
+            discoveredUserSortStyle.removeAllListeners()
+            feedSortStyle.removeAllListeners()
+            latitudeShift.removeAllListeners()
+            longitudeShift.removeAllListeners()
+            userCoordinateLatitude.removeAllListeners()
+            userCoordinateLongitude.removeAllListeners()
+            userLocationName.removeAllListeners()
+            syncedConversations.removeAllListeners()
+            appLaunchCount.removeAllListeners()
+            tabBarItemTextEnabled.removeAllListeners()
+        }
 
+        do { // Manually reset
+            YepUserDefaults.v1AccessToken.value = nil
+            YepUserDefaults.userID.value = nil
+            YepUserDefaults.nickname.value = nil
+            YepUserDefaults.introduction.value = nil
+            YepUserDefaults.badge.value = nil
+            YepUserDefaults.blogURLString.value = nil
+            YepUserDefaults.blogTitle.value = nil
+            YepUserDefaults.pusherID.value = nil
+            YepUserDefaults.admin.value = nil
+            YepUserDefaults.areaCode.value = nil
+            YepUserDefaults.mobile.value = nil
+            YepUserDefaults.discoveredUserSortStyle.value = nil
+            YepUserDefaults.feedSortStyle.value = nil
+            // No reset Location related
+            YepUserDefaults.syncedConversations.value = false
+            YepUserDefaults.appLaunchCount.value = 0
+            YepUserDefaults.tabBarItemTextEnabled.value = nil
+            defaults.synchronize()
+        }
+
+        /*
         // reset suite
 
         let dict = defaults.dictionaryRepresentation()
@@ -196,6 +220,7 @@ final public class YepUserDefaults {
         let standardUserDefaults = NSUserDefaults.standardUserDefaults()
         standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
         standardUserDefaults.synchronize()
+         */
     }
 
     public class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
