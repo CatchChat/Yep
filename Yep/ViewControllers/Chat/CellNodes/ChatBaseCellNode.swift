@@ -26,7 +26,13 @@ class ChatBaseCellNode: ASCellNode {
     var tapAvatarAction: ((user: User) -> Void)?
 
     lazy var nameNode = ASTextNode()
-    lazy var avatarImageNode = ASImageNode()
+    lazy var avatarImageNode: ASImageNode = {
+        let node = ASImageNode()
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatBaseCellNode.tapAvatar(_:)))
+        node.userInteractionEnabled = true
+        node.view.addGestureRecognizer(tapAvatar)
+        return node
+    }()
 
     override init() {
         super.init()
@@ -34,10 +40,6 @@ class ChatBaseCellNode: ASCellNode {
         //addSubnode(nameNode)
         addSubnode(avatarImageNode)
         avatarImageNode.backgroundColor = UIColor.redColor()
-
-        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatBaseCellNode.tapAvatar(_:)))
-        avatarImageNode.userInteractionEnabled = true
-        avatarImageNode.view.addGestureRecognizer(tapAvatar)
     }
 
     @objc private func tapAvatar(sender: UITapGestureRecognizer) {

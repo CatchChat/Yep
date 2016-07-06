@@ -12,6 +12,8 @@ import AsyncDisplayKit
 
 class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
+    var tapImageAction: (() -> Void)?
+
     let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
     let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
     let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
@@ -19,8 +21,17 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
+
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatLeftImageCellNode.tapImage(_:)))
+        node.userInteractionEnabled = true
+        node.view.addGestureRecognizer(tapAvatar)
+        
         return node
     }()
+
+    @objc private func tapImage(sender: UITapGestureRecognizer) {
+        tapImageAction?()
+    }
 
     override init() {
         super.init()

@@ -127,6 +127,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 let node = ChatLeftImageCellNode()
                 node.configure(withMessage: message)
+                node.tapImageAction = {
+                    println("tapImageAction")
+                }
                 return node
 
             default:
