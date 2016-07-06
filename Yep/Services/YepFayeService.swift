@@ -194,8 +194,7 @@ extension YepFayeService {
                     
                     guard let
                         messageInfo = messageInfo["message"] as? JSONDictionary,
-                        messageID = messageInfo["id"] as? String
-                        else {
+                        messageID = messageInfo["id"] as? String else {
                             break
                     }
                     
