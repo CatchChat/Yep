@@ -372,7 +372,6 @@ extension FayeClient {
                 sendBayeuxSubscribeMessageWithChannel(channel)
             }
         }
-
     }
 
     @objc private func reconnectTimer(timer: NSTimer) {
