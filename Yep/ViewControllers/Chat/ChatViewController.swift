@@ -107,6 +107,12 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
         if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
+            if message.deletedByCreator {
+                let node = ChatSectionDateCellNode()
+                node.configure(withText: "Recalled by creater.")
+                return node
+            }
+
             switch mediaType {
 
             case .Text:
