@@ -156,6 +156,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 let node = ChatRightImageCellNode()
                 node.configure(withMessage: message)
+                node.tapImageAction = { [weak self] imageNode in
+                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                }
                 return node
 
             default:

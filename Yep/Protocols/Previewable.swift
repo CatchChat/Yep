@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AsyncDisplayKit
 
 protocol Previewable {
 
@@ -15,6 +14,13 @@ protocol Previewable {
 }
 
 extension ChatLeftImageCellNode: Previewable {
+
+    var transitionView: UIView {
+        return imageNode.view
+    }
+}
+
+extension ChatRightImageCellNode: Previewable {
 
     var transitionView: UIView {
         return imageNode.view
