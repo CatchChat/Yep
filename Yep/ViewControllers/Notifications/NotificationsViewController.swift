@@ -296,6 +296,10 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                     let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
 
                     if isOn {
+                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 1 else {
+                            return
+                        }
+
                         self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
                         self?.enableDoNotDisturb(failed: {
@@ -306,6 +310,10 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         })
 
                     } else {
+                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 2 else {
+                            return
+                        }
+
                         self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
 
                         self?.disableDoNotDisturb(failed: {
