@@ -137,6 +137,8 @@ final class SearchConversationsViewController: SegueViewController {
     }
 
     deinit {
+        searchBarCancelButtonEnabledObserver = nil
+        
         println("deinit SearchConversations")
     }
 
