@@ -1053,23 +1053,7 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
 
         if userID == YepUserDefaults.userID.value {
             if let groupID = messageInfo["recipient_id"] as? String {
-
-                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
-
-                    guard let realm = try? Realm() else {
-                        return
-                    }
-
-                    realm.beginWrite()
-                    syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
-                    _ = try? realm.commitWrite()
-
-                    delay(0.5) {
-                        SafeDispatch.async {
-                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
-                        }
-                    }
-                })
+                syncGroupWithGroupID(groupID)
             }
         }
 
@@ -1078,6 +1062,26 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
     }
 
     return true
+}
+
+public func syncGroupWithGroupID(groupID: String) {
+
+    groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        realm.beginWrite()
+        syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+        _ = try? realm.commitWrite()
+
+        delay(0.5) {
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            }
+        }
+    })
 }
 
 public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
@@ -1186,24 +1190,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                         
                                         // 若提及我，才同步group进而得到feed
                                         if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
-                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
-                                                dispatch_async(realmQueue) {
-
-                                                    guard let realm = try? Realm() else {
-                                                        return
-                                                    }
-
-                                                    realm.beginWrite()
-                                                    syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
-                                                    _ = try? realm.commitWrite()
-
-                                                    delay(0.5) {
-                                                        SafeDispatch.async {
-                                                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
-                                                        }
-                                                    }
-                                                }
-                                            })
+                                            syncGroupWithGroupID(groupID)
                                         }
                                     }
                                 }
