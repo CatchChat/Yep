@@ -9,6 +9,7 @@
 import UIKit
 import YepKit
 import YepNetworking
+import RealmSwift
 
 class MeetGeniusViewController: UIViewController {
 
@@ -56,7 +57,18 @@ class MeetGeniusViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        updateGeniusInterviews()
+        do {
+            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.GeniusInterviews, inRealm: realm) {
+                if let data = offlineJSON.JSON {
+                    if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
+                        let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
+                        self.geniusInterviews = geniusInterviews
+                    }
+                }
+            }
+
+            updateGeniusInterviews()
+        }
     }
 
     override func viewDidAppear(animated: Bool) {
