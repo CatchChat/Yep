@@ -621,27 +621,10 @@ final class ConversationViewController: BaseViewController {
                             YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
                         }
 
-                    }, completion: { success in
+                    }, completion: { [weak self] success in
                         println("sendText to group: \(success)")
 
-                        SafeDispatch.async { [weak self] in
-                            guard let strongSelf = self else {
-                                return
-                            }
-                            guard !strongSelf.conversation.invalidated else {
-                                return
-                            }
-
-                            guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
-                                return
-                            }
-
-                            _ = try? strongSelf.realm.write {
-                                group.includeMe = true
-                                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                                strongSelf.moreViewManager.updateForGroupAffair()
-                            }
-                        }
+                        self?.updateGroupToIncludeMe()
                     })
                 }
 
@@ -1093,6 +1076,30 @@ final class ConversationViewController: BaseViewController {
                 strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
             }
         }, completion: { _ in })
+    }
+
+    // MARK: After send message
+
+    func updateGroupToIncludeMe() {
+
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            guard !strongSelf.conversation.invalidated else {
+                return
+            }
+
+            guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
+                return
+            }
+
+            _ = try? strongSelf.realm.write {
+                group.includeMe = true
+                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
+                strongSelf.moreViewManager.updateForGroupAffair()
+            }
+        }
     }
 
     // MARK: Private

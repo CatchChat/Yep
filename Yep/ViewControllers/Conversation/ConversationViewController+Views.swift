@@ -317,20 +317,10 @@ extension ConversationViewController {
                 }
 
                 self?.subscribeView.subscribeAction = { [weak self] in
-                    joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                    joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                         println("subscribe OK")
 
-                        SafeDispatch.async { [weak self] in
-                            if let strongSelf = self {
-                                if !group.invalidated {
-                                    let _ = try? strongSelf.realm.write {
-                                        group.includeMe = true
-                                        group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                                        strongSelf.moreViewManager.updateForGroupAffair()
-                                    }
-                                }
-                            }
-                        }
+                        self?.updateGroupToIncludeMe()
                     })
                 }
 
