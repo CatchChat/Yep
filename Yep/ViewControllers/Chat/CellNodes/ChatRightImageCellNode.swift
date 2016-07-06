@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
-class ChatRightImageCellNode: ChatLeftBaseCellNode {
+class ChatRightImageCellNode: ChatRightBaseCellNode {
 
     var tapImageAction: ((imageNode: ChatRightImageCellNode) -> Void)?
 
