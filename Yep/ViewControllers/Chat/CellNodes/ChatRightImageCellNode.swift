@@ -1,8 +1,8 @@
 //
-//  ChatLeftImageCellNode.swift
+//  ChatRightImageCellNode.swift
 //  Yep
 //
-//  Created by NIX on 16/7/5.
+//  Created by NIX on 16/7/6.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
-class ChatLeftImageCellNode: ChatLeftBaseCellNode {
+class ChatRightImageCellNode: ChatRightBaseCellNode {
 
-    var tapImageAction: ((imageNode: ChatLeftImageCellNode) -> Void)?
+    var tapImageAction: ((imageNode: ChatRightImageCellNode) -> Void)?
 
     let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
     let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
@@ -22,10 +22,10 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
 
-        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatLeftImageCellNode.tapImage(_:)))
+        let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatRightImageCellNode.tapImage(_:)))
         node.userInteractionEnabled = true
         node.view.addGestureRecognizer(tapAvatar)
-        
+
         return node
     }()
 
@@ -51,7 +51,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
             self.imageSize = imageSize
 
-            imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
+            imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Right, completion: { [weak self] loadingProgress, image in
                 self?.imageNode.image = image
             })
         }
@@ -67,10 +67,10 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     override func layout() {
         super.layout()
 
-        let x = 15 + ChatBaseCellNode.avatarSize.width + 5
+        let size = self.imageSize ?? CGSize(width: 40, height: 40)
+        let x = calculatedSize.width - (size.width + 5 + ChatBaseCellNode.avatarSize.width + 15)
         let y: CGFloat = 0
         let origin = CGPoint(x: x, y: y)
-        let size = self.imageSize ?? CGSize(width: 40, height: 40)
         imageNode.frame = CGRect(origin: origin, size: size)
     }
 }

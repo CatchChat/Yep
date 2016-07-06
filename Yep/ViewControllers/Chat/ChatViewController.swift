@@ -30,6 +30,10 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    var previewTransitionViews: [UIView?]?
+    var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    var previewMessagePhotos: [PreviewMessagePhoto] = []
+
     deinit {
         tableNode.dataSource = nil
         tableNode.delegate = nil
@@ -97,7 +101,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         guard let sender = message.fromFriend else {
 
             if message.blockedByRecipient {
-                // TODO:
+                let node = ChatPromptCellNode()
+                node.configure(withMessage: message, promptType: .BlockedByRecipient)
+                return node
             }
 
             let node = ChatSectionDateCellNode()
@@ -106,6 +112,12 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         }
 
         if sender.friendState != UserFriendState.Me.rawValue { // from Friend
+
+            if message.deletedByCreator {
+                let node = ChatPromptCellNode()
+                node.configure(withMessage: message, promptType: .RecalledMessage)
+                return node
+            }
 
             switch mediaType {
 
@@ -119,6 +131,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 let node = ChatLeftImageCellNode()
                 node.configure(withMessage: message)
+                node.tapImageAction = { [weak self] imageNode in
+                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                }
                 return node
 
             default:
@@ -135,6 +150,15 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 let node = ChatRightTextCellNode()
                 node.configure(withMessage: message)
+                return node
+
+            case .Image:
+
+                let node = ChatRightImageCellNode()
+                node.configure(withMessage: message)
+                node.tapImageAction = { [weak self] imageNode in
+                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                }
                 return node
 
             default:
