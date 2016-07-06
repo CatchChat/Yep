@@ -3928,6 +3928,20 @@ public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, fail
     let parse: JSONDictionary -> [GeniusInterview]? = { data in
         //println("GeniusInterview: \(data)")
 
+        if number == nil {
+            if let realm = try? Realm() {
+                if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
+
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.GeniusInterviews.rawValue, data: offlineData)
+
+                    let _ = try? realm.write {
+                        realm.add(offlineJSON, update: true)
+                        println("offline geniusInterviews")
+                    }
+                }
+            }
+        }
+
         if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
 
             let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
