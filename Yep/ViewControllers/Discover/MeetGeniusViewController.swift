@@ -10,6 +10,7 @@ import UIKit
 import YepKit
 import YepNetworking
 import RealmSwift
+import Ruler
 
 class MeetGeniusViewController: UIViewController {
 
@@ -119,7 +120,7 @@ class MeetGeniusViewController: UIViewController {
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
         }
 
-        let count = 10
+        let count: Int = Ruler.UniversalHorizontal(10, 12, 15, 20, 25).value
         geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
