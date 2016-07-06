@@ -97,7 +97,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         guard let sender = message.fromFriend else {
 
             if message.blockedByRecipient {
-                // TODO:
+                let node = ChatPromptCellNode()
+                node.configure(withMessage: message, promptType: .BlockedByRecipient)
+                return node
             }
 
             let node = ChatSectionDateCellNode()
@@ -108,8 +110,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
             if message.deletedByCreator {
-                let node = ChatSectionDateCellNode()
-                node.configure(withText: "Recalled by creater.")
+                let node = ChatPromptCellNode()
+                node.configure(withMessage: message, promptType: .RecalledMessage)
                 return node
             }
 

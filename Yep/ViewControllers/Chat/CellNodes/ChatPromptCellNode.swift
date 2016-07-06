@@ -23,18 +23,24 @@ class ChatPromptCellNode: ASCellNode {
         NSFontAttributeName: UIFont.systemFontOfSize(12),
     ]
 
+    lazy var bubbleImageNode: ASImageNode = {
+        let node = ASImageNode()
+        let image = UIImage(named: "skill_bubble")?.imageWithRenderingMode(.AlwaysTemplate)
+        let stretchedImage = image?.resizableImageWithCapInsets(UIEdgeInsets(top: 0.0, left: 13.0, bottom: 0.0, right: 12.0), resizingMode: .Stretch)
+        node.image = stretchedImage
+        return node
+    }()
+
     lazy var textNode: ASTextNode = {
         let node = ASTextNode()
         node.layerBacked = true
-        node.clipsToBounds = true
-        node.cornerRadius = 5
-        node.backgroundColor = UIColor(white: 0.95, alpha: 1.0)
         return node
     }()
 
     override init() {
         super.init()
 
+        addSubnode(bubbleImageNode)
         addSubnode(textNode)
     }
 
@@ -56,7 +62,7 @@ class ChatPromptCellNode: ASCellNode {
         let textMaxWidth = constrainedSize.width - (15 + 15)
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
-        let height = max(20, textNode.calculatedSize.height)
+        let height = max(24, textNode.calculatedSize.height)
         return CGSize(width: constrainedSize.width, height: height)
     }
 
@@ -67,6 +73,7 @@ class ChatPromptCellNode: ASCellNode {
         let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
         let origin = CGPoint(x: x, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
+        bubbleImageNode.frame = CGRect(x: x - 5, y: 0, width: textNode.calculatedSize.width + (5 + 5), height: calculatedSize.height)
     }
 }
 
