@@ -591,18 +591,10 @@ final class ConversationViewController: BaseViewController {
                             reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
                         )
 
-                    }, completion: { success in
+                    }, completion: { [weak self] success in
                         println("sendText to friend: \(success)")
 
-                        // 发送过消息后才提示加好友
-                        SafeDispatch.async { [weak self] in
-                            if let strongSelf = self {
-                                if !strongSelf.isTryingShowFriendRequestView {
-                                    strongSelf.isTryingShowFriendRequestView = true
-                                    strongSelf.tryShowFriendRequestView()
-                                }
-                            }
-                        }
+                        self?.showFriendRequestViewIfNeed()
                     })
 
                 } else if let withGroup = self?.conversation.withGroup {
@@ -1079,6 +1071,18 @@ final class ConversationViewController: BaseViewController {
     }
 
     // MARK: After send message
+
+    func showFriendRequestViewIfNeed() {
+
+        SafeDispatch.async { [weak self] in
+            if let strongSelf = self {
+                if !strongSelf.isTryingShowFriendRequestView {
+                    strongSelf.isTryingShowFriendRequestView = true
+                    strongSelf.tryShowFriendRequestView()
+                }
+            }
+        }
+    }
 
     func updateGroupToIncludeMe() {
 
