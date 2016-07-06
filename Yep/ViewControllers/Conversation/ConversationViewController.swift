@@ -1107,6 +1107,8 @@ final class ConversationViewController: BaseViewController {
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
                 strongSelf.moreViewManager.updateForGroupAffair()
             }
+
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
         }
     }
 
