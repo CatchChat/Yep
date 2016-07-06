@@ -1010,12 +1010,8 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
         return false
     }
 
-    switch type {
+    func tryDeleteGroup(totally totally: Bool = false) {
 
-    case .groupCreate:
-        break
-
-    case .feedDelete:
         if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
 
             if let feedID = group.withFeed?.feedID {
@@ -1024,7 +1020,7 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
 
             // 有关联的 Feed 时就标记，不然删除
 
-            if let feed = group.withFeed {
+            if !totally, let feed = group.withFeed {
 
                 if group.includeMe {
 
@@ -1044,6 +1040,16 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
+    }
+
+    switch type {
+
+    case .groupCreate:
+        break
+
+    case .feedDelete:
+
+         tryDeleteGroup()
 
     case .groupAddUser:
 
@@ -1058,7 +1064,14 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
         }
 
     case .groupDeleteUser:
-        break
+
+        guard let userID = actionInfo["user_id"] as? String else {
+            break
+        }
+
+        if userID == YepUserDefaults.userID.value {
+            tryDeleteGroup(totally: true)
+        }
     }
 
     return true
