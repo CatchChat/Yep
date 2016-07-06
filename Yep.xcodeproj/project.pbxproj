@@ -160,6 +160,7 @@
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
 		50512A8C1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */; };
 		50512A8E1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */; };
+		50512A901D2CFF4D007BBBF3 /* Previewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */; };
 		505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505243A71CD983160094B471 /* ChangeMobileViewController.swift */; };
 		505243AA1CD983390094B471 /* ChangeMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243A91CD983390094B471 /* ChangeMobile.storyboard */; };
 		505243AD1CD9905C0094B471 /* VerifyChangedMobile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */; };
@@ -909,6 +910,7 @@
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
 		50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatPromptCellNode.swift; path = CellNodes/ChatPromptCellNode.swift; sourceTree = "<group>"; };
 		50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Preview.swift"; sourceTree = "<group>"; };
+		50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Previewable.swift; path = Protocols/Previewable.swift; sourceTree = "<group>"; };
 		505243A71CD983160094B471 /* ChangeMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeMobileViewController.swift; path = ViewControllers/ChangeMobile/ChangeMobileViewController.swift; sourceTree = "<group>"; };
 		505243A91CD983390094B471 /* ChangeMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = ChangeMobile.storyboard; path = ViewControllers/ChangeMobile/ChangeMobile.storyboard; sourceTree = "<group>"; };
 		505243AC1CD9905C0094B471 /* VerifyChangedMobile.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = VerifyChangedMobile.storyboard; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobile.storyboard; sourceTree = "<group>"; };
@@ -3302,6 +3304,7 @@
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
 				50066AF91D0FAECA00EF1E0D /* Reusable.swift */,
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
+				50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4837,6 +4840,7 @@
 				50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
+				50512A901D2CFF4D007BBBF3 /* Previewable.swift in Sources */,
 				50BAED891D2BA7D00046B4AB /* ChatRightTextCellNode.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */,
