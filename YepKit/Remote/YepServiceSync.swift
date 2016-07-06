@@ -1046,7 +1046,32 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
         }
 
     case .groupAddUser:
-        break
+
+        guard let userID = actionInfo["user_id"] as? String else {
+            break
+        }
+
+        if userID == YepUserDefaults.userID.value {
+            if let groupID = messageInfo["recipient_id"] as? String {
+
+                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+                    syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+                    _ = try? realm.commitWrite()
+
+                    delay(0.5) {
+                        SafeDispatch.async {
+                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                        }
+                    }
+                })
+            }
+        }
 
     case .groupDeleteUser:
         break
