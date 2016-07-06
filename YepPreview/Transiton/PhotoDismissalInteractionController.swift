@@ -27,7 +27,7 @@ class PhotoDismissalInteractionController: NSObject {
         }
 
         let translatedPanGesturePoint = pan.translationInView(fromView)
-        let newCenterPoint = CGPoint(x: anchorPoint.x + translatedPanGesturePoint.x, y: anchorPoint.y + translatedPanGesturePoint.y)
+        let newCenterPoint = CGPoint(x: anchorPoint.x, y: anchorPoint.y + translatedPanGesturePoint.y)
 
         let viewToPan = viewToPan
         viewToPan.center = newCenterPoint
