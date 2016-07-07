@@ -22,9 +22,9 @@ class LeftBubbleNode: ASDisplayNode {
         do {
             let path = UIBezierPath()
             let arrowPoint = CGPoint(x: 0, y: 20)
-            let topPoint = CGPoint(x: 10, y: 10)
+            let topPoint = CGPoint(x: 11, y: 10)
             let topControlPoint = CGPoint(x: 7, y: 20)
-            let bottomPoint = CGPoint(x: 10, y: 30)
+            let bottomPoint = CGPoint(x: 11, y: 30)
             let bottomControlPoint = CGPoint(x: 7, y: 20)
             path.moveToPoint(arrowPoint)
             path.addQuadCurveToPoint(topPoint, controlPoint: topControlPoint)
@@ -52,10 +52,6 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
     lazy var bubbleNode: LeftBubbleNode = {
         let node = LeftBubbleNode()
-//        node.layerBacked = true
-//        node.clipsToBounds = true
-//        node.cornerRadius = 20
-//        node.backgroundColor = UIColor.leftBubbleTintColor()
         return node
     }()
 
@@ -65,7 +61,7 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         super.init()
 
         addSubnode(bubbleNode)
-        //addSubnode(textNode)
+        addSubnode(textNode)
         textNode.backgroundColor = UIColor.greenColor()
     }
 
@@ -81,7 +77,7 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        let textMaxWidth = constrainedSize.width - (15 + ChatBaseCellNode.avatarSize.width + (5 + 7 + 10) + 15)
+        let textMaxWidth = constrainedSize.width - (15 + ChatBaseCellNode.avatarSize.width + (5 + 8 + 10) + 15)
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
         let height = max(textNode.calculatedSize.height + (10 + 10), ChatBaseCellNode.avatarSize.height)
@@ -92,12 +88,12 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
     override func layout() {
         super.layout()
 
-        let x = 15 + ChatBaseCellNode.avatarSize.width + (5 + 7 + 10)
-        let origin = CGPoint(x: x, y: 10)
+        let x = 15 + ChatBaseCellNode.avatarSize.width + (5 + 8 + 10)
+        let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
+        let origin = CGPoint(x: x, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
 
-        let gap: CGFloat = 10
-        bubbleNode.frame = CGRect(x: x - gap, y: 0, width: textNode.calculatedSize.width + (gap + gap), height: calculatedSize.height)
+        bubbleNode.frame = CGRect(x: x - (8 + 10), y: 0, width: textNode.calculatedSize.width + ((8 + 10) + 10), height: calculatedSize.height)
     }
 }
 
