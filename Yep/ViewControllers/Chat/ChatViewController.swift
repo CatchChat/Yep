@@ -214,6 +214,24 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     }
                     return node
 
+                case .Audio:
+
+                    let node = ChatRightTextCellNode()
+                    node.configure(withMessage: message, text: "Mysterious Audio")
+                    return node
+
+                case .Video:
+
+                    let node = ChatRightTextCellNode()
+                    node.configure(withMessage: message, text: "Mysterious Video")
+                    return node
+
+                case .Location:
+
+                    let node = ChatRightTextCellNode()
+                    node.configure(withMessage: message, text: "Mysterious Location")
+                    return node
+
                 default:
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message)
