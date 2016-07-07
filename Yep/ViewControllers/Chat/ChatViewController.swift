@@ -63,6 +63,28 @@ class ChatViewController: BaseViewController {
                 displayedMessagesRange = NSRange(location: 0, length: messages.count)
             }
         }
+
+        let scrollToBottom: dispatch_block_t = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            guard strongSelf.displayedMessagesRange.length > 0 else {
+                return
+            }
+            strongSelf.tableNode.view?.beginUpdates()
+            strongSelf.tableNode.view?.reloadData()
+            strongSelf.tableNode.view?.endUpdatesAnimated(false, completion: { [weak self] success in
+                guard let strongSelf = self else {
+                    return
+                }
+                let bottomIndexPath = NSIndexPath(
+                    forRow: strongSelf.displayedMessagesRange.length - 1,
+                    inSection: Section.Messages.rawValue
+                )
+                strongSelf.tableNode.view?.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
+            })
+        }
+        delay(0, work: scrollToBottom)
     }
 }
 
