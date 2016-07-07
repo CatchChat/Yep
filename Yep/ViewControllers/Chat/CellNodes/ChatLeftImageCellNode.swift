@@ -12,7 +12,7 @@ import AsyncDisplayKit
 
 class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
-    var tapImageAction: ((imageNode: ChatLeftImageCellNode) -> Void)?
+    var tapImageAction: (() -> Void)?
 
     let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
     let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
@@ -30,7 +30,8 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     }()
 
     @objc private func tapImage(sender: UITapGestureRecognizer) {
-        tapImageAction?(imageNode: self)
+
+        tapImageAction?()
     }
 
     override init() {
