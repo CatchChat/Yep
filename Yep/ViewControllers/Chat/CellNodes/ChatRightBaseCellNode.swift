@@ -16,7 +16,7 @@ class ChatRightBaseCellNode: ChatBaseCellNode {
         super.layout()
 
         let x = calculatedSize.width - (ChatBaseCellNode.avatarSize.width + 15)
-        let y: CGFloat = 0
+        let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         avatarImageNode.frame = CGRect(origin: origin, size: ChatBaseCellNode.avatarSize)
     }

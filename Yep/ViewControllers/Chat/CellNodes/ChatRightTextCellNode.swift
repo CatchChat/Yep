@@ -59,25 +59,25 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
 
         let height = max(textNode.calculatedSize.height + (7 + 7), ChatBaseCellNode.avatarSize.height)
 
-        return CGSize(width: constrainedSize.width, height: height)
+        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.topPadding + ChatBaseCellNode.bottomPadding)
     }
 
     override func layout() {
         super.layout()
 
         let x = calculatedSize.width - (textNode.calculatedSize.width + (10 + 7 + 5) + ChatBaseCellNode.avatarSize.width + 15)
-        let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
+        let y = (calculatedSize.height - (ChatBaseCellNode.topPadding + ChatBaseCellNode.bottomPadding) - textNode.calculatedSize.height) / 2 + ChatBaseCellNode.topPadding
         let bubbleNodeMinWidth: CGFloat = 40
         let textNodeMinWidth = bubbleNodeMinWidth - (10 + 10)
         let offsetX = min(textNodeMinWidth, textNode.calculatedSize.width) < textNodeMinWidth ? ((textNodeMinWidth - textNode.calculatedSize.width) / 2) : 0
         let origin = CGPoint(x: x + offsetX, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
 
-        bubbleNode.frame = CGRect(x: x - 10, y: 0, width: max(textNodeMinWidth, textNode.calculatedSize.width) + (10 + 10), height: calculatedSize.height)
+        bubbleNode.frame = CGRect(x: x - 10, y: ChatBaseCellNode.topPadding, width: max(textNodeMinWidth, textNode.calculatedSize.width) + (10 + 10), height: calculatedSize.height - (ChatBaseCellNode.topPadding + ChatBaseCellNode.bottomPadding))
 
         do {
             let x = calculatedSize.width - ((13 + 5) + ChatBaseCellNode.avatarSize.width + 15)
-            tailImageNode.frame = CGRect(x: x, y: 20 - (14 / 2), width: 13, height: 14)
+            tailImageNode.frame = CGRect(x: x, y: 20 - (14 / 2) + ChatBaseCellNode.topPadding, width: 13, height: 14)
         }
     }
 }
