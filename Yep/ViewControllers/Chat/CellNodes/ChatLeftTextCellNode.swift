@@ -17,6 +17,11 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
+    static let tempTextAttributes = [
+        NSForegroundColorAttributeName: UIColor.redColor(),
+        NSFontAttributeName: UIFont.chatTextFont(),
+    ]
+
     lazy var tailImageNode: ASImageNode = {
         let node = ASImageNode()
         node.image = UIImage(named: "bubble_left_tail")?.imageWithRenderingMode(.AlwaysOriginal)
@@ -42,9 +47,14 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         addSubnode(textNode)
     }
 
-    func configure(withMessage message: Message) {
+    func configure(withMessage message: Message, text: String? = nil) {
 
         self.user = message.fromFriend
+
+        if let text = text {
+            textNode.attributedText = NSAttributedString(string: text, attributes: ChatLeftTextCellNode.tempTextAttributes)
+            return
+        }
 
         do {
             let text = message.textContent
