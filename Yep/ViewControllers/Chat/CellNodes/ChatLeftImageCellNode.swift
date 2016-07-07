@@ -12,7 +12,7 @@ import AsyncDisplayKit
 
 class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
-    var tapImageAction: ((imageNode: ChatLeftImageCellNode) -> Void)?
+    var tapImageAction: (() -> Void)?
 
     let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
     let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
@@ -30,14 +30,14 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     }()
 
     @objc private func tapImage(sender: UITapGestureRecognizer) {
-        tapImageAction?(imageNode: self)
+
+        tapImageAction?()
     }
 
     override init() {
         super.init()
 
         addSubnode(imageNode)
-        imageNode.backgroundColor = UIColor.cyanColor()
     }
 
     var imageSize: CGSize?
@@ -61,14 +61,14 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         let height = max(imageSize?.height ?? 0, ChatBaseCellNode.avatarSize.height)
 
-        return CGSize(width: constrainedSize.width, height: height)
+        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.verticalPadding)
     }
 
     override func layout() {
         super.layout()
 
         let x = 15 + ChatBaseCellNode.avatarSize.width + 5
-        let y: CGFloat = 0
+        let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         let size = self.imageSize ?? CGSize(width: 40, height: 40)
         imageNode.frame = CGRect(origin: origin, size: size)

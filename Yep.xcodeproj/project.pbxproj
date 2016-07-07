@@ -237,6 +237,7 @@
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
 		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		507F51311D2E37A800CB67B2 /* ChatLoadingCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F51301D2E37A800CB67B2 /* ChatLoadingCellNode.swift */; };
 		507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
 		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
@@ -981,6 +982,7 @@
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		507DCEB01CEEE2DC006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		507F51301D2E37A800CB67B2 /* ChatLoadingCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLoadingCellNode.swift; path = CellNodes/ChatLoadingCellNode.swift; sourceTree = "<group>"; };
 		507F65F61B2EBC2700A35FDC /* MediaPreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewView.swift; path = Views/Media/MediaPreviewView.swift; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
 		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
@@ -3072,6 +3074,7 @@
 			children = (
 				50BAED841D2B94B40046B4AB /* ChatSectionDateCellNode.swift */,
 				50512A8B1D2CEA0F007BBBF3 /* ChatPromptCellNode.swift */,
+				507F51301D2E37A800CB67B2 /* ChatLoadingCellNode.swift */,
 				50BAED7E1D2B59040046B4AB /* ChatBaseCellNode.swift */,
 				50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */,
 				50BAED801D2B6A040046B4AB /* ChatLeftTextCellNode.swift */,
@@ -4583,6 +4586,7 @@
 				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
+				507F51311D2E37A800CB67B2 /* ChatLoadingCellNode.swift in Sources */,
 				500D35E11C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift in Sources */,
 				50E61CEB1AF1F69D00908A9D /* ConversationTitleView.swift in Sources */,
 				50FD75441C21097A0050A382 /* LinkContainerView.swift in Sources */,
@@ -5227,7 +5231,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING -D ASYNC_DISPLAY";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
