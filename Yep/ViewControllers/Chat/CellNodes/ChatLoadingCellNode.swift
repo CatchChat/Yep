@@ -11,9 +11,19 @@ import AsyncDisplayKit
 
 class ChatLoadingCellNode: ASCellNode {
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                indicator.startAnimating()
+            } else {
+                indicator.stopAnimating()
+            }
+        }
+    }
+
     lazy var indicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        view.startAnimating()
+        view.hidesWhenStopped = true
         return view
     }()
 

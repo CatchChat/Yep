@@ -104,8 +104,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
         case .LoadPrevious:
 
-            let node = ChatSectionDateCellNode()
-            node.configure(withText: "Loading")
+            let node = ChatLoadingCellNode()
             return node
 
         case .Messages:
@@ -197,6 +196,23 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     return node
                 }
             }
+        }
+    }
+
+    func tableView(tableView: ASTableView, willDisplayNodeForRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .LoadPrevious:
+            let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
+            node?.isLoading = true
+
+        case .Messages:
+            break
         }
     }
 }
