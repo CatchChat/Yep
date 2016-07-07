@@ -30,6 +30,8 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    var isLoadingPreviousMessages = false
+
     var previewTransitionViews: [UIView?]?
     var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     var previewMessagePhotos: [PreviewMessagePhoto] = []
@@ -87,6 +89,8 @@ class ChatViewController: BaseViewController {
         delay(0, work: scrollToBottom)
     }
 }
+
+// MARK: - ASTableDataSource, ASTableDelegate
 
 extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
@@ -272,11 +276,62 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         switch section {
 
         case .LoadPrevious:
-            let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
-            node?.isLoading = true
+            if isLoadingPreviousMessages {
+                let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
+                node?.isLoading = true
+            }
+            break
 
         case .Messages:
             break
+        }
+    }
+
+    // MARK: UIScrollViewDelegate
+
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        func tryTriggerLoadPrevious() {
+
+            guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
+                return
+            }
+
+            let indexPath = NSIndexPath(forRow: 0, inSection: Section.LoadPrevious.rawValue)
+
+            let node = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
+
+            guard !isLoadingPreviousMessages else {
+                node?.isLoading = false
+                return
+            }
+
+            node?.isLoading = true
+
+            delay(0.5) { [weak self] in
+                self?.tryLoadPreviousMessages { [weak node] in
+                    node?.isLoading = false
+                }
+            }
+        }
+        
+        tryTriggerLoadPrevious()
+    }
+
+    func tryLoadPreviousMessages(completion: () -> Void) {
+
+        if isLoadingPreviousMessages {
+            completion()
+            return
+        }
+
+        isLoadingPreviousMessages = true
+
+        println("tryLoadPreviousMessages")
+
+        if displayedMessagesRange.location == 0 {
+        } else {
+
         }
     }
 }
