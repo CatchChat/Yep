@@ -44,7 +44,6 @@ class ChatBaseCellNode: ASCellNode {
 
         //addSubnode(nameNode)
         addSubnode(avatarImageNode)
-        avatarImageNode.backgroundColor = UIColor.redColor()
     }
 
     @objc private func tapAvatar(sender: UITapGestureRecognizer) {

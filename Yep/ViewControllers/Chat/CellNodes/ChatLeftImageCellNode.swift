@@ -37,7 +37,6 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         super.init()
 
         addSubnode(imageNode)
-        imageNode.backgroundColor = UIColor.cyanColor()
     }
 
     var imageSize: CGSize?
