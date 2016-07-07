@@ -17,11 +17,21 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
+    lazy var bubbleNode: ASDisplayNode = {
+        let node = ASDisplayNode()
+        node.layerBacked = true
+        node.clipsToBounds = true
+        node.cornerRadius = 20
+        node.backgroundColor = UIColor.leftBubbleTintColor()
+        return node
+    }()
+
     lazy var textNode = ASTextNode()
 
     override init() {
         super.init()
 
+        addSubnode(bubbleNode)
         addSubnode(textNode)
         textNode.backgroundColor = UIColor.greenColor()
     }
@@ -38,10 +48,10 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        let textMaxWidth = constrainedSize.width - (15 + ChatBaseCellNode.avatarSize.width + 5 + 15)
+        let textMaxWidth = constrainedSize.width - (15 + ChatBaseCellNode.avatarSize.width + (5 + 7 + 10) + 15)
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
-        let height = max(textNode.calculatedSize.height, ChatBaseCellNode.avatarSize.height)
+        let height = max(textNode.calculatedSize.height + (10 + 10), ChatBaseCellNode.avatarSize.height)
 
         return CGSize(width: constrainedSize.width, height: height)
     }
@@ -49,7 +59,12 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
     override func layout() {
         super.layout()
 
-        textNode.frame = CGRect(x: 15 + ChatBaseCellNode.avatarSize.width + 5, y: 0, width: textNode.calculatedSize.width, height: textNode.calculatedSize.height)
+        let x = 15 + ChatBaseCellNode.avatarSize.width + (5 + 7 + 10)
+        let origin = CGPoint(x: x, y: 10)
+        textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
+
+        let gap: CGFloat = 10
+        bubbleNode.frame = CGRect(x: x - gap, y: 0, width: textNode.calculatedSize.width + (gap + gap), height: calculatedSize.height)
     }
 }
 
