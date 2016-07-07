@@ -735,7 +735,7 @@
 
 "Hide" = "隐藏";
 
-"%@ recalled a message." = "%@ 撤回了一条消息。";
+"%@ recalled a message." = "%@ 撤回了一条消息";
 
 "Retry" = "重试";
 
@@ -769,7 +769,7 @@
 "Creators of Blocked Feeds" = "被屏蔽的话题创建者";
 "Blocked Creators" = "被屏蔽的创建者";
 "No blocked creators." = "没有被屏蔽的创建者";
-"Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了。";
+"Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了";
 
 "Try keywords" = "试试这些";
 
