@@ -291,7 +291,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
 
-        func tryTriggerLoadPrevious() {
+        func tryTriggerLoadPreviousMessages() {
 
             guard scrollView.yep_isAtTop && (scrollView.dragging || scrollView.decelerating) else {
                 return
@@ -314,7 +314,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
             }
         }
         
-        tryTriggerLoadPrevious()
+        tryTriggerLoadPreviousMessages()
     }
 
     func tryLoadPreviousMessages(completion: () -> Void) {
