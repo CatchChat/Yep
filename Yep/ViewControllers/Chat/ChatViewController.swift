@@ -298,7 +298,6 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
             }
 
             let indexPath = NSIndexPath(forRow: 0, inSection: Section.LoadPrevious.rawValue)
-
             let node = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
 
             guard !isLoadingPreviousMessages else {
@@ -330,8 +329,27 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         println("tryLoadPreviousMessages")
 
         if displayedMessagesRange.location == 0 {
-        } else {
+            completion()
 
+        } else {
+            var newMessagesCount = self.messagesBunchCount
+
+            if (self.displayedMessagesRange.location - newMessagesCount) < 0 {
+                newMessagesCount = self.displayedMessagesRange.location
+            }
+
+            if newMessagesCount > 0 {
+                self.displayedMessagesRange.location -= newMessagesCount
+                self.displayedMessagesRange.length += newMessagesCount
+
+                let indexPaths = (0..<newMessagesCount).map({
+                    NSIndexPath(forRow: $0, inSection: Section.Messages.rawValue)
+                })
+
+                tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+            }
+
+            completion()
         }
     }
 }
