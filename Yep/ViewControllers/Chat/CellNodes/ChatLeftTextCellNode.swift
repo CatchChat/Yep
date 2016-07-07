@@ -66,11 +66,14 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         super.layout()
 
         let x = 15 + ChatBaseCellNode.avatarSize.width + (5 + 7 + 10)
+        let bubbleNodeMinWidth: CGFloat = 40
+        let textNodeMinWidth = bubbleNodeMinWidth - (10 + 10)
+        let offsetX = min(textNodeMinWidth, textNode.calculatedSize.width) < textNodeMinWidth ? ((textNodeMinWidth - textNode.calculatedSize.width) / 2) : 0
         let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
-        let origin = CGPoint(x: x, y: y)
+        let origin = CGPoint(x: x + offsetX, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
 
-        bubbleNode.frame = CGRect(x: x - 10, y: 0, width: textNode.calculatedSize.width + (10 + 10), height: calculatedSize.height)
+        bubbleNode.frame = CGRect(x: x - 10, y: 0, width: max(textNodeMinWidth, textNode.calculatedSize.width) + (10 + 10), height: calculatedSize.height)
 
         tailImageNode.frame = CGRect(x: x - (7 + 10), y: 20 - (14 / 2), width: 13, height: 14)
     }
