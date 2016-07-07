@@ -73,8 +73,8 @@ class ChatViewController: BaseViewController {
             }
             strongSelf.tableNode.view?.beginUpdates()
             strongSelf.tableNode.view?.reloadData()
-            strongSelf.tableNode.view?.endUpdatesAnimated(false, completion: { [weak self] success in
-                guard let strongSelf = self else {
+            strongSelf.tableNode.view?.endUpdatesAnimated(false) { [weak self] success in
+                guard success, let strongSelf = self else {
                     return
                 }
                 let bottomIndexPath = NSIndexPath(
@@ -82,7 +82,7 @@ class ChatViewController: BaseViewController {
                     inSection: Section.Messages.rawValue
                 )
                 strongSelf.tableNode.view?.scrollToRowAtIndexPath(bottomIndexPath, atScrollPosition: .Bottom, animated: false)
-            })
+            }
         }
         delay(0, work: scrollToBottom)
     }
