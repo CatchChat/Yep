@@ -68,103 +68,134 @@ class ChatViewController: BaseViewController {
 
 extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
+    enum Section: Int {
+        case LoadPrevious
+        case Messages
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 1
+        return 2
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return displayedMessagesRange.length
+        guard let section = Section(rawValue: section) else {
+            return 0
+        }
+
+        switch section {
+
+        case .LoadPrevious:
+            return 1
+
+        case .Messages:
+            return displayedMessagesRange.length
+        }
     }
 
     func tableView(tableView: ASTableView, nodeForRowAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
-        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
-            let node = ChatSectionDateCellNode()
-            node.configure(withText: "🐌🐌🐌")
-            return node
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
         }
 
-        guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
+        switch section {
+
+        case .LoadPrevious:
+
             let node = ChatSectionDateCellNode()
-            node.configure(withText: "🐌🐌")
+            node.configure(withText: "Loading")
             return node
-        }
 
-        if case .SectionDate = mediaType {
-            let node = ChatSectionDateCellNode()
-            node.configure(withMessage: message)
-            return node
-        }
+        case .Messages:
 
-        guard let sender = message.fromFriend else {
-
-            if message.blockedByRecipient {
-                let node = ChatPromptCellNode()
-                node.configure(withMessage: message, promptType: .BlockedByRecipient)
+            guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] else {
+                let node = ChatSectionDateCellNode()
+                node.configure(withText: "🐌🐌🐌")
                 return node
             }
 
-            let node = ChatSectionDateCellNode()
-            node.configure(withText: "🐌")
-            return node
-        }
-
-        if sender.friendState != UserFriendState.Me.rawValue { // from Friend
-
-            if message.deletedByCreator {
-                let node = ChatPromptCellNode()
-                node.configure(withMessage: message, promptType: .RecalledMessage)
+            guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
+                let node = ChatSectionDateCellNode()
+                node.configure(withText: "🐌🐌")
                 return node
             }
 
-            switch mediaType {
-
-            case .Text:
-
-                let node = ChatLeftTextCellNode()
+            if case .SectionDate = mediaType {
+                let node = ChatSectionDateCellNode()
                 node.configure(withMessage: message)
                 return node
+            }
 
-            case .Image:
+            guard let sender = message.fromFriend else {
 
-                let node = ChatLeftImageCellNode()
-                node.configure(withMessage: message)
-                node.tapImageAction = { [weak self] imageNode in
-                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                if message.blockedByRecipient {
+                    let node = ChatPromptCellNode()
+                    node.configure(withMessage: message, promptType: .BlockedByRecipient)
+                    return node
                 }
-                return node
 
-            default:
-                let node = ChatLeftTextCellNode()
-                node.configure(withMessage: message)
+                let node = ChatSectionDateCellNode()
+                node.configure(withText: "🐌")
                 return node
             }
 
-        } else { // from Me
+            if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
-            switch mediaType {
-
-            case .Text:
-
-                let node = ChatRightTextCellNode()
-                node.configure(withMessage: message)
-                return node
-
-            case .Image:
-
-                let node = ChatRightImageCellNode()
-                node.configure(withMessage: message)
-                node.tapImageAction = { [weak self] imageNode in
-                    self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                if message.deletedByCreator {
+                    let node = ChatPromptCellNode()
+                    node.configure(withMessage: message, promptType: .RecalledMessage)
+                    return node
                 }
-                return node
 
-            default:
-                let node = ChatRightTextCellNode()
-                node.configure(withMessage: message)
-                return node
+                switch mediaType {
+
+                case .Text:
+
+                    let node = ChatLeftTextCellNode()
+                    node.configure(withMessage: message)
+                    return node
+
+                case .Image:
+
+                    let node = ChatLeftImageCellNode()
+                    node.configure(withMessage: message)
+                    node.tapImageAction = { [weak self] imageNode in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                    }
+                    return node
+
+                default:
+                    let node = ChatLeftTextCellNode()
+                    node.configure(withMessage: message)
+                    return node
+                }
+
+            } else { // from Me
+
+                switch mediaType {
+
+                case .Text:
+
+                    let node = ChatRightTextCellNode()
+                    node.configure(withMessage: message)
+                    return node
+
+                case .Image:
+
+                    let node = ChatRightImageCellNode()
+                    node.configure(withMessage: message)
+                    node.tapImageAction = { [weak self] imageNode in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: imageNode)
+                    }
+                    return node
+
+                default:
+                    let node = ChatRightTextCellNode()
+                    node.configure(withMessage: message)
+                    return node
+                }
             }
         }
     }
