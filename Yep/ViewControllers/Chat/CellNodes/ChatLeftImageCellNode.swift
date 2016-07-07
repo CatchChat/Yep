@@ -61,7 +61,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         let height = max(imageSize?.height ?? 0, ChatBaseCellNode.avatarSize.height)
 
-        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.topPadding + ChatBaseCellNode.bottomPadding)
+        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.verticalPadding)
     }
 
     override func layout() {
