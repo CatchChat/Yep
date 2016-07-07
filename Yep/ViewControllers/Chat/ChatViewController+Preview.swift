@@ -22,20 +22,31 @@ extension ChatViewController {
         if message.mediaType == MessageMediaType.Image.rawValue {
 
             let predicate = NSPredicate(format: "mediaType = %d", MessageMediaType.Image.rawValue)
-            let mediaMessagesResult = messages.filter(predicate)
-            let mediaMessages = mediaMessagesResult.map({ $0 })
+            let imageMessagesResult = messages.filter(predicate)
+            let imageMessages = imageMessagesResult.map({ $0 })
 
-            guard let index = mediaMessagesResult.indexOf(message) else {
+            guard let index = imageMessagesResult.indexOf(message) else {
                 return
             }
 
-            let transitionViews: [UIView?] = mediaMessages.map({
+//            let transitionViews: [UIView?] = mediaMessages.map({
+//                if let index = messages.indexOf($0) {
+//                    if index == messageIndex {
+//                        return node.transitionView
+//                    } else {
+//                        return nil
+//                    }
+//                }
+//
+//                return nil
+//            })
+
+            let transitionViews: [UIView?] = imageMessages.map({
                 if let index = messages.indexOf($0) {
-                    if index == messageIndex {
-                        return node.transitionView
-                    } else {
-                        return nil
-                    }
+                    let nodeIndex = index - displayedMessagesRange.location
+                    let indexPath = NSIndexPath(forRow: nodeIndex, inSection: Section.Messages.rawValue)
+                    let previewableNode = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? Previewable
+                    return previewableNode?.transitionView
                 }
 
                 return nil
@@ -43,7 +54,7 @@ extension ChatViewController {
 
             self.previewTransitionViews = transitionViews
 
-            let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
+            let previewMessagePhotos = imageMessages.map({ PreviewMessagePhoto(message: $0) })
             if let
                 imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
                 image = UIImage(contentsOfFile: imageFileURL.path!) {
