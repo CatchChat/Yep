@@ -206,12 +206,22 @@ final class ChatToolbar: UIToolbar {
 
     private var searchTask: CancelableTask?
 
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        self.autoresizingMask = .FlexibleHeight
+
+        makeUI()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: UI
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
-
-        makeUI()
 
         state = .Default
     }
