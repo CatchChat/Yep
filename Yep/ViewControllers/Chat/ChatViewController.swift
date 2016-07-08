@@ -284,6 +284,51 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         }
     }
 
+    // MARK: Menu
+
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] where message.isReal else {
+            return false
+        }
+
+        var canReport = false
+
+        let title: String
+        if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
+            let isMyMessage = message.fromFriend?.isMe ?? false
+            if isMyMessage {
+                title = NSLocalizedString("Recall", comment: "")
+            } else {
+                title = NSLocalizedString("Hide", comment: "")
+                canReport = true
+            }
+        } else {
+            title = NSLocalizedString("Delete", comment: "")
+        }
+
+        var menuItems = [
+            UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:))),
+        ]
+
+        if canReport {
+            let reportItem = UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:)))
+            menuItems.append(reportItem)
+        }
+
+        UIMenuController.sharedMenuController().menuItems = menuItems
+        
+        return true
+    }
+
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+
+    }
+
     // MARK: UIScrollViewDelegate
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
