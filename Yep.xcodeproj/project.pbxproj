@@ -524,6 +524,7 @@
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50F47FC01D2F4E3F0046DE53 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */; };
+		50F47FC51D2F91180046DE53 /* ChatToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F47FC41D2F91180046DE53 /* ChatToolbar.swift */; };
 		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; };
 		50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; };
@@ -1262,6 +1263,7 @@
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
+		50F47FC41D2F91180046DE53 /* ChatToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatToolbar.swift; path = Views/ChatToolbar.swift; sourceTree = "<group>"; };
 		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
 		50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAnyImagesCell.swift; path = Views/Cells/Feed/FeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
@@ -3062,6 +3064,7 @@
 		50BAED761D2B4A4D0046B4AB /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				50F47FC31D2F90DC0046DE53 /* Views */,
 				50BAED7B1D2B57E70046B4AB /* CellNodes */,
 				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
 				50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */,
@@ -3503,6 +3506,14 @@
 				50FD753C1C1FB4AC0050A382 /* FPSLabel.swift */,
 			);
 			name = Labels;
+			sourceTree = "<group>";
+		};
+		50F47FC31D2F90DC0046DE53 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				50F47FC41D2F91180046DE53 /* ChatToolbar.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		50F5AF841BBA67140033C9BC /* NewFeed */ = {
@@ -4810,6 +4821,7 @@
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */,
 				50E34C111CB4B66D007CAE80 /* SearchedUserMessagesViewController.swift in Sources */,
+				50F47FC51D2F91180046DE53 /* ChatToolbar.swift in Sources */,
 				0A271FD71ACA055400822DFC /* YepAudioService.swift in Sources */,
 				5064F6501B0AE2E60089FAD4 /* AddFriendsViewController.swift in Sources */,
 				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
