@@ -524,6 +524,7 @@
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
 		50F47FC01D2F4E3F0046DE53 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */; };
+		50F47FC21D2F5E600046DE53 /* MenuDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F47FC11D2F5E600046DE53 /* MenuDisplay.swift */; };
 		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; };
 		50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; };
@@ -1262,6 +1263,7 @@
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
 		50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
+		50F47FC11D2F5E600046DE53 /* MenuDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuDisplay.swift; path = Protocols/MenuDisplay.swift; sourceTree = "<group>"; };
 		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
 		50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAnyImagesCell.swift; path = Views/Cells/Feed/FeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
@@ -3314,6 +3316,7 @@
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
 				50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */,
 				50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */,
+				50F47FC11D2F5E600046DE53 /* MenuDisplay.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4732,6 +4735,7 @@
 				50A6A7AF1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift in Sources */,
 				502280F81B1C3F2800E984EE /* FriendsInContactsViewController.swift in Sources */,
 				50E348921B9063A700A8E699 /* AboutCell.swift in Sources */,
+				50F47FC21D2F5E600046DE53 /* MenuDisplay.swift in Sources */,
 				50A6A7B31D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
 				50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */,
