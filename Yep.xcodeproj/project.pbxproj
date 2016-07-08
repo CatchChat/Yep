@@ -523,6 +523,7 @@
 		50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */; };
 		50F2B9781B2EDF3D00F840CC /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */; };
 		50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */; };
+		50F47FC01D2F4E3F0046DE53 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */; };
 		50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */; };
 		50F5AF8C1BBBB64C0033C9BC /* FeedAnyImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */; };
 		50F5AF951BBBCDA30033C9BC /* FeedMediaAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */; };
@@ -1260,6 +1261,7 @@
 		50EB8CCA1AEA1AC0001AC1EE /* MediaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaView.swift; path = Views/Media/MediaView.swift; sourceTree = "<group>"; };
 		50F2B9771B2EDF3D00F840CC /* BorderTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderTextField.swift; path = Views/TextFields/BorderTextField.swift; sourceTree = "<group>"; };
 		50F2B97A1B2EEAF800F840CC /* NavigationTitleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationTitleLabel.swift; path = Views/Labels/NavigationTitleLabel.swift; sourceTree = "<group>"; };
+		50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
 		50F5AF871BBBB2AE0033C9BC /* HorizontalLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HorizontalLineView.swift; path = Views/HorizontalLine/HorizontalLineView.swift; sourceTree = "<group>"; };
 		50F5AF8A1BBBB64C0033C9BC /* FeedAnyImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAnyImagesCell.swift; path = Views/Cells/Feed/FeedAnyImagesCell.swift; sourceTree = "<group>"; };
 		50F5AF931BBBCDA30033C9BC /* FeedMediaAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedMediaAddCell.swift; path = Views/Cells/FeedMediaAdd/FeedMediaAddCell.swift; sourceTree = "<group>"; };
@@ -3311,6 +3313,7 @@
 				50066AF91D0FAECA00EF1E0D /* Reusable.swift */,
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
 				50512A8F1D2CFF4D007BBBF3 /* Previewable.swift */,
+				50F47FBF1D2F4E3F0046DE53 /* Copyable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4550,6 +4553,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50F47FC01D2F4E3F0046DE53 /* Copyable.swift in Sources */,
 				50894CFE1AEA5A78000981AF /* EditProfileViewController.swift in Sources */,
 				50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */,
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
