@@ -320,6 +320,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
 
+        println("action: \(action)")
+
         if action == #selector(NSObject.copy(_:)) {
             return true
         }
@@ -337,6 +339,11 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
 
+        if action == #selector(NSObject.copy(_:)) {
+            if let copyableNode = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? Copyable {
+                UIPasteboard.generalPasteboard().string = copyableNode.text
+            }
+        }
     }
 
     // MARK: UIScrollViewDelegate
