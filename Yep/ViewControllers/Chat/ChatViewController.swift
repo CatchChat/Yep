@@ -30,6 +30,13 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    lazy var chatToolbar: ChatToolbar = {
+        let toolbar = ChatToolbar()
+        toolbar.sizeToFit()
+        toolbar.layoutIfNeeded()
+        return toolbar
+    }()
+
     var indexPathForMenu: NSIndexPath?
 
     var isLoadingPreviousMessages = false
@@ -45,6 +52,14 @@ class ChatViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
 
         println("deinit ChatViewController")
+    }
+
+    override func canBecomeFirstResponder() -> Bool {
+        return true
+    }
+
+    override var inputAccessoryView: UIView? {
+        return chatToolbar
     }
 
     override func viewDidLayoutSubviews() {

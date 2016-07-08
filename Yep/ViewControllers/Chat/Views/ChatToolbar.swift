@@ -239,7 +239,7 @@ final class ChatToolbar: UIToolbar {
             "micButton": micButton,
             "voiceRecordButton": voiceRecordButton,
             "sendButton": sendButton,
-            ]
+        ]
 
         let buttonBottom: CGFloat = 8
         let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[micButton]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
@@ -304,7 +304,7 @@ final class ChatToolbar: UIToolbar {
                 strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewHeightConstraintNormalConstant
                 strongSelf.layoutIfNeeded()
             }
-            }, completion: { _ in })
+        }, completion: { _ in })
     }
 
     func hideVoiceButtonAnimation() {
@@ -340,13 +340,13 @@ final class ChatToolbar: UIToolbar {
                 self.messageTextViewHeightConstraint.constant = limitedNewHeight
                 self.layoutIfNeeded()
 
-                }, completion: { [weak self] finished in
-                    // hack for scrollEnabled when input lots of text
-                    if finished, let strongSelf = self {
-                        let enabled = newHeight > strongSelf.messageTextView.bounds.height
-                        strongSelf.messageTextView.scrollEnabled = enabled
-                    }
-                })
+            }, completion: { [weak self] finished in
+                // hack for scrollEnabled when input lots of text
+                if finished, let strongSelf = self {
+                    let enabled = newHeight > strongSelf.messageTextView.bounds.height
+                    strongSelf.messageTextView.scrollEnabled = enabled
+                }
+            })
         }
     }
 
