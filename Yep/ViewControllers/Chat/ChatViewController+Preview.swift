@@ -13,7 +13,11 @@ import AsyncDisplayKit
 
 extension ChatViewController {
 
-    func tryPreviewMediaOfMessage(message: Message) {
+    func tryPreviewMediaOfMessage(message: Message, fromNode node: Previewable) {
+
+        guard let messageIndex = messages.indexOf(message) else {
+            return
+        }
 
         if message.mediaType == MessageMediaType.Image.rawValue {
 
@@ -27,10 +31,11 @@ extension ChatViewController {
 
             let transitionViews: [UIView?] = imageMessages.map({
                 if let index = messages.indexOf($0) {
-                    let nodeIndex = index - displayedMessagesRange.location
-                    let indexPath = NSIndexPath(forRow: nodeIndex, inSection: Section.Messages.rawValue)
-                    let previewableNode = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? Previewable
-                    return previewableNode?.transitionView
+                    if index == messageIndex {
+                        return node.transitionView
+                    } else {
+                        return nil
+                    }
                 }
 
                 return nil

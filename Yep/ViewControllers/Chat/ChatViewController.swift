@@ -196,8 +196,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapImageAction = { [weak self] in
-                        self?.tryPreviewMediaOfMessage(message)
+                    node.tapImageAction = { [weak self] node in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
                     return node
 
@@ -245,8 +245,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapImageAction = { [weak self] in
-                        self?.tryPreviewMediaOfMessage(message)
+                    node.tapImageAction = { [weak self] node in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
                     return node
 
