@@ -71,9 +71,9 @@ class ChatViewController: BaseViewController {
         }
 
         do {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillHide(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
         }
 
         let scrollToBottom: dispatch_block_t = { [weak self] in
@@ -429,20 +429,13 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
     }
 }
 
-// MARK: - Menu Notifcation
+// MARK: - Menu Notifcations
 
 extension ChatViewController {
 
-    @objc func didRecieveMenuWillHideNotification(notification: NSNotification) {
+    @objc func menuWillShow(notification: NSNotification) {
 
-        println("Menu Will hide")
-
-        indexPathForMenu = nil
-    }
-
-    @objc func didRecieveMenuWillShowNotification(notification: NSNotification) {
-
-        println("Menu Will show")
+        println("menu will show")
 
         guard let menu = notification.object as? UIMenuController, indexPathForMenu = indexPathForMenu, cellNode = tableNode.view?.nodeForRowAtIndexPath(indexPathForMenu) as? ChatBaseCellNode else {
             return
@@ -451,20 +444,25 @@ extension ChatViewController {
         var targetRect = CGRectZero
 
         if let cell = cellNode as? ChatLeftTextCellNode {
-            targetRect = cell.view.convertRect(cell.textNode.frame, toView: view)
+            targetRect = cell.view.convertRect(cell.bubbleNode.frame, toView: view)
 
         } else if let cell = cellNode as? ChatRightTextCellNode {
-            targetRect = cell.view.convertRect(cell.textNode.frame, toView: view)
+            targetRect = cell.view.convertRect(cell.bubbleNode.frame, toView: view)
         }
-
-        //let targetRect = cellNode.targetRectInNode(tableNode)
 
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
 
         menu.setTargetRect(targetRect, inView: view)
         menu.setMenuVisible(true, animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+
+    @objc func menuWillHide(notification: NSNotification) {
+
+        println("menu will hide")
+
+        indexPathForMenu = nil
     }
 }
 
