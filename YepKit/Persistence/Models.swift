@@ -1983,6 +1983,14 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
 
     let clearMessages: () -> Void = {
+
+        // clear from server
+        if let recipient = conversation.recipient {
+            clearHistoryOfConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                println("clearHistoryOfConversationWithRecipient \(recipient)")
+            })
+        }
+
         realm.beginWrite()
         clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: true)
         let _ = try? realm.commitWrite()

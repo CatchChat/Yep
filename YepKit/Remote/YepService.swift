@@ -787,13 +787,24 @@ public func myConversations(maxMessageID maxMessageID: String?, failureHandler: 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+public func clearHistoryOfConversationWithRecipient(recipient: Recipient, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/clear_history", method: .DELETE, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 public func deleteConversationWithRecipient(recipient: Recipient, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let parse: JSONDictionary -> Void? = { data in
         return
     }
 
-    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_history", method: .DELETE, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_conversation", method: .DELETE, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
