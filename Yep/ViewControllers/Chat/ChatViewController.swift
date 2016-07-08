@@ -30,6 +30,8 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    var indexPathForMenu: NSIndexPath?
+
     var isLoadingPreviousMessages = false
 
     var previewTransitionViews: [UIView?]?
@@ -39,6 +41,8 @@ class ChatViewController: BaseViewController {
     deinit {
         tableNode.dataSource = nil
         tableNode.delegate = nil
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
 
         println("deinit ChatViewController")
     }
@@ -64,6 +68,12 @@ class ChatViewController: BaseViewController {
             } else {
                 displayedMessagesRange = NSRange(location: 0, length: messages.count)
             }
+        }
+
+        do {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillHide(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
         }
 
         let scrollToBottom: dispatch_block_t = { [weak self] in
@@ -186,8 +196,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapImageAction = { [weak self] in
-                        self?.tryPreviewMediaOfMessage(message)
+                    node.tapImageAction = { [weak self] node in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
                     return node
 
@@ -235,8 +245,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapImageAction = { [weak self] in
-                        self?.tryPreviewMediaOfMessage(message)
+                    node.tapImageAction = { [weak self] node in
+                        self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
                     return node
 
@@ -276,14 +286,79 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         switch section {
 
         case .LoadPrevious:
-            if isLoadingPreviousMessages {
-                let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
-                node?.isLoading = true
-            }
-            break
+            let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
+            node?.isLoading = isLoadingPreviousMessages
 
         case .Messages:
             break
+        }
+    }
+
+    // MARK: Menu
+
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.row)] where message.isReal else {
+            return false
+        }
+
+        indexPathForMenu = indexPath
+
+        var canReport = false
+
+        let title: String
+        let isMyMessage = message.fromFriend?.isMe ?? false
+        if isMyMessage {
+            title = NSLocalizedString("Recall", comment: "")
+        } else {
+            title = NSLocalizedString("Hide", comment: "")
+            canReport = true
+        }
+
+        var menuItems = [
+            UIMenuItem(title: title, action: #selector(ChatBaseCellNode.deleteMessage(_:))),
+        ]
+
+        if canReport {
+            let reportItem = UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCellNode.reportMessage(_:)))
+            menuItems.append(reportItem)
+        }
+
+        UIMenuController.sharedMenuController().menuItems = menuItems
+        UIMenuController.sharedMenuController().update()
+        
+        return true
+    }
+
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+
+        println("action: \(action)")
+
+        if action == #selector(NSObject.copy(_:)) {
+            if tableNode.view?.nodeForRowAtIndexPath(indexPath) is Copyable {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        if action == #selector(ChatBaseCellNode.deleteMessage(_:)) {
+            return true
+        }
+
+        if action == #selector(ChatBaseCellNode.reportMessage(_:)) {
+            return true
+        }
+
+        return false
+    }
+
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+
+        if action == #selector(NSObject.copy(_:)) {
+            if let copyableNode = tableNode.view?.nodeForRowAtIndexPath(indexPath) as? Copyable {
+                UIPasteboard.generalPasteboard().string = copyableNode.text
+            }
         }
     }
 
@@ -351,6 +426,43 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
             completion()
         }
+    }
+}
+
+// MARK: - Menu Notifcations
+
+extension ChatViewController {
+
+    @objc func menuWillShow(notification: NSNotification) {
+
+        println("menu will show")
+
+        guard let menu = notification.object as? UIMenuController, indexPathForMenu = indexPathForMenu, cellNode = tableNode.view?.nodeForRowAtIndexPath(indexPathForMenu) as? ChatBaseCellNode else {
+            return
+        }
+
+        var targetRect = CGRectZero
+
+        if let cell = cellNode as? ChatLeftTextCellNode {
+            targetRect = cell.view.convertRect(cell.bubbleNode.frame, toView: view)
+
+        } else if let cell = cellNode as? ChatRightTextCellNode {
+            targetRect = cell.view.convertRect(cell.bubbleNode.frame, toView: view)
+        }
+
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+
+        menu.setTargetRect(targetRect, inView: view)
+        menu.setMenuVisible(true, animated: true)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+
+    @objc func menuWillHide(notification: NSNotification) {
+
+        println("menu will hide")
+
+        indexPathForMenu = nil
     }
 }
 

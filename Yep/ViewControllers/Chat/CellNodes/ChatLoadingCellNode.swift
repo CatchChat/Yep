@@ -30,6 +30,8 @@ class ChatLoadingCellNode: ASCellNode {
     override init() {
         super.init()
 
+        selectionStyle = .None
+        
         self.view.addSubview(indicator)
     }
 

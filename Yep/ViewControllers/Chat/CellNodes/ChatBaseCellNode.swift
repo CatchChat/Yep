@@ -42,6 +42,8 @@ class ChatBaseCellNode: ASCellNode {
     override init() {
         super.init()
 
+        selectionStyle = .None
+
         //addSubnode(nameNode)
         addSubnode(avatarImageNode)
     }
@@ -52,6 +54,14 @@ class ChatBaseCellNode: ASCellNode {
         if let user = user {
             tapAvatarAction?(user: user)
         }
+    }
+
+    func deleteMessage(object: AnyObject?) {
+        println("TODO deleteMessage")
+    }
+
+    func reportMessage(object: AnyObject?) {
+        println("TODO reportMessage")
     }
 }
 

@@ -27,6 +27,8 @@ class ChatSectionDateCellNode: ASCellNode {
     override init() {
         super.init()
 
+        selectionStyle = .None
+
         addSubnode(textNode)
     }
 
