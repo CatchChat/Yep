@@ -793,7 +793,7 @@ public func deleteConversationWithRecipient(recipient: Recipient, failureHandler
         return
     }
 
-    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_history", method: .DELETE, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_conversation", method: .DELETE, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
