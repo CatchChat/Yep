@@ -288,35 +288,32 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
 
-        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] where message.isReal else {
+        guard let message = messages[safe: (displayedMessagesRange.location + indexPath.row)] where message.isReal else {
             return false
         }
 
         var canReport = false
 
         let title: String
-        if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-            let isMyMessage = message.fromFriend?.isMe ?? false
-            if isMyMessage {
-                title = NSLocalizedString("Recall", comment: "")
-            } else {
-                title = NSLocalizedString("Hide", comment: "")
-                canReport = true
-            }
+        let isMyMessage = message.fromFriend?.isMe ?? false
+        if isMyMessage {
+            title = NSLocalizedString("Recall", comment: "")
         } else {
-            title = NSLocalizedString("Delete", comment: "")
+            title = NSLocalizedString("Hide", comment: "")
+            canReport = true
         }
 
         var menuItems = [
-            UIMenuItem(title: title, action: #selector(ChatBaseCell.deleteMessage(_:))),
+            UIMenuItem(title: title, action: #selector(ChatBaseCellNode.deleteMessage(_:))),
         ]
 
         if canReport {
-            let reportItem = UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCell.reportMessage(_:)))
+            let reportItem = UIMenuItem(title: NSLocalizedString("Report", comment: ""), action: #selector(ChatBaseCellNode.reportMessage(_:)))
             menuItems.append(reportItem)
         }
 
         UIMenuController.sharedMenuController().menuItems = menuItems
+        UIMenuController.sharedMenuController().update()
         
         return true
     }
@@ -327,11 +324,11 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
             return true
         }
 
-        if action == #selector(ChatBaseCell.deleteMessage(_:)) {
+        if action == #selector(ChatBaseCellNode.deleteMessage(_:)) {
             return true
         }
 
-        if action == #selector(ChatBaseCell.reportMessage(_:)) {
+        if action == #selector(ChatBaseCellNode.reportMessage(_:)) {
             return true
         }
 

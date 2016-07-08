@@ -53,5 +53,13 @@ class ChatBaseCellNode: ASCellNode {
             tapAvatarAction?(user: user)
         }
     }
+
+    func deleteMessage(object: AnyObject?) {
+        println("TODO deleteMessage")
+    }
+
+    func reportMessage(object: AnyObject?) {
+        println("TODO reportMessage")
+    }
 }
 
