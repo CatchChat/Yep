@@ -322,7 +322,20 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
     }
 
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return true
+
+        if action == #selector(NSObject.copy(_:)) {
+            return true
+        }
+
+        if action == #selector(ChatBaseCell.deleteMessage(_:)) {
+            return true
+        }
+
+        if action == #selector(ChatBaseCell.reportMessage(_:)) {
+            return true
+        }
+
+        return false
     }
 
     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
