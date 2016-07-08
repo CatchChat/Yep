@@ -323,7 +323,11 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         println("action: \(action)")
 
         if action == #selector(NSObject.copy(_:)) {
-            return true
+            if tableNode.view?.nodeForRowAtIndexPath(indexPath) is Copyable {
+                return true
+            } else {
+                return false
+            }
         }
 
         if action == #selector(ChatBaseCellNode.deleteMessage(_:)) {
