@@ -276,11 +276,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         switch section {
 
         case .LoadPrevious:
-            if isLoadingPreviousMessages {
-                let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
-                node?.isLoading = true
-            }
-            break
+            let node = tableView.nodeForRowAtIndexPath(indexPath) as? ChatLoadingCellNode
+            node?.isLoading = isLoadingPreviousMessages
 
         case .Messages:
             break
