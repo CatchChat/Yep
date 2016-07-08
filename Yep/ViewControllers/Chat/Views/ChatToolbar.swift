@@ -286,12 +286,16 @@ final class ChatToolbar: UIToolbar {
         NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
 
         // void record button
-        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[voiceRecordButton(>=height)]-8-|", options: [], metrics: ["height": messageTextViewMinHeight], views: viewsDictionary)
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[voiceRecordButton]-8-|", options: [], metrics: nil, views: viewsDictionary)
 
         let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: viewsDictionary)
 
+        let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
+        voiceRecordButtonHeightConstraint.priority = UILayoutPriorityDefaultHigh
+
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
+        NSLayoutConstraint.activateConstraints([voiceRecordButtonHeightConstraint])
     }
 
     // MARK: Animations
