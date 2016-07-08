@@ -42,6 +42,8 @@ class ChatBaseCellNode: ASCellNode {
     override init() {
         super.init()
 
+        selectionStyle = .None
+
         //addSubnode(nameNode)
         addSubnode(avatarImageNode)
     }

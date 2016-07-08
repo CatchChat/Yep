@@ -41,6 +41,8 @@ class ChatPromptCellNode: ASCellNode {
     override init() {
         super.init()
 
+        selectionStyle = .None
+        
         addSubnode(bubbleNode)
         addSubnode(textNode)
     }
