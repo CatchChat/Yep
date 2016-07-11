@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepNetworking
 import RealmSwift
 import AsyncDisplayKit
 
@@ -34,6 +35,47 @@ class ChatViewController: BaseViewController {
         let toolbar = ChatToolbar()
         toolbar.sizeToFit()
         toolbar.layoutIfNeeded()
+
+        toolbar.sendTextAction = { [weak self] text in
+
+            guard let recipient = self?.conversation.recipient else {
+                return
+            }
+
+            println("try sendText to recipient: \(recipient)")
+
+            sendText(text, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: { [weak self] message in
+
+                /*
+                SafeDispatch.async {
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                    })
+                }*/
+
+            }, failureHandler: { [weak self] reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                /*
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                )
+                 */
+
+            }, completion: { [weak self] success in
+                println("sendText to friend: \(success)")
+
+                //self?.showFriendRequestViewIfNeed()
+            })
+
+            /*
+            if self?.needDetectMention ?? false {
+                self?.mentionView.hide()
+            }
+             */
+        }
+
         return toolbar
     }()
 
