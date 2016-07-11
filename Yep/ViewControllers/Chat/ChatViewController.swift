@@ -37,8 +37,6 @@ class ChatViewController: BaseViewController {
 
     lazy var chatToolbar: ChatToolbar = {
         let toolbar = ChatToolbar()
-        toolbar.sizeToFit()
-        toolbar.layoutIfNeeded()
 
         toolbar.sendTextAction = { [weak self] text in
             self?.send(text: text)
@@ -87,14 +85,6 @@ class ChatViewController: BaseViewController {
         println("deinit ChatViewController")
     }
 
-    override func canBecomeFirstResponder() -> Bool {
-        return true
-    }
-
-    override var inputAccessoryView: UIView? {
-        return chatToolbar
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -110,6 +100,12 @@ class ChatViewController: BaseViewController {
             if DeviceGuru.yep_isLowEndDevice {
                 tableNode.view?.alpha = 0
             }
+
+            view.addSubview(chatToolbar)
+            chatToolbar.translatesAutoresizingMaskIntoConstraints = false
+            chatToolbar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+            chatToolbar.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+            chatToolbar.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
         }
 
         realm = conversation.realm!
