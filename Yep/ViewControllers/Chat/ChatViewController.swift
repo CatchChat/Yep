@@ -30,12 +30,13 @@ class ChatViewController: BaseViewController {
         let node = ASTableNode()
         node.dataSource = self
         node.delegate = self
+        node.view?.contentInset.bottom = 49
         node.view?.keyboardDismissMode = .OnDrag
         node.view?.separatorStyle = .None
         return node
     }()
 
-    private var messageToolbarBottomConstraint: NSLayoutConstraint!
+    private var chatToolbarBottomConstraint: NSLayoutConstraint!
     lazy var chatToolbar: ChatToolbar = {
         let toolbar = ChatToolbar()
 
@@ -52,6 +53,7 @@ class ChatViewController: BaseViewController {
                 let deltaHeight = toolbar.height - toolbar.previousHeight
 
                 UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    self?.tableNode.view?.contentOffset.y += deltaHeight
                     self?.tableNode.view?.contentInset.bottom += deltaHeight
                     self?.tableNode.view?.scrollIndicatorInsets.bottom += deltaHeight
                 }, completion: { _ in })
@@ -107,9 +109,8 @@ class ChatViewController: BaseViewController {
             chatToolbar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
             chatToolbar.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
             let bottom = chatToolbar.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
-            messageToolbarBottomConstraint = bottom
+            chatToolbarBottomConstraint = bottom
             bottom.active = true
-
         }
 
         realm = conversation.realm!
@@ -166,11 +167,11 @@ class ChatViewController: BaseViewController {
 
             strongSelf.tableNode.view?.contentOffset.y += keyboardHeightIncrement
 
-            let bottom = keyboardHeight // + subscribeViewHeight
+            let bottom = keyboardHeight + strongSelf.chatToolbar.frame.height // + subscribeViewHeight
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
 
-            strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
+            strongSelf.chatToolbarBottomConstraint.constant = -keyboardHeight
             strongSelf.view.layoutIfNeeded()
         }
 
@@ -190,7 +191,7 @@ class ChatViewController: BaseViewController {
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
 
-            strongSelf.messageToolbarBottomConstraint.constant = 0
+            strongSelf.chatToolbarBottomConstraint.constant = 0
             strongSelf.view.layoutIfNeeded()
         }
     }
