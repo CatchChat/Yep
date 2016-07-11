@@ -261,7 +261,7 @@ public class PhotosViewController: UIViewController {
     private func dismissViewControllerAnimated(animated: Bool, userInitiated: Bool, completion: (() -> Void)? = nil) {
 
         if presentedViewController != nil {
-            super.dismissViewControllerAnimated(animated, completion: completion)
+            dismissViewControllerAnimated(animated, completion: completion)
             return
         }
 
@@ -275,7 +275,7 @@ public class PhotosViewController: UIViewController {
 
         delegate?.photosViewControllerWillDismiss(self)
 
-        super.dismissViewControllerAnimated(animated) { [weak self] in
+        dismissViewControllerAnimated(animated) { [weak self] in
 
             let isStillOnscreen = (self?.view.window != nil)
 
