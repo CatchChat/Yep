@@ -47,6 +47,9 @@ class ChatViewController: BaseViewController {
 
     private let keyboardMan = KeyboardMan()
 
+    // 上一次更新 UI 时的消息数
+    var lastTimeMessagesCount: Int = 0
+
     var indexPathForMenu: NSIndexPath?
 
     var isLoadingPreviousMessages = false
