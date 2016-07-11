@@ -86,6 +86,7 @@
 		501813261BA07CED0025873C /* Activities.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 501813251BA07CED0025873C /* Activities.xcassets */; };
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		501C15661D334E2D00FAAF5E /* ChatViewController+SendMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */; };
+		501C15681D339B3B00FAAF5E /* ChatViewController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
 		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
@@ -840,6 +841,7 @@
 		501813251BA07CED0025873C /* Activities.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Activities.xcassets; sourceTree = "<group>"; };
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+SendMessages.swift"; sourceTree = "<group>"; };
+		501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Animations.swift"; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
 		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
@@ -3071,6 +3073,7 @@
 				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
 				501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */,
 				50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */,
+				501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */,
 				50BAED771D2B4A4D0046B4AB /* Chat.storyboard */,
 			);
 			name = Chat;
@@ -4842,6 +4845,7 @@
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
 				505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
+				501C15681D339B3B00FAAF5E /* ChatViewController+Animations.swift in Sources */,
 				50E34C2C1CBDEC31007CAE80 /* FeedsMoreViewManager.swift in Sources */,
 				50BAED8D1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift in Sources */,
 				502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */,

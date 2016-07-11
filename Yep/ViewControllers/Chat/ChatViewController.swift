@@ -41,23 +41,38 @@ class ChatViewController: BaseViewController {
         let toolbar = ChatToolbar()
 
         toolbar.sendTextAction = { [weak self] text in
+
             self?.send(text: text)
+
+            self?.trySnapContentOfTableToBottom()
         }
 
         toolbar.stateTransitionAction = { [weak self] (toolbar, previousState, currentState) in
 
-            switch (previousState, currentState) {
+//            switch (previousState, currentState) {
+//
+//            case (.TextInputing, .BeginTextInput):
+//
+//                let deltaHeight = toolbar.height - toolbar.previousHeight
+//
+//                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+//                    self?.tableNode.view?.contentOffset.y += deltaHeight
+//                    self?.tableNode.view?.contentInset.bottom += deltaHeight
+//                    self?.tableNode.view?.scrollIndicatorInsets.bottom += deltaHeight
+//                }, completion: { _ in })
+//
+//            default:
+//                break
+//            }
 
-            case (.TextInputing, .BeginTextInput):
+            switch currentState {
 
-                let deltaHeight = toolbar.height - toolbar.previousHeight
+            case .BeginTextInput:
+                self?.trySnapContentOfTableToBottom(forceAnimation: true)
 
-                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-                    self?.tableNode.view?.contentOffset.y += deltaHeight
-                    self?.tableNode.view?.contentInset.bottom += deltaHeight
-                    self?.tableNode.view?.scrollIndicatorInsets.bottom += deltaHeight
-                }, completion: { _ in })
-
+            case .TextInputing:
+                self?.trySnapContentOfTableToBottom()
+                
             default:
                 break
             }
