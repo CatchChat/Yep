@@ -98,6 +98,8 @@ class ChatViewController: BaseViewController {
             }
         }
 
+        lastTimeMessagesCount = messages.count
+
         do {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
 
