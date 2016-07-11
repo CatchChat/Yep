@@ -22,7 +22,7 @@ class ChatViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    let messagesBunchCount = 20
+    let messagesBunchCount = 30
     var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
@@ -30,6 +30,7 @@ class ChatViewController: BaseViewController {
         node.dataSource = self
         node.delegate = self
         node.view?.keyboardDismissMode = .OnDrag
+        node.view?.separatorStyle = .None
         return node
     }()
 
