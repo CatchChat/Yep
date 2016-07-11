@@ -13,7 +13,7 @@ class PhotoTransitonController: NSObject {
     lazy var animator = PhotoTransitionAnimator()
     lazy var interactionController = PhotoDismissalInteractionController()
 
-    var forcesNonInteractiveDismissal = false
+    var forcesNonInteractiveDismissal = true
 
     var startingView: UIView? {
         return animator.startingView
