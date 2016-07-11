@@ -156,9 +156,11 @@ extension ChatViewController {
                 switch messageAge {
 
                 case .New:
+
                     tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Bottom)
 
                 case .Old:
+
                     tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Top)
                 }
 
@@ -174,7 +176,13 @@ extension ChatViewController {
                     indexPaths.append(indexPath)
                 }
 
-                tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Bottom)
+                tableNode.view?.beginUpdates()
+                tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                tableNode.view?.endUpdatesAnimated(false) { [weak self] success in
+                    if let lastIndexPath = indexPaths.last {
+                        self?.tableNode.view?.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+                    }
+                }
 
                 println("insert self messages")
             }
