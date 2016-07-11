@@ -35,6 +35,7 @@ class ChatViewController: BaseViewController {
         return node
     }()
 
+    private var messageToolbarBottomConstraint: NSLayoutConstraint!
     lazy var chatToolbar: ChatToolbar = {
         let toolbar = ChatToolbar()
 
@@ -105,7 +106,10 @@ class ChatViewController: BaseViewController {
             chatToolbar.translatesAutoresizingMaskIntoConstraints = false
             chatToolbar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
             chatToolbar.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
-            chatToolbar.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
+            let bottom = chatToolbar.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
+            messageToolbarBottomConstraint = bottom
+            bottom.active = true
+
         }
 
         realm = conversation.realm!
@@ -165,6 +169,9 @@ class ChatViewController: BaseViewController {
             let bottom = keyboardHeight // + subscribeViewHeight
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+
+            strongSelf.messageToolbarBottomConstraint.constant = keyboardHeight
+            strongSelf.view.layoutIfNeeded()
         }
 
         keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
@@ -182,6 +189,9 @@ class ChatViewController: BaseViewController {
 
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+
+            strongSelf.messageToolbarBottomConstraint.constant = 0
+            strongSelf.view.layoutIfNeeded()
         }
     }
 
