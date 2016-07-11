@@ -186,10 +186,11 @@ class ChatViewController: BaseViewController {
 
             print("KeyboardDisappear: \(keyboardHeight)")
 
-            strongSelf.tableNode.view?.contentOffset.y -= (keyboardHeight - strongSelf.chatToolbar.frame.height)
-
             //let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
             let bottom = strongSelf.chatToolbar.frame.height // + subscribeViewHeight
+
+            strongSelf.tableNode.view?.contentOffset.y -= (keyboardHeight - bottom)
+
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
         }
