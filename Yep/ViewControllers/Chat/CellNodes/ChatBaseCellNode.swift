@@ -14,7 +14,7 @@ import AsyncDisplayKit
 class ChatBaseCellNode: ASCellNode {
 
     static let avatarSize = CGSize(width: 40, height: 40)
-    static let topPadding: CGFloat = 5
+    static let topPadding: CGFloat = 0
     static let bottomPadding: CGFloat = 10
     static var verticalPadding: CGFloat {
         return topPadding + bottomPadding

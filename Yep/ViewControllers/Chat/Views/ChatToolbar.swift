@@ -41,9 +41,9 @@ final class ChatToolbar: UIToolbar {
     var state: MessageToolbarState = .Default {
         willSet {
 
-            updateHeightOfMessageTextView()
-
             previousState = state
+
+            updateHeightOfMessageTextView()
 
             if let action = stateTransitionAction {
                 action(chatToolbar: self, previousState: previousState, currentState: newValue)
@@ -117,7 +117,7 @@ final class ChatToolbar: UIToolbar {
     var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
     var giveUpMentionUserAction: (() -> Void)?
 
-    var textSendAction: ((chatToolBar: ChatToolbar) -> Void)?
+    var sendTextAction: ((text: String) -> Void)?
 
     var moreMessageTypesAction: (() -> Void)?
 
@@ -397,9 +397,14 @@ final class ChatToolbar: UIToolbar {
 
     func trySendTextMessage() {
 
-        if let textSendAction = textSendAction {
-            textSendAction(chatToolBar: self)
+        let text = messageTextView.text!.trimming(.WhitespaceAndNewline)
+
+        if !text.isEmpty {
+            sendTextAction?(text: text)
         }
+
+        messageTextView.text = ""
+        state = .BeginTextInput
     }
 
     func toggleRecordVoice() {

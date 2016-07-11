@@ -8,8 +8,11 @@
 
 import UIKit
 import YepKit
+import YepNetworking
+import KeyboardMan
 import RealmSwift
 import AsyncDisplayKit
+import DeviceGuru
 
 class ChatViewController: BaseViewController {
 
@@ -20,22 +23,52 @@ class ChatViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    let messagesBunchCount = 20
+    let messagesBunchCount = 30
     var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
         let node = ASTableNode()
         node.dataSource = self
         node.delegate = self
+        node.view?.contentInset.bottom = 49
+        node.view?.keyboardDismissMode = .OnDrag
+        node.view?.separatorStyle = .None
         return node
     }()
 
+    private var chatToolbarBottomConstraint: NSLayoutConstraint!
     lazy var chatToolbar: ChatToolbar = {
         let toolbar = ChatToolbar()
-        toolbar.sizeToFit()
-        toolbar.layoutIfNeeded()
+
+        toolbar.sendTextAction = { [weak self] text in
+
+            self?.send(text: text)
+
+            self?.trySnapContentOfTableToBottom()
+        }
+
+        toolbar.stateTransitionAction = { [weak self] (toolbar, previousState, currentState) in
+
+            switch currentState {
+
+            case .BeginTextInput:
+                self?.trySnapContentOfTableToBottom(forceAnimation: true)
+
+            case .TextInputing:
+                self?.trySnapContentOfTableToBottom()
+                
+            default:
+                break
+            }
+        }
+
         return toolbar
     }()
+
+    private let keyboardMan = KeyboardMan()
+
+    // 上一次更新 UI 时的消息数
+    var lastTimeMessagesCount: Int = 0
 
     var indexPathForMenu: NSIndexPath?
 
@@ -54,14 +87,6 @@ class ChatViewController: BaseViewController {
         println("deinit ChatViewController")
     }
 
-    override func canBecomeFirstResponder() -> Bool {
-        return true
-    }
-
-    override var inputAccessoryView: UIView? {
-        return chatToolbar
-    }
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -73,6 +98,18 @@ class ChatViewController: BaseViewController {
 
         do {
             view.addSubview(tableNode.view)
+
+            if DeviceGuru.yep_isLowEndDevice {
+                tableNode.view?.alpha = 0
+            }
+
+            view.addSubview(chatToolbar)
+            chatToolbar.translatesAutoresizingMaskIntoConstraints = false
+            chatToolbar.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor).active = true
+            chatToolbar.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor).active = true
+            let bottom = chatToolbar.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
+            chatToolbarBottomConstraint = bottom
+            bottom.active = true
         }
 
         realm = conversation.realm!
@@ -84,6 +121,8 @@ class ChatViewController: BaseViewController {
                 displayedMessagesRange = NSRange(location: 0, length: messages.count)
             }
         }
+
+        lastTimeMessagesCount = messages.count
 
         do {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuWillShow(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
@@ -112,6 +151,58 @@ class ChatViewController: BaseViewController {
             }
         }
         delay(0, work: scrollToBottom)
+
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
+
+            guard let strongSelf = self where strongSelf.navigationController?.topViewController == strongSelf else {
+                return
+            }
+
+            guard keyboardHeightIncrement > 0 else {
+                return
+            }
+
+            print("KeyboardAppear: \(appearPostIndex, keyboardHeight, keyboardHeightIncrement)")
+
+            strongSelf.tableNode.view?.contentOffset.y += keyboardHeightIncrement
+
+            let bottom = keyboardHeight + strongSelf.chatToolbar.frame.height // + subscribeViewHeight
+            strongSelf.tableNode.view?.contentInset.bottom = bottom
+            strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+
+            strongSelf.chatToolbarBottomConstraint.constant = -keyboardHeight
+            strongSelf.view.layoutIfNeeded()
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            guard let strongSelf = self where strongSelf.navigationController?.topViewController == strongSelf else {
+                return
+            }
+
+            print("KeyboardDisappear: \(keyboardHeight)")
+
+            //let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
+            let bottom = strongSelf.chatToolbar.frame.height // + subscribeViewHeight
+
+            strongSelf.tableNode.view?.contentOffset.y -= (keyboardHeight - bottom)
+
+            strongSelf.tableNode.view?.contentInset.bottom = bottom
+            strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+
+            strongSelf.chatToolbarBottomConstraint.constant = 0
+            strongSelf.view.layoutIfNeeded()
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if DeviceGuru.yep_isLowEndDevice {
+            UIView.animateWithDuration(0.25, delay: 0, options: [.CurveEaseInOut], animations: { [weak self] in
+                self?.tableNode.view?.alpha = 1
+            }, completion: nil)
+        }
     }
 }
 
