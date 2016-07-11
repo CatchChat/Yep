@@ -9,6 +9,7 @@
 import UIKit
 import YepKit
 import YepNetworking
+import KeyboardMan
 import RealmSwift
 import AsyncDisplayKit
 
@@ -29,7 +30,6 @@ class ChatViewController: BaseViewController {
         node.dataSource = self
         node.delegate = self
         node.view?.keyboardDismissMode = .Interactive
-        node.view?.contentInset.bottom = 50
         return node
     }()
 
@@ -80,6 +80,8 @@ class ChatViewController: BaseViewController {
 
         return toolbar
     }()
+
+    private let keyboardMan = KeyboardMan()
 
     var indexPathForMenu: NSIndexPath?
 
@@ -156,6 +158,19 @@ class ChatViewController: BaseViewController {
             }
         }
         delay(0, work: scrollToBottom)
+
+        keyboardMan.animateWhenKeyboardAppear = { [weak self] appearPostIndex, keyboardHeight, keyboardHeightIncrement in
+
+            guard let strongSelf = self where strongSelf.navigationController?.topViewController == strongSelf else {
+                return
+            }
+
+            strongSelf.tableNode.view?.contentOffset.y += keyboardHeightIncrement
+
+            let bottom = keyboardHeight // + subscribeViewHeight
+            strongSelf.tableNode.view?.contentInset.bottom = bottom
+            strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+        }
     }
 }
 
