@@ -42,6 +42,28 @@ class ChatViewController: BaseViewController {
             self?.send(text: text)
         }
 
+        toolbar.stateTransitionAction = { [weak self] (toolbar, previousState, currentState) in
+
+            switch currentState {
+
+            case .BeginTextInput:
+
+                if let previousHeight = toolbar.previousHeight {
+                    let deltaHeight = toolbar.height - previousHeight
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                        self?.tableNode.view?.contentInset.bottom += deltaHeight
+                        self?.tableNode.view?.scrollIndicatorInsets.bottom += deltaHeight
+                    }, completion: { _ in })
+                }
+
+            case .TextInputing:
+                break
+
+            default:
+                break
+            }
+        }
+
         return toolbar
     }()
 
