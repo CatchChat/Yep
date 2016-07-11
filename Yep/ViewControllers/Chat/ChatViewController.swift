@@ -29,7 +29,7 @@ class ChatViewController: BaseViewController {
         let node = ASTableNode()
         node.dataSource = self
         node.delegate = self
-        node.view?.keyboardDismissMode = .Interactive
+        node.view?.keyboardDismissMode = .OnDrag
         return node
     }()
 
@@ -165,9 +165,31 @@ class ChatViewController: BaseViewController {
                 return
             }
 
+            guard keyboardHeightIncrement > 0 else {
+                return
+            }
+
+            print("KeyboardAppear: \(appearPostIndex, keyboardHeight, keyboardHeightIncrement)")
+
             strongSelf.tableNode.view?.contentOffset.y += keyboardHeightIncrement
 
             let bottom = keyboardHeight // + subscribeViewHeight
+            strongSelf.tableNode.view?.contentInset.bottom = bottom
+            strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+        }
+
+        keyboardMan.animateWhenKeyboardDisappear = { [weak self] keyboardHeight in
+
+            guard let strongSelf = self where strongSelf.navigationController?.topViewController == strongSelf else {
+                return
+            }
+
+            print("KeyboardDisappear: \(keyboardHeight)")
+
+            strongSelf.tableNode.view?.contentOffset.y -= (keyboardHeight - strongSelf.chatToolbar.frame.height)
+
+            //let subscribeViewHeight = strongSelf.isSubscribeViewShowing ? SubscribeView.height : 0
+            let bottom = strongSelf.chatToolbar.frame.height // + subscribeViewHeight
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
         }
