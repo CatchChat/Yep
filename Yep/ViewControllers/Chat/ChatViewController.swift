@@ -12,6 +12,7 @@ import YepNetworking
 import KeyboardMan
 import RealmSwift
 import AsyncDisplayKit
+import DeviceGuru
 
 class ChatViewController: BaseViewController {
 
@@ -105,6 +106,10 @@ class ChatViewController: BaseViewController {
 
         do {
             view.addSubview(tableNode.view)
+
+            if DeviceGuru.yep_isLowEndDevice {
+                tableNode.view?.alpha = 0
+            }
         }
 
         realm = conversation.realm!
@@ -181,6 +186,16 @@ class ChatViewController: BaseViewController {
 
             strongSelf.tableNode.view?.contentInset.bottom = bottom
             strongSelf.tableNode.view?.scrollIndicatorInsets.bottom = bottom
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if DeviceGuru.yep_isLowEndDevice {
+            UIView.animateWithDuration(0.25, delay: 0, options: [.CurveEaseInOut], animations: { [weak self] in
+                self?.tableNode.view?.alpha = 1
+            }, completion: nil)
         }
     }
 }

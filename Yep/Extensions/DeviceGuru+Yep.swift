@@ -23,7 +23,7 @@ extension Hardware {
 
 extension DeviceGuru {
 
-    var yep_isLowEndDevice: Bool {
+    static var yep_isLowEndDevice: Bool {
 
         switch UIDevice.currentDevice().userInterfaceIdiom {
         case .Phone:
@@ -41,3 +41,4 @@ extension DeviceGuru {
         return false
     }
 }
+
