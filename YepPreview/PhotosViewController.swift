@@ -252,7 +252,8 @@ public class PhotosViewController: UIViewController {
 
     @objc private func didSingleTap(sender: UITapGestureRecognizer) {
 
-        setOverlayActionViewHidden(!overlayActionView.hidden, animated: true)
+        //setOverlayActionViewHidden(!overlayActionView.hidden, animated: true)
+        dismissViewControllerAnimated(true, userInitiated: true, completion: nil)
     }
 
     // MARK: Dismissal
@@ -261,6 +262,7 @@ public class PhotosViewController: UIViewController {
 
         if presentedViewController != nil {
             super.dismissViewControllerAnimated(animated, completion: completion)
+            return
         }
 
         let startingView = currentPhotoViewController?.scalingImageView.imageView
