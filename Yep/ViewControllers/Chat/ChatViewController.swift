@@ -28,6 +28,8 @@ class ChatViewController: BaseViewController {
         let node = ASTableNode()
         node.dataSource = self
         node.delegate = self
+        node.view?.keyboardDismissMode = .Interactive
+        node.view?.contentInset.bottom = 50
         return node
     }()
 
