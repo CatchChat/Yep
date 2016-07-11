@@ -37,7 +37,7 @@ final class ChatToolbar: UIToolbar {
 
     var stateTransitionAction: ((chatToolbar: ChatToolbar, previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
 
-    var previousHeight: CGFloat?
+    var previousHeight: CGFloat = 49
     var height: CGFloat {
         return self.frame.height
     }
