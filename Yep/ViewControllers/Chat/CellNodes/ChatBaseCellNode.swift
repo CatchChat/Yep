@@ -20,6 +20,8 @@ class ChatBaseCellNode: ASCellNode {
         return topPadding + bottomPadding
     }
 
+    var tapAvatarAction: ((user: User) -> Void)?
+
     var user: User? {
         didSet {
             if let user = user {
@@ -28,7 +30,6 @@ class ChatBaseCellNode: ASCellNode {
             }
         }
     }
-    var tapAvatarAction: ((user: User) -> Void)?
 
     lazy var nameNode = ASTextNode()
     lazy var avatarImageNode: ASImageNode = {

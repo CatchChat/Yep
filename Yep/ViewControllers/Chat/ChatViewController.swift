@@ -217,6 +217,28 @@ class ChatViewController: BaseViewController {
 
         switch identifier {
 
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                vc.prepare(withUser: user)
+
+            } else {
+                if let withFriend = conversation?.withFriend {
+                    vc.prepare(withUser: withFriend)
+                }
+            }
+
+            switch conversation.type {
+            case ConversationType.OneToOne.rawValue:
+                vc.fromType = .OneToOneConversation
+            case ConversationType.Group.rawValue:
+                vc.fromType = .GroupConversation
+            default:
+                break
+            }
+
         case "showProfileWithUsername":
 
             let vc = segue.destinationViewController as! ProfileViewController
@@ -349,6 +371,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftTextCellNode()
                     node.configure(withMessage: message)
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.tapURLAction = { [weak self] url in
                         self?.yep_openURL(url)
                     }
@@ -361,6 +386,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftImageCellNode()
                     node.configure(withMessage: message)
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.tapImageAction = { [weak self] node in
                         self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
@@ -369,18 +397,27 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                 case .Audio:
 
                     let node = ChatLeftTextCellNode()
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.configure(withMessage: message, text: "Mysterious Audio")
                     return node
 
                 case .Video:
 
                     let node = ChatLeftTextCellNode()
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.configure(withMessage: message, text: "Mysterious Video")
                     return node
 
                 case .Location:
 
                     let node = ChatLeftTextCellNode()
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.configure(withMessage: message, text: "Mysterious Location")
                     return node
 
@@ -404,6 +441,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message)
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.tapURLAction = { [weak self] url in
                         self?.yep_openURL(url)
                     }
@@ -416,6 +456,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightImageCellNode()
                     node.configure(withMessage: message)
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     node.tapImageAction = { [weak self] node in
                         self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
@@ -425,18 +468,27 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Audio")
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     return node
 
                 case .Video:
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Video")
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     return node
 
                 case .Location:
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Location")
+                    node.tapAvatarAction = { [weak self] user in
+                        self?.performSegueWithIdentifier("showProfile", sender: user)
+                    }
                     return node
 
                 default:

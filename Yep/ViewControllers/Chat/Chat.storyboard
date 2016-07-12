@@ -20,6 +20,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <segue destination="bRe-Y4-BDi" kind="show" identifier="showProfileWithUsername" id="9w4-mj-kwc"/>
+                        <segue destination="dUn-5A-Ur6" kind="show" identifier="showProfile" id="cuP-i5-pV7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZA-Yf-6mj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -32,7 +33,15 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="bRe-Y4-BDi" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OMc-oP-rBA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1141.5" y="26"/>
+            <point key="canvasLocation" x="1141" y="70"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="T7x-fa-ck6">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="dUn-5A-Ur6" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FmP-6d-nSU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1141" y="-21"/>
         </scene>
     </scenes>
 </document>
