@@ -22,6 +22,11 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
+    static let linkAttributes = [
+        NSForegroundColorAttributeName: UIColor.redColor(),
+        NSFontAttributeName: UIFont.chatTextFont(),
+    ]
+
     lazy var tailImageNode: ASImageNode = {
         let node = ASImageNode()
         node.image = UIImage(named: "bubble_right_tail")?.imageWithRenderingMode(.AlwaysOriginal)
@@ -63,9 +68,28 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         
         do {
             let text = message.textContent
+
             let attributedText = NSMutableAttributedString(string: text, attributes: ChatRightTextCellNode.textAttributes)
 
-            
+            if let urlDetector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) {
+
+                urlDetector.enumerateMatchesInString(text, options: [], range: NSMakeRange(0, (text as NSString).length), usingBlock: { (result, flags, stop) in
+
+                    guard let result = result else {
+                        return
+                    }
+
+                    if result.resultType == NSTextCheckingType.Link {
+
+                        var linkAttributes = ChatRightTextCellNode.linkAttributes
+                        if let urlString = result.URL?.absoluteString {
+                            linkAttributes["TextLinkAttributeName"] = NSURL(string: urlString)
+                        }
+
+                        attributedText.addAttributes(linkAttributes, range: result.range)
+                    }
+                })
+            }
 
             textNode.attributedText = attributedText
         }
