@@ -18,10 +18,21 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="bRe-Y4-BDi" kind="show" identifier="showProfileWithUsername" id="9w4-mj-kwc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZA-Yf-6mj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="741" y="26"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="h01-JE-hPI">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="bRe-Y4-BDi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OMc-oP-rBA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1141.5" y="26"/>
         </scene>
     </scenes>
 </document>
