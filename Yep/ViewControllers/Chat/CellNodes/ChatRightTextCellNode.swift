@@ -23,7 +23,7 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
     ]
 
     static let linkAttributes = [
-        NSForegroundColorAttributeName: UIColor.redColor(),
+        NSForegroundColorAttributeName: UIColor.whiteColor(),
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 

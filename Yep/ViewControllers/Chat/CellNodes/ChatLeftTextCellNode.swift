@@ -22,6 +22,11 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
+    static let linkAttributes = [
+        NSForegroundColorAttributeName: UIColor.yepTintColor(),
+        NSFontAttributeName: UIFont.chatTextFont(),
+    ]
+
     lazy var tailImageNode: ASImageNode = {
         let node = ASImageNode()
         node.image = UIImage(named: "bubble_left_tail")?.imageWithRenderingMode(.AlwaysOriginal)
@@ -37,7 +42,7 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
         return node
     }()
 
-    lazy var textNode = ASTextNode()
+    lazy var textNode = ChatTextNode()
 
     override init() {
         super.init()
@@ -58,7 +63,7 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
         do {
             let text = message.textContent
-            textNode.attributedText = NSAttributedString(string: text, attributes: ChatLeftTextCellNode.textAttributes)
+            textNode.setText(text, withTextAttributes: ChatLeftTextCellNode.textAttributes, linkAttributes: ChatLeftTextCellNode.linkAttributes)
         }
     }
 
