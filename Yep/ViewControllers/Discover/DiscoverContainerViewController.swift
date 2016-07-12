@@ -206,14 +206,14 @@ class DiscoverContainerViewController: UIViewController {
             let vc = segue.destinationViewController as! GeniusInterviewViewController
 
             let geniusInterview = (sender as! Box<GeniusInterview>).value
-            vc.interview = .geniusInterview(geniusInterview)
+            vc.interview = geniusInterview
 
         case "showGeniusInterviewWithBanner":
 
             let vc = segue.destinationViewController as! GeniusInterviewViewController
 
             let banner = (sender as! Box<GeniusInterviewBanner>).value
-            vc.interview = .geniusInterviewBanner(banner)
+            vc.interview = banner
 
         default:
             break
@@ -249,7 +249,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
                 return nil
             }
             
-            vc.interview = .geniusInterview(geniusInterview)
+            vc.interview = geniusInterview
 
             return vc
 

@@ -13,29 +13,7 @@ import RealmSwift
 
 class GeniusInterviewViewController: UIViewController {
 
-    enum Interview {
-        case geniusInterview(GeniusInterview)
-        case geniusInterviewBanner(GeniusInterviewBanner)
-
-        var user: DiscoveredUser {
-            switch self {
-            case .geniusInterview(let geniusInterview):
-                return geniusInterview.user
-            case .geniusInterviewBanner(let geniusInterviewBanner):
-                return geniusInterviewBanner.user
-            }
-        }
-
-        var linkURL: NSURL {
-            switch self {
-            case .geniusInterview(let geniusInterview):
-                return geniusInterview.url
-            case .geniusInterviewBanner(let geniusInterviewBanner):
-                return geniusInterviewBanner.linkURL
-            }
-        }
-    }
-    var interview: Interview!
+    var interview: InterviewRepresentation!
 
     private let actionViewHeight: CGFloat = 50
 
