@@ -357,13 +357,15 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                 return node
             }
 
-            if sender.friendState != UserFriendState.Me.rawValue { // from Friend
+            if message.deletedByCreator {
+                let node = ChatPromptCellNode()
+                node.configure(withMessage: message, promptType: .RecalledMessage)
+                return node
+            }
 
-                if message.deletedByCreator {
-                    let node = ChatPromptCellNode()
-                    node.configure(withMessage: message, promptType: .RecalledMessage)
-                    return node
-                }
+            let cellNode: ASCellNode
+
+            if sender.friendState != UserFriendState.Me.rawValue { // from Friend
 
                 switch mediaType {
 
@@ -371,66 +373,51 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftTextCellNode()
                     node.configure(withMessage: message)
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.tapURLAction = { [weak self] url in
                         self?.yep_openURL(url)
                     }
                     node.tapMentionAction = { [weak self] username in
                         self?.tryShowProfile(withUsername: username)
                     }
-                    return node
+                    cellNode = node
 
                 case .Image:
 
                     let node = ChatLeftImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.tapImageAction = { [weak self] node in
                         self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
-                    return node
+                    cellNode = node
 
                 case .Audio:
 
                     let node = ChatLeftTextCellNode()
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.configure(withMessage: message, text: "Mysterious Audio")
-                    return node
+                    cellNode = node
 
                 case .Video:
 
                     let node = ChatLeftTextCellNode()
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.configure(withMessage: message, text: "Mysterious Video")
-                    return node
+                    cellNode = node
 
                 case .Location:
 
                     let node = ChatLeftTextCellNode()
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.configure(withMessage: message, text: "Mysterious Location")
-                    return node
+                    cellNode = node
 
                 case .SocialWork:
 
                     let node = ChatLeftTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious SocialWork")
-                    return node
+                    cellNode = node
                     
                 default:
                     let node = ChatLeftTextCellNode()
                     node.configure(withMessage: message)
-                    return node
+                    cellNode = node
                 }
 
             } else { // from Me
@@ -441,62 +428,55 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message)
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.tapURLAction = { [weak self] url in
                         self?.yep_openURL(url)
                     }
                     node.tapMentionAction = { [weak self] username in
                         self?.tryShowProfile(withUsername: username)
                     }
-                    return node
+                    cellNode = node
 
                 case .Image:
 
                     let node = ChatRightImageCellNode()
                     node.configure(withMessage: message)
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
                     node.tapImageAction = { [weak self] node in
                         self?.tryPreviewMediaOfMessage(message, fromNode: node)
                     }
-                    return node
+                    cellNode = node
 
                 case .Audio:
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Audio")
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
-                    return node
+                    cellNode = node
 
                 case .Video:
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Video")
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
-                    return node
+                    cellNode = node
 
                 case .Location:
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message, text: "Mysterious Location")
-                    node.tapAvatarAction = { [weak self] user in
-                        self?.performSegueWithIdentifier("showProfile", sender: user)
-                    }
-                    return node
+                    cellNode = node
 
                 default:
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message)
-                    return node
+                    cellNode = node
                 }
             }
+
+            if let baseCellNode = cellNode as? ChatBaseCellNode {
+                baseCellNode.tapAvatarAction = { [weak self] user in
+                    self?.performSegueWithIdentifier("showProfile", sender: user)
+                }
+            }
+
+            return cellNode
         }
     }
 
