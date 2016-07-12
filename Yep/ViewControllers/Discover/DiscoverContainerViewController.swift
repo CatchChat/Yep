@@ -164,6 +164,9 @@ class DiscoverContainerViewController: UIViewController {
             self.meetGeniusViewController = vc
 
             vc.tapBannerAction = { [weak self] banner in
+                SafeDispatch.async { [weak self] in
+                    self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+                }
             }
 
             vc.showGeniusInterviewAction = { geniusInterview in
@@ -203,7 +206,14 @@ class DiscoverContainerViewController: UIViewController {
             let vc = segue.destinationViewController as! GeniusInterviewViewController
 
             let geniusInterview = (sender as! Box<GeniusInterview>).value
-            vc.geniusInterview = geniusInterview
+            vc.interview = .geniusInterview(geniusInterview)
+
+        case "showGeniusInterviewWithBanner":
+
+            let vc = segue.destinationViewController as! GeniusInterviewViewController
+
+            let banner = (sender as! Box<GeniusInterviewBanner>).value
+            vc.interview = .geniusInterviewBanner(banner)
 
         default:
             break
@@ -239,7 +249,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
                 return nil
             }
             
-            vc.geniusInterview = geniusInterview
+            vc.interview = .geniusInterview(geniusInterview)
 
             return vc
 
