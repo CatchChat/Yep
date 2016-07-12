@@ -87,6 +87,7 @@
 		5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5018132B1BA3CFEF0025873C /* WeChatActivity.swift */; };
 		501C15661D334E2D00FAAF5E /* ChatViewController+SendMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */; };
 		501C15681D339B3B00FAAF5E /* ChatViewController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */; };
+		501C156C1D349A9100FAAF5E /* ChatTextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156B1D349A9100FAAF5E /* ChatTextNode.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
 		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
@@ -842,6 +843,7 @@
 		5018132B1BA3CFEF0025873C /* WeChatActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeChatActivity.swift; path = Activities/WeChatActivity.swift; sourceTree = "<group>"; };
 		501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+SendMessages.swift"; sourceTree = "<group>"; };
 		501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Animations.swift"; sourceTree = "<group>"; };
+		501C156B1D349A9100FAAF5E /* ChatTextNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextNode.swift; path = Views/ChatTextNode.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
 		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
@@ -3518,6 +3520,7 @@
 			isa = PBXGroup;
 			children = (
 				50F47FC41D2F91180046DE53 /* ChatToolbar.swift */,
+				501C156B1D349A9100FAAF5E /* ChatTextNode.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -4716,6 +4719,7 @@
 				504CBA3D1B3D04B800663A90 /* ChatTextView.swift in Sources */,
 				0A1CAC6E1AFA42D400826B45 /* SkillHomeViewController.swift in Sources */,
 				50DEE0411BE7626100015741 /* YepHelpers.swift in Sources */,
+				501C156C1D349A9100FAAF5E /* ChatTextNode.swift in Sources */,
 				501138311BCB62A20055A014 /* FeedConversationCell.swift in Sources */,
 				502AE5401AB88862005BD199 /* SkillRankCell.swift in Sources */,
 				50E2EB831D051C10001BB821 /* TitleSwitchCell.swift in Sources */,
