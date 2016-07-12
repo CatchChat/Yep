@@ -3969,14 +3969,20 @@ public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, fail
 
 public struct GeniusInterviewBanner {
 
+    public let user: DiscoveredUser
     public let imageURL: NSURL
     public let linkURL: NSURL
 
     public init?(_ info: JSONDictionary) {
 
         guard let
+            userInfo = info["user"] as? JSONDictionary,
             imageURLString = info["url"] as? String,
             linkURLString = info["link"] as? String else {
+            return nil
+        }
+
+        guard let user = parseDiscoveredUser(userInfo) else {
             return nil
         }
 
@@ -3988,6 +3994,7 @@ public struct GeniusInterviewBanner {
             return nil
         }
 
+        self.user = user
         self.imageURL = imageURL
         self.linkURL = linkURL
     }

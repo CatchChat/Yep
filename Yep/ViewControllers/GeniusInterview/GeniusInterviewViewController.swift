@@ -13,7 +13,7 @@ import RealmSwift
 
 class GeniusInterviewViewController: UIViewController {
 
-    var geniusInterview: GeniusInterview!
+    var interview: InterviewRepresentation!
 
     private let actionViewHeight: CGFloat = 50
 
@@ -43,7 +43,7 @@ class GeniusInterviewViewController: UIViewController {
         let view = GeniusInterviewActionView()
 
         view.tapAvatarAction = { [weak self] in
-            guard let user = self?.geniusInterview.user else {
+            guard let user = self?.interview.user else {
                 return
             }
 
@@ -53,7 +53,7 @@ class GeniusInterviewViewController: UIViewController {
         }
 
         view.sayHiAction = { [weak self] in
-            guard let user = self?.geniusInterview.user else {
+            guard let user = self?.interview.user else {
                 return
             }
 
@@ -76,7 +76,7 @@ class GeniusInterviewViewController: UIViewController {
         }
 
         view.shareAction = { [weak self] in
-            guard let url = self?.geniusInterview.url else {
+            guard let url = self?.interview.linkURL else {
                 return
             }
 
@@ -130,14 +130,14 @@ class GeniusInterviewViewController: UIViewController {
         }
 
         do {
-            let request = NSURLRequest(URL: geniusInterview.url)
+            let request = NSURLRequest(URL: interview.linkURL)
             webView.loadRequest(request)
 
             indicatorView.startAnimating()
         }
 
         do {
-            let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)
+            let avatar = PlainAvatar(avatarURLString: interview.user.avatarURLString, avatarStyle: miniAvatarStyle)
             actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
     }

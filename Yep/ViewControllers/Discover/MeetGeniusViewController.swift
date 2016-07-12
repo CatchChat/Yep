@@ -14,7 +14,7 @@ import Ruler
 
 class MeetGeniusViewController: UIViewController {
 
-    var tapBannerAction: ((url: NSURL) -> Void)?
+    var tapBannerAction: ((banner: GeniusInterviewBanner) -> Void)?
     var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
 
     @IBOutlet weak var tableView: UITableView! {
@@ -41,8 +41,8 @@ class MeetGeniusViewController: UIViewController {
 
     private lazy var meetGeniusShowView: MeetGeniusShowView = {
         let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
-        view.tapAction = { [weak self] url in
-            self?.tapBannerAction?(url: url)
+        view.tapAction = { [weak self] banner in
+            self?.tapBannerAction?(banner: banner)
         }
         return view
     }()
@@ -240,6 +240,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .LoadMore:
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
+            cell.noMoreResultsLabel.text = NSLocalizedString("To be continue.", comment: "")
             cell.isLoading = true
             return cell
         }
