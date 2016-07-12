@@ -13,6 +13,12 @@ import AsyncDisplayKit
 
 class ChatSectionDateCellNode: ASCellNode {
 
+    static let topPadding: CGFloat = 0
+    static let bottomPadding: CGFloat = 6
+    static var verticalPadding: CGFloat {
+        return topPadding + bottomPadding
+    }
+
     static let textAttributes = [
         NSForegroundColorAttributeName: UIColor.darkGrayColor(),
         NSFontAttributeName: UIFont.systemFontOfSize(12),
@@ -56,7 +62,8 @@ class ChatSectionDateCellNode: ASCellNode {
         super.layout()
 
         let x = (calculatedSize.width - textNode.calculatedSize.width) / 2
-        let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
+        let containerHeight = calculatedSize.height - ChatSectionDateCellNode.verticalPadding
+        let y = (containerHeight - textNode.calculatedSize.height) / 2 + ChatSectionDateCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
     }
