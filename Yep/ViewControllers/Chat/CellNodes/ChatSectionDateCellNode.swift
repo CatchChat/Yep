@@ -14,7 +14,7 @@ import AsyncDisplayKit
 class ChatSectionDateCellNode: ASCellNode {
 
     static let topPadding: CGFloat = 0
-    static let bottomPadding: CGFloat = 6
+    static let bottomPadding: CGFloat = 5
     static var verticalPadding: CGFloat {
         return topPadding + bottomPadding
     }
@@ -55,7 +55,7 @@ class ChatSectionDateCellNode: ASCellNode {
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
         let height = max(20, textNode.calculatedSize.height)
-        return CGSize(width: constrainedSize.width, height: height)
+        return CGSize(width: constrainedSize.width, height: height + ChatSectionDateCellNode.verticalPadding)
     }
 
     override func layout() {
