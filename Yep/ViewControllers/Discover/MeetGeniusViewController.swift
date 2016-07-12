@@ -240,6 +240,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .LoadMore:
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
+            cell.noMoreResultsLabel.text = NSLocalizedString("To be continue.", comment: "")
             cell.isLoading = true
             return cell
         }
