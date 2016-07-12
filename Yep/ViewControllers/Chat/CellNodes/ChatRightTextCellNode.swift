@@ -45,6 +45,11 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         addSubnode(tailImageNode)
         addSubnode(bubbleNode)
         addSubnode(textNode)
+
+        textNode.delegate = self
+        textNode.userInteractionEnabled = true
+        textNode.linkAttributeNames = ["TextLinkAttributeName"]
+        textNode.passthroughNonlinkTouches = true
     }
 
     func configure(withMessage message: Message, text: String? = nil) {
@@ -58,7 +63,11 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         
         do {
             let text = message.textContent
-            textNode.attributedText = NSAttributedString(string: text, attributes: ChatRightTextCellNode.textAttributes)
+            let attributedText = NSMutableAttributedString(string: text, attributes: ChatRightTextCellNode.textAttributes)
+
+            
+
+            textNode.attributedText = attributedText
         }
     }
 
@@ -90,6 +99,19 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
             let x = calculatedSize.width - ((13 + 5) + ChatBaseCellNode.avatarSize.width + 15)
             tailImageNode.frame = CGRect(x: x, y: 20 - (14 / 2) + ChatBaseCellNode.topPadding, width: 13, height: 14)
         }
+    }
+}
+
+extension ChatRightTextCellNode: ASTextNodeDelegate {
+
+    func textNode(textNode: ASTextNode, shouldHighlightLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint) -> Bool {
+
+        return true
+    }
+
+    func textNode(textNode: ASTextNode, tappedLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint, textRange: NSRange) {
+
+        print("tappedLinkAttribute")
     }
 }
 
