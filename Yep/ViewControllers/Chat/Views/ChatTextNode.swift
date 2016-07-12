@@ -10,6 +10,9 @@ import AsyncDisplayKit
 
 class ChatTextNode: ASTextNode {
 
+    var tapURLAction: ((url: NSURL) -> Void)?
+    var tapMentionAction: ((username: String) -> Void)?
+
     override init() {
         super.init()
 
@@ -80,10 +83,12 @@ extension ChatTextNode: ASTextNodeDelegate {
     func textNode(textNode: ASTextNode, tappedLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint, textRange: NSRange) {
 
         if let url = value as? NSURL {
-            print("tap on url: \(url)")
+            tapURLAction?(url: url)
 
-        } else if let mentionedUsername = value as? String {
-            print("tap on mention: \(mentionedUsername)")
+        } else if let mentionedUsername = value as? NSString {
+            if mentionedUsername.length > 1 {
+                tapMentionAction?(username: mentionedUsername.substringFromIndex(1))
+            }
         }
     }
 }

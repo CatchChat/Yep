@@ -27,6 +27,9 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
+    var tapURLAction: ((url: NSURL) -> Void)?
+    var tapMentionAction: ((username: String) -> Void)?
+    
     lazy var tailImageNode: ASImageNode = {
         let node = ASImageNode()
         node.image = UIImage(named: "bubble_right_tail")?.imageWithRenderingMode(.AlwaysOriginal)
@@ -42,7 +45,16 @@ class ChatRightTextCellNode: ChatRightBaseCellNode {
         return node
     }()
 
-    lazy var textNode = ChatTextNode()
+    lazy var textNode: ChatTextNode = {
+        let node = ChatTextNode()
+        node.tapURLAction = { [weak self] url in
+            self?.tapURLAction?(url: url)
+        }
+        node.tapMentionAction = { [weak self] username in
+            self?.tapMentionAction?(username: username)
+        }
+        return node
+    }()
 
     override init() {
         super.init()
