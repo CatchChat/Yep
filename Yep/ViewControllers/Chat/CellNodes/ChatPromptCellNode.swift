@@ -13,6 +13,12 @@ import AsyncDisplayKit
 
 class ChatPromptCellNode: ASCellNode {
 
+    static let topPadding: CGFloat = 0
+    static let bottomPadding: CGFloat = 10
+    static var verticalPadding: CGFloat {
+        return topPadding + bottomPadding
+    }
+
     enum PromptType {
         case RecalledMessage
         case BlockedByRecipient
@@ -66,19 +72,20 @@ class ChatPromptCellNode: ASCellNode {
         textNode.measure(CGSize(width: textMaxWidth, height: CGFloat.max))
 
         let height = max(24, textNode.calculatedSize.height)
-        return CGSize(width: constrainedSize.width, height: height)
+        return CGSize(width: constrainedSize.width, height: height + ChatPromptCellNode.bottomPadding)
     }
 
     override func layout() {
         super.layout()
 
         let x = (calculatedSize.width - textNode.calculatedSize.width) / 2
-        let y = (calculatedSize.height - textNode.calculatedSize.height) / 2
+        let bubbleNodeHeight = calculatedSize.height - ChatPromptCellNode.verticalPadding
+        let y = (bubbleNodeHeight - textNode.calculatedSize.height) / 2 + ChatPromptCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         textNode.frame = CGRect(origin: origin, size: textNode.calculatedSize)
 
         let gap: CGFloat = 10
-        bubbleNode.frame = CGRect(x: x - gap, y: 0, width: textNode.calculatedSize.width + (gap + gap), height: calculatedSize.height)
+        bubbleNode.frame = CGRect(x: x - gap, y: ChatPromptCellNode.topPadding, width: textNode.calculatedSize.width + (gap + gap), height: bubbleNodeHeight)
     }
 }
 
