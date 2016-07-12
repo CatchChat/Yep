@@ -12,7 +12,7 @@ import Kingfisher
 
 class MeetGeniusShowView: UIView {
 
-    var tapAction: ((url: NSURL) -> Void)?
+    var tapAction: ((banner: GeniusInterviewBanner) -> Void)?
 
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
@@ -84,8 +84,8 @@ class MeetGeniusShowView: UIView {
 
     @objc private func didTap(sender: UITapGestureRecognizer) {
 
-        if let url = geniusInterviewBanner?.linkURL {
-            tapAction?(url: url)
+        if let banner = geniusInterviewBanner {
+            tapAction?(banner: banner)
         }
     }
 }

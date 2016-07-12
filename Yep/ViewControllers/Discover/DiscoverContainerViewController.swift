@@ -163,8 +163,7 @@ class DiscoverContainerViewController: UIViewController {
 
             self.meetGeniusViewController = vc
 
-            vc.tapBannerAction = { [weak self] url in
-                self?.yep_openURL(url)
+            vc.tapBannerAction = { [weak self] banner in
             }
 
             vc.showGeniusInterviewAction = { geniusInterview in
