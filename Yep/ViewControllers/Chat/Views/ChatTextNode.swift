@@ -23,9 +23,33 @@ class ChatTextNode: ASTextNode {
 
         let attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
 
+        let textRange = NSMakeRange(0, (text as NSString).length)
+
+        // mention
+
+        let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
+        if let mentionExpression = try? NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions()) {
+
+            mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+
+                guard let result = result else {
+                    return
+                }
+                
+                var linkAttributes = linkAttributes
+                let mentionUsername: NSString = (text as NSString).substringWithRange(result.range)
+                let username = mentionUsername.substringFromIndex(1)
+                linkAttributes["TextLinkAttributeName"] = NSURL(string: "https://soyep.com/\(username)")
+
+                attributedText.addAttributes(textAttributes, range: result.range)
+            })
+        }
+
+        // link
+
         if let urlDetector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) {
 
-            urlDetector.enumerateMatchesInString(text, options: [], range: NSMakeRange(0, (text as NSString).length), usingBlock: { (result, flags, stop) in
+            urlDetector.enumerateMatchesInString(text, options: [], range: textRange, usingBlock: { (result, flags, stop) in
 
                 guard let result = result else {
                     return
@@ -56,13 +80,7 @@ extension ChatTextNode: ASTextNodeDelegate {
 
     func textNode(textNode: ASTextNode, tappedLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint, textRange: NSRange) {
 
-        guard let string = textNode.attributedText?.string else {
-            return
-        }
-
-        let link = (string as NSString).substringWithRange(textRange)
-
-        print("tappedLinkAttribute: \(attribute), \(link)")
+        print("tappedLinkAttribute: \(attribute), \(value)")
     }
 }
 
