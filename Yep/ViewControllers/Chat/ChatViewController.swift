@@ -296,6 +296,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftTextCellNode()
                     node.configure(withMessage: message)
+                    node.tapURLAction = { [weak self] url in
+                        self?.yep_openURL(url)
+                    }
                     return node
 
                 case .Image:
@@ -345,6 +348,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightTextCellNode()
                     node.configure(withMessage: message)
+                    node.tapURLAction = { [weak self] url in
+                        self?.yep_openURL(url)
+                    }
                     return node
 
                 case .Image:
