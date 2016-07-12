@@ -30,18 +30,17 @@ class ChatTextNode: ASTextNode {
         let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
         if let mentionExpression = try? NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions()) {
 
-            mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+            mentionExpression.enumerateMatchesInString(text, options: [], range: textRange, usingBlock: { (result, flags, stop) in
 
                 guard let result = result else {
                     return
                 }
                 
                 var linkAttributes = linkAttributes
-                let mentionUsername: NSString = (text as NSString).substringWithRange(result.range)
-                let username = mentionUsername.substringFromIndex(1)
-                linkAttributes["TextLinkAttributeName"] = NSURL(string: "https://soyep.com/\(username)")
+                let mentionedUsername = (text as NSString).substringWithRange(result.range)
+                linkAttributes["TextLinkAttributeName"] = mentionedUsername
 
-                attributedText.addAttributes(textAttributes, range: result.range)
+                attributedText.addAttributes(linkAttributes, range: result.range)
             })
         }
 
@@ -80,7 +79,12 @@ extension ChatTextNode: ASTextNodeDelegate {
 
     func textNode(textNode: ASTextNode, tappedLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint, textRange: NSRange) {
 
-        print("tappedLinkAttribute: \(attribute), \(value)")
+        if let url = value as? NSURL {
+            print("tap on url: \(url)")
+
+        } else if let mentionedUsername = value as? String {
+            print("tap on mention: \(mentionedUsername)")
+        }
     }
 }
 
