@@ -56,7 +56,13 @@ extension ChatTextNode: ASTextNodeDelegate {
 
     func textNode(textNode: ASTextNode, tappedLinkAttribute attribute: String, value: AnyObject, atPoint point: CGPoint, textRange: NSRange) {
 
-        print("tappedLinkAttribute")
+        guard let string = textNode.attributedText?.string else {
+            return
+        }
+
+        let link = (string as NSString).substringWithRange(textRange)
+
+        print("tappedLinkAttribute: \(attribute), \(link)")
     }
 }
 
