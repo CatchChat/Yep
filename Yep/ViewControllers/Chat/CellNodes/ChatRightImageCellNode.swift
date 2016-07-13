@@ -70,7 +70,8 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
     override func layout() {
         super.layout()
 
-        let size = self.imageSize ?? CGSize(width: 40, height: 40)
+        var size = self.imageSize ?? CGSize(width: 40, height: 40)
+        size.width = min(size.width, YepConfig.ChatCell.imageMaxWidth)
         let x = calculatedSize.width - (size.width + 5 + ChatBaseCellNode.avatarSize.width + 15)
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)

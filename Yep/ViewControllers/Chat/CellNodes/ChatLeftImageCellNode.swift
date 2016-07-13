@@ -51,7 +51,6 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         do {
             let imageSize = message.fixedImageSize
-            print("imageSize: \(imageSize)")
 
             self.imageSize = imageSize
 
@@ -74,7 +73,8 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         let x = 15 + ChatBaseCellNode.avatarSize.width + 5
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
-        let size = self.imageSize ?? CGSize(width: 40, height: 40)
+        var size = self.imageSize ?? CGSize(width: 40, height: 40)
+        size.width = min(size.width, YepConfig.ChatCell.imageMaxWidth)
         imageNode.frame = CGRect(origin: origin, size: size)
 
         imageMaskView.frame = imageNode.bounds
