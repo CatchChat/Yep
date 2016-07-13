@@ -12,16 +12,16 @@ import AsyncDisplayKit
 
 class ChatRightLocationCellNode: ChatRightBaseCellNode {
 
-    static let mapSize = CGSize(width: 192, height: 108)
+    private static let mapSize = CGSize(width: 192, height: 108)
 
-    static let nameAttributes = [
+    private static let nameAttributes = [
         NSForegroundColorAttributeName: UIColor.whiteColor(),
         NSFontAttributeName: UIFont.systemFontOfSize(12),
     ]
 
     var tapMapAction: ((message: Message) -> Void)?
 
-    lazy var imageNode: ASImageNode = {
+    private lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
 
@@ -32,7 +32,7 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
         return node
     }()
 
-    lazy var locationNameNode: ASTextNode = {
+    private lazy var locationNameNode: ASTextNode = {
         let node = ASTextNode()
         node.layerBacked = true
         node.maximumNumberOfLines = 1

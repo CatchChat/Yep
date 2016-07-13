@@ -13,18 +13,18 @@ import AsyncDisplayKit
 
 class ChatSectionDateCellNode: ASCellNode {
 
-    static let topPadding: CGFloat = 0
-    static let bottomPadding: CGFloat = 5
-    static var verticalPadding: CGFloat {
+    private static let topPadding: CGFloat = 0
+    private static let bottomPadding: CGFloat = 5
+    private static var verticalPadding: CGFloat {
         return topPadding + bottomPadding
     }
 
-    static let textAttributes = [
+    private static let textAttributes = [
         NSForegroundColorAttributeName: UIColor.darkGrayColor(),
         NSFontAttributeName: UIFont.systemFontOfSize(12),
     ]
 
-    lazy var textNode: ASTextNode = {
+    private lazy var textNode: ASTextNode = {
         let node = ASTextNode()
         node.layerBacked = true
         return node

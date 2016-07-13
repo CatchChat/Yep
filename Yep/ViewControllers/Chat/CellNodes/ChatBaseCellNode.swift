@@ -31,7 +31,7 @@ class ChatBaseCellNode: ASCellNode {
         }
     }
 
-    lazy var nameNode = ASTextNode()
+    private lazy var nameNode = ASTextNode()
     lazy var avatarImageNode: ASImageNode = {
         let node = ASImageNode()
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatBaseCellNode.tapAvatar(_:)))

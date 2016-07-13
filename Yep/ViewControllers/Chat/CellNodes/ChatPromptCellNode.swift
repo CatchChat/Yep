@@ -13,23 +13,18 @@ import AsyncDisplayKit
 
 class ChatPromptCellNode: ASCellNode {
 
-    static let topPadding: CGFloat = 0
-    static let bottomPadding: CGFloat = 10
-    static var verticalPadding: CGFloat {
+    private static let topPadding: CGFloat = 0
+    private static let bottomPadding: CGFloat = 10
+    private static var verticalPadding: CGFloat {
         return topPadding + bottomPadding
     }
 
-    enum PromptType {
-        case RecalledMessage
-        case BlockedByRecipient
-    }
-
-    static let textAttributes = [
+    private static let textAttributes = [
         NSForegroundColorAttributeName: UIColor(white: 0.75, alpha: 1.0),
         NSFontAttributeName: UIFont.systemFontOfSize(12),
     ]
 
-    lazy var bubbleNode: ASDisplayNode = {
+    private lazy var bubbleNode: ASDisplayNode = {
         let node = ASDisplayNode()
         node.layerBacked = true
         node.clipsToBounds = true
@@ -38,7 +33,7 @@ class ChatPromptCellNode: ASCellNode {
         return node
     }()
 
-    lazy var textNode: ASTextNode = {
+    private lazy var textNode: ASTextNode = {
         let node = ASTextNode()
         node.layerBacked = true
         return node
@@ -51,6 +46,11 @@ class ChatPromptCellNode: ASCellNode {
         
         addSubnode(bubbleNode)
         addSubnode(textNode)
+    }
+
+    enum PromptType {
+        case RecalledMessage
+        case BlockedByRecipient
     }
 
     func configure(withMessage message: Message, promptType: PromptType) {

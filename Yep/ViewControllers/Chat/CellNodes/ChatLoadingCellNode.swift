@@ -21,7 +21,7 @@ class ChatLoadingCellNode: ASCellNode {
         }
     }
 
-    lazy var indicator: UIActivityIndicatorView = {
+    private lazy var indicator: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         view.hidesWhenStopped = true
         return view

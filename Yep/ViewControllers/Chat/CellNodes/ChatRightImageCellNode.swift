@@ -14,9 +14,9 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
 
     var tapImageAction: ((node: Previewable) -> Void)?
 
-    let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-    let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-    let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
+    private let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
+    private let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
+    private let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
@@ -29,18 +29,13 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
         return node
     }()
 
-    @objc private func tapImage(sender: UITapGestureRecognizer) {
-
-        tapImageAction?(node: self)
-    }
-
     override init() {
         super.init()
 
         addSubnode(imageNode)
     }
 
-    var imageSize: CGSize?
+    private var imageSize: CGSize?
 
     func configure(withMessage message: Message) {
 
@@ -72,6 +67,13 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         imageNode.frame = CGRect(origin: origin, size: size)
+    }
+
+    // MARK: Selctors
+
+    @objc private func tapImage(sender: UITapGestureRecognizer) {
+
+        tapImageAction?(node: self)
     }
 }
 
