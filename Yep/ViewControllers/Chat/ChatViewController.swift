@@ -424,7 +424,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftLocationCellNode()
                     node.configure(withMessage: message)
-                    node.tapMapAction = { [weak self] in
+                    node.tapMapAction = { [weak self] message in
                         self?.tryOpenMap(forMessage: message)
                     }
                     cellNode = node
@@ -483,7 +483,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightLocationCellNode()
                     node.configure(withMessage: message)
-                    node.tapMapAction = { [weak self] in
+                    node.tapMapAction = { [weak self] message in
                         self?.tryOpenMap(forMessage: message)
                     }
                     cellNode = node

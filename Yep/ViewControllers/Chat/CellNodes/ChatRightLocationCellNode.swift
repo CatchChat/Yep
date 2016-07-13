@@ -19,7 +19,7 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
         NSFontAttributeName: UIFont.systemFontOfSize(12),
     ]
 
-    var tapMapAction: (() -> Void)?
+    var tapMapAction: ((message: Message) -> Void)?
 
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
@@ -39,10 +39,7 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
         return node
     }()
 
-    @objc private func tapMap(sender: UITapGestureRecognizer) {
-
-        tapMapAction?()
-    }
+    private var message: Message?
 
     override init() {
         super.init()
@@ -54,6 +51,8 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
     func configure(withMessage message: Message) {
 
         self.user = message.fromFriend
+
+        self.message = message
 
         do {
             let locationName = message.textContent
@@ -89,6 +88,15 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
             let offsetY = (20 - locationNameNode.calculatedSize.height) / 2
             let origin = CGPoint(x: x + offsetX, y: y + offsetY)
             locationNameNode.frame = CGRect(origin: origin, size: locationNameNode.calculatedSize)
+        }
+    }
+
+    // MARK: Selectors
+
+    @objc private func tapMap(sender: UITapGestureRecognizer) {
+
+        if let message = message {
+            tapMapAction?(message: message)
         }
     }
 }
