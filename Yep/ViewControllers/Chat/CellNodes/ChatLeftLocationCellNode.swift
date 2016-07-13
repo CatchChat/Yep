@@ -14,6 +14,11 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
     static let mapSize = CGSize(width: 192, height: 108)
 
+    static let nameAttributes = [
+        NSForegroundColorAttributeName: UIColor.whiteColor(),
+        NSFontAttributeName: UIFont.systemFontOfSize(12),
+    ]
+
     var tapMapAction: (() -> Void)?
 
     lazy var imageNode: ASImageNode = {
@@ -27,6 +32,12 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
         return node
     }()
 
+    lazy var locationNameNode: ASTextNode = {
+        let node = ASTextNode()
+        node.maximumNumberOfLines = 1
+        return node
+    }()
+
     @objc private func tapMap(sender: UITapGestureRecognizer) {
 
         tapMapAction?()
@@ -36,6 +47,7 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
         super.init()
 
         addSubnode(imageNode)
+        addSubnode(locationNameNode)
     }
 
     func configure(withMessage message: Message) {
@@ -44,6 +56,8 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
         do {
             let locationName = message.textContent
+
+            locationNameNode.attributedText = NSAttributedString(string: locationName, attributes: ChatLeftLocationCellNode.nameAttributes)
 
             ImageCache.sharedInstance.mapImageOfMessage(message, withSize: ChatLeftLocationCellNode.mapSize, tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
                 print("mapImage.resizingMode: \(mapImage.resizingMode.rawValue)")
@@ -55,6 +69,9 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
+        let nameMaxWidth = ChatLeftLocationCellNode.mapSize.height - (10 + 10)
+        locationNameNode.measure(CGSize(width: nameMaxWidth, height: CGFloat.max))
+
         return CGSize(width: constrainedSize.width, height: ChatLeftLocationCellNode.mapSize.height + ChatBaseCellNode.verticalPadding)
     }
 
@@ -65,6 +82,14 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         imageNode.frame = CGRect(origin: origin, size: ChatLeftLocationCellNode.mapSize)
+
+        do {
+            let offsetX = (ChatLeftLocationCellNode.mapSize.width - locationNameNode.calculatedSize.width) / 2
+            let y = ChatBaseCellNode.topPadding + ChatLeftLocationCellNode.mapSize.height - 20
+            let offsetY = (20 - locationNameNode.calculatedSize.height) / 2
+            let origin = CGPoint(x: x + offsetX, y: y + offsetY)
+            locationNameNode.frame = CGRect(origin: origin, size: locationNameNode.calculatedSize)
+        }
     }
 }
 
