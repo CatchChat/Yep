@@ -34,6 +34,7 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
     lazy var locationNameNode: ASTextNode = {
         let node = ASTextNode()
+        node.layerBacked = true
         node.maximumNumberOfLines = 1
         return node
     }()
@@ -69,7 +70,7 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        let nameMaxWidth = ChatLeftLocationCellNode.mapSize.height - (10 + 10)
+        let nameMaxWidth = ChatLeftLocationCellNode.mapSize.width - (10 + 10)
         locationNameNode.measure(CGSize(width: nameMaxWidth, height: CGFloat.max))
 
         return CGSize(width: constrainedSize.width, height: ChatLeftLocationCellNode.mapSize.height + ChatBaseCellNode.verticalPadding)
