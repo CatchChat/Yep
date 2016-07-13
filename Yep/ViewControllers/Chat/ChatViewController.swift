@@ -406,6 +406,14 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftLocationCellNode()
                     node.configure(withMessage: message)
+                    node.tapMapAction = {
+                        if let coordinate = message.coordinate {
+                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                            mapItem.name = message.textContent
+                            mapItem.openInMapsWithLaunchOptions(nil)
+                        }
+                    }
                     cellNode = node
 
                 case .SocialWork:
@@ -462,6 +470,14 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightLocationCellNode()
                     node.configure(withMessage: message)
+                    node.tapMapAction = {
+                        if let coordinate = message.coordinate {
+                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                            mapItem.name = message.textContent
+                            mapItem.openInMapsWithLaunchOptions(nil)
+                        }
+                    }
                     cellNode = node
 
                 default:
