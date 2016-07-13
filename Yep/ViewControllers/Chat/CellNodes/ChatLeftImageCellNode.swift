@@ -51,6 +51,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
         do {
             let imageSize = message.fixedImageSize
+            print("imageSize: \(imageSize)")
 
             self.imageSize = imageSize
 
