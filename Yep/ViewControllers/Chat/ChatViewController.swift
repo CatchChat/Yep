@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices.UTType
 import YepKit
 import YepNetworking
 import KeyboardMan
@@ -63,6 +64,15 @@ class ChatViewController: BaseViewController {
         }
 
         return toolbar
+    }()
+
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+        imagePicker.videoQuality = .TypeMedium
+        imagePicker.allowsEditing = false
+        return imagePicker
     }()
 
     private let keyboardMan = KeyboardMan()

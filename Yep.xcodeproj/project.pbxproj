@@ -93,6 +93,8 @@
 		501C15721D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */; };
 		501C15761D361EE600FAAF5E /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15741D361EE600FAAF5E /* Copyable.swift */; };
 		501C15771D361EE600FAAF5E /* Previewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15751D361EE600FAAF5E /* Previewable.swift */; };
+		501C15791D36209300FAAF5E /* ChatViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15781D36209300FAAF5E /* ChatViewController+Views.swift */; };
+		501C157B1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
 		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
@@ -852,6 +854,8 @@
 		501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightLocationCellNode.swift; path = CellNodes/ChatRightLocationCellNode.swift; sourceTree = "<group>"; };
 		501C15741D361EE600FAAF5E /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
 		501C15751D361EE600FAAF5E /* Previewable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Previewable.swift; path = Protocols/Previewable.swift; sourceTree = "<group>"; };
+		501C15781D36209300FAAF5E /* ChatViewController+Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Views.swift"; sourceTree = "<group>"; };
+		501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+UIImagePickerControllerDelegate.swift"; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
 		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
@@ -3089,6 +3093,8 @@
 				501C15731D361E9C00FAAF5E /* Prorocols */,
 				50BAED7B1D2B57E70046B4AB /* CellNodes */,
 				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
+				501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */,
+				501C15781D36209300FAAF5E /* ChatViewController+Views.swift */,
 				501C15651D334E2D00FAAF5E /* ChatViewController+SendMessages.swift */,
 				50512A8D1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift */,
 				501C15671D339B3B00FAAF5E /* ChatViewController+Animations.swift */,
@@ -4617,6 +4623,7 @@
 				502AE54E1AB93175005BD199 /* ProfileHeaderCell.swift in Sources */,
 				50A640E01B6F38CF0050E4A3 /* NotificationsViewController.swift in Sources */,
 				50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */,
+				501C157B1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift in Sources */,
 				502AE5381AB866E3005BD199 /* LoginVerifyMobileViewController.swift in Sources */,
 				5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */,
 				506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */,
@@ -4807,6 +4814,7 @@
 				50B9C5DF1D226B4500BCB8BD /* ConversationViewController+Views.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				50512A8E1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift in Sources */,
+				501C15791D36209300FAAF5E /* ChatViewController+Views.swift in Sources */,
 				50BAED871D2B98050046B4AB /* Message+Yep.swift in Sources */,
 				50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */,
 				50D84F551CF306D00018D91F /* YepSoundEffect.swift in Sources */,
