@@ -28,7 +28,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
                     // resize to smaller, not need fixRotation
 
                     if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
-                        sendImage(fixedImage)
+                        send(image: fixedImage)
                     }
                 }
 
@@ -45,90 +45,6 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
 
         dismissViewControllerAnimated(true, completion: nil)
-    }
-
-    func sendImage(image: UIImage) {
-
-        // Prepare meta data
-
-        let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
-
-        // Do send
-
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
-
-        let messageImageName = NSUUID().UUIDString
-
-        if let withFriend = conversation.withFriend {
-
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-
-                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
-                                message.localAttachmentName = messageImageName
-                                message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaDataString {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                            }
-                        }
-                    }
-
-                    self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-                }, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                    /*
-                    self?.promptSendMessageFailed(
-                        reason: reason,
-                        errorMessage: errorMessage,
-                        reserveErrorMessage: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: "")
-                    )*/
-
-                }, completion: { [weak self] success in
-                    println("send image to friend: \(success)")
-
-                    //self?.showFriendRequestViewIfNeed()
-                })
-
-        } else if let withGroup = conversation.withGroup {
-
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
-                                message.localAttachmentName = messageImageName
-                                message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaDataString {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                            }
-                        }
-                    }
-
-                    self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-            }, completion: { [weak self] success in
-                println("send image to group: \(success)")
-
-                //self?.updateGroupToIncludeMe()
-            })
-        }
     }
 
     private func sendVideoWithVideoURL(videoURL: NSURL) {
