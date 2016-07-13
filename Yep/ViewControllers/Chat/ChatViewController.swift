@@ -48,6 +48,21 @@ class ChatViewController: BaseViewController {
             self?.trySnapContentOfTableToBottom()
         }
 
+        toolbar.moreMessageTypesAction = { [weak self] in
+
+            if let window = self?.view.window {
+                self?.moreMessageTypesView.showInView(window)
+
+                if let state = self?.chatToolbar.state where !state.isAtBottom {
+                    self?.chatToolbar.state = .Default
+                }
+
+                delay(0.2) {
+                    self?.imagePicker.hidesBarsOnTap = false
+                }
+            }
+        }
+
         toolbar.stateTransitionAction = { [weak self] (toolbar, previousState, currentState) in
 
             switch currentState {
@@ -73,6 +88,11 @@ class ChatViewController: BaseViewController {
         imagePicker.videoQuality = .TypeMedium
         imagePicker.allowsEditing = false
         return imagePicker
+    }()
+
+    private lazy var moreMessageTypesView: MoreMessageTypesView = {
+        let view = self.makeMoreMessageTypesView()
+        return view
     }()
 
     private let keyboardMan = KeyboardMan()

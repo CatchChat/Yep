@@ -22,7 +22,7 @@ extension ChatViewController {
         }
 
         view.sendImageAction = { [weak self] image in
-            self?.sendImage(image)
+            self?.send(image: image)
         }
 
         view.takePhotoAction = { [weak self] in
