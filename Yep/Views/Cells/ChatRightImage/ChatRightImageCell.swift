@@ -155,7 +155,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
                 }
 
                 var size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
-                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
+                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinWidth)
 
                 messageImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Right, completion: { loadingProgress, image in
                     SafeDispatch.async { [weak self] in
