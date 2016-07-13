@@ -18,9 +18,17 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     private let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
     private let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
 
+    private lazy var imageMaskView: UIView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "left_tail_image_bubble")?.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20))
+        return imageView
+    }()
+
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
+
+        node.view.maskView = self.imageMaskView
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatLeftImageCellNode.tapImage(_:)))
         node.userInteractionEnabled = true
@@ -67,6 +75,8 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         let origin = CGPoint(x: x, y: y)
         let size = self.imageSize ?? CGSize(width: 40, height: 40)
         imageNode.frame = CGRect(origin: origin, size: size)
+
+        imageMaskView.frame = imageNode.bounds
     }
 
     // MARK: Selectors

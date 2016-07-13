@@ -24,7 +24,7 @@ class ChatViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    let messagesBunchCount = 100
+    let messagesBunchCount = 20
     var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
@@ -367,7 +367,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         switch section {
 
         case .LoadPrevious:
-            return 0
+            return 1
 
         case .Messages:
             return displayedMessagesRange.length
@@ -663,7 +663,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
             }
         }
         
-        //tryTriggerLoadPreviousMessages()
+        tryTriggerLoadPreviousMessages()
     }
 
     func tryLoadPreviousMessages(completion: () -> Void) {
