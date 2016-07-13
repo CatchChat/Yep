@@ -24,7 +24,7 @@ class ChatViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    let messagesBunchCount = 120
+    let messagesBunchCount = 20
     var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
