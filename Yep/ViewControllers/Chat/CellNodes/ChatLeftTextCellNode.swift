@@ -12,17 +12,17 @@ import AsyncDisplayKit
 
 class ChatLeftTextCellNode: ChatLeftBaseCellNode {
 
-    static let textAttributes = [
+    private static let textAttributes = [
         NSForegroundColorAttributeName: UIColor.blackColor(),
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
-    static let tempTextAttributes = [
+    private static let tempTextAttributes = [
         NSForegroundColorAttributeName: UIColor.redColor(),
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
 
-    static let linkAttributes = [
+    private static let linkAttributes = [
         NSForegroundColorAttributeName: UIColor.yepTintColor(),
         NSFontAttributeName: UIFont.chatTextFont(),
     ]
@@ -30,8 +30,9 @@ class ChatLeftTextCellNode: ChatLeftBaseCellNode {
     var tapURLAction: ((url: NSURL) -> Void)?
     var tapMentionAction: ((username: String) -> Void)?
     
-    lazy var tailImageNode: ASImageNode = {
+    private lazy var tailImageNode: ASImageNode = {
         let node = ASImageNode()
+        node.layerBacked = true
         node.image = UIImage(named: "bubble_left_tail")?.imageWithRenderingMode(.AlwaysOriginal)
         return node
     }()

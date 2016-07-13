@@ -14,13 +14,21 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
 
     var tapImageAction: ((node: Previewable) -> Void)?
 
-    let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-    let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-    let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
+    private let imagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
+    private let imagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
+    private let imagePreferredAspectRatio: CGFloat = 4.0 / 3.0
+
+    private lazy var imageMaskView: UIView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "left_tail_image_bubble")?.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20))
+        return imageView
+    }()
 
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
+
+        node.view.maskView = self.imageMaskView
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(ChatLeftImageCellNode.tapImage(_:)))
         node.userInteractionEnabled = true
@@ -29,18 +37,13 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         return node
     }()
 
-    @objc private func tapImage(sender: UITapGestureRecognizer) {
-
-        tapImageAction?(node: self)
-    }
-
     override init() {
         super.init()
 
         addSubnode(imageNode)
     }
 
-    var imageSize: CGSize?
+    private var imageSize: CGSize?
 
     func configure(withMessage message: Message) {
 
@@ -70,8 +73,18 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         let x = 15 + ChatBaseCellNode.avatarSize.width + 5
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
-        let size = self.imageSize ?? CGSize(width: 40, height: 40)
+        var size = self.imageSize ?? CGSize(width: 40, height: 40)
+        size.width = min(size.width, YepConfig.ChatCell.imageMaxWidth)
         imageNode.frame = CGRect(origin: origin, size: size)
+
+        imageMaskView.frame = imageNode.bounds
+    }
+
+    // MARK: Selectors
+
+    @objc private func tapImage(sender: UITapGestureRecognizer) {
+
+        tapImageAction?(node: self)
     }
 }
 

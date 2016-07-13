@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices.UTType
 import YepKit
 import YepNetworking
 import KeyboardMan
@@ -23,7 +24,7 @@ class ChatViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    let messagesBunchCount = 30
+    let messagesBunchCount = 120
     var displayedMessagesRange = NSRange()
 
     lazy var tableNode: ASTableNode = {
@@ -47,6 +48,21 @@ class ChatViewController: BaseViewController {
             self?.trySnapContentOfTableToBottom()
         }
 
+        toolbar.moreMessageTypesAction = { [weak self] in
+
+            if let window = self?.view.window {
+                self?.moreMessageTypesView.showInView(window)
+
+                if let state = self?.chatToolbar.state where !state.isAtBottom {
+                    self?.chatToolbar.state = .Default
+                }
+
+                delay(0.2) {
+                    self?.imagePicker.hidesBarsOnTap = false
+                }
+            }
+        }
+
         toolbar.stateTransitionAction = { [weak self] (toolbar, previousState, currentState) in
 
             switch currentState {
@@ -63,6 +79,20 @@ class ChatViewController: BaseViewController {
         }
 
         return toolbar
+    }()
+
+    lazy var imagePicker: UIImagePickerController = {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
+        imagePicker.videoQuality = .TypeMedium
+        imagePicker.allowsEditing = false
+        return imagePicker
+    }()
+
+    private lazy var moreMessageTypesView: MoreMessageTypesView = {
+        let view = self.makeMoreMessageTypesView()
+        return view
     }()
 
     private let keyboardMan = KeyboardMan()
@@ -248,6 +278,21 @@ class ChatViewController: BaseViewController {
             
             vc.fromType = .GroupConversation
 
+        case "presentPickLocation":
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! PickLocationViewController
+
+            vc.sendLocationAction = { [weak self] locationInfo in
+
+                if let user = self?.conversation.withFriend {
+                    self?.send(locationInfo: locationInfo, toUser: user)
+
+                } else if let group = self?.conversation.withGroup {
+                    self?.send(locationInfo: locationInfo, toGroup: group)
+                }
+            }
+
         default:
             break
         }
@@ -278,6 +323,24 @@ extension ChatViewController {
                 }
             })
         }
+    }
+}
+
+// MARK: - Open Map
+
+extension ChatViewController {
+
+    func tryOpenMap(forMessage message: Message) {
+
+        guard let coordinate = message.coordinate else {
+            return
+        }
+
+        let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+        mapItem.name = message.textContent
+
+        mapItem.openInMapsWithLaunchOptions(nil)
     }
 }
 
@@ -404,8 +467,11 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 case .Location:
 
-                    let node = ChatLeftTextCellNode()
-                    node.configure(withMessage: message, text: "Mysterious Location")
+                    let node = ChatLeftLocationCellNode()
+                    node.configure(withMessage: message)
+                    node.tapMapAction = { [weak self] message in
+                        self?.tryOpenMap(forMessage: message)
+                    }
                     cellNode = node
 
                 case .SocialWork:
@@ -415,8 +481,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     cellNode = node
                     
                 default:
+
                     let node = ChatLeftTextCellNode()
-                    node.configure(withMessage: message)
+                    node.configure(withMessage: message, text: "<🐌>")
                     cellNode = node
                 }
 
@@ -459,13 +526,17 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 case .Location:
 
-                    let node = ChatRightTextCellNode()
-                    node.configure(withMessage: message, text: "Mysterious Location")
+                    let node = ChatRightLocationCellNode()
+                    node.configure(withMessage: message)
+                    node.tapMapAction = { [weak self] message in
+                        self?.tryOpenMap(forMessage: message)
+                    }
                     cellNode = node
 
                 default:
+
                     let node = ChatRightTextCellNode()
-                    node.configure(withMessage: message)
+                    node.configure(withMessage: message, text: "<🐌>")
                     cellNode = node
                 }
             }
@@ -626,6 +697,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
             }
+
+            isLoadingPreviousMessages = false
 
             completion()
         }

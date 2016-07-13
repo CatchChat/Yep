@@ -357,7 +357,7 @@ final class ImageCache {
                         }
                     }
                     
-                    let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")! : UIImage(named: "right_tail_image_bubble")!
+                    let defaultImage = tailDirection == .Left ? UIImage(named: "left_tail_image_bubble")!.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .Stretch) : UIImage(named: "right_tail_image_bubble")!.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .Stretch)
                     completion(defaultImage)    
 
                     // 没有地图图片文件，只能生成了

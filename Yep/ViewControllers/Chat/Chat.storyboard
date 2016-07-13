@@ -21,6 +21,7 @@
                     <connections>
                         <segue destination="bRe-Y4-BDi" kind="show" identifier="showProfileWithUsername" id="9w4-mj-kwc"/>
                         <segue destination="dUn-5A-Ur6" kind="show" identifier="showProfile" id="cuP-i5-pV7"/>
+                        <segue destination="AB9-P7-AUA" kind="presentation" identifier="presentPickLocation" id="hgG-fh-cEV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZA-Yf-6mj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -34,6 +35,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OMc-oP-rBA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1141" y="70"/>
+        </scene>
+        <!--PickLocation-->
+        <scene sceneID="Zsc-ki-0ZR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PickLocation" id="AB9-P7-AUA" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rhS-Dm-HCo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="741" y="452"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="T7x-fa-ck6">

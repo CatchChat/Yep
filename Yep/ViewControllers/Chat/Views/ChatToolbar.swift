@@ -133,6 +133,7 @@ final class ChatToolbar: UIToolbar {
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: #selector(ChatToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
+        button.enabled = false
         return button
     }()
 

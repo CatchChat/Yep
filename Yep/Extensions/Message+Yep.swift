@@ -51,7 +51,7 @@ extension Message {
 
             if aspectRatio >= 1 {
                 var size = CGSize(width: realImagePreferredWidth, height: ceil(realImagePreferredWidth / aspectRatio))
-                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinHeight)
+                size = size.yep_ensureMinWidthOrHeight(YepConfig.ChatCell.mediaMinWidth)
 
                 return size
 
