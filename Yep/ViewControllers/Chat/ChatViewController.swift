@@ -281,6 +281,24 @@ extension ChatViewController {
     }
 }
 
+// MARK: - Open Map
+
+extension ChatViewController {
+
+    func tryOpenMap(forMessage message: Message) {
+
+        guard let coordinate = message.coordinate else {
+            return
+        }
+
+        let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+        mapItem.name = message.textContent
+
+        mapItem.openInMapsWithLaunchOptions(nil)
+    }
+}
+
 // MARK: - ASTableDataSource, ASTableDelegate
 
 extension ChatViewController: ASTableDataSource, ASTableDelegate {
@@ -406,13 +424,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatLeftLocationCellNode()
                     node.configure(withMessage: message)
-                    node.tapMapAction = {
-                        if let coordinate = message.coordinate {
-                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
-                            mapItem.name = message.textContent
-                            mapItem.openInMapsWithLaunchOptions(nil)
-                        }
+                    node.tapMapAction = { [weak self] in
+                        self?.tryOpenMap(forMessage: message)
                     }
                     cellNode = node
 
@@ -470,13 +483,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                     let node = ChatRightLocationCellNode()
                     node.configure(withMessage: message)
-                    node.tapMapAction = {
-                        if let coordinate = message.coordinate {
-                            let locationCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
-                            mapItem.name = message.textContent
-                            mapItem.openInMapsWithLaunchOptions(nil)
-                        }
+                    node.tapMapAction = { [weak self] in
+                        self?.tryOpenMap(forMessage: message)
                     }
                     cellNode = node
 
