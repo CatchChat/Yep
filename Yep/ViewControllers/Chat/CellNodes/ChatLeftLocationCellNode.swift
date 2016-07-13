@@ -12,6 +12,8 @@ import AsyncDisplayKit
 
 class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
+    static let mapSize = CGSize(width: 192, height: 108)
+
     var tapMapAction: (() -> Void)?
 
     lazy var imageNode: ASImageNode = {
@@ -47,17 +49,19 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
 
             self.imageSize = imageSize
 
-            imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
-                self?.imageNode.image = image
-                })
+            let locationName = message.textContent
+
+            ImageCache.sharedInstance.mapImageOfMessage(message, withSize: ChatLeftLocationCellNode.mapSize, tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
+                SafeDispatch.async { [weak self] in
+                    self?.imageNode.image = mapImage
+                }
+            }
         }
     }
 
     override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
 
-        let height = max(imageSize?.height ?? 0, ChatBaseCellNode.avatarSize.height)
-
-        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.verticalPadding)
+        return CGSize(width: constrainedSize.width, height: ChatLeftLocationCellNode.mapSize.height + ChatBaseCellNode.verticalPadding)
     }
 
     override func layout() {
