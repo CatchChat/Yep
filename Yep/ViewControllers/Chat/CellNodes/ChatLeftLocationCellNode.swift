@@ -1,0 +1,73 @@
+//
+//  ChatLeftLocationCellNode.swift
+//  Yep
+//
+//  Created by NIX on 16/7/13.
+//  Copyright © 2016年 Catch Inc. All rights reserved.
+//
+
+import UIKit
+import YepKit
+import AsyncDisplayKit
+
+class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
+
+    var tapMapAction: (() -> Void)?
+
+    lazy var imageNode: ASImageNode = {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftLocationCellNode.tapMap(_:)))
+        node.userInteractionEnabled = true
+        node.view.addGestureRecognizer(tap)
+
+        return node
+    }()
+
+    @objc private func tapMap(sender: UITapGestureRecognizer) {
+
+        tapMapAction?()
+    }
+
+    override init() {
+        super.init()
+
+        addSubnode(imageNode)
+    }
+
+    var imageSize: CGSize?
+
+    func configure(withMessage message: Message) {
+
+        self.user = message.fromFriend
+
+        do {
+            let imageSize = message.fixedImageSize
+
+            self.imageSize = imageSize
+
+            imageNode.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { [weak self] loadingProgress, image in
+                self?.imageNode.image = image
+                })
+        }
+    }
+
+    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
+
+        let height = max(imageSize?.height ?? 0, ChatBaseCellNode.avatarSize.height)
+
+        return CGSize(width: constrainedSize.width, height: height + ChatBaseCellNode.verticalPadding)
+    }
+
+    override func layout() {
+        super.layout()
+
+        let x = 15 + ChatBaseCellNode.avatarSize.width + 5
+        let y = ChatBaseCellNode.topPadding
+        let origin = CGPoint(x: x, y: y)
+        let size = self.imageSize ?? CGSize(width: 40, height: 40)
+        imageNode.frame = CGRect(origin: origin, size: size)
+    }
+}
+
