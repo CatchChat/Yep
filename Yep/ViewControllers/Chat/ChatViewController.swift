@@ -415,8 +415,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     cellNode = node
                     
                 default:
+
                     let node = ChatLeftTextCellNode()
-                    node.configure(withMessage: message)
+                    node.configure(withMessage: message, text: "<🐌>")
                     cellNode = node
                 }
 
@@ -464,8 +465,9 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     cellNode = node
 
                 default:
+
                     let node = ChatRightTextCellNode()
-                    node.configure(withMessage: message)
+                    node.configure(withMessage: message, text: "<🐌>")
                     cellNode = node
                 }
             }
