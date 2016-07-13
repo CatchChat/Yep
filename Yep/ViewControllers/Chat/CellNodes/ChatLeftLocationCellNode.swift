@@ -38,23 +38,17 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
         addSubnode(imageNode)
     }
 
-    var imageSize: CGSize?
-
     func configure(withMessage message: Message) {
 
         self.user = message.fromFriend
 
         do {
-            let imageSize = message.fixedImageSize
-
-            self.imageSize = imageSize
-
             let locationName = message.textContent
 
-            ImageCache.sharedInstance.mapImageOfMessage(message, withSize: ChatLeftLocationCellNode.mapSize, tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-                SafeDispatch.async { [weak self] in
-                    self?.imageNode.image = mapImage
-                }
+            ImageCache.sharedInstance.mapImageOfMessage(message, withSize: ChatLeftLocationCellNode.mapSize, tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
+                print("mapImage.resizingMode: \(mapImage.resizingMode.rawValue)")
+                print("mapImage.capInsets: \(mapImage.capInsets)")
+                self?.imageNode.image = mapImage
             }
         }
     }
@@ -70,8 +64,7 @@ class ChatLeftLocationCellNode: ChatLeftBaseCellNode {
         let x = 15 + ChatBaseCellNode.avatarSize.width + 5
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
-        let size = self.imageSize ?? CGSize(width: 40, height: 40)
-        imageNode.frame = CGRect(origin: origin, size: size)
+        imageNode.frame = CGRect(origin: origin, size: ChatLeftLocationCellNode.mapSize)
     }
 }
 

@@ -404,8 +404,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
 
                 case .Location:
 
-                    let node = ChatLeftTextCellNode()
-                    node.configure(withMessage: message, text: "Mysterious Location")
+                    let node = ChatLeftLocationCellNode()
+                    node.configure(withMessage: message)
                     cellNode = node
 
                 case .SocialWork:
