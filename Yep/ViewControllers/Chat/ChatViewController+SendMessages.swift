@@ -274,6 +274,57 @@ extension ChatViewController {
     }
 }
 
+// MARK: Location
+
+extension ChatViewController {
+
+    func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toUser user: User) {
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: user.userID, recipientType: "User", afterCreatedMessage: { message in
+
+            SafeDispatch.async { [weak self] in
+                self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                })
+            }
+
+        }, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            /*
+            self?.promptSendMessageFailed(
+                reason: reason,
+                errorMessage: errorMessage,
+                reserveErrorMessage: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
+            )*/
+
+        }, completion: { success in
+            println("send location to friend: \(success)")
+
+            //self?.showFriendRequestViewIfNeed()
+        })
+    }
+
+    func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toGroup group: Group) {
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: group.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+            SafeDispatch.async { [weak self] in
+                self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                })
+            }
+
+        }, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+            
+        }, completion: { success in
+            println("send location to group: \(success)")
+            
+            //self?.updateGroupToIncludeMe()
+        })
+    }
+}
+
 // MARK: Update
 
 extension ChatViewController {

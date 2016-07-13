@@ -278,6 +278,21 @@ class ChatViewController: BaseViewController {
             
             vc.fromType = .GroupConversation
 
+        case "presentPickLocation":
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! PickLocationViewController
+
+            vc.sendLocationAction = { [weak self] locationInfo in
+
+                if let user = self?.conversation.withFriend {
+                    self?.send(locationInfo: locationInfo, toUser: user)
+
+                } else if let group = self?.conversation.withGroup {
+                    self?.send(locationInfo: locationInfo, toGroup: group)
+                }
+            }
+
         default:
             break
         }
