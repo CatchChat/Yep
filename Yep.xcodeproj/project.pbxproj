@@ -90,6 +90,7 @@
 		501C156C1D349A9100FAAF5E /* ChatTextNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156B1D349A9100FAAF5E /* ChatTextNode.swift */; };
 		501C156E1D34DD5600FAAF5E /* InterviewRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */; };
 		501C15701D35D69200FAAF5E /* ChatLeftLocationCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156F1D35D69200FAAF5E /* ChatLeftLocationCellNode.swift */; };
+		501C15721D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
 		5020B8A01C058114006CE8EA /* NewFeedVoiceRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */; };
 		5020B8A31C05813C006CE8EA /* NewFeedVoiceRecord.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */; };
@@ -848,6 +849,7 @@
 		501C156B1D349A9100FAAF5E /* ChatTextNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatTextNode.swift; path = Views/ChatTextNode.swift; sourceTree = "<group>"; };
 		501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterviewRepresentation.swift; path = Protocols/InterviewRepresentation.swift; sourceTree = "<group>"; };
 		501C156F1D35D69200FAAF5E /* ChatLeftLocationCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftLocationCellNode.swift; path = CellNodes/ChatLeftLocationCellNode.swift; sourceTree = "<group>"; };
+		501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightLocationCellNode.swift; path = CellNodes/ChatRightLocationCellNode.swift; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
 		5020B89F1C058114006CE8EA /* NewFeedVoiceRecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewFeedVoiceRecordViewController.swift; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecordViewController.swift; sourceTree = "<group>"; };
 		5020B8A21C05813C006CE8EA /* NewFeedVoiceRecord.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = NewFeedVoiceRecord.storyboard; path = ViewControllers/NewFeedVoiceRecord/NewFeedVoiceRecord.storyboard; sourceTree = "<group>"; };
@@ -3100,6 +3102,7 @@
 				50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */,
 				50BAED881D2BA7D00046B4AB /* ChatRightTextCellNode.swift */,
 				50512A911D2D00EB007BBBF3 /* ChatRightImageCellNode.swift */,
+				501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */,
 			);
 			name = CellNodes;
 			sourceTree = "<group>";
@@ -4598,6 +4601,7 @@
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
 				500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */,
+				501C15721D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift in Sources */,
 				508F8FDE1B049ACF00461B0B /* InstagramMediaCell.swift in Sources */,
 				50A6A7BA1D23AD4000E01190 /* MeetGeniusShowView.swift in Sources */,
 				502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */,
