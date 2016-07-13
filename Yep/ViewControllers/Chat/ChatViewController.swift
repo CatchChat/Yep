@@ -698,6 +698,8 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                 tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
             }
 
+            isLoadingPreviousMessages = false
+
             completion()
         }
     }
