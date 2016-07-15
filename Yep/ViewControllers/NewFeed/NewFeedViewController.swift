@@ -12,6 +12,7 @@ import MobileCoreServices.UTType
 import Photos
 import YepKit
 import YepNetworking
+import YepPreview
 import OpenGraph
 import Proposer
 import RealmSwift
@@ -147,7 +148,7 @@ final class NewFeedViewController: SegueViewController {
             self.mediaCollectionView.performBatchUpdates({ [weak self] in
                 self?.mediaCollectionView.reloadSections(NSIndexSet(index: 0))
                
-                }, completion: nil)
+            }, completion: nil)
         }
     }
 
@@ -210,6 +211,9 @@ final class NewFeedViewController: SegueViewController {
             choosePromptLabel.hidden = (newValue != nil)
         }
     }
+
+    private var previewTransitionViews: [UIView?]?
+    private var previewNewFeedPhotos: [PreviewNewFeedPhoto] = []
 
     deinit {
         println("NewFeed deinit")
@@ -1114,6 +1118,26 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             self.presentViewController(pickAlertController, animated: true, completion: nil)
 
         case 0:
+
+            let index = indexPath.row
+
+            let transitionViews: [UIView?] = (0..<mediaImages.count).map({
+                let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+                return cell?.imageView
+            })
+
+            self.previewTransitionViews = transitionViews
+
+            let previewNewFeedPhotos = mediaImages.map({ PreviewNewFeedPhoto(image: $0) })
+
+            self.previewNewFeedPhotos = previewNewFeedPhotos
+
+            let photos: [Photo] = previewNewFeedPhotos.map({ $0 })
+            let initialPhoto = photos[index]
+
+            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+            self.presentViewController(photosViewController, animated: true, completion: nil)
+            /*
 //            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
             let previewVC = UIStoryboard(name: "NewFeed", bundle: nil).instantiateViewControllerWithIdentifier("NewFeedPreviewViewController") as! NewFeedPreviewViewController
@@ -1129,6 +1153,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 ////            if !imageAssets.isEmpty {
 ////                imageAssets.removeAtIndex(indexPath.item)
 ////            }
+             */
 
         default:
             break
@@ -1246,3 +1271,40 @@ extension NewFeedViewController: ReturnPickedPhotosDelegate {
     }
  
 }
+
+// MARK: - PhotosViewControllerDelegate
+
+extension NewFeedViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+
+        println("photosViewController:referenceViewForPhoto:\(photo)")
+
+        if let previewNewFeedPhoto = photo as? PreviewNewFeedPhoto {
+            if let index = previewNewFeedPhotos.indexOf(previewNewFeedPhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+        println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerWillDismiss")
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerDidDismiss")
+
+        previewTransitionViews = nil
+        previewNewFeedPhotos = []
+    }
+}
+
