@@ -505,29 +505,37 @@ extension FayeClient {
 
             case FayeClientBayeuxChannelSubscribe:
 
-                pendingChannelSubscriptionSet.remove(fayeMessage.subscription!)
+                guard let subscription = fayeMessage.subscription else {
+                    break
+                }
+
+                pendingChannelSubscriptionSet.remove(subscription)
 
                 if fayeMessage.successful {
-                    openChannelSubscriptionSet.insert(fayeMessage.subscription!)
+                    openChannelSubscriptionSet.insert(subscription)
 
-                    delegate?.fayeClient(self, didSubscribeToChannel: fayeMessage.subscription!)
+                    delegate?.fayeClient(self, didSubscribeToChannel: subscription)
 
                 } else {
-                    let message = String(format: "Faye client couldn't subscribe channel %@ with server. %@", fayeMessage.subscription!, fayeMessage.error ?? "")
+                    let message = String(format: "Faye client couldn't subscribe channel %@ with server. %@", subscription, fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
             case FayeClientBayeuxChannelUnsubscribe:
 
-                if fayeMessage.successful {
-                    subscribedChannels.removeValueForKey(fayeMessage.subscription!)
-                    pendingChannelSubscriptionSet.remove(fayeMessage.subscription!)
-                    openChannelSubscriptionSet.remove(fayeMessage.subscription!)
+                guard let subscription = fayeMessage.subscription else {
+                    break
+                }
 
-                    delegate?.fayeClient(self, didUnsubscribeFromChannel: fayeMessage.subscription!)
+                if fayeMessage.successful {
+                    subscribedChannels.removeValueForKey(subscription)
+                    pendingChannelSubscriptionSet.remove(subscription)
+                    openChannelSubscriptionSet.remove(subscription)
+
+                    delegate?.fayeClient(self, didUnsubscribeFromChannel: subscription)
 
                 } else {
-                    let message = String(format: "Faye client couldn't unsubscribe channel %@ with server. %@", fayeMessage.subscription!, fayeMessage.error ?? "")
+                    let message = String(format: "Faye client couldn't unsubscribe channel %@ with server. %@", subscription, fayeMessage.error ?? "")
                     didFailWithMessage(message)
                 }
 
