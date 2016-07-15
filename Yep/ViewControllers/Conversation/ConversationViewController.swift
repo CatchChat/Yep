@@ -565,12 +565,12 @@ final class ConversationViewController: BaseViewController {
                 self?.send(text)
             }
 
+            // MARK: Voice Record
+
             let hideWaver: () -> Void = { [weak self] in
                 self?.swipeUpView.hidden = true
                 self?.waverView.removeFromSuperview()
             }
-
-            // MARK: Voice Record
 
             messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
@@ -678,21 +678,11 @@ final class ConversationViewController: BaseViewController {
 
             if updateOlderMessagesIfNeeded {
 
-                var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
-                //var predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+                var predicate = NSPredicate(format: "readed = false")
 
                 if case .OneToOne = recipient.type {
                     predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
                 }
-
-                /*
-                let hasUnread: Bool = messages.map({ !$0.readed }).reduce(false, combine: { return $0 || $1 })
-                println("hasUnread: \(hasUnread)")
-
-                messages.filter("readed = false").forEach {
-                    println("unread message.textContent: \($0.textContent), \($0.fromFriend?.nickname)")
-                }
-                */
 
                 let filteredMessages = strongSelf.messages.filter(predicate)
 
@@ -966,6 +956,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     private var messageHeights = [String: CGFloat]()
+
     func heightOfMessage(message: Message) -> CGFloat {
 
         let key = message.messageID
@@ -1070,6 +1061,7 @@ final class ConversationViewController: BaseViewController {
 
         return height
     }
+
     func clearHeightOfMessageWithKey(key: String) {
         messageHeights[key] = nil
     }
@@ -1096,6 +1088,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
+
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -1163,12 +1156,6 @@ final class ConversationViewController: BaseViewController {
             recipientID = messageDataInfo["recipient_id"] as? String else {
                 return
         }
-
-        /*
-        println("lastReadMessageID: \(lastReadMessageID), \(lastReadUnixTime)")
-        println("recipient_id: \(recipientID), \(recipientType)")
-        println("recipient: \(recipient)")
-         */
 
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
@@ -1278,7 +1265,6 @@ final class ConversationViewController: BaseViewController {
             })
 
         } else {
-
             // 不然就先记下来
 
             if let messageIDs = messageIDs {
@@ -1416,8 +1402,6 @@ final class ConversationViewController: BaseViewController {
                         indexPaths.append(indexPath)
 
                     } else {
-                        println("unknown message")
-
                         #if DEBUG
                             YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
                         #endif
