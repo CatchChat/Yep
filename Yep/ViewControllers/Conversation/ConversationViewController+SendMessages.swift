@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AVFoundation
 import YepKit
 import YepNetworking
 
@@ -72,6 +73,113 @@ extension ConversationViewController {
 
         if needDetectMention {
             mentionView.hide()
+        }
+    }
+}
+
+// MARK: Audio
+
+extension ConversationViewController {
+
+    func sendAudio() {
+
+        // Prepare meta data
+
+        var metaData: String? = nil
+
+        if let audioSamples = waverView.waver.compressSamples() {
+
+            var audioSamples = audioSamples
+            // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
+            for i in 0..<audioSamples.count {
+                var sample = audioSamples[i]
+                sample = round(sample * 100.0) / 100.0
+                audioSamples[i] = sample
+            }
+
+            if let fileURL = YepAudioService.sharedManager.audioFileURL {
+                let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+                let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+
+                println("\nComporessed \(audioSamples)")
+
+                let audioMetaDataInfo = [
+                    Config.MetaData.audioDuration: audioDuration,
+                    Config.MetaData.audioSamples: audioSamples,
+                ]
+
+                if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                    let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+                    metaData = audioMetaDataString
+                }
+            }
+        }
+
+        // Do send
+
+        if let fileURL = YepAudioService.sharedManager.audioFileURL {
+            if let withFriend = conversation.withFriend {
+                sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+
+                    SafeDispatch.async {
+                        if let realm = message.realm {
+                            let _ = try? realm.write {
+                                message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
+                                message.mediaType = MessageMediaType.Audio.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                }
+                            }
+
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                            })
+                        }
+                    }
+
+                }, failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    self?.promptSendMessageFailed(
+                        reason: reason,
+                        errorMessage: errorMessage,
+                        reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
+                    )
+
+                }, completion: { [weak self] success in
+                    println("send audio to friend: \(success)")
+
+                    self?.showFriendRequestViewIfNeed()
+                })
+
+            } else if let withGroup = conversation.withGroup {
+                sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+
+                    SafeDispatch.async {
+                        if let realm = message.realm {
+                            let _ = try? realm.write {
+                                message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
+                                message.mediaType = MessageMediaType.Audio.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                }
+                            }
+
+                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                            })
+                        }
+                    }
+
+                }, failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+
+                }, completion: { [weak self] success in
+                    println("send audio to group: \(success)")
+
+                    self?.updateGroupToIncludeMe()
+                })
+            }
         }
     }
 }
