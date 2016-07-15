@@ -103,9 +103,6 @@ class DiscoverContainerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //navigationItem.titleView = nil
-        //navigationItem.title = NSLocalizedString("Discover", comment: "")
-
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
