@@ -135,5 +135,92 @@ extension ConversationViewController {
             }
         }
     }
+
+    func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
+
+        SafeDispatch.async { [weak self] in
+
+            guard let strongSelf = self else {
+                return
+            }
+
+            guard let recipient = strongSelf.recipient, latestMessage = strongSelf.messages.last else {
+                return
+            }
+
+            var needMarkInServer = false
+
+            if updateOlderMessagesIfNeeded {
+
+                var predicate = NSPredicate(format: "readed = false")
+
+                if case .OneToOne = recipient.type {
+                    predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+                }
+
+                let filteredMessages = strongSelf.messages.filter(predicate)
+
+                println("filteredMessages.count: \(filteredMessages.count)")
+                println("conversation.unreadMessagesCount: \(strongSelf.conversation.unreadMessagesCount)")
+
+                needMarkInServer = (!filteredMessages.isEmpty || (strongSelf.conversation.unreadMessagesCount > 0))
+
+                filteredMessages.forEach { message in
+                    let _ = try? strongSelf.realm.write {
+                        message.readed = true
+                    }
+                }
+
+            } else {
+                let _ = try? strongSelf.realm.write {
+                    latestMessage.readed = true
+                }
+
+                needMarkInServer = true
+
+                println("mark latestMessage readed")
+            }
+
+            // 群组里没有我，不需要标记
+            if recipient.type == .Group {
+                if let group = strongSelf.conversation.withGroup where !group.includeMe {
+
+                    // 此情况强制所有消息“已读”
+                    let _ = try? strongSelf.realm.write {
+                        strongSelf.messages.forEach { message in
+                            message.readed = true
+                        }
+                    }
+
+                    needMarkInServer = false
+                }
+            }
+
+            if needMarkInServer {
+
+                SafeDispatch.async {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.markAsReaded, object: nil)
+                }
+
+                if latestMessage.isReal {
+                    batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
+                        println("batchMarkAsReadOfMessagesToRecipient OK")
+                    })
+
+                } else {
+                    println("not need batchMarkAsRead fake message")
+                }
+
+            } else {
+                println("don't needMarkInServer")
+            }
+        }
+
+        let _ = try? realm.write { [weak self] in
+            self?.conversation.unreadMessagesCount = 0
+            self?.conversation.hasUnreadMessages = false
+            self?.conversation.mentionedMe = false
+        }
+    }
 }
 
