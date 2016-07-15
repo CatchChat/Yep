@@ -42,7 +42,7 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
     private lazy var borderNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
-        let image = UIImage(named: "right_tail_image_bubble_border")?.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 27, bottom: 20, right: 20), resizingMode: .Stretch)
+        let image = UIImage(named: "right_tail_image_bubble_border")?.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .Stretch)
         node.image = image
         return node
     }()
