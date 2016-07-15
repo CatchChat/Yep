@@ -24,10 +24,11 @@ final class ConversationViewController: BaseViewController {
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
 
+    var realm: Realm!
+    var recipient: Recipient?
+
     // for peek
     var isPreviewed: Bool = false
-    
-    var recipient: Recipient?
 
     var afterSentMessageAction: (() -> Void)?
     var afterDeletedFeedAction: ((feedID: String) -> Void)?
@@ -35,15 +36,13 @@ final class ConversationViewController: BaseViewController {
     var conversationIsDirty = false
     var syncPlayFeedAudioAction: (() -> Void)?
 
-    private var needDetectMention = false {
+    var needDetectMention = false {
         didSet {
             messageToolbar.needDetectMention = needDetectMention
         }
     }
 
     var selectedIndexPathForMenu: NSIndexPath?
-
-    var realm: Realm!
 
     var groupShareURLString: String?
 
@@ -73,19 +72,6 @@ final class ConversationViewController: BaseViewController {
     // 位于后台时收到的消息
     private var inActiveNewMessageIDSet = Set<String>()
 
-    lazy var sectionDateFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
-        dateFormatter.timeStyle = .ShortStyle
-        return dateFormatter
-    }()
-
-    lazy var sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEEE HH:mm"
-        return dateFormatter
-    }()
-
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     var checkTypingStatusTimer: NSTimer?
@@ -112,7 +98,7 @@ final class ConversationViewController: BaseViewController {
         return view
     }()
 
-    private lazy var waverView: YepWaverView = {
+    lazy var waverView: YepWaverView = {
         let view = self.makeWaverView()
         return view
     }()
@@ -128,7 +114,7 @@ final class ConversationViewController: BaseViewController {
         return view
     }()
 
-    private lazy var mentionView: MentionView = {
+    lazy var mentionView: MentionView = {
         let view = self.makeMentionView()
         return view
     }()
@@ -216,7 +202,7 @@ final class ConversationViewController: BaseViewController {
         let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
-        realm = try! Realm()
+        realm = conversation.realm
 
         recipient = conversation.recipient
 
@@ -559,181 +545,18 @@ final class ConversationViewController: BaseViewController {
             // MARK: Send Text
 
             messageToolbar.textSendAction = { [weak self] messageToolbar in
-
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
-
                 self?.cleanTextInput()
-
                 self?.trySnapContentOfConversationCollectionViewToBottom()
-
-                if text.isEmpty {
-                    return
-                }
-
-                if let withFriend = self?.conversation.withFriend {
-
-                    println("try sendText to User: \(withFriend.userID)")
-                    println("my userID: \(YepUserDefaults.userID.value)")
-
-                    sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        self?.promptSendMessageFailed(
-                            reason: reason,
-                            errorMessage: errorMessage,
-                            reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
-                        )
-
-                    }, completion: { [weak self] success in
-                        println("sendText to friend: \(success)")
-
-                        self?.showFriendRequestViewIfNeed()
-                    })
-
-                } else if let withGroup = self?.conversation.withGroup {
-
-                    sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        SafeDispatch.async {
-                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
-                        }
-
-                    }, completion: { [weak self] success in
-                        println("sendText to group: \(success)")
-
-                        self?.updateGroupToIncludeMe()
-                    })
-                }
-
-                if self?.needDetectMention ?? false {
-                    self?.mentionView.hide()
-                }
+                self?.send(text)
             }
 
-            // MARK: Send Audio
+            // MARK: Voice Record
 
             let hideWaver: () -> Void = { [weak self] in
                 self?.swipeUpView.hidden = true
                 self?.waverView.removeFromSuperview()
             }
-
-            let sendAudioMessage: () -> Void = { [weak self] in
-                // Prepare meta data
-
-                var metaData: String? = nil
-
-                if let audioSamples = self?.waverView.waver.compressSamples() {
-
-                    var audioSamples = audioSamples
-                    // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
-                    for i in 0..<audioSamples.count {
-                        var sample = audioSamples[i]
-                        sample = round(sample * 100.0) / 100.0
-                        audioSamples[i] = sample
-                    }
-
-                    if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                        let audioAsset = AVURLAsset(URL: fileURL, options: nil)
-                        let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
-
-                        println("\nComporessed \(audioSamples)")
-
-                        let audioMetaDataInfo = [
-                            Config.MetaData.audioDuration: audioDuration,
-                            Config.MetaData.audioSamples: audioSamples,
-                        ]
-
-                        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-                            metaData = audioMetaDataString
-                        }
-                    }
-                }
-
-                // Do send
-
-                if let fileURL = YepAudioService.sharedManager.audioFileURL {
-                    if let withFriend = self?.conversation.withFriend {
-                        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                            SafeDispatch.async {
-                                if let realm = message.realm {
-                                    let _ = try? realm.write {
-                                        message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
-                                        message.mediaType = MessageMediaType.Audio.rawValue
-                                        if let metaDataString = metaData {
-                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                        }
-                                    }
-
-                                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                                    })
-                                }
-                            }
-
-                        }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                            self?.promptSendMessageFailed(
-                                reason: reason,
-                                errorMessage: errorMessage,
-                                reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
-                            )
-
-                        }, completion: { [weak self] success in
-                            println("send audio to friend: \(success)")
-
-                            self?.showFriendRequestViewIfNeed()
-                        })
-
-                    } else if let withGroup = self?.conversation.withGroup {
-                        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                            SafeDispatch.async {
-                                if let realm = message.realm {
-                                    let _ = try? realm.write {
-                                        message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
-                                        message.mediaType = MessageMediaType.Audio.rawValue
-                                        if let metaDataString = metaData {
-                                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                        }
-                                    }
-
-                                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                                    })
-                                }
-                            }
-
-                        }, failureHandler: { [weak self] reason, errorMessage in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
-
-                        }, completion: { [weak self] success in
-                            println("send audio to group: \(success)")
-
-                            self?.updateGroupToIncludeMe()
-                        })
-                    }
-                }
-            }
-
-            // MARK: Voice Record
 
             messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
@@ -758,11 +581,11 @@ final class ConversationViewController: BaseViewController {
 
                         YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
 
-                        YepAudioService.sharedManager.recordTimeoutAction = {
+                        YepAudioService.sharedManager.recordTimeoutAction = { [weak self] in
 
                             hideWaver()
 
-                            sendAudioMessage()
+                            self?.sendAudio()
                         }
 
                         YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
@@ -772,7 +595,7 @@ final class ConversationViewController: BaseViewController {
                 }
             }
 
-            messageToolbar.voiceRecordEndAction = { messageToolbar in
+            messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
 
                 YepAudioService.sharedManager.shouldIgnoreStart = true
 
@@ -792,13 +615,12 @@ final class ConversationViewController: BaseViewController {
 
                 interruptAudioRecord()
 
-                sendAudioMessage()
+                self?.sendAudio()
             }
 
-            messageToolbar.voiceRecordCancelAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordCancelAction = { messageToolbar in
 
-                self?.swipeUpView.hidden = true
-                self?.waverView.removeFromSuperview()
+                hideWaver()
 
                 YepAudioService.sharedManager.endRecord()
 
@@ -824,103 +646,6 @@ final class ConversationViewController: BaseViewController {
         }
 
         isFirstAppear = false
-    }
-
-    private func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
-
-        SafeDispatch.async { [weak self] in
-
-            guard let strongSelf = self else {
-                return
-            }
-
-            guard let recipient = strongSelf.recipient, latestMessage = strongSelf.messages.last else {
-                return
-            }
-
-            var needMarkInServer = false
-
-            if updateOlderMessagesIfNeeded {
-
-                var predicate = NSPredicate(format: "readed = false", argumentArray: nil)
-                //var predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
-
-                if case .OneToOne = recipient.type {
-                    predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
-                }
-
-                /*
-                let hasUnread: Bool = messages.map({ !$0.readed }).reduce(false, combine: { return $0 || $1 })
-                println("hasUnread: \(hasUnread)")
-
-                messages.filter("readed = false").forEach {
-                    println("unread message.textContent: \($0.textContent), \($0.fromFriend?.nickname)")
-                }
-                */
-
-                let filteredMessages = strongSelf.messages.filter(predicate)
-
-                println("filteredMessages.count: \(filteredMessages.count)")
-                println("conversation.unreadMessagesCount: \(strongSelf.conversation.unreadMessagesCount)")
-
-                needMarkInServer = (!filteredMessages.isEmpty || (strongSelf.conversation.unreadMessagesCount > 0))
-
-                filteredMessages.forEach { message in
-                    let _ = try? strongSelf.realm.write {
-                        message.readed = true
-                    }
-                }
-
-            } else {
-                let _ = try? strongSelf.realm.write {
-                    latestMessage.readed = true
-                }
-
-                needMarkInServer = true
-
-                println("mark latestMessage readed")
-            }
-
-            // 群组里没有我，不需要标记
-            if recipient.type == .Group {
-                if let group = strongSelf.conversation.withGroup where !group.includeMe {
-
-                    // 此情况强制所有消息“已读”
-                    let _ = try? strongSelf.realm.write {
-                        strongSelf.messages.forEach { message in
-                            message.readed = true
-                        }
-                    }
-
-                    needMarkInServer = false
-                }
-            }
-
-            if needMarkInServer {
-
-                SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.markAsReaded, object: nil)
-                }
-
-                if latestMessage.isReal {
-                    batchMarkAsReadOfMessagesToRecipient(recipient, beforeMessage: latestMessage, failureHandler: nil, completion: {
-                        println("batchMarkAsReadOfMessagesToRecipient OK")
-                    })
-
-                } else {
-                    println("not need batchMarkAsRead fake message")
-                }
-
-            } else {
-                println("don't needMarkInServer")
-            }
-        }
-
-        let _ = try? realm.write { [weak self] in
-            self?.conversation.unreadMessagesCount = 0
-            self?.conversation.hasUnreadMessages = false
-            self?.conversation.mentionedMe = false
-        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -982,6 +707,133 @@ final class ConversationViewController: BaseViewController {
                 // 尽量滚到底部
                 tryScrollToBottom()
             }
+        }
+    }
+
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        messageToolbar.state = .Default
+
+        switch identifier {
+
+        case "showProfileWithUsername":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let profileUser = (sender as! Box<ProfileUser>).value
+            vc.prepare(withProfileUser: profileUser)
+
+            vc.fromType = .GroupConversation
+
+        case "showProfileFromFeedView":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = feedView?.feed?.creator {
+                vc.prepare(withUser: user)
+            }
+
+            vc.fromType = .GroupConversation
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                vc.prepare(withUser: user)
+
+            } else {
+                if let withFriend = conversation?.withFriend {
+                    vc.prepare(withUser: withFriend)
+                }
+            }
+
+            switch conversation.type {
+            case ConversationType.OneToOne.rawValue:
+                vc.fromType = .OneToOneConversation
+            case ConversationType.Group.rawValue:
+                vc.fromType = .GroupConversation
+            default:
+                break
+            }
+
+        case "showConversationWithFeed":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            let feed = (sender as! Box<DiscoveredFeed>).value
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+        case "presentNewFeed":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedViewController
+                else {
+                    return
+            }
+
+            if let socialWork = sender as? MessageSocialWork {
+                vc.attachment = .SocialWork(socialWork)
+
+                vc.afterCreatedFeedAction = { [weak self] feed in
+
+                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
+                        return
+                    }
+
+                    let _ = try? realm.write {
+
+                        switch type {
+
+                        case .GithubRepo:
+                            socialWork.githubRepo?.synced = true
+
+                        case .DribbbleShot:
+                            socialWork.dribbbleShot?.synced = true
+
+                        case .InstagramMedia:
+                            break
+                        }
+                    }
+
+                    self?.reloadConversationCollectionView()
+                }
+            }
+
+        case "presentPickLocation":
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! PickLocationViewController
+
+            vc.sendLocationAction = { [weak self] locationInfo in
+
+                if let user = self?.conversation.withFriend {
+                    self?.sendLocationInfo(locationInfo, toUser: user)
+
+                } else if let group = self?.conversation.withGroup {
+                    self?.sendLocationInfo(locationInfo, toGroup: group)
+                }
+            }
+
+        default:
+            break
         }
     }
 
@@ -1130,6 +982,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     private var messageHeights = [String: CGFloat]()
+
     func heightOfMessage(message: Message) -> CGFloat {
 
         let key = message.messageID
@@ -1234,6 +1087,7 @@ final class ConversationViewController: BaseViewController {
 
         return height
     }
+
     func clearHeightOfMessageWithKey(key: String) {
         messageHeights[key] = nil
     }
@@ -1260,6 +1114,7 @@ final class ConversationViewController: BaseViewController {
     }
 
     func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
+
         let key = message.messageID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -1327,12 +1182,6 @@ final class ConversationViewController: BaseViewController {
             recipientID = messageDataInfo["recipient_id"] as? String else {
                 return
         }
-
-        /*
-        println("lastReadMessageID: \(lastReadMessageID), \(lastReadUnixTime)")
-        println("recipient_id: \(recipientID), \(recipientType)")
-        println("recipient: \(recipient)")
-         */
 
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
@@ -1442,7 +1291,6 @@ final class ConversationViewController: BaseViewController {
             })
 
         } else {
-
             // 不然就先记下来
 
             if let messageIDs = messageIDs {
@@ -1580,8 +1428,6 @@ final class ConversationViewController: BaseViewController {
                         indexPaths.append(indexPath)
 
                     } else {
-                        println("unknown message")
-
                         #if DEBUG
                             YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
                         #endif
@@ -1718,133 +1564,6 @@ final class ConversationViewController: BaseViewController {
 
     @objc private func cleanForLogout(sender: NSNotification) {
         displayedMessagesRange.length = 0
-    }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        messageToolbar.state = .Default
-
-        switch identifier {
-
-        case "showProfileWithUsername":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            let profileUser = (sender as! Box<ProfileUser>).value
-            vc.prepare(withProfileUser: profileUser)
-
-            vc.fromType = .GroupConversation
-
-        case "showProfileFromFeedView":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            if let user = feedView?.feed?.creator {
-                vc.prepare(withUser: user)
-            }
-
-            vc.fromType = .GroupConversation
-
-        case "showProfile":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            if let user = sender as? User {
-                vc.prepare(withUser: user)
-
-            } else {
-                if let withFriend = conversation?.withFriend {
-                    vc.prepare(withUser: withFriend)
-                }
-            }
-
-            switch conversation.type {
-            case ConversationType.OneToOne.rawValue:
-                vc.fromType = .OneToOneConversation
-            case ConversationType.Group.rawValue:
-                vc.fromType = .GroupConversation
-            default:
-                break
-            }
-
-        case "showConversationWithFeed":
-
-            let vc = segue.destinationViewController as! ConversationViewController
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            let feed = (sender as! Box<DiscoveredFeed>).value
-
-            realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
-            let _ = try? realm.commitWrite()
-
-            vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-
-        case "presentNewFeed":
-
-            guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? NewFeedViewController
-                else {
-                    return
-            }
-
-            if let socialWork = sender as? MessageSocialWork {
-                vc.attachment = .SocialWork(socialWork)
-
-                vc.afterCreatedFeedAction = { [weak self] feed in
-
-                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
-                        return
-                    }
-
-                    let _ = try? realm.write {
-
-                        switch type {
-
-                        case .GithubRepo:
-                            socialWork.githubRepo?.synced = true
-
-                        case .DribbbleShot:
-                            socialWork.dribbbleShot?.synced = true
-
-                        case .InstagramMedia:
-                            break
-                        }
-                    }
-
-                    self?.reloadConversationCollectionView()
-                }
-            }
-
-        case "presentPickLocation":
-
-            let nvc = segue.destinationViewController as! UINavigationController
-            let vc = nvc.topViewController as! PickLocationViewController
-
-            vc.sendLocationAction = { [weak self] locationInfo in
-
-                if let user = self?.conversation.withFriend {
-                    self?.sendLocationInfo(locationInfo, toUser: user)
-
-                } else if let group = self?.conversation.withGroup {
-                    self?.sendLocationInfo(locationInfo, toGroup: group)
-                }
-            }
-
-        default:
-            break
-        }
     }
 }
 

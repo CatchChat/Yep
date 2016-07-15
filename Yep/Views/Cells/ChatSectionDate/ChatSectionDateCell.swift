@@ -7,8 +7,22 @@
 //
 
 import UIKit
+import YepKit
 
 final class ChatSectionDateCell: UICollectionViewCell {
+
+    static let sectionDateFormatter: NSDateFormatter =  {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = .ShortStyle
+        dateFormatter.timeStyle = .ShortStyle
+        return dateFormatter
+    }()
+
+    static let sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "EEEE HH:mm"
+        return dateFormatter
+    }()
 
     @IBOutlet weak var sectionDateLabel: UILabel!
 
@@ -17,4 +31,14 @@ final class ChatSectionDateCell: UICollectionViewCell {
         // Initialization code
     }
 
+    func configureWithMessage(message: Message) {
+
+        let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
+        if createdAt.isInCurrentWeek() {
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+        } else {
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateFormatter.stringFromDate(createdAt)
+        }
+    }
 }
+
