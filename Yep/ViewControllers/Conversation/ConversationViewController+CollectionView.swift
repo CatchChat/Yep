@@ -482,13 +482,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
                 let cell: ChatSectionDateCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-
-                let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
-                if createdAt.isInCurrentWeek() {
-                    cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
-                } else {
-                    cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(createdAt)
-                }
+                cell.configureWithMessage(message)
 
                 return cell
             }

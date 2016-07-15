@@ -72,19 +72,6 @@ final class ConversationViewController: BaseViewController {
     // 位于后台时收到的消息
     private var inActiveNewMessageIDSet = Set<String>()
 
-    lazy var sectionDateFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
-        dateFormatter.timeStyle = .ShortStyle
-        return dateFormatter
-    }()
-
-    lazy var sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEEE HH:mm"
-        return dateFormatter
-    }()
-
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
     var checkTypingStatusTimer: NSTimer?
