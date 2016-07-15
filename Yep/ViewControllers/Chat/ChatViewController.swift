@@ -695,7 +695,15 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     NSIndexPath(forRow: $0, inSection: Section.Messages.rawValue)
                 })
 
-                tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                if let tableView = tableNode.view {
+                    let bottomOffset = tableView.contentSize.height - tableView.contentOffset.y
+                    tableView.beginUpdates()
+                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                    var contentOffset = tableView.contentOffset
+                    contentOffset.y = tableView.contentSize.height - bottomOffset
+                    tableView.setContentOffset(contentOffset, animated: false)
+                    tableView.endUpdates()
+                }
             }
 
             isLoadingPreviousMessages = false
