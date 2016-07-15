@@ -97,6 +97,8 @@ class GeniusInterviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.hidesBarsOnSwipe = false
+
         do {
             webView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(webView)
