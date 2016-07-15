@@ -454,7 +454,9 @@ extension ChatViewController {
                 tableNode.view?.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
                 tableNode.view?.endUpdatesAnimated(false) { [weak self] success in
                     if let lastIndexPath = indexPaths.last {
-                        self?.tableNode.view?.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+                        delay(0) {
+                            self?.tableNode.view?.scrollToRowAtIndexPath(lastIndexPath, atScrollPosition: .Bottom, animated: true)
+                        }
                     }
                 }
 
