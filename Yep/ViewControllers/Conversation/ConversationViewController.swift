@@ -35,7 +35,7 @@ final class ConversationViewController: BaseViewController {
     var conversationIsDirty = false
     var syncPlayFeedAudioAction: (() -> Void)?
 
-    private var needDetectMention = false {
+    var needDetectMention = false {
         didSet {
             messageToolbar.needDetectMention = needDetectMention
         }
@@ -128,7 +128,7 @@ final class ConversationViewController: BaseViewController {
         return view
     }()
 
-    private lazy var mentionView: MentionView = {
+    lazy var mentionView: MentionView = {
         let view = self.makeMentionView()
         return view
     }()
@@ -559,70 +559,10 @@ final class ConversationViewController: BaseViewController {
             // MARK: Send Text
 
             messageToolbar.textSendAction = { [weak self] messageToolbar in
-
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
-
                 self?.cleanTextInput()
-
                 self?.trySnapContentOfConversationCollectionViewToBottom()
-
-                if text.isEmpty {
-                    return
-                }
-
-                if let withFriend = self?.conversation.withFriend {
-
-                    println("try sendText to User: \(withFriend.userID)")
-                    println("my userID: \(YepUserDefaults.userID.value)")
-
-                    sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
-
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        self?.promptSendMessageFailed(
-                            reason: reason,
-                            errorMessage: errorMessage,
-                            reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
-                        )
-
-                    }, completion: { [weak self] success in
-                        println("sendText to friend: \(success)")
-
-                        self?.showFriendRequestViewIfNeed()
-                    })
-
-                } else if let withGroup = self?.conversation.withGroup {
-
-                    sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
-
-                        SafeDispatch.async {
-                            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                            })
-                        }
-
-                    }, failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        SafeDispatch.async {
-                            YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
-                        }
-
-                    }, completion: { [weak self] success in
-                        println("sendText to group: \(success)")
-
-                        self?.updateGroupToIncludeMe()
-                    })
-                }
-
-                if self?.needDetectMention ?? false {
-                    self?.mentionView.hide()
-                }
+                self?.send(text)
             }
 
             // MARK: Send Audio

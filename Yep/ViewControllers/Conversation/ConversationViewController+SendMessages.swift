@@ -10,6 +10,72 @@ import Foundation
 import YepKit
 import YepNetworking
 
+// MARK: Text
+
+extension ConversationViewController {
+
+    func send(text: String) {
+
+        if text.isEmpty {
+            return
+        }
+
+        if let withFriend = conversation.withFriend {
+
+            println("try sendText to User: \(withFriend.userID)")
+            println("my userID: \(YepUserDefaults.userID.value)")
+
+            sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+
+                SafeDispatch.async {
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                    })
+                }
+
+            }, failureHandler: { [weak self] reason, errorMessage in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                )
+
+            }, completion: { [weak self] success in
+                println("sendText to friend: \(success)")
+
+                self?.showFriendRequestViewIfNeed()
+            })
+
+        } else if let withGroup = conversation.withGroup {
+
+            sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+
+                SafeDispatch.async {
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                    })
+                }
+
+                }, failureHandler: { [weak self] reason, errorMessage in
+                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+                    SafeDispatch.async {
+                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                    }
+
+                }, completion: { [weak self] success in
+                    println("sendText to group: \(success)")
+
+                    self?.updateGroupToIncludeMe()
+                })
+        }
+
+        if needDetectMention {
+            mentionView.hide()
+        }
+    }
+}
+
 // MARK: Image
 
 extension ConversationViewController {
