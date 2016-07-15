@@ -236,6 +236,7 @@
 		506E241C1AE6254F00A33C1A /* MessageTypeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */; };
 		506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */; };
 		506EC20A1AC95BFC00CE42B3 /* UIFont+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */; };
+		5072D4211D387D0800A0C928 /* PreviewNewFeedPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072D4201D387D0800A0C928 /* PreviewNewFeedPhoto.swift */; };
 		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
 		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
@@ -991,6 +992,7 @@
 		506E241B1AE6254F00A33C1A /* MessageTypeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageTypeButton.swift; path = Views/Buttons/MessageTypeButton.swift; sourceTree = "<group>"; };
 		506E241D1AE6391A00A33C1A /* TouchZoomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchZoomButton.swift; path = Views/Buttons/TouchZoomButton.swift; sourceTree = "<group>"; };
 		506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Yep.swift"; path = "Extensions/UIFont+Yep.swift"; sourceTree = "<group>"; };
+		5072D4201D387D0800A0C928 /* PreviewNewFeedPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewNewFeedPhoto.swift; path = PreviewPhotos/PreviewNewFeedPhoto.swift; sourceTree = "<group>"; };
 		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
 		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
@@ -2736,6 +2738,7 @@
 				508AD3041D1795C80058A52F /* PreviewAttachmentPhoto.swift */,
 				5000AB151D1A6F3A00F2085F /* PreviewMessagePhoto.swift */,
 				5093C1AE1D1D13D000559217 /* PreviewDribbblePhoto.swift */,
+				5072D4201D387D0800A0C928 /* PreviewNewFeedPhoto.swift */,
 			);
 			name = PreviewPhotos;
 			sourceTree = "<group>";
@@ -4756,6 +4759,7 @@
 				84385C4A1B85BE200071130D /* ShowStepMeetViewController.swift in Sources */,
 				50CB05861CC5E5F00024BE06 /* SearchedFeedURLCell.swift in Sources */,
 				5023DE2D1AB685ED00B3EE96 /* DiscoverViewController.swift in Sources */,
+				5072D4211D387D0800A0C928 /* PreviewNewFeedPhoto.swift in Sources */,
 				0A1CAC701AFA481600826B45 /* SkillHomeHeaderView.swift in Sources */,
 				50098D511CB397A5009275FE /* SearchSectionTitleCell.swift in Sources */,
 				50AACEC81BB54128004DD54B /* FeedView.swift in Sources */,
