@@ -37,7 +37,7 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
         return node
     }()
 
-    lazy var borderNode: ASImageNode = {
+    private lazy var borderNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
         let image = UIImage(named: "left_tail_image_bubble_border")?.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .Stretch)

@@ -39,6 +39,14 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
         return node
     }()
 
+    private lazy var borderNode: ASImageNode = {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+        let image = UIImage(named: "right_tail_image_bubble_border")?.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 27, bottom: 20, right: 20), resizingMode: .Stretch)
+        node.image = image
+        return node
+    }()
+
     private var message: Message?
 
     override init() {
@@ -46,6 +54,7 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
 
         addSubnode(imageNode)
         addSubnode(locationNameNode)
+        addSubnode(borderNode)
     }
 
     func configure(withMessage message: Message) {
@@ -81,6 +90,8 @@ class ChatRightLocationCellNode: ChatRightBaseCellNode {
         let y = ChatBaseCellNode.topPadding
         let origin = CGPoint(x: x, y: y)
         imageNode.frame = CGRect(origin: origin, size: size)
+
+        borderNode.frame = imageNode.frame
 
         do {
             let offsetX = (ChatRightLocationCellNode.mapSize.width - locationNameNode.calculatedSize.width) / 2
