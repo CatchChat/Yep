@@ -760,7 +760,7 @@ public class Conversation: Object {
 
     public var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe })
+        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.invalidated }).filter({ !$0.username.isEmpty && !$0.isMe })
 
         let usernamePrefixMatchedUser = users.map({
             UsernamePrefixMatchedUser(
@@ -768,7 +768,8 @@ public class Conversation: Object {
                 username: $0.username,
                 nickname: $0.nickname,
                 avatarURLString: $0.avatarURLString,
-                lastSignInUnixTime: $0.lastSignInUnixTime)
+                lastSignInUnixTime: $0.lastSignInUnixTime
+            )
         })
 
         let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sort({
