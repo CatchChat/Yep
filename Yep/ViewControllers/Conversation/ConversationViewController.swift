@@ -710,6 +710,133 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
+    // MARK: Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        guard let identifier = segue.identifier else {
+            return
+        }
+
+        messageToolbar.state = .Default
+
+        switch identifier {
+
+        case "showProfileWithUsername":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let profileUser = (sender as! Box<ProfileUser>).value
+            vc.prepare(withProfileUser: profileUser)
+
+            vc.fromType = .GroupConversation
+
+        case "showProfileFromFeedView":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = feedView?.feed?.creator {
+                vc.prepare(withUser: user)
+            }
+
+            vc.fromType = .GroupConversation
+
+        case "showProfile":
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            if let user = sender as? User {
+                vc.prepare(withUser: user)
+
+            } else {
+                if let withFriend = conversation?.withFriend {
+                    vc.prepare(withUser: withFriend)
+                }
+            }
+
+            switch conversation.type {
+            case ConversationType.OneToOne.rawValue:
+                vc.fromType = .OneToOneConversation
+            case ConversationType.Group.rawValue:
+                vc.fromType = .GroupConversation
+            default:
+                break
+            }
+
+        case "showConversationWithFeed":
+
+            let vc = segue.destinationViewController as! ConversationViewController
+
+            guard let realm = try? Realm() else {
+                return
+            }
+
+            let feed = (sender as! Box<DiscoveredFeed>).value
+
+            realm.beginWrite()
+            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let _ = try? realm.commitWrite()
+
+            vc.conversation = feedConversation
+            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+        case "presentNewFeed":
+
+            guard let
+                nvc = segue.destinationViewController as? UINavigationController,
+                vc = nvc.topViewController as? NewFeedViewController
+                else {
+                    return
+            }
+
+            if let socialWork = sender as? MessageSocialWork {
+                vc.attachment = .SocialWork(socialWork)
+
+                vc.afterCreatedFeedAction = { [weak self] feed in
+
+                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
+                        return
+                    }
+
+                    let _ = try? realm.write {
+
+                        switch type {
+
+                        case .GithubRepo:
+                            socialWork.githubRepo?.synced = true
+
+                        case .DribbbleShot:
+                            socialWork.dribbbleShot?.synced = true
+
+                        case .InstagramMedia:
+                            break
+                        }
+                    }
+
+                    self?.reloadConversationCollectionView()
+                }
+            }
+
+        case "presentPickLocation":
+
+            let nvc = segue.destinationViewController as! UINavigationController
+            let vc = nvc.topViewController as! PickLocationViewController
+
+            vc.sendLocationAction = { [weak self] locationInfo in
+
+                if let user = self?.conversation.withFriend {
+                    self?.sendLocationInfo(locationInfo, toUser: user)
+
+                } else if let group = self?.conversation.withGroup {
+                    self?.sendLocationInfo(locationInfo, toGroup: group)
+                }
+            }
+
+        default:
+            break
+        }
+    }
+
     // MARK: UI
 
     func tryUpdateConversationCollectionViewWith(newContentInsetBottom bottom: CGFloat, newContentOffsetY: CGFloat) {
@@ -1437,133 +1564,6 @@ final class ConversationViewController: BaseViewController {
 
     @objc private func cleanForLogout(sender: NSNotification) {
         displayedMessagesRange.length = 0
-    }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        messageToolbar.state = .Default
-
-        switch identifier {
-
-        case "showProfileWithUsername":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            let profileUser = (sender as! Box<ProfileUser>).value
-            vc.prepare(withProfileUser: profileUser)
-
-            vc.fromType = .GroupConversation
-
-        case "showProfileFromFeedView":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            if let user = feedView?.feed?.creator {
-                vc.prepare(withUser: user)
-            }
-
-            vc.fromType = .GroupConversation
-
-        case "showProfile":
-
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            if let user = sender as? User {
-                vc.prepare(withUser: user)
-
-            } else {
-                if let withFriend = conversation?.withFriend {
-                    vc.prepare(withUser: withFriend)
-                }
-            }
-
-            switch conversation.type {
-            case ConversationType.OneToOne.rawValue:
-                vc.fromType = .OneToOneConversation
-            case ConversationType.Group.rawValue:
-                vc.fromType = .GroupConversation
-            default:
-                break
-            }
-
-        case "showConversationWithFeed":
-
-            let vc = segue.destinationViewController as! ConversationViewController
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            let feed = (sender as! Box<DiscoveredFeed>).value
-
-            realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
-            let _ = try? realm.commitWrite()
-
-            vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-
-        case "presentNewFeed":
-
-            guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? NewFeedViewController
-                else {
-                    return
-            }
-
-            if let socialWork = sender as? MessageSocialWork {
-                vc.attachment = .SocialWork(socialWork)
-
-                vc.afterCreatedFeedAction = { [weak self] feed in
-
-                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
-                        return
-                    }
-
-                    let _ = try? realm.write {
-
-                        switch type {
-
-                        case .GithubRepo:
-                            socialWork.githubRepo?.synced = true
-
-                        case .DribbbleShot:
-                            socialWork.dribbbleShot?.synced = true
-
-                        case .InstagramMedia:
-                            break
-                        }
-                    }
-
-                    self?.reloadConversationCollectionView()
-                }
-            }
-
-        case "presentPickLocation":
-
-            let nvc = segue.destinationViewController as! UINavigationController
-            let vc = nvc.topViewController as! PickLocationViewController
-
-            vc.sendLocationAction = { [weak self] locationInfo in
-
-                if let user = self?.conversation.withFriend {
-                    self?.sendLocationInfo(locationInfo, toUser: user)
-
-                } else if let group = self?.conversation.withGroup {
-                    self?.sendLocationInfo(locationInfo, toGroup: group)
-                }
-            }
-
-        default:
-            break
-        }
     }
 }
 
