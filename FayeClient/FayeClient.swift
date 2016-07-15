@@ -566,15 +566,19 @@ extension FayeClient: SRWebSocketDelegate {
 
     public func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
 
-        guard message != nil else {
+        guard let message = message else {
             return
         }
 
-        let messageData: NSData
+        var _messageData: NSData?
         if let messageString = message as? String {
-            messageData = messageString.dataUsingEncoding(NSUTF8StringEncoding)!
+            _messageData = messageString.dataUsingEncoding(NSUTF8StringEncoding)!
         } else {
-            messageData = message as! NSData
+            _messageData = message as? NSData
+        }
+
+        guard let messageData = _messageData else {
+            return
         }
 
         do {
