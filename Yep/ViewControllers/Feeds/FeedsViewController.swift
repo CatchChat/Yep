@@ -70,6 +70,7 @@ final class FeedsViewController: BaseViewController {
     }()
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
@@ -597,6 +598,8 @@ final class FeedsViewController: BaseViewController {
         let failureHandler: FailureHandler = { reason, errorMessage in
 
             SafeDispatch.async { [weak self] in
+
+                self?.feedsTableView.tableFooterView = self?.fetchFailedFooterView
 
                 self?.isFetchingFeeds = false
 
