@@ -44,8 +44,6 @@ class ChatViewController: BaseViewController {
         toolbar.sendTextAction = { [weak self] text in
 
             self?.send(text: text)
-
-            self?.trySnapContentOfTableToBottom()
         }
 
         toolbar.moreMessageTypesAction = { [weak self] in
@@ -69,9 +67,11 @@ class ChatViewController: BaseViewController {
 
             case .BeginTextInput:
                 self?.trySnapContentOfTableToBottom(forceAnimation: true)
+                break
 
             case .TextInputing:
                 self?.trySnapContentOfTableToBottom()
+                break
                 
             default:
                 break

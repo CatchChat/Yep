@@ -20,7 +20,7 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
 
     private lazy var imageMaskView: UIView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "right_tail_image_bubble")?.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 27, bottom: 20, right: 20))
+        imageView.image = UIImage(named: "right_tail_image_bubble")
         return imageView
     }()
 
@@ -37,10 +37,19 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
         return node
     }()
 
+    private lazy var borderNode: ASImageNode = {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+        let image = UIImage(named: "right_tail_image_bubble_border")?.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .Stretch)
+        node.image = image
+        return node
+    }()
+
     override init() {
         super.init()
 
         addSubnode(imageNode)
+        addSubnode(borderNode)
     }
 
     private var imageSize: CGSize?
@@ -78,6 +87,8 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
         imageNode.frame = CGRect(origin: origin, size: size)
 
         imageMaskView.frame = imageNode.bounds
+
+        borderNode.frame = imageNode.frame
     }
 
     // MARK: Selctors
