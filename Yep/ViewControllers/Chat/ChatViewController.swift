@@ -699,10 +699,15 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
                     let bottomOffset = tableView.contentSize.height - tableView.contentOffset.y
                     tableView.beginUpdates()
                     tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
-                    var contentOffset = tableView.contentOffset
-                    contentOffset.y = tableView.contentSize.height - bottomOffset
-                    tableView.setContentOffset(contentOffset, animated: false)
-                    tableView.endUpdates()
+                    tableView.endUpdatesAnimated(false, completion: { _ in
+                        var contentOffset = tableView.contentOffset
+                        contentOffset.y = tableView.contentSize.height - bottomOffset
+                        print("bottomOffset: \(bottomOffset)")
+                        print("tableView.contentOffset: \(tableView.contentOffset)")
+                        print("tableView.contentSize: \(tableView.contentSize)")
+                        print("contentOffset: \(contentOffset)")
+                        tableView.setContentOffset(contentOffset, animated: false)
+                    })
                 }
             }
 
