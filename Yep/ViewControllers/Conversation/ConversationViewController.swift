@@ -24,10 +24,11 @@ final class ConversationViewController: BaseViewController {
     var conversation: Conversation!
     var conversationFeed: ConversationFeed?
 
+    var realm: Realm!
+    var recipient: Recipient?
+
     // for peek
     var isPreviewed: Bool = false
-    
-    var recipient: Recipient?
 
     var afterSentMessageAction: (() -> Void)?
     var afterDeletedFeedAction: ((feedID: String) -> Void)?
@@ -42,8 +43,6 @@ final class ConversationViewController: BaseViewController {
     }
 
     var selectedIndexPathForMenu: NSIndexPath?
-
-    var realm: Realm!
 
     var groupShareURLString: String?
 
@@ -216,7 +215,7 @@ final class ConversationViewController: BaseViewController {
         let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
-        realm = try! Realm()
+        realm = conversation.realm
 
         recipient = conversation.recipient
 
