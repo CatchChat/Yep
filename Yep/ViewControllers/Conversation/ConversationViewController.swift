@@ -1450,11 +1450,12 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // check again
+                        // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                         }
 
                     }, completion: nil)
@@ -1476,11 +1477,12 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // check again
+                        // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                         }
 
                     }, completion: { [weak self] finished in
@@ -1511,17 +1513,18 @@ final class ConversationViewController: BaseViewController {
                     guard let strongSelf = self else {
                         return
                     }
-                    
+
                     if needReloadLoadPreviousSection {
                         strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
                         strongSelf.needReloadLoadPreviousSection = false
                     }
 
-                    // check again
+                    // double check
                     if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                         strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
                     } else {
                         strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                     }
 
                 }, completion: nil)
