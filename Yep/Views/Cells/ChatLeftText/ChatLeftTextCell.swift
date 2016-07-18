@@ -114,50 +114,48 @@ class ChatLeftTextCell: ChatBaseCell {
             return textContentTextViewWidth
         }
 
-        UIView.performWithoutAnimation { [weak self] in
+        UIView.setAnimationsEnabled(false); do {
 
-            if let strongSelf = self {
-                
-                strongSelf.makeUI()
-                
-                let topOffset: CGFloat
-                if strongSelf.inGroup {
-                    topOffset = YepConfig.ChatCell.marginTopForGroup
-                } else {
-                    topOffset = 0
-                }
-
-                let textContentTextViewFrame: CGRect
-                if let _textContentTextViewFrame = layoutCache.textContentTextViewFrame {
-                    textContentTextViewFrame = _textContentTextViewFrame
-
-                } else {
-                    let textContentTextViewWidth = adjustedTextContentTextViewWidth()
-
-                    textContentTextViewFrame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentTextViewWidth, height: strongSelf.bounds.height - topOffset - 3 * 2 - strongSelf.bottomGap)
-
-                    layoutCache.update(textContentTextViewFrame: textContentTextViewFrame)
-                }
-
-                strongSelf.textContentTextView.frame = textContentTextViewFrame
-
-                let bubbleBodyFrame = CGRectInset(textContentTextViewFrame, -12, -3)
-                
-                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
-                
-                if strongSelf.inGroup {
-                    strongSelf.nameLabel.text = strongSelf.user?.compositedName
-
-                    let height = YepConfig.ChatCell.nameLabelHeightForGroup
-                    let x = textContentTextViewFrame.origin.x
-                    let y = textContentTextViewFrame.origin.y - height - 3
-                    let width = strongSelf.contentView.bounds.width - x - 10
-                    strongSelf.nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
-                }
-                
-                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
+            makeUI()
+            
+            let topOffset: CGFloat
+            if inGroup {
+                topOffset = YepConfig.ChatCell.marginTopForGroup
+            } else {
+                topOffset = 0
             }
+
+            let textContentTextViewFrame: CGRect
+            if let _textContentTextViewFrame = layoutCache.textContentTextViewFrame {
+                textContentTextViewFrame = _textContentTextViewFrame
+
+            } else {
+                let textContentTextViewWidth = adjustedTextContentTextViewWidth()
+
+                textContentTextViewFrame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentTextViewWidth, height: bounds.height - topOffset - 3 * 2 - bottomGap)
+
+                layoutCache.update(textContentTextViewFrame: textContentTextViewFrame)
+            }
+
+            textContentTextView.frame = textContentTextViewFrame
+
+            let bubbleBodyFrame = CGRectInset(textContentTextViewFrame, -12, -3)
+            
+            bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+            
+            if inGroup {
+                nameLabel.text = user?.compositedName
+
+                let height = YepConfig.ChatCell.nameLabelHeightForGroup
+                let x = textContentTextViewFrame.origin.x
+                let y = textContentTextViewFrame.origin.y - height - 3
+                let width = contentView.bounds.width - x - 10
+                nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
+            }
+            
+            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
