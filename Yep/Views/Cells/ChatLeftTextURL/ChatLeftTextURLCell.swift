@@ -47,10 +47,13 @@ final class ChatLeftTextURLCell: ChatLeftTextCell {
 
         super.configureWithMessage(message, layoutCache: layoutCache)
 
-        let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
-        let width = max(minWidth, textContentTextView.frame.width + 12 * 2 - 1)
-        let feedURLContainerViewFrame = CGRect(x: textContentTextView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(textContentTextView.frame) + 8, width: width, height: 100)
-        feedURLContainerView.frame = feedURLContainerViewFrame
+        UIView.setAnimationsEnabled(false); do {
+            let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
+            let width = max(minWidth, textContentTextView.frame.width + 12 * 2 - 1)
+            let feedURLContainerViewFrame = CGRect(x: textContentTextView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(textContentTextView.frame) + 8, width: width, height: 100)
+            feedURLContainerView.frame = feedURLContainerViewFrame
+        }
+        UIView.setAnimationsEnabled(true)
 
         if let openGraphInfo = message.openGraphInfo {
             feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
