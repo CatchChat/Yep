@@ -455,7 +455,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         }
     }
 
-    /*
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -950,8 +949,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
     }
-    */
 
+    /*
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -1523,6 +1522,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
     }
+     */
 
     private func tryShowProfileWithUsername(username: String) {
 

@@ -139,8 +139,11 @@ class ChatLeftTextCell: ChatBaseCell {
 
             textContentTextView.frame = textContentTextViewFrame
 
-            let job = FreeTimeJob(target: self, selector: #selector(ChatLeftTextCell.updateBubblePathInFreeTime))
-            job.commit()
+            let bubbleBodyFrame = CGRectInset(textContentTextView.frame, -12, -3)
+
+            bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+
+            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
 
             if inGroup {
                 nameLabel.text = user?.compositedName
@@ -151,9 +154,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 let width = contentView.bounds.width - x - 10
                 nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
             }
-
-            let bubbleBodyFrame = CGRectInset(textContentTextView.frame, -12, -3)
-            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
         }
         UIView.setAnimationsEnabled(true)
 
@@ -161,13 +161,6 @@ class ChatLeftTextCell: ChatBaseCell {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
-    }
-
-    @objc private func updateBubblePathInFreeTime() {
-
-        let bubbleBodyFrame = CGRectInset(textContentTextView.frame, -12, -3)
-
-        bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
     }
 }
 
