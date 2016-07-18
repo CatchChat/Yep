@@ -12,6 +12,8 @@ import YepKit
 
 final class ChatRightLocationCell: ChatRightBaseCell {
 
+    static private let mapSize = CGSize(width: 192, height: 108)
+
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = UIColor.rightBubbleTintColor()
@@ -80,7 +82,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         mediaTapAction?()
     }
 
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -100,13 +102,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         
         locationNameLabel.text = locationName
 
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Right, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-            SafeDispatch.async {
-                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                    self.mapImageView.image = mapImage
-                }
-            }
-        }
+        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatRightLocationCell.mapSize, tailDirection: .Right)
     }
 }
 

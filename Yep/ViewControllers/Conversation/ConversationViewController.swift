@@ -152,10 +152,6 @@ final class ConversationViewController: BaseViewController {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
     }()
 
-    let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-    let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-    let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
-
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -1021,39 +1017,13 @@ final class ConversationViewController: BaseViewController {
             }
 
         case MessageMediaType.Image.rawValue:
-
-            if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
-
-                let aspectRatio = imageWidth / imageHeight
-
-                if aspectRatio >= 1 {
-                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                } else {
-                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                }
-
-            } else {
-                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
-            }
+            height = ceil(message.fixedImageSize.height)
 
         case MessageMediaType.Audio.rawValue:
             height = 40
 
         case MessageMediaType.Video.rawValue:
-
-            if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
-
-                let aspectRatio = videoWidth / videoHeight
-
-                if aspectRatio >= 1 {
-                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                } else {
-                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                }
-
-            } else {
-                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
-            }
+            height = ceil(message.fixedVideoSize.height)
 
         case MessageMediaType.Location.rawValue:
             height = 108
@@ -1066,6 +1036,7 @@ final class ConversationViewController: BaseViewController {
         
         case MessageMediaType.ShareFeed.rawValue:
             height = 60
+
         default:
             height = 20
         }
@@ -1396,9 +1367,8 @@ final class ConversationViewController: BaseViewController {
 
         // 异常：两种计数不相等，治标：reload，避免插入
         if let messageIDs = messageIDs {
-            if newMessagesCount != messageIDs.count {
+            guard newMessagesCount == messageIDs.count else {
                 reloadConversationCollectionView()
-                println("newMessagesCount != messageIDs.count")
                 #if DEBUG
                     YepAlert.alertSorry(message: "请截屏报告!\nnewMessagesCount: \(newMessagesCount)\nmessageIDs.count: \(messageIDs.count)", inViewController: self)
                 #endif
@@ -1423,8 +1393,6 @@ final class ConversationViewController: BaseViewController {
                         message = messageWithMessageID(messageID, inRealm: realm),
                         index = messages.indexOf(message) {
                         let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
-                        //println("insert item: \(indexPath.item), \(index), \(displayedMessagesRange.location)")
-
                         indexPaths.append(indexPath)
 
                     } else {
@@ -1453,9 +1421,11 @@ final class ConversationViewController: BaseViewController {
                         // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                         }
 
                     }, completion: nil)
@@ -1480,9 +1450,11 @@ final class ConversationViewController: BaseViewController {
                         // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                         }
 
                     }, completion: { [weak self] finished in
@@ -1522,9 +1494,11 @@ final class ConversationViewController: BaseViewController {
                     // double check
                     if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                         strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
                     } else {
                         strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                        println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                     }
 
                 }, completion: nil)
