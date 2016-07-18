@@ -97,8 +97,6 @@ class GeniusInterviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.hidesBarsOnSwipe = false
-
         do {
             webView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(webView)
@@ -142,6 +140,8 @@ class GeniusInterviewViewController: UIViewController {
             let avatar = PlainAvatar(avatarURLString: interview.user.avatarURLString, avatarStyle: miniAvatarStyle)
             actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
+
+        navigationController?.hidesBarsOnSwipe = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
