@@ -12,6 +12,8 @@ import YepKit
 
 final class ChatRightLocationCell: ChatRightBaseCell {
 
+    static private let mapSize = CGSize(width: 192, height: 108)
+
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.tintColor = UIColor.rightBubbleTintColor()
@@ -100,11 +102,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         
         locationNameLabel.text = locationName
 
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Right, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-            SafeDispatch.async { [weak self] in
-                self?.mapImageView.image = mapImage
-            }
-        }
+        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatRightLocationCell.mapSize, tailDirection: .Right)
     }
 }
 

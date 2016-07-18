@@ -115,7 +115,7 @@ extension UIImageView {
         yep_setMessageMapImageKey(imageKey)
 
         let locationName = message.textContent
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Right, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
+        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: size, tailDirection: tailDirection, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
 
             guard let strongSelf = self, _imageKey = strongSelf.yep_messageMapImageKey where _imageKey == imageKey else {
                 return

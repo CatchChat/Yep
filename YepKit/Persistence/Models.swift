@@ -548,6 +548,10 @@ public class Message: Object {
         return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
     }
 
+    public var mapImageKey: String {
+        return "mapImage-\(messageID)"
+    }
+
     public var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
             return String(format: NSLocalizedString("%@: %@", comment: ""), nickname, textContent)
