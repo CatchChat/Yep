@@ -204,9 +204,9 @@ final class ConversationsViewController: BaseViewController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
-            // 最近一天活跃的好友
+            // 最近两天活跃的好友
 
-            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*24) {
+            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*48) {
 
                 do {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
@@ -218,77 +218,6 @@ final class ConversationsViewController: BaseViewController {
                     AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
                 }
             }
-
-            /*
-            // 每个对话的最近 10 条消息（image or thumbnail）
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            for conversation in realm.objects(Conversation) {
-
-                let messages = messagesOfConversation(conversation, inRealm: realm)
-
-                let latestBatch = min(10, messages.count)
-
-                let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-                let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-
-                for i in (messages.count - latestBatch)..<messages.count {
-
-                    let message = messages[i]
-
-                    if let user = message.fromFriend {
-
-                        let tailDirection: MessageImageTailDirection = user.friendState != UserFriendState.Me.rawValue ? .Left : .Right
-
-                        switch message.mediaType {
-
-                        case MessageMediaType.Image.rawValue:
-
-                            if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
-
-                                let aspectRatio = imageWidth / imageHeight
-
-                                let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-                                let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-                                if aspectRatio >= 1 {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, completion: { _ in
-                                    })
-
-                                } else {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, completion: { _ in
-                                    })
-                                }
-                            }
-
-                        case MessageMediaType.Video.rawValue:
-
-                            if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
-                                let aspectRatio = videoWidth / videoHeight
-
-                                let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-                                let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-                                if aspectRatio >= 1 {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, completion: { _ in
-                                    })
-
-                                } else {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, completion: { _ in
-                                    })
-                                }
-                            }
-
-                        default:
-                            break
-                        }
-                    }
-                }
-            }
-            */
         }
     }
 
