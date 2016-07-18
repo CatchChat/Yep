@@ -152,10 +152,6 @@ final class ConversationViewController: BaseViewController {
         return CGRectGetWidth(self.conversationCollectionView.bounds)
     }()
 
-    let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-    let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-    let messageImagePreferredAspectRatio: CGFloat = 4.0 / 3.0
-
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -1021,39 +1017,13 @@ final class ConversationViewController: BaseViewController {
             }
 
         case MessageMediaType.Image.rawValue:
-
-            if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
-
-                let aspectRatio = imageWidth / imageHeight
-
-                if aspectRatio >= 1 {
-                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                } else {
-                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                }
-
-            } else {
-                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
-            }
+            height = message.fixedImageSize.height
 
         case MessageMediaType.Audio.rawValue:
             height = 40
 
         case MessageMediaType.Video.rawValue:
-
-            if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
-
-                let aspectRatio = videoWidth / videoHeight
-
-                if aspectRatio >= 1 {
-                    height = max(ceil(messageImagePreferredWidth / aspectRatio), YepConfig.ChatCell.mediaMinHeight)
-                } else {
-                    height = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-                }
-
-            } else {
-                height = ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio)
-            }
+            height = message.fixedVideoSize.height
 
         case MessageMediaType.Location.rawValue:
             height = 108
