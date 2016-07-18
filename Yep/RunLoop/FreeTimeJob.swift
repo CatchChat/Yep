@@ -26,7 +26,7 @@ class FreeTimeJob: NSObject {
 
                 currentSet.enumerateObjectsUsingBlock({ (object, stop) in
                     if let job = object as? FreeTimeJob {
-                        job.target.performSelector(job.selector)
+                        job.target?.performSelector(job.selector)
                     }
                 })
             }
@@ -34,8 +34,8 @@ class FreeTimeJob: NSObject {
         }
     }
 
-    let target: NSObject
-    let selector: Selector
+    private weak var target: NSObject?
+    private let selector: Selector
 
     init(target: NSObject, selector: Selector) {
         self.target = target
