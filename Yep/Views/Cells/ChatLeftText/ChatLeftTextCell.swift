@@ -74,9 +74,10 @@ class ChatLeftTextCell: ChatBaseCell {
         contentView.addSubview(bubbleTailImageView)
         contentView.addSubview(textContentTextView)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let bubblePosition = layer.sublayers {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
@@ -93,10 +94,6 @@ class ChatLeftTextCell: ChatBaseCell {
 
         textContentTextView.text = message.textContent
 
-        //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
-        
-        //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
-
         func adjustedTextContentTextViewWidth() -> CGFloat {
 
             // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
@@ -107,10 +104,6 @@ class ChatLeftTextCell: ChatBaseCell {
             textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
             if ceil(size.width) != textContentTextViewWidth {
-                //println("left ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
-                //println(">>>\(message.textContent)<<<")
-
-                //textContentLabelWidth += YepConfig.ChatCell.magicWidth
                 if abs(ceil(size.width) - textContentTextViewWidth) >= YepConfig.ChatCell.magicWidth {
                     textContentTextViewWidth += YepConfig.ChatCell.magicWidth
                 }
