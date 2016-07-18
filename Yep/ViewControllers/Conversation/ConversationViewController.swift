@@ -1456,6 +1456,7 @@ final class ConversationViewController: BaseViewController {
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed!")
                         }
 
                     }, completion: nil)
@@ -1483,6 +1484,7 @@ final class ConversationViewController: BaseViewController {
                         } else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed!")
                         }
 
                     }, completion: { [weak self] finished in
@@ -1525,6 +1527,7 @@ final class ConversationViewController: BaseViewController {
                     } else {
                         strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                        println("double check failed!")
                     }
 
                 }, completion: nil)
