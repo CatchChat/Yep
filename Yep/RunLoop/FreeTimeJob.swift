@@ -10,12 +10,11 @@ import Foundation
 
 class FreeTimeJob: NSObject {
 
-    static var set = NSMutableSet()
+    private static var set = NSMutableSet()
 
+    private static var onceToken: dispatch_once_t = 0
     private class func setup() {
-
-        var onceToken : dispatch_once_t = 0
-        dispatch_once(&onceToken) {
+        dispatch_once(&FreeTimeJob.onceToken) {
             let runLoop = CFRunLoopGetMain()
             let observer: CFRunLoopObserver = CFRunLoopObserverCreateWithHandler(kCFAllocatorDefault, CFRunLoopActivity.BeforeWaiting.rawValue | CFRunLoopActivity.Exit.rawValue, true, 0xFFFFFF) { (observer, activity) in
                 guard set.count != 0 else {
@@ -42,6 +41,11 @@ class FreeTimeJob: NSObject {
         self.target = target
         self.selector = selector
         super.init()
+    }
+
+    func commit() {
+        FreeTimeJob.setup()
+        FreeTimeJob.set.addObject(self)
     }
 }
 
