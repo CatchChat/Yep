@@ -51,19 +51,9 @@ final class ConversationViewController: BaseViewController {
     }()
 
     var indexOfSearchedMessage: Int?
-    let messagesBunchCount = 20 // TODO: 分段载入的“一束”消息的数量
-    var displayedMessagesRange = NSRange() {
-        didSet {
-            needShowLoadPreviousSection = displayedMessagesRange.length >= messagesBunchCount
-        }
-    }
-    private var needShowLoadPreviousSection: Bool = false {
-        didSet {
-            if needShowLoadPreviousSection != oldValue {
-                //needReloadLoadPreviousSection = true
-            }
-        }
-    }
+    let messagesBunchCount = 20 // 分段载入的“一束”消息的数量
+    var displayedMessagesRange = NSRange()
+
     private var needReloadLoadPreviousSection: Bool = false
 
     // 上一次更新 UI 时的消息数
