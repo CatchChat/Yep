@@ -1441,12 +1441,21 @@ final class ConversationViewController: BaseViewController {
 
                 case .New:
                     conversationCollectionView.performBatchUpdates({ [weak self] in
-                        if needReloadLoadPreviousSection {
-                            self?.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
-                            self?.needReloadLoadPreviousSection = false
+                        guard let strongSelf = self else {
+                            return
                         }
 
-                        self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                        if needReloadLoadPreviousSection {
+                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            strongSelf.needReloadLoadPreviousSection = false
+                        }
+
+                        // check again
+                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
+                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                        } else {
+                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                        }
 
                     }, completion: nil)
 
