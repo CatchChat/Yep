@@ -62,9 +62,10 @@ final class ChatLeftImageCell: ChatBaseCell {
         contentView.addSubview(borderImageView)
         contentView.addSubview(loadingProgressView)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         messageImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftImageCell.tapMediaView))
@@ -146,9 +147,10 @@ final class ChatLeftImageCell: ChatBaseCell {
             topOffset = 0
         }
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -157,6 +159,28 @@ final class ChatLeftImageCell: ChatBaseCell {
 
         loadingProgress = 0
 
+        let imageSize = message.fixedImageSize
+
+        messageImageView.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { loadingProgress, image in
+            SafeDispatch.async { [weak self] in
+                self?.loadingWithProgress(loadingProgress, image: image)
+            }
+        })
+
+        UIView.setAnimationsEnabled(false); do {
+            let width = min(imageSize.width, YepConfig.ChatCell.imageMaxWidth)
+
+            messageImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
+            messageImageMaskImageView.frame = messageImageView.bounds
+
+
+            loadingProgressView.center = CGPoint(x: CGRectGetMidX(messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(messageImageView.frame))
+
+            borderImageView.frame = messageImageView.frame
+        }
+        UIView.setAnimationsEnabled(true)
+
+        /*
         if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
 
             let aspectRatio = imageWidth / imageHeight
@@ -238,6 +262,7 @@ final class ChatLeftImageCell: ChatBaseCell {
                 }
             })
         }
+         */
 
         configureNameLabel()
     }
