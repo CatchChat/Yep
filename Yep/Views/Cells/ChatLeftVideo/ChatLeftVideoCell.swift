@@ -61,9 +61,10 @@ final class ChatLeftVideoCell: ChatBaseCell {
         contentView.addSubview(playImageView)
         contentView.addSubview(loadingProgressView)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         thumbnailImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftVideoCell.tapMediaView))
@@ -143,9 +144,10 @@ final class ChatLeftVideoCell: ChatBaseCell {
             topOffset = 0
         }
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -160,6 +162,24 @@ final class ChatLeftVideoCell: ChatBaseCell {
             }
         }
 
+        let videoSize = message.fixedVideoSize
+
+        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .Left, completion: { loadingProgress, image in
+            SafeDispatch.async { [weak self] in
+                self?.loadingWithProgress(loadingProgress, image: image)
+            }
+        })
+
+        UIView.setAnimationsEnabled(false); do {
+            thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: videoSize.width, height: bounds.height - topOffset)
+            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(thumbnailImageView.frame))
+            loadingProgressView.center = playImageView.center
+
+            borderImageView.frame = thumbnailImageView.frame
+        }
+        UIView.setAnimationsEnabled(true)
+
+        /*
         if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
 
             let aspectRatio = videoWidth / videoHeight
@@ -235,6 +255,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
                 }
             })
         }
+         */
 
         configureNameLabel()
     }
