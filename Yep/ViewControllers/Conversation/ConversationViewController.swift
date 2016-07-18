@@ -1017,13 +1017,13 @@ final class ConversationViewController: BaseViewController {
             }
 
         case MessageMediaType.Image.rawValue:
-            height = message.fixedImageSize.height
+            height = ceil(message.fixedImageSize.height)
 
         case MessageMediaType.Audio.rawValue:
             height = 40
 
         case MessageMediaType.Video.rawValue:
-            height = message.fixedVideoSize.height
+            height = ceil(message.fixedVideoSize.height)
 
         case MessageMediaType.Location.rawValue:
             height = 108
