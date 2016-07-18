@@ -179,84 +179,6 @@ final class ChatLeftVideoCell: ChatBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        /*
-        if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
-
-            let aspectRatio = videoWidth / videoHeight
-
-            let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-            let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-            if aspectRatio >= 1 {
-
-                let width = messageImagePreferredWidth
-                
-                UIView.performWithoutAnimation { [weak self] in
-
-                    if let strongSelf = self {
-                        strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
-                        strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
-                        strongSelf.loadingProgressView.center = strongSelf.playImageView.center
-
-                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
-                    }
-                }
-
-                let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio))
-
-                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                    SafeDispatch.async { [weak self] in
-                        self?.loadingWithProgress(loadingProgress, image: image)
-                    }
-                })
-
-            } else {
-                let width = messageImagePreferredHeight * aspectRatio
-                
-                UIView.performWithoutAnimation { [weak self] in
-
-                    if let strongSelf = self {
-                        strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
-                        strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
-                        strongSelf.loadingProgressView.center = strongSelf.playImageView.center
-
-                        strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
-                    }
-                }
-
-                let size = CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight)
-
-                thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                    SafeDispatch.async { [weak self] in
-                        self?.loadingWithProgress(loadingProgress, image: image)
-                    }
-                })
-            }
-
-        } else {
-            let width = messageImagePreferredWidth
-            
-            UIView.performWithoutAnimation { [weak self] in
-
-                if let strongSelf = self {
-                    strongSelf.thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(strongSelf.avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: strongSelf.bounds.height - topOffset)
-                    strongSelf.playImageView.center = CGPoint(x: CGRectGetMidX(strongSelf.thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(strongSelf.thumbnailImageView.frame))
-                    strongSelf.loadingProgressView.center = strongSelf.playImageView.center
-
-                    strongSelf.borderImageView.frame = strongSelf.thumbnailImageView.frame
-                }
-            }
-
-            let size = CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / messageImagePreferredAspectRatio))
-
-            thumbnailImageView.yep_setImageOfMessage(message, withSize: size, tailDirection: .Left, completion: { loadingProgress, image in
-                SafeDispatch.async { [weak self] in
-                    self?.loadingWithProgress(loadingProgress, image: image)
-                }
-            })
-        }
-         */
-
         configureNameLabel()
     }
 
@@ -265,11 +187,14 @@ final class ChatLeftVideoCell: ChatBaseCell {
         if inGroup {
             nameLabel.text = user?.compositedName
 
-            let height = YepConfig.ChatCell.nameLabelHeightForGroup
-            let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-            let y = thumbnailImageView.frame.origin.y - height
-            let width = contentView.bounds.width - x - 10
-            nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
+            UIView.setAnimationsEnabled(false); do {
+                let height = YepConfig.ChatCell.nameLabelHeightForGroup
+                let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+                let y = thumbnailImageView.frame.origin.y - height
+                let width = contentView.bounds.width - x - 10
+                nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
+            }
+            UIView.setAnimationsEnabled(true)
         }
     }
 }
