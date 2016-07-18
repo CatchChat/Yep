@@ -86,7 +86,7 @@ final class ChatLeftLocationCell: ChatBaseCell {
         mediaTapAction?()
     }
     
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
 
         self.user = message.fromFriend
 
@@ -106,10 +106,8 @@ final class ChatLeftLocationCell: ChatBaseCell {
         locationNameLabel.text = locationName
 
         ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Left, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-            SafeDispatch.async {
-                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                    self.mapImageView.image = mapImage
-                }
+            SafeDispatch.async { [weak self] in
+                self?.mapImageView.image = mapImage
             }
         }
     }

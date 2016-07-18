@@ -534,7 +534,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell: ChatLeftImageCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     prepareCell(cell)
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
 
@@ -550,7 +550,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         } else {
                             //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -568,7 +568,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         } else {
                             //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -577,7 +577,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell: ChatLeftVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     prepareCell(cell)
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
 
@@ -594,7 +594,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
                         }
 
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -614,7 +614,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                              */
                             mapItem.openInMapsWithLaunchOptions(nil)
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -694,7 +694,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     prepareCell(cell)
 
-                    cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -726,7 +726,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             self?.tryShowMessageMediaFromMessage(message)
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -764,8 +764,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         }
                         
                         self?.playMessageAudioWithMessage(message)
-                        
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -774,7 +773,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     let cell: ChatRightVideoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     prepareCell(cell)
-                    cell.configureWithMessage(message, messageImagePreferredWidth:messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                    cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -806,7 +805,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             self?.tryShowMessageMediaFromMessage(message)
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
@@ -849,7 +848,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 mapItem.openInMapsWithLaunchOptions(nil)
                             }
                         }
-                    }, collectionView: collectionView, indexPath: indexPath)
+                    })
 
                     return cell
 
