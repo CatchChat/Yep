@@ -47,9 +47,10 @@ final class ChatRightVideoCell: ChatRightBaseCell {
         contentView.addSubview(borderImageView)
         contentView.addSubview(playImageView)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         thumbnailImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightVideoCell.tapMediaView))
@@ -97,9 +98,10 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
         self.mediaTapAction = mediaTapAction
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -110,6 +112,25 @@ final class ChatRightVideoCell: ChatRightBaseCell {
             self?.thumbnailImageView.alpha = 0.0
         }
 
+        let videoSize = message.fixedVideoSize
+
+        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .Right, completion: { loadingProgress, image in
+            SafeDispatch.async { [weak self] in
+                self?.loadingWithProgress(loadingProgress, image: image)
+            }
+        })
+
+        UIView.setAnimationsEnabled(false); do {
+            let width = videoSize.width
+            thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(thumbnailImageView.frame))
+            dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
+
+            borderImageView.frame = thumbnailImageView.frame
+        }
+        UIView.setAnimationsEnabled(true)
+
+        /*
         if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
 
             let aspectRatio = videoWidth / videoHeight
@@ -185,6 +206,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
                 }
             })
         }
+         */
     }
 }
 
