@@ -218,8 +218,26 @@ final class ConversationViewController: BaseViewController {
         } else {
             if messages.count >= messagesBunchCount {
                 displayedMessagesRange = NSRange(location: messages.count - messagesBunchCount, length: messagesBunchCount)
+
             } else {
                 displayedMessagesRange = NSRange(location: 0, length: messages.count)
+
+                // preload some old messages if can
+                if displayedMessagesRange.length == 1 {
+                    if let maxMessageID = messages.first?.messageID {
+                        let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
+                        loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
+                            self?.noMorePreviousMessages = noMore
+
+                            if !messageIDs.isEmpty {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                delay(0.25) { [weak self] in
+                                    self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
+                                }
+                            }
+                        })
+                    }
+                }
             }
         }
 
