@@ -8,7 +8,7 @@
 
 import Foundation
 
-class FreeTimeJob: NSObject {
+class FreeTimeJob {
 
     private static var set = NSMutableSet()
 
@@ -40,7 +40,6 @@ class FreeTimeJob: NSObject {
     init(target: NSObject, selector: Selector) {
         self.target = target
         self.selector = selector
-        super.init()
     }
 
     func commit() {
