@@ -221,6 +221,16 @@ final class ConversationViewController: BaseViewController {
             } else {
                 displayedMessagesRange = NSRange(location: 0, length: messages.count)
             }
+
+            if displayedMessagesRange.length < 2 {
+                if let maxMessageID = messages.first?.messageID {
+                    let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
+                    loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
+                        self?.noMorePreviousMessages = noMore
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                    })
+                }
+            }
         }
 
         lastTimeMessagesCount = messages.count
