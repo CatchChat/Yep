@@ -228,7 +228,13 @@ final class ConversationViewController: BaseViewController {
                         let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
                         loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
                             self?.noMorePreviousMessages = noMore
-                            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+
+                            if !messageIDs.isEmpty {
+                                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                                delay(0.25) { [weak self] in
+                                    self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
+                                }
+                            }
                         })
                     }
                 }
