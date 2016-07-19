@@ -149,15 +149,14 @@ class ChatRightTextCell: ChatRightBaseCell {
             }
             
             textContainerView.frame = textContentTextViewFrame
-
             textContentTextView.frame = textContainerView.bounds
-            
+
             let bubbleBodyFrame = CGRectInset(textContainerView.frame, -12, -3)
-            
+
             bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
 
             bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
-            
+
             dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(textContainerView.frame))
         }
         UIView.setAnimationsEnabled(true)

@@ -328,6 +328,9 @@ final class ConversationViewController: BaseViewController {
 
         needDetectMention = conversation.needDetectMention
 
+        let job = FreeTimeJob(target: self, selector: #selector(ConversationViewController.prepareHeightOfMessagesInFreeTime))
+        job.commit()
+
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif
@@ -1051,6 +1054,13 @@ final class ConversationViewController: BaseViewController {
 
     func clearHeightOfMessageWithKey(key: String) {
         messageHeights[key] = nil
+    }
+
+    @objc private func prepareHeightOfMessagesInFreeTime() {
+
+        messages.reverse().forEach({
+            _ = heightOfMessage($0)
+        })
     }
 
     func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {

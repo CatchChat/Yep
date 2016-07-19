@@ -173,7 +173,6 @@ final class ChatLeftImageCell: ChatBaseCell {
             messageImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
             messageImageMaskImageView.frame = messageImageView.bounds
 
-
             loadingProgressView.center = CGPoint(x: CGRectGetMidX(messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(messageImageView.frame))
 
             borderImageView.frame = messageImageView.frame

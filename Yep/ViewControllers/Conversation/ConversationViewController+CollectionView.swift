@@ -1069,12 +1069,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let cell: ChatRightLocationCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                     return cell
-                
-//                case MessageMediaType.ShareFeed.rawValue:
-//
-//                    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(chatRightShareFeedCellIdentifier, forIndexPath:indexPath) as! RightShareFeedCell
-//                    return cell
-                    
+
                 default:
 
                     if message.openGraphInfo != nil {
@@ -1089,9 +1084,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             }
         }
     }
-     */
 
-    /*
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -1111,14 +1104,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             if message.mediaType == MessageMediaType.SectionDate.rawValue {
 
                 if let cell = cell as? ChatSectionDateCell {
-                    let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
-
-                    if createdAt.isInCurrentWeek() {
-                        cell.sectionDateLabel.text = sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
-
-                    } else {
-                        cell.sectionDateLabel.text = sectionDateFormatter.stringFromDate(createdAt)
-                    }
+                    cell.configureWithMessage(message)
                 }
 
                 return
@@ -1164,7 +1150,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     if let cell = cell as? ChatLeftImageCell {
 
-                        cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                        cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                             if message.downloadState == MessageDownloadState.Downloaded.rawValue {
 
@@ -1180,8 +1166,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             } else {
                                 //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the image is not ready!", comment: ""), inViewController: self)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Audio.rawValue:
@@ -1198,15 +1183,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             } else {
                                 //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Video.rawValue:
 
                     if let cell = cell as? ChatLeftVideoCell {
 
-                        cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: self.messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                        cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                             if message.downloadState == MessageDownloadState.Downloaded.rawValue {
 
@@ -1222,8 +1206,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             } else {
                                 //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the video is not ready!", comment: ""), inViewController: self)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Location.rawValue:
@@ -1241,8 +1224,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 */
                                 mapItem.openInMapsWithLaunchOptions(nil)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.SocialWork.rawValue:
@@ -1255,15 +1237,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             self?.performSegueWithIdentifier("presentNewFeed", sender: socialWork)
                         }
                     }
-//                case MessageMediaType.ShareFeed.rawValue:
-//                    
-//                    if let cell = cell as? LeftShareFeedCell {
-//                        cell.configureWithMessage(message, collectionView: collectionView, indexPath: indexPath) { [weak self] in
-//                            let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
-//                            vc.conversation = self?.conversationToShare
-//                            self?.navigationController?.pushViewController(vc, animated: true)
-//                        }
-//                    }
 
                 default:
 
@@ -1326,7 +1299,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     if let cell = cell as? ChatRightImageCell {
 
-                        cell.configureWithMessage(message, messageImagePreferredWidth: messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                        cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1358,8 +1331,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 self?.tryShowMessageMediaFromMessage(message)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Audio.rawValue:
@@ -1394,15 +1366,14 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
 
                             self?.playMessageAudioWithMessage(message)
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Video.rawValue:
 
                     if let cell = cell as? ChatRightVideoCell {
 
-                        cell.configureWithMessage(message, messageImagePreferredWidth:messageImagePreferredWidth, messageImagePreferredHeight: messageImagePreferredHeight, messageImagePreferredAspectRatio: messageImagePreferredAspectRatio, mediaTapAction: { [weak self] in
+                        cell.configureWithMessage(message, mediaTapAction: { [weak self] in
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
@@ -1434,8 +1405,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 self?.tryShowMessageMediaFromMessage(message)
                             }
-
-                        }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
 
                 case MessageMediaType.Location.rawValue:
@@ -1476,43 +1446,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     mapItem.openInMapsWithLaunchOptions(nil)
                                 }
                             }
-                            
-                            }, collectionView: collectionView, indexPath: indexPath)
+                        })
                     }
-                    
-//                case MessageMediaType.ShareFeed.rawValue:
-                    
-//                    if let cell = cell as? RightShareFeedCell {
-//                        cell.configureWithMessage(message, collectionView: collectionView, indexPath: indexPath) { [weak self] in
-//                            
-//                            if message.sendState == MessageSendState.Failed.rawValue {
-//                                
-//                                YepAlert.confirmOrCancel(title: NSLocalizedString("Action", comment: ""), message: NSLocalizedString("Resend Feed?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
-//                                    
-//                                    resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-//                                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-//                                        
-//                                        self?.promptSendMessageFailed(
-//                                            reason: reason,
-//                                            errorMessage: errorMessage,
-//                                            reserveErrorMessage: NSLocalizedString("Failed to resend feed!\nPlease make sure your device is connected to the Internet.", comment: "")
-//                                        )
-//                                        
-//                                        }, completion: { success in
-//                                            println("resendFeed: \(success)")
-//                                    })
-//                                    
-//                                    }, cancelAction: {
-//                                })
-//                                
-//                            } else {
-//                                let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
-//                                vc.conversation = self?.conversationToShare
-//                                self?.navigationController?.pushViewController(vc, animated: true)
-//                            }
-//                        }
-//                    }
-                    
+
                 default:
 
                     let mediaTapAction: () -> Void = { [weak self] in

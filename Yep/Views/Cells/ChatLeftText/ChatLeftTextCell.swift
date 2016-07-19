@@ -139,10 +139,12 @@ class ChatLeftTextCell: ChatBaseCell {
 
             textContentTextView.frame = textContentTextViewFrame
 
-            let bubbleBodyFrame = CGRectInset(textContentTextViewFrame, -12, -3)
-            
+            let bubbleBodyFrame = CGRectInset(textContentTextView.frame, -12, -3)
+
             bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
-            
+
+            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
+
             if inGroup {
                 nameLabel.text = user?.compositedName
 
@@ -152,8 +154,6 @@ class ChatLeftTextCell: ChatBaseCell {
                 let width = contentView.bounds.width - x - 10
                 nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
             }
-            
-            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
         }
         UIView.setAnimationsEnabled(true)
 
