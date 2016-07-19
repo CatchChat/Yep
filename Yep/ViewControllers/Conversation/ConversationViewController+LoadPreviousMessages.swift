@@ -12,6 +12,40 @@ import YepNetworking
 
 extension ConversationViewController {
 
+    func loadMessagesFromServer(withTimeDirection timeDirection: TimeDirection, invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((messageIDs: [String], noMore: Bool) -> Void)? = nil) {
+
+        guard let recipient = recipient else {
+            failed?()
+            return
+        }
+
+        messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            SafeDispatch.async {
+                failed?()
+            }
+
+        }, completion: { _messageIDs, noMore in
+            println("@ messagesFromRecipient: \(_messageIDs.count)")
+            var messageIDs: [String] = []
+            if let invalidMessageIDSet = invalidMessageIDSet {
+                for messageID in _messageIDs {
+                    if !invalidMessageIDSet.contains(messageID) {
+                        messageIDs.append(messageID)
+                    }
+                }
+            } else {
+                messageIDs = _messageIDs
+            }
+            println("# messagesFromRecipient: \(messageIDs.count)")
+
+            SafeDispatch.async {
+                completion?(messageIDs: messageIDs, noMore: noMore)
+            }
+        })
+    }
+
     func tryLoadPreviousMessages(completion: () -> Void) {
 
         if isLoadingPreviousMessages {
@@ -25,6 +59,32 @@ extension ConversationViewController {
 
         if displayedMessagesRange.location == 0 {
 
+            let timeDirection: TimeDirection
+            var invalidMessageIDSet: Set<String>?
+            if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
+                let maxMessageID = message.messageID
+                timeDirection = .Past(maxMessageID: maxMessageID)
+                invalidMessageIDSet = headInvalidMessageIDSet
+            } else {
+                timeDirection = .None
+            }
+
+            loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: invalidMessageIDSet, failed: {
+                completion()
+
+            }, completion: { [weak self] messageIDs, noMore in
+                if case .Past = timeDirection {
+                    self?.noMorePreviousMessages = noMore
+                }
+
+                tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
+                //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
+
+                self?.isLoadingPreviousMessages = false
+                completion()
+            })
+
+            /*
             guard let recipient = recipient else {
                 completion()
                 return
@@ -75,6 +135,7 @@ extension ConversationViewController {
                     completion()
                 }
             })
+             */
 
         } else {
             var newMessagesCount = self.messagesBunchCount
