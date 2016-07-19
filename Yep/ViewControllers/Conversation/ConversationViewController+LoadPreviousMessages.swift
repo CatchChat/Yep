@@ -84,59 +84,6 @@ extension ConversationViewController {
                 completion()
             })
 
-            /*
-            guard let recipient = recipient else {
-                completion()
-                return
-            }
-
-            let timeDirection: TimeDirection
-            var invalidMessageIDSet: Set<String>?
-            if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
-                let maxMessageID = message.messageID
-                timeDirection = .Past(maxMessageID: maxMessageID)
-                invalidMessageIDSet = headInvalidMessageIDSet
-            } else {
-                timeDirection = .None
-            }
-
-            messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                SafeDispatch.async {
-                    completion()
-                }
-
-            }, completion: { _messageIDs, noMore in
-                println("@ messagesFromRecipient: \(_messageIDs.count)")
-
-                var messageIDs: [String] = []
-                if let invalidMessageIDSet = invalidMessageIDSet {
-                    for messageID in _messageIDs {
-                        if !invalidMessageIDSet.contains(messageID) {
-                            messageIDs.append(messageID)
-                        }
-                    }
-                } else {
-                    messageIDs = _messageIDs
-                }
-                println("# messagesFromRecipient: \(messageIDs.count)")
-
-                SafeDispatch.async { [weak self] in
-
-                    if case .Past = timeDirection {
-                        self?.noMorePreviousMessages = noMore
-                    }
-
-                    tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-                    //self?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: timeDirection.messageAge.rawValue)
-
-                    self?.isLoadingPreviousMessages = false
-                    completion()
-                }
-            })
-             */
-
         } else {
             var newMessagesCount = self.messagesBunchCount
 
