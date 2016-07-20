@@ -62,9 +62,9 @@ class DiscoverContainerViewController: UIViewController {
     lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage(named:"icon_list")
-        item.rx_tap.subscribeNext({ [weak self] in
-            self?.discoverViewController?.changeLayoutMode()
-        }).addDisposableTo(self.disposeBag)
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController?.changeLayoutMode() })
+            .addDisposableTo(self.disposeBag)
         return item
     }()
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
@@ -74,9 +74,9 @@ class DiscoverContainerViewController: UIViewController {
     }
     lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.rx_tap.subscribeNext({ [weak self] in
-            self?.discoverViewController?.showFilters()
-        }).addDisposableTo(self.disposeBag)
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController?.showFilters() })
+            .addDisposableTo(self.disposeBag)
         return item
     }()
 
