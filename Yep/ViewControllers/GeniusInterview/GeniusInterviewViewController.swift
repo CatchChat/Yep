@@ -15,11 +15,11 @@ import RxCocoa
 
 class GeniusInterviewViewController: UIViewController {
 
-    private lazy var disposeBag = DisposeBag()
-
     var interview: InterviewRepresentation!
 
     private static let actionViewHeight: CGFloat = 50
+
+    private lazy var disposeBag = DisposeBag()
 
     lazy var webView: WKWebView = {
 
@@ -29,13 +29,8 @@ class GeniusInterviewViewController: UIViewController {
 
         view.scrollView.scrollEnabled = false
         view.scrollView.contentInset.bottom = GeniusInterviewViewController.actionViewHeight
-        //view.scrollView.delegate = self
-
         view.scrollView.rx_contentOffset.map({ $0.y }).subscribeNext({ [weak self] (scrollViewContentOffsetY) in
-            guard scrollViewContentOffsetY > 0 else {
-                return
-            }
-            guard let scrollView = self?.webView.scrollView else {
+            guard scrollViewContentOffsetY > 0, let scrollView = self?.webView.scrollView else {
                 return
             }
             let scrollViewHeight = scrollView.bounds.height
@@ -217,33 +212,4 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
         }
     }
 }
-
-// MARK: - UIScrollViewDelegate
-
-//extension GeniusInterviewViewController: UIScrollViewDelegate {
-//
-//    func scrollViewDidScroll(scrollView: UIScrollView) {
-//
-//        let scrollViewContentOffsetY = scrollView.contentOffset.y
-//        guard scrollViewContentOffsetY > 0 else {
-//            return
-//        }
-//        let scrollViewHeight = scrollView.bounds.height
-//        let scrollViewContentSizeHeight = scrollView.contentSize.height
-//
-//        let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
-//        if y > 0 {
-//            let actionViewHeight = GeniusInterviewViewController.actionViewHeight
-//            UIView.animateWithDuration(0.5, animations: { [weak self] in
-//                self?.actionViewTopConstraint?.constant = -actionViewHeight
-//                self?.view.layoutIfNeeded()
-//            })
-//        } else {
-//            UIView.animateWithDuration(0.5, animations: { [weak self] in
-//                self?.actionViewTopConstraint?.constant = 0
-//                self?.view.layoutIfNeeded()
-//            })
-//        }
-//    }
-//}
 
