@@ -422,16 +422,20 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let transitionViews: [UIView?] = mediaMessages.map({
                         if let index = messages.indexOf($0) {
-                            let cellIndex = index - displayedMessagesRange.location
-                            let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
+                            if index == messageIndex {
+                                let cellIndex = index - displayedMessagesRange.location
+                                let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
 
-                            if let leftImageCell = cell as? ChatLeftImageCell {
-                                return leftImageCell.messageImageView
-                            } else if let rightImageCell = cell as? ChatRightImageCell {
-                                return rightImageCell.messageImageView
+                                if let leftImageCell = cell as? ChatLeftImageCell {
+                                    return leftImageCell.messageImageView
+                                } else if let rightImageCell = cell as? ChatRightImageCell {
+                                    return rightImageCell.messageImageView
+                                }
+                            } else {
+                                return nil
                             }
                         }
-
+                        
                         return nil
                     })
 
