@@ -107,11 +107,8 @@ class DiscoverContainerViewController: UIViewController {
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
-        //segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
-        segmentedControl.rx_value.bindNext({ [weak self] (value) in
-            guard let option = Option(rawValue: value) else {
-                return
-            }
+        segmentedControl.rx_value.subscribeNext({ [weak self] (value) in
+            guard let option = Option(rawValue: value) else { return }
             self?.currentOption = option
         }).addDisposableTo(disposeBag)
 
@@ -129,27 +126,6 @@ class DiscoverContainerViewController: UIViewController {
             registerForPreviewingWithDelegate(self, sourceView: view)
         }
     }
-
-    // MARK: - Actions
-
-//    @objc private func chooseOption(sender: UISegmentedControl) {
-//
-//        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
-//            return
-//        }
-//
-//        currentOption = option
-//    }
-
-//    @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
-//
-//        discoverViewController?.changeLayoutMode()
-//    }
-
-//    @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
-//
-//        discoverViewController?.showFilters()
-//    }
 
     // MARK: - Navigation
 
