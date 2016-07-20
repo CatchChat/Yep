@@ -181,9 +181,11 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
 
     func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
 
-        indicatorView.stopAnimating()
+        delay(1) { [weak self] in
+            self?.indicatorView.stopAnimating()
 
-        webView.scrollView.scrollEnabled = true
+            webView.scrollView.scrollEnabled = true
+        }
     }
 }
 
