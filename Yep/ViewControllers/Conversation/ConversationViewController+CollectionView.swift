@@ -397,8 +397,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     vc.transitionView = transitionView
 
-                    delay(0) {
-                        transitionView?.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
+                    doInNextRunLoop { // 避免太快消失产生闪烁
+                        transitionView?.alpha = 0
                     }
 
                     vc.afterDismissAction = { [weak self] in
