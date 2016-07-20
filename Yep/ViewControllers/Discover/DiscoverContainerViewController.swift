@@ -107,10 +107,11 @@ class DiscoverContainerViewController: UIViewController {
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
-        segmentedControl.rx_value.subscribeNext({ [weak self] (value) in
-            guard let option = Option(rawValue: value) else { return }
-            self?.currentOption = option
-        }).addDisposableTo(disposeBag)
+
+        segmentedControl.rx_value
+            .map({ Option(rawValue: $0) })
+            .subscribeNext({ [weak self] in self?.currentOption = $0 ?? .MeetGenius })
+            .addDisposableTo(disposeBag)
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
