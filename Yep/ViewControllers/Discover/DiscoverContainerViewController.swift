@@ -75,8 +75,8 @@ class DiscoverContainerViewController: UIViewController {
         let item = UIBarButtonItem(
             title: "NIX",
             style: .Plain,
-            target: self,
-            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilterButtonItem(_:))
+            target: nil,
+            action: nil
         )
         return item
     }()
@@ -122,6 +122,10 @@ class DiscoverContainerViewController: UIViewController {
             self?.discoverViewController?.changeLayoutMode()
         }).addDisposableTo(disposeBag)
 
+        discoveredUsersFilterButtonItem.rx_tap.subscribeNext({ [weak self] in
+            self?.discoverViewController?.showFilters()
+        }).addDisposableTo(disposeBag)
+
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
             _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
@@ -153,10 +157,10 @@ class DiscoverContainerViewController: UIViewController {
 //        discoverViewController?.changeLayoutMode()
 //    }
 
-    @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
-
-        discoverViewController?.showFilters()
-    }
+//    @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
+//
+//        discoverViewController?.showFilters()
+//    }
 
     // MARK: - Navigation
 
