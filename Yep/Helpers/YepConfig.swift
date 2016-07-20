@@ -119,10 +119,7 @@ final class YepConfig {
 
     struct EditProfile {
 
-        static let infoFont: UIFont = {
-            return UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
-        }()
-
+        static let infoFont = UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
         static let infoInset: CGFloat = 20 + 20
     }
 
@@ -191,7 +188,7 @@ final class YepConfig {
 
         static let imageAppearDuration: NSTimeInterval = 0.1
 
-        static let textAttributes:[String: NSObject] = [
+        static let textAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
         ]
     }
@@ -201,19 +198,19 @@ final class YepConfig {
     }
 
     struct FeedBasicCell {
-        static let textAttributes:[String: NSObject] = [
+        static let textAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]
 
-        static let skillTextAttributes:[String: NSObject] = [
+        static let skillTextAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.feedSkillFont(),
         ]
 
-        static let voiceTimeLengthTextAttributes:[String: NSObject] = [
+        static let voiceTimeLengthTextAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.feedVoiceTimeLengthFont(),
         ]
 
-        static let bottomLabelsTextAttributes:[String: NSObject] = [
+        static let bottomLabelsTextAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.feedBottomLabelsFont(),
         ]
     }
@@ -231,7 +228,7 @@ final class YepConfig {
     }
 
     struct FeedView {
-        static let textAttributes:[String: NSObject] = [
+        static let textAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.feedMessageFont(),
         ]
     }
