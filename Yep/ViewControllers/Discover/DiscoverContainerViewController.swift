@@ -8,6 +8,8 @@
 
 import UIKit
 import YepKit
+import RxSwift
+import RxCocoa
 
 class DiscoverContainerViewController: UIViewController {
 
@@ -100,13 +102,21 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
 
+    lazy var disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
-        segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
+        //segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
+        segmentedControl.rx_value.bindNext({ [weak self] (value) in
+            guard let option = Option(rawValue: value) else {
+                return
+            }
+            self?.currentOption = option
+        }).addDisposableTo(disposeBag)
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
@@ -125,14 +135,14 @@ class DiscoverContainerViewController: UIViewController {
 
     // MARK: - Actions
 
-    @objc private func chooseOption(sender: UISegmentedControl) {
-
-        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
-            return
-        }
-
-        currentOption = option
-    }
+//    @objc private func chooseOption(sender: UISegmentedControl) {
+//
+//        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
+//            return
+//        }
+//
+//        currentOption = option
+//    }
 
     @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
 
