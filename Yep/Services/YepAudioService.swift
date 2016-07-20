@@ -333,7 +333,7 @@ final class YepAudioService: NSObject {
 
         // hack, wait for all observers of AVPlayerItemDidPlayToEndTimeNotification
         // to handle feedAudioDidFinishPlaying (check playingFeedAudio need playingItem)
-        delay(0) { [weak self] in
+        doInNextRunLoop { [weak self] in
             self?.playingItem = nil
         }
     }

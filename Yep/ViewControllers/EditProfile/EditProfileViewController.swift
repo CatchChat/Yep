@@ -274,7 +274,7 @@ final class EditProfileViewController: SegueViewController {
 
         view.endEditing(true)
 
-        delay(0) { [weak self] in
+        doInNextRunLoop { [weak self] in
             self?.isDirty = false
         }
     }

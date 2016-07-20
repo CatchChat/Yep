@@ -31,7 +31,7 @@ class PreviewMessagePhoto: NSObject, Photo {
                 imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName),
                 image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                delay(0.4) { [weak self] in
                     self?.image = image
                 }
 
