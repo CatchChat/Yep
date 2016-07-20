@@ -22,7 +22,12 @@ extension ConversationViewController: PhotosViewControllerDelegate {
 
         } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
             if let index = previewMessagePhotos.indexOf(previewMessagePhoto) {
-                return previewTransitionViews?[index]
+                if let view = previewTransitionViews?[index] {
+                    let rect = view.convertRect(view.frame, toView: view)
+                    if rect.minY >= 64 && rect.maxY < messageToolbar.frame.minY {
+                        return view
+                    }
+                }
             }
         }
 
