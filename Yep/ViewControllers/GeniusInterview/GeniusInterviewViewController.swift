@@ -10,12 +10,16 @@ import UIKit
 import WebKit
 import YepKit
 import RealmSwift
+import RxSwift
+import RxCocoa
 
 class GeniusInterviewViewController: UIViewController {
 
     var interview: InterviewRepresentation!
 
-    private let actionViewHeight: CGFloat = 50
+    private static let actionViewHeight: CGFloat = 50
+
+    private lazy var disposeBag = DisposeBag()
 
     lazy var webView: WKWebView = {
 
@@ -24,8 +28,28 @@ class GeniusInterviewViewController: UIViewController {
         view.navigationDelegate = self
 
         view.scrollView.scrollEnabled = false
-        view.scrollView.contentInset.bottom = self.actionViewHeight
-        view.scrollView.delegate = self
+        view.scrollView.contentInset.bottom = GeniusInterviewViewController.actionViewHeight
+        view.scrollView.rx_contentOffset.map({ $0.y }).subscribeNext({ [weak self] (scrollViewContentOffsetY) in
+            guard scrollViewContentOffsetY > 0, let scrollView = self?.webView.scrollView else {
+                return
+            }
+            let scrollViewHeight = scrollView.bounds.height
+            let scrollViewContentSizeHeight = scrollView.contentSize.height
+
+            let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
+            if y > 0 {
+                let actionViewHeight = GeniusInterviewViewController.actionViewHeight
+                UIView.animateWithDuration(0.5, animations: { [weak self] in
+                    self?.actionViewTopConstraint?.constant = -actionViewHeight
+                    self?.view.layoutIfNeeded()
+                })
+            } else {
+                UIView.animateWithDuration(0.5, animations: { [weak self] in
+                    self?.actionViewTopConstraint?.constant = 0
+                    self?.view.layoutIfNeeded()
+                })
+            }
+        }).addDisposableTo(self.disposeBag)
 
         return view
     }()
@@ -125,7 +149,7 @@ class GeniusInterviewViewController: UIViewController {
             let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
             let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
             self.actionViewTopConstraint = top
-            let height = actionView.heightAnchor.constraintEqualToConstant(actionViewHeight)
+            let height = actionView.heightAnchor.constraintEqualToConstant(GeniusInterviewViewController.actionViewHeight)
             NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
         }
 
@@ -185,35 +209,6 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
             self?.indicatorView.stopAnimating()
 
             webView.scrollView.scrollEnabled = true
-        }
-    }
-}
-
-// MARK: - UIScrollViewDelegate
-
-extension GeniusInterviewViewController: UIScrollViewDelegate {
-
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-
-        let scrollViewContentOffsetY = scrollView.contentOffset.y
-        guard scrollViewContentOffsetY > 0 else {
-            return
-        }
-        let scrollViewHeight = scrollView.bounds.height
-        let scrollViewContentSizeHeight = scrollView.contentSize.height
-
-        let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
-        if y > 0 {
-            let actionViewHeight = self.actionViewHeight
-            UIView.animateWithDuration(0.5, animations: { [weak self] in
-                self?.actionViewTopConstraint?.constant = -actionViewHeight
-                self?.view.layoutIfNeeded()
-            })
-        } else {
-            UIView.animateWithDuration(0.5, animations: { [weak self] in
-                self?.actionViewTopConstraint?.constant = 0
-                self?.view.layoutIfNeeded()
-            })
         }
     }
 }

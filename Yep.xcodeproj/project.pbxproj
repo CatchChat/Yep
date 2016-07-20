@@ -496,6 +496,8 @@
 		50E1CE8E1BE0BFF00025B933 /* MediaViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1CE8C1BE0BFF00025B933 /* MediaViewCell.swift */; };
 		50E1CE8F1BE0BFF00025B933 /* MediaViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E1CE8D1BE0BFF00025B933 /* MediaViewCell.xib */; };
 		50E1D7291B870D7500D90A82 /* NSParagraphStyle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */; };
+		50E2B7D21D3F736E00098362 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E2B7D11D3F736E00098362 /* RxSwift.framework */; };
+		50E2B7D41D3F737A00098362 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50E2B7D31D3F737A00098362 /* RxCocoa.framework */; };
 		50E2EB831D051C10001BB821 /* TitleSwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E2EB821D051C10001BB821 /* TitleSwitchCell.swift */; };
 		50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3488D1B905C0100A8E699 /* AboutViewController.swift */; };
 		50E348921B9063A700A8E699 /* AboutCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E348901B9063A700A8E699 /* AboutCell.swift */; };
@@ -1246,6 +1248,8 @@
 		50E1CE8C1BE0BFF00025B933 /* MediaViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaViewCell.swift; path = Views/Cells/MediaView/MediaViewCell.swift; sourceTree = "<group>"; };
 		50E1CE8D1BE0BFF00025B933 /* MediaViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MediaViewCell.xib; path = Views/Cells/MediaView/MediaViewCell.xib; sourceTree = "<group>"; };
 		50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSParagraphStyle+Yep.swift"; path = "Extensions/NSParagraphStyle+Yep.swift"; sourceTree = "<group>"; };
+		50E2B7D11D3F736E00098362 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
+		50E2B7D31D3F737A00098362 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		50E2EB821D051C10001BB821 /* TitleSwitchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TitleSwitchCell.swift; path = Views/Cells/TitleSwitch/TitleSwitchCell.swift; sourceTree = "<group>"; };
 		50E3488D1B905C0100A8E699 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutViewController.swift; path = ViewControllers/About/AboutViewController.swift; sourceTree = "<group>"; };
 		50E348901B9063A700A8E699 /* AboutCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutCell.swift; path = Views/Cells/About/AboutCell.swift; sourceTree = "<group>"; };
@@ -1387,6 +1391,8 @@
 				507902361D06813300D846F5 /* Kanna.framework in Frameworks */,
 				50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */,
 				50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */,
+				50E2B7D21D3F736E00098362 /* RxSwift.framework in Frameworks */,
+				50E2B7D41D3F737A00098362 /* RxCocoa.framework in Frameworks */,
 				1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3665,6 +3671,8 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50E2B7D31D3F737A00098362 /* RxCocoa.framework */,
+				50E2B7D11D3F736E00098362 /* RxSwift.framework */,
 				6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */,
 				50C106991D066A3C002EAB5C /* MonkeyKing.framework */,
 				50C106971D066A35002EAB5C /* Proposer.framework */,
@@ -4509,6 +4517,8 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Proposer.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MonkeyKing.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Kanna.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			outputPaths = (
 			);

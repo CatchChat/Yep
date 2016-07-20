@@ -8,8 +8,12 @@
 
 import UIKit
 import YepKit
+import RxSwift
+import RxCocoa
 
 class DiscoverContainerViewController: UIViewController {
+
+    private lazy var disposeBag = DisposeBag()
 
     enum Option: Int {
         case MeetGenius
@@ -56,12 +60,11 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
     lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(
-            image: UIImage(named:"icon_list"),
-            style: .Plain,
-            target: self,
-            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersLayoutModeButtonItem(_:))
-        )
+        let item = UIBarButtonItem()
+        item.image = UIImage(named:"icon_list")
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController?.changeLayoutMode() })
+            .addDisposableTo(self.disposeBag)
         return item
     }()
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
@@ -70,12 +73,10 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
     lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(
-            title: "NIX",
-            style: .Plain,
-            target: self,
-            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersFilterButtonItem(_:))
-        )
+        let item = UIBarButtonItem()
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController?.showFilters() })
+            .addDisposableTo(self.disposeBag)
         return item
     }()
 
@@ -106,7 +107,11 @@ class DiscoverContainerViewController: UIViewController {
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
-        segmentedControl.addTarget(self, action: #selector(DiscoverContainerViewController.chooseOption(_:)), forControlEvents: .ValueChanged)
+
+        segmentedControl.rx_value
+            .map({ Option(rawValue: $0) })
+            .subscribeNext({ [weak self] in self?.currentOption = $0 ?? .MeetGenius })
+            .addDisposableTo(disposeBag)
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
@@ -121,27 +126,6 @@ class DiscoverContainerViewController: UIViewController {
         if traitCollection.forceTouchCapability == .Available {
             registerForPreviewingWithDelegate(self, sourceView: view)
         }
-    }
-
-    // MARK: - Actions
-
-    @objc private func chooseOption(sender: UISegmentedControl) {
-
-        guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
-            return
-        }
-
-        currentOption = option
-    }
-
-    @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
-
-        discoverViewController?.changeLayoutMode()
-    }
-
-    @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
-
-        discoverViewController?.showFilters()
     }
 
     // MARK: - Navigation
