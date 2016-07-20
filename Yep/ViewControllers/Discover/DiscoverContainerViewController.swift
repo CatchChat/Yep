@@ -61,8 +61,8 @@ class DiscoverContainerViewController: UIViewController {
         let item = UIBarButtonItem(
             image: UIImage(named:"icon_list"),
             style: .Plain,
-            target: self,
-            action: #selector(DiscoverContainerViewController.tapDiscoveredUsersLayoutModeButtonItem(_:))
+            target: nil,
+            action: nil
         )
         return item
     }()
@@ -118,6 +118,10 @@ class DiscoverContainerViewController: UIViewController {
             self?.currentOption = option
         }).addDisposableTo(disposeBag)
 
+        discoveredUsersLayoutModeButtonItem.rx_tap.subscribeNext({ [weak self] in
+            self?.discoverViewController?.changeLayoutMode()
+        }).addDisposableTo(disposeBag)
+
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
             _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
@@ -144,10 +148,10 @@ class DiscoverContainerViewController: UIViewController {
 //        currentOption = option
 //    }
 
-    @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
-
-        discoverViewController?.changeLayoutMode()
-    }
+//    @objc private func tapDiscoveredUsersLayoutModeButtonItem(sender: UIBarButtonItem) {
+//
+//        discoverViewController?.changeLayoutMode()
+//    }
 
     @objc private func tapDiscoveredUsersFilterButtonItem(sender: UIBarButtonItem) {
 
