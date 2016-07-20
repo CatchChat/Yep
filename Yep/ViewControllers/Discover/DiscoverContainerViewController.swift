@@ -13,6 +13,8 @@ import RxCocoa
 
 class DiscoverContainerViewController: UIViewController {
 
+    private lazy var disposeBag = DisposeBag()
+
     enum Option: Int {
         case MeetGenius
         case FindAll
@@ -58,12 +60,11 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
     lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(
-            image: UIImage(named:"icon_list"),
-            style: .Plain,
-            target: nil,
-            action: nil
-        )
+        let item = UIBarButtonItem()
+        item.image = UIImage(named:"icon_list")
+        item.rx_tap.subscribeNext({ [weak self] in
+            self?.discoverViewController?.changeLayoutMode()
+        }).addDisposableTo(self.disposeBag)
         return item
     }()
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
@@ -72,12 +73,10 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
     lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(
-            title: "NIX",
-            style: .Plain,
-            target: nil,
-            action: nil
-        )
+        let item = UIBarButtonItem()
+        item.rx_tap.subscribeNext({ [weak self] in
+            self?.discoverViewController?.showFilters()
+        }).addDisposableTo(self.disposeBag)
         return item
     }()
 
@@ -102,8 +101,6 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
 
-    lazy var disposeBag = DisposeBag()
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -116,14 +113,6 @@ class DiscoverContainerViewController: UIViewController {
                 return
             }
             self?.currentOption = option
-        }).addDisposableTo(disposeBag)
-
-        discoveredUsersLayoutModeButtonItem.rx_tap.subscribeNext({ [weak self] in
-            self?.discoverViewController?.changeLayoutMode()
-        }).addDisposableTo(disposeBag)
-
-        discoveredUsersFilterButtonItem.rx_tap.subscribeNext({ [weak self] in
-            self?.discoverViewController?.showFilters()
         }).addDisposableTo(disposeBag)
 
         if let
