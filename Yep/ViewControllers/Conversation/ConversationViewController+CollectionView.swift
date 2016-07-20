@@ -420,6 +420,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return
                     }
 
+                    /*
                     let transitionViews: [UIView?] = mediaMessages.map({
                         if let index = messages.indexOf($0) {
                             let cellIndex = index - displayedMessagesRange.location
@@ -432,6 +433,25 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             }
                         }
 
+                        return nil
+                    })
+                     */
+                    let transitionViews: [UIView?] = mediaMessages.map({
+                        if let index = messages.indexOf($0) {
+                            if index == messageIndex {
+                                let cellIndex = index - displayedMessagesRange.location
+                                let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
+
+                                if let leftImageCell = cell as? ChatLeftImageCell {
+                                    return leftImageCell.messageImageView
+                                } else if let rightImageCell = cell as? ChatRightImageCell {
+                                    return rightImageCell.messageImageView
+                                }
+                            } else {
+                                return nil
+                            }
+                        }
+                        
                         return nil
                     })
 
