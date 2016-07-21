@@ -76,7 +76,6 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.delegate = self
         verifyCodeTextField.rx_text
             .map({ $0.characters.count == YepConfig.verifyCodeLength() })
             .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
@@ -215,18 +214,5 @@ final class RegisterVerifyMobileViewController: SegueViewController {
             }
         })
     }
-}
-
-extension RegisterVerifyMobileViewController: UITextFieldDelegate {
-
-    /*
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if haveAppropriateInput {
-            verifyRegisterMobile()
-        }
-
-        return true
-    }
-    */
 }
 
