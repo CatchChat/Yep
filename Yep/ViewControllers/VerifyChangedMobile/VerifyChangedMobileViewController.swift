@@ -120,15 +120,15 @@ final class VerifyChangedMobileViewController: UIViewController {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
 
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
                 callMeButton.enabled = true
@@ -144,19 +144,21 @@ final class VerifyChangedMobileViewController: UIViewController {
 
         callMeTimer.invalidate()
 
-        UIView.performWithoutAnimation {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
-            self.callMeButton.layoutIfNeeded()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
         }
 
-        delay(5) {
-            UIView.performWithoutAnimation {
-                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                self.callMeButton.layoutIfNeeded()
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
             }
         }
 
-        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             let errorMessage = errorMessage ?? "Error: call for verify code"
@@ -164,7 +166,7 @@ final class VerifyChangedMobileViewController: UIViewController {
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
             SafeDispatch.async {
-                UIView.performWithoutAnimation {
+                UIView.performWithoutAnimation { [weak self] in
                     self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
@@ -185,28 +187,29 @@ final class VerifyChangedMobileViewController: UIViewController {
 
         YepHUD.showActivityIndicator()
 
-        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
+        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async {  [weak self] in
                 self?.nextButton.enabled = false
             }
 
             let errorMessage = errorMessage ?? ""
 
             YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self] in
+                    self?.verifyCodeTextField.text = nil
                     self?.verifyCodeTextField.becomeFirstResponder()
                 }
             })
 
-        }, completion: { [weak self] in
+        }, completion: {
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     YepUserDefaults.areaCode.value = strongSelf.areaCode
                     YepUserDefaults.mobile.value = strongSelf.mobile
