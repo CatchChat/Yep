@@ -684,9 +684,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                     SafeDispatch.async {
                         YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
                             guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-                                return true
+                                return false
                             }
-                            return false
+                            return true
 
                         }, confirm: { [weak self] in
                             self?.unregisterThirdPartyPush()
