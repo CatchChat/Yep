@@ -64,6 +64,10 @@ final class RegisterPickAvatarViewController: SegueViewController {
         }
     }
 
+    deinit {
+        println("deinit RegisterPickAvatar")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
