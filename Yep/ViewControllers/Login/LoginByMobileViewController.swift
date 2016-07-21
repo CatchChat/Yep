@@ -10,8 +10,12 @@ import UIKit
 import YepKit
 import YepNetworking
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class LoginByMobileViewController: BaseViewController {
+
+    private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -23,7 +27,11 @@ final class LoginByMobileViewController: BaseViewController {
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
     
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(LoginByMobileViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.tryShowLoginVerifyMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -97,10 +105,6 @@ final class LoginByMobileViewController: BaseViewController {
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
         }
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        tryShowLoginVerifyMobile()
     }
 
     private func tryShowLoginVerifyMobile() {
