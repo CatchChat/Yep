@@ -50,15 +50,19 @@ final class LoginByMobileViewController: BaseViewController {
 
         areaCodeTextField.text = NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
-        
         areaCodeTextField.delegate = self
-        areaCodeTextField.addTarget(self, action: #selector(LoginByMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        areaCodeTextField.rx_text
+            .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
+            .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
         mobileNumberTextField.backgroundColor = UIColor.whiteColor()
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
-        mobileNumberTextField.addTarget(self, action: #selector(LoginByMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+
+        Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
+            .bindTo(nextButton.rx_enabled)
+            .addDisposableTo(disposeBag)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
@@ -92,19 +96,6 @@ final class LoginByMobileViewController: BaseViewController {
             self.view.layoutIfNeeded()
         }, completion: { finished in
         })
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
-            return
-        }
-
-        nextButton.enabled = !areaCode.isEmpty && !mobile.isEmpty
-
-        if textField == areaCodeTextField {
-            adjustAreaCodeTextFieldWidth()
-        }
     }
 
     private func tryShowLoginVerifyMobile() {
