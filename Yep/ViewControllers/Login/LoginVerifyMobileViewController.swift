@@ -141,19 +141,21 @@ final class LoginVerifyMobileViewController: UIViewController {
         
         callMeTimer.invalidate()
 
-        UIView.performWithoutAnimation {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
-            self.callMeButton.layoutIfNeeded()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
         }
 
-        delay(5) {
-            UIView.performWithoutAnimation {
-                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                self.callMeButton.layoutIfNeeded()
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
             }
         }
 
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
@@ -161,9 +163,10 @@ final class LoginVerifyMobileViewController: UIViewController {
                 YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                 SafeDispatch.async {
-                    UIView.performWithoutAnimation {
+                    UIView.performWithoutAnimation { [weak self] in
                         self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                         self?.callMeButton.layoutIfNeeded()
+                        self?.callMeButton.enabled = true
                     }
                 }
             }
