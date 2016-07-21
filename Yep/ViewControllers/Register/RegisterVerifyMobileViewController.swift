@@ -36,7 +36,8 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
         button.rx_tap
-            .subscribeNext({ [weak self] in self?.verifyRegisterMobile() })
+            .subscribeNext({ [weak self] in
+                self?.verifyRegisterMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -187,13 +188,13 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
         YepHUD.showActivityIndicator()
 
-        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
+        verifyMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             if let errorMessage = errorMessage {
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self] in
                     self?.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
@@ -209,11 +210,11 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async { [weak self] in
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
 
-                self.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
+                self?.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
             }
         })
     }
