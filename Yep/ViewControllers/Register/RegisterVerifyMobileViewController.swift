@@ -77,7 +77,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.delegate = self
-        verifyCodeTextField.addTarget(self, action: #selector(RegisterVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        verifyCodeTextField.rx_text
+            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
@@ -170,14 +173,6 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         })
     }
 
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-
     private func verifyRegisterMobile() {
 
         view.endEditing(true)
@@ -198,6 +193,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
                     self?.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
+                        self?.verifyCodeTextField.text = nil
                         self?.verifyCodeTextField.becomeFirstResponder()
                     })
                 }
