@@ -10,12 +10,16 @@ import UIKit
 import YepKit
 import YepNetworking
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class VerifyChangedMobileViewController: UIViewController {
 
     var mobile: String!
     var areaCode: String!
 
+    private lazy var disposeBag = DisposeBag()
+    
     @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
@@ -29,7 +33,11 @@ final class VerifyChangedMobileViewController: UIViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Submit", comment: ""), style: .Plain, target: self, action: #selector(VerifyChangedMobileViewController.submit(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Submit", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.confirmNewMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -170,10 +178,6 @@ final class VerifyChangedMobileViewController: UIViewController {
         }
 
         haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-    
-    @objc private func submit(sender: UIBarButtonItem) {
-        confirmNewMobile()
     }
 
     private func confirmNewMobile() {
