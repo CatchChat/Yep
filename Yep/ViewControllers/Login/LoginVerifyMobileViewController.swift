@@ -85,7 +85,10 @@ final class LoginVerifyMobileViewController: UIViewController {
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.addTarget(self, action: #selector(LoginVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        verifyCodeTextField.rx_text
+            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
@@ -176,14 +179,6 @@ final class LoginVerifyMobileViewController: UIViewController {
         })
     }
 
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-
     private func login() {
 
         view.endEditing(true)
@@ -206,6 +201,7 @@ final class LoginVerifyMobileViewController: UIViewController {
 
                 YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
                     SafeDispatch.async {
+                        self?.verifyCodeTextField.text = nil
                         self?.verifyCodeTextField.becomeFirstResponder()
                     }
                 })
