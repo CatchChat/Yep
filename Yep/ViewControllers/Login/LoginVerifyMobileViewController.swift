@@ -33,7 +33,11 @@ final class LoginVerifyMobileViewController: UIViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(LoginVerifyMobileViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.login() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -175,10 +179,6 @@ final class LoginVerifyMobileViewController: UIViewController {
         }
 
         haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        login()
     }
 
     private func login() {
