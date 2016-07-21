@@ -36,8 +36,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
         button.rx_tap
-            .subscribeNext({ [weak self] in
-                self?.verifyRegisterMobile() })
+            .subscribeNext({ [weak self] in self?.verifyRegisterMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -48,10 +47,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
     }()
 
     private var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
+        didSet {
+            nextButton.enabled = haveAppropriateInput
 
-            if newValue {
+            if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 verifyRegisterMobile()
             }
         }

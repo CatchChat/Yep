@@ -39,10 +39,10 @@ final class VerifyChangedMobileViewController: UIViewController {
     }()
 
     private var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
+        didSet {
+            nextButton.enabled = haveAppropriateInput
 
-            if newValue {
+            if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 confirmNewMobile()
             }
         }

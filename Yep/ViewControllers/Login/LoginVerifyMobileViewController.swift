@@ -47,10 +47,10 @@ final class LoginVerifyMobileViewController: UIViewController {
     }()
 
     private var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
+        didSet {
+            nextButton.enabled = haveAppropriateInput
 
-            if newValue {
+            if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 login()
             }
         }
