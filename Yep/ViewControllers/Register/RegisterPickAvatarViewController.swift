@@ -12,8 +12,12 @@ import YepKit
 import YepNetworking
 import Proposer
 import Navi
+import RxSwift
+import RxCocoa
 
 final class RegisterPickAvatarViewController: SegueViewController {
+
+    private lazy var disposeBag = DisposeBag()
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var cameraPreviewView: CameraPreviewView!
@@ -21,8 +25,12 @@ final class RegisterPickAvatarViewController: SegueViewController {
     @IBOutlet private weak var openCameraButton: BorderButton!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickAvatarViewController.next(_:)))
-            button.enabled = false
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.enabled = false
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.uploadAvatarAndGotoPickSkills() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -119,10 +127,6 @@ final class RegisterPickAvatarViewController: SegueViewController {
     }
 
     // MARK: Actions
-
-    @objc private func next(sender: UIBarButtonItem) {
-        uploadAvatarAndGotoPickSkills()
-    }
 
     @objc private func openPhotoLibraryPicker() {
         
