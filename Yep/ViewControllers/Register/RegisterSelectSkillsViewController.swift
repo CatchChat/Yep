@@ -81,7 +81,14 @@ final class RegisterSelectSkillsViewController: UIViewController {
     var currentSkillCategoryButton: SkillCategoryButton?
     var currentSkillCategoryButtonTopConstraintOriginalConstant: CGFloat = 0
     var currentSkillCategoryButtonTopConstraint: NSLayoutConstraint!
-    
+
+    let categoryImageNames = [
+        "Art": "icon_skill_art",
+        "Technology": "icon_skill_tech",
+        "Sport": "icon_skill_ball",
+        "Life Style": "icon_skill_life",
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -243,13 +250,6 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             let cell: SkillCategoryCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             let skillCategory = skillCategories[indexPath.item]
-
-            let categoryImageNames = [
-                "Art": "icon_skill_art",
-                "Technology": "icon_skill_tech",
-                "Sport": "icon_skill_ball",
-                "Life Style": "icon_skill_life",
-            ]
 
             cell.categoryTitle = skillCategory.localName
 
