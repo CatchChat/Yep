@@ -10,12 +10,15 @@ import UIKit
 import YepNetworking
 import YepKit
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class LoginVerifyMobileViewController: UIViewController {
 
     var mobile: String!
     var areaCode: String!
 
+    private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -61,9 +64,13 @@ final class LoginVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginVerifyMobileViewController.activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
-        
+        NSNotificationCenter.defaultCenter()
+            .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
+            .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
+            .addDisposableTo(disposeBag)
+
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
+
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.placeholder = " "
@@ -96,10 +103,6 @@ final class LoginVerifyMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc private func activeAgain(notification: NSNotification) {
-        verifyCodeTextField.becomeFirstResponder()
-    }
-    
     @objc private func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
