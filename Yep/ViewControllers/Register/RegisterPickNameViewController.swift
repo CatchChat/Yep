@@ -81,7 +81,10 @@ final class RegisterPickNameViewController: BaseViewController {
         nameTextField.textColor = UIColor.yepInputTextColor()
         nameTextField.placeholder = " "//NSLocalizedString("Nickname", comment: "")
         nameTextField.delegate = self
-        nameTextField.addTarget(self, action: #selector(RegisterPickNameViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        nameTextField.rx_text
+            .map({ !$0.isEmpty })
+            .subscribeNext({ [weak self] in self?.isDirty = $0 })
+            .addDisposableTo(disposeBag)
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
@@ -106,14 +109,6 @@ final class RegisterPickNameViewController: BaseViewController {
         if let URL = NSURL(string: YepConfig.termsURLString) {
             yep_openURL(URL)
         }
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        isDirty = !text.isEmpty
     }
 
     private func showRegisterPickMobile() {
