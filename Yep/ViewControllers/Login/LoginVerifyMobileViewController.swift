@@ -69,7 +69,6 @@ final class LoginVerifyMobileViewController: UIViewController {
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.delegate = self
         verifyCodeTextField.addTarget(self, action: #selector(LoginVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
@@ -220,18 +219,5 @@ final class LoginVerifyMobileViewController: UIViewController {
             }
         })
     }
-}
-
-extension LoginVerifyMobileViewController: UITextFieldDelegate {
-
-    /*
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if haveAppropriateInput {
-            login()
-        }
-        
-        return true
-    }
-    */
 }
 
