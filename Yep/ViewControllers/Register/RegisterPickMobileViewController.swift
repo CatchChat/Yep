@@ -10,11 +10,15 @@ import UIKit
 import YepKit
 import YepNetworking
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class RegisterPickMobileViewController: SegueViewController {
 
     var mobile: String?
     var areaCode: String?
+
+    private lazy var disposeBag = DisposeBag()
     
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -26,7 +30,11 @@ final class RegisterPickMobileViewController: SegueViewController {
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickMobileViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.tryShowRegisterVerifyMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -103,10 +111,6 @@ final class RegisterPickMobileViewController: SegueViewController {
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
         }
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        tryShowRegisterVerifyMobile()
     }
 
     private func tryShowRegisterVerifyMobile() {
