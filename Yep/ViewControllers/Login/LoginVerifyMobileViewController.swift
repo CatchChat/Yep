@@ -120,15 +120,15 @@ final class LoginVerifyMobileViewController: UIViewController {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
 
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation {  [weak self] in
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
                 callMeButton.enabled = true
