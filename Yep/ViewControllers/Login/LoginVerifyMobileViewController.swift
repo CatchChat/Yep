@@ -54,6 +54,11 @@ final class LoginVerifyMobileViewController: UIViewController {
 
     private var callMeInSeconds = YepConfig.callMeInSeconds()
 
+    deinit {
+        callMeTimer.invalidate()
+
+        println("deinit LoginVerifyMobile")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
