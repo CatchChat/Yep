@@ -118,15 +118,15 @@ final class RegisterVerifyMobileViewController: SegueViewController {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
 
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
                 callMeButton.enabled = true
@@ -142,15 +142,17 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
         callMeTimer.invalidate()
 
-        UIView.performWithoutAnimation {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
-            self.callMeButton.layoutIfNeeded()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
         }
 
-        delay(5) {
-            UIView.performWithoutAnimation {
-                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                self.callMeButton.layoutIfNeeded()
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
             }
         }
 
@@ -161,7 +163,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
                 SafeDispatch.async { [weak self] in
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
-                    UIView.performWithoutAnimation {
+                    UIView.performWithoutAnimation { [weak self] in
                         self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                         self?.callMeButton.layoutIfNeeded()
                     }
