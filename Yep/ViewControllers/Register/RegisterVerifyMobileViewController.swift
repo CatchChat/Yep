@@ -68,7 +68,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(RegisterVerifyMobileViewController.activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NSNotificationCenter.defaultCenter()
+            .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
+            .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
+            .addDisposableTo(disposeBag)
 
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
@@ -107,10 +110,6 @@ final class RegisterVerifyMobileViewController: SegueViewController {
     }
 
     // MARK: Actions
-
-    @objc private func activeAgain(notification: NSNotification) {
-        verifyCodeTextField.becomeFirstResponder()
-    }
 
     @objc private func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
