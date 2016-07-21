@@ -79,7 +79,7 @@ final class RegisterPickNameViewController: BaseViewController {
 
         nameTextField.backgroundColor = UIColor.whiteColor()
         nameTextField.textColor = UIColor.yepInputTextColor()
-        nameTextField.placeholder = " "//NSLocalizedString("Nickname", comment: "")
+        nameTextField.placeholder = " "
         nameTextField.delegate = self
         nameTextField.rx_text
             .map({ !$0.isEmpty })
@@ -90,11 +90,6 @@ final class RegisterPickNameViewController: BaseViewController {
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
         nextButton.enabled = false
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
     }
 
     override func viewDidAppear(animated: Bool) {
