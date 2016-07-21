@@ -94,6 +94,7 @@ final class ChangeMobileViewController: UIViewController {
     // MARK: Actions
 
     private func adjustAreaCodeTextFieldWidth() {
+
         guard let text = areaCodeTextField.text else {
             return
         }

@@ -87,6 +87,7 @@ final class LoginByMobileViewController: BaseViewController {
     // MARK: Actions
 
     private func adjustAreaCodeTextFieldWidth() {
+
         guard let text = areaCodeTextField.text else {
             return
         }
