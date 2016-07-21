@@ -82,12 +82,14 @@ final class RegisterPickAvatarViewController: SegueViewController {
         openCameraButton.setTitle(NSLocalizedString("Choose from Library", comment: ""), forState: .Normal)
         openCameraButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         openCameraButton.backgroundColor = UIColor.yepTintColor()
-        openCameraButton.addTarget(self, action: #selector(RegisterPickAvatarViewController.openPhotoLibraryPicker), forControlEvents: .TouchUpInside)
+        openCameraButton.rx_tap
+            .subscribeNext({ [weak self] in self?.openPhotoLibraryPicker() })
+            .addDisposableTo(disposeBag)
     }
 
     // MARK: Actions
 
-    @objc private func openPhotoLibraryPicker() {
+    private func openPhotoLibraryPicker() {
         
         let openCameraRoll: ProposerAction = { [weak self] in
             
