@@ -73,7 +73,7 @@ final class RegisterSkillsLayout: UICollectionViewFlowLayout {
         let newVisibleItems = itemsInCurrentRect.filteredArrayUsingPredicate(NSPredicate(block: { (item, bindings) -> Bool in
             let isInVisibleIndexPaths = self.visibleIndexPaths.member(item.indexPath) != nil
             return !isInVisibleIndexPaths
-        }));
+        }))
 
         for attribute in newVisibleItems as! [UICollectionViewLayoutAttributes] {
             let spring = UIAttachmentBehavior(item: attribute, attachedToAnchor: attribute.center)
@@ -88,7 +88,6 @@ final class RegisterSkillsLayout: UICollectionViewFlowLayout {
             animator.addBehavior(spring)
             visibleIndexPaths.addObject(attribute.indexPath)
         }
-
     }
     
     func adjustSpring(spring: UIAttachmentBehavior, touchLocation: CGPoint, scrollDelta: CGFloat) {

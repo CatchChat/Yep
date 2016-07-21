@@ -10,12 +10,15 @@ import UIKit
 import YepNetworking
 import YepKit
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class LoginVerifyMobileViewController: UIViewController {
 
     var mobile: String!
     var areaCode: String!
 
+    private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
@@ -30,7 +33,11 @@ final class LoginVerifyMobileViewController: UIViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(LoginVerifyMobileViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.login() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -40,10 +47,10 @@ final class LoginVerifyMobileViewController: UIViewController {
     }()
 
     private var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
+        didSet {
+            nextButton.enabled = haveAppropriateInput
 
-            if newValue {
+            if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 login()
             }
         }
@@ -51,6 +58,13 @@ final class LoginVerifyMobileViewController: UIViewController {
 
     private var callMeInSeconds = YepConfig.callMeInSeconds()
 
+    deinit {
+        callMeTimer.invalidate()
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        println("deinit LoginVerifyMobile")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,16 +75,22 @@ final class LoginVerifyMobileViewController: UIViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginVerifyMobileViewController.activeAgain(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
-        
+        NSNotificationCenter.defaultCenter()
+            .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
+            .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
+            .addDisposableTo(disposeBag)
+
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
+
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.delegate = self
-        verifyCodeTextField.addTarget(self, action: #selector(LoginVerifyMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        verifyCodeTextField.rx_text
+            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
@@ -97,24 +117,20 @@ final class LoginVerifyMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc private func activeAgain(notification: NSNotification) {
-        verifyCodeTextField.becomeFirstResponder()
-    }
-    
     @objc private func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
 
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation {  [weak self] in
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
                 callMeButton.enabled = true
@@ -130,19 +146,21 @@ final class LoginVerifyMobileViewController: UIViewController {
         
         callMeTimer.invalidate()
 
-        UIView.performWithoutAnimation {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
-            self.callMeButton.layoutIfNeeded()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
         }
 
-        delay(5) {
-            UIView.performWithoutAnimation {
-                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                self.callMeButton.layoutIfNeeded()
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
             }
         }
 
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             if let errorMessage = errorMessage {
@@ -150,9 +168,10 @@ final class LoginVerifyMobileViewController: UIViewController {
                 YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                 SafeDispatch.async {
-                    UIView.performWithoutAnimation {
+                    UIView.performWithoutAnimation { [weak self] in
                         self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                         self?.callMeButton.layoutIfNeeded()
+                        self?.callMeButton.enabled = true
                     }
                 }
             }
@@ -160,18 +179,6 @@ final class LoginVerifyMobileViewController: UIViewController {
         }, completion: { success in
             println("resendVoiceVerifyCode \(success)")
         })
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        login()
     }
 
     private func login() {
@@ -196,6 +203,7 @@ final class LoginVerifyMobileViewController: UIViewController {
 
                 YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
                     SafeDispatch.async {
+                        self?.verifyCodeTextField.text = nil
                         self?.verifyCodeTextField.becomeFirstResponder()
                     }
                 })
@@ -220,18 +228,5 @@ final class LoginVerifyMobileViewController: UIViewController {
             }
         })
     }
-}
-
-extension LoginVerifyMobileViewController: UITextFieldDelegate {
-
-    /*
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if haveAppropriateInput {
-            login()
-        }
-        
-        return true
-    }
-    */
 }
 

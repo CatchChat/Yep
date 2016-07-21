@@ -25,7 +25,6 @@ final class RegisterPickSkillsViewController: BaseViewController {
         }
     }
 
-    
     @IBOutlet weak var introlLabel: UILabel!
     
     var afterChangeSkillsAction: ((masterSkills: [Skill], learningSkills: [Skill]) -> Void)?
@@ -39,7 +38,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
 
     lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.skillsCollectionView.bounds)
-        }()
+    }()
 
     let sectionLeftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
     let sectionRightEdgeInset: CGFloat = registerPickSkillsLayoutRightEdgeInset
@@ -64,34 +63,33 @@ final class RegisterPickSkillsViewController: BaseViewController {
             navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Pick some skills", comment: ""))
         }
 
-
         skillsCollectionView.registerNibOf(SkillSelectionCell)
         skillsCollectionView.registerNibOf(SkillAddCell)
 
         skillsCollectionView.registerHeaderNibOf(AddSkillsReusableView)
         skillsCollectionView.registerFooterClassOf(UICollectionReusableView)
 
-        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
+        allSkillCategories(failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
-        }, completion: { skillCategories -> Void in
-            self.skillCategories = skillCategories
+        }, completion: { [weak self] skillCategories in
+            self?.skillCategories = skillCategories
         })
     }
 
     // MARK: Actions
 
     func updateSkillsCollectionView() {
-        SafeDispatch.async {
-            self.skillsCollectionView.reloadData()
+        SafeDispatch.async { [weak self] in
+            self?.skillsCollectionView.reloadData()
         }
     }
 
-    func cancel() {
+    @objc private func cancel() {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    @IBAction func saveSkills(sender: AnyObject) {
+    @objc private func saveSkills(sender: AnyObject) {
         doSaveSkills()
     }
 
@@ -133,9 +131,12 @@ final class RegisterPickSkillsViewController: BaseViewController {
             })
         }
 
-        dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) {
+        dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) { [weak self] in
 
-            if self.isRegister {
+            guard let strongSelf = self else {
+                return
+            }
+            if strongSelf.isRegister {
                 // 同步一下我的信息，因为 appDelegate.sync() 执行太早，导致初次注册 Profile 里不显示 skills
                 syncMyInfoAndDoFurtherAction {
 
@@ -155,9 +156,9 @@ final class RegisterPickSkillsViewController: BaseViewController {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                 } else {
-                    self.navigationController?.popViewControllerAnimated(true)
+                    strongSelf.navigationController?.popViewControllerAnimated(true)
 
-                    self.afterChangeSkillsAction?(masterSkills: self.masterSkills, learningSkills: self.learningSkills)
+                    strongSelf.afterChangeSkillsAction?(masterSkills: strongSelf.masterSkills, learningSkills: strongSelf.learningSkills)
                 }
             }
         }
@@ -482,5 +483,4 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
         }
     }
 }
-
 

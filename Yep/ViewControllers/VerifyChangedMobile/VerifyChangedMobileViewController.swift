@@ -10,12 +10,16 @@ import UIKit
 import YepKit
 import YepNetworking
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class VerifyChangedMobileViewController: UIViewController {
 
     var mobile: String!
     var areaCode: String!
 
+    private lazy var disposeBag = DisposeBag()
+    
     @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
@@ -29,7 +33,11 @@ final class VerifyChangedMobileViewController: UIViewController {
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Submit", comment: ""), style: .Plain, target: self, action: #selector(VerifyChangedMobileViewController.submit(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Submit", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.confirmNewMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -39,10 +47,10 @@ final class VerifyChangedMobileViewController: UIViewController {
     }()
 
     private var haveAppropriateInput = false {
-        willSet {
-            nextButton.enabled = newValue
+        didSet {
+            nextButton.enabled = haveAppropriateInput
 
-            if newValue {
+            if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 confirmNewMobile()
             }
         }
@@ -67,7 +75,10 @@ final class VerifyChangedMobileViewController: UIViewController {
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.addTarget(self, action: #selector(VerifyChangedMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        verifyCodeTextField.rx_text
+            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
         callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
@@ -109,15 +120,15 @@ final class VerifyChangedMobileViewController: UIViewController {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
 
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
-                UIView.performWithoutAnimation {
-                    self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                    self.callMeButton.layoutIfNeeded()
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.layoutIfNeeded()
                 }
 
                 callMeButton.enabled = true
@@ -133,19 +144,21 @@ final class VerifyChangedMobileViewController: UIViewController {
 
         callMeTimer.invalidate()
 
-        UIView.performWithoutAnimation {
-            self.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
-            self.callMeButton.layoutIfNeeded()
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
         }
 
-        delay(5) {
-            UIView.performWithoutAnimation {
-                self.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
-                self.callMeButton.layoutIfNeeded()
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
             }
         }
 
-        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             let errorMessage = errorMessage ?? "Error: call for verify code"
@@ -153,7 +166,7 @@ final class VerifyChangedMobileViewController: UIViewController {
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
             SafeDispatch.async {
-                UIView.performWithoutAnimation {
+                UIView.performWithoutAnimation { [weak self] in
                     self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
@@ -162,18 +175,6 @@ final class VerifyChangedMobileViewController: UIViewController {
         }, completion: { success in
             println("sendVerifyCodeOfNewMobile .Call \(success)")
         })
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        haveAppropriateInput = (text.characters.count == YepConfig.verifyCodeLength())
-    }
-    
-    @objc private func submit(sender: UIBarButtonItem) {
-        confirmNewMobile()
     }
 
     private func confirmNewMobile() {
@@ -186,28 +187,29 @@ final class VerifyChangedMobileViewController: UIViewController {
 
         YepHUD.showActivityIndicator()
 
-        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { [weak self] (reason, errorMessage) in
+        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async {  [weak self] in
                 self?.nextButton.enabled = false
             }
 
             let errorMessage = errorMessage ?? ""
 
             YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self] in
+                    self?.verifyCodeTextField.text = nil
                     self?.verifyCodeTextField.becomeFirstResponder()
                 }
             })
 
-        }, completion: { [weak self] in
+        }, completion: {
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     YepUserDefaults.areaCode.value = strongSelf.areaCode
                     YepUserDefaults.mobile.value = strongSelf.mobile
