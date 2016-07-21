@@ -43,6 +43,10 @@ final class RegisterPickNameViewController: BaseViewController {
         }
     }
 
+    deinit {
+        println("deinit RegisterPickName")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

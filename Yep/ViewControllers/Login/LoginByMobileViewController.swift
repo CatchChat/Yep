@@ -35,6 +35,10 @@ final class LoginByMobileViewController: BaseViewController {
         return button
     }()
 
+    deinit {
+        println("deinit LoginByMobile")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

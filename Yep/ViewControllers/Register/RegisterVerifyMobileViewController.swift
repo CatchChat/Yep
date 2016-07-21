@@ -58,6 +58,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
 
     private var callMeInSeconds = YepConfig.callMeInSeconds()
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        println("deinit RegisterVerifyMobile")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

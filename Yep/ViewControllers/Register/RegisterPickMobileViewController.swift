@@ -38,6 +38,10 @@ final class RegisterPickMobileViewController: SegueViewController {
         return button
     }()
 
+    deinit {
+        println("deinit RegisterPickMobile")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -61,6 +61,8 @@ final class LoginVerifyMobileViewController: UIViewController {
     deinit {
         callMeTimer.invalidate()
 
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
         println("deinit LoginVerifyMobile")
     }
 
