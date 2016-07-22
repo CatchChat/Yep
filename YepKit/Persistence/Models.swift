@@ -797,6 +797,7 @@ public class Conversation: Object {
     public dynamic var hasUnreadMessages: Bool = false
     public dynamic var mentionedMe: Bool = false
     public dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
+    public dynamic var hasOlderMessages: Bool = true
 
     public var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
