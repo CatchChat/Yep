@@ -229,10 +229,14 @@ extension ConversationViewController {
                 realm.beginWrite()
 
                 deleteConversation(conversation, inRealm: realm, afterLeaveGroup: {
-                    afterLeaveGroup?()
+                    doInNextRunLoop {
+                        afterLeaveGroup?()
+                    }
                 })
 
                 let _ = try? realm.commitWrite()
+
+                realm.refresh()
 
                 NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
 
