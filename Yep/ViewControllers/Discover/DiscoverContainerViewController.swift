@@ -68,8 +68,12 @@ class DiscoverContainerViewController: UIViewController {
         return item
     }()
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
-        didSet {
-            discoveredUsersFilterButtonItem.title = discoveredUserSortStyle.nameWithArrow
+        willSet {
+            SafeDispatch.async {
+                UIView.performWithoutAnimation { [weak self] in
+                    self?.discoveredUsersFilterButtonItem.title = newValue.nameWithArrow
+                }
+            }
         }
     }
     lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
