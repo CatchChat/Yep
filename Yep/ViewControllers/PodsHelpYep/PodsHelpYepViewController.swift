@@ -75,7 +75,7 @@ final class PodsHelpYepViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Pods", comment: "")
+        title = NSLocalizedString("Open Source", comment: "")
 
         tableView.tableFooterView = UIView()
     }
