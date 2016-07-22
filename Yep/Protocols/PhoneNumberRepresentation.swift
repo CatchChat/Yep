@@ -13,8 +13,9 @@ protocol PhoneNumberRepresentation: UITextFieldDelegate {
     var areaCodeTextField: BorderTextField! { get }
     var areaCodeTextFieldWidthConstraint: NSLayoutConstraint! { get }
     var mobileNumberTextField: BorderTextField! { get }
-    
+
     func adjustAreaCodeTextFieldWidth()
+    func tappedKeyboardReturn()
 }
 
 extension PhoneNumberRepresentation where Self: UIViewController {
@@ -66,7 +67,7 @@ extension PhoneNumberRepresentation where Self: UIViewController {
         }
 
         if !areaCode.isEmpty && !mobile.isEmpty {
-            //tryShowVerifyChangedMobile()
+             tappedKeyboardReturn()
         }
         
         return true
@@ -74,11 +75,23 @@ extension PhoneNumberRepresentation where Self: UIViewController {
 }
 
 extension RegisterPickMobileViewController: PhoneNumberRepresentation {
+
+    func tappedKeyboardReturn() {
+        tryShowRegisterVerifyMobile()
+    }
 }
 
 extension LoginByMobileViewController: PhoneNumberRepresentation {
+
+    func tappedKeyboardReturn() {
+        tryShowLoginVerifyMobile()
+    }
 }
 
 extension ChangeMobileViewController: PhoneNumberRepresentation {
+
+    func tappedKeyboardReturn() {
+         tryShowVerifyChangedMobile()
+    }
 }
 

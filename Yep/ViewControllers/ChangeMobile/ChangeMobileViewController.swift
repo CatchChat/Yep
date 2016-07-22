@@ -93,7 +93,7 @@ final class ChangeMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    private func tryShowVerifyChangedMobile() {
+    func tryShowVerifyChangedMobile() {
 
         view.endEditing(true)
 

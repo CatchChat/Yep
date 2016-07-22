@@ -86,7 +86,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
     // MARK: Actions
 
-    private func tryShowRegisterVerifyMobile() {
+    func tryShowRegisterVerifyMobile() {
         
         view.endEditing(true)
         

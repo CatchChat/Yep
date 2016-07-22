@@ -86,7 +86,7 @@ final class LoginByMobileViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func tryShowLoginVerifyMobile() {
+    func tryShowLoginVerifyMobile() {
         
         view.endEditing(true)
 
