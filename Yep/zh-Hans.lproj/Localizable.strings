@@ -545,8 +545,10 @@
 "You have blocked %@! Do you want to unblock him or her?" = "您已屏蔽“%@”！您要解除屏蔽吗？";
 
 /* No comment provided by engineer. */
-"Open Source of Yep" = "Yep 的开源代码";
+"Open Source of Yep" = "Yep 的开源";
 "Open Source" = "开源";
+"Yep on GitHub" = "Yep 的 GitHub 仓库";
+"Welcome contributions!" = "欢迎提交代码！";
 
 /* No comment provided by engineer. */
 "Rate Yep on App Store" = "在 App Store 上对 Yep 评分";

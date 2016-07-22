@@ -116,8 +116,8 @@ final class PodsHelpYepViewController: UITableViewController {
 
         case .Yep:
             let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
-            cell.textLabel?.text = "Yep on GitHub"
-            cell.detailTextLabel?.text = "Welcome contributions!"
+            cell.textLabel?.text = NSLocalizedString("Yep on GitHub", comment: "")
+            cell.detailTextLabel?.text = NSLocalizedString("Welcome contributions!", comment: "")
             return cell
 
         case .Pods:
