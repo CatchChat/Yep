@@ -60,6 +60,8 @@ extension ConversationViewController {
         if displayedMessagesRange.location == 0 {
 
             guard conversation.hasOlderMessages else {
+                noMorePreviousMessages = true
+
                 isLoadingPreviousMessages = false
                 completion()
                 return
@@ -134,7 +136,7 @@ extension ConversationViewController {
                     
                     // 上面的 CATransaction 保证了 CollectionView 在插入后不闪动
 
-                    self?.isLoadingPreviousMessages = false
+                    strongSelf.isLoadingPreviousMessages = false
                     completion()
                 }
             })
