@@ -13,7 +13,7 @@ final class PodsHelpYepViewController: UITableViewController {
     private let pods: [[String: String]] = [
         [
             "name": "RealmSwift",
-            "URLString": "https://realm.io",
+            "URLString": "https://github.com/realm/realm-cocoa",
         ],
         [
             "name": "Proposer",
@@ -56,15 +56,17 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/Alamofire/Alamofire",
         ],
         [
-            "name": "pop",
+            "name": "Pop",
             "URLString": "https://github.com/facebook/pop",
         ],
-    ].sort({ a, b in
-        if let
-            nameA = a["name"],
-            nameB = b["name"] {
+        [
+            "name": "RxSwift",
+            "URLString": "https://github.com/ReactiveX/RxSwift",
+        ],
 
-                return nameA < nameB
+    ].sort({ a, b in
+        if let nameA = a["name"], nameB = b["name"] {
+            return nameA < nameB
         }
 
         return true
