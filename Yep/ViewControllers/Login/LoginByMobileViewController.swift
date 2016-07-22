@@ -21,7 +21,7 @@ final class LoginByMobileViewController: BaseViewController {
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
@@ -85,23 +85,6 @@ final class LoginByMobileViewController: BaseViewController {
     }
 
     // MARK: Actions
-
-    func adjustAreaCodeTextFieldWidth() {
-
-        guard let text = areaCodeTextField.text else {
-            return
-        }
-
-        let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
-
-        let width = 32 + (size.width + 22) + 20
-
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
-    }
 
     private func tryShowLoginVerifyMobile() {
         
