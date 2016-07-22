@@ -156,6 +156,7 @@ final class RegisterPickMobileViewController: SegueViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showRegisterVerifyMobile" {
 
             if let info = sender as? [String: String] {
@@ -167,38 +168,4 @@ final class RegisterPickMobileViewController: SegueViewController {
         }
     }
 }
-
-//extension RegisterPickMobileViewController: UITextFieldDelegate {
-//
-//    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-//        if textField == areaCodeTextField {
-//            adjustAreaCodeTextFieldWidth()
-//        }
-//
-//        return true
-//    }
-//
-//    func textFieldDidEndEditing(textField: UITextField) {
-//        if textField == areaCodeTextField {
-//            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-//                self.areaCodeTextFieldWidthConstraint.constant = 60
-//                self.view.layoutIfNeeded()
-//            }, completion: { finished in
-//            })
-//        }
-//    }
-//
-//    func textFieldShouldReturn(textField: UITextField) -> Bool {
-//
-//        guard let mobile = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
-//            return false
-//        }
-//
-//        if !areaCode.isEmpty && !mobile.isEmpty {
-//            tryShowRegisterVerifyMobile()
-//        }
-//
-//        return true
-//    }
-//}
 
