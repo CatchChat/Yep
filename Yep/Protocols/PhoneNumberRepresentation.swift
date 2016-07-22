@@ -16,3 +16,12 @@ protocol PhoneNumberRepresentation: class {
     func adjustAreaCodeTextFieldWidth()
 }
 
+extension RegisterPickMobileViewController: PhoneNumberRepresentation {
+}
+
+extension LoginByMobileViewController: PhoneNumberRepresentation {
+}
+
+extension ChangeMobileViewController: PhoneNumberRepresentation {
+}
+

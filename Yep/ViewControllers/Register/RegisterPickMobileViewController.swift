@@ -23,10 +23,10 @@ final class RegisterPickMobileViewController: SegueViewController {
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
     @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
@@ -86,7 +86,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
     // MARK: Actions
 
-    private func adjustAreaCodeTextFieldWidth() {
+    func adjustAreaCodeTextFieldWidth() {
 
         guard let text = areaCodeTextField.text else {
             return

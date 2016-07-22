@@ -23,10 +23,10 @@ final class ChangeMobileViewController: UIViewController {
     @IBOutlet private weak var currentMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var currentMobileNumberLabel: UILabel!
 
-    @IBOutlet private weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
     @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
@@ -93,7 +93,7 @@ final class ChangeMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    private func adjustAreaCodeTextFieldWidth() {
+    func adjustAreaCodeTextFieldWidth() {
 
         guard let text = areaCodeTextField.text else {
             return
