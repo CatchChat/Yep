@@ -1137,9 +1137,12 @@ final class ConversationViewController: BaseViewController {
     var noMorePreviousMessages = false {
         didSet {
             if noMorePreviousMessages {
-                realm.beginWrite()
-                conversation.hasOlderMessages = false
-                _ = try? realm.commitWrite()
+                SafeDispatch.async { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.realm.beginWrite()
+                    strongSelf.conversation.hasOlderMessages = false
+                    _ = try? strongSelf.realm.commitWrite()
+                }
             }
         }
     }
