@@ -150,41 +150,41 @@ final class ChangeMobileViewController: UIViewController {
     }
 }
 
-// MARK: - UITextFieldDelegate
-
-extension ChangeMobileViewController: UITextFieldDelegate {
-
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-
-        if textField == areaCodeTextField {
-            adjustAreaCodeTextFieldWidth()
-        }
-
-        return true
-    }
-
-    func textFieldDidEndEditing(textField: UITextField) {
-
-        if textField == areaCodeTextField {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.areaCodeTextFieldWidthConstraint.constant = 60
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
-        }
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
-            return true
-        }
-
-        if !areaCode.isEmpty && !mobile.isEmpty {
-            tryShowVerifyChangedMobile()
-        }
-        
-        return true
-    }
-}
+//// MARK: - UITextFieldDelegate
+//
+//extension ChangeMobileViewController: UITextFieldDelegate {
+//
+//    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+//
+//        if textField == areaCodeTextField {
+//            adjustAreaCodeTextFieldWidth()
+//        }
+//
+//        return true
+//    }
+//
+//    func textFieldDidEndEditing(textField: UITextField) {
+//
+//        if textField == areaCodeTextField {
+//            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
+//                self.areaCodeTextFieldWidthConstraint.constant = 60
+//                self.view.layoutIfNeeded()
+//            }, completion: { finished in
+//            })
+//        }
+//    }
+//
+//    func textFieldShouldReturn(textField: UITextField) -> Bool {
+//
+//        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+//            return true
+//        }
+//
+//        if !areaCode.isEmpty && !mobile.isEmpty {
+//            tryShowVerifyChangedMobile()
+//        }
+//        
+//        return true
+//    }
+//}
 

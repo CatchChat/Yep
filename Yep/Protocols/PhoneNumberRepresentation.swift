@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol PhoneNumberRepresentation: class {
+protocol PhoneNumberRepresentation: UITextFieldDelegate {
 
     var areaCodeTextField: BorderTextField! { get }
     var areaCodeTextFieldWidthConstraint: NSLayoutConstraint! { get }
@@ -34,6 +34,42 @@ extension PhoneNumberRepresentation where Self: UIViewController {
             self?.view.layoutIfNeeded()
         }, completion: { finished in
         })
+    }
+}
+
+extension PhoneNumberRepresentation where Self: UIViewController {
+
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+
+        if textField == areaCodeTextField {
+            adjustAreaCodeTextFieldWidth()
+        }
+
+        return true
+    }
+
+    func textFieldDidEndEditing(textField: UITextField) {
+
+        if textField == areaCodeTextField {
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+                self?.areaCodeTextFieldWidthConstraint.constant = 60
+                self?.view.layoutIfNeeded()
+            }, completion: { finished in
+            })
+        }
+    }
+
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+
+        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+            return true
+        }
+
+        if !areaCode.isEmpty && !mobile.isEmpty {
+            //tryShowVerifyChangedMobile()
+        }
+        
+        return true
     }
 }
 
