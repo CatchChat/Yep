@@ -192,6 +192,8 @@ final class ConversationViewController: BaseViewController {
 
         recipient = conversation.recipient
 
+        noMorePreviousMessages = !conversation.hasOlderMessages
+
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -1132,7 +1134,15 @@ final class ConversationViewController: BaseViewController {
     }
 
     var isLoadingPreviousMessages = false
-    var noMorePreviousMessages = false
+    var noMorePreviousMessages = false {
+        didSet {
+            if noMorePreviousMessages {
+                realm.beginWrite()
+                conversation.hasOlderMessages = false
+                _ = try? realm.commitWrite()
+            }
+        }
+    }
 
     private func trySendInstantMessageWithType(type: YepFayeService.InstantStateType) {
 
