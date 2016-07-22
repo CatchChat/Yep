@@ -301,6 +301,7 @@
 		508F8FDF1B049ACF00461B0B /* InstagramMediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */; };
 		50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50901DFC1D29FA160085BB7D /* ProfileViewController+Prepare.swift */; };
 		509202D41D112FA700E6FF33 /* SafeDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509202D31D112FA700E6FF33 /* SafeDispatch.swift */; };
+		509220181D41B94600BA2C2A /* PhoneNumberRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */; };
 		5093C1AF1D1D13D000559217 /* PreviewDribbblePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5093C1AE1D1D13D000559217 /* PreviewDribbblePhoto.swift */; };
 		5099B9C41AB9510D002F940B /* RankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C31AB9510D002F940B /* RankView.swift */; };
 		5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */; };
@@ -1053,6 +1054,7 @@
 		508F8FDD1B049ACF00461B0B /* InstagramMediaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramMediaCell.xib; path = Views/Cells/InstagramMedia/InstagramMediaCell.xib; sourceTree = "<group>"; };
 		50901DFC1D29FA160085BB7D /* ProfileViewController+Prepare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ProfileViewController+Prepare.swift"; path = "ViewControllers/Profile/ProfileViewController+Prepare.swift"; sourceTree = "<group>"; };
 		509202D31D112FA700E6FF33 /* SafeDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SafeDispatch.swift; path = Helpers/SafeDispatch.swift; sourceTree = "<group>"; };
+		509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneNumberRepresentation.swift; path = Protocols/PhoneNumberRepresentation.swift; sourceTree = "<group>"; };
 		5093C1AE1D1D13D000559217 /* PreviewDribbblePhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewDribbblePhoto.swift; path = PreviewPhotos/PreviewDribbblePhoto.swift; sourceTree = "<group>"; };
 		5099B9C31AB9510D002F940B /* RankView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RankView.swift; path = Views/Rank/RankView.swift; sourceTree = "<group>"; };
 		5099B9C61AB99F7B002F940B /* RegisterPickAvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickAvatarViewController.swift; path = ViewControllers/Register/RegisterPickAvatarViewController.swift; sourceTree = "<group>"; };
@@ -3359,6 +3361,7 @@
 				50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */,
 				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
+				509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */,
 				50066AF91D0FAECA00EF1E0D /* Reusable.swift */,
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
 				501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */,
@@ -4721,6 +4724,7 @@
 				50A6A7B11D23621E00E01190 /* ConversationViewController+AVAudioRecorderDelegate.swift in Sources */,
 				507F65F71B2EBC2700A35FDC /* MediaPreviewView.swift in Sources */,
 				501690181BFB18D20096C4F9 /* ChatLeftSocialWorkCell.swift in Sources */,
+				509220181D41B94600BA2C2A /* PhoneNumberRepresentation.swift in Sources */,
 				848806B01B789A2D000C5424 /* EditSkillCell.swift in Sources */,
 				508AD3051D1795C80058A52F /* PreviewAttachmentPhoto.swift in Sources */,
 				5018132C1BA3CFEF0025873C /* WeChatActivity.swift in Sources */,

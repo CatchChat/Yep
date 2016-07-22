@@ -23,10 +23,10 @@ final class RegisterPickMobileViewController: SegueViewController {
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var areaCodeTextField: BorderTextField!
-    @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
@@ -86,24 +86,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
     // MARK: Actions
 
-    private func adjustAreaCodeTextFieldWidth() {
-
-        guard let text = areaCodeTextField.text else {
-            return
-        }
-
-        let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
-
-        let width = 32 + (size.width + 22) + 20
-
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
-    }
-
-    private func tryShowRegisterVerifyMobile() {
+    func tryShowRegisterVerifyMobile() {
         
         view.endEditing(true)
         
@@ -173,6 +156,7 @@ final class RegisterPickMobileViewController: SegueViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showRegisterVerifyMobile" {
 
             if let info = sender as? [String: String] {
@@ -182,40 +166,6 @@ final class RegisterPickMobileViewController: SegueViewController {
                 vc.areaCode = info["areaCode"]
             }
         }
-    }
-}
-
-extension RegisterPickMobileViewController: UITextFieldDelegate {
-
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        if textField == areaCodeTextField {
-            adjustAreaCodeTextFieldWidth()
-        }
-
-        return true
-    }
-
-    func textFieldDidEndEditing(textField: UITextField) {
-        if textField == areaCodeTextField {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.areaCodeTextFieldWidthConstraint.constant = 60
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
-        }
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-
-        guard let mobile = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
-            return false
-        }
-
-        if !areaCode.isEmpty && !mobile.isEmpty {
-            tryShowRegisterVerifyMobile()
-        }
-
-        return true
     }
 }
 
