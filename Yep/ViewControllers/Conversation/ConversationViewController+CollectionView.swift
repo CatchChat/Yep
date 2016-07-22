@@ -1711,7 +1711,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
         func tryTriggerLoadPrevious() {
 
-            guard conversation.hasOlderMessages else {
+            guard !noMorePreviousMessages else {
                 return
             }
 

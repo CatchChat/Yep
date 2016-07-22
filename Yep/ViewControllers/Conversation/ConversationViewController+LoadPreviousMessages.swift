@@ -59,6 +59,12 @@ extension ConversationViewController {
 
         if displayedMessagesRange.location == 0 {
 
+            guard conversation.hasOlderMessages else {
+                isLoadingPreviousMessages = false
+                completion()
+                return
+            }
+
             let timeDirection: TimeDirection
             var invalidMessageIDSet: Set<String>?
             if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
@@ -69,7 +75,8 @@ extension ConversationViewController {
                 timeDirection = .None
             }
 
-            loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: invalidMessageIDSet, failed: {
+            loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: invalidMessageIDSet, failed: { [weak self] in
+                self?.isLoadingPreviousMessages = false
                 completion()
 
             }, completion: { [weak self] messageIDs, noMore in
@@ -92,6 +99,7 @@ extension ConversationViewController {
             }
 
             guard newMessagesCount > 0 else {
+                isLoadingPreviousMessages = false
                 completion()
                 return
             }
