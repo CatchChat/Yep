@@ -173,15 +173,13 @@ final class PodsHelpYepViewController: UITableViewController {
         switch section {
 
         case .Yep:
-            let URL = NSURL(string: "https://github.com/CatchChat/Yep")!
-            yep_openURL(URL)
+            if let URL = NSURL(string: "https://github.com/CatchChat/Yep") {
+                yep_openURL(URL)
+            }
 
         case .Pods:
             let pod = pods[indexPath.row]
-
-            if let
-                URLString = pod["URLString"],
-                URL = NSURL(string: URLString) {
+            if let URLString = pod["URLString"], URL = NSURL(string: URLString) {
                 yep_openURL(URL)
             }
         }
