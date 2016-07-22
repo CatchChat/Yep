@@ -1132,7 +1132,15 @@ final class ConversationViewController: BaseViewController {
     }
 
     var isLoadingPreviousMessages = false
-    var noMorePreviousMessages = false
+    var noMorePreviousMessages = false {
+        didSet {
+            if noMorePreviousMessages {
+                realm.beginWrite()
+                conversation.hasOlderMessages = false
+                _ = try? realm.commitWrite()
+            }
+        }
+    }
 
     private func trySendInstantMessageWithType(type: YepFayeService.InstantStateType) {
 
