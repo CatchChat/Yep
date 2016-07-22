@@ -85,6 +85,15 @@ final class PodsHelpYepViewController: UITableViewController {
     enum Section: Int {
         case Yep
         case Pods
+
+        var headerTitle: String {
+            switch self {
+            case .Yep:
+                return NSLocalizedString("Yep", comment: "")
+            case .Pods:
+                return NSLocalizedString("Third Party", comment: "")
+            }
+        }
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -104,6 +113,15 @@ final class PodsHelpYepViewController: UITableViewController {
         case .Pods:
             return pods.count
         }
+    }
+
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
+        return section.headerTitle
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
