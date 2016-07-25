@@ -167,6 +167,7 @@ extension ConversationViewController {
         let frame = self.view.bounds
         let view = YepWaverView(frame: frame)
 
+        /*
         view.waver.waverCallback = { waver in
 
             guard let audioRecorder = YepAudioService.sharedManager.audioRecorder else {
@@ -180,6 +181,7 @@ extension ConversationViewController {
                 waver.level = CGFloat(normalizedValue)
             }
         }
+         */
         
         return view
     }

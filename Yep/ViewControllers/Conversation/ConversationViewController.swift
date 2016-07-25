@@ -634,7 +634,7 @@ final class ConversationViewController: BaseViewController {
                     print("duration: \(duration)")
                     print("decibelSamples: \(decibelSamples)")
 
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withMaxNumberOfDecibelSamples: 100))
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withMaxNumberOfDecibelSamples: 60))
                 }
 
                 /*
