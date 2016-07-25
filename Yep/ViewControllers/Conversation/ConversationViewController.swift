@@ -570,39 +570,46 @@ final class ConversationViewController: BaseViewController {
 
                 //YepAudioService.sharedManager.shouldIgnoreStart = false
 
-                guard let strongSelf = self else { return }
+                proposeToAccess(.Microphone, agreed: { [weak self] in
 
-                strongSelf.view.addSubview(strongSelf.waverView)
+                    guard let strongSelf = self else { return }
 
-                strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                strongSelf.swipeUpView.hidden = false
-                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-                strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+                    strongSelf.view.addSubview(strongSelf.waverView)
 
-                strongSelf.waverView.waver.resetWaveSamples()
-                strongSelf.samplesCount = 0
+                    strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                    strongSelf.swipeUpView.hidden = false
+                    strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                    strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
+                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
-                do {
-                    strongSelf.waverView.waver.waverCallback = { _ in
+                    strongSelf.waverView.waver.resetWaveSamples()
+                    strongSelf.samplesCount = 0
+
+                    do {
+                        strongSelf.waverView.waver.waverCallback = { _ in
+                        }
+
+                        let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { decibelSample in
+                            println("decibelSample: \(decibelSample)")
+
+                            SafeDispatch.async { [weak self] in
+                                self?.waverView.waver.level = CGFloat(decibelSample)
+                            }
+                        })
+
+                        AudioBot.mixWithOthersWhenRecording = true
+                        try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+                        
+                        self?.trySendInstantMessageWithType(.Audio)
+                        
+                    } catch let error {
+                        println("record error: \(error)")
                     }
 
-                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { decibelSample in
-                        println("decibelSample: \(decibelSample)")
+                }, rejected: { [weak self] in
+                        self?.alertCanNotAccessMicrophone()
+                })
 
-                        SafeDispatch.async { [weak self] in
-                            self?.waverView.waver.level = CGFloat(decibelSample)
-                        }
-                    })
-
-                    AudioBot.mixWithOthersWhenRecording = true
-                    try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
-
-                    self?.trySendInstantMessageWithType(.Audio)
-
-                } catch let error {
-                    println("record error: \(error)")
-                }
                 /*
                 if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
 
