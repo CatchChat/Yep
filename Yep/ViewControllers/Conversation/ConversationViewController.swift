@@ -566,7 +566,19 @@ final class ConversationViewController: BaseViewController {
                 self?.waverView.removeFromSuperview()
             }
 
-            messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
+            let stopRecordAndSendAudio: () -> Void = {
+
+                AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
+
+                    guard duration > YepConfig.AudioRecord.shortestDuration else {
+                        return
+                    }
+
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
+                }
+            }
+
+            messageToolbar.voiceRecordBeginAction = { [weak self] _ in
 
                 proposeToAccess(.Microphone, agreed: { [weak self] in
 
@@ -603,15 +615,7 @@ final class ConversationViewController: BaseViewController {
                             if duration > YepConfig.AudioRecord.longestDuration {
                                 hideWaver()
 
-                                AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
-                                    println("limited duration: \(duration)")
-
-                                    guard duration > YepConfig.AudioRecord.shortestDuration else {
-                                        return
-                                    }
-
-                                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
-                                }
+                                stopRecordAndSendAudio()
                             }
                         }
                         
@@ -628,33 +632,20 @@ final class ConversationViewController: BaseViewController {
                 self?.trySendInstantMessageWithType(.Audio)
             }
 
-            messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
+            messageToolbar.voiceRecordEndAction = { _ in
 
                 hideWaver()
 
-                AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
-
-                    guard duration > YepConfig.AudioRecord.shortestDuration else {
-                        return
-                    }
-
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
-                }
+                stopRecordAndSendAudio()
             }
 
-            messageToolbar.voiceRecordCancelAction = { messageToolbar in
+            messageToolbar.voiceRecordCancelAction = { _ in
 
                 hideWaver()
 
                 AudioBot.stopRecord { _, _, _ in
                     println("voiceRecordCancelAction")
                 }
-
-                /*
-                YepAudioService.sharedManager.endRecord()
-
-                YepAudioService.sharedManager.recordTimeoutAction = nil
-                 */
             }
 
             messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
