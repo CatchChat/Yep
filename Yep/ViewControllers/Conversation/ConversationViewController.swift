@@ -630,15 +630,15 @@ final class ConversationViewController: BaseViewController {
 
                 AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
 
-                    print("fileURL: \(fileURL)")
-                    print("duration: \(duration)")
-                    print("decibelSamples: \(decibelSamples)")
+                    println("audio fileURL: \(fileURL)")
+                    println("duration: \(duration)")
+                    println("decibelSamples: \(decibelSamples)")
 
                     guard duration > YepConfig.AudioRecord.shortestDuration else {
                         return
                     }
 
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 10, maxNumberOfDecibelSamples: 60))
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
                 }
 
                 /*
