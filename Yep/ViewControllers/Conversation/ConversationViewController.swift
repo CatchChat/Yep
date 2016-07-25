@@ -18,6 +18,7 @@ import KeyboardMan
 import Navi
 import MonkeyKing
 import Ruler
+import AudioBot
 
 final class ConversationViewController: BaseViewController {
 
@@ -567,47 +568,72 @@ final class ConversationViewController: BaseViewController {
 
             messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
-                YepAudioService.sharedManager.shouldIgnoreStart = false
+                //YepAudioService.sharedManager.shouldIgnoreStart = false
 
-                if let strongSelf = self {
+                guard let strongSelf = self else { return }
 
-                    strongSelf.view.addSubview(strongSelf.waverView)
+                strongSelf.view.addSubview(strongSelf.waverView)
 
-                    strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                    strongSelf.swipeUpView.hidden = false
-                    strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-                    strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+                strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                strongSelf.swipeUpView.hidden = false
+                strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
+                strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
-                    let audioFileName = NSUUID().UUIDString
+                strongSelf.waverView.waver.resetWaveSamples()
+                strongSelf.samplesCount = 0
 
-                    strongSelf.waverView.waver.resetWaveSamples()
-                    strongSelf.samplesCount = 0
+                let audioFileName = NSUUID().UUIDString
 
+                do {
+                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
+                        println("decibelSample: \(decibelSample)")
+                    })
+
+                    AudioBot.mixWithOthersWhenRecording = true
                     if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-
-                        YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
-
-                        YepAudioService.sharedManager.recordTimeoutAction = { [weak self] in
-
-                            hideWaver()
-
-                            self?.sendAudio()
-                        }
-
-                        YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
+                        try AudioBot.startRecordAudioToFileURL(fileURL, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+                        self?.trySendInstantMessageWithType(.Audio)
                     }
 
-                    self?.trySendInstantMessageWithType(.Audio)
+                } catch let error {
+                    println("record error: \(error)")
                 }
+                /*
+                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+
+                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
+
+                    YepAudioService.sharedManager.recordTimeoutAction = { [weak self] in
+
+                        hideWaver()
+
+                        self?.sendAudio()
+                    }
+
+                    YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
+                }
+                 */
+
+                self?.trySendInstantMessageWithType(.Audio)
             }
 
             messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
 
-                YepAudioService.sharedManager.shouldIgnoreStart = true
+                //YepAudioService.sharedManager.shouldIgnoreStart = true
 
                 hideWaver()
 
+                AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
+
+                    print("fileURL: \(fileURL)")
+                    print("duration: \(duration)")
+                    print("decibelSamples: \(decibelSamples)")
+
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withMaxNumberOfDecibelSamples: 100))
+                }
+
+                /*
                 let interruptAudioRecord: () -> Void = {
                     YepAudioService.sharedManager.endRecord()
                     YepAudioService.sharedManager.recordTimeoutAction = nil
@@ -622,7 +648,10 @@ final class ConversationViewController: BaseViewController {
 
                 interruptAudioRecord()
 
-                self?.sendAudio()
+                if let fileURL = YepAudioService.sharedManager.audioFileURL, audioSamples = waverView.waver.compressSamples() { {
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: audioSamples)
+                }
+                 */
             }
 
             messageToolbar.voiceRecordCancelAction = { messageToolbar in
