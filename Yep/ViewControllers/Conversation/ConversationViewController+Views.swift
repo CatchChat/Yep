@@ -166,21 +166,6 @@ extension ConversationViewController {
 
         let frame = self.view.bounds
         let view = YepWaverView(frame: frame)
-
-        view.waver.waverCallback = { waver in
-
-            guard let audioRecorder = YepAudioService.sharedManager.audioRecorder else {
-                return
-            }
-
-            if (audioRecorder.recording) {
-                //println("Update waver")
-                audioRecorder.updateMeters()
-                let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-                waver.level = CGFloat(normalizedValue)
-            }
-        }
-        
         return view
     }
 }

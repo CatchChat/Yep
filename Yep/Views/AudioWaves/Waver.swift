@@ -20,7 +20,7 @@ final class Waver: UIView {
     
     var presented = false
     
-    var level: CGFloat! {
+    var level: CGFloat = 0 {
         didSet {
             self.phase+=self.phaseShift; // Move the wave
             self.amplitude = fmax( level, self.idleAmplitude)

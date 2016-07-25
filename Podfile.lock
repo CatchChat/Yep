@@ -8,12 +8,13 @@ PODS:
   - AsyncDisplayKit/PINRemoteImage (1.9.81):
     - AsyncDisplayKit/Core
     - PINRemoteImage/iOS (>= 3.0.0-beta.2)
+  - AudioBot (0.3.1)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.7)
   - Fabric (1.6.7)
   - FXBlurView (1.6.4)
   - JPush (2.1.8)
-  - PINCache (2.2.2)
+  - PINCache (2.3)
   - PINRemoteImage/Core (3.0.0-beta.2):
     - PINCache (>= 2.1)
   - PINRemoteImage/iOS (3.0.0-beta.2):
@@ -25,6 +26,7 @@ PODS:
 DEPENDENCIES:
   - Appsee
   - AsyncDisplayKit
+  - AudioBot
   - Base64
   - DeviceGuru
   - Fabric
@@ -37,17 +39,18 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
+  AudioBot: af136961c47c52030841bd90ad0fb3ff931f2fe8
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: 2d1286494eae216433f6d7709b2721565b4babc9
-  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
+  PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINRemoteImage: 197554c5ba57a6ae90f5db441651180039fc9062
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 839750aabea401d9fb0a081677cb6d84234993c3
+PODFILE CHECKSUM: f664599a59846fc2c0b8ca04a9c823a98253d656
 
 COCOAPODS: 1.0.1
