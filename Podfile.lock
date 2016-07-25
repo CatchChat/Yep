@@ -8,7 +8,7 @@ PODS:
   - AsyncDisplayKit/PINRemoteImage (1.9.81):
     - AsyncDisplayKit/Core
     - PINRemoteImage/iOS (>= 3.0.0-beta.2)
-  - AudioBot (0.3.0)
+  - AudioBot (0.3.1)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.7)
   - Fabric (1.6.7)
@@ -39,7 +39,7 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
-  AudioBot: 7965bb5d47546f245eb74e8c687b3a4998bbfd95
+  AudioBot: af136961c47c52030841bd90ad0fb3ff931f2fe8
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
