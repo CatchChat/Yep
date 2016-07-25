@@ -673,9 +673,15 @@ final class ConversationViewController: BaseViewController {
 
                 hideWaver()
 
+                AudioBot.stopRecord { _, _, _ in
+                    println("voiceRecordCancelAction")
+                }
+
+                /*
                 YepAudioService.sharedManager.endRecord()
 
                 YepAudioService.sharedManager.recordTimeoutAction = nil
+                 */
             }
 
             messageToolbar.voiceRecordingUpdateUIAction = { [weak self] topOffset in
