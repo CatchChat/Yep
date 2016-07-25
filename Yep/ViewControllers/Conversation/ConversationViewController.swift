@@ -568,8 +568,6 @@ final class ConversationViewController: BaseViewController {
 
             messageToolbar.voiceRecordBeginAction = { [weak self] messageToolbar in
 
-                //YepAudioService.sharedManager.shouldIgnoreStart = false
-
                 proposeToAccess(.Microphone, agreed: { [weak self] in
 
                     guard let strongSelf = self else { return }
@@ -590,7 +588,6 @@ final class ConversationViewController: BaseViewController {
                         }
 
                         let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { decibelSample in
-                            println("decibelSample: \(decibelSample)")
 
                             SafeDispatch.async { [weak self] in
                                 self?.waverView.waver.level = CGFloat(decibelSample)
@@ -598,9 +595,11 @@ final class ConversationViewController: BaseViewController {
                         })
 
                         AudioBot.mixWithOthersWhenRecording = true
+
                         try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
                         AudioBot.reportRecordingDuration = { duration in
+
                             if duration > YepConfig.AudioRecord.longestDuration {
                                 hideWaver()
 
@@ -626,36 +625,14 @@ final class ConversationViewController: BaseViewController {
                     self?.alertCanNotAccessMicrophone()
                 })
 
-                /*
-                if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-
-                    YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: strongSelf)
-
-                    YepAudioService.sharedManager.recordTimeoutAction = { [weak self] in
-
-                        hideWaver()
-
-                        self?.sendAudio()
-                    }
-
-                    YepAudioService.sharedManager.startCheckRecordTimeoutTimer()
-                }
-                 */
-
                 self?.trySendInstantMessageWithType(.Audio)
             }
 
             messageToolbar.voiceRecordEndAction = { [weak self] messageToolbar in
 
-                //YepAudioService.sharedManager.shouldIgnoreStart = true
-
                 hideWaver()
 
                 AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
-
-                    println("audio fileURL: \(fileURL)")
-                    println("duration: \(duration)")
-                    println("decibelSamples: \(decibelSamples)")
 
                     guard duration > YepConfig.AudioRecord.shortestDuration else {
                         return
@@ -663,26 +640,6 @@ final class ConversationViewController: BaseViewController {
 
                     self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
                 }
-
-                /*
-                let interruptAudioRecord: () -> Void = {
-                    YepAudioService.sharedManager.endRecord()
-                    YepAudioService.sharedManager.recordTimeoutAction = nil
-                }
-
-                // 小于 0.5 秒不创建消息
-                if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
-
-                    interruptAudioRecord()
-                    return
-                }
-
-                interruptAudioRecord()
-
-                if let fileURL = YepAudioService.sharedManager.audioFileURL, audioSamples = waverView.waver.compressSamples() { {
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: audioSamples)
-                }
-                 */
             }
 
             messageToolbar.voiceRecordCancelAction = { messageToolbar in
