@@ -599,6 +599,22 @@ final class ConversationViewController: BaseViewController {
 
                         AudioBot.mixWithOthersWhenRecording = true
                         try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+
+                        AudioBot.reportRecordingDuration = { duration in
+                            if duration > YepConfig.AudioRecord.longestDuration {
+                                hideWaver()
+
+                                AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
+                                    println("limited duration: \(duration)")
+
+                                    guard duration > YepConfig.AudioRecord.shortestDuration else {
+                                        return
+                                    }
+
+                                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
+                                }
+                            }
+                        }
                         
                         self?.trySendInstantMessageWithType(.Audio)
                         
@@ -607,7 +623,7 @@ final class ConversationViewController: BaseViewController {
                     }
 
                 }, rejected: { [weak self] in
-                        self?.alertCanNotAccessMicrophone()
+                    self?.alertCanNotAccessMicrophone()
                 })
 
                 /*
