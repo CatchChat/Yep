@@ -116,18 +116,28 @@ extension ConversationViewController {
             sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
-                    if let realm = message.realm {
-                        let _ = try? realm.write {
-                            message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
-                            message.mediaType = MessageMediaType.Audio.rawValue
-                            if let metaDataString = metaData {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                            }
-                        }
+                    let audioFileName = NSUUID().UUIDString
+                    if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                        do {
+                            try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
 
-                        self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                        })
+                            if let realm = message.realm {
+                                let _ = try? realm.write {
+                                    message.localAttachmentName = audioFileName
+                                    message.mediaType = MessageMediaType.Audio.rawValue
+                                    if let metaDataString = metaData {
+                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                    }
+                                }
+                            }
+
+                        } catch let error {
+                            println(error)
+                        }
                     }
+
+                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                    })
                 }
 
             }, failureHandler: { [weak self] reason, errorMessage in

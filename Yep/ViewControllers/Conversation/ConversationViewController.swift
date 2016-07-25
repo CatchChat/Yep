@@ -583,8 +583,6 @@ final class ConversationViewController: BaseViewController {
                 strongSelf.waverView.waver.resetWaveSamples()
                 strongSelf.samplesCount = 0
 
-                let audioFileName = NSUUID().UUIDString
-
                 do {
                     strongSelf.waverView.waver.waverCallback = { _ in
                     }
@@ -598,10 +596,9 @@ final class ConversationViewController: BaseViewController {
                     })
 
                     AudioBot.mixWithOthersWhenRecording = true
-                    if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                        try AudioBot.startRecordAudioToFileURL(fileURL, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
-                        self?.trySendInstantMessageWithType(.Audio)
-                    }
+                    try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+
+                    self?.trySendInstantMessageWithType(.Audio)
 
                 } catch let error {
                     println("record error: \(error)")
