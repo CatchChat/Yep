@@ -586,11 +586,14 @@ final class ConversationViewController: BaseViewController {
                 let audioFileName = NSUUID().UUIDString
 
                 do {
-                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { [weak self] decibelSample in
+                    strongSelf.waverView.waver.waverCallback = { _ in
+                    }
+
+                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { decibelSample in
                         println("decibelSample: \(decibelSample)")
 
-                        self?.waverView.waver.waverCallback = { waver in
-                            waver.level = CGFloat(decibelSample)
+                        SafeDispatch.async { [weak self] in
+                            self?.waverView.waver.level = CGFloat(decibelSample)
                         }
                     })
 
@@ -634,7 +637,7 @@ final class ConversationViewController: BaseViewController {
                     print("duration: \(duration)")
                     print("decibelSamples: \(decibelSamples)")
 
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withMaxNumberOfDecibelSamples: 60))
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 10, maxNumberOfDecibelSamples: 60))
                 }
 
                 /*
