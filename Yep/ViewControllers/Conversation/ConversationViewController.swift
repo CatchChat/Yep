@@ -586,8 +586,12 @@ final class ConversationViewController: BaseViewController {
                 let audioFileName = NSUUID().UUIDString
 
                 do {
-                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
+                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { [weak self] decibelSample in
                         println("decibelSample: \(decibelSample)")
+
+                        self?.waverView.waver.waverCallback = { waver in
+                            waver.level = CGFloat(decibelSample)
+                        }
                     })
 
                     AudioBot.mixWithOthersWhenRecording = true
