@@ -551,6 +551,7 @@ final class ConversationViewController: BaseViewController {
             // MARK: Send Text
 
             messageToolbar.textSendAction = { [weak self] messageToolbar in
+
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
                 self?.cleanTextInput()
                 self?.trySnapContentOfConversationCollectionViewToBottom()
@@ -560,6 +561,7 @@ final class ConversationViewController: BaseViewController {
             // MARK: Voice Record
 
             let hideWaver: () -> Void = { [weak self] in
+
                 self?.swipeUpView.hidden = true
                 self?.waverView.removeFromSuperview()
             }
@@ -572,7 +574,8 @@ final class ConversationViewController: BaseViewController {
                         return
                     }
 
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60))
+                    let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
+                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: compressedDecibelSamples)
                 }
             }
 
@@ -582,15 +585,18 @@ final class ConversationViewController: BaseViewController {
 
                     guard let strongSelf = self else { return }
 
-                    strongSelf.view.addSubview(strongSelf.waverView)
+                    do {
+                        strongSelf.view.addSubview(strongSelf.waverView)
 
-                    strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                    strongSelf.swipeUpView.hidden = false
-                    strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-                    strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                    strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+                        strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                        strongSelf.swipeUpView.hidden = false
 
-                    strongSelf.waverView.waver.resetWaveSamples()
+                        strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                        strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
+                        strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+
+                        strongSelf.waverView.waver.resetWaveSamples()
+                    }
 
                     do {
                         strongSelf.waverView.waver.waverCallback = { _ in
