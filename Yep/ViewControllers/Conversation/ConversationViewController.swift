@@ -93,8 +93,6 @@ final class ConversationViewController: BaseViewController {
         let view = self.makeWaverView()
         return view
     }()
-    private var samplesCount = 0
-    private let samplingInterval = 6
 
     var feedView: FeedView?
     var dragBeginLocation: CGPoint?
@@ -593,7 +591,6 @@ final class ConversationViewController: BaseViewController {
                     strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
                     strongSelf.waverView.waver.resetWaveSamples()
-                    strongSelf.samplesCount = 0
 
                     do {
                         strongSelf.waverView.waver.waverCallback = { _ in
