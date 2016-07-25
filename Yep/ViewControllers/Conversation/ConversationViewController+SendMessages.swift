@@ -81,36 +81,33 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendAudioWithURL(fileURL: NSURL) {
+    func sendAudioWithURL(fileURL: NSURL, compressedDecibelSamples: [Float]) {
 
         // Prepare meta data
 
         var metaData: String? = nil
 
-        if let audioSamples = waverView.waver.compressSamples() {
+        var audioSamples = compressedDecibelSamples
+        // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
+        for i in 0..<audioSamples.count {
+            var sample = audioSamples[i]
+            sample = round(sample * 100.0) / 100.0
+            audioSamples[i] = sample
+        }
 
-            var audioSamples = audioSamples
-            // 浮点数最多两位小数，使下面计算 metaData 时不至于太长
-            for i in 0..<audioSamples.count {
-                var sample = audioSamples[i]
-                sample = round(sample * 100.0) / 100.0
-                audioSamples[i] = sample
-            }
+        let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+        let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            let audioAsset = AVURLAsset(URL: fileURL, options: nil)
-            let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
+        println("\nComporessed \(audioSamples)")
 
-            println("\nComporessed \(audioSamples)")
+        let audioMetaDataInfo = [
+            Config.MetaData.audioDuration: audioDuration,
+            Config.MetaData.audioSamples: audioSamples,
+        ]
 
-            let audioMetaDataInfo = [
-                Config.MetaData.audioDuration: audioDuration,
-                Config.MetaData.audioSamples: audioSamples,
-            ]
-
-            if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
-                metaData = audioMetaDataString
-            }
+        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+            metaData = audioMetaDataString
         }
 
         // Do send
