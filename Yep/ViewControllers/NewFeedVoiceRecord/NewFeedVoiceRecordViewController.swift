@@ -128,7 +128,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    private var voiceFileURL: NSURL?
+    //private var voiceFileURL: NSURL?
     private var audioPlayer: AVAudioPlayer?
     //private var displayLink: CADisplayLink?
 
@@ -257,6 +257,11 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
     @IBAction private func next(sender: UIBarButtonItem) {
 
+        if let feedVoice = feedVoice {
+            performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
+        }
+
+        /*
         guard let fileURL = voiceFileURL where !sampleValues.isEmpty else {
             return
         }
@@ -275,6 +280,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: voiceSampleValues.count, limitedSampleValues: limitedSampleValues)
 
         performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
+         */
     }
 
     /*
@@ -312,7 +318,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: decibelSamples.count, limitedSampleValues: compressedDecibelSamples.map({ CGFloat($0) }))
                 self?.feedVoice = feedVoice
 
-                self?.state = .Default
+                self?.state = .FinishRecord
             }
 
             /*
@@ -383,7 +389,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
     @IBAction private func playOrPauseAudio(sender: UIButton) {
 
-        guard let voiceFileURL = voiceFileURL else {
+        guard let voiceFileURL = feedVoice?.fileURL else {
             return
         }
 
