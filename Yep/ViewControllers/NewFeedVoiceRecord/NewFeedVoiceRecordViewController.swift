@@ -230,7 +230,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     return
                 }
 
-                let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 1, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
+                let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 1, minNumberOfDecibelSamples: 10, maxNumberOfDecibelSamples: 50)
                 let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: decibelSamples.count, limitedSampleValues: compressedDecibelSamples.map({ CGFloat($0) }))
                 self?.feedVoice = feedVoice
 
@@ -239,7 +239,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
         } else {
             proposeToAccess(.Microphone, agreed: { [weak self] in
-
                 do {
                     let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
 
@@ -279,8 +278,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             }
 
             do {
-                let progressPeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 50, report: { progress in
-                    println("progress: \(progress)")
+                let progressPeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { progress in
+                    //println("progress: \(progress)")
                 })
 
                 try AudioBot.startPlayAudioAtFileURL(fileURL, fromTime: audioPlayedDuration, withProgressPeriodicReport: progressPeriodicReport, finish: { [weak self] success in
