@@ -10,7 +10,7 @@ import UIKit
 
 final class Waver: UIView {
     
-    var displayLink: CADisplayLink!
+    var displayLink: CADisplayLink?
     
     var numberOfWaves: Int = 5
     
@@ -76,8 +76,9 @@ final class Waver: UIView {
 
     var waverCallback: ((waver: Waver) -> ())? {
         didSet {
+            displayLink?.invalidate()
             displayLink = CADisplayLink(target: self, selector: #selector(Waver.callbackWaver))
-            displayLink.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+            displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
             
             (0..<self.numberOfWaves).forEach { i in
                 let waveline = CAShapeLayer()
@@ -101,7 +102,8 @@ final class Waver: UIView {
     }
 
     deinit {
-        displayLink.invalidate()
+        displayLink?.invalidate()
+        println("deinit Waver")
     }
     
     required init?(coder aDecoder: NSCoder) {
