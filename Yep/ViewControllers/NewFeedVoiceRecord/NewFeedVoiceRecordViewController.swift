@@ -311,6 +311,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 1, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
                 let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: decibelSamples.count, limitedSampleValues: compressedDecibelSamples.map({ CGFloat($0) }))
                 self?.feedVoice = feedVoice
+
+                self?.state = .Default
             }
 
             /*
@@ -329,7 +331,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
              */
 
         } else {
-            proposeToAccess(.Microphone, agreed: {
+            proposeToAccess(.Microphone, agreed: { [weak self] in
 
                 do {
                     let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
@@ -345,6 +347,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                     try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
+                    self?.state = .Recording
+
                 } catch let error {
                     println("record error: \(error)")
                 }
@@ -352,6 +356,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             }, rejected: { [weak self] in
                 self?.alertCanNotAccessMicrophone()
             })
+
             /*
             let audioFileName = NSUUID().UUIDString
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
