@@ -22,10 +22,10 @@ final class Waver: UIView {
     
     var level: CGFloat = 0 {
         didSet {
-            self.phase+=self.phaseShift; // Move the wave
+            self.phase += self.phaseShift // Move the wave
             self.amplitude = fmax( level, self.idleAmplitude)
             
-            self.appendValue(pow(CGFloat(level),3))
+            self.appendValue(pow(CGFloat(level), 3))
             
             self.updateMeters()
         }
@@ -45,7 +45,7 @@ final class Waver: UIView {
     
     var phaseShift: CGFloat = -0.25
     
-    internal private(set) var waves: NSMutableArray = []
+    internal private(set) var waves: [CAShapeLayer] = []
     
     //
     
@@ -96,7 +96,7 @@ final class Waver: UIView {
                 waveline.strokeColor   = waveColor.colorWithAlphaComponent(( i == 0 ? 1.0 : 1.0*multiplier*0.4)).CGColor
                 
                 self.layer.addSublayer(waveline)
-                self.waves.addObject(waveline)
+                self.waves.append(waveline)
             }
         }
     }
@@ -120,11 +120,8 @@ final class Waver: UIView {
 
         waveSampleCount += 1
 
-        if waveSampleCount % fps == 0{
-            
+        if waveSampleCount % fps == 0 {
             waveSamples.append(newValue)
-            
-            updateMeters()
         }
     }
     
@@ -176,9 +173,8 @@ final class Waver: UIView {
                 x += self.density
             }
             
-            let waveline = self.waves.objectAtIndex(i) as! CAShapeLayer
-            waveline.path = wavelinePath.CGPath
-            
+            let waveline = self.waves[safe: i]
+            waveline?.path = wavelinePath.CGPath
         }
         
         UIGraphicsEndImageContext()
