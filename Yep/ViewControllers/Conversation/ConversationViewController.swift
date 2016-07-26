@@ -583,9 +583,9 @@ final class ConversationViewController: BaseViewController {
 
                 proposeToAccess(.Microphone, agreed: { [weak self] in
 
-                    guard let strongSelf = self else { return }
+                    SafeDispatch.async { [weak self] in
+                        guard let strongSelf = self else { return }
 
-                    do {
                         strongSelf.view.addSubview(strongSelf.waverView)
 
                         strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
@@ -599,7 +599,7 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     do {
-                        strongSelf.waverView.waver.waverCallback = { _ in
+                        self?.waverView.waver.waverCallback = { _ in
                         }
 
                         let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 60, report: { decibelSample in
