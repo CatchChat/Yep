@@ -141,8 +141,7 @@ final class Waver: UIView {
     }
     
     private func updateMeters() {
-        UIGraphicsBeginImageContext(self.frame.size)
-        
+
         (0..<self.numberOfWaves).forEach { i in
             
             let wavelinePath = UIBezierPath()
@@ -176,8 +175,6 @@ final class Waver: UIView {
             let waveline = self.waves[safe: i]
             waveline?.path = wavelinePath.CGPath
         }
-        
-        UIGraphicsEndImageContext()
     }
     
     func compressSamples() -> [Float]? {
