@@ -405,6 +405,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         if AudioBot.playing {
             AudioBot.pausePlay()
 
+            audioPlaying = false
+
         } else {
             guard let fileURL = feedVoice?.fileURL else {
                 return
@@ -424,6 +426,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 AudioBot.reportPlayingDuration = { [weak self] duration in
                     self?.audioPlayedDuration = duration
                 }
+
+                audioPlaying = true
 
             } catch let error {
                 println("AudioBot: \(error)")
@@ -543,6 +547,7 @@ extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
 }
 */
 
+/*
 // MARK: - AVAudioPlayerDelegate
 
 extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
@@ -565,5 +570,5 @@ extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
         YepAudioService.sharedManager.resetToDefault()
     }
 }
-
+*/
 
