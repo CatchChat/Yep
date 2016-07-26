@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 import YepKit
+import Proposer
+import AudioBot
 
 final class NewFeedVoiceRecordViewController: SegueViewController {
 
@@ -198,6 +200,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
+    var feedVoice: FeedVoice?
+
     deinit {
         displayLink?.invalidate()
         playbackTimer?.invalidate()
@@ -217,14 +221,22 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
             audioPlayer.pause()
         }
+
+        if AudioBot.playing {
+            AudioBot.stopPlay()
+        }
     }
 
     // MARK: - Actions
 
     @IBAction private func cancel(sender: UIBarButtonItem) {
 
-        dismissViewControllerAnimated(true, completion: { [weak self] in
+        dismissViewControllerAnimated(true) {
 
+            AudioBot.stopRecord { _, _, _ in
+            }
+
+            /*
             self?.displayLink?.invalidate()
             self?.playbackTimer?.invalidate()
 
@@ -237,7 +249,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     println("delete voiceFileURL error: \(error)")
                 }
             }
-        })
+             */
+        }
     }
 
     @IBAction private func next(sender: UIBarButtonItem) {
@@ -282,6 +295,21 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
         if state == .Recording {
 
+            AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
+
+                guard duration > YepConfig.AudioRecord.shortestDuration else {
+                    YepAlert.alertSorry(message: NSLocalizedString("Voice recording time is too short!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                        self?.state = .Default
+                    })
+                    return
+                }
+
+                let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 1, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
+                let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: decibelSamples.count, limitedSampleValues: compressedDecibelSamples.map({ CGFloat($0) }))
+                self?.feedVoice = feedVoice
+            }
+
+            /*
             if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
 
                 YepAudioService.sharedManager.endRecord()
@@ -294,8 +322,31 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             }
             
             YepAudioService.sharedManager.endRecord()
+             */
 
         } else {
+            proposeToAccess(.Microphone, agreed: {
+
+                do {
+                    let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
+
+                        SafeDispatch.async { [weak self] in
+                            //self?.waverView.waver.level = CGFloat(decibelSample)
+                        }
+                    })
+
+                    AudioBot.mixWithOthersWhenRecording = true
+
+                    try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+
+                } catch let error {
+                    println("record error: \(error)")
+                }
+                
+            }, rejected: { [weak self] in
+                self?.alertCanNotAccessMicrophone()
+            })
+            /*
             let audioFileName = NSUUID().UUIDString
             if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
 
@@ -307,6 +358,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 
                 state = .Recording
             }
+             */
         }
     }
 
