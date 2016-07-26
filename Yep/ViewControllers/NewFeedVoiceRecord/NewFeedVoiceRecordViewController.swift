@@ -85,9 +85,11 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 }, completion: { _ in })
 
+                /*
                 displayLink = CADisplayLink(target: self, selector: #selector(NewFeedVoiceRecordViewController.checkVoiceRecordValue(_:)))
                 displayLink?.frameInterval = 6 // 频率为每秒 10 次
                 displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+                 */
 
             case .FinishRecord:
 
@@ -121,14 +123,14 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     }, completion: { _ in })
                 })
 
-                displayLink?.invalidate()
+                //displayLink?.invalidate()
             }
         }
     }
 
     private var voiceFileURL: NSURL?
     private var audioPlayer: AVAudioPlayer?
-    private var displayLink: CADisplayLink?
+    //private var displayLink: CADisplayLink?
 
     private var sampleValues: [CGFloat] = [] {
         didSet {
@@ -203,7 +205,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     var feedVoice: FeedVoice?
 
     deinit {
-        displayLink?.invalidate()
+        //displayLink?.invalidate()
         playbackTimer?.invalidate()
         println("deinit NewFeedVoiceRecord")
     }
@@ -275,6 +277,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
     }
 
+    /*
     @objc private func checkVoiceRecordValue(sender: AnyObject) {
 
         if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
@@ -290,6 +293,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             }
         }
     }
+     */
 
     @IBAction private func voiceRecord(sender: UIButton) {
 
@@ -331,7 +335,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
 
                         SafeDispatch.async { [weak self] in
-                            //self?.waverView.waver.level = CGFloat(decibelSample)
+                            let value = CGFloat(decibelSample)
+                            self?.sampleValues.append(value)
+                            self?.voiceRecordSampleView.appendSampleValue(value)
                         }
                     })
 
