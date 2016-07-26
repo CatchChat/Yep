@@ -1,9 +1,9 @@
 //
 //  Waver.swift
-//  Waver-Swift
+//  Yep
 //
 //  Created by kevinzhow on 15/4/1.
-//  Copyright (c) 2015年 kevinzhow. All rights reserved.
+//  Copyright (c) 2015年 Catch Inc. All rights reserved.
 //
 
 import UIKit
@@ -116,7 +116,7 @@ final class Waver: UIView {
         setup()
     }
     
-    func appendValue(newValue: CGFloat) {
+    private func appendValue(newValue: CGFloat) {
 
         waveSampleCount += 1
 
@@ -134,9 +134,9 @@ final class Waver: UIView {
         
     }
     
-    func callbackWaver() {
+    @objc private func callbackWaver() {
         if presented {
-            waverCallback!(waver: self)
+            waverCallback?(waver: self)
         }
     }
     
@@ -176,71 +176,9 @@ final class Waver: UIView {
             waveline?.path = wavelinePath.CGPath
         }
     }
-    
-    func compressSamples() -> [Float]? {
-        
-        println("Begin compress")
-
-        if waveSamples.count < 1 {
-            return nil
-        }
-        
-        let sampleMax = waveSamples.maxElement()!
-
-        if sampleMax > 0 { // 防止除零错误
-            let sampleMaxGrade = 1.0 / sampleMax
-            waveSamples = waveSamples.map { $0 * sampleMaxGrade }
-        }
-
-
-        var finalSamples = [Float]()
-        
-        let samplesCount = waveSamples.count //获取总的 Sample 数量
-        
-        println("Samples before compress \(waveSamples)")
-        
-        let totalTime:CGFloat = CGFloat(waveSamples.count/(60/fps)) // 计算音频的时长
-        
-        let bubbleWidth = -0.035*(totalTime*totalTime) + 4.3*totalTime + 50 //计算这个时长下的Bubble宽度，Bubble 的宽度和时间的关系函数是一个一元二次函数
-        
-        var effectiveSample = bubbleWidth/(waveSquareWidth+waveGap) < 1 ? 1 : bubbleWidth/(waveSquareWidth+waveGap) //计算这个长度里实际可以放多少个sample
-        
-        println("Bubble Width is \(bubbleWidth) effectiveSample \(effectiveSample)")
-        
-        effectiveSample = max(20, effectiveSample)
-        
-        let sampleGap = CGFloat(samplesCount)/effectiveSample //计算按照实际可放的sample数量，原sample需要每几个合并一次
-        
-        let timePerSample = totalTime/(CGFloat(samplesCount)/effectiveSample) //计算合并后每个 sample 需要经过多少时间播放
-        
-        println("😄 samplesCount \(samplesCount) totalTime \(totalTime) bubbleWidth \(bubbleWidth) effectiveSample \(effectiveSample) sampleGap \(sampleGap) timePerSample \(timePerSample)")
-        
-        //
-        
-        var sampleCount: CGFloat = 0
-        
-        var lastSample: CGFloat = 0
-        
-        for (index, sample) in waveSamples.enumerate() {
-            
-            lastSample = max(sample, lastSample)
-            
-            
-            if CGFloat(index + 1) >= sampleCount {
-                finalSamples.append(Float(lastSample))
-                lastSample = 0
-                sampleCount += sampleGap
-            }
-            
-        }
-        
-        println("Final Sample is \(finalSamples)")
-        
-        return finalSamples
-    }
 
     func resetWaveSamples() {
-        waveSamples = [CGFloat]()
+        waveSamples = []
     }
     
     override func didMoveToSuperview() {
