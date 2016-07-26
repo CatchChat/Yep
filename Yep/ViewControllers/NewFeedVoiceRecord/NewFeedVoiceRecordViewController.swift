@@ -480,6 +480,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     }
 }
 
+/*
 // MARK: - AVAudioRecorderDelegate
 
 extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
@@ -498,6 +499,7 @@ extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
         println("audioRecorderEncodeErrorDidOccur: \(error)")
     }
 }
+*/
 
 // MARK: - AVAudioPlayerDelegate
 
