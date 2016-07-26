@@ -43,25 +43,27 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
             case .Default:
 
+                do {
+                    AudioBot.stopPlay()
+
+                    voiceRecordSampleView.reset()
+                    sampleValues = []
+
+                    audioPlaying = false
+                    audioPlayedDuration = 0
+                }
+
                 nextButton.enabled = false
 
                 voiceIndicatorImageView.alpha = 0
 
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-
                     self?.voiceRecordButton.alpha = 1
                     self?.voiceRecordButton.appearance = .Default
 
                     self?.playButton.alpha = 0
                     self?.resetButton.alpha = 0
-
-                }, completion: { _ in })
-
-                voiceRecordSampleView.reset()
-                sampleValues = []
-                audioPlaying = false
-
-                audioPlayedDuration = 0
+                }, completion: nil)
 
                 voiceIndicatorImageViewCenterXConstraint.constant = 0
                 view.layoutIfNeeded()
@@ -73,14 +75,12 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 voiceIndicatorImageView.alpha = 0
 
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-
                     self?.voiceRecordButton.alpha = 1
                     self?.voiceRecordButton.appearance = .Recording
 
                     self?.playButton.alpha = 0
                     self?.resetButton.alpha = 0
-
-                }, completion: { _ in })
+                }, completion: nil)
 
             case .FinishRecord:
 
@@ -89,12 +89,10 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 voiceIndicatorImageView.alpha = 0
 
                 UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-
                     self?.voiceRecordButton.alpha = 0
                     self?.playButton.alpha = 1
                     self?.resetButton.alpha = 1
-                    
-                }, completion: { _ in })
+                }, completion: nil)
 
                 let fullWidth = voiceRecordSampleView.bounds.width
 
@@ -107,7 +105,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     self?.voiceIndicatorImageView.alpha = 1
 
                 }, completion: { _ in
-
                     UIView.animateWithDuration(0.75, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
                         self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2
                         self?.view.layoutIfNeeded()
@@ -289,7 +286,10 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 try AudioBot.startPlayAudioAtFileURL(fileURL, fromTime: audioPlayedDuration, withProgressPeriodicReport: progressPeriodicReport, finish: { [weak self] success in
 
                     self?.audioPlayedDuration = 0
-                    self?.state = .FinishRecord
+
+                    if success {
+                        self?.state = .FinishRecord
+                    }
                 })
 
                 AudioBot.reportPlayingDuration = { [weak self] duration in
