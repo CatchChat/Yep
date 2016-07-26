@@ -59,11 +59,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 voiceRecordSampleView.reset()
                 sampleValues = []
-                audioPlayer?.stop()
-                audioPlayer = nil
                 audioPlaying = false
 
-                playbackTimer?.invalidate()
                 audioPlayedDuration = 0
 
                 voiceIndicatorImageViewCenterXConstraint.constant = 0
@@ -84,12 +81,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     self?.resetButton.alpha = 0
 
                 }, completion: { _ in })
-
-                /*
-                displayLink = CADisplayLink(target: self, selector: #selector(NewFeedVoiceRecordViewController.checkVoiceRecordValue(_:)))
-                displayLink?.frameInterval = 6 // 频率为每秒 10 次
-                displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
-                 */
 
             case .FinishRecord:
 
@@ -122,15 +113,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
                 })
-
-                //displayLink?.invalidate()
             }
         }
     }
-
-    //private var voiceFileURL: NSURL?
-    private var audioPlayer: AVAudioPlayer?
-    //private var displayLink: CADisplayLink?
 
     private var sampleValues: [CGFloat] = [] {
         didSet {
@@ -156,17 +141,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    private var playbackTimer: NSTimer? {
-        didSet {
-            if let oldPlaybackTimer = oldValue {
-                oldPlaybackTimer.invalidate()
-            }
-        }
-    }
-
     private var audioPlayedDuration: NSTimeInterval = 0 {
         willSet {
-
             guard newValue != audioPlayedDuration else {
                 return
             }
@@ -202,11 +178,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    var feedVoice: FeedVoice?
+    private var feedVoice: FeedVoice?
 
     deinit {
-        //displayLink?.invalidate()
-        playbackTimer?.invalidate()
         println("deinit NewFeedVoiceRecord")
     }
 
@@ -222,7 +196,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         // 如果进来前有声音在播放，令其停止
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
             audioPlayer.pause()
-        }
+        } // TODO: delete
 
         if AudioBot.playing {
             AudioBot.stopPlay()
@@ -234,24 +208,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     @IBAction private func cancel(sender: UIBarButtonItem) {
 
         dismissViewControllerAnimated(true) {
-
             AudioBot.stopRecord { _, _, _ in
             }
-
-            /*
-            self?.displayLink?.invalidate()
-            self?.playbackTimer?.invalidate()
-
-            YepAudioService.sharedManager.endRecord()
-
-            if let voiceFileURL = self?.voiceFileURL {
-                do {
-                    try NSFileManager.defaultManager().removeItemAtURL(voiceFileURL)
-                } catch let error {
-                    println("delete voiceFileURL error: \(error)")
-                }
-            }
-             */
         }
     }
 
@@ -260,46 +218,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         if let feedVoice = feedVoice {
             performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
         }
-
-        /*
-        guard let fileURL = voiceFileURL where !sampleValues.isEmpty else {
-            return
-        }
-
-        let voiceSampleValues = sampleValues
-
-        let finalCount = limitedAudioSamplesCount(voiceSampleValues.count)
-
-        println("voiceSampleValues.count: \(voiceSampleValues.count)")
-        println("finalCount: \(finalCount)")
-
-        // 再做一个抽样
-        let limitedSampleValues = averageSamplingFrom(voiceSampleValues, withCount: finalCount)
-        println("limitedSampleValues: \(limitedSampleValues.count)")
-
-        let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: voiceSampleValues.count, limitedSampleValues: limitedSampleValues)
-
-        performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
-         */
     }
-
-    /*
-    @objc private func checkVoiceRecordValue(sender: AnyObject) {
-
-        if let audioRecorder = YepAudioService.sharedManager.audioRecorder {
-
-            if audioRecorder.recording {
-                audioRecorder.updateMeters()
-                let normalizedValue = pow(10, audioRecorder.averagePowerForChannel(0)/40)
-                let value = CGFloat(normalizedValue)
-
-                sampleValues.append(value)
-                voiceRecordSampleView.appendSampleValue(value)
-                //println("value: \(value)")
-            }
-        }
-    }
-     */
 
     @IBAction private func voiceRecord(sender: UIButton) {
 
@@ -321,21 +240,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 self?.state = .FinishRecord
             }
 
-            /*
-            if YepAudioService.sharedManager.audioRecorder?.currentTime < YepConfig.AudioRecord.shortestDuration {
-
-                YepAudioService.sharedManager.endRecord()
-
-                YepAlert.alertSorry(message: NSLocalizedString("Voice recording time is too short!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
-                    self?.state = .Default
-                })
-
-                return
-            }
-            
-            YepAudioService.sharedManager.endRecord()
-             */
-
         } else {
             proposeToAccess(.Microphone, agreed: { [weak self] in
 
@@ -353,18 +257,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                     try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
-                    /*
-                    AudioBot.reportRecordingDuration = { [weak self] duration in
-
-                        let interval = Int(duration)
-                        let minutes = (interval / 60) % 60
-                        let seconds = interval % 60
-                        let subSeconds = Int((duration - NSTimeInterval(minutes * 60 + seconds)) * 10)
-
-                        self?.timeLabel.text = String(format: "%02d:%02d.%d", minutes, seconds, subSeconds)
-                    }
-                     */
-
                     self?.state = .Recording
 
                 } catch let error {
@@ -374,32 +266,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             }, rejected: { [weak self] in
                 self?.alertCanNotAccessMicrophone()
             })
-
-            /*
-            let audioFileName = NSUUID().UUIDString
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-
-                voiceFileURL = fileURL
-
-                YepAudioService.sharedManager.shouldIgnoreStart = false
-
-                YepAudioService.sharedManager.beginRecordWithFileURL(fileURL, audioRecorderDelegate: self)
-                
-                state = .Recording
-            }
-             */
         }
     }
 
-    /*
-    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
-
-        if let audioPlayer = audioPlayer {
-            let currentTime = audioPlayer.currentTime
-            audioPlayedDuration = currentTime
-        }
-    }
-     */
     @IBAction private func playOrPauseAudio(sender: UIButton) {
 
         if AudioBot.playing {
@@ -433,61 +302,6 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 println("AudioBot: \(error)")
             }
         }
-        /*
-        guard let voiceFileURL = feedVoice?.fileURL else {
-            return
-        }
-
-        // 如果在播放，就暂停
-        if let audioPlayer = audioPlayer {
-
-            if audioPlayer.playing {
-
-                audioPlayer.pause()
-                audioPlaying = false
-
-                playbackTimer?.invalidate()
-
-            } else {
-                audioPlayer.currentTime = audioPlayedDuration
-                audioPlayer.play()
-                audioPlaying = true
-
-                playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(NewFeedVoiceRecordViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
-            }
-
-        } else {
-
-            if AVAudioSession.sharedInstance().category == AVAudioSessionCategoryRecord {
-                do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                } catch let error {
-                    println("playVoice setCategory failed: \(error)")
-                    return
-                }
-            }
-
-            do {
-                let audioPlayer = try AVAudioPlayer(contentsOfURL: voiceFileURL)
-
-                self.audioPlayer = audioPlayer // hold it
-
-                audioPlayer.delegate = self
-                audioPlayer.prepareToPlay()
-
-                if audioPlayer.play() {
-                    println("do play voice")
-
-                    audioPlaying = true
-
-                    playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(NewFeedVoiceRecordViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
-                }
-
-            } catch let error {
-                println("play voice error: \(error)")
-            }
-        }
-         */
     }
 
     @IBAction private func reset(sender: UIButton) {
@@ -525,50 +339,4 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 }
-
-/*
-// MARK: - AVAudioRecorderDelegate
-
-extension NewFeedVoiceRecordViewController: AVAudioRecorderDelegate {
-
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-
-        state = .FinishRecord
-
-        println("audioRecorderDidFinishRecording: \(flag)")
-    }
-
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
-
-        state = .Default
-
-        println("audioRecorderEncodeErrorDidOccur: \(error)")
-    }
-}
-*/
-
-/*
-// MARK: - AVAudioPlayerDelegate
-
-extension NewFeedVoiceRecordViewController: AVAudioPlayerDelegate {
-
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
-
-        audioPlaying = false
-        audioPlayedDuration = 0
-        state = .FinishRecord
-
-        println("audioPlayerDidFinishPlaying: \(flag)")
-
-        YepAudioService.sharedManager.resetToDefault()
-    }
-
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
-
-        println("audioPlayerDecodeErrorDidOccur: \(error)")
-
-        YepAudioService.sharedManager.resetToDefault()
-    }
-}
-*/
 
