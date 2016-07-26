@@ -10,15 +10,15 @@ import UIKit
 
 final class Waver: UIView {
     
-    var displayLink: CADisplayLink?
+    private var displayLink: CADisplayLink?
     
-    var numberOfWaves: Int = 5
+    private let numberOfWaves: Int = 5
     
-    var waveColor: UIColor = UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
+    private let waveColor = UIColor.yepTintColor()
     
     private var phase: CGFloat = 0
     
-    var presented = false
+    private var presented = false
     
     var level: CGFloat = 0 {
         didSet {
@@ -31,13 +31,13 @@ final class Waver: UIView {
         }
     }
     
-    var mainWaveWidth: CGFloat = 2.0
+    private let mainWaveWidth: CGFloat = 2.0
     
-    var decorativeWavesWidth: CGFloat = 1.0
+    private let decorativeWavesWidth: CGFloat = 1.0
     
-    var idleAmplitude: CGFloat = 0.01
+    private let idleAmplitude: CGFloat = 0.01
     
-    var frequency: CGFloat = 1.2
+    private let frequency: CGFloat = 1.2
     
     internal private(set) var amplitude: CGFloat = 1.0
     
@@ -49,28 +49,26 @@ final class Waver: UIView {
     
     //
     
-    var waveHeight: CGFloat!
-    var waveWidth: CGFloat!
-    var waveMid: CGFloat!
-    var maxAmplitude: CGFloat!
+    private var waveHeight: CGFloat!
+    private var waveWidth: CGFloat!
+    private var waveMid: CGFloat!
+    private var maxAmplitude: CGFloat!
     
     // Sample Data
     
-    var waveSampleCount = 0
+    private var waveSampleCount = 0
     
-    var waveSamples = [CGFloat]()
+    private var waveSamples = [CGFloat]()
     
-    var waveTotalCount: CGFloat!
+    private var waveTotalCount: CGFloat!
     
-    var waveSquareWidth: CGFloat = 2.0
+    private var waveSquareWidth: CGFloat = 2.0
     
-    var waveGap: CGFloat = 1.0
+    private var waveGap: CGFloat = 1.0
     
-    var maxSquareWaveLength = 256
+    private var maxSquareWaveLength = 256
     
-    var maxTime = 60
-    
-    var fps = 6
+    private let fps = 6
     
     //
 
