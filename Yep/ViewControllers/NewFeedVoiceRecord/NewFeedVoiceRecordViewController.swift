@@ -391,6 +391,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
+    /*
     @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
         if let audioPlayer = audioPlayer {
@@ -398,9 +399,37 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             audioPlayedDuration = currentTime
         }
     }
-
+     */
     @IBAction private func playOrPauseAudio(sender: UIButton) {
 
+        if AudioBot.playing {
+            AudioBot.pausePlay()
+
+        } else {
+            guard let fileURL = feedVoice?.fileURL else {
+                return
+            }
+
+            do {
+                let progressPeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 50, report: { progress in
+                    println("progress: \(progress)")
+                })
+
+                try AudioBot.startPlayAudioAtFileURL(fileURL, fromTime: audioPlayedDuration, withProgressPeriodicReport: progressPeriodicReport, finish: { [weak self] success in
+
+                    self?.audioPlayedDuration = 0
+                    self?.state = .FinishRecord
+                })
+
+                AudioBot.reportPlayingDuration = { [weak self] duration in
+                    self?.audioPlayedDuration = duration
+                }
+
+            } catch let error {
+                println("AudioBot: \(error)")
+            }
+        }
+        /*
         guard let voiceFileURL = feedVoice?.fileURL else {
             return
         }
@@ -454,6 +483,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 println("play voice error: \(error)")
             }
         }
+         */
     }
 
     @IBAction private func reset(sender: UIButton) {
