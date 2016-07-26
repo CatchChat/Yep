@@ -26,7 +26,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     @IBOutlet private weak var voiceIndicatorImageView: UIImageView!
     @IBOutlet private weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var timeLabel: UILabel!
+    @IBOutlet private weak var timeLabel: UILabel! 
     
     @IBOutlet private weak var voiceRecordButton: RecordButton!
     @IBOutlet private weak var playButton: UIButton!
@@ -352,6 +352,18 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     AudioBot.mixWithOthersWhenRecording = true
 
                     try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+
+                    /*
+                    AudioBot.reportRecordingDuration = { [weak self] duration in
+
+                        let interval = Int(duration)
+                        let minutes = (interval / 60) % 60
+                        let seconds = interval % 60
+                        let subSeconds = Int((duration - NSTimeInterval(minutes * 60 + seconds)) * 10)
+
+                        self?.timeLabel.text = String(format: "%02d:%02d.%d", minutes, seconds, subSeconds)
+                    }
+                     */
 
                     self?.state = .Recording
 
