@@ -195,14 +195,14 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             audioPlayer.pause()
         } // TODO: delete
 
-        if AudioBot.playing {
-            AudioBot.stopPlay()
-        }
+        AudioBot.stopPlay()
     }
 
     // MARK: - Actions
 
     @IBAction private func cancel(sender: UIBarButtonItem) {
+
+        AudioBot.stopPlay()
 
         dismissViewControllerAnimated(true) {
             AudioBot.stopRecord { _, _, _ in
@@ -211,6 +211,8 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     }
 
     @IBAction private func next(sender: UIBarButtonItem) {
+
+        AudioBot.stopPlay()
 
         if let feedVoice = feedVoice {
             performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
