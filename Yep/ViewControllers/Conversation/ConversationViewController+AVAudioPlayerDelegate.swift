@@ -66,35 +66,33 @@ extension ConversationViewController {
 
         func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
 
-            if let messageIndex = messages.indexOf(message) {
+            guard let messageIndex = messages.indexOf(message) else {
+                return
+            }
 
-                let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+            let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
-                if let sender = message.fromFriend {
-                    if sender.friendState != UserFriendState.Me.rawValue {
-                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
-                            cell.audioPlayedDuration = currentTime
-                        }
+            if let sender = message.fromFriend {
+                if sender.friendState != UserFriendState.Me.rawValue {
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                        cell.audioPlayedDuration = currentTime
+                    }
 
-                    } else {
-                        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
-                            cell.audioPlayedDuration = currentTime
-                        }
+                } else {
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                        cell.audioPlayedDuration = currentTime
                     }
                 }
             }
         }
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, playingMessage = YepAudioService.sharedManager.playingMessage {
 
-            if let playingMessage = YepAudioService.sharedManager.playingMessage {
+            let currentTime = audioPlayer.currentTime
 
-                let currentTime = audioPlayer.currentTime
-
-                setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
-                
-                updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
-            }
+            setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
+            
+            updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
         }
     }
 }
