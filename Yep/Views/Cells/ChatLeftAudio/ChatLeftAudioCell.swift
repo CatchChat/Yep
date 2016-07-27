@@ -115,9 +115,10 @@ final class ChatLeftAudioCell: ChatBaseCell {
         audioContainerView.addSubview(sampleView)
         audioContainerView.addSubview(audioDurationLabel)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftAudioCell.tapMediaView))
@@ -151,9 +152,10 @@ final class ChatLeftAudioCell: ChatBaseCell {
             }
         })
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -166,9 +168,10 @@ final class ChatLeftAudioCell: ChatBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.updateAudioInfoViews()
+        UIView.setAnimationsEnabled(false); do {
+            updateAudioInfoViews()
         }
+        UIView.setAnimationsEnabled(true)
     }
 
     func updateAudioInfoViews() {
@@ -234,13 +237,16 @@ final class ChatLeftAudioCell: ChatBaseCell {
     private func configureNameLabel() {
 
         if inGroup {
-            nameLabel.text = user?.compositedName
+            UIView.setAnimationsEnabled(false); do {
+                nameLabel.text = user?.compositedName
 
-            let height = YepConfig.ChatCell.nameLabelHeightForGroup
-            let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
-            let y = audioContainerView.frame.origin.y - height
-            let width = contentView.bounds.width - x - 10
-            nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
+                let height = YepConfig.ChatCell.nameLabelHeightForGroup
+                let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+                let y = audioContainerView.frame.origin.y - height
+                let width = contentView.bounds.width - x - 10
+                nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)
+            }
+            UIView.setAnimationsEnabled(true)
         }
     }
 }

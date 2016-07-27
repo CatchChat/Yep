@@ -86,9 +86,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         audioContainerView.addSubview(sampleView)
         audioContainerView.addSubview(audioDurationLabel)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightAudioCell.tapMediaView))
@@ -118,9 +119,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
 
         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { _, _ in })
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -133,9 +135,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.updateAudioInfoViews()
+        UIView.setAnimationsEnabled(false); do {
+            updateAudioInfoViews()
         }
+        UIView.setAnimationsEnabled(true)
     }
 
     func updateAudioInfoViews() {
