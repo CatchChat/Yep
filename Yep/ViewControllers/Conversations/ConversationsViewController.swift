@@ -539,7 +539,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 return
             }
 
-            let conversationsCount = conversations.count
+            let conversationsCountBeforeDelete = conversations.count
 
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
@@ -565,8 +565,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                     guard let strongSelf = self else { return }
 
                     // double check
-                    // NOTICE: conversations.count
-                    guard conversationsCount == (strongSelf.conversations.count + 1) else {
+                    // NOTICE: conversations.count less than conversationsCountBeforeDelete by 1
+                    guard conversationsCountBeforeDelete == (strongSelf.conversations.count + 1) else {
                         tableView?.reloadData()
                         return
                     }
