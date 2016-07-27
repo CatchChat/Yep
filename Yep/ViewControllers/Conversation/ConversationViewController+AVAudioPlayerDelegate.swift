@@ -9,10 +9,13 @@
 import UIKit
 import AVFoundation
 import YepKit
+import AudioBot
 
 extension ConversationViewController {
 
     func playMessageAudioWithMessage(message: Message?) {
+
+        AudioBot.stopPlay()
 
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
             if let playingMessage = YepAudioService.sharedManager.playingMessage {
@@ -52,6 +55,7 @@ extension ConversationViewController {
 
         if let message = message {
             let audioPlayedDuration = audioPlayedDurationOfMessage(message)
+            
             YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
                 let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(ConversationViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer
