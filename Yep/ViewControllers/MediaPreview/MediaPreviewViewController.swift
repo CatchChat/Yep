@@ -409,7 +409,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.playState = .Playing
 
                 if
-                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    let imageFileURL = message.videoThumbnailFileURL,
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
@@ -602,7 +602,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.playState = .Playing
 
                 if let
-                    imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    imageFileURL = message.videoThumbnailFileURL,
                     image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }

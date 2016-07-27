@@ -111,7 +111,7 @@ final class MediaPreviewView: UIView {
                             mediaView.scrollView.hidden = true
 
                             if
-                                let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                                let imageFileURL = message.videoThumbnailFileURL,
                                 let image = UIImage(contentsOfFile: imageFileURL.path!) {
                                     mediaView.coverImage = image
                             }
