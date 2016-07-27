@@ -53,6 +53,10 @@ extension ConversationViewController {
             return
         }
 
+        guard !conversation.invalidated else {
+            return
+        }
+
         isLoadingPreviousMessages = true
 
         println("tryLoadPreviousMessages")
