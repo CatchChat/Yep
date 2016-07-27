@@ -164,6 +164,12 @@ public struct OpenGraph {
                 openGraph.siteName = openGraph.siteName?.opengraph_removeAllNewLines
                 openGraph.title = openGraph.title?.opengraph_removeAllNewLines
                 openGraph.description = openGraph.description?.opengraph_removeAllNewLines
+
+                // 以及行首行尾的空白
+
+                openGraph.siteName = openGraph.siteName?.opengraph_trimming(.WhitespaceAndNewline)
+                openGraph.title = openGraph.title?.opengraph_trimming(.WhitespaceAndNewline)
+                openGraph.description = openGraph.description?.opengraph_trimming(.WhitespaceAndNewline)
             }
 
             return openGraph
