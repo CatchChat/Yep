@@ -858,6 +858,15 @@ public class FeedAudio: Object {
         return LinkingObjects(fromType: Feed.self, property: "audio").first
     }
 
+    public var audioFileURL: NSURL? {
+        if !fileName.isEmpty {
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                return fileURL
+            }
+        }
+        return nil
+    }
+
     public class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
         let predicate = NSPredicate(format: "feedID = %@", feedID)
         return realm.objects(FeedAudio).filter(predicate).first
