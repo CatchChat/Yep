@@ -2036,13 +2036,15 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
 
         realm.beginWrite()
         clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: true)
-        let _ = try? realm.commitWrite()
+        _ = try? realm.commitWrite()
     }
 
     let delete: () -> Void = {
         realm.beginWrite()
         deleteConversation(conversation, inRealm: realm)
-        let _ = try? realm.commitWrite()
+        _ = try? realm.commitWrite()
+
+        realm.refresh()
     }
 
     // show ActionSheet before delete

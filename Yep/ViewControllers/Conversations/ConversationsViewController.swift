@@ -534,12 +534,12 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         if editingStyle == .Delete {
 
-            let conversationsCount = conversations.count
-            
             guard let conversation = conversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
                 return
             }
+
+            let conversationsCount = conversations.count
 
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
@@ -565,7 +565,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                     guard let strongSelf = self else { return }
 
                     // double check
-                    guard conversationsCount == (strongSelf.conversations.count - 1) else {
+                    // NOTICE: conversations.count
+                    guard conversationsCount == (strongSelf.conversations.count + 1) else {
                         tableView?.reloadData()
                         return
                     }
