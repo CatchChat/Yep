@@ -34,9 +34,9 @@ public struct OpenGraph {
     public var isValid: Bool {
 
         guard
-            let siteName = siteName?.opengraph_trimming(.WhitespaceAndNewline) where !siteName.isEmpty,
-            let title = title?.opengraph_trimming(.WhitespaceAndNewline) where !title.isEmpty,
-            let description = description?.opengraph_trimming(.WhitespaceAndNewline) where !description.isEmpty,
+            let siteName = siteName where !siteName.isEmpty,
+            let title = title where !title.isEmpty,
+            let description = description where !description.isEmpty,
             let _ = previewImageURLString
         else {
             return false
