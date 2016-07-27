@@ -533,6 +533,8 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
+
+            let conversationsCount = conversations.count
             
             guard let conversation = conversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
@@ -541,13 +543,16 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self, weak tableView] in
+
+                    guard let tableView = tableView else { return }
+
                     tableView.setEditing(false, animated: true)
 
                     // update cell
 
                     if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        if let conversation = self.conversations[safe: indexPath.row] {
+                        if let conversation = self?.conversations[safe: indexPath.row] {
                             let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
                             cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
                         }
@@ -555,13 +560,22 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 }
 
             }, afterDeleted: {
-                SafeDispatch.async {
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                SafeDispatch.async { [weak self, weak tableView] in
+
+                    guard let strongSelf = self else { return }
+
+                    // double check
+                    guard conversationsCount == (strongSelf.conversations.count - 1) else {
+                        tableView?.reloadData()
+                        return
+                    }
+
+                    tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 }
 
             }, orCanceled: {
-                SafeDispatch.async {
-                    tableView.setEditing(false, animated: true)
+                SafeDispatch.async { [weak tableView] in
+                    tableView?.setEditing(false, animated: true)
                 }
             })
         }
