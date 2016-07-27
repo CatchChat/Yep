@@ -17,38 +17,34 @@ extension ConversationViewController {
 
         AudioBot.stopPlay()
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            if let playingMessage = YepAudioService.sharedManager.playingMessage {
-                if audioPlayer.playing {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, playingMessage = YepAudioService.sharedManager.playingMessage where audioPlayer.playing {
 
-                    audioPlayer.pause()
+            audioPlayer.pause()
 
-                    if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
-                        playbackTimer.invalidate()
+            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                playbackTimer.invalidate()
+            }
+
+            if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+
+                let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+
+                if sender.friendState != UserFriendState.Me.rawValue {
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                        cell.playing = false
                     }
 
-                    if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
-
-                        let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
-
-                        if sender.friendState != UserFriendState.Me.rawValue {
-                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
-                                cell.playing = false
-                            }
-
-                        } else {
-                            if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
-                                cell.playing = false
-                            }
-                        }
+                } else {
+                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                        cell.playing = false
                     }
+                }
+            }
 
-                    if let message = message {
-                        if message.messageID == playingMessage.messageID {
-                            YepAudioService.sharedManager.resetToDefault()
-                            return
-                        }
-                    }
+            if let message = message {
+                if message.messageID == playingMessage.messageID {
+                    YepAudioService.sharedManager.resetToDefault()
+                    return
                 }
             }
         }
