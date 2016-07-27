@@ -546,27 +546,28 @@ public class Message: Object {
 
     public var imageFileURL: NSURL? {
         if !localAttachmentName.isEmpty {
-            if let fileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName) {
-                return fileURL
-            }
+            return NSFileManager.yepMessageImageURLWithName(localAttachmentName)
         }
         return nil
     }
     
     public var videoFileURL: NSURL? {
         if !localAttachmentName.isEmpty {
-            if let fileURL = NSFileManager.yepMessageVideoURLWithName(localAttachmentName) {
-                return fileURL
-            }
+            return NSFileManager.yepMessageVideoURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+
+    public var videoThumbnailFileURL: NSURL? {
+        if !localThumbnailName.isEmpty {
+            return NSFileManager.yepMessageImageURLWithName(localThumbnailName)
         }
         return nil
     }
 
     public var audioFileURL: NSURL? {
         if !localAttachmentName.isEmpty {
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(localAttachmentName) {
-                return fileURL
-            }
+            return NSFileManager.yepMessageAudioURLWithName(localAttachmentName)
         }
         return nil
     }
@@ -590,11 +591,11 @@ public class Message: Object {
     public var thumbnailImage: UIImage? {
         switch mediaType {
         case MessageMediaType.Image.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName) {
+            if let imageFileURL = imageFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         case MessageMediaType.Video.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localThumbnailName) {
+            if let imageFileURL = videoThumbnailFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         default:
