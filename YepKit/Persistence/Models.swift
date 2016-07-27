@@ -544,6 +544,15 @@ public class Message: Object {
     public dynamic var attachmentID: String = ""
     public dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
+    public var audioFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(localAttachmentName) {
+                return fileURL
+            }
+        }
+        return nil
+    }
+
     public var imageKey: String {
         return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
     }
