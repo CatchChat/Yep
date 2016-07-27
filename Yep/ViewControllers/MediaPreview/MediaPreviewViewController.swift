@@ -396,7 +396,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 cell.mediaView.videoPlayerLayer.hidden = true
 
                 if
-                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                    let imageFileURL = message.imageFileURL,
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
@@ -557,7 +557,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.type = .Image
 
                 if let
-                    imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                    imageFileURL = message.imageFileURL,
                     image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                         mediaControlView.shareAction = { [weak self] in

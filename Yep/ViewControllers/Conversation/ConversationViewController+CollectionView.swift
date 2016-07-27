@@ -443,7 +443,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                     let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
                     if let
-                        imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                        imageFileURL = message.imageFileURL,
                         image = UIImage(contentsOfFile: imageFileURL.path!) {
                         previewMessagePhotos[index].image = image
                     }

@@ -27,7 +27,7 @@ final class MediaPreviewView: UIView {
                     mediaControlView.type = .Image
 
                     if
-                        let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                        let imageFileURL = message.imageFileURL,
                         let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                             mediaView.scrollView.hidden = false

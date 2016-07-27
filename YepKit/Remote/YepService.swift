@@ -2529,17 +2529,17 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                 sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Image:
-                let filePath = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
+                let filePath = message.imageFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Video:
-                let filePath = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName)?.path
+                let filePath = message.videoFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Audio:
-                let filePath = NSFileManager.yepMessageAudioURLWithName(message.localAttachmentName)?.path
+                let filePath = message.audioFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
