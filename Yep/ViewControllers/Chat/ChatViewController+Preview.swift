@@ -45,7 +45,7 @@ extension ChatViewController {
 
             let previewMessagePhotos = imageMessages.map({ PreviewMessagePhoto(message: $0) })
             if let
-                imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                imageFileURL = message.imageFileURL,
                 image = UIImage(contentsOfFile: imageFileURL.path!) {
                 previewMessagePhotos[index].image = image
             }

@@ -27,7 +27,7 @@ final class MediaPreviewView: UIView {
                     mediaControlView.type = .Image
 
                     if
-                        let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                        let imageFileURL = message.imageFileURL,
                         let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                             mediaView.scrollView.hidden = false
@@ -62,10 +62,8 @@ final class MediaPreviewView: UIView {
                     mediaControlView.playState = .Playing
 
                     if
-                        let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                        let videoFileURL = message.videoFileURL {
                             let playerItem = AVPlayerItem(asset: AVURLAsset(URL: videoFileURL, options: [:]))
-
-                            //let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
 
                             playerItem.seekToTime(kCMTimeZero)
 
@@ -111,7 +109,7 @@ final class MediaPreviewView: UIView {
                             mediaView.scrollView.hidden = true
 
                             if
-                                let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                                let imageFileURL = message.videoThumbnailFileURL,
                                 let image = UIImage(contentsOfFile: imageFileURL.path!) {
                                     mediaView.coverImage = image
                             }

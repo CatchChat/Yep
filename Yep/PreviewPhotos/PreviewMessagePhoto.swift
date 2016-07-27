@@ -23,12 +23,12 @@ class PreviewMessagePhoto: NSObject, Photo {
     init(message: Message) {
         super.init()
 
-        let localAttachmentName = message.localAttachmentName
+        let imageFileURL = message.imageFileURL
         let attachmentURLString = message.attachmentURLString
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
             if let
-                imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName),
+                imageFileURL = imageFileURL,
                 image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
 
                 delay(0.4) { [weak self] in

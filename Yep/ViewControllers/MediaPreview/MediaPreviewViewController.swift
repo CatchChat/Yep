@@ -396,7 +396,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 cell.mediaView.videoPlayerLayer.hidden = true
 
                 if
-                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                    let imageFileURL = message.imageFileURL,
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
@@ -409,7 +409,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.playState = .Playing
 
                 if
-                    let imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    let imageFileURL = message.videoThumbnailFileURL,
                     let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
@@ -557,7 +557,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.type = .Image
 
                 if let
-                    imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName),
+                    imageFileURL = message.imageFileURL,
                     image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                         mediaControlView.shareAction = { [weak self] in
@@ -602,12 +602,12 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.playState = .Playing
 
                 if let
-                    imageFileURL = NSFileManager.yepMessageImageURLWithName(message.localThumbnailName),
+                    imageFileURL = message.videoThumbnailFileURL,
                     image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
 
-                if let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                if let videoFileURL = message.videoFileURL {
                     let asset = AVURLAsset(URL: videoFileURL, options: [:])
                     let playerItem = AVPlayerItem(asset: asset)
 

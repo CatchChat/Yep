@@ -544,6 +544,34 @@ public class Message: Object {
     public dynamic var attachmentID: String = ""
     public dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
+    public var imageFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageImageURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+    
+    public var videoFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageVideoURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+
+    public var videoThumbnailFileURL: NSURL? {
+        if !localThumbnailName.isEmpty {
+            return NSFileManager.yepMessageImageURLWithName(localThumbnailName)
+        }
+        return nil
+    }
+
+    public var audioFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageAudioURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+
     public var imageKey: String {
         return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
     }
@@ -563,11 +591,11 @@ public class Message: Object {
     public var thumbnailImage: UIImage? {
         switch mediaType {
         case MessageMediaType.Image.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName) {
+            if let imageFileURL = imageFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         case MessageMediaType.Video.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localThumbnailName) {
+            if let imageFileURL = videoThumbnailFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         default:
@@ -847,6 +875,15 @@ public class FeedAudio: Object {
 
     public var belongToFeed: Feed? {
         return LinkingObjects(fromType: Feed.self, property: "audio").first
+    }
+
+    public var audioFileURL: NSURL? {
+        if !fileName.isEmpty {
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                return fileURL
+            }
+        }
+        return nil
     }
 
     public class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
