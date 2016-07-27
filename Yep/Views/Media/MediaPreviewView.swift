@@ -62,10 +62,8 @@ final class MediaPreviewView: UIView {
                     mediaControlView.playState = .Playing
 
                     if
-                        let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                        let videoFileURL = message.videoFileURL {
                             let playerItem = AVPlayerItem(asset: AVURLAsset(URL: videoFileURL, options: [:]))
-
-                            //let x = NSFileManager.defaultManager().fileExistsAtPath(videoFileURL.path!)
 
                             playerItem.seekToTime(kCMTimeZero)
 

@@ -607,7 +607,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         cell.mediaView.image = image
                 }
 
-                if let videoFileURL = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName) {
+                if let videoFileURL = message.videoFileURL {
                     let asset = AVURLAsset(URL: videoFileURL, options: [:])
                     let playerItem = AVPlayerItem(asset: asset)
 

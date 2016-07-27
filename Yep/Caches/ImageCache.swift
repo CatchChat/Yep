@@ -132,7 +132,6 @@ final class ImageCache {
 
     func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
 
-        //let imageKey = "image-\(message.messageID)-\(message.localAttachmentName)-\(message.attachmentURLString)"
         let imageKey = message.imageKey
 
         // 先看看缓存
