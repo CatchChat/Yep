@@ -36,6 +36,10 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/nixzhu/Navi",
         ],
         [
+            "name": "AudioBot",
+            "URLString": "https://github.com/nixzhu/AudioBot",
+        ],
+        [
             "name": "Kingfisher",
             "URLString": "https://github.com/onevcat/Kingfisher",
         ],
