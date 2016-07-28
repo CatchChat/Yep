@@ -154,6 +154,11 @@ extension UIViewController {
             return NSUserDefaults.standardUserDefaults().integerForKey(exponentialBackoffKey) ?? 2
         }
 
+        func increaseExponentialBackoff() {
+            let newCount = exponentialBackoff() + 1
+            NSUserDefaults.standardUserDefaults().setInteger(newCount, forKey: exponentialBackoffKey)
+        }
+
         func tryRateOnTheAppStoreCount() -> Int {
             return NSUserDefaults.standardUserDefaults().integerForKey(tryRateOnTheAppStoreCountKey) ?? 0
         }
@@ -164,6 +169,19 @@ extension UIViewController {
         }
 
         SafeDispatch.async { [weak self] in
+
+            let exponentialBackoff = exponentialBackoff()
+            let tryRateOnTheAppStoreCount = tryRateOnTheAppStoreCount()
+
+            println("exponentialBackoff: \(exponentialBackoff)")
+            println("tryRateOnTheAppStoreCount: \(tryRateOnTheAppStoreCount)")
+
+            guard Double(tryRateOnTheAppStoreCount) > pow(2, Double(exponentialBackoff)) else {
+                increaseTryRateOnTheAppStoreCount()
+                println("try...")
+                return
+            }
+
             let title = "Rate Yep"
             let message = "Do you like Yep?\nWould you like to rate it on the App Store?"
             let doNotRemindMeATitle = "Do not remind me"
@@ -174,18 +192,21 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
+                    println("no more rate")
                 }
                 alertController.addAction(action)
             }
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: maybeNextTimeTitle, style: .Default) { action in
+                    increaseExponentialBackoff()
                 }
                 alertController.addAction(action)
             }
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+                    println("do rate")
                 }
                 alertController.addAction(action)
             }
