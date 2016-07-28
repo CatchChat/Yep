@@ -179,6 +179,10 @@ extension UIViewController {
 
         SafeDispatch.async { [weak self] in
 
+            guard !noMoreRateOnTheAppStore() else {
+                return
+            }
+
             defer {
                 increaseTryRateOnTheAppStoreCount()
             }
@@ -204,7 +208,8 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
-                    println("no more rate")
+                    noMoreRateOnTheAppStore()
+                    println("noMoreRateOnTheAppStore")
                 }
                 alertController.addAction(action)
             }
@@ -219,6 +224,7 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+                    noMoreRateOnTheAppStore()
                     println("do rate")
                 }
                 alertController.addAction(action)
