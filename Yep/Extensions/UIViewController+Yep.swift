@@ -146,10 +146,30 @@ extension UIViewController {
 extension UIViewController {
 
     func yep_rateInAppStore() {
-        YepAlert.confirmOrCancel(title: "Rate", message: "Do you like Yep?\nWould you like to rate it in App Store?", confirmTitle: "OK", cancelTitle: "No now", inViewController: self, withConfirmAction: { 
 
-        }, cancelAction: {
-        })
+        SafeDispatch.async { [weak self] in
+            let title = "Rate"
+            let message = "Do you like Yep?\nWould you like to rate it in App Store?"
+            let doNotRemindMeATitle = "Do not remind me"
+            let noNowTitle = "No now"
+            let confirmTitle = "OK"
+
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+
+            let doNotRemindMeAction: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Cancel) { action in
+            }
+            alertController.addAction(doNotRemindMeAction)
+
+            let noNowAction: UIAlertAction = UIAlertAction(title: noNowTitle, style: .Cancel) { action in
+            }
+            alertController.addAction(noNowAction)
+
+            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+            }
+            alertController.addAction(confirmAction)
+
+            self?.presentViewController(alertController, animated: true, completion: nil)
+        }
     }
 }
 
