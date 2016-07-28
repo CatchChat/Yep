@@ -552,7 +552,7 @@
 "Third Party" = "第三方";
 
 /* No comment provided by engineer. */
-"Rate Yep on App Store" = "在 App Store 上对 Yep 评分";
+"Raview Yep on the App Store" = "在 App Store 上评价 Yep";
 
 /* No comment provided by engineer. */
 "Terms of Service" = "服务条款";
@@ -821,3 +821,8 @@
 "Fetch Failed!" = "获取失败";
 "To be continue." = "请期待下一期";
 
+"Review Yep" = "评价 Yep";
+"Do you like Yep?\nWould you like to review it on the App Store?" = "您喜欢 Yep 吗？\n您愿意在 App Store 上评价 Yep 吗？";
+"Do not remind me in this version" = "此版本不再提示";
+"Maybe next time" = "也许下次吧";
+"Review now" = "马上评价";

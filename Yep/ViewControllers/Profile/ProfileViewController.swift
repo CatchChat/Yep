@@ -580,6 +580,10 @@ final class ProfileViewController: SegueViewController {
         if profileUserIsMe {
 
             tryUpdateBlogTitle()
+
+            delay(3) { [weak self] in
+                self?.yep_tryReviewOnTheAppStore()
+            }
         }
 
         #if DEBUG
