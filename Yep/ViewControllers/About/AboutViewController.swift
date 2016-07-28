@@ -31,7 +31,7 @@ final class AboutViewController: SegueViewController {
 
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
-        NSLocalizedString("Rate Yep on App Store", comment: ""),
+        NSLocalizedString("Raview Yep on the App Store", comment: ""),
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
@@ -61,7 +61,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Row: Int {
         case Pods = 1
-        case Rate
+        case Review
         case Terms
     }
 
@@ -100,7 +100,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
-        case Row.Rate.rawValue:
+        case Row.Review.rawValue:
             UIApplication.sharedApplication().yep_reviewOnTheAppStore()
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
