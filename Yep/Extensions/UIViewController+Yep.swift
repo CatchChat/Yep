@@ -226,7 +226,7 @@ extension UIViewController {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
                     noMoreRateOnTheAppStore()
                     println("do rate")
-                    UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.appURLString)!)
+                    UIApplication.sharedApplication().yep_rateOnTheAppStore()
                 }
                 alertController.addAction(action)
             }
