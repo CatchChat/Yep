@@ -141,3 +141,15 @@ extension UIViewController {
     }
 }
 
+// MARK: - Rate in App Store
+
+extension UIViewController {
+
+    func yep_rateInAppStore() {
+        YepAlert.confirmOrCancel(title: "Rate", message: "Do you like Yep?\nWould you like to rate it in App Store?", confirmTitle: "OK", cancelTitle: "No now", inViewController: self, withConfirmAction: { 
+
+        }, cancelAction: {
+        })
+    }
+}
+
