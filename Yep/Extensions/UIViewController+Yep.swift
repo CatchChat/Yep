@@ -151,16 +151,16 @@ extension UIViewController {
             return
         }
 
-        let noMoreRateOnTheAppStoreKey = "yep_\(version)_noMoreRateOnTheAppStoreKey"
+        let noMoreReviewOnTheAppStoreKey = "yep_\(version)_noMoreReviewOnTheAppStoreKey"
         let exponentialBackoffKey = "yep_\(version)_exponentialBackoffKey"
-        let tryRateOnTheAppStoreCountKey = "yep_\(version)_tryRateOnTheAppStoreCountKey"
+        let tryReviewOnTheAppStoreCountKey = "yep_\(version)_tryReviewOnTheAppStoreCountKey"
 
-        func noMoreRateOnTheAppStore() -> Bool {
-             return NSUserDefaults.standardUserDefaults().boolForKey(noMoreRateOnTheAppStoreKey)
+        func noMoreReviewOnTheAppStore() -> Bool {
+             return NSUserDefaults.standardUserDefaults().boolForKey(noMoreReviewOnTheAppStoreKey)
         }
 
-        func setNoMoreRateOnTheAppStore() {
-            return NSUserDefaults.standardUserDefaults().setBool(true, forKey: noMoreRateOnTheAppStoreKey)
+        func setNoMoreReviewOnTheAppStore() {
+            return NSUserDefaults.standardUserDefaults().setBool(true, forKey: noMoreReviewOnTheAppStoreKey)
         }
 
         func exponentialBackoff() -> Int {
@@ -172,32 +172,32 @@ extension UIViewController {
             NSUserDefaults.standardUserDefaults().setInteger(newCount, forKey: exponentialBackoffKey)
         }
 
-        func tryRateOnTheAppStoreCount() -> Int {
-            return NSUserDefaults.standardUserDefaults().integerForKey(tryRateOnTheAppStoreCountKey)
+        func tryReviewOnTheAppStoreCount() -> Int {
+            return NSUserDefaults.standardUserDefaults().integerForKey(tryReviewOnTheAppStoreCountKey)
         }
 
-        func increaseTryRateOnTheAppStoreCount() {
-            let newCount = tryRateOnTheAppStoreCount() + 1
-            NSUserDefaults.standardUserDefaults().setInteger(newCount, forKey: tryRateOnTheAppStoreCountKey)
+        func increaseTryReviewOnTheAppStoreCount() {
+            let newCount = tryReviewOnTheAppStoreCount() + 1
+            NSUserDefaults.standardUserDefaults().setInteger(newCount, forKey: tryReviewOnTheAppStoreCountKey)
         }
 
         SafeDispatch.async { [weak self] in
 
-            guard !noMoreRateOnTheAppStore() else {
+            guard !noMoreReviewOnTheAppStore() else {
                 return
             }
 
             defer {
-                increaseTryRateOnTheAppStoreCount()
+                increaseTryReviewOnTheAppStoreCount()
             }
 
             let exponentialBackoff = exponentialBackoff()
-            let tryRateOnTheAppStoreCount = tryRateOnTheAppStoreCount()
+            let tryReviewOnTheAppStoreCount = tryReviewOnTheAppStoreCount()
 
             println("exponentialBackoff: \(exponentialBackoff)")
-            println("tryRateOnTheAppStoreCount: \(tryRateOnTheAppStoreCount)")
+            println("tryReviewOnTheAppStoreCount: \(tryReviewOnTheAppStoreCount)")
 
-            guard Double(tryRateOnTheAppStoreCount) > pow(2, Double(exponentialBackoff)) else {
+            guard Double(tryReviewOnTheAppStoreCount) > pow(2, Double(exponentialBackoff)) else {
                 println("try...")
                 return
             }
@@ -212,7 +212,7 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
-                    setNoMoreRateOnTheAppStore()
+                    setNoMoreReviewOnTheAppStore()
                     println("setNoMoreRateOnTheAppStore")
                 }
                 alertController.addAction(action)
@@ -228,7 +228,7 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Cancel) { action in
-                    setNoMoreRateOnTheAppStore()
+                    setNoMoreReviewOnTheAppStore()
                     println("do rate")
                     UIApplication.sharedApplication().yep_reviewOnTheAppStore()
                 }
