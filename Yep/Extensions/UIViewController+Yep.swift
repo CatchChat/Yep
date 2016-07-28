@@ -198,11 +198,11 @@ extension UIViewController {
                 return
             }
 
-            let title = "Review Yep"
-            let message = "Do you like Yep?\nWould you like to review it on the App Store?"
-            let doNotRemindMeATitle = "Do not remind me"
-            let maybeNextTimeTitle = "Maybe next time"
-            let confirmTitle = "OK"
+            let title = NSLocalizedString("Review Yep", comment: "")
+            let message = NSLocalizedString("Do you like Yep?\nWould you like to review it on the App Store?", comment: "")
+            let doNotRemindMeATitle = NSLocalizedString("Do not remind me", comment: "")
+            let maybeNextTimeTitle = NSLocalizedString("Maybe next time", comment: "")
+            let confirmTitle = NSLocalizedString("Review now", comment: "")
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
@@ -223,7 +223,7 @@ extension UIViewController {
             }
 
             do {
-                let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+                let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Cancel) { action in
                     noMoreRateOnTheAppStore()
                     println("do rate")
                     UIApplication.sharedApplication().yep_reviewOnTheAppStore()
