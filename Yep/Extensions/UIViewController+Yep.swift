@@ -170,6 +170,10 @@ extension UIViewController {
 
         SafeDispatch.async { [weak self] in
 
+            defer {
+                increaseTryRateOnTheAppStoreCount()
+            }
+
             let exponentialBackoff = exponentialBackoff()
             let tryRateOnTheAppStoreCount = tryRateOnTheAppStoreCount()
 
@@ -177,7 +181,6 @@ extension UIViewController {
             println("tryRateOnTheAppStoreCount: \(tryRateOnTheAppStoreCount)")
 
             guard Double(tryRateOnTheAppStoreCount) > pow(2, Double(exponentialBackoff)) else {
-                increaseTryRateOnTheAppStoreCount()
                 println("try...")
                 return
             }
