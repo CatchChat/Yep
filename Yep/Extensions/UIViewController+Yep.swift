@@ -145,7 +145,16 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_reviewOnTheAppStore() {
+    var yep_visible: Bool {
+
+        return view.window != nil
+    }
+
+    func yep_tryReviewOnTheAppStore() {
+
+        guard yep_visible else {
+            return
+        }
 
         guard let version = NSBundle.releaseVersionNumber else {
             return

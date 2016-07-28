@@ -582,11 +582,7 @@ final class ProfileViewController: SegueViewController {
             tryUpdateBlogTitle()
 
             delay(3) { [weak self] in
-                if self?.view.window != nil {
-                    self?.yep_reviewOnTheAppStore()
-                } else {
-                    println("haha")
-                }
+                self?.yep_tryReviewOnTheAppStore()
             }
         }
 
