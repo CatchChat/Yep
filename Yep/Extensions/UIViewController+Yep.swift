@@ -194,11 +194,7 @@ extension UIViewController {
             let exponentialBackoff = exponentialBackoff()
             let tryReviewOnTheAppStoreCount = tryReviewOnTheAppStoreCount()
 
-            println("exponentialBackoff: \(exponentialBackoff)")
-            println("tryReviewOnTheAppStoreCount: \(tryReviewOnTheAppStoreCount)")
-
             guard Double(tryReviewOnTheAppStoreCount) > pow(2, Double(exponentialBackoff)) else {
-                println("try...")
                 return
             }
 
@@ -213,7 +209,6 @@ extension UIViewController {
             do {
                 let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
                     setNoMoreReviewOnTheAppStore()
-                    println("setNoMoreRateOnTheAppStore")
                 }
                 alertController.addAction(action)
             }
@@ -221,7 +216,6 @@ extension UIViewController {
             do {
                 let action: UIAlertAction = UIAlertAction(title: maybeNextTimeTitle, style: .Default) { action in
                     increaseExponentialBackoff()
-                    println("increaseExponentialBackoff")
                 }
                 alertController.addAction(action)
             }
@@ -229,7 +223,6 @@ extension UIViewController {
             do {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Cancel) { action in
                     setNoMoreReviewOnTheAppStore()
-                    println("do rate")
                     UIApplication.sharedApplication().yep_reviewOnTheAppStore()
                 }
                 alertController.addAction(action)
