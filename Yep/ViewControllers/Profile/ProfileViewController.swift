@@ -581,8 +581,8 @@ final class ProfileViewController: SegueViewController {
 
             tryUpdateBlogTitle()
 
-            delay(3) { [weak self] in
-                self?.yep_rateInAppStore()
+            delay(2) { [weak self] in
+                self?.yep_rateOnTheAppStore()
             }
         }
 

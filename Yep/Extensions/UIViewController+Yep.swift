@@ -145,7 +145,23 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_rateInAppStore() {
+    func yep_rateOnTheAppStore() {
+
+        let exponentialBackoffKey = "exponentialBackoffKey"
+        let tryRateOnTheAppStoreCountKey = "tryRateOnTheAppStoreCountKey"
+
+        func exponentialBackoff() -> Int {
+            return NSUserDefaults.standardUserDefaults().integerForKey(exponentialBackoffKey) ?? 2
+        }
+
+        func tryRateOnTheAppStoreCount() -> Int {
+            return NSUserDefaults.standardUserDefaults().integerForKey(tryRateOnTheAppStoreCountKey) ?? 0
+        }
+
+        func increaseTryRateOnTheAppStoreCount() {
+            let newCount = tryRateOnTheAppStoreCount() + 1
+            NSUserDefaults.standardUserDefaults().setInteger(newCount, forKey: tryRateOnTheAppStoreCountKey)
+        }
 
         SafeDispatch.async { [weak self] in
             let title = "Rate Yep"
