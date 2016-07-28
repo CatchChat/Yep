@@ -148,25 +148,31 @@ extension UIViewController {
     func yep_rateInAppStore() {
 
         SafeDispatch.async { [weak self] in
-            let title = "Rate"
-            let message = "Do you like Yep?\nWould you like to rate it in App Store?"
+            let title = "Rate Yep"
+            let message = "Do you like Yep?\nWould you like to rate it on the App Store?"
             let doNotRemindMeATitle = "Do not remind me"
-            let noNowTitle = "No now"
+            let maybeNextTimeTitle = "Maybe next time"
             let confirmTitle = "OK"
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
-            let doNotRemindMeAction: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Cancel) { action in
+            do {
+                let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
+                }
+                alertController.addAction(action)
             }
-            alertController.addAction(doNotRemindMeAction)
 
-            let noNowAction: UIAlertAction = UIAlertAction(title: noNowTitle, style: .Cancel) { action in
+            do {
+                let action: UIAlertAction = UIAlertAction(title: maybeNextTimeTitle, style: .Default) { action in
+                }
+                alertController.addAction(action)
             }
-            alertController.addAction(noNowAction)
 
-            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+            do {
+                let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+                }
+                alertController.addAction(action)
             }
-            alertController.addAction(confirmAction)
 
             self?.presentViewController(alertController, animated: true, completion: nil)
         }
