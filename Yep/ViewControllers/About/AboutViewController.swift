@@ -101,7 +101,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
         case Row.Rate.rawValue:
-            UIApplication.sharedApplication().yep_rateOnTheAppStore()
+            UIApplication.sharedApplication().yep_reviewOnTheAppStore()
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)

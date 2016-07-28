@@ -10,7 +10,7 @@ import Foundation
 
 extension UIApplication {
 
-    func yep_rateOnTheAppStore() {
+    func yep_reviewOnTheAppStore() {
 
         let appID = "983891256"
 

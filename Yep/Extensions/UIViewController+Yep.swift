@@ -145,7 +145,7 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_rateOnTheAppStore() {
+    func yep_reviewOnTheAppStore() {
 
         let noMoreRateOnTheAppStoreKey = "_noMoreRateOnTheAppStoreKey"
         let exponentialBackoffKey = "_exponentialBackoffKey"
@@ -198,8 +198,8 @@ extension UIViewController {
                 return
             }
 
-            let title = "Rate Yep"
-            let message = "Do you like Yep?\nWould you like to rate it on the App Store?"
+            let title = "Review Yep"
+            let message = "Do you like Yep?\nWould you like to review it on the App Store?"
             let doNotRemindMeATitle = "Do not remind me"
             let maybeNextTimeTitle = "Maybe next time"
             let confirmTitle = "OK"
@@ -226,7 +226,7 @@ extension UIViewController {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
                     noMoreRateOnTheAppStore()
                     println("do rate")
-                    UIApplication.sharedApplication().yep_rateOnTheAppStore()
+                    UIApplication.sharedApplication().yep_reviewOnTheAppStore()
                 }
                 alertController.addAction(action)
             }
