@@ -147,8 +147,17 @@ extension UIViewController {
 
     func yep_rateOnTheAppStore() {
 
+        let noMoreRateOnTheAppStoreKey = "_noMoreRateOnTheAppStoreKey"
         let exponentialBackoffKey = "_exponentialBackoffKey"
         let tryRateOnTheAppStoreCountKey = "_tryRateOnTheAppStoreCountKey"
+
+        func noMoreRateOnTheAppStore() -> Bool {
+             return NSUserDefaults.standardUserDefaults().boolForKey(noMoreRateOnTheAppStoreKey)
+        }
+
+        func setNoMoreRateOnTheAppStore() {
+            return NSUserDefaults.standardUserDefaults().setBool(true, forKey: noMoreRateOnTheAppStoreKey)
+        }
 
         func exponentialBackoff() -> Int {
             return (NSUserDefaults.standardUserDefaults().objectForKey(exponentialBackoffKey) as? Int) ?? 2
