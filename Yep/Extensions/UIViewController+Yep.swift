@@ -147,11 +147,11 @@ extension UIViewController {
 
     func yep_rateOnTheAppStore() {
 
-        let exponentialBackoffKey = "exponentialBackoffKey"
-        let tryRateOnTheAppStoreCountKey = "tryRateOnTheAppStoreCountKey"
+        let exponentialBackoffKey = "_exponentialBackoffKey"
+        let tryRateOnTheAppStoreCountKey = "_tryRateOnTheAppStoreCountKey"
 
         func exponentialBackoff() -> Int {
-            return NSUserDefaults.standardUserDefaults().integerForKey(exponentialBackoffKey) ?? 2
+            return (NSUserDefaults.standardUserDefaults().objectForKey(exponentialBackoffKey) as? Int) ?? 2
         }
 
         func increaseExponentialBackoff() {
@@ -160,7 +160,7 @@ extension UIViewController {
         }
 
         func tryRateOnTheAppStoreCount() -> Int {
-            return NSUserDefaults.standardUserDefaults().integerForKey(tryRateOnTheAppStoreCountKey) ?? 0
+            return NSUserDefaults.standardUserDefaults().integerForKey(tryRateOnTheAppStoreCountKey)
         }
 
         func increaseTryRateOnTheAppStoreCount() {
@@ -200,6 +200,7 @@ extension UIViewController {
             do {
                 let action: UIAlertAction = UIAlertAction(title: maybeNextTimeTitle, style: .Default) { action in
                     increaseExponentialBackoff()
+                    println("increaseExponentialBackoff")
                 }
                 alertController.addAction(action)
             }
