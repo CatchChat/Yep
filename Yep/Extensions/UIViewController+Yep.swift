@@ -147,9 +147,13 @@ extension UIViewController {
 
     func yep_reviewOnTheAppStore() {
 
-        let noMoreRateOnTheAppStoreKey = "_noMoreRateOnTheAppStoreKey"
-        let exponentialBackoffKey = "_exponentialBackoffKey"
-        let tryRateOnTheAppStoreCountKey = "_tryRateOnTheAppStoreCountKey"
+        guard let version = NSBundle.releaseVersionNumber else {
+            return
+        }
+
+        let noMoreRateOnTheAppStoreKey = "yep_\(version)_noMoreRateOnTheAppStoreKey"
+        let exponentialBackoffKey = "yep_\(version)_exponentialBackoffKey"
+        let tryRateOnTheAppStoreCountKey = "yep_\(version)_tryRateOnTheAppStoreCountKey"
 
         func noMoreRateOnTheAppStore() -> Bool {
              return NSUserDefaults.standardUserDefaults().boolForKey(noMoreRateOnTheAppStoreKey)
@@ -200,7 +204,7 @@ extension UIViewController {
 
             let title = NSLocalizedString("Review Yep", comment: "")
             let message = NSLocalizedString("Do you like Yep?\nWould you like to review it on the App Store?", comment: "")
-            let doNotRemindMeATitle = NSLocalizedString("Do not remind me", comment: "")
+            let doNotRemindMeATitle = NSLocalizedString("Do not remind me in this version", comment: "")
             let maybeNextTimeTitle = NSLocalizedString("Maybe next time", comment: "")
             let confirmTitle = NSLocalizedString("Review now", comment: "")
 
@@ -208,8 +212,8 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: doNotRemindMeATitle, style: .Default) { action in
-                    noMoreRateOnTheAppStore()
-                    println("noMoreRateOnTheAppStore")
+                    setNoMoreRateOnTheAppStore()
+                    println("setNoMoreRateOnTheAppStore")
                 }
                 alertController.addAction(action)
             }
@@ -224,7 +228,7 @@ extension UIViewController {
 
             do {
                 let action: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Cancel) { action in
-                    noMoreRateOnTheAppStore()
+                    setNoMoreRateOnTheAppStore()
                     println("do rate")
                     UIApplication.sharedApplication().yep_reviewOnTheAppStore()
                 }
