@@ -363,6 +363,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        YepAlert.alertSorry(message: NSLocalizedString("Can not save video!", comment: ""), inViewController: self)
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
