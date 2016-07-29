@@ -219,6 +219,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        YepAlert.alertSorry(message: NSLocalizedString("Can not save image!", comment: ""), inViewController: self)
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -255,6 +258,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        YepAlert.alertSorry(message: NSLocalizedString("Can not save image!", comment: ""), inViewController: self)
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -353,6 +359,9 @@ extension ConversationViewController {
                                     if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
                                         message.localThumbnailName = messageVideoName
                                     }
+
+                                } else {
+                                    YepAlert.alertSorry(message: NSLocalizedString("Can not save image!", comment: ""), inViewController: self)
                                 }
 
                                 message.localAttachmentName = messageVideoName
