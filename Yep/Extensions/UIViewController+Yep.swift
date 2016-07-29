@@ -169,3 +169,12 @@ extension UIViewController {
     }
 }
 
+// MARK: - Alert
+
+extension UIViewController {
+
+    func alertSaveFileFailed() {
+        YepAlert.alertSorry(message: NSLocalizedString("Can not save file!", comment: ""), inViewController: self)
+    }
+}
+
