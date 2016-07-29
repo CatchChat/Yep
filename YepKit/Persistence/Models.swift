@@ -1972,6 +1972,10 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 public func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
+    defer {
+        realm.refresh()
+    }
+
     clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
     // delete conversation from server
@@ -2082,6 +2086,10 @@ public func clearUselessRealmObjects() {
 
         guard let realm = try? Realm() else {
             return
+        }
+
+        defer {
+            realm.refresh()
         }
 
         println("do clearUselessRealmObjects")
