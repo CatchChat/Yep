@@ -235,7 +235,6 @@ public func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 public func allSkillCategories(failureHandler failureHandler: FailureHandler?, completion: [SkillCategory] -> Void) {
 
     let parse: JSONDictionary -> [SkillCategory]? = { data in
-        //println("skillCategories \(data)")
 
         if let categoriesData = data["categories"] as? [JSONDictionary] {
 
@@ -376,7 +375,6 @@ public func discoverUserByUsername(username: String, failureHandler: FailureHand
 
     let parse: JSONDictionary -> DiscoveredUser? = { data in
 
-        //println("discoverUserByUsernamedata: \(data)")
         return parseDiscoveredUser(data)
     }
 
@@ -405,7 +403,6 @@ public func updateMyselfWithInfo(info: JSONDictionary, failureHandler: FailureHa
     // longitude
 
     let parse: JSONDictionary -> Bool? = { data in
-        //println("updateMyself \(data)")
         return true
     }
     
@@ -432,7 +429,6 @@ public func updateAvatarWithImageData(imageData: NSData, failureHandler: Failure
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
 
     }, encodingCompletion: { encodingResult in
-        //println("encodingResult: \(encodingResult)")
 
         switch encodingResult {
 
@@ -529,8 +525,6 @@ public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyC
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        //println("loginByMobile: \(data)")
 
         if let accessToken = data["access_token"] as? String {
             if let user = data["user"] as? [String: AnyObject] {
@@ -844,8 +838,6 @@ public func friendsInContacts(contacts: [UploadContact], failureHandler: Failure
             let parse: JSONDictionary -> [DiscoveredUser]? = { data in
                 if let registeredContacts = data["registered_users"] as? [JSONDictionary] {
 
-                    //println("registeredContacts: \(registeredContacts)")
-                    
                     var discoveredUsers = [DiscoveredUser]()
 
                     for registeredContact in registeredContacts {
@@ -1003,7 +995,6 @@ public func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?,
     ]
 
     let parse: JSONDictionary -> FriendRequest.State? = { data in
-        //println("sendFriendRequestToUser: \(data)")
 
         if let state = data["state"] as? String {
             return FriendRequest.State(rawValue: state)
@@ -1302,8 +1293,6 @@ public let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo i
 
 public let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
 
-    //println("discoverUsers: \(data)")
-
     if let usersData = data["users"] as? [JSONDictionary] {
 
         var discoveredUsers = [DiscoveredUser]()
@@ -1577,7 +1566,6 @@ public func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandl
         }
 
     }, encodingCompletion: { encodingResult in
-        //println("encodingResult: \(encodingResult)")
 
         switch encodingResult {
 
@@ -1821,8 +1809,6 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
 
     headUnreadMessagesAfterMessageWithID(messageID, failureHandler: failureHandler, completion: { result in
 
-        //println("headUnreadMessagesAfterMessageWithID result: \(result)")
-
         guard let page1UnreadMessagesData = result["messages"] as? [JSONDictionary] else {
             completion([])
             return
@@ -1837,7 +1823,6 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
         }
 
         if count <= currentPage * perPage {
-            //println("page1UnreadMessagesData: \(page1UnreadMessagesData)")
             completion(page1UnreadMessagesData)
 
         } else {
@@ -1929,8 +1914,6 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
     }
 
     let parse: JSONDictionary -> ([String], Bool)? = { data in
-
-        //println("messagesFromRecipient: \(data)")
 
         guard let
             unreadMessagesData = data["messages"] as? [JSONDictionary],
@@ -2273,8 +2256,6 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
                         message.messageID = messageID
                         message.sendState = MessageSendState.Successed.rawValue
                     }
-
-                    //println("new messageID: \(messageID)")
 
                     completion(success: true)
 
@@ -2814,8 +2795,6 @@ public struct DiscoveredFeed: Hashable {
 
     public static func fromFeedInfo(feedInfo: JSONDictionary, groupInfo: JSONDictionary?) -> DiscoveredFeed? {
 
-        //println("feedInfo: \(feedInfo)")
-
         guard let
             id = feedInfo["id"] as? String,
             allowComment = feedInfo["allow_comment"] as? Bool,
@@ -2913,22 +2892,7 @@ public struct DiscoveredFeed: Hashable {
     }
 }
 
-/*
 public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
-    
-    //println("parseFeed Data: \(data)")
-    
-    if let feedInfo = data["topic"] as? JSONDictionary, groupInfo = data["circle"] as? JSONDictionary {
-        return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo)
-    }
-    
-    return nil
-}
-*/
-
-public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
-
-    //println("parseFeed Data: \(data)")
 
     if let feedInfo = data["topic"] as? JSONDictionary {
         return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: data)
@@ -2938,8 +2902,6 @@ public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
 }
 
 public let parseFeeds: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
-
-    //println("feedsData: \(data)")
 
     if let feedsData = data["topics"] as? [JSONDictionary] {
         return (validFeeds: feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) }).flatMap({ $0 }), originalFeedsCount: feedsData.count)
@@ -3011,7 +2973,6 @@ public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?,
     }
 
     let parse: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
-        //println("feedsWithKeyword \(requestParameters): \(data)")
         return parseFeeds(data)
     }
 
@@ -3023,7 +2984,6 @@ public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?,
 public func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
 
     let parse: JSONDictionary -> [String]? = { data in
-        //println("hotWordsOfSearchFeeds: \(data)")
         let hotWords = data["hot_words"] as? [String]
         return hotWords
     }
@@ -3333,8 +3293,6 @@ public func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, Stri
 
     let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
 
-        //println("tokensOfSocialAccounts data: \(data)")
-
         let githubToken = data["github"] as? String
         let dribbbleToken = data["dribbble"] as? String
         let instagramToken = data["instagram"] as? String
@@ -3397,8 +3355,6 @@ public func githubWorkOfUserWithUserID(userID: String, failureHandler: FailureHa
     let parse: JSONDictionary -> GithubWork? = { data in
 
         if let reposData = data["repos"] as? [JSONDictionary], userInfo = data["user"] as? JSONDictionary {
-
-            //println("reposData: \(reposData)")
 
             var repos = Array<GithubWork.Repo>()
 
@@ -3469,8 +3425,6 @@ public func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: Failure
 
     let parse: JSONDictionary -> DribbbleWork? = { data in
 
-        //println("dribbbleData:\(data)")
-
         if let
             shotsData = data["shots"] as? [JSONDictionary],
             userInfo = data["user"] as? JSONDictionary,
@@ -3540,7 +3494,6 @@ public struct InstagramWork {
 public func instagramWorkOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: InstagramWork -> Void) {
 
     let parse: JSONDictionary -> InstagramWork? = { data in
-        //println("instagramData:\(data)")
 
         if let mediaData = data["media"] as? [JSONDictionary] {
 
@@ -3648,7 +3601,6 @@ public func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D
     ]
 
     let parse: JSONDictionary -> [FoursquareVenue]? = { data in
-        //println("foursquarePlacesNearby: \(data)")
 
         if let
             response = data["response"] as? JSONDictionary,
@@ -3716,7 +3668,6 @@ public func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler:
     ]
 
     let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
-        //println("usersMatchWithUsernamePrefix: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
             let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in
@@ -3793,7 +3744,6 @@ public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, fail
     }
 
     let parse: JSONDictionary -> [GeniusInterview]? = { data in
-        //println("GeniusInterview: \(data)")
 
         if number == nil {
             if let realm = try? Realm() {
@@ -3859,7 +3809,6 @@ public struct GeniusInterviewBanner {
 public func latestGeniusInterviewBanner(failureHandler failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
 
     let parse: JSONDictionary -> GeniusInterviewBanner? = { data in
-        //println("GeniusInterviewBanner: \(data)")
 
         let banner = GeniusInterviewBanner(data)
         return banner
