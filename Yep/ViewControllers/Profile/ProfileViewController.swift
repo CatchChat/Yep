@@ -581,10 +581,7 @@ final class ProfileViewController: SegueViewController {
 
             tryUpdateBlogTitle()
 
-            // prompt of review
-            delay(3) { [weak self] in
-                self?.yep_tryReviewOnTheAppStore()
-            }
+            remindUserToReview()
         }
 
         #if DEBUG
