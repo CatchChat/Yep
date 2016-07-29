@@ -826,3 +826,5 @@
 "Do not remind me in this version" = "此版本不再提示";
 "Maybe next time" = "也许下次吧";
 "Review now" = "马上评价";
+
+"Yep can not save files!\nProbably not enough storage space." = "Yep 无法保持文件！\n可能存储空间不够。";

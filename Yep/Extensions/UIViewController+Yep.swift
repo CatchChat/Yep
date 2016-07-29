@@ -169,3 +169,12 @@ extension UIViewController {
     }
 }
 
+// MARK: - Alert
+
+extension UIViewController {
+
+    func alertSaveFileFailed() {
+        YepAlert.alertSorry(message: NSLocalizedString("Yep can not save files!\nProbably not enough storage space.", comment: ""), inViewController: self)
+    }
+}
+

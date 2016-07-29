@@ -42,7 +42,8 @@ public extension NSFileManager {
         do {
             try fileManager.createDirectoryAtURL(avatarCachesURL, withIntermediateDirectories: true, attributes: nil)
             return avatarCachesURL
-        } catch _ {
+        } catch let error {
+            println("Directory create: \(error)")
         }
 
         return nil
@@ -73,7 +74,8 @@ public extension NSFileManager {
         if let avatarURL = yepAvatarURLWithName(name) {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(avatarURL)
-            } catch _ {
+            } catch let error {
+                println("File delete: \(error)")
             }
         }
     }
@@ -89,7 +91,8 @@ public extension NSFileManager {
         do {
             try fileManager.createDirectoryAtURL(messageCachesURL, withIntermediateDirectories: true, attributes: nil)
             return messageCachesURL
-        } catch _ {
+        } catch let error {
+            println("Directory create: \(error)")
         }
 
         return nil
@@ -126,7 +129,8 @@ public extension NSFileManager {
         if let messageImageURL = yepMessageImageURLWithName(name) {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
-            } catch _ {
+            } catch let error {
+                println("File delete: \(error)")
             }
         }
     }
@@ -162,7 +166,8 @@ public extension NSFileManager {
         if let messageAudioURL = yepMessageAudioURLWithName(name) {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(messageAudioURL)
-            } catch _ {
+            } catch let error {
+                println("File delete: \(error)")
             }
         }
     }
@@ -195,7 +200,8 @@ public extension NSFileManager {
             if let messageVideoURL = yepMessageVideoURLWithName(name) {
                 do {
                     try NSFileManager.defaultManager().removeItemAtURL(messageVideoURL)
-                } catch _ {
+                } catch let error {
+                    println("File delete: \(error)")
                 }
             }
         }
@@ -204,7 +210,8 @@ public extension NSFileManager {
             if let messageImageURL = yepMessageImageURLWithName(thumbnailName) {
                 do {
                     try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
-                } catch _ {
+                } catch let error {
+                    println("File delete: \(error)")
                 }
             }
         }
@@ -219,7 +226,8 @@ public extension NSFileManager {
             for fileURL in fileURLs {
                 do {
                     try fileManager.removeItemAtURL(fileURL)
-                } catch _ {
+                } catch let error {
+                    println("File delete: \(error)")
                 }
             }
         }

@@ -219,6 +219,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        self?.alertSaveFileFailed()
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -255,6 +258,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        self?.alertSaveFileFailed()
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -352,6 +358,9 @@ extension ConversationViewController {
                                 if let thumbnailData = thumbnailData {
                                     if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
                                         message.localThumbnailName = messageVideoName
+
+                                    } else {
+                                        self?.alertSaveFileFailed()
                                     }
                                 }
 
@@ -363,6 +372,9 @@ extension ConversationViewController {
                                 }
                             }
                         }
+
+                    } else {
+                        self?.alertSaveFileFailed()
                     }
 
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
