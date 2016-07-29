@@ -207,99 +207,105 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     private func deleteMessageAtIndexPath(message: Message, indexPath: NSIndexPath) {
         SafeDispatch.async { [weak self] in
-            if let strongSelf = self, realm = message.realm {
 
-                let isMyMessage = message.fromFriend?.isMe ?? false
+            guard let strongSelf = self, realm = message.realm else {
+                return
+            }
 
-                var sectionDateMessage: Message?
+            defer {
+                realm.refresh()
+            }
 
-                if let currentMessageIndex = strongSelf.messages.indexOf(message) {
+            let isMyMessage = message.fromFriend?.isMe ?? false
 
-                    let previousMessageIndex = currentMessageIndex - 1
+            var sectionDateMessage: Message?
 
-                    if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+            if let currentMessageIndex = strongSelf.messages.indexOf(message) {
 
-                        if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
-                            sectionDateMessage = previousMessage
-                        }
+                let previousMessageIndex = currentMessageIndex - 1
+
+                if let previousMessage = strongSelf.messages[safe: previousMessageIndex] {
+
+                    if previousMessage.mediaType == MessageMediaType.SectionDate.rawValue {
+                        sectionDateMessage = previousMessage
                     }
                 }
+            }
 
-                let currentIndexPath: NSIndexPath
-                if let index = strongSelf.messages.indexOf(message) {
-                    currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
-                } else {
-                    currentIndexPath = indexPath
-                }
+            let currentIndexPath: NSIndexPath
+            if let index = strongSelf.messages.indexOf(message) {
+                currentIndexPath = NSIndexPath(forItem: index - strongSelf.displayedMessagesRange.location, inSection: indexPath.section)
+            } else {
+                currentIndexPath = indexPath
+            }
 
-                if let sectionDateMessage = sectionDateMessage {
+            if let sectionDateMessage = sectionDateMessage {
 
-                    var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
-                    if strongSelf.displayedMessagesRange.length >= 2 {
-                        strongSelf.displayedMessagesRange.length -= 2
-                        canDeleteTwoMessages = true
-
-                    } else {
-                        if strongSelf.displayedMessagesRange.location >= 1 {
-                            strongSelf.displayedMessagesRange.location -= 1
-                        }
-                        strongSelf.displayedMessagesRange.length -= 1
-                    }
-
-                    let _ = try? realm.write {
-                        message.deleteAttachmentInRealm(realm)
-
-                        realm.delete(sectionDateMessage)
-
-                        if isMyMessage {
-
-                            let messageID = message.messageID
-
-                            realm.delete(message)
-
-                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
-                                println("deleteMessageFromServer: \(messageID)")
-                            })
-
-                        } else {
-                            message.hidden = true
-                        }
-                    }
-
-                    if canDeleteTwoMessages {
-                        let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
-                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
-                    } else {
-                        strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
-                    }
+                var canDeleteTwoMessages = false // 考虑刚好的边界情况，例如消息为本束的最后一条，而 sectionDate 在上一束中
+                if strongSelf.displayedMessagesRange.length >= 2 {
+                    strongSelf.displayedMessagesRange.length -= 2
+                    canDeleteTwoMessages = true
 
                 } else {
+                    if strongSelf.displayedMessagesRange.location >= 1 {
+                        strongSelf.displayedMessagesRange.location -= 1
+                    }
                     strongSelf.displayedMessagesRange.length -= 1
+                }
 
-                    let _ = try? realm.write {
-                        message.deleteAttachmentInRealm(realm)
+                let _ = try? realm.write {
+                    message.deleteAttachmentInRealm(realm)
 
-                        if isMyMessage {
+                    realm.delete(sectionDateMessage)
 
-                            let messageID = message.messageID
+                    if isMyMessage {
 
-                            realm.delete(message)
+                        let messageID = message.messageID
 
-                            deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
-                                println("deleteMessageFromServer: \(messageID)")
-                            })
+                        realm.delete(message)
 
-                        } else {
-                            message.hidden = true
-                        }
+                        deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                            println("deleteMessageFromServer: \(messageID)")
+                        })
+
+                    } else {
+                        message.hidden = true
                     }
+                }
 
+                if canDeleteTwoMessages {
+                    let previousIndexPath = NSIndexPath(forItem: currentIndexPath.item - 1, inSection: currentIndexPath.section)
+                    strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([previousIndexPath, currentIndexPath])
+                } else {
                     strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
                 }
 
-                // 必须更新，插入时需要
-                strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+            } else {
+                strongSelf.displayedMessagesRange.length -= 1
+
+                let _ = try? realm.write {
+                    message.deleteAttachmentInRealm(realm)
+
+                    if isMyMessage {
+
+                        let messageID = message.messageID
+
+                        realm.delete(message)
+
+                        deleteMessageFromServer(messageID: messageID, failureHandler: nil, completion: {
+                            println("deleteMessageFromServer: \(messageID)")
+                        })
+
+                    } else {
+                        message.hidden = true
+                    }
+                }
+
+                strongSelf.conversationCollectionView.deleteItemsAtIndexPaths([currentIndexPath])
             }
+
+            // 必须更新，插入时需要
+            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
         }
     }
 
