@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import SafariServices
 import YepKit
 import YepNetworking
-import SafariServices
+import AutoReview
 
 // MAKR: - Heights
 
@@ -138,6 +139,33 @@ extension UIViewController {
         } else {
             YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
         }
+    }
+}
+
+// MARK: - Review
+
+extension UIViewController {
+
+    func remindUserToReview() {
+
+        let remindAction: dispatch_block_t = { [weak self] in
+
+            guard self?.view.window != nil else {
+                return
+            }
+
+            let info = AutoReview.Info(
+                appID: "983891256",
+                title: NSLocalizedString("Review Yep", comment: ""),
+                message: NSLocalizedString("Do you like Yep?\nWould you like to review it on the App Store?", comment: ""),
+                doNotRemindMeInThisVersionTitle: NSLocalizedString("Do not remind me in this version", comment: ""),
+                maybeNextTimeTitle: NSLocalizedString("Maybe next time", comment: ""),
+                confirmTitle: NSLocalizedString("Review now", comment: "")
+            )
+            self?.autoreview_tryReviewApp(withInfo: info)
+        }
+
+        delay(3, work: remindAction)
     }
 }
 
