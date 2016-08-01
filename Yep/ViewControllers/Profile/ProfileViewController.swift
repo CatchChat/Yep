@@ -40,11 +40,6 @@ final class ProfileViewController: SegueViewController {
         didSet {
             if !profileUserIsMe {
 
-                //let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: "moreAction")
-
-                //customNavigationItem.rightBarButtonItem = moreBarButtonItem
-
-
                 if fromType == .OneToOneConversation {
                     sayHiView.hidden = true
 
