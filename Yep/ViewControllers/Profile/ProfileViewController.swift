@@ -284,10 +284,12 @@ final class ProfileViewController: SegueViewController {
     private let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
     private var footerCellHeight: CGFloat {
-        let attributes = [NSFontAttributeName: YepConfig.Profile.introductionLabelFont]
+        let attributes = [
+            NSFontAttributeName: YepConfig.Profile.introductionFont
+        ]
         let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
         let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
-        return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 4
+        return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 6
     }
 
     private struct Listener {
@@ -911,6 +913,7 @@ final class ProfileViewController: SegueViewController {
             vc.prepare(withProfileUser: profileUser)
 
         case "showConversation":
+
             let vc = segue.destinationViewController as! ConversationViewController
             vc.conversation = sender as! Conversation
             

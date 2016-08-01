@@ -48,7 +48,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8FD-pw-Oxk" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="38" y="66" width="242" height="114"/>
+                        <rect key="frame" x="38" y="56" width="242" height="124"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -61,7 +61,7 @@
                 <constraint firstItem="q7V-Cn-Anl" firstAttribute="centerY" secondItem="NxA-Mj-WGn" secondAttribute="centerY" id="C9L-QR-7ua"/>
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="top" secondItem="NxA-Mj-WGn" secondAttribute="bottom" constant="4" id="G2q-tX-3IP"/>
                 <constraint firstItem="q7V-Cn-Anl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NxA-Mj-WGn" secondAttribute="trailing" id="Lbh-4Z-tcy"/>
-                <constraint firstItem="8FD-pw-Oxk" firstAttribute="top" secondItem="jnP-ym-ZBH" secondAttribute="bottom" constant="10" id="T0j-9r-Dm8"/>
+                <constraint firstItem="8FD-pw-Oxk" firstAttribute="top" secondItem="jnP-ym-ZBH" secondAttribute="bottom" id="T0j-9r-Dm8"/>
                 <constraint firstItem="8FD-pw-Oxk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="TPP-A6-JEV"/>
                 <constraint firstItem="8FD-pw-Oxk" firstAttribute="leading" secondItem="jnP-ym-ZBH" secondAttribute="leading" id="WiD-AM-Rq6"/>
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="NxA-Mj-WGn" secondAttribute="leading" id="cPb-4n-LbM"/>
