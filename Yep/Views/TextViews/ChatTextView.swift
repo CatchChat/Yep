@@ -14,9 +14,18 @@ final class ChatTextView: UITextView {
     var tapMentionAction: ((username: String) -> Void)?
     var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
 
-    static let detectionTypeName = "ChatTextStorage.detectionTypeName"
+    private static let detectionTypeName = "ChatTextStorage.detectionTypeName"
 
-    enum DetectionType: String {
+    private static let mentionRegularExpressions: [NSRegularExpression] = {
+        let patterns = [
+            "([@＠][A-Za-z0-9_]{4,16})$",
+            "([@＠][A-Za-z0-9_]{4,16})\\s",
+            "([@＠][A-Za-z0-9_]{4,16})[^A-Za-z0-9_\\.]",
+        ]
+        return patterns.map { try! NSRegularExpression(pattern: $0, options: []) }
+    }()
+
+    private enum DetectionType: String {
         case Mention
     }
 
@@ -31,32 +40,36 @@ final class ChatTextView: UITextView {
 
     override var text: String! {
         didSet {
-            let attributedString = NSMutableAttributedString(string: text)
+            let plainText = text
 
-            let textRange = NSMakeRange(0, (text as NSString).length)
+            let attributedString = NSMutableAttributedString(string: plainText)
+
+            let textRange = NSMakeRange(0, (plainText as NSString).length)
 
             attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
             attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
 
             // mention link
 
-            let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
+            func addMentionAttributes(withRange range: NSRange) {
 
-            let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
+                let textValue = (plainText as NSString).substringWithRange(range)
 
-            mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+                let textAttributes: [String: AnyObject] = [
+                    NSLinkAttributeName: textValue,
+                    ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
+                ]
 
-                if let result = result {
-                    let textValue = (self.text as NSString).substringWithRange(result.range)
+                attributedString.addAttributes(textAttributes, range: range)
+            }
 
-                    let textAttributes: [String: AnyObject] = [
-                        NSLinkAttributeName: textValue,
-                        ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
-                    ]
-
-                    attributedString.addAttributes(textAttributes, range: result.range )
+            ChatTextView.mentionRegularExpressions.forEach {
+                let matches = $0.matchesInString(plainText, options: [], range: textRange)
+                for match in matches {
+                    let range = match.rangeAtIndex(1)
+                    addMentionAttributes(withRange: range)
                 }
-            })
+            }
 
             self.attributedText = attributedString
         }
