@@ -19,9 +19,9 @@ final class ProfileFooterCell: UICollectionViewCell {
     @IBOutlet weak var locationContainerView: UIView!
     @IBOutlet weak var locationLabel: UILabel!
 
-    @IBOutlet weak var introductionLabel: UILabel!
-    @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var introductionTextView: ChatTextView!
+    @IBOutlet weak var introductionTextViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var introductionTextViewRightConstraint: NSLayoutConstraint!
 
     private struct Listener {
         let userLocationName: String
@@ -90,11 +90,17 @@ final class ProfileFooterCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        instroductionLabelLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
-        instroductionLabelRightConstraint.constant = YepConfig.Profile.rightEdgeInset
+        introductionTextViewLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
+        introductionTextViewRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        introductionLabel.font = YepConfig.Profile.introductionLabelFont
-        introductionLabel.textColor = UIColor.yepGrayColor()
+        introductionTextView.textContainer.lineFragmentPadding = 0
+        introductionTextView.font = YepConfig.Profile.introductionLabelFont
+        introductionTextView.textColor = UIColor.yepGrayColor()
+        introductionTextView.backgroundColor = UIColor.clearColor()
+        introductionTextView.tintColor = UIColor.blackColor()
+        introductionTextView.linkTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+        ]
 
         newLocationName = nil
     }
@@ -124,7 +130,7 @@ final class ProfileFooterCell: UICollectionViewCell {
             usernameLabel.text = NSLocalizedString("No username", comment: "")
         }
 
-        introductionLabel.text = introduction
+        introductionTextView.text = introduction
     }
 
     var location: CLLocation? {
