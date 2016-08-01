@@ -54,15 +54,14 @@ final class ChatTextView: UITextView {
                 attributedString.addAttributes(textAttributes, range: range)
             }
 
-            let mentionPattern = "([@＠]\\w{4,16})"
-
-            let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
-
-            let matches = mentionExpression.matchesInString(plainText, options: [], range: textRange)
-            for match in matches {
-                do {
-                    let range = match.rangeAtIndex(1)
-                    addMentionAttributes(withRange: range)
+            ["([@＠][A-Za-z0-9_]{4,16})$", "([@＠][A-Za-z0-9_]{4,16})\\s", "([@＠][A-Za-z0-9_]{4,16})[^A-Za-z0-9_\\.]"].forEach {
+                let mentionExpression = try! NSRegularExpression(pattern: $0, options: [])
+                let matches = mentionExpression.matchesInString(plainText, options: [], range: textRange)
+                for match in matches {
+                    do {
+                        let range = match.rangeAtIndex(1)
+                        addMentionAttributes(withRange: range)
+                    }
                 }
             }
 
