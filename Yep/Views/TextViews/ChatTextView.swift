@@ -16,6 +16,12 @@ final class ChatTextView: UITextView {
 
     static let detectionTypeName = "ChatTextStorage.detectionTypeName"
 
+    static let mentionRegularExpressions: [NSRegularExpression] = {
+        return ["([@＠][A-Za-z0-9_]{4,16})$", "([@＠][A-Za-z0-9_]{4,16})\\s", "([@＠][A-Za-z0-9_]{4,16})[^A-Za-z0-9_\\.]"].map {
+            try! NSRegularExpression(pattern: $0, options: [])
+        }
+    }()
+
     enum DetectionType: String {
         case Mention
     }
@@ -54,14 +60,11 @@ final class ChatTextView: UITextView {
                 attributedString.addAttributes(textAttributes, range: range)
             }
 
-            ["([@＠][A-Za-z0-9_]{4,16})$", "([@＠][A-Za-z0-9_]{4,16})\\s", "([@＠][A-Za-z0-9_]{4,16})[^A-Za-z0-9_\\.]"].forEach {
-                let mentionExpression = try! NSRegularExpression(pattern: $0, options: [])
-                let matches = mentionExpression.matchesInString(plainText, options: [], range: textRange)
+            ChatTextView.mentionRegularExpressions.forEach {
+                let matches = $0.matchesInString(plainText, options: [], range: textRange)
                 for match in matches {
-                    do {
-                        let range = match.rangeAtIndex(1)
-                        addMentionAttributes(withRange: range)
-                    }
+                    let range = match.rangeAtIndex(1)
+                    addMentionAttributes(withRange: range)
                 }
             }
 
