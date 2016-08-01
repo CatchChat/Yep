@@ -31,9 +31,11 @@ final class ChatTextView: UITextView {
 
     override var text: String! {
         didSet {
-            let attributedString = NSMutableAttributedString(string: text)
+            let plainText = text
 
-            let textRange = NSMakeRange(0, (text as NSString).length)
+            let attributedString = NSMutableAttributedString(string: plainText)
+
+            let textRange = NSMakeRange(0, (plainText as NSString).length)
 
             attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
             attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
@@ -44,19 +46,21 @@ final class ChatTextView: UITextView {
 
             let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
 
-            mentionExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+            mentionExpression.enumerateMatchesInString(plainText, options: [], range: textRange) { result, flags, stop in
 
-                if let result = result {
-                    let textValue = (self.text as NSString).substringWithRange(result.range)
-
-                    let textAttributes: [String: AnyObject] = [
-                        NSLinkAttributeName: textValue,
-                        ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
-                    ]
-
-                    attributedString.addAttributes(textAttributes, range: result.range )
+                guard let result = result else {
+                    return
                 }
-            })
+
+                let textValue = (plainText as NSString).substringWithRange(result.range)
+
+                let textAttributes: [String: AnyObject] = [
+                    NSLinkAttributeName: textValue,
+                    ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
+                ]
+
+                attributedString.addAttributes(textAttributes, range: result.range)
+            }
 
             self.attributedText = attributedString
         }
