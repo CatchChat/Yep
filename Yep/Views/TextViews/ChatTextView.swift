@@ -42,13 +42,8 @@ final class ChatTextView: UITextView {
 
             // mention link
 
-            let mentionPattern = "([@＠]\\w{4,16})"
+            func addMentionAttributes(withRange range: NSRange) {
 
-            let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
-
-            let matches = mentionExpression.matchesInString(plainText, options: [], range: textRange)
-            for match in matches {
-                let range = match.rangeAtIndex(1)
                 let textValue = (plainText as NSString).substringWithRange(range)
 
                 let textAttributes: [String: AnyObject] = [
@@ -57,6 +52,18 @@ final class ChatTextView: UITextView {
                 ]
 
                 attributedString.addAttributes(textAttributes, range: range)
+            }
+
+            let mentionPattern = "([@＠]\\w{4,16})"
+
+            let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
+
+            let matches = mentionExpression.matchesInString(plainText, options: [], range: textRange)
+            for match in matches {
+                do {
+                    let range = match.rangeAtIndex(1)
+                    addMentionAttributes(withRange: range)
+                }
             }
 
             /*
