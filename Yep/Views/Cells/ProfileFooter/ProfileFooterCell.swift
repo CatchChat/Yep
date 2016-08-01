@@ -93,6 +93,10 @@ final class ProfileFooterCell: UICollectionViewCell {
         introductionTextViewLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
         introductionTextViewRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
+        introductionTextView.editable = false
+        introductionTextView.scrollEnabled = false
+        introductionTextView.contentInset = UIEdgeInsets(top: -8, left: 0, bottom: -8, right: 0)
+
         introductionTextView.textContainer.lineFragmentPadding = 0
         introductionTextView.font = YepConfig.Profile.introductionLabelFont
         introductionTextView.textColor = UIColor.yepGrayColor()
@@ -131,6 +135,7 @@ final class ProfileFooterCell: UICollectionViewCell {
         }
 
         introductionTextView.text = introduction
+        introductionTextView.sizeToFit()
     }
 
     var location: CLLocation? {

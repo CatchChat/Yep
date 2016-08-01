@@ -48,7 +48,7 @@
                         </constraints>
                     </view>
                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8FD-pw-Oxk" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
-                        <rect key="frame" x="38" y="66" width="242" height="112"/>
+                        <rect key="frame" x="38" y="66" width="242" height="114"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -67,7 +67,7 @@
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="NxA-Mj-WGn" secondAttribute="leading" id="cPb-4n-LbM"/>
                 <constraint firstAttribute="trailing" secondItem="8FD-pw-Oxk" secondAttribute="trailing" constant="40" id="nf2-ok-QnL"/>
                 <constraint firstItem="NxA-Mj-WGn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="uPe-lC-dCc"/>
-                <constraint firstAttribute="bottom" secondItem="8FD-pw-Oxk" secondAttribute="bottom" constant="2" id="x0R-yz-HCi"/>
+                <constraint firstAttribute="bottom" secondItem="8FD-pw-Oxk" secondAttribute="bottom" id="x0R-yz-HCi"/>
             </constraints>
             <size key="customSize" width="320" height="180"/>
             <connections>
