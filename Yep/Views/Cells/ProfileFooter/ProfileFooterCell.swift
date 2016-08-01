@@ -13,6 +13,8 @@ import RealmSwift
 
 final class ProfileFooterCell: UICollectionViewCell {
 
+    var tapUsernameAction: ((username: String) -> Void)?
+
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
 
@@ -105,6 +107,9 @@ final class ProfileFooterCell: UICollectionViewCell {
         introductionTextView.linkTextAttributes = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
         ]
+        introductionTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
+        }
 
         newLocationName = nil
     }
