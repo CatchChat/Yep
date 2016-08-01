@@ -17,13 +17,22 @@ protocol ShowProfileWithUsername: class {
 
 extension ShowProfileWithUsername where Self: UIViewController {
 
+    private func show(profileUser: ProfileUser) {
+
+        guard navigationController?.topViewController == self else {
+            return
+        }
+
+        performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+    }
+
     func tryShowProfileWithUsername(username: String) {
 
         if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
             let profileUser = ProfileUser.UserType(user)
 
             delay(0.1) { [weak self] in
-                self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+                self?.show(profileUser)
             }
 
         } else {
@@ -33,7 +42,7 @@ extension ShowProfileWithUsername where Self: UIViewController {
             }, completion: { discoveredUser in
                 SafeDispatch.async { [weak self] in
                     let profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                    self?.performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+                    self?.show(profileUser)
                 }
             })
         }
