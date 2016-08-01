@@ -40,5 +40,10 @@ extension ShowProfileWithUsername where Self: UIViewController {
     }
 }
 
+extension ConversationViewController: ShowProfileWithUsername {
+}
+
+extension ProfileViewController: ShowProfileWithUsername {
+}
 
 
