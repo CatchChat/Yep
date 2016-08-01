@@ -104,7 +104,7 @@ final class YepConfig {
     struct Profile {
         static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
         static let rightEdgeInset: CGFloat = leftEdgeInset
-        static let introductionLabelFont = UIFont.systemFontOfSize(14)
+        static let introductionFont = UIFont.systemFontOfSize(14)
     }
 
     struct Settings {
