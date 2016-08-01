@@ -497,6 +497,10 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 return cell
             }
 
+            let tapUsernameAction: (username: String) -> Void = { [weak self] username in
+                self?.tryShowProfileWithUsername(username)
+            }
+
             guard let sender = message.fromFriend else {
 
                 if message.blockedByRecipient {
@@ -656,9 +660,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             cell.configureWithMessage(message, layoutCache: layoutCache)
 
-                            cell.tapUsernameAction = { [weak self] username in
-                                self?.tryShowProfileWithUsername(username)
-                            }
+                            cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
                                 self?.tryShowConversationWithFeed(feed)
@@ -681,9 +683,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             cell.configureWithMessage(message, layoutCache: layoutCache)
 
-                            cell.tapUsernameAction = { [weak self] username in
-                                self?.tryShowProfileWithUsername(username)
-                            }
+                            cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
                                 self?.tryShowConversationWithFeed(feed)
@@ -898,9 +898,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
-                        cell.tapUsernameAction = { [weak self] username in
-                            self?.tryShowProfileWithUsername(username)
-                        }
+                        cell.tapUsernameAction = tapUsernameAction
 
                         cell.tapFeedAction = { [weak self] feed in
                             self?.tryShowConversationWithFeed(feed)
@@ -923,9 +921,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
-                        cell.tapUsernameAction = { [weak self] username in
-                            self?.tryShowProfileWithUsername(username)
-                        }
+                        cell.tapUsernameAction = tapUsernameAction
 
                         cell.tapFeedAction = { [weak self] feed in
                             self?.tryShowConversationWithFeed(feed)
@@ -1264,9 +1260,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 cell.configureWithMessage(message, layoutCache: layoutCache)
 
-                                cell.tapUsernameAction = { [weak self] username in
-                                    self?.tryShowProfileWithUsername(username)
-                                }
+                                cell.tapUsernameAction = tapUsernameAction
 
                                 cell.tapFeedAction = { [weak self] feed in
                                     self?.tryShowConversationWithFeed(feed)
@@ -1287,9 +1281,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                                 cell.configureWithMessage(message, layoutCache: layoutCache)
 
-                                cell.tapUsernameAction = { [weak self] username in
-                                    self?.tryShowProfileWithUsername(username)
-                                }
+                                cell.tapUsernameAction = tapUsernameAction
 
                                 cell.tapFeedAction = { [weak self] feed in
                                     self?.tryShowConversationWithFeed(feed)
@@ -1494,9 +1486,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
-                            cell.tapUsernameAction = { [weak self] username in
-                                self?.tryShowProfileWithUsername(username)
-                            }
+                            cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
                                 self?.tryShowConversationWithFeed(feed)
@@ -1517,9 +1507,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             cell.configureWithMessage(message, layoutCache: layoutCache, mediaTapAction: mediaTapAction)
 
-                            cell.tapUsernameAction = { [weak self] username in
-                                self?.tryShowProfileWithUsername(username)
-                            }
+                            cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
                                 self?.tryShowConversationWithFeed(feed)
