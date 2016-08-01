@@ -42,7 +42,7 @@ final class ChatTextView: UITextView {
 
             // mention link
 
-            let mentionPattern = "[@＠]([A-Za-z0-9_]{4,16})"
+            let mentionPattern = "[@＠](\\w{4,16})"
 
             let mentionExpression = try! NSRegularExpression(pattern: mentionPattern, options: NSRegularExpressionOptions())
 
