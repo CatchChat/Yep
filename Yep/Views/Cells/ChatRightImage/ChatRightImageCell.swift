@@ -102,10 +102,16 @@ final class ChatRightImageCell: ChatRightBaseCell {
 
             if progress <= 1.0 {
                 loadingProgress = progress
+
+                if progress == 1 {
+                    if let image = image {
+                        self.messageImageView.image = image
+                    }
+                    return
+                }
             }
 
             if let image = image {
-
                 UIView.transitionWithView(self, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
                     self?.messageImageView.image = image
                 }, completion: nil)
