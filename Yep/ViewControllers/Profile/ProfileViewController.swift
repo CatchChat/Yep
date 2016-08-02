@@ -238,14 +238,12 @@ final class ProfileViewController: SegueViewController {
             return
         }
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
-                let _ = try? realm.write {
-                    me.masterSkills.removeAll()
-                    let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                    me.masterSkills.appendContentsOf(userSkills)
-                }
+        if let me = meInRealm(realm) {
+            let _ = try? realm.write {
+                me.masterSkills.removeAll()
+                let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
+                me.masterSkills.appendContentsOf(userSkills)
+            }
         }
     }
 
@@ -259,14 +257,12 @@ final class ProfileViewController: SegueViewController {
             return
         }
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
-                let _ = try? realm.write {
-                    me.learningSkills.removeAll()
-                    let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                    me.learningSkills.appendContentsOf(userSkills)
-                }
+        if let me = meInRealm(realm) {
+            let _ = try? realm.write {
+                me.learningSkills.removeAll()
+                let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
+                me.learningSkills.appendContentsOf(userSkills)
+            }
         }
     }
 
@@ -395,11 +391,8 @@ final class ProfileViewController: SegueViewController {
             syncMyInfoAndDoFurtherAction {
 
                 // 提示没有 Skills
-                guard let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) else {
-                        return
+                guard let me = me() else {
+                    return
                 }
 
                 if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
@@ -410,16 +403,13 @@ final class ProfileViewController: SegueViewController {
                 }
             }
 
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                realm = try? Realm(),
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    profileUser = ProfileUser.UserType(me)
+            if let me = me() {
+                profileUser = ProfileUser.UserType(me)
 
-                    masterSkills = skillsFromUserSkillList(me.masterSkills)
-                    learningSkills = skillsFromUserSkillList(me.learningSkills)
+                masterSkills = skillsFromUserSkillList(me.masterSkills)
+                learningSkills = skillsFromUserSkillList(me.learningSkills)
 
-                    updateProfileCollectionView()
+                updateProfileCollectionView()
             }
         }
 
@@ -715,12 +705,10 @@ final class ProfileViewController: SegueViewController {
                         guard let realm = try? Realm() else {
                             return
                         }
-                        if let
-                            myUserID = YepUserDefaults.userID.value,
-                            me = userWithUserID(myUserID, inRealm: realm) {
-                                let _ = try? realm.write {
-                                    me.username = newUsername
-                                }
+                        if let me = meInRealm(realm) {
+                            let _ = try? realm.write {
+                                me.username = newUsername
+                            }
                         }
 
                         self?.tryShareProfile()
@@ -1533,11 +1521,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     
                     SafeDispatch.async {
 
-                        guard let
-                            realm = try? Realm(),
-                            myUserID = YepUserDefaults.userID.value,
-                            me = userWithUserID(myUserID, inRealm: realm) else {
-                                return
+                        guard let realm = try? Realm() else {
+                            return
+                        }
+
+                        guard let me = meInRealm(realm) else {
+                            return
                         }
 
                         var haveSocialAccountProvider = false
