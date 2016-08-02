@@ -239,26 +239,22 @@ final class ContactsViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! ConversationViewController
 
-            if let user = sender as? User {
-                if user.userID != YepUserDefaults.userID.value {
-                    if user.friendState != UserFriendState.Me.rawValue {
-                        
-                        if user.conversation == nil {
-                            let newConversation = Conversation()
-                            
-                            newConversation.type = ConversationType.OneToOne.rawValue
-                            newConversation.withFriend = user
-                            
-                            let _ = try? realm.write {
-                                realm.add(newConversation)
-                            }
-                        }
+            if let user = sender as? User where !user.isMe {
 
-                        vc.conversation = user.conversation
-
-                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                if user.conversation == nil {
+                    let newConversation = Conversation()
+                    
+                    newConversation.type = ConversationType.OneToOne.rawValue
+                    newConversation.withFriend = user
+                    
+                    let _ = try? realm.write {
+                        realm.add(newConversation)
                     }
                 }
+
+                vc.conversation = user.conversation
+
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
 
             recoverOriginalNavigationDelegate()
