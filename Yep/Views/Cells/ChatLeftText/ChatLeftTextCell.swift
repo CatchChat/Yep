@@ -92,7 +92,8 @@ class ChatLeftTextCell: ChatBaseCell {
 
         self.user = message.fromFriend
 
-        textContentTextView.text = message.textContent
+        textContentTextView.setAttributedTextWithMessage(message)
+        //textContentTextView.text = message.textContent
 
         func adjustedTextContentTextViewWidth() -> CGFloat {
 
