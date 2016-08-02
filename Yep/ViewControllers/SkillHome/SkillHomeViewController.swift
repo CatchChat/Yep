@@ -228,19 +228,15 @@ final class SkillHomeViewController: BaseViewController {
 
         // Add to Me
 
-        if let skillID = skill?.ID {
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                realm = try? Realm(),
-                me = userWithUserID(myUserID, inRealm: realm) {
+        if let skillID = skill?.ID, let me = me() {
 
-                    let predicate = NSPredicate(format: "skillID = %@", skillID)
+            let predicate = NSPredicate(format: "skillID = %@", skillID)
 
-                    if me.masterSkills.filter(predicate).count == 0
-                        && me.learningSkills.filter(predicate).count == 0 {
-                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
-                            navigationItem.rightBarButtonItem = addSkillToMeButton
-                    }
+            let notInMaster = me.masterSkills.filter(predicate).count == 0
+
+            if notInMaster && me.learningSkills.filter(predicate).count == 0 {
+                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
+                navigationItem.rightBarButtonItem = addSkillToMeButton
             }
         }
     }
