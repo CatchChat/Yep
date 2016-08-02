@@ -33,12 +33,6 @@ class GeniusInterviewCell: UITableViewCell {
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func configure(withGeniusInterview geniusInterview: GeniusInterview) {
 
         let avatar = PlainAvatar(avatarURLString: geniusInterview.user.avatarURLString, avatarStyle: miniAvatarStyle)

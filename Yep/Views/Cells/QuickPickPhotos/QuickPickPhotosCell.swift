@@ -74,12 +74,6 @@ final class QuickPickPhotosCell: UITableViewCell {
             self?.alertCanNotAccessCameraRollAction?()
         })
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 }
 
 // MARK: - PHPhotoLibraryChangeObserver

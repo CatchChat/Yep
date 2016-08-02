@@ -63,12 +63,6 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
@@ -129,3 +123,4 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         mediaContainerView.mediaImageView.maskView = halfMaskImageView
     }
 }
+

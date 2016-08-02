@@ -28,12 +28,6 @@ final class SearchedContactsCell: UITableViewCell {
         separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func configureWithUser(user: User) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
@@ -64,3 +58,4 @@ final class SearchedContactsCell: UITableViewCell {
         infoLabel.text = discoveredUser.introduction
     }
 }
+

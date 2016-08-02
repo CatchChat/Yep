@@ -52,12 +52,6 @@ class FeedFilterCell: UITableViewCell {
         segmentedControl.addTarget(self, action: #selector(FeedFilterCell.chooseOption(_:)), forControlEvents: .ValueChanged)
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     @objc private func chooseOption(sender: UISegmentedControl) {
 
         guard let option = Option(rawValue: sender.selectedSegmentIndex) else {

@@ -21,12 +21,6 @@ final class SearchedDiscoveredUserCell: UITableViewCell {
         separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -65,3 +59,4 @@ final class SearchedDiscoveredUserCell: UITableViewCell {
         introLabel.text = user.userIntroduction
     }
 }
+
