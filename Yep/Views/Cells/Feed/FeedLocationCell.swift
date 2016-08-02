@@ -55,12 +55,6 @@ final class FeedLocationCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
@@ -106,3 +100,4 @@ final class FeedLocationCell: FeedBasicCell {
         locationContainerView.mapImageView.maskView = halfMaskImageView
     }
 }
+

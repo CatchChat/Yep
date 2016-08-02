@@ -28,11 +28,5 @@ final class FeedConversationDockCell: UITableViewCell {
         nameLabel.text = NSLocalizedString("Joined Feeds", comment: "")
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 }
 

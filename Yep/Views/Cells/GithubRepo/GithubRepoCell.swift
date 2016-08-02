@@ -26,11 +26,5 @@ final class GithubRepoCell: UITableViewCell {
         nameLabelLeadingConstraint.constant = YepConfig.SocialWorkGithub.Repo.rightEdgeInset
         starCountLabelTrailingConstraint.constant = YepConfig.SocialWorkGithub.Repo.leftEdgeInset
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
+    

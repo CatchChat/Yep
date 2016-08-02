@@ -25,12 +25,6 @@ final class DeletedFeedConversationCell: UITableViewCell {
         selectionStyle = .None
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func configureWithConversation(conversation: Conversation) {
 
         guard let feed = conversation.withGroup?.withFeed else {

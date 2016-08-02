@@ -25,12 +25,6 @@ final class ContactsCell: UITableViewCell {
         separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -126,3 +120,4 @@ final class ContactsCell: UITableViewCell {
         }
     }
 }
+

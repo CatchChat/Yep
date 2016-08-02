@@ -127,12 +127,6 @@ class SearchedFeedBasicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -193,3 +187,4 @@ class SearchedFeedBasicCell: UITableViewCell {
         tapAvatarAction?(self)
     }
 }
+

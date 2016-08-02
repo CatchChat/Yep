@@ -27,12 +27,6 @@ final class FeedSkillUsersCell: UITableViewCell {
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     func configureWithFeeds(feeds: [DiscoveredFeed]) {
 
         let feedCreators = Array(Set(feeds.map({ $0.creator }))).sort { $0.lastSignInUnixTime > $1.lastSignInUnixTime }
