@@ -212,11 +212,7 @@ final class EditSkillsViewController: BaseViewController {
 
         realm = try! Realm()
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
-                self.me = me
-        }
+        self.me = meInRealm(realm)
     }
 
     // MARK: Actions
