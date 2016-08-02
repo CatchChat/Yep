@@ -402,19 +402,13 @@ final class FeedsViewController: BaseViewController {
 
             // Add to Me
             
-            if let skillID = skill?.id {
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-                        
-                        let predicate = NSPredicate(format: "skillID = %@", skillID)
-                        
-                        if me.masterSkills.filter(predicate).count == 0
-                            && me.learningSkills.filter(predicate).count == 0 {
-                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
-                                navigationItem.rightBarButtonItem = addSkillToMeButton
-                        }
+            if let skillID = skill?.id, let me = me() {
+
+                let predicate = NSPredicate(format: "skillID = %@", skillID)
+                let notInMaster = me.masterSkills.filter(predicate).count == 0
+                if notInMaster && me.learningSkills.filter(predicate).count == 0 {
+                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
+                    navigationItem.rightBarButtonItem = addSkillToMeButton
                 }
             }
 
