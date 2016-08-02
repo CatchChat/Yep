@@ -48,12 +48,11 @@ final class YepTabBarController: UITabBarController {
     private var checkDoubleTapOnFeedsTimer: NSTimer?
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
+            checkDoubleTapOnFeedsTimer?.invalidate()
+
             if newValue {
                 let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapOnFeedsTimer = timer
-
-            } else {
-                checkDoubleTapOnFeedsTimer?.invalidate()
             }
         }
     }
@@ -70,6 +69,8 @@ final class YepTabBarController: UITabBarController {
     private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
 
     deinit {
+        checkDoubleTapOnFeedsTimer?.invalidate()
+
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
