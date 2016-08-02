@@ -166,8 +166,8 @@ extension UIImageView {
             }
 
             if cacheType != .Memory {
-                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
-                    strongSelf.image = image
+                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                    self?.image = image
                 }, completion: nil)
 
             } else {
@@ -175,8 +175,6 @@ extension UIImageView {
             }
 
             activityIndicator?.stopAnimating()
-
-            //println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 }
@@ -214,8 +212,8 @@ extension UIImageView {
                 return
             }
 
-            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
-                strongSelf.image = image
+            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                self?.image = image
             }, completion: nil)
 
             activityIndicator?.stopAnimating()
