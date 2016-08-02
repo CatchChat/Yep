@@ -38,9 +38,15 @@ final class ChatTextView: UITextView {
         dataDetectorTypes = [.Link, .PhoneNumber, .CalendarEvent]
     }
 
-    override var text: String! {
-        didSet {
-            let plainText = text
+    func setAttributedTextWithMessage(message: Message) {
+
+        let key = message.messageID
+
+        if let attributedString = AttributedStringCache.valueForKey(key) {
+            self.attributedText = attributedString
+
+        } else {
+            let plainText = message.textContent
 
             let attributedString = NSMutableAttributedString(string: plainText)
 
@@ -72,6 +78,8 @@ final class ChatTextView: UITextView {
             }
 
             self.attributedText = attributedString
+
+            AttributedStringCache.setValue(attributedString, forKey: key)
         }
     }
 

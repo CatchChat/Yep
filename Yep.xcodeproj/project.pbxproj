@@ -354,6 +354,7 @@
 		50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */; };
 		50B6A0431CA395A200C460E3 /* SearchedContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */; };
 		50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */; };
+		50B801501D5078AB00F42938 /* AttributedStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8014F1D5078AB00F42938 /* AttributedStringCache.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
 		50B8E6181B41340A00C17EA1 /* MessageLoadingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */; };
 		50B9C5D91D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */; };
@@ -1109,6 +1110,7 @@
 		50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedContactsCell.swift; path = Views/Cells/Contacts/SearchedContactsCell.swift; sourceTree = "<group>"; };
 		50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedContactsCell.xib; path = Views/Cells/Contacts/SearchedContactsCell.xib; sourceTree = "<group>"; };
 		50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectKeypathObserver.swift; path = Helpers/KVO/ObjectKeypathObserver.swift; sourceTree = "<group>"; };
+		50B8014F1D5078AB00F42938 /* AttributedStringCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AttributedStringCache.swift; path = Caches/AttributedStringCache.swift; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
 		50B8E6171B41340A00C17EA1 /* MessageLoadingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageLoadingProgressView.swift; path = Views/ProgressViews/MessageLoadingProgressView.swift; sourceTree = "<group>"; };
 		50B9C5D81D2254AD00BCB8BD /* ConversationViewController+CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+CollectionView.swift"; path = "ViewControllers/Conversation/ConversationViewController+CollectionView.swift"; sourceTree = "<group>"; };
@@ -2141,6 +2143,7 @@
 				502B60671BD6252B00D9C17E /* UserAvatar.swift */,
 				502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */,
 				50CDBE451ACA9F2200459CE0 /* ImageCache.swift */,
+				50B8014F1D5078AB00F42938 /* AttributedStringCache.swift */,
 			);
 			name = Caches;
 			sourceTree = "<group>";
@@ -4919,6 +4922,7 @@
 				50EB8CCB1AEA1AC0001AC1EE /* MediaView.swift in Sources */,
 				505243A81CD983160094B471 /* ChangeMobileViewController.swift in Sources */,
 				506923121ADE025200D27574 /* Waver.swift in Sources */,
+				50B801501D5078AB00F42938 /* AttributedStringCache.swift in Sources */,
 				501C15681D339B3B00FAAF5E /* ChatViewController+Animations.swift in Sources */,
 				50E34C2C1CBDEC31007CAE80 /* FeedsMoreViewManager.swift in Sources */,
 				50BAED8D1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift in Sources */,
