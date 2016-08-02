@@ -1163,6 +1163,13 @@ public func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     return realm.objects(User).filter(predicate).first
 }
 
+public func meInRealm(realm: Realm) -> User? {
+    guard let myUserID = YepUserDefaults.userID.value else {
+        return nil
+    }
+    return userWithUserID(myUserID, inRealm: realm)
+}
+
 public func userWithUsername(username: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "username = %@", username)
     return realm.objects(User).filter(predicate).first
