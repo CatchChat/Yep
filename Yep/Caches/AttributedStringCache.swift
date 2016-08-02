@@ -13,12 +13,12 @@ class AttributedStringCache {
 
     static var sharedDictionary: [String: NSAttributedString] = [:]
 
-    class func attributedStringOfKey(key: String) -> NSAttributedString? {
+    class func valueForKey(key: String) -> NSAttributedString? {
 
         return sharedDictionary[key]
     }
 
-    class func setAttributedString(attributedString: NSAttributedString, forKey key: String) {
+    class func setValue(attributedString: NSAttributedString, forKey key: String) {
 
         guard !key.isEmpty else {
             return
