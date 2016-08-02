@@ -336,13 +336,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.annotationLabel.text = NSLocalizedString("Username", comment: "")
 
-                var username = ""
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-                        username = me.username
-                }
+                let username = me()?.username ?? ""
 
                 if username.isEmpty {
                     cell.infoLabel.text = NSLocalizedString("None", comment: "")
@@ -647,11 +641,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
             case .Username:
 
-                guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: try! Realm()) else {
-                    break
-                }
-
-                let username = me.username
+                let username = me()?.username ?? ""
 
                 guard username.isEmpty else {
                     break
@@ -671,13 +661,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                             guard let realm = try? Realm() else {
                                 return
                             }
-                            
-                            if let
-                                myUserID = YepUserDefaults.userID.value,
-                                me = userWithUserID(myUserID, inRealm: realm) {
-                                    let _ = try? realm.write {
-                                        me.username = newUsername
-                                    }
+
+                            if let me = meInRealm(realm) {
+                                let _ = try? realm.write {
+                                    me.username = newUsername
+                                }
                             }
 
                             // update UI
